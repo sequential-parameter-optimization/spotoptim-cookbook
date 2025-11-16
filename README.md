@@ -1,0 +1,2 @@
+# spotoptim-cookbook
+Optimization cookbook
