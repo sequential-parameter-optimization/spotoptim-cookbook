@@ -132,6 +132,39 @@
 \makeatother
 
 
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 
 
@@ -265,13 +298,13 @@ To learn more about Quarto books visit
 
 \chapter{Aircraft Wing Weight Example}\label{sec-awwe}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
 \item
   This section is based on chapter 1.3 ``A ten-variable weight
-  function'' in (\textbf{Forr08a?}).
+  function'' in Forrester, Sóbester, and Keane (2008).
 \item
   The following Python packages are imported:
 \end{itemize}
@@ -292,7 +325,7 @@ To learn more about Quarto books visit
 \begin{itemize}
 \tightlist
 \item
-  Example from (\textbf{Forr08a?})
+  Example from Forrester, Sóbester, and Keane (2008)
 \item
   Understand the \textbf{weight} of an unpainted light aircraft wing as
   a function of nine design and operational parameters:
@@ -368,8 +401,8 @@ equation, even if it's considered unknown, as a useful tool for
 generating realistic settings to test the methodology. The functional
 form of this equation was derived by ``calibrating'' known physical
 relationships to curves obtained from existing aircraft data, as
-referenced in (\textbf{raym06a?}). Essentially, it acts as a surrogate
-for actual measurements of aircraft weight.
+referenced in Raymer (2006). Essentially, it acts as a surrogate for
+actual measurements of aircraft weight.
 
 Examining the mathematical properties of the AWWE (Aircraft Weight With
 Wing Area and Fuel Weight Equation), it is evident that the response is
@@ -858,7 +891,7 @@ Experiments}\label{summary-of-the-first-experiments}
 
 \section{Jupyter Notebook}\label{jupyter-notebook}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -1157,9 +1190,9 @@ better suited for a different class of problems, aligning with its
 intended purposes.
 
 Two very good texts on computer experiments and surrogate modeling are
-(\textbf{Sant03a?}) and (\textbf{Forr08a?}). The former is the canonical
-reference in the statistics literature and the latter is perhaps more
-popular in engineering.
+Santner, Williams, and Notz (2003) and Forrester, Sóbester, and Keane
+(2008). The former is the canonical reference in the statistics
+literature and the latter is perhaps more popular in engineering.
 
 \begin{example}[Example: DACE and
 RSM]\protect\hypertarget{exm-dace-rsm}{}\label{exm-dace-rsm}
@@ -1276,12 +1309,13 @@ decision-making tasks.
 
 \chapter{Sampling Plans}\label{sampling-plans}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
 \item
-  This section is based on chapter 1 in (\textbf{Forr08a?}).
+  This section is based on chapter 1 in Forrester, Sóbester, and Keane
+  (2008).
 \item
   The following Python packages are imported:
 \end{itemize}
@@ -2048,11 +2082,11 @@ Chapter~\ref{sec-awwe}.
 
 \caption{\label{fig-forre08a-1-2}Estimated means and standard deviations
 of the elementary effects for the 10 design variables of the wing weight
-function. Example based on (\textbf{Forr08a?}).}
+function. Example based on Forrester, Sóbester, and Keane (2008).}
 
 \end{figure}%
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nondeterministic Results}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nondeterministic Results}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 The code will generate a slightly different screening plan each time, as
 it uses random orientations of the sampling matrix \(B\).
@@ -2150,14 +2184,14 @@ the model.
 \subsection{Stratification}\label{stratification}
 
 A feature shared by all of the approximation models discussed in
-(\textbf{Forr08a?}) is that they are more accurate in the vicinity of
-the points where we have evaluated the objective function. In later
-chapters we will delve into the laws that quantify our decaying trust in
-the model as we move away from a known, sampled point, but for the
-purposes of the present discussion we shall merely draw the intuitive
-conclusion that a uniform level of model accuracy throughout the design
-space requires a uniform spread of points. A sampling plan possessing
-this feature is said to be space-filling.
+Forrester, Sóbester, and Keane (2008) is that they are more accurate in
+the vicinity of the points where we have evaluated the objective
+function. In later chapters we will delve into the laws that quantify
+our decaying trust in the model as we move away from a known, sampled
+point, but for the purposes of the present discussion we shall merely
+draw the intuitive conclusion that a uniform level of model accuracy
+throughout the design space requires a uniform spread of points. A
+sampling plan possessing this feature is said to be space-filling.
 
 The most straightforward way of sampling a design space in a uniform
 fashion is by means of a rectangular grid of points. This is the full
@@ -2424,10 +2458,10 @@ points and edges=0:
 
 \begin{verbatim}
 [[0.7 0.1]
- [0.9 0.9]
+ [0.1 0.9]
  [0.5 0.5]
- [0.1 0.7]
- [0.3 0.3]]
+ [0.3 0.3]
+ [0.9 0.7]]
 \end{verbatim}
 
 Figure~\ref{fig-rlh-edges0} shows the points in the unit hypercube for
@@ -2463,10 +2497,10 @@ points and edges=1:
 
 \begin{verbatim}
 [[1.   0.75]
- [0.75 0.5 ]
  [0.   0.25]
- [0.25 1.  ]
- [0.5  0.  ]]
+ [0.75 0.5 ]
+ [0.25 0.  ]
+ [0.5  1.  ]]
 \end{verbatim}
 
 Figure~\ref{fig-rlh-edges1} shows the points in the unit hypercube for
@@ -2492,8 +2526,8 @@ Plans}\label{space-filling-designs-maximin-plans}
 
 A widely adopted measure for assessing the uniformity, or
 `space-fillingness', of a sampling plan is the maximin metric, initially
-proposed by (\textbf{john90a?}). This criterion can be formally defined
-as follows.
+proposed by Johnson, Moore, and Ylvisaker (1990). This criterion can be
+formally defined as follows.
 
 Consider a sampling plan \(X\). Let \(d_1, d_2, \ldots, d_m\) represent
 the unique distances between all possible pairs of points within \(X\),
@@ -2516,8 +2550,8 @@ sampling plans, our focus is narrowed to Latin hypercube designs to
 preserve their desirable stratification properties. However, even within
 this restricted class, Definition~\ref{def-maximin} may identify
 multiple equivalent maximin designs. To address this, a more
-comprehensive `tie-breaker' definition, as proposed by
-(\textbf{morr95a?}), is employed:
+comprehensive `tie-breaker' definition, as proposed by Morris and
+Mitchell (1995), is employed:
 
 \begin{definition}[Maximin plan with
 tie-breaker]\protect\hypertarget{def-maximin2}{}\label{def-maximin2}
@@ -2530,14 +2564,14 @@ minimizing \(J_m\).
 
 \end{definition}
 
-(\textbf{john90a?}) established that the maximin criterion
-(Definition~\ref{def-maximin}) is equivalent to the D-optimality
-criterion used in linear regression. However, the extended maximin
-criterion incorporating a tie-breaker (Definition~\ref{def-maximin2}) is
-often preferred due to its intuitive nature and practical utility. Given
-that the sampling plans under consideration make no assumptions about
-model structure, the latter criterion (Definition~\ref{def-maximin2})
-will be employed.
+Johnson, Moore, and Ylvisaker (1990) established that the maximin
+criterion (Definition~\ref{def-maximin}) is equivalent to the
+D-optimality criterion used in linear regression. However, the extended
+maximin criterion incorporating a tie-breaker
+(Definition~\ref{def-maximin2}) is often preferred due to its intuitive
+nature and practical utility. Given that the sampling plans under
+consideration make no assumptions about model structure, the latter
+criterion (Definition~\ref{def-maximin2}) will be employed.
 
 To proceed, a precise definition of `distance' within these contexts is
 necessary. The p-norm is the most widely adopted metric for this
@@ -2804,9 +2838,9 @@ Plan 1 is more space-filling.
 Searching across a space of potential sampling plans can be accomplished
 by pairwise comparisons. An optimization algorithm could, in theory, be
 written with mm as the comparative objective. However, experimental
-evidence (\textbf{morr95a?}) suggests that the resulting optimization
-landscape can be quite deceptive, making it difficult to search
-reliably. This difficulty arises because the comparison process
+evidence (Morris and Mitchell 1995) suggests that the resulting
+optimization landscape can be quite deceptive, making it difficult to
+search reliably. This difficulty arises because the comparison process
 terminates upon finding the first non-zero element in the comparison
 array c.~Consequently, the remaining values in the distance
 (\(d_1, d_2, ..., d_m\)) and multiplicity (\(J_1, J_2, ..., J_m\))
@@ -2814,11 +2848,11 @@ arrays are disregarded. These disregarded values, however, might contain
 potentially useful `slope' information about the global landscape for
 the optimization process.
 
-To address this, (\textbf{morr95a?}) defined the following scalar-valued
-criterion function, which is used to rank competing sampling plans. This
-function, while based on the logic of Definition~\ref{def-maximin2},
-incorporates the complete vectors \(d_1, d_2, ..., d_m\) and
-\(J_1, J_2, ..., J_m\).
+To address this, Morris and Mitchell (1995) defined the following
+scalar-valued criterion function, which is used to rank competing
+sampling plans. This function, while based on the logic of
+Definition~\ref{def-maximin2}, incorporates the complete vectors
+\(d_1, d_2, ..., d_m\) and \(J_1, J_2, ..., J_m\).
 
 \begin{definition}[Morris-Mitchell
 Criterion]\protect\hypertarget{def-morris-mitchell}{}\label{def-morris-mitchell}
@@ -2919,10 +2953,10 @@ definition, is generally more conducive to optimization.
 To illustrate the relationship between Equation~\ref{eq-phiq} and the
 maximin criterion of Definition~\ref{def-maximin2}, sets of 50 random
 Latin hypercubes of varying sizes and dimensionalities were considered
-by (\textbf{Forr08a?}). The correlation plots from this analysis suggest
-that as the sampling plan size increases, a smaller \(q\) value is
-needed for the \(\Phi_q\)-based ranking to closely match the ranking
-derived from Definition~\ref{def-maximin2}.
+by Forrester, Sóbester, and Keane (2008). The correlation plots from
+this analysis suggest that as the sampling plan size increases, a
+smaller \(q\) value is needed for the \(\Phi_q\)-based ranking to
+closely match the ranking derived from Definition~\ref{def-maximin2}.
 
 Rankings based on both the direct maximin comparison (\texttt{mm}) and
 the \(\Phi_q\) metric (\texttt{mmphi}), determined using a simple bubble
@@ -3005,7 +3039,7 @@ space-filling than X2:
 \end{example}
 
 To determine the optimal Latin hypercube for a specific application, a
-recommended approach by (\textbf{morr95a?}) involves minimizing
+recommended approach by Morris and Mitchell (1995) involves minimizing
 \(\Phi_q\) for a set of \(q\) values (1, 2, 5, 10, 20, 50, and 100).
 Subsequently, the best plan from these results is selected based on the
 actual maximin definition. The mmsort function can be utilized for this
@@ -3096,7 +3130,7 @@ plans in 3D space:
 \end{Shaded}
 
 \begin{verbatim}
-[2 1]
+[1 2]
 [1 2]
 \end{verbatim}
 
@@ -3123,10 +3157,10 @@ selected points---remains an open research question. However, it is
 typical for no more than approximately 5\% of the total available time
 to be allocated to the task of generating the sampling plan itself.
 
-(\textbf{Forr08a?}) draw an analogy to the process of devising a
-revision timetable before an exam. While a well-structured timetable
-enhances the effectiveness of revision, an excessive amount of the
-revision time itself should not be consumed by the planning phase.
+Forrester, Sóbester, and Keane (2008) draw an analogy to the process of
+devising a revision timetable before an exam. While a well-structured
+timetable enhances the effectiveness of revision, an excessive amount of
+the revision time itself should not be consumed by the planning phase.
 
 A significant challenge in devising a sampling plan optimizer is
 ensuring that the search process remains confined to the space of valid
@@ -3212,24 +3246,25 @@ Original Sampling Plan:
  [3 1]
  [4 2]]
 Perturbed Sampling Plan:
-[[2 3]
- [1 4]
- [3 1]
- [4 2]]
+[[1 3]
+ [2 4]
+ [3 2]
+ [4 1]]
 \end{verbatim}
 
 \end{example}
 
-(\textbf{Forr08a?}) uses the term `mutation', because this problem lends
-itself to nature-inspired computation. (\textbf{morr95a?}) use a
-simulated annealing algorithm, the detailed pseudocode of which can be
-found in their paper. As an alternative, a method based on evolutionary
-operation (EVOP) is offered by (\textbf{Forr08a?}).
+Forrester, Sóbester, and Keane (2008) uses the term `mutation', because
+this problem lends itself to nature-inspired computation. Morris and
+Mitchell (1995) use a simulated annealing algorithm, the detailed
+pseudocode of which can be found in their paper. As an alternative, a
+method based on evolutionary operation (EVOP) is offered by Forrester,
+Sóbester, and Keane (2008).
 
 \subsection{Evolutionary Operation}\label{evolutionary-operation}
 
-As introduced by (\textbf{Box57a?}), evolutionary operation was designed
-to optimize chemical processes. The current parameters of the reaction
+As introduced by Box (1957), evolutionary operation was designed to
+optimize chemical processes. The current parameters of the reaction
 would be recorded in a box at the centre of a board, with a series of
 `offspring' boxes along the edges containing values of the parameters
 slightly altered with respect to the central, `parent' values. Once the
@@ -3393,10 +3428,10 @@ Initial plan:
  [0.2 0.9]
  [0.9 0.2]]
 Optimized plan:
-[[0.9 0.3]
+[[0.1 0.2]
  [0.1 0.9]
  [0.2 0.4]
- [0.1 0.2]]
+ [0.9 0.3]]
 \end{verbatim}
 
 Figure~\ref{fig-forre08a-3} shows the initial and optimized plans in 2D.
@@ -3618,8 +3653,8 @@ properties using the Morris-Mitchell criterion.
 Calculating Morris-Mitchell metric (smaller is better):
   Grid (4x4): 20.2617
   LHS: 28.1868
-  Sobol: 28.8942
-  Random: 46.7319
+  Sobol: 30.4970
+  Random: 37.4781
   Collinear: 87.8829
   Clustered (3 clusters): 90.3702
 \end{verbatim}
@@ -4081,7 +4116,7 @@ Criteria for Different Sample Sizes}
 
 \section{Jupyter Notebook}\label{jupyter-notebook-1}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -4095,9 +4130,10 @@ Criteria for Different Sample Sizes}
 
 \chapter{Constructing a Surrogate}\label{constructing-a-surrogate}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
-This section is based on chapter 2 in (\textbf{Forr08a?}).
+This section is based on chapter 2 in Forrester, Sóbester, and Keane
+(2008).
 
 \end{tcolorbox}
 
@@ -4268,7 +4304,7 @@ around each data point).
 
 \end{definition}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Maximum Likelihood Estimation}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Maximum Likelihood Estimation}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \textbf{?@sec-max-likelihood} presents a more detailed discussion of the
 maximum likelihood estimation (MLE) method.
@@ -4336,24 +4372,24 @@ The extent to which Equation~\ref{eq-cv-sse} is an unbiased estimator of
 true risk depends on \(q\). It is shown that if \(q = n\), the
 leave-one-out cross-validation (LOOCV) measure is almost unbiased.
 However, LOOCV can have high variance because subsets are very similar.
-(\textbf{Hast17a?})) suggest using compromise values like \(q = 5\) or
-\(q = 10\). Using fewer subsets also reduces the computational cost of
-the cross-validation process, see also (\textbf{arlot2010?}) and
-(\textbf{Koha95a?}).
+Hastie, Tibshirani, and Friedman (2017)) suggest using compromise values
+like \(q = 5\) or \(q = 10\). Using fewer subsets also reduces the
+computational cost of the cross-validation process, see also Arlot,
+Celisse, et al. (2010) and Kohavi (1995).
 
 \section{Stage Three: Model Testing}\label{stage-three-model-testing}
 
 If there is a sufficient amount of observational data, a random subset
-should be set aside initially for model testing. (\textbf{Hast17a?})
-recommend setting aside approximately \(0.25n\) of
+should be set aside initially for model testing. Hastie, Tibshirani, and
+Friedman (2017) recommend setting aside approximately \(0.25n\) of
 \(\vec{x} \rightarrow y\) pairs for testing purposes. These observations
 must remain untouched during Stages One and Two, as their sole purpose
 is to evaluate the testing error---the difference between true and
 approximated function values at the test sites---once the model has been
 built. Interestingly, if the main goal is to construct an initial
 surrogate for seeding a global refinement criterion-based strategy (as
-discussed in Section 3.2 in (\textbf{Forr08a?})), the model testing
-phase might be skipped.
+discussed in Section 3.2 in Forrester, Sóbester, and Keane (2008)), the
+model testing phase might be skipped.
 
 It is noted that, ideally, parameter estimation (Stage Two) should also
 rely on a separate subset. However, observational data is rarely
@@ -4415,21 +4451,21 @@ added points if using an interpolating model).
 \begin{example}[The Tea and Sugar
 Analogy]\protect\hypertarget{exm-tea-sugar}{}\label{exm-tea-sugar}
 
-(\textbf{Forr08a?}) illustrates this saturation point using a comparison
-with a cup of tea and sugar. The tea represents the surrogate model, and
-sugar represents data. Initially, the tea is unsweetened, and adding
-sugar increases its sweetness. Eventually, a saturation point is reached
-where no more sugar dissolves, and the tea cannot get any sweeter.
-Similarly, a more flexible model, like one with additional parameters or
-employing interpolation rather than regression, can increase the
-saturation point---akin to making a hotter cup of tea for dissolving
-more sugar.
+Forrester, Sóbester, and Keane (2008) illustrates this saturation point
+using a comparison with a cup of tea and sugar. The tea represents the
+surrogate model, and sugar represents data. Initially, the tea is
+unsweetened, and adding sugar increases its sweetness. Eventually, a
+saturation point is reached where no more sugar dissolves, and the tea
+cannot get any sweeter. Similarly, a more flexible model, like one with
+additional parameters or employing interpolation rather than regression,
+can increase the saturation point---akin to making a hotter cup of tea
+for dissolving more sugar.
 
 \end{example}
 
 \section{Jupyter Notebook}\label{jupyter-notebook-2}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -4457,7 +4493,7 @@ models, which are used to replace the real-world problem with a simpler
 problem. The simpler problem is then solved numerically. The solution of
 the simpler problem is then used to solve the real-world problem.
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Numerical methods: Goals}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-important-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Numerical methods: Goals}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -5602,7 +5638,7 @@ RSM}\label{historical-considerations-about-rsm}
 
 \section{Jupyter Notebook}\label{jupyter-notebook-3}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -5616,12 +5652,13 @@ RSM}\label{historical-considerations-about-rsm}
 
 \chapter{Polynomial Models}\label{polynomial-models}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
 \item
-  This section is based on chapter 2.2 in (\textbf{Forr08a?}).
+  This section is based on chapter 2.2 in Forrester, Sóbester, and Keane
+  (2008).
 \item
   The following Python packages are imported:
 \end{itemize}
@@ -5903,8 +5940,9 @@ where \(x\) is normalized as:
 The circles in Figure~\ref{fig-aerofoil-drag} represent 101 drag
 coefficient values obtained through a numerical simulation by iterating
 each member of a family of aerofoils towards a target lift value (see
-the Appendix, Section A.3 in (\textbf{Forr08a?})). The members of the
-family have different shapes, as determined by the sampling plan:
+the Appendix, Section A.3 in Forrester, Sóbester, and Keane (2008)). The
+members of the family have different shapes, as determined by the
+sampling plan:
 
 \[
 X = {x_1, x_2, \dots, x_{101}}
@@ -6113,7 +6151,7 @@ Basis Functions and Kriging, which we'll examine in subsequent sections.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-4}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -6127,12 +6165,13 @@ Basis Functions and Kriging, which we'll examine in subsequent sections.
 
 \chapter{Radial Basis Function Models}\label{sec-rbf}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
 \item
-  This section is based on chapter 2.3 in (\textbf{Forr08a?}).
+  This section is based on chapter 2.3 in Forrester, Sóbester, and Keane
+  (2008).
 \item
   The following Python packages are imported:
 \end{itemize}
@@ -6162,13 +6201,13 @@ functions, and even more complex structures.
 
 While Fourier analysis---perhaps the most widely recognized example of
 this approach---excels at representing periodic phenomena through sine
-and cosine functions, the focus in (\textbf{Forr08a?}) is broader. They
-aim to approximate arbitrary smooth, continuous functions using
-strategically positioned basis functions. Specifically, radial basis
-function (RBF) models employ symmetrical basis functions centered at
-selected points distributed throughout the design space. These basis
-functions have the unique property that their output depends only on the
-distance from their center point.
+and cosine functions, the focus in Forrester, Sóbester, and Keane (2008)
+is broader. They aim to approximate arbitrary smooth, continuous
+functions using strategically positioned basis functions. Specifically,
+radial basis function (RBF) models employ symmetrical basis functions
+centered at selected points distributed throughout the design space.
+These basis functions have the unique property that their output depends
+only on the distance from their center point.
 
 First, we give a definition of the Euclidean distance, which is the most
 common distance measure used in RBF models.
@@ -6446,7 +6485,7 @@ capabilities.
 Matrices}\label{numerical-stability-through-positive-definite-matrices}
 
 A significant advantage of Gaussian and inverse multiquadric basis
-functions lies in their mathematical guarantees. (\textbf{vapn98a?})
+functions lies in their mathematical guarantees. Vapnik (1998)
 demonstrated that these functions always produce symmetric positive
 definite Gram matrices when using strictly positive definite kernels
 (see Section~\ref{sec-strictly-positive-definite}), which is a critical
@@ -6511,7 +6550,7 @@ specialized solvers that exploit the triangular structure:
 
 An important numerical consideration in RBF modeling is that points
 positioned extremely close to each other in the input space \(X\) can
-lead to severe ill-conditioning of the Gram matrix (\textbf{micc86a?}).
+lead to severe ill-conditioning of the Gram matrix (Micchelli 1986).
 This ill-conditioning manifests as nearly linearly dependent rows and
 columns in \(\Psi\), potentially causing the Cholesky factorization to
 fail.
@@ -6529,11 +6568,10 @@ penalty term to the diagonal of the Gram matrix. This creates a literal
 ``ridge'' along the diagonal of the matrix), removing nearly coincident
 points, clustering, or applying more sophisticated approaches. One
 theoretically elegant solution involves augmenting non-conditionally
-positive definite basis functions with polynomial terms
-(\textbf{kean05a?}). This technique not only improves conditioning but
-also ensures polynomial reproduction properties, enhancing the
-approximation quality for certain function classes while maintaining
-numerical stability.
+positive definite basis functions with polynomial terms (Keane and Nair
+2005). This technique not only improves conditioning but also ensures
+polynomial reproduction properties, enhancing the approximation quality
+for certain function classes while maintaining numerical stability.
 
 Beyond determining \(\vec{w}\), there is, of course, the additional task
 of estimating any other parameters introduced via the basis functions. A
@@ -7308,7 +7346,7 @@ address this challenge:
 Approach}\label{ridge-regularization-approach}
 
 The most straightforward solution involves introducing regularization
-through the parameter \(\lambda\) (\textbf{pogg90a?}). This is
+through the parameter \(\lambda\) (Poggio and Girosi 1990). This is
 implemented by adding \(\lambda\) to the diagonal elements of the Gram
 matrix, creating a ``ridge'' that improves numerical stability.
 Mathematically, the weights are determined by:
@@ -7329,10 +7367,10 @@ solution balances two competing objectives:
 \end{itemize}
 
 Theoretically, optimal performance is achieved when \(\lambda\) equals
-the variance of the noise in the response data \(\vec{y}\)
-(\textbf{kean05a?}). Since this information is rarely available in
-practice, \(\lambda\) is typically estimated through cross-validation
-alongside other model parameters.
+the variance of the noise in the response data \(\vec{y}\) (Keane and
+Nair 2005). Since this information is rarely available in practice,
+\(\lambda\) is typically estimated through cross-validation alongside
+other model parameters.
 
 \subsection{Reduced Basis Approach}\label{reduced-basis-approach}
 
@@ -7377,7 +7415,7 @@ both the underlying function and the noise process.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-5}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -7392,12 +7430,13 @@ both the underlying function and the noise process.
 \chapter{Kriging (Gaussian Process
 Regression)}\label{kriging-gaussian-process-regression}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
 \item
-  This section is based on chapter 2.4 in (\textbf{Forr08a?}).
+  This section is based on chapter 2.4 in Forrester, Sóbester, and Keane
+  (2008).
 \item
   The following Python packages are imported:
 \end{itemize}
@@ -8266,7 +8305,7 @@ values.
 
 We will use the Kriging correlation \(\Psi\) to predict new values based
 on the observed data. The presentation follows the approach described in
-(\textbf{Forr08a?}) and (\textbf{bart21i?}).
+Forrester, Sóbester, and Keane (2008) and Bartz et al. (2022).
 
 Main idea for prediction is that the new \(Y(\vec{x})\) should be
 consistent with the old sample data \(X\). For a new prediction
@@ -8322,8 +8361,9 @@ where \(\vec{1}\) is a vector of ones and \(\hat{\mu}\) and
 Equation~\ref{eq-sigmahat-55}. Only the last term in
 Equation~\ref{eq-loglikelihood-augmented} depends on \(\hat{y}\), so we
 need only consider this term in the maximization. Details can be found
-in (\textbf{Forr08a?}). Finally, the MLE for \(\hat{y}\) can be
-calculated as \begin{equation}\phantomsection\label{eq-mle-yhat}{
+in Forrester, Sóbester, and Keane (2008). Finally, the MLE for
+\(\hat{y}\) can be calculated as
+\begin{equation}\phantomsection\label{eq-mle-yhat}{
 \hat{y}(\vec{x}) = \hat{\mu} + \vec{\psi}^T \vec{\tilde{\Psi}}^{-1} (\vec{y} - \vec{1}\hat{\mu}).
 }\end{equation}
 
@@ -8802,7 +8842,7 @@ First 5 predicted f values:
 
 \section{Jupyter Notebook}\label{jupyter-notebook-6}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -10194,7 +10234,7 @@ types in both standard and Nyström modes.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-7}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -10278,14 +10318,14 @@ getting stuck in local optima.
 
 \end{definition}
 
-(\textbf{Forr08a?}) emphasizes that effective infill criteria are
-designed to combine both exploitation and exploration.
+Forrester, Sóbester, and Keane (2008) emphasizes that effective infill
+criteria are designed to combine both exploitation and exploration.
 
 \section{Expected Improvement (EI)}\label{expected-improvement-ei}
 
 Expected Improvement (EI) is one of the most influential and widely-used
-infill criteria. Formalized by (\textbf{Jones1998?}) and building upon
-the work of (\textbf{mockus1978toward?}), EI provides a mathematically
+infill criteria. Formalized by Jones, Schonlau, and Welch (1998) and
+building upon the work of Močkus (1974), EI provides a mathematically
 elegant framework that naturally balances exploitation and exploration.
 Rather than simply picking the point with the best predicted value (pure
 exploitation) or the point with the highest uncertainty (pure
@@ -10390,9 +10430,9 @@ of expensive model training runs. This provides a principled and
 automated method for navigating complex hyperparameter spaces without
 extensive manual intervention.
 
-While the foundational concepts in (\textbf{Forr08a?}) are often
-illustrated with MATLAB code, the Hyperparameter Tuning Cookbook
-emphasizes and provides implementations in Python. The
+While the foundational concepts in Forrester, Sóbester, and Keane (2008)
+are often illustrated with MATLAB code, the Hyperparameter Tuning
+Cookbook emphasizes and provides implementations in Python. The
 \texttt{spotpython} package, consistent with the Cookbook's approach,
 provides a Python implementation of Expected Improvement within its
 Kriging class. For minimization problems, \texttt{spotpython} typically
@@ -10404,7 +10444,7 @@ and incorporates a small epsilon value.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-8}
 
-\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toptitle=1mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacityback=0, coltitle=black, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, rightrule=.15mm, bottomtitle=1mm, toprule=.15mm, breakable, arc=.35mm, leftrule=.75mm, left=2mm, colback=white]
+\begin{tcolorbox}[enhanced jigsaw, colback=white, colbacktitle=quarto-callout-note-color!10!white, bottomrule=.15mm, toptitle=1mm, arc=.35mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, leftrule=.75mm, opacityback=0, breakable, coltitle=black, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, opacitybacktitle=0.6, bottomtitle=1mm, left=2mm]
 
 \begin{itemize}
 \tightlist
@@ -10904,8 +10944,8 @@ ensures reproducible noise:
 \end{Shaded}
 
 \begin{verbatim}
-Best mean value: 0.066466
-Variance at best: 0.008717
+Best mean value: -0.060091
+Variance at best: 0.006079
 \end{verbatim}
 
 \textbf{Important}: With the same seed, even the noise will be identical
@@ -11151,6 +11191,51 @@ dividing each dimension into equal-probability intervals.
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+TensorBoard logging disabled
+Initial best: f(x) = 2.311528
+Iteration 1: New best f(x) = 0.418486
+Iteration 2: New best f(x) = 0.010990
+Iteration 3: New best f(x) = 0.003217
+Iteration 4: New best f(x) = 0.000018
+Iteration 5: f(x) = 0.000081
+Iteration 6: New best f(x) = 0.000003
+Iteration 7: New best f(x) = 0.000001
+Iteration 8: f(x) = 0.000001
+Iteration 9: New best f(x) = 0.000000
+Iteration 10: f(x) = 0.000000
+Iteration 11: f(x) = 0.000000
+Iteration 12: f(x) = 0.000001
+Iteration 13: f(x) = 49.999295
+Iteration 14: f(x) = 0.000021
+Iteration 15: f(x) = 0.000005
+Iteration 16: f(x) = 0.000003
+Iteration 17: f(x) = 0.000004
+Iteration 18: f(x) = 0.000000
+Iteration 19: f(x) = 0.000006
+Iteration 20: f(x) = 0.000004
+Iteration 21: f(x) = 0.000002
+Iteration 22: f(x) = 0.000003
+Iteration 23: f(x) = 0.000008
+Iteration 24: f(x) = 0.000001
+Iteration 25: f(x) = 0.000001
+Iteration 26: f(x) = 0.000003
+Iteration 27: f(x) = 0.000004
+Iteration 28: f(x) = 0.000005
+Iteration 29: f(x) = 0.000004
+Iteration 30: f(x) = 0.000004
+Iteration 31: f(x) = 0.000002
+Iteration 32: f(x) = 0.000000
+Iteration 33: f(x) = 0.000004
+Iteration 34: f(x) = 0.000004
+Iteration 35: f(x) = 0.000005
+Iteration 36: f(x) = 0.000002
+Iteration 37: f(x) = 0.000001
+Iteration 38: f(x) = 0.000001
+Iteration 39: f(x) = 0.000003
+Iteration 40: f(x) = 0.000001
+\end{verbatim}
+
 \subsection{2. Morris-Mitchell Minimizing
 Point}\label{morris-mitchell-minimizing-point}
 
@@ -11197,6 +11282,91 @@ points, providing excellent space-filling properties.
 \NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+TensorBoard logging disabled
+Initial best: f(x) = 8.693150
+Iteration 1: New best f(x) = 1.656150
+Iteration 2: f(x) = 11.632776
+Iteration 3: f(x) = 3.618305
+Iteration 4: f(x) = 2.991650
+Iteration 5: f(x) = 10.150032
+Iteration 6: f(x) = 7.463569
+Iteration 7: New best f(x) = 0.171065
+Iteration 8: f(x) = 4.250134
+Iteration 9: New best f(x) = 0.072895
+Iteration 10: f(x) = 3.507279
+Iteration 11: f(x) = 2.652549
+Iteration 12: f(x) = 28.287579
+Iteration 13: f(x) = 1.063741
+Iteration 14: f(x) = 10.284564
+Iteration 15: f(x) = 0.509900
+Iteration 16: f(x) = 2.112972
+Iteration 17: f(x) = 0.634567
+Iteration 18: f(x) = 0.633252
+Iteration 19: f(x) = 0.283749
+Iteration 20: f(x) = 6.210078
+Iteration 21: f(x) = 0.154104
+Iteration 22: f(x) = 6.260055
+Iteration 23: f(x) = 2.793608
+Iteration 24: f(x) = 0.836664
+Iteration 25: New best f(x) = 0.027278
+Iteration 26: f(x) = 0.634150
+Iteration 27: f(x) = 1.759850
+Iteration 28: f(x) = 4.611730
+Iteration 29: f(x) = 5.767410
+Iteration 30: f(x) = 0.368791
+Iteration 31: f(x) = 9.679826
+Iteration 32: New best f(x) = 0.004342
+Iteration 33: f(x) = 1.364671
+Iteration 34: f(x) = 0.028837
+Iteration 35: f(x) = 0.103025
+Iteration 36: f(x) = 0.335978
+Iteration 37: f(x) = 0.192640
+Iteration 38: f(x) = 2.439781
+Iteration 39: f(x) = 0.031285
+Iteration 40: f(x) = 2.947996
+Iteration 41: f(x) = 0.007207
+Iteration 42: f(x) = 0.137317
+Iteration 43: f(x) = 6.238803
+Iteration 44: f(x) = 0.010584
+Iteration 45: f(x) = 2.022069
+Iteration 46: f(x) = 4.759057
+Iteration 47: f(x) = 0.115761
+Iteration 48: f(x) = 0.081802
+Iteration 49: f(x) = 0.448625
+Iteration 50: f(x) = 0.064541
+Iteration 51: f(x) = 0.044569
+Iteration 52: f(x) = 0.040088
+Iteration 53: f(x) = 0.068573
+Iteration 54: New best f(x) = 0.000235
+Iteration 55: f(x) = 0.396797
+Iteration 56: f(x) = 0.096330
+Iteration 57: f(x) = 9.895487
+Iteration 58: f(x) = 0.224063
+Iteration 59: f(x) = 0.015837
+Iteration 60: f(x) = 0.956938
+Iteration 61: f(x) = 0.026856
+Iteration 62: f(x) = 2.146723
+Iteration 63: f(x) = 0.001971
+Iteration 64: f(x) = 0.128304
+Iteration 65: f(x) = 0.214040
+Iteration 66: f(x) = 0.005883
+Iteration 67: f(x) = 0.010631
+Iteration 68: f(x) = 0.017468
+Iteration 69: f(x) = 0.157099
+Iteration 70: New best f(x) = 0.000037
+Iteration 71: f(x) = 1.774973
+Iteration 72: f(x) = 0.260127
+Iteration 73: f(x) = 0.032163
+Iteration 74: f(x) = 0.001319
+Iteration 75: f(x) = 0.005192
+Iteration 76: f(x) = 0.034058
+Iteration 77: f(x) = 0.065535
+Iteration 78: f(x) = 0.003939
+Iteration 79: f(x) = 0.000862
+Iteration 80: f(x) = 32.622218
+\end{verbatim}
 
 \section{How It Works}\label{how-it-works}
 
@@ -11318,6 +11488,134 @@ Strategies}\label{complete-example-comparing-strategies}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+============================================================
+Testing with Random Space-Filling Strategy
+============================================================
+TensorBoard logging disabled
+Initial best: f(x) = 7.177375
+Iteration 1: New best f(x) = 5.755695
+Iteration 2: New best f(x) = 3.791583
+Iteration 3: New best f(x) = 2.405114
+Iteration 4: f(x) = 3.874063
+Iteration 5: New best f(x) = 0.304028
+Iteration 6: f(x) = 2.623763
+Iteration 7: f(x) = 1.291461
+Iteration 8: f(x) = 0.569659
+Iteration 9: f(x) = 4.143456
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 10: f(x) = 7.428910
+Iteration 11: f(x) = 5.200266
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 12: f(x) = 11.307695
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 13: f(x) = 11.588702
+Iteration 14: f(x) = 5.990462
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 15: f(x) = 7.741328
+Iteration 16: f(x) = 6.258543
+Iteration 17: f(x) = 4.180917
+Iteration 18: f(x) = 12.636980
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 19: f(x) = 8.547707
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 20: f(x) = 10.258140
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 21: f(x) = 10.575833
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 22: f(x) = 3.973820
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 23: f(x) = 9.023210
+Iteration 24: f(x) = 6.193423
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 25: f(x) = 4.449845
+Iteration 26: f(x) = 12.655102
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 27: f(x) = 11.616761
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 28: f(x) = 8.521779
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 29: f(x) = 9.840296
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 30: f(x) = 12.575946
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 31: f(x) = 7.719827
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 32: f(x) = 6.588107
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 33: f(x) = 9.186450
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 34: f(x) = 7.957337
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 35: f(x) = 13.092857
+
+Random Strategy Results:
+  Best value: 0.304028
+  Best point: [0.04786624 0.04652526]
+  Total evaluations: 50
+
+============================================================
+Testing with Morris-Mitchell Strategy
+============================================================
+TensorBoard logging disabled
+Initial best: f(x) = 7.177375
+Iteration 1: New best f(x) = 5.755695
+Iteration 2: New best f(x) = 3.791583
+Iteration 3: New best f(x) = 2.405114
+Iteration 4: f(x) = 3.874063
+Iteration 5: New best f(x) = 0.304028
+Iteration 6: f(x) = 2.623763
+Iteration 7: f(x) = 1.291461
+Iteration 8: f(x) = 0.569659
+Iteration 9: f(x) = 4.143456
+Acquisition failure: Using Morris-Mitchell minimizing point as fallback.
+Iteration 10: f(x) = 12.759495
+Acquisition failure: Using Morris-Mitchell minimizing point as fallback.
+Iteration 11: f(x) = 13.023769
+Iteration 12: f(x) = 5.152842
+Acquisition failure: Using Morris-Mitchell minimizing point as fallback.
+Iteration 13: f(x) = 10.937206
+Iteration 14: f(x) = 4.040014
+Iteration 15: f(x) = 6.170044
+Iteration 16: f(x) = 4.875304
+Iteration 17: f(x) = 6.395263
+Iteration 18: f(x) = 8.113566
+Iteration 19: f(x) = 6.223968
+Iteration 20: f(x) = 8.571405
+Iteration 21: f(x) = 7.641050
+Iteration 22: f(x) = 6.045288
+Iteration 23: f(x) = 11.858736
+Iteration 24: f(x) = 12.028102
+Iteration 25: f(x) = 12.263961
+Acquisition failure: Using Morris-Mitchell minimizing point as fallback.
+Iteration 26: f(x) = 12.838993
+Iteration 27: f(x) = 6.845317
+Iteration 28: f(x) = 13.279432
+Iteration 29: f(x) = 11.361763
+Iteration 30: f(x) = 9.867308
+Acquisition failure: Using Morris-Mitchell minimizing point as fallback.
+Iteration 31: f(x) = 10.407708
+Acquisition failure: Using Morris-Mitchell minimizing point as fallback.
+Iteration 32: f(x) = 10.141372
+Iteration 33: f(x) = 6.641198
+Acquisition failure: Using Morris-Mitchell minimizing point as fallback.
+Iteration 34: f(x) = 11.306541
+Acquisition failure: Using Morris-Mitchell minimizing point as fallback.
+Iteration 35: f(x) = 11.247625
+
+Morris-Mitchell Strategy Results:
+  Best value: 0.304028
+  Best point: [0.04786624 0.04652526]
+  Total evaluations: 50
+
+============================================================
+Comparison
+============================================================
+Random strategy:        0.304028
+Morris-Mitchell strategy: 0.304028
+→ Morris-Mitchell strategy found better solution
+\end{verbatim}
+
 \section{Advanced Usage: Setting
 Tolerance}\label{advanced-usage-setting-tolerance}
 
@@ -11327,23 +11625,41 @@ triggering the fallback more often:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ simple\_objective(X):}
+    \CommentTok{"""Simple quadratic function for demonstration"""}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{bounds\_demo }\OperatorTok{=}\NormalTok{ [(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)]}
+
 \CommentTok{\# Strict tolerance (smaller value) {-} fewer fallbacks}
 \NormalTok{optimizer\_strict }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
-\NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{simple\_objective,}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds\_demo,}
 \NormalTok{    tolerance\_x}\OperatorTok{=}\FloatTok{1e{-}6}\NormalTok{,  }\CommentTok{\# Very small {-} almost never triggers fallback}
-\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}
+\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
 \CommentTok{\# Relaxed tolerance (larger value) {-} more fallbacks}
 \NormalTok{optimizer\_relaxed }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
-\NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{simple\_objective,}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds\_demo,}
 \NormalTok{    tolerance\_x}\OperatorTok{=}\FloatTok{0.5}\NormalTok{,  }\CommentTok{\# Larger {-} triggers fallback more often}
-\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}
+\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Strict tolerance setup complete"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Relaxed tolerance setup complete"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Strict tolerance setup complete
+Relaxed tolerance setup complete
+\end{verbatim}
 
 \section{Best Practices}\label{best-practices-1}
 
@@ -11355,13 +11671,23 @@ problems:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ my\_objective(X):}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
-\NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
-\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"random"}  \CommentTok{\# Good default choice}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{my\_objective,}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
+\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"random"}\NormalTok{,  }\CommentTok{\# Good default choice}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Random strategy optimizer created"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Random strategy optimizer created
+\end{verbatim}
 
 \subsection{2. Use Morris-Mitchell for Intensive
 Sampling}\label{use-morris-mitchell-for-intensive-sampling}
@@ -11370,14 +11696,24 @@ When you have a large budget and want maximum exploration:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ expensive\_objective(X):}
+    \CommentTok{"""Simulated expensive objective function"""}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{((X }\OperatorTok{{-}} \DecValTok{1}\NormalTok{)}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{expensive\_objective,}
-\NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{200}\NormalTok{,  }\CommentTok{\# Large budget}
-\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}  \CommentTok{\# Maximize space coverage}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{30}\NormalTok{,  }\CommentTok{\# Large budget}
+\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}\NormalTok{,  }\CommentTok{\# Maximize space coverage}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Morris{-}Mitchell optimizer for intensive sampling created"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Morris-Mitchell optimizer for intensive sampling created
+\end{verbatim}
 
 \subsection{3. Monitor Fallback
 Activations}\label{monitor-fallback-activations}
@@ -11386,14 +11722,25 @@ Enable verbose mode to see when fallbacks are triggered:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ test\_objective(X):}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
-\NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{test\_objective,}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
 \NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}\NormalTok{,}
-\NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}  \CommentTok{\# Shows fallback messages}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}\NormalTok{,  }\CommentTok{\# Shows fallback messages}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Optimizer with verbose mode created"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+TensorBoard logging disabled
+Optimizer with verbose mode created
+\end{verbatim}
 
 \subsection{4. Adjust Tolerance Based on Problem
 Scale}\label{adjust-tolerance-based-on-problem-scale}
@@ -11402,23 +11749,38 @@ For problems with small search spaces, use smaller tolerance:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ scale\_objective(X):}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
 \CommentTok{\# Small search space}
 \NormalTok{optimizer\_small }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{scale\_objective,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)],}
 \NormalTok{    tolerance\_x}\OperatorTok{=}\FloatTok{0.01}\NormalTok{,  }\CommentTok{\# Small tolerance for small space}
-\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"random"}
+\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"random"}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
 \CommentTok{\# Large search space}
 \NormalTok{optimizer\_large }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{scale\_objective,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{100}\NormalTok{, }\DecValTok{100}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{100}\NormalTok{, }\DecValTok{100}\NormalTok{)],}
 \NormalTok{    tolerance\_x}\OperatorTok{=}\FloatTok{1.0}\NormalTok{,  }\CommentTok{\# Larger tolerance for large space}
-\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}
+\NormalTok{    acquisition\_failure\_strategy}\OperatorTok{=}\StringTok{"mm"}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Small space optimizer created (bounds: [{-}1, 1])"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Large space optimizer created (bounds: [{-}100, 100])"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Small space optimizer created (bounds: [-1, 1])
+Large space optimizer created (bounds: [-100, 100])
+\end{verbatim}
 
 \section{Technical Details}\label{technical-details}
 
@@ -11521,7 +11883,17 @@ progression one year after baseline.
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim.data }\ImportTok{import}\NormalTok{ get\_diabetes\_dataloaders}
+\ImportTok{from}\NormalTok{ sklearn.datasets }\ImportTok{import}\NormalTok{ load\_diabetes}
+\ImportTok{from}\NormalTok{ spotoptim.data.diabetes }\ImportTok{import}\NormalTok{ DiabetesDataset}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 
+\CommentTok{\# Load data}
+\NormalTok{diabetes }\OperatorTok{=}\NormalTok{ load\_diabetes()}
+\NormalTok{X }\OperatorTok{=}\NormalTok{ diabetes.data}
+\NormalTok{y }\OperatorTok{=}\NormalTok{ diabetes.target.reshape(}\OperatorTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Now create the dataset}
+\NormalTok{dataset }\OperatorTok{=}\NormalTok{ DiabetesDataset(X, y, transform}\OperatorTok{=}\VariableTok{None}\NormalTok{, target\_transform}\OperatorTok{=}\VariableTok{None}\NormalTok{)}
 \CommentTok{\# Load data with default settings}
 \NormalTok{train\_loader, test\_loader, scaler }\OperatorTok{=}\NormalTok{ get\_diabetes\_dataloaders()}
 
@@ -11532,6 +11904,11 @@ progression one year after baseline.
     \ControlFlowTok{break}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Batch features: torch.Size([32, 10])
+Batch targets: torch.Size([32, 1])
+\end{verbatim}
 
 \subsection{Training a Model}\label{training-a-model}
 
@@ -11601,6 +11978,15 @@ progression one year after baseline.
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Epoch 20/100: Loss = 27835.3669
+Epoch 40/100: Loss = 28845.5418
+Epoch 60/100: Loss = 30839.8857
+Epoch 80/100: Loss = 35495.8105
+Epoch 100/100: Loss = 27511.5071
+Test MSE: 26473.7513
+\end{verbatim}
+
 \section{Function Reference}\label{function-reference}
 
 \subsection{get\_diabetes\_dataloaders()}\label{get_diabetes_dataloaders}
@@ -11624,6 +12010,12 @@ DataLoaders.
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+(<torch.utils.data.dataloader.DataLoader at 0x118b8a650>,
+ <torch.utils.data.dataloader.DataLoader at 0x118bfb650>,
+ StandardScaler())
+\end{verbatim}
 
 \textbf{Parameters:}
 
@@ -11695,6 +12087,12 @@ GPU) \\
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Training batches: 5
+Test batches: 3
+Scaler mean: [-0.00056537  0.00132258  0.00027836]
+\end{verbatim}
+
 \section{DiabetesDataset Class}\label{diabetesdataset-class}
 
 PyTorch Dataset implementation for the diabetes dataset.
@@ -11706,6 +12104,10 @@ PyTorch Dataset implementation for the diabetes dataset.
 \NormalTok{DiabetesDataset(X, y, transform}\OperatorTok{=}\VariableTok{None}\NormalTok{, target\_transform}\OperatorTok{=}\VariableTok{None}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+<spotoptim.data.diabetes.DiabetesDataset at 0x118bdf750>
+\end{verbatim}
 
 \textbf{Parameters:}
 
@@ -11794,6 +12196,14 @@ PyTorch Dataset implementation for the diabetes dataset.
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Dataset size: 353
+Features shape: torch.Size([353, 10])
+Targets shape: torch.Size([353, 1])
+Sample features: torch.Size([10])
+Sample target: torch.Size([1])
+\end{verbatim}
+
 \section{Advanced Usage}\label{advanced-usage}
 
 \subsection{Custom Transforms}\label{custom-transforms}
@@ -11854,6 +12264,13 @@ Splits}\label{different-traintest-splits}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Training samples: 309
+Test samples: 133
+Training samples: 397
+Test samples: 45
+\end{verbatim}
+
 \subsection{Without Feature Scaling}\label{without-feature-scaling}
 
 \begin{Shaded}
@@ -11874,6 +12291,11 @@ Splits}\label{different-traintest-splits}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Scaler: None
+Mean: tensor([ 0.0053, -0.0029,  0.0072])
+\end{verbatim}
+
 \subsection{Larger Batch Sizes}\label{larger-batch-sizes}
 
 \begin{Shaded}
@@ -11893,6 +12315,11 @@ Splits}\label{different-traintest-splits}
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Batches per epoch: }\SpecialCharTok{\{}\BuiltInTok{len}\NormalTok{(train\_loader)}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)  }\CommentTok{\# More batches}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Batches per epoch: 3
+Batches per epoch: 45
+\end{verbatim}
 
 \subsection{GPU Training with Pin
 Memory}\label{gpu-training-with-pin-memory}
@@ -11921,6 +12348,12 @@ Memory}\label{gpu-training-with-pin-memory}
     \CommentTok{\# ... training code ...}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+/Users/bartz/workspace/spotoptim-cookbook/.venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py:692: UserWarning:
+
+'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+\end{verbatim}
 
 \section{Complete Training Example}\label{complete-training-example}
 
@@ -12022,6 +12455,27 @@ evaluation:
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Starting training...
+Training samples: 353
+Test samples: 89
+Batches per epoch: 12
+------------------------------------------------------------
+Epoch  20/200: Train Loss = 27655.7878, Test Loss = 26633.7578
+Epoch  40/200: Train Loss = 31582.0638, Test Loss = 26629.7969
+Epoch  60/200: Train Loss = 27607.3722, Test Loss = 26625.7643
+Epoch  80/200: Train Loss = 27709.9224, Test Loss = 26621.5189
+Epoch 100/200: Train Loss = 28027.2584, Test Loss = 26617.1204
+Epoch 120/200: Train Loss = 27472.5738, Test Loss = 26612.5449
+Epoch 140/200: Train Loss = 28003.2313, Test Loss = 26607.7370
+Epoch 160/200: Train Loss = 32244.1699, Test Loss = 26602.8548
+Epoch 180/200: Train Loss = 29502.6055, Test Loss = 26597.7533
+Epoch 200/200: Train Loss = 28081.8819, Test Loss = 26592.4954
+------------------------------------------------------------
+Training complete!
+Best test loss: 26592.4954
+\end{verbatim}
+
 \section{Integration with SpotOptim}\label{integration-with-spotoptim}
 
 Use the diabetes dataset for hyperparameter optimization with SpotOptim:
@@ -12119,6 +12573,36 @@ Use the diabetes dataset for hyperparameter optimization with SpotOptim:
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+TensorBoard logging disabled
+Initial best: f(x) = 26550.401693
+Iteration 1: New best f(x) = 26540.272786
+Iteration 2: f(x) = 26633.736979
+Iteration 3: f(x) = 26563.292969
+Iteration 4: f(x) = 26639.751953
+Iteration 5: f(x) = 26579.916667
+Iteration 6: f(x) = 26599.085286
+Iteration 7: f(x) = 26654.363281
+Iteration 8: f(x) = 26628.019531
+Iteration 9: f(x) = 26590.733724
+Iteration 10: f(x) = 26652.712891
+Iteration 11: f(x) = 26612.488932
+Iteration 12: f(x) = 26555.783854
+Iteration 13: f(x) = 26622.242839
+Iteration 14: f(x) = 26678.115234
+Iteration 15: f(x) = 26592.069010
+Iteration 16: f(x) = 26683.044922
+Iteration 17: f(x) = 26632.177083
+Iteration 18: f(x) = 26547.106771
+Iteration 19: f(x) = 26649.512370
+Iteration 20: f(x) = 26727.503906
+Best hyperparameters found:
+  Learning rate: 0.010000
+  Hidden neurons (l1): 78
+  Hidden layers: 3
+  Best MSE: 26540.2728
+\end{verbatim}
+
 \section{Best Practices}\label{best-practices-2}
 
 \subsection{1. Always Use Feature
@@ -12150,6 +12634,10 @@ Reproducibility}\label{set-random-seeds-for-reproducibility}
 \NormalTok{torch.manual\_seed(}\DecValTok{42}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+<torch._C.Generator at 0x112595490>
+\end{verbatim}
 
 \subsection{3. Don't Shuffle Test Data}\label{dont-shuffle-test-data}
 
@@ -12186,6 +12674,7 @@ Production}\label{save-the-scaler-for-production}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ pickle}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 \ImportTok{from}\NormalTok{ spotoptim.data }\ImportTok{import}\NormalTok{ get\_diabetes\_dataloaders}
 
 \CommentTok{\# Train with scaling}
@@ -12199,11 +12688,23 @@ Production}\label{save-the-scaler-for-production}
 
 \CommentTok{\# Later: Load and use on new data}
 \ControlFlowTok{with} \BuiltInTok{open}\NormalTok{(}\StringTok{\textquotesingle{}scaler.pkl\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}rb\textquotesingle{}}\NormalTok{) }\ImportTok{as}\NormalTok{ f:}
-\NormalTok{    scaler }\OperatorTok{=}\NormalTok{ pickle.load(f)}
+\NormalTok{    loaded\_scaler }\OperatorTok{=}\NormalTok{ pickle.load(f)}
 
-\NormalTok{new\_data\_scaled }\OperatorTok{=}\NormalTok{ scaler.transform(new\_data)}
+\CommentTok{\# Create some example new data (same shape as diabetes features)}
+\NormalTok{new\_data }\OperatorTok{=}\NormalTok{ np.random.randn(}\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{)  }\CommentTok{\# 5 samples, 10 features}
+\NormalTok{new\_data\_scaled }\OperatorTok{=}\NormalTok{ loaded\_scaler.transform(new\_data)}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Original data shape: }\SpecialCharTok{\{}\NormalTok{new\_data}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Scaled data shape: }\SpecialCharTok{\{}\NormalTok{new\_data\_scaled}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Scaled data mean: }\SpecialCharTok{\{}\NormalTok{new\_data\_scaled}\SpecialCharTok{.}\NormalTok{mean(axis}\OperatorTok{=}\DecValTok{0}\NormalTok{)[:}\DecValTok{3}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)  }\CommentTok{\# Should be close to 0}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Original data shape: (5, 10)
+Scaled data shape: (5, 10)
+Scaled data mean: [ 14.40463842   7.20413342 -18.93189649]
+\end{verbatim}
 
 \section{Troubleshooting}\label{troubleshooting}
 
@@ -12390,6 +12891,32 @@ Usage}\label{basic-factor-variable-usage}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Testing activation: Tanh
+Testing activation: ReLU
+Testing activation: Sigmoid
+Testing activation: Sigmoid
+Testing activation: Sigmoid
+Testing activation: Tanh
+Testing activation: ReLU
+Testing activation: Tanh
+Testing activation: Tanh
+Testing activation: LeakyReLU
+Testing activation: LeakyReLU
+Testing activation: ReLU
+Testing activation: ReLU
+Testing activation: ReLU
+Testing activation: ReLU
+Testing activation: ReLU
+Testing activation: ReLU
+Testing activation: ReLU
+Testing activation: ReLU
+Testing activation: ReLU
+
+Best activation: ReLU
+Best score: 3312.4808
+\end{verbatim}
+
 \subsection{Neural Network Activation Function
 Optimization}\label{neural-network-activation-function-optimization}
 
@@ -12460,6 +12987,11 @@ Optimization}\label{neural-network-activation-function-optimization}
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best test MSE: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best activation function: Sigmoid
+Best test MSE: 26318.4596
+\end{verbatim}
 
 \section{Mixed Variable Types}\label{mixed-variable-types}
 
@@ -12554,6 +13086,66 @@ Variables}\label{combining-factor-integer-and-continuous-variables}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+lr=0.000100, l1=84, layers=0, activation=Tanh
+lr=0.001000, l1=113, layers=0, activation=Sigmoid
+lr=0.001000, l1=127, layers=2, activation=LeakyReLU
+lr=0.000100, l1=78, layers=2, activation=LeakyReLU
+lr=0.010000, l1=26, layers=1, activation=Tanh
+lr=0.001000, l1=35, layers=1, activation=Sigmoid
+lr=0.010000, l1=48, layers=2, activation=Sigmoid
+lr=0.000100, l1=60, layers=3, activation=Sigmoid
+lr=0.001000, l1=62, layers=3, activation=Tanh
+lr=0.001000, l1=104, layers=4, activation=ReLU
+lr=0.001000, l1=30, layers=4, activation=Sigmoid
+lr=0.000100, l1=24, layers=3, activation=Tanh
+lr=0.001000, l1=53, layers=1, activation=ReLU
+lr=0.000100, l1=72, layers=4, activation=Sigmoid
+lr=0.001000, l1=45, layers=2, activation=LeakyReLU
+lr=0.001000, l1=104, layers=3, activation=Sigmoid
+lr=0.001000, l1=45, layers=2, activation=LeakyReLU
+lr=0.010000, l1=105, layers=0, activation=Sigmoid
+lr=0.010000, l1=84, layers=0, activation=Sigmoid
+lr=0.000100, l1=103, layers=3, activation=LeakyReLU
+lr=0.001000, l1=66, layers=4, activation=Tanh
+lr=0.010000, l1=114, layers=4, activation=LeakyReLU
+lr=0.010000, l1=34, layers=3, activation=ReLU
+lr=0.001000, l1=35, layers=2, activation=ReLU
+lr=0.001000, l1=72, layers=3, activation=Tanh
+lr=0.000100, l1=119, layers=1, activation=Sigmoid
+lr=0.000100, l1=119, layers=1, activation=Tanh
+lr=0.000100, l1=85, layers=1, activation=LeakyReLU
+lr=0.001000, l1=86, layers=0, activation=Sigmoid
+lr=0.001000, l1=116, layers=3, activation=Sigmoid
+lr=0.010000, l1=28, layers=2, activation=Tanh
+lr=0.001000, l1=111, layers=4, activation=Tanh
+lr=0.001000, l1=116, layers=3, activation=Sigmoid
+lr=0.010000, l1=30, layers=4, activation=Sigmoid
+lr=0.001000, l1=50, layers=1, activation=Tanh
+lr=0.000100, l1=101, layers=2, activation=LeakyReLU
+lr=0.001000, l1=37, layers=2, activation=Tanh
+lr=0.010000, l1=16, layers=0, activation=ReLU
+lr=0.001000, l1=105, layers=3, activation=Tanh
+lr=0.010000, l1=30, layers=4, activation=Sigmoid
+lr=0.000100, l1=67, layers=0, activation=ReLU
+lr=0.000100, l1=119, layers=1, activation=Sigmoid
+lr=0.010000, l1=98, layers=2, activation=Tanh
+lr=0.001000, l1=53, layers=1, activation=Tanh
+lr=0.001000, l1=76, layers=0, activation=Tanh
+lr=0.010000, l1=99, layers=1, activation=Sigmoid
+lr=0.010000, l1=97, layers=1, activation=Sigmoid
+lr=0.001000, l1=114, layers=0, activation=Sigmoid
+lr=0.001000, l1=50, layers=1, activation=Sigmoid
+lr=0.010000, l1=72, layers=3, activation=ReLU
+
+Optimization Results:
+Best learning rate: 0.010000
+Best layer size: 30
+Best num layers: 4
+Best activation: Sigmoid
+Best test MSE: 26473.2122
+\end{verbatim}
+
 \section{Multiple Factor Variables}\label{multiple-factor-variables}
 
 \subsection{Optimizing Both Activation and
@@ -12631,6 +13223,12 @@ Optimizer}\label{optimizing-both-activation-and-optimizer}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Best activation: Tanh
+Best optimizer: SGD
+Best learning rate: 0.010000
+\end{verbatim}
+
 \section{Advanced Usage}\label{advanced-usage-1}
 
 \subsection{Custom Categorical
@@ -12704,6 +13302,14 @@ functions:
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  Score: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best configuration:
+  Dropout: light
+  Batch norm: before
+  Weight init: xavier
+  Score: 2842.0220
+\end{verbatim}
 
 \subsection{Viewing All Evaluated
 Configurations}\label{viewing-all-evaluated-configurations}
@@ -12796,6 +13402,30 @@ Configurations}\label{viewing-all-evaluated-configurations}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+
+All evaluated configurations:
+Layer Size | Activation | Test MSE
+------------------------------------------
+        41 | Tanh       | 26540.2962
+       118 | Sigmoid    | 26219.2585
+        26 | Tanh       | 26654.7923
+       108 | Sigmoid    | 26422.9049
+        71 | LeakyReLU  | 26524.8594
+        34 | Tanh       | 26636.9733
+        87 | ReLU       | 26504.1510
+       101 | Tanh       | 26452.0384
+        55 | Sigmoid    | 26603.9538
+        74 | ReLU       | 26535.4967
+
+Top 5 configurations:
+l1=123, activation=Sigmoid   , MSE=26195.6947
+l1=118, activation=Sigmoid   , MSE=26219.2585
+l1=123, activation=Sigmoid   , MSE=26264.6491
+l1=124, activation=Sigmoid   , MSE=26361.8132
+l1=108, activation=Sigmoid   , MSE=26422.9049
+\end{verbatim}
+
 \section{How It Works}\label{how-it-works-1}
 
 \subsection{Internal Mechanism}\label{internal-mechanism}
@@ -12846,6 +13476,39 @@ SpotOptim handles factor variables through automatic conversion:
 \NormalTok{result.X     }\CommentTok{\# All rows contain strings for factor variables}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+array([[41.0, 'Tanh'],
+       [118.0, 'Sigmoid'],
+       [26.0, 'Tanh'],
+       [108.0, 'Sigmoid'],
+       [71.0, 'LeakyReLU'],
+       [34.0, 'Tanh'],
+       [87.0, 'ReLU'],
+       [101.0, 'Tanh'],
+       [55.0, 'Sigmoid'],
+       [74.0, 'ReLU'],
+       [123.0, 'Sigmoid'],
+       [122.0, 'LeakyReLU'],
+       [123.0, 'Sigmoid'],
+       [124.0, 'Sigmoid'],
+       [16.0, 'ReLU'],
+       [63.0, 'ReLU'],
+       [93.0, 'LeakyReLU'],
+       [89.0, 'Sigmoid'],
+       [48.0, 'ReLU'],
+       [121.0, 'ReLU'],
+       [118.0, 'ReLU'],
+       [117.0, 'Tanh'],
+       [89.0, 'Sigmoid'],
+       [121.0, 'ReLU'],
+       [89.0, 'Sigmoid'],
+       [81.0, 'Sigmoid'],
+       [19.0, 'LeakyReLU'],
+       [119.0, 'LeakyReLU'],
+       [103.0, 'ReLU'],
+       [48.0, 'LeakyReLU']], dtype=object)
+\end{verbatim}
 \end{enumerate}
 
 \subsection{Variable Type
@@ -12898,6 +13561,10 @@ factor variables:
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best lr: }\SpecialCharTok{\{}\DecValTok{10}\OperatorTok{**}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x[}\DecValTok{0}\NormalTok{]}\SpecialCharTok{:.6f\}}\SpecialStringTok{, Best activation: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best lr: 0.001000, Best activation: ReLU
+\end{verbatim}
 
 \section{Complete Example: Full
 Workflow}\label{complete-example-full-workflow}
@@ -13093,6 +13760,149 @@ Workflow}\label{complete-example-full-workflow}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+================================================================================
+Neural Network Hyperparameter Optimization with Factor Variables
+================================================================================
+
+Starting optimization...
+Testing: lr=0.010000, l1=101, layers=2, activation=ReLU
+  → Test MSE: 26545.4603
+Testing: lr=0.001000, l1=50, layers=2, activation=ReLU
+  → Test MSE: 26610.3672
+Testing: lr=0.000100, l1=67, layers=1, activation=Tanh
+  → Test MSE: 26645.7728
+Testing: lr=0.000100, l1=40, layers=0, activation=Tanh
+  → Test MSE: 26574.0020
+Testing: lr=0.010000, l1=116, layers=2, activation=Sigmoid
+  → Test MSE: 26546.1797
+Testing: lr=0.001000, l1=124, layers=3, activation=Sigmoid
+  → Test MSE: 26509.2227
+Testing: lr=0.001000, l1=36, layers=4, activation=Sigmoid
+  → Test MSE: 26601.5234
+Testing: lr=0.010000, l1=20, layers=1, activation=LeakyReLU
+  → Test MSE: 26513.4844
+Testing: lr=0.001000, l1=90, layers=1, activation=Tanh
+  → Test MSE: 26667.7493
+Testing: lr=0.000100, l1=78, layers=3, activation=Tanh
+  → Test MSE: 26595.1556
+Testing: lr=0.000100, l1=123, layers=1, activation=LeakyReLU
+  → Test MSE: 26547.3665
+Testing: lr=0.010000, l1=17, layers=0, activation=LeakyReLU
+  → Test MSE: 26598.9648
+Testing: lr=0.001000, l1=124, layers=2, activation=Tanh
+  → Test MSE: 26622.1940
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26639.6230
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26575.7656
+Testing: lr=0.010000, l1=58, layers=4, activation=LeakyReLU
+  → Test MSE: 26623.8490
+Testing: lr=0.010000, l1=20, layers=0, activation=LeakyReLU
+  → Test MSE: 26671.9629
+Testing: lr=0.001000, l1=20, layers=3, activation=LeakyReLU
+  → Test MSE: 26636.1849
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26540.4876
+Testing: lr=0.000100, l1=122, layers=4, activation=ReLU
+  → Test MSE: 26606.6445
+Testing: lr=0.001000, l1=125, layers=4, activation=ReLU
+  → Test MSE: 26631.1634
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26569.2598
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26597.6510
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26720.4733
+Testing: lr=0.010000, l1=33, layers=0, activation=LeakyReLU
+  → Test MSE: 26671.8763
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26622.6732
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26528.9232
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26620.1745
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26646.1068
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26650.1628
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26591.2227
+Testing: lr=0.001000, l1=99, layers=2, activation=Sigmoid
+  → Test MSE: 26566.8105
+Testing: lr=0.001000, l1=123, layers=3, activation=Sigmoid
+  → Test MSE: 26480.2454
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26585.0625
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26688.3809
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26733.5723
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26677.9512
+Testing: lr=0.000100, l1=109, layers=0, activation=LeakyReLU
+  → Test MSE: 26613.0013
+Testing: lr=0.010000, l1=16, layers=4, activation=ReLU
+  → Test MSE: 26595.2826
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26549.7090
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26636.0931
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26542.3483
+Testing: lr=0.010000, l1=83, layers=0, activation=ReLU
+  → Test MSE: 26600.9492
+Testing: lr=0.010000, l1=45, layers=4, activation=LeakyReLU
+  → Test MSE: 26617.1367
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26608.7507
+Testing: lr=0.000100, l1=28, layers=4, activation=ReLU
+  → Test MSE: 26581.6250
+Testing: lr=0.010000, l1=123, layers=3, activation=Sigmoid
+  → Test MSE: 26444.5977
+Testing: lr=0.010000, l1=26, layers=4, activation=LeakyReLU
+  → Test MSE: 26624.5599
+Testing: lr=0.010000, l1=24, layers=0, activation=LeakyReLU
+  → Test MSE: 26591.6738
+Testing: lr=0.001000, l1=99, layers=2, activation=Sigmoid
+  → Test MSE: 26557.8743
+
+================================================================================
+OPTIMIZATION RESULTS
+================================================================================
+Best learning rate: 0.010000
+Best layer size (l1): 123
+Best num hidden layers: 3
+Best activation function: Sigmoid
+Best test MSE: 26444.5977
+
+================================================================================
+TOP 5 CONFIGURATIONS
+================================================================================
+Rank   LR           L1     Layers   Activation   MSE       
+--------------------------------------------------------------------------------
+1      0.010000     123    3        Sigmoid      26444.5977
+2      0.001000     123    3        Sigmoid      26480.2454
+3      0.001000     124    3        Sigmoid      26509.2227
+4      0.010000     20     1        LeakyReLU    26513.4844
+5      0.010000     24     0        LeakyReLU    26528.9232
+
+================================================================================
+TRAINING FINAL MODEL
+================================================================================
+Configuration: lr=0.010000, l1=123, layers=3, activation=Sigmoid
+
+Training for 100 epochs...
+Epoch 20/100: Train MSE = 27532.3997
+Epoch 40/100: Train MSE = 34630.3496
+Epoch 60/100: Train MSE = 27039.0441
+Epoch 80/100: Train MSE = 28005.1965
+Epoch 100/100: Train MSE = 26971.1770
+
+Final Test MSE: 25945.7480
+================================================================================
+\end{verbatim}
+
 \section{Best Practices}\label{best-practices-3}
 
 \subsection{Do's}\label{dos}
@@ -13154,6 +13964,10 @@ Workflow}\label{complete-example-full-workflow}
 \CommentTok{\# model = LinearRegressor(activation=best\_activation)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best activation: ReLU (type: str)
+\end{verbatim}
 
 ✅ \textbf{Mix factor variables with numeric/integer variables}
 
@@ -13294,8 +14108,8 @@ continuous optimization!
   results with factor variables
 \end{itemize}
 
-\chapter{Kriging Surrogate Integration
-Summary}\label{kriging-surrogate-integration-summary}
+\chapter{Kriging Surrogate
+Integration}\label{kriging-surrogate-integration}
 
 \section{Overview}\label{overview-2}
 
@@ -13374,16 +14188,32 @@ scikit-learn compatible model:
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim, Kriging}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+\KeywordTok{def}\NormalTok{ rosenbrock(X):}
+    \CommentTok{"""Rosenbrock function"""}
+\NormalTok{    x }\OperatorTok{=}\NormalTok{ X[:, }\DecValTok{0}\NormalTok{]}
+\NormalTok{    y }\OperatorTok{=}\NormalTok{ X[:, }\DecValTok{1}\NormalTok{]}
+    \ControlFlowTok{return}\NormalTok{ (}\DecValTok{1} \OperatorTok{{-}}\NormalTok{ x)}\OperatorTok{**}\DecValTok{2} \OperatorTok{+} \DecValTok{100} \OperatorTok{*}\NormalTok{ (y }\OperatorTok{{-}}\NormalTok{ x}\OperatorTok{**}\DecValTok{2}\NormalTok{)}\OperatorTok{**}\DecValTok{2}
 
 \NormalTok{kriging }\OperatorTok{=}\NormalTok{ Kriging(seed}\OperatorTok{=}\DecValTok{42}\NormalTok{)}
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
-\NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{rosenbrock,}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)],}
 \NormalTok{    surrogate}\OperatorTok{=}\NormalTok{kriging,  }\CommentTok{\# Just pass the Kriging instance}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{30}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+\NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best point: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 0.018122
+Best point: [1.08676908 1.1707746 ]
+\end{verbatim}
 
 \section{Documentation}\label{documentation}
 
@@ -13404,36 +14234,108 @@ Added Example to \texttt{notebooks/demos.ipynb}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim, Kriging}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+\KeywordTok{def}\NormalTok{ sphere(X):}
+    \CommentTok{"""Sphere function: f(x) = sum(x\^{}2)"""}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
 
 \NormalTok{kriging }\OperatorTok{=}\NormalTok{ Kriging(noise}\OperatorTok{=}\FloatTok{1e{-}6}\NormalTok{, seed}\OperatorTok{=}\DecValTok{42}\NormalTok{)}
-\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(fun}\OperatorTok{=}\NormalTok{objective, bounds}\OperatorTok{=}\NormalTok{bounds, surrogate}\OperatorTok{=}\NormalTok{kriging)}
+\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere, }
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)], }
+\NormalTok{    surrogate}\OperatorTok{=}\NormalTok{kriging,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
+\NormalTok{)}
 \NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best point: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 0.000140
+Best point: [-0.01164324 -0.00207239]
+\end{verbatim}
 
 \subsection{Custom Parameters}\label{custom-parameters}
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+\KeywordTok{def}\NormalTok{ ackley(X):}
+    \CommentTok{"""Ackley function {-} multimodal test function"""}
+\NormalTok{    a }\OperatorTok{=} \DecValTok{20}
+\NormalTok{    b }\OperatorTok{=} \FloatTok{0.2}
+\NormalTok{    c }\OperatorTok{=} \DecValTok{2} \OperatorTok{*}\NormalTok{ np.pi}
+\NormalTok{    n }\OperatorTok{=}\NormalTok{ X.shape[}\DecValTok{1}\NormalTok{]}
+    
+\NormalTok{    sum\_sq }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+\NormalTok{    sum\_cos }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(np.cos(c }\OperatorTok{*}\NormalTok{ X), axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+    
+    \ControlFlowTok{return} \OperatorTok{{-}}\NormalTok{a }\OperatorTok{*}\NormalTok{ np.exp(}\OperatorTok{{-}}\NormalTok{b }\OperatorTok{*}\NormalTok{ np.sqrt(sum\_sq }\OperatorTok{/}\NormalTok{ n)) }\OperatorTok{{-}}\NormalTok{ np.exp(sum\_cos }\OperatorTok{/}\NormalTok{ n) }\OperatorTok{+}\NormalTok{ a }\OperatorTok{+}\NormalTok{ np.e}
+
 \NormalTok{kriging }\OperatorTok{=}\NormalTok{ Kriging(}
 \NormalTok{    noise}\OperatorTok{=}\FloatTok{1e{-}4}\NormalTok{,}
 \NormalTok{    min\_theta}\OperatorTok{={-}}\FloatTok{2.0}\NormalTok{,}
 \NormalTok{    max\_theta}\OperatorTok{=}\FloatTok{3.0}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{123}
 \NormalTok{)}
+
+\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{ackley,}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
+\NormalTok{    surrogate}\OperatorTok{=}\NormalTok{kriging,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{40}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{123}
+\NormalTok{)}
+\NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best point: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 0.148148
+Best point: [ 0.03616225 -0.01334554]
+\end{verbatim}
 
 \subsection{Prediction with
 Uncertainty}\label{prediction-with-uncertainty}
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ Kriging}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+\CommentTok{\# Generate training data}
+\NormalTok{np.random.seed(}\DecValTok{42}\NormalTok{)}
+\NormalTok{X\_train }\OperatorTok{=}\NormalTok{ np.random.uniform(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{, (}\DecValTok{20}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\NormalTok{y\_train }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X\_train}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Generate test data}
+\NormalTok{X\_test }\OperatorTok{=}\NormalTok{ np.random.uniform(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{, (}\DecValTok{10}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\# Fit model and predict with uncertainty}
 \NormalTok{model }\OperatorTok{=}\NormalTok{ Kriging(seed}\OperatorTok{=}\DecValTok{42}\NormalTok{)}
 \NormalTok{model.fit(X\_train, y\_train)}
 \NormalTok{y\_pred, y\_std }\OperatorTok{=}\NormalTok{ model.predict(X\_test, return\_std}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Predictions shape: }\SpecialCharTok{\{}\NormalTok{y\_pred}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Uncertainties shape: }\SpecialCharTok{\{}\NormalTok{y\_std}\SpecialCharTok{.}\NormalTok{shape}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Mean prediction: }\SpecialCharTok{\{}\NormalTok{y\_pred}\SpecialCharTok{.}\NormalTok{mean()}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Mean uncertainty: }\SpecialCharTok{\{}\NormalTok{y\_std}\SpecialCharTok{.}\NormalTok{mean()}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Predictions shape: (10,)
+Uncertainties shape: (10,)
+Mean prediction: 20.7886
+Mean uncertainty: 0.0620
+\end{verbatim}
 
 \section{Technical Details}\label{technical-details-1}
 
@@ -13505,6 +14407,7 @@ SpotOptim passes these to the surrogate via the standard interface:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Example of how SpotOptim uses the surrogate internally}
 \NormalTok{surrogate.fit(X, y)}
 \end{Highlighting}
 \end{Shaded}
@@ -13521,6 +14424,7 @@ SpotOptim passes these to the surrogate via the standard interface:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Example of internal usage}
 \NormalTok{mu }\OperatorTok{=}\NormalTok{ surrogate.predict(x)[}\DecValTok{0}\NormalTok{]  }\CommentTok{\# For acquisition=\textquotesingle{}y\textquotesingle{}}
 \NormalTok{mu, sigma }\OperatorTok{=}\NormalTok{ surrogate.predict(x, return\_std}\OperatorTok{=}\VariableTok{True}\NormalTok{)  }\CommentTok{\# For acquisition=\textquotesingle{}ei\textquotesingle{}, \textquotesingle{}pi\textquotesingle{}}
 \end{Highlighting}
@@ -13646,6 +14550,7 @@ default}.
 
 \subsection{Basic Usage}\label{basic-usage-3}
 
+\phantomsection\label{basic-usage}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim.utils.mapping }\ImportTok{import}\NormalTok{ map\_lr}
@@ -13662,8 +14567,16 @@ default}.
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Unified lr=1.0:
+  Adam:    0.001
+  SGD:     0.01
+  RMSprop: 0.01
+\end{verbatim}
+
 \subsection{Scaling Learning Rates}\label{scaling-learning-rates}
 
+\phantomsection\label{scaling-learning-rates}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim.utils.mapping }\ImportTok{import}\NormalTok{ map\_lr}
@@ -13682,9 +14595,17 @@ default}.
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Unified lr=0.5:
+  Adam:    0.0005
+  SGD:     0.005
+  RMSprop: 0.005
+\end{verbatim}
+
 \subsection{Integration with
 LinearRegressor}\label{integration-with-linearregressor}
 
+\phantomsection\label{linear-regressor-integration}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim.nn.linear\_regressor }\ImportTok{import}\NormalTok{ LinearRegressor}
@@ -13707,6 +14628,11 @@ LinearRegressor}\label{integration-with-linearregressor}
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"SGD actual lr: }\SpecialCharTok{\{}\NormalTok{optimizer\_sgd}\SpecialCharTok{.}\NormalTok{param\_groups[}\DecValTok{0}\NormalTok{][}\StringTok{\textquotesingle{}lr\textquotesingle{}}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Adam actual lr: 0.001
+SGD actual lr: 0.01
+\end{verbatim}
 
 \section{Function Reference}\label{function-reference-1}
 
@@ -13754,6 +14680,7 @@ Maps a unified learning rate to an optimizer-specific learning rate.
 
 \textbf{Example}:
 
+\phantomsection\label{map-lr-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim.utils.mapping }\ImportTok{import}\NormalTok{ map\_lr}
@@ -13805,6 +14732,7 @@ norm \\
 \subsection{Comparing Different
 Optimizers}\label{comparing-different-optimizers}
 
+\phantomsection\label{optimizer-comparison}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ torch}
@@ -13864,9 +14792,22 @@ Optimizers}\label{comparing-different-optimizers}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Adam      : Test MSE = 3859.4478 (actual lr = 0.001000)
+SGD       : Test MSE = 5271.6840 (actual lr = 0.010000)
+RMSprop   : Test MSE = 2769.5164 (actual lr = 0.010000)
+AdamW     : Test MSE = 3866.1197 (actual lr = 0.001000)
+
+Best optimizer: RMSprop with MSE = 2769.5164
+\end{verbatim}
+
 \subsection{Hyperparameter Optimization with
 SpotOptim}\label{hyperparameter-optimization-with-spotoptim}
 
+Note, \texttt{N\_INITIAL} and \texttt{MAX\_ITER} are kept small for
+demonstration; increase for real use.
+
+\phantomsection\label{hyperparameter-optimization}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
@@ -13875,6 +14816,9 @@ SpotOptim}\label{hyperparameter-optimization-with-spotoptim}
 \ImportTok{import}\NormalTok{ torch.nn }\ImportTok{as}\NormalTok{ nn}
 \ImportTok{import}\NormalTok{ torch}
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+\NormalTok{MAX\_ITER }\OperatorTok{=} \DecValTok{10}
+\NormalTok{N\_INITIAL }\OperatorTok{=} \DecValTok{5}
 
 \KeywordTok{def}\NormalTok{ train\_and\_evaluate(X):}
     \CommentTok{"""Objective function for hyperparameter optimization."""}
@@ -13942,7 +14886,8 @@ SpotOptim}\label{hyperparameter-optimization-with-spotoptim}
 \NormalTok{        (}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{)                             }\CommentTok{\# Number of hidden layers}
 \NormalTok{    ],}
 \NormalTok{    var\_type}\OperatorTok{=}\NormalTok{[}\StringTok{"num"}\NormalTok{, }\StringTok{"factor"}\NormalTok{, }\StringTok{"int"}\NormalTok{, }\StringTok{"int"}\NormalTok{],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{30}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\NormalTok{MAX\_ITER,}
+\NormalTok{    n\_initial}\OperatorTok{=}\NormalTok{N\_INITIAL,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
@@ -13963,9 +14908,21 @@ SpotOptim}\label{hyperparameter-optimization-with-spotoptim}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+
+Optimization Results:
+Best unified lr: 0.100000
+Best optimizer: RMSprop
+Best layer size: 118
+Best num layers: 2
+Best test MSE: 3082.2285
+Actual RMSprop learning rate: 0.001000
+\end{verbatim}
+
 \subsection{Log-Scale Hyperparameter
 Search}\label{log-scale-hyperparameter-search}
 
+\phantomsection\label{log-scale-search}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim.utils.mapping }\ImportTok{import}\NormalTok{ map\_lr}
@@ -13991,26 +14948,27 @@ Search}\label{log-scale-hyperparameter-search}
 \end{Highlighting}
 \end{Shaded}
 
-Output:
-
 \begin{verbatim}
+Log-scale learning rate search:
+
 log_lr     unified_lr   Adam         SGD          RMSprop     
 ------------------------------------------------------------
 -4.00      0.000100     0.00000010   0.00000100   0.00000100  
--3.56      0.000275     0.00000028   0.00000275   0.00000275  
--3.11      0.000759     0.00000076   0.00000759   0.00000759  
--2.67      0.002089     0.00000209   0.00002089   0.00002089  
--2.22      0.005754     0.00000575   0.00005754   0.00005754  
--1.78      0.015849     0.00001585   0.00015849   0.00015849  
--1.33      0.043652     0.00004365   0.00043652   0.00043652  
--0.89      0.120226     0.00012023   0.00120226   0.00120226  
--0.44      0.331131     0.00033113   0.00331131   0.00331131  
+-3.56      0.000278     0.00000028   0.00000278   0.00000278  
+-3.11      0.000774     0.00000077   0.00000774   0.00000774  
+-2.67      0.002154     0.00000215   0.00002154   0.00002154  
+-2.22      0.005995     0.00000599   0.00005995   0.00005995  
+-1.78      0.016681     0.00001668   0.00016681   0.00016681  
+-1.33      0.046416     0.00004642   0.00046416   0.00046416  
+-0.89      0.129155     0.00012915   0.00129155   0.00129155  
+-0.44      0.359381     0.00035938   0.00359381   0.00359381  
 0.00       1.000000     0.00100000   0.01000000   0.01000000  
 \end{verbatim}
 
 \subsection{Custom Learning Rate
 Schedules}\label{custom-learning-rate-schedules}
 
+\phantomsection\label{custom-lr-schedules}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ torch}
@@ -14040,9 +14998,17 @@ Schedules}\label{custom-learning-rate-schedules}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Initial learning rate: 0.001
+Epoch 30: lr = 0.00010000
+Epoch 60: lr = 0.00001000
+Epoch 90: lr = 0.00000100
+\end{verbatim}
+
 \subsection{Direct Usage Without
 LinearRegressor}\label{direct-usage-without-linearregressor}
 
+\phantomsection\label{direct-usage-without-linearregressor}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ torch}
@@ -14073,6 +15039,11 @@ LinearRegressor}\label{direct-usage-without-linearregressor}
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Actual }\SpecialCharTok{\{}\NormalTok{optimizer\_name}\SpecialCharTok{\}}\SpecialStringTok{ lr: }\SpecialCharTok{\{}\NormalTok{actual\_lr}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Unified lr: 2.0
+Actual Adam lr: 0.002
+\end{verbatim}
 
 \section{Best Practices}\label{best-practices-4}
 
@@ -14477,6 +15448,33 @@ Study}\label{complete-example-optimizer-comparison-study}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Training models with different optimizers and learning rates...
+
+Unified lr=0.5, Adam      : actual_lr=0.000500, test_MSE=5095.8747
+Unified lr=0.5, SGD       : actual_lr=0.005000, test_MSE=5291.3903
+Unified lr=0.5, RMSprop   : actual_lr=0.005000, test_MSE=2828.7084
+Unified lr=0.5, AdamW     : actual_lr=0.000500, test_MSE=5107.9592
+Unified lr=1.0, Adam      : actual_lr=0.001000, test_MSE=3859.4478
+Unified lr=1.0, SGD       : actual_lr=0.010000, test_MSE=5271.6840
+Unified lr=1.0, RMSprop   : actual_lr=0.010000, test_MSE=2769.5164
+Unified lr=1.0, AdamW     : actual_lr=0.001000, test_MSE=3866.1197
+Unified lr=2.0, Adam      : actual_lr=0.002000, test_MSE=3160.6882
+Unified lr=2.0, SGD       : actual_lr=0.020000, test_MSE=nan
+Unified lr=2.0, RMSprop   : actual_lr=0.020000, test_MSE=2883.3345
+Unified lr=2.0, AdamW     : actual_lr=0.002000, test_MSE=3162.8034
+
+======================================================================
+Summary: Best configurations
+======================================================================
+Unified lr=0.5: RMSprop    (test MSE=2828.7084, actual lr=0.005000)
+Unified lr=1.0: RMSprop    (test MSE=2769.5164, actual lr=0.010000)
+Unified lr=2.0: RMSprop    (test MSE=2883.3345, actual lr=0.020000)
+
+Overall best: unified_lr=1.0, optimizer=RMSprop, test_MSE=2769.5164
+Actual learning rate used: 0.010000
+\end{verbatim}
+
 \section{See Also}\label{see-also-1}
 
 \begin{itemize}
@@ -14510,8 +15508,8 @@ Study}\label{complete-example-optimizer-comparison-study}
   https://pytorch.org/docs/stable/optim.html
 \end{itemize}
 
-\chapter{Unified Learning Rate
-Interface}\label{unified-learning-rate-interface}
+\chapter{Unified Learning Rate Interface in
+SpotOptim}\label{unified-learning-rate-interface-in-spotoptim}
 
 This module provides a sophisticated unified learning rate interface for
 PyTorch optimizers through the \texttt{map\_lr()} function and
@@ -14575,6 +15573,7 @@ PyTorch default}.
 \subsection{Basic Usage with
 LinearRegressor}\label{basic-usage-with-linearregressor}
 
+\phantomsection\label{basic-unified-lr-example-with-linear-regressor}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim.nn.linear\_regressor }\ImportTok{import}\NormalTok{ LinearRegressor}
@@ -14596,6 +15595,7 @@ LinearRegressor}\label{basic-usage-with-linearregressor}
 \subsection{Using Custom Unified Learning
 Rate}\label{using-custom-unified-learning-rate}
 
+\phantomsection\label{custom-unified-lr-example-0.5}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Using lr=0.5 scales all optimizers by 0.5}
@@ -14608,6 +15608,7 @@ Rate}\label{using-custom-unified-learning-rate}
 
 \subsection{Direct Use of map\_lr()}\label{direct-use-of-map_lr}
 
+\phantomsection\label{direct-map-lr-usage-unified-lr}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim.utils.mapping }\ImportTok{import}\NormalTok{ map\_lr}
@@ -14626,36 +15627,86 @@ Rate}\label{using-custom-unified-learning-rate}
 \subsection{Hyperparameter
 Optimization}\label{hyperparameter-optimization}
 
+\phantomsection\label{hyperparameter-optimization-unified-learning-rate}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+\ImportTok{from}\NormalTok{ spotoptim.nn.linear\_regressor }\ImportTok{import}\NormalTok{ LinearRegressor}
+\ImportTok{from}\NormalTok{ spotoptim.data }\ImportTok{import}\NormalTok{ get\_diabetes\_dataloaders}
+\ImportTok{import}\NormalTok{ torch}
+\ImportTok{import}\NormalTok{ torch.nn }\ImportTok{as}\NormalTok{ nn}
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 
 \KeywordTok{def}\NormalTok{ train\_model(X):}
+    \CommentTok{"""Objective function for hyperparameter optimization."""}
 \NormalTok{    results }\OperatorTok{=}\NormalTok{ []}
+    
+    \CommentTok{\# Load data once}
+\NormalTok{    train\_loader, test\_loader, \_ }\OperatorTok{=}\NormalTok{ get\_diabetes\_dataloaders(batch\_size}\OperatorTok{=}\DecValTok{32}\NormalTok{, random\_state}\OperatorTok{=}\DecValTok{42}\NormalTok{)}
+    
     \ControlFlowTok{for}\NormalTok{ params }\KeywordTok{in}\NormalTok{ X:}
 \NormalTok{        lr\_unified }\OperatorTok{=} \DecValTok{10} \OperatorTok{**}\NormalTok{ params[}\DecValTok{0}\NormalTok{]  }\CommentTok{\# Log scale: [{-}4, 0]}
 \NormalTok{        optimizer\_name }\OperatorTok{=}\NormalTok{ params[}\DecValTok{1}\NormalTok{]     }\CommentTok{\# Factor: "Adam", "SGD", "RMSprop"}
         
         \CommentTok{\# Create model with unified lr {-} automatically scaled per optimizer}
-\NormalTok{        model }\OperatorTok{=}\NormalTok{ LinearRegressor(input\_dim}\OperatorTok{=}\DecValTok{10}\NormalTok{, output\_dim}\OperatorTok{=}\DecValTok{1}\NormalTok{, lr}\OperatorTok{=}\NormalTok{lr\_unified)}
+\NormalTok{        torch.manual\_seed(}\DecValTok{42}\NormalTok{)}
+\NormalTok{        model }\OperatorTok{=}\NormalTok{ LinearRegressor(input\_dim}\OperatorTok{=}\DecValTok{10}\NormalTok{, output\_dim}\OperatorTok{=}\DecValTok{1}\NormalTok{, l1}\OperatorTok{=}\DecValTok{32}\NormalTok{, num\_hidden\_layers}\OperatorTok{=}\DecValTok{2}\NormalTok{, lr}\OperatorTok{=}\NormalTok{lr\_unified)}
 \NormalTok{        optimizer }\OperatorTok{=}\NormalTok{ model.get\_optimizer(optimizer\_name)}
         
-        \CommentTok{\# Train and evaluate}
-        \CommentTok{\# ... training code ...}
-\NormalTok{        results.append(test\_loss)}
+\NormalTok{        criterion }\OperatorTok{=}\NormalTok{ nn.MSELoss()}
+        
+        \CommentTok{\# Train}
+\NormalTok{        model.train()}
+        \ControlFlowTok{for}\NormalTok{ epoch }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{30}\NormalTok{):}
+            \ControlFlowTok{for}\NormalTok{ batch\_X, batch\_y }\KeywordTok{in}\NormalTok{ train\_loader:}
+\NormalTok{                optimizer.zero\_grad()}
+\NormalTok{                predictions }\OperatorTok{=}\NormalTok{ model(batch\_X)}
+\NormalTok{                loss }\OperatorTok{=}\NormalTok{ criterion(predictions, batch\_y)}
+\NormalTok{                loss.backward()}
+\NormalTok{                optimizer.step()}
+        
+        \CommentTok{\# Evaluate}
+\NormalTok{        model.}\BuiltInTok{eval}\NormalTok{()}
+\NormalTok{        test\_loss }\OperatorTok{=} \FloatTok{0.0}
+        \ControlFlowTok{with}\NormalTok{ torch.no\_grad():}
+            \ControlFlowTok{for}\NormalTok{ batch\_X, batch\_y }\KeywordTok{in}\NormalTok{ test\_loader:}
+\NormalTok{                predictions }\OperatorTok{=}\NormalTok{ model(batch\_X)}
+\NormalTok{                test\_loss }\OperatorTok{+=}\NormalTok{ criterion(predictions, batch\_y).item()}
+        
+\NormalTok{        avg\_test\_loss }\OperatorTok{=}\NormalTok{ test\_loss }\OperatorTok{/} \BuiltInTok{len}\NormalTok{(test\_loader)}
+\NormalTok{        results.append(avg\_test\_loss)}
+    
     \ControlFlowTok{return}\NormalTok{ np.array(results)}
 
 \CommentTok{\# Optimize unified lr across different optimizers}
-\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
+\NormalTok{spot\_optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{train\_model,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{), (}\StringTok{"Adam"}\NormalTok{, }\StringTok{"SGD"}\NormalTok{, }\StringTok{"RMSprop"}\NormalTok{)],}
 \NormalTok{    var\_type}\OperatorTok{=}\NormalTok{[}\StringTok{"num"}\NormalTok{, }\StringTok{"factor"}\NormalTok{],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{30}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{10}\NormalTok{,  }\CommentTok{\# Small for demo}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{5}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
-\NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\NormalTok{result }\OperatorTok{=}\NormalTok{ spot\_optimizer.optimize()}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"}\CharTok{\textbackslash{}n}\SpecialStringTok{Best unified lr: }\SpecialCharTok{\{}\DecValTok{10}\OperatorTok{**}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x[}\DecValTok{0}\NormalTok{]}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best optimizer: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best test MSE: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
+
+\CommentTok{\# Show actual learning rate used}
+\ImportTok{from}\NormalTok{ spotoptim.utils.mapping }\ImportTok{import}\NormalTok{ map\_lr}
+\NormalTok{actual\_lr }\OperatorTok{=}\NormalTok{ map\_lr(}\DecValTok{10}\OperatorTok{**}\NormalTok{result.x[}\DecValTok{0}\NormalTok{], result.x[}\DecValTok{1}\NormalTok{])}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Actual }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{ learning rate: }\SpecialCharTok{\{}\NormalTok{actual\_lr}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+
+Best unified lr: 0.001000
+Best optimizer: SGD
+Best test MSE: 24398.7249
+Actual SGD learning rate: 0.000010
+\end{verbatim}
 
 \section{Supported Optimizers}\label{supported-optimizers-1}
 
@@ -14951,6 +16002,12 @@ Objective)}\label{example-1-default-behavior-use-first-objective}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Best x: [-0.0003343  -0.00013835]
+Best f(x): 1.3089731064068852e-07
+MO values stored: (30, 2)
+\end{verbatim}
+
 \subsection{Example 2: Weighted Sum
 Scalarization}\label{example-2-weighted-sum-scalarization}
 
@@ -14973,6 +16030,10 @@ Scalarization}\label{example-2-weighted-sum-scalarization}
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Compromise solution: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)  }\CommentTok{\# Near [1, 1]}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Compromise solution: [0.99998338 1.00023308]
+\end{verbatim}
 
 \subsection{Example 3: Min-Max
 Scalarization}\label{example-3-min-max-scalarization}
@@ -15335,6 +16396,8 @@ and uncertainty estimates across two selected dimensions.
 \end{Highlighting}
 \end{Shaded}
 
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/basic-plot-surrogate-example-output-1.pdf}}
+
 \subsection{With Custom Parameters}\label{with-custom-parameters}
 
 \begin{Shaded}
@@ -15355,12 +16418,15 @@ and uncertainty estimates across two selected dimensions.
 \end{Highlighting}
 \end{Shaded}
 
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/custom-plot-surrogate-example-output-1.pdf}}
+
 \subsection{Higher-Dimensional
 Problems}\label{higher-dimensional-problems}
 
 For problems with more than 2 dimensions, \texttt{plot\_surrogate()}
 creates a 2D slice by fixing all other dimensions at their mean values:
 
+\phantomsection\label{plot-surrogate-4d-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# 4D optimization problem}
@@ -15381,6 +16447,10 @@ creates a 2D slice by fixing all other dimensions at their mean values:
 \NormalTok{optimizer.plot\_surrogate(i}\OperatorTok{=}\DecValTok{1}\NormalTok{, j}\OperatorTok{=}\DecValTok{3}\NormalTok{, var\_name}\OperatorTok{=}\NormalTok{[}\StringTok{\textquotesingle{}x0\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}x1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}x2\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}x3\textquotesingle{}}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/plot-surrogate-4d-example-output-1.pdf}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/plot-surrogate-4d-example-output-2.pdf}}
 
 \section{Plot Interpretation}\label{plot-interpretation}
 
@@ -15535,11 +16605,14 @@ Function}\label{example-1-2d-rosenbrock-function}
 \end{Highlighting}
 \end{Shaded}
 
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/plot-surrogate-rosenbrock-example-output-1.pdf}}
+
 \subsection{Example 2: Using Kriging
 Surrogate}\label{example-2-using-kriging-surrogate}
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim, Kriging}
 
 \KeywordTok{def}\NormalTok{ sphere(X):}
@@ -15558,9 +16631,12 @@ Surrogate}\label{example-2-using-kriging-surrogate}
 \end{Highlighting}
 \end{Shaded}
 
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/plot-surrogate-kriging-example-output-1.pdf}}
+
 \subsection{Example 3: Comparing Different Dimension
 Pairs}\label{example-3-comparing-different-dimension-pairs}
 
+\phantomsection\label{plot-surrogate-3d-example-all}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# 3D problem {-} visualize all dimension pairs}
@@ -15584,6 +16660,12 @@ Pairs}\label{example-3-comparing-different-dimension-pairs}
 \NormalTok{optimizer.plot\_surrogate(i}\OperatorTok{=}\DecValTok{1}\NormalTok{, j}\OperatorTok{=}\DecValTok{2}\NormalTok{, var\_name}\OperatorTok{=}\NormalTok{[}\StringTok{\textquotesingle{}x0\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}x1\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}x2\textquotesingle{}}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/plot-surrogate-3d-example-all-output-1.pdf}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/plot-surrogate-3d-example-all-output-2.pdf}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{plot_surrogate_files/figure-pdf/plot-surrogate-3d-example-all-output-3.pdf}}
 
 \section{Tips and Best Practices}\label{tips-and-best-practices}
 
@@ -15675,8 +16757,8 @@ The method validates inputs and provides clear error messages:
   \texttt{tests/test\_plot\_surrogate.py}: Comprehensive test suite
 \end{itemize}
 
-\chapter{Point Selection
-Implementation}\label{point-selection-implementation}
+\chapter{Point Selection Implementation in
+SpotOptim}\label{point-selection-implementation-in-spotoptim}
 
 \section{Overview}\label{overview-7}
 
@@ -15765,39 +16847,84 @@ sklearn's KMeans directly instead of a custom implementation.
 
 \section{Example Usage}\label{example-usage}
 
+This example demonstrates the point selection feature with a limited
+number of surrogate points. Increase \texttt{MAX\_ITER},
+\texttt{N\_INITIAL}, and \texttt{MAX\_SURROGATE\_POINTS} to see more
+pronounced effects.
+
+\phantomsection\label{point-selection-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+\NormalTok{MAX\_ITER }\OperatorTok{=} \DecValTok{20}
+\NormalTok{N\_INITIAL }\OperatorTok{=} \DecValTok{5}
+\NormalTok{MAX\_SURROGATE\_POINTS }\OperatorTok{=} \DecValTok{10}
+
+\CommentTok{\# Define an example objective function}
+\KeywordTok{def}\NormalTok{ sphere(X):}
+    \CommentTok{"""Simple sphere function for demonstration"""}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{bounds }\OperatorTok{=}\NormalTok{ [(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)]}
 
 \CommentTok{\# Without point selection (default behavior)}
 \NormalTok{optimizer1 }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{expensive\_function,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{100}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{20}
+\NormalTok{    max\_iter}\OperatorTok{=}\NormalTok{MAX\_ITER,}
+\NormalTok{    n\_initial}\OperatorTok{=}\NormalTok{N\_INITIAL,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+\NormalTok{result1 }\OperatorTok{=}\NormalTok{ optimizer1.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Without selection {-} Best value: }\SpecialCharTok{\{}\NormalTok{result1}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Total points evaluated: }\SpecialCharTok{\{}\NormalTok{result1}\SpecialCharTok{.}\NormalTok{nfev}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 
 \CommentTok{\# With point selection using distant method}
 \NormalTok{optimizer2 }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{expensive\_function,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{100}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
-\NormalTok{    max\_surrogate\_points}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
-\NormalTok{    selection\_method}\OperatorTok{=}\StringTok{\textquotesingle{}distant\textquotesingle{}}
+\NormalTok{    max\_iter}\OperatorTok{=}\NormalTok{MAX\_ITER,}
+\NormalTok{    n\_initial}\OperatorTok{=}\NormalTok{N\_INITIAL,}
+\NormalTok{    max\_surrogate\_points}\OperatorTok{=}\NormalTok{MAX\_SURROGATE\_POINTS,}
+\NormalTok{    selection\_method}\OperatorTok{=}\StringTok{\textquotesingle{}distant\textquotesingle{}}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+\NormalTok{result2 }\OperatorTok{=}\NormalTok{ optimizer2.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"}\CharTok{\textbackslash{}n}\SpecialStringTok{With \textquotesingle{}distant\textquotesingle{} selection {-} Best value: }\SpecialCharTok{\{}\NormalTok{result2}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Total points evaluated: }\SpecialCharTok{\{}\NormalTok{result2}\SpecialCharTok{.}\NormalTok{nfev}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Max surrogate points: }\SpecialCharTok{\{}\NormalTok{optimizer2}\SpecialCharTok{.}\NormalTok{max\_surrogate\_points}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 
 \CommentTok{\# With point selection using best cluster method}
 \NormalTok{optimizer3 }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{expensive\_function,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{100}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
-\NormalTok{    max\_surrogate\_points}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
-\NormalTok{    selection\_method}\OperatorTok{=}\StringTok{\textquotesingle{}best\textquotesingle{}}
+\NormalTok{    max\_iter}\OperatorTok{=}\NormalTok{MAX\_ITER,}
+\NormalTok{    n\_initial}\OperatorTok{=}\NormalTok{N\_INITIAL,}
+\NormalTok{    max\_surrogate\_points}\OperatorTok{=}\NormalTok{MAX\_SURROGATE\_POINTS,}
+\NormalTok{    selection\_method}\OperatorTok{=}\StringTok{\textquotesingle{}best\textquotesingle{}}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
+\NormalTok{result3 }\OperatorTok{=}\NormalTok{ optimizer3.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"}\CharTok{\textbackslash{}n}\SpecialStringTok{With \textquotesingle{}best\textquotesingle{} selection {-} Best value: }\SpecialCharTok{\{}\NormalTok{result3}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Total points evaluated: }\SpecialCharTok{\{}\NormalTok{result3}\SpecialCharTok{.}\NormalTok{nfev}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Max surrogate points: }\SpecialCharTok{\{}\NormalTok{optimizer3}\SpecialCharTok{.}\NormalTok{max\_surrogate\_points}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Without selection - Best value: 0.000656
+Total points evaluated: 20
+
+With 'distant' selection - Best value: 0.005099
+Total points evaluated: 20
+Max surrogate points: 10
+
+With 'best' selection - Best value: 1.146994
+Total points evaluated: 20
+Max surrogate points: 10
+\end{verbatim}
 
 \section{Benefits}\label{benefits-1}
 
@@ -15896,6 +17023,7 @@ recreated when loaded.
 
 \subsection{Basic Save and Load}\label{basic-save-and-load}
 
+\phantomsection\label{basic-save-load-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -15909,8 +17037,8 @@ recreated when loaded.
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{15}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
@@ -15929,6 +17057,15 @@ recreated when loaded.
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Best value: 0.000000
+Experiment saved to sphere_opt_res.pkl
+Result saved to sphere_opt_res.pkl
+Loaded result from sphere_opt_res.pkl
+Loaded best value: 0.000000
+Total evaluations: 20
+\end{verbatim}
+
 \section{Distributed Workflow}\label{distributed-workflow}
 
 The save/load functionality enables a powerful workflow for distributed
@@ -15937,16 +17074,23 @@ optimization:
 \subsection{Step 1: Define Experiment
 Locally}\label{step-1-define-experiment-locally}
 
+\phantomsection\label{define-experiment-locally}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
 
-\CommentTok{\# Define configuration locally (no need to run optimization yet)}
+\CommentTok{\# Define a placeholder function (will be replaced on remote machine)}
+\KeywordTok{def}\NormalTok{ placeholder(X):}
+    \CommentTok{"""Placeholder function {-} will be replaced remotely"""}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Define configuration locally}
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{placeholder,  }\CommentTok{\# Temporary function}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{200}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{30}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}\NormalTok{,}
 \NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}
 \NormalTok{)}
@@ -15956,12 +17100,21 @@ Locally}\label{step-1-define-experiment-locally}
 \CommentTok{\# Creates: remote\_job\_001\_exp.pkl}
 
 \BuiltInTok{print}\NormalTok{(}\StringTok{"Experiment saved. Transfer remote\_job\_001\_exp.pkl to remote machine."}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"The objective function will be replaced on the remote machine."}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+TensorBoard logging disabled
+Experiment saved to remote_job_001_exp.pkl
+Experiment saved. Transfer remote_job_001_exp.pkl to remote machine.
+The objective function will be replaced on the remote machine.
+\end{verbatim}
 
 \subsection{Step 2: Execute on Remote
 Machine}\label{step-2-execute-on-remote-machine}
 
+\phantomsection\label{execute-remote}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
@@ -15991,6 +17144,26 @@ Machine}\label{step-2-execute-on-remote-machine}
 \BuiltInTok{print}\NormalTok{(}\StringTok{"Results saved. Transfer remote\_job\_001\_res.pkl back to local machine."}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Loaded experiment from remote_job_001_exp.pkl
+Experiment loaded successfully
+Initial best: f(x) = 46.587622
+Iteration 1: f(x) = 102.986941
+Iteration 2: New best f(x) = 2.216530
+Iteration 3: f(x) = 5.042648
+Iteration 4: New best f(x) = 0.322775
+Iteration 5: f(x) = 1.042419
+Iteration 6: f(x) = 210.736686
+Iteration 7: f(x) = 299.949363
+Iteration 8: New best f(x) = 0.076718
+Iteration 9: f(x) = 299.877694
+Iteration 10: f(x) = 0.110389
+Optimization complete. Best value: 0.076718
+Experiment saved to remote_job_001_res.pkl
+Result saved to remote_job_001_res.pkl
+Results saved. Transfer remote_job_001_res.pkl back to local machine.
+\end{verbatim}
 
 \subsection{Step 3: Analyze Results
 Locally}\label{step-3-analyze-results-locally}
@@ -16028,11 +17201,28 @@ Locally}\label{step-3-analyze-results-locally}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Loaded result from remote_job_001_res.pkl
+Best value found: 0.076718
+Best point: [ 0.01143543  0.08966853 -0.02162587]
+Total evaluations: 20
+Number of iterations: 10
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{save_load_files/figure-pdf/analyze-results-locally-output-2.pdf}}
+
+\begin{verbatim}
+
+All evaluated points shape: (20, 3)
+All objective values shape: (20,)
+\end{verbatim}
+
 \section{Advanced Usage}\label{advanced-usage-2}
 
 \subsection{Custom Filenames and
 Paths}\label{custom-filenames-and-paths}
 
+\phantomsection\label{custom-save-load-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ os}
@@ -16066,8 +17256,14 @@ Paths}\label{custom-filenames-and-paths}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Experiment saved to custom_name.pkl
+Experiment saved to experiments/batch_001/exp_001_exp.pkl
+\end{verbatim}
+
 \subsection{Overwrite Protection}\label{overwrite-protection}
 
+\phantomsection\label{overwrite-protection-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
@@ -16094,9 +17290,20 @@ Paths}\label{custom-filenames-and-paths}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Experiment saved to my_result_res.pkl
+Result saved to my_result_res.pkl
+Experiment saved to my_result_res.pkl
+Result saved to my_result_res.pkl
+Experiment saved to my_result_res.pkl
+Result saved to my_result_res.pkl
+File overwritten successfully
+\end{verbatim}
+
 \subsection{Loading and Continuing
 Optimization}\label{loading-and-continuing-optimization}
 
+\phantomsection\label{load-continue-optimization-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
@@ -16109,7 +17316,7 @@ Optimization}\label{loading-and-continuing-optimization}
 \NormalTok{opt1 }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{30}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 \NormalTok{result1 }\OperatorTok{=}\NormalTok{ opt1.optimize()}
@@ -16120,7 +17327,7 @@ Optimization}\label{loading-and-continuing-optimization}
 \CommentTok{\# Load and continue}
 \NormalTok{opt2 }\OperatorTok{=}\NormalTok{ SpotOptim.load\_result(}\StringTok{"checkpoint\_res.pkl"}\NormalTok{)}
 \NormalTok{opt2.fun }\OperatorTok{=}\NormalTok{ objective  }\CommentTok{\# Re{-}attach function}
-\NormalTok{opt2.max\_iter }\OperatorTok{=} \DecValTok{50}  \CommentTok{\# Increase budget}
+\NormalTok{opt2.max\_iter }\OperatorTok{=} \DecValTok{25}  \CommentTok{\# Increase budget}
 
 \CommentTok{\# Continue optimization}
 \NormalTok{result2 }\OperatorTok{=}\NormalTok{ opt2.optimize()}
@@ -16128,11 +17335,20 @@ Optimization}\label{loading-and-continuing-optimization}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Experiment saved to checkpoint_res.pkl
+Result saved to checkpoint_res.pkl
+Initial optimization: 20 evaluations, best=0.000000
+Loaded result from checkpoint_res.pkl
+After continuation: 25 evaluations, best=0.000000
+\end{verbatim}
+
 \section{Working with Noisy
 Functions}\label{working-with-noisy-functions}
 
 Save and load preserves noise statistics for reproducible analysis:
 
+\phantomsection\label{noisy-function-save-load-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -16148,8 +17364,8 @@ Save and load preserves noise statistics for reproducible analysis:
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{noisy\_objective,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{40}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{15}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    repeats\_initial}\OperatorTok{=}\DecValTok{3}\NormalTok{,    }\CommentTok{\# Repeat initial points}
 \NormalTok{    repeats\_surrogate}\OperatorTok{=}\DecValTok{2}\NormalTok{,  }\CommentTok{\# Repeat surrogate points}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}\NormalTok{,}
@@ -16173,11 +17389,24 @@ Save and load preserves noise statistics for reproducible analysis:
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+TensorBoard logging disabled
+Initial best: f(x) = 2.173467, mean best: f(x) = 2.344322
+Experiment saved to noisy_opt_res.pkl
+Result saved to noisy_opt_res.pkl
+Loaded result from noisy_opt_res.pkl
+Noise handling enabled: True
+Best mean value: 2.173467
+Mean values available: 10
+Variance values available: 10
+\end{verbatim}
+
 \section{Working with Different Variable
 Types}\label{working-with-different-variable-types}
 
 Save and load preserves variable type information:
 
+\phantomsection\label{mixed-vars-save-load-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -16193,8 +17422,8 @@ Save and load preserves variable type information:
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
 \NormalTok{    var\_type}\OperatorTok{=}\NormalTok{[}\StringTok{"num"}\NormalTok{, }\StringTok{"int"}\NormalTok{, }\StringTok{"factor"}\NormalTok{, }\StringTok{"num"}\NormalTok{],}
 \NormalTok{    var\_name}\OperatorTok{=}\NormalTok{[}\StringTok{"continuous"}\NormalTok{, }\StringTok{"integer"}\NormalTok{, }\StringTok{"categorical"}\NormalTok{, }\StringTok{"another\_cont"}\NormalTok{],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
@@ -16216,6 +17445,18 @@ Save and load preserves variable type information:
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Experiment saved to mixed_vars_res.pkl
+Result saved to mixed_vars_res.pkl
+Loaded result from mixed_vars_res.pkl
+Variable types preserved:
+  var_type: ['num', 'int', 'factor', 'num']
+  var_name: ['continuous', 'integer', 'categorical', 'another_cont']
+
+Integer variable (dim 1) values:
+[ 3. -2. -0. -3.  4.]
+\end{verbatim}
+
 \section{Best Practices}\label{best-practices-5}
 
 \subsection{1. Always Re-attach the Objective
@@ -16224,6 +17465,7 @@ Function}\label{always-re-attach-the-objective-function}
 After loading an experiment, you \textbf{must} re-attach the objective
 function:
 
+\phantomsection\label{reattach-function-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Load experiment}
@@ -16260,7 +17502,7 @@ Execution}\label{save-experiments-before-remote-execution}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Define locally}
-\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(bounds}\OperatorTok{=}\NormalTok{bounds, max\_iter}\OperatorTok{=}\DecValTok{500}\NormalTok{, seed}\OperatorTok{=}\DecValTok{42}\NormalTok{)}
+\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(bounds}\OperatorTok{=}\NormalTok{bounds, max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{, seed}\OperatorTok{=}\DecValTok{42}\NormalTok{)}
 \NormalTok{optimizer.save\_experiment(prefix}\OperatorTok{=}\StringTok{"remote\_job"}\NormalTok{)}
 
 \CommentTok{\# Transfer file to remote machine}
@@ -16315,6 +17557,7 @@ Here's a complete example demonstrating the entire workflow:
 
 \subsection{Local Machine (Setup)}\label{local-machine-setup}
 
+\phantomsection\label{define-experiment-locally-complete}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# setup\_experiment.py}
@@ -16322,21 +17565,26 @@ Here's a complete example demonstrating the entire workflow:
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
 \ImportTok{import}\NormalTok{ os}
 
+\CommentTok{\# Placeholder function for experiment setup}
+\KeywordTok{def}\NormalTok{ placeholder\_func(X):}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
 \CommentTok{\# Create experiments directory}
 \NormalTok{os.makedirs(}\StringTok{"experiments"}\NormalTok{, exist\_ok}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
 
 \CommentTok{\# Define multiple experiments}
 \NormalTok{experiments }\OperatorTok{=}\NormalTok{ [}
-\NormalTok{    \{}\StringTok{"seed"}\NormalTok{: }\DecValTok{42}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{100}\NormalTok{, }\StringTok{"prefix"}\NormalTok{: }\StringTok{"exp\_seed42"}\NormalTok{\},}
-\NormalTok{    \{}\StringTok{"seed"}\NormalTok{: }\DecValTok{123}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{100}\NormalTok{, }\StringTok{"prefix"}\NormalTok{: }\StringTok{"exp\_seed123"}\NormalTok{\},}
-\NormalTok{    \{}\StringTok{"seed"}\NormalTok{: }\DecValTok{999}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{100}\NormalTok{, }\StringTok{"prefix"}\NormalTok{: }\StringTok{"exp\_seed999"}\NormalTok{\},}
+\NormalTok{    \{}\StringTok{"seed"}\NormalTok{: }\DecValTok{42}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{20}\NormalTok{, }\StringTok{"prefix"}\NormalTok{: }\StringTok{"exp\_seed42"}\NormalTok{\},}
+\NormalTok{    \{}\StringTok{"seed"}\NormalTok{: }\DecValTok{123}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{20}\NormalTok{, }\StringTok{"prefix"}\NormalTok{: }\StringTok{"exp\_seed123"}\NormalTok{\},}
+\NormalTok{    \{}\StringTok{"seed"}\NormalTok{: }\DecValTok{999}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{20}\NormalTok{, }\StringTok{"prefix"}\NormalTok{: }\StringTok{"exp\_seed999"}\NormalTok{\},}
 \NormalTok{]}
 
 \ControlFlowTok{for}\NormalTok{ exp\_config }\KeywordTok{in}\NormalTok{ experiments:}
 \NormalTok{    optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
+\NormalTok{        fun}\OperatorTok{=}\NormalTok{placeholder\_func,  }\CommentTok{\# Placeholder {-} will be replaced remotely}
 \NormalTok{        bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{)],}
 \NormalTok{        max\_iter}\OperatorTok{=}\NormalTok{exp\_config[}\StringTok{"max\_iter"}\NormalTok{],}
-\NormalTok{        n\_initial}\OperatorTok{=}\DecValTok{30}\NormalTok{,}
+\NormalTok{        n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{        seed}\OperatorTok{=}\NormalTok{exp\_config[}\StringTok{"seed"}\NormalTok{],}
 \NormalTok{        verbose}\OperatorTok{=}\VariableTok{False}
 \NormalTok{    )}
@@ -16352,8 +17600,20 @@ Here's a complete example demonstrating the entire workflow:
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Experiment saved to experiments/exp_seed42_exp.pkl
+Created: experiments/exp_seed42_exp.pkl
+Experiment saved to experiments/exp_seed123_exp.pkl
+Created: experiments/exp_seed123_exp.pkl
+Experiment saved to experiments/exp_seed999_exp.pkl
+Created: experiments/exp_seed999_exp.pkl
+
+All experiments created. Transfer 'experiments' folder to remote machine.
+\end{verbatim}
+
 \subsection{Remote Machine (Execution)}\label{remote-machine-execution}
 
+\phantomsection\label{execute-remote-complete}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# run\_experiments.py}
@@ -16398,6 +17658,33 @@ Here's a complete example demonstrating the entire workflow:
 \BuiltInTok{print}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{All experiments completed. Transfer results back to local machine."}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Found 3 experiments to run
+
+Processing: experiments/exp_seed999_exp.pkl
+Loaded experiment from experiments/exp_seed999_exp.pkl
+  Best value: -5.756823
+Experiment saved to experiments/exp_seed999_res.pkl
+Result saved to experiments/exp_seed999_res.pkl
+  Saved: experiments/exp_seed999_res.pkl
+
+Processing: experiments/exp_seed42_exp.pkl
+Loaded experiment from experiments/exp_seed42_exp.pkl
+  Best value: -8.925096
+Experiment saved to experiments/exp_seed42_res.pkl
+Result saved to experiments/exp_seed42_res.pkl
+  Saved: experiments/exp_seed42_res.pkl
+
+Processing: experiments/exp_seed123_exp.pkl
+Loaded experiment from experiments/exp_seed123_exp.pkl
+  Best value: -13.576287
+Experiment saved to experiments/exp_seed123_res.pkl
+Result saved to experiments/exp_seed123_res.pkl
+  Saved: experiments/exp_seed123_res.pkl
+
+All experiments completed. Transfer results back to local machine.
+\end{verbatim}
 
 \subsection{Local Machine (Analysis)}\label{local-machine-analysis}
 
@@ -16453,6 +17740,29 @@ Here's a complete example demonstrating the entire workflow:
 \BuiltInTok{print}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{Convergence plot saved to: experiments/convergence\_comparison.png"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Found 3 results to analyze
+Loaded result from experiments/exp_seed42_res.pkl
+experiments/exp_seed42_res.pkl: best=-8.925096, evals=20
+Loaded result from experiments/exp_seed999_res.pkl
+experiments/exp_seed999_res.pkl: best=-5.756823, evals=20
+Loaded result from experiments/exp_seed123_res.pkl
+experiments/exp_seed123_res.pkl: best=-13.576287, evals=20
+
+Best result:
+  File: experiments/exp_seed123_res.pkl
+  Value: -13.576287
+  Point: [-2.86376102 -0.1450328   0.06992845]
+  Seed: 123
+Loaded result from experiments/exp_seed42_res.pkl
+Loaded result from experiments/exp_seed999_res.pkl
+Loaded result from experiments/exp_seed123_res.pkl
+
+Convergence plot saved to: experiments/convergence_comparison.png
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{save_load_files/figure-pdf/analyze-results-locally-complete-output-2.pdf}}
 
 \section{Technical Details}\label{technical-details-3}
 
@@ -16640,6 +17950,7 @@ stalling and may need adjustment
 
 The execute the following code:
 
+\phantomsection\label{success-rate-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -16655,8 +17966,8 @@ The execute the following code:
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{rosenbrock,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{200}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
 \NormalTok{    tensorboard\_clean}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
@@ -16683,14 +17994,15 @@ The execute the following code:
 \begin{verbatim}
 
 Optimization Results:
-Best value: 0.000000
-Total evaluations: 200
-Final success rate: 4.00%
+Best value: 0.401500
+Total evaluations: 20
+Final success rate: 10.00%
 → Low success rate: Optimization has likely converged
 \end{verbatim}
 
 \section{Second Example}\label{second-example}
 
+\phantomsection\label{success-rate-sphere-example-two}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
@@ -16704,8 +18016,8 @@ Final success rate: 4.00%
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{100}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}
 \NormalTok{)}
 
@@ -16718,13 +18030,37 @@ Final success rate: 4.00%
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+TensorBoard logging disabled
+Initial best: f(x) = 9.570604
+Iteration 1: New best f(x) = 6.855166
+Iteration 2: New best f(x) = 2.211316
+Iteration 3: New best f(x) = 1.687473
+Iteration 4: f(x) = 75.000000
+Iteration 5: New best f(x) = 0.127139
+Iteration 6: New best f(x) = 0.095508
+Iteration 7: New best f(x) = 0.009513
+Iteration 8: f(x) = 58.282632
+Iteration 9: New best f(x) = 0.000026
+Iteration 10: f(x) = 0.005813
+Final success rate: 55.00%
+Total evaluations: 20
+\end{verbatim}
+
 \section{Accessing Success Rate}\label{accessing-success-rate}
 
 The success rate is stored in the \texttt{success\_rate} attribute:
 
+\phantomsection\label{success-rate-access-example-access}
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(fun}\OperatorTok{=}\NormalTok{objective, bounds}\OperatorTok{=}\NormalTok{bounds, max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{)}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
+\KeywordTok{def}\NormalTok{ sphere(X):}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(fun}\OperatorTok{=}\NormalTok{sphere, bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)], max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{)}
 \NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
 
 \CommentTok{\# Access success rate}
@@ -16733,8 +18069,14 @@ The success rate is stored in the \texttt{success\_rate} attribute:
 
 \CommentTok{\# Also available via getter method}
 \NormalTok{rate }\OperatorTok{=}\NormalTok{ optimizer.\_get\_success\_rate()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Via getter method: }\SpecialCharTok{\{}\NormalTok{rate}\SpecialCharTok{:.2\%\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Success rate: 40.00%
+Via getter method: 40.00%
+\end{verbatim}
 
 \section{Interpreting Success Rate}\label{interpreting-success-rate}
 
@@ -16785,13 +18127,14 @@ in terms of meaningful progress
 When TensorBoard logging is enabled, success rate is automatically
 logged and can be visualized in real-time:
 
+\phantomsection\label{success-rate-tensorboard-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{100}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,  }\CommentTok{\# Enable logging}
 \NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}
 \NormalTok{)}
@@ -16812,51 +18155,10 @@ In the TensorBoard interface, look for: - \textbf{SCALARS} tab →
 \texttt{success\_rate}: Rolling success rate over iterations - Compare
 multiple runs side-by-side - Identify when optimization stalls
 
-\section{Example: Monitoring Optimization
-Progress}\label{example-monitoring-optimization-progress}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
-\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
-
-\KeywordTok{def}\NormalTok{ rosenbrock(X):}
-    \CommentTok{"""Rosenbrock function {-} challenging optimization problem"""}
-\NormalTok{    x }\OperatorTok{=}\NormalTok{ X[:, }\DecValTok{0}\NormalTok{]}
-\NormalTok{    y }\OperatorTok{=}\NormalTok{ X[:, }\DecValTok{1}\NormalTok{]}
-    \ControlFlowTok{return}\NormalTok{ (}\DecValTok{1} \OperatorTok{{-}}\NormalTok{ x)}\OperatorTok{**}\DecValTok{2} \OperatorTok{+} \DecValTok{100} \OperatorTok{*}\NormalTok{ (y }\OperatorTok{{-}}\NormalTok{ x}\OperatorTok{**}\DecValTok{2}\NormalTok{)}\OperatorTok{**}\DecValTok{2}
-
-\CommentTok{\# Run optimization with periodic success rate checks}
-\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{rosenbrock,}
-\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{100}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
-\NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
-\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
-\NormalTok{)}
-
-\NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
-
-\CommentTok{\# Analyze final success rate}
-\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"}\CharTok{\textbackslash{}n}\SpecialStringTok{Optimization Results:"}\NormalTok{)}
-\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
-\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Total evaluations: }\SpecialCharTok{\{}\NormalTok{optimizer}\SpecialCharTok{.}\NormalTok{counter}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
-\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Final success rate: }\SpecialCharTok{\{}\NormalTok{optimizer}\SpecialCharTok{.}\NormalTok{success\_rate}\SpecialCharTok{:.2\%\}}\SpecialStringTok{"}\NormalTok{)}
-
-\CommentTok{\# Interpret the result}
-\ControlFlowTok{if}\NormalTok{ optimizer.success\_rate }\OperatorTok{\textgreater{}} \FloatTok{0.5}\NormalTok{:}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"→ High success rate: Optimization is still making good progress"}\NormalTok{)}
-\ControlFlowTok{elif}\NormalTok{ optimizer.success\_rate }\OperatorTok{\textgreater{}} \FloatTok{0.2}\NormalTok{:}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"→ Medium success rate: Approaching convergence"}\NormalTok{)}
-\ControlFlowTok{else}\NormalTok{:}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"→ Low success rate: Optimization has likely converged"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
 \section{Example: Comparing Multiple
 Runs}\label{example-comparing-multiple-runs}
 
+\phantomsection\label{comparing-runs-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -16876,8 +18178,8 @@ Runs}\label{example-comparing-multiple-runs}
 
 \CommentTok{\# Run with different configurations}
 \NormalTok{configs }\OperatorTok{=}\NormalTok{ [}
-\NormalTok{    \{}\StringTok{"n\_initial"}\NormalTok{: }\DecValTok{10}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{50}\NormalTok{, }\StringTok{"name"}\NormalTok{: }\StringTok{"Small initial"}\NormalTok{\},}
-\NormalTok{    \{}\StringTok{"n\_initial"}\NormalTok{: }\DecValTok{30}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{50}\NormalTok{, }\StringTok{"name"}\NormalTok{: }\StringTok{"Large initial"}\NormalTok{\},}
+\NormalTok{    \{}\StringTok{"n\_initial"}\NormalTok{: }\DecValTok{10}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{30}\NormalTok{, }\StringTok{"name"}\NormalTok{: }\StringTok{"Small initial"}\NormalTok{\},}
+\NormalTok{    \{}\StringTok{"n\_initial"}\NormalTok{: }\DecValTok{20}\NormalTok{, }\StringTok{"max\_iter"}\NormalTok{: }\DecValTok{30}\NormalTok{, }\StringTok{"name"}\NormalTok{: }\StringTok{"Large initial"}\NormalTok{\},}
 \NormalTok{]}
 
 \NormalTok{results }\OperatorTok{=}\NormalTok{ []}
@@ -16912,6 +18214,23 @@ Runs}\label{example-comparing-multiple-runs}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+
+Small initial:
+  Best value: 0.255617
+  Success rate: 23.33%
+  Evaluations: 30
+
+Large initial:
+  Best value: 0.150638
+  Success rate: 20.00%
+  Evaluations: 30
+
+Best configuration: Large initial
+  Achieved: f(x) = 0.150638
+  Final success rate: 20.00%
+\end{verbatim}
+
 \section{Success Rate with Noisy
 Functions}\label{success-rate-with-noisy-functions}
 
@@ -16920,6 +18239,7 @@ or \texttt{repeats\_surrogate\ \textgreater{}\ 1}), the success rate
 tracks improvements in the \textbf{raw} y values, not the aggregated
 means:
 
+\phantomsection\label{noisy-function-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -16934,8 +18254,8 @@ means:
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{noisy\_sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{15}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{30}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    repeats\_initial}\OperatorTok{=}\DecValTok{3}\NormalTok{,    }\CommentTok{\# 3 evaluations per initial point}
 \NormalTok{    repeats\_surrogate}\OperatorTok{=}\DecValTok{2}\NormalTok{,  }\CommentTok{\# 2 evaluations per new point}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}\NormalTok{,}
@@ -16953,6 +18273,18 @@ means:
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+TensorBoard logging disabled
+Initial best: f(x) = 2.477296, mean best: f(x) = 2.618477
+
+Noisy Optimization Results:
+Best raw value: 2.477296
+Best mean value: 2.618477
+Success rate: 13.33%
+Total evaluations: 30
+Unique design points: 10
+\end{verbatim}
+
 \textbf{Note:} With noisy functions, the success rate may be lower
 because: - Noise can mask true improvements - Multiple evaluations of
 the same point contribute to the window - Focus on the mean values
@@ -16964,12 +18296,19 @@ Size}\label{advanced-custom-window-size}
 The success rate is calculated over a window of 100 evaluations by
 default. This is controlled by the \texttt{window\_size} attribute:
 
+\phantomsection\label{custom-window-size-example}
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
+\KeywordTok{def}\NormalTok{ sphere(X):}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{30}\NormalTok{,}
 \NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}
 \NormalTok{)}
 
@@ -16981,6 +18320,10 @@ default. This is controlled by the \texttt{window\_size} attribute:
 \CommentTok{\# before running optimization (not typically recommended)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Window size: 100
+\end{verbatim}
 
 \section{Best Practices}\label{best-practices-6}
 
@@ -17004,7 +18347,7 @@ Always enable TensorBoard logging for visual monitoring:
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{expensive\_function,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{1000}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{25}\NormalTok{,}
 \NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,  }\CommentTok{\# Track success\_rate visually}
 \NormalTok{    tensorboard\_path}\OperatorTok{=}\StringTok{"runs/long\_optimization"}
 \NormalTok{)}
@@ -17033,7 +18376,7 @@ Use success rate to compare optimization strategies:
 \begin{Highlighting}[]
 \NormalTok{strategies }\OperatorTok{=}\NormalTok{ [}\StringTok{"ei"}\NormalTok{, }\StringTok{"pi"}\NormalTok{, }\StringTok{"y"}\NormalTok{]  }\CommentTok{\# Different acquisition functions}
 \ControlFlowTok{for}\NormalTok{ acq }\KeywordTok{in}\NormalTok{ strategies:}
-\NormalTok{    opt }\OperatorTok{=}\NormalTok{ SpotOptim(fun}\OperatorTok{=}\NormalTok{obj, bounds}\OperatorTok{=}\NormalTok{bnds, acquisition}\OperatorTok{=}\NormalTok{acq, max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{)}
+\NormalTok{    opt }\OperatorTok{=}\NormalTok{ SpotOptim(fun}\OperatorTok{=}\NormalTok{obj, bounds}\OperatorTok{=}\NormalTok{bnds, acquisition}\OperatorTok{=}\NormalTok{acq, max\_iter}\OperatorTok{=}\DecValTok{25}\NormalTok{)}
 \NormalTok{    result }\OperatorTok{=}\NormalTok{ opt.optimize()}
     \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"}\SpecialCharTok{\{}\NormalTok{acq}\SpecialCharTok{\}}\SpecialStringTok{: success\_rate=}\SpecialCharTok{\{}\NormalTok{opt}\SpecialCharTok{.}\NormalTok{success\_rate}\SpecialCharTok{:.2\%\}}\SpecialStringTok{, best=}\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
@@ -17108,10 +18451,8 @@ Use success rate to: - ✓ Monitor optimization progress in real-time - ✓
 Identify when to stop optimization - ✓ Compare different optimization
 strategies - ✓ Assess optimization difficulty for different problems
 
-\chapter{TensorBoard Log Cleaning
-Feature}\label{tensorboard-log-cleaning-feature}
-
-\section{Summary}\label{summary-6}
+\chapter{TensorBoard Log Cleaning Feature in
+SpotOptim}\label{tensorboard-log-cleaning-feature-in-spotoptim}
 
 Automatic cleaning of old TensorBoard log directories with the
 \texttt{tensorboard\_clean} parameter.
@@ -17120,22 +18461,53 @@ Automatic cleaning of old TensorBoard log directories with the
 
 \subsection{Basic Usage}\label{basic-usage-5}
 
+\phantomsection\label{basic-usage-example}
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
+\KeywordTok{def}\NormalTok{ sphere(X):}
+    \CommentTok{"""Simple sphere function"""}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
 
 \CommentTok{\# Remove old logs and create new log directory}
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
 \NormalTok{    tensorboard\_clean}\OperatorTok{=}\VariableTok{True}\NormalTok{,  }\CommentTok{\# Removes all subdirectories in \textquotesingle{}runs\textquotesingle{}}
-\NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}
+\NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
 \NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Logs saved to: runs/}\SpecialCharTok{\{}\NormalTok{optimizer}\SpecialCharTok{.}\NormalTok{tensorboard\_path}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Removed old TensorBoard logs: runs/spotoptim_20251116_174758
+Cleaned 1 old TensorBoard log directory
+TensorBoard logging enabled: runs/spotoptim_20251116_174803
+Initial best: f(x) = 2.420807
+Iteration 1: New best f(x) = 2.237780
+Iteration 2: New best f(x) = 0.282514
+Iteration 3: New best f(x) = 0.003894
+Iteration 4: f(x) = 0.005019
+Iteration 5: New best f(x) = 0.000056
+Iteration 6: New best f(x) = 0.000009
+Iteration 7: New best f(x) = 0.000000
+Iteration 8: f(x) = 0.000000
+Iteration 9: f(x) = 0.000001
+Iteration 10: f(x) = 0.000002
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251116_174803
+Best value: 0.000000
+Logs saved to: runs/runs/spotoptim_20251116_174803
+\end{verbatim}
 
 \subsection{Use Cases}\label{use-cases-1}
 
@@ -17237,26 +18609,51 @@ progress in real-time.
 \subsection{1. Enable TensorBoard
 Logging}\label{enable-tensorboard-logging}
 
+\phantomsection\label{enable-tensorboard-logging}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 
-\KeywordTok{def}\NormalTok{ objective(X):}
+\KeywordTok{def}\NormalTok{ sphere(X):}
     \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
 
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\NormalTok{objective,}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
-\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{15}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,  }\CommentTok{\# Enable logging}
-\NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}
+\NormalTok{    tensorboard\_clean}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
 \NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Logs saved to: runs/}\SpecialCharTok{\{}\NormalTok{optimizer}\SpecialCharTok{.}\NormalTok{tensorboard\_path}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Removed old TensorBoard logs: runs/spotoptim_20251116_174810
+Cleaned 1 old TensorBoard log directory
+TensorBoard logging enabled: runs/spotoptim_20251116_174814
+Initial best: f(x) = 2.420807
+Iteration 1: New best f(x) = 2.237780
+Iteration 2: New best f(x) = 0.282514
+Iteration 3: New best f(x) = 0.003894
+Iteration 4: f(x) = 0.005019
+Iteration 5: New best f(x) = 0.000056
+Iteration 6: New best f(x) = 0.000009
+Iteration 7: New best f(x) = 0.000000
+Iteration 8: f(x) = 0.000000
+Iteration 9: f(x) = 0.000001
+Iteration 10: f(x) = 0.000002
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251116_174814
+Best value: 0.000000
+Logs saved to: runs/runs/spotoptim_20251116_174814
+\end{verbatim}
 
 \subsection{2. View Logs in TensorBoard}\label{view-logs-in-tensorboard}
 
@@ -17389,23 +18786,54 @@ objective values in the HPARAMS tab.
 
 \subsection{Basic Usage}\label{basic-usage-6}
 
+\phantomsection\label{basic-usage-example}
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\KeywordTok{lambda}\NormalTok{ X: np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{),}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{30}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
-\NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}
+\NormalTok{    tensorboard\_clean}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{    verbose}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 \NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+Removed old TensorBoard logs: runs/spotoptim_20251116_174814
+Cleaned 1 old TensorBoard log directory
+TensorBoard logging enabled: runs/spotoptim_20251116_174815
+Initial best: f(x) = 2.420807
+Iteration 1: New best f(x) = 2.237780
+Iteration 2: New best f(x) = 0.282514
+Iteration 3: New best f(x) = 0.003894
+Iteration 4: f(x) = 0.005019
+Iteration 5: New best f(x) = 0.000056
+Iteration 6: New best f(x) = 0.000009
+Iteration 7: New best f(x) = 0.000000
+Iteration 8: f(x) = 0.000000
+Iteration 9: f(x) = 0.000001
+Iteration 10: f(x) = 0.000002
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251116_174815
+Best value: 0.000000
+\end{verbatim}
+
 \subsection{Noisy Optimization}\label{noisy-optimization}
 
+\phantomsection\label{noisy-optimization-example}
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
 \KeywordTok{def}\NormalTok{ noisy\_objective(X):}
 \NormalTok{    base }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
 \NormalTok{    noise }\OperatorTok{=}\NormalTok{ np.random.normal(}\DecValTok{0}\NormalTok{, }\FloatTok{0.1}\NormalTok{, size}\OperatorTok{=}\NormalTok{base.shape)}
@@ -17414,33 +18842,56 @@ objective values in the HPARAMS tab.
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{noisy\_objective,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    repeats\_initial}\OperatorTok{=}\DecValTok{3}\NormalTok{,}
 \NormalTok{    repeats\_surrogate}\OperatorTok{=}\DecValTok{2}\NormalTok{,}
 \NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{    tensorboard\_clean}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
 \NormalTok{    tensorboard\_path}\OperatorTok{=}\StringTok{"runs/noisy\_exp"}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 \NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 2.369459
+\end{verbatim}
 
 \subsection{With OCBA}\label{with-ocba}
 
+\phantomsection\label{ocba-example}
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
+\KeywordTok{def}\NormalTok{ noisy\_objective(X):}
+\NormalTok{    base }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+\NormalTok{    noise }\OperatorTok{=}\NormalTok{ np.random.normal(}\DecValTok{0}\NormalTok{, }\FloatTok{0.1}\NormalTok{, size}\OperatorTok{=}\NormalTok{base.shape)}
+    \ControlFlowTok{return}\NormalTok{ base }\OperatorTok{+}\NormalTok{ noise}
+
 \NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{noisy\_objective,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)],}
-\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{50}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    repeats\_initial}\OperatorTok{=}\DecValTok{2}\NormalTok{,}
 \NormalTok{    ocba\_delta}\OperatorTok{=}\DecValTok{3}\NormalTok{,  }\CommentTok{\# Re{-}evaluate 3 promising points per iteration}
 \NormalTok{    tensorboard\_log}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
+\NormalTok{    tensorboard\_clean}\OperatorTok{=}\VariableTok{True}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 \NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 2.335104
+\end{verbatim}
 
 \section{Comparing Multiple Runs}\label{comparing-multiple-runs}
 
@@ -17659,8 +19110,8 @@ TensorBoard logging has minimal overhead:
   Writer is properly closed after optimization completes
 \end{itemize}
 
-\chapter{Variable Type (var\_type)
-Implementation}\label{variable-type-var_type-implementation}
+\chapter{Variable Type (var\_type) Implementation in
+SpotOptim}\label{variable-type-var_type-implementation-in-spotoptim}
 
 \section{Overview}\label{overview-8}
 
@@ -17813,10 +19264,12 @@ This method enforces variable type constraints:
   integers
 \end{itemize}
 
-\section{Usage Examples}\label{usage-examples-2}
+\section{Example Usage}\label{example-usage-1}
 
-\section{5. Example Usage}\label{example-usage-1}
+\subsection{Example 1: All Float Variables
+(Default)}\label{example-1-all-float-variables-default}
 
+\phantomsection\label{float-variables-example}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -17824,21 +19277,35 @@ This method enforces variable type constraints:
 
 \CommentTok{\# Example 1: All float variables (default)}
 \NormalTok{opt1 }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{    fun}\OperatorTok{=}\KeywordTok{lambda}\NormalTok{ x: np.}\BuiltInTok{sum}\NormalTok{(x}\OperatorTok{**}\DecValTok{2}\NormalTok{),}
-\NormalTok{    lower}\OperatorTok{=}\NormalTok{np.array([}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{]),}
-\NormalTok{    upper}\OperatorTok{=}\NormalTok{np.array([}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{])}
+\NormalTok{    fun}\OperatorTok{=}\KeywordTok{lambda}\NormalTok{ X: np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{),}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\DecValTok{0}\NormalTok{, }\DecValTok{10}\NormalTok{), (}\DecValTok{0}\NormalTok{, }\DecValTok{10}\NormalTok{), (}\DecValTok{0}\NormalTok{, }\DecValTok{10}\NormalTok{)],}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
     \CommentTok{\# var\_type defaults to ["float", "float", "float"]}
 \NormalTok{)}
+\NormalTok{result1 }\OperatorTok{=}\NormalTok{ opt1.optimize()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result1}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best point (floats): }\SpecialCharTok{\{}\NormalTok{result1}\SpecialCharTok{.}\NormalTok{x}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 0.000000
+Best point (floats): [0. 0. 0.]
+\end{verbatim}
 
 \subsection{Example 2: Pure Integer
 Optimization}\label{example-2-pure-integer-optimization}
 
+\phantomsection\label{integer-optimization-example}
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
 \KeywordTok{def}\NormalTok{ discrete\_func(X):}
-    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(np.}\BuiltInTok{round}\NormalTok{(X)}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
 
 \NormalTok{bounds }\OperatorTok{=}\NormalTok{ [(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)]}
 \NormalTok{var\_type }\OperatorTok{=}\NormalTok{ [}\StringTok{"int"}\NormalTok{, }\StringTok{"int"}\NormalTok{]}
@@ -17848,19 +19315,32 @@ Optimization}\label{example-2-pure-integer-optimization}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
 \NormalTok{    var\_type}\OperatorTok{=}\NormalTok{var\_type,}
 \NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
 \NormalTok{result }\OperatorTok{=}\NormalTok{ opt.optimize()}
-\CommentTok{\# result.x will have integer values like [1.0, {-}2.0]}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best point (integers): }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Note: Values are rounded to integers"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 0.000000
+Best point (integers): [-0. -0.]
+Note: Values are rounded to integers
+\end{verbatim}
 
 \subsection{Example 3: Categorical (Factor)
 Variables}\label{example-3-categorical-factor-variables}
 
+\phantomsection\label{categorical-variables-example}
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
 \KeywordTok{def}\NormalTok{ categorical\_func(X):}
     \CommentTok{\# Assume X[:, 0] represents 3 categories: 0, 1, 2}
     \CommentTok{\# Category 0 is best}
@@ -17874,19 +19354,32 @@ Variables}\label{example-3-categorical-factor-variables}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
 \NormalTok{    var\_type}\OperatorTok{=}\NormalTok{var\_type,}
 \NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
 \NormalTok{result }\OperatorTok{=}\NormalTok{ opt.optimize()}
-\CommentTok{\# result.x will be integers like [0.0, 1.0] representing categories}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best point (categories): }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Note: Values are integers representing categories"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 0.000000
+Best point (categories): [0. 0.]
+Note: Values are integers representing categories
+\end{verbatim}
 
 \subsection{Example 4: Mixed Variable
 Types}\label{example-4-mixed-variable-types}
 
+\phantomsection\label{mixed-variables-example}
 \begin{Shaded}
 \begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
+
 \KeywordTok{def}\NormalTok{ mixed\_func(X):}
     \CommentTok{\# X[:, 0]: continuous temperature}
     \CommentTok{\# X[:, 1]: discrete number of iterations}
@@ -17895,21 +19388,34 @@ Types}\label{example-4-mixed-variable-types}
 
 \NormalTok{bounds }\OperatorTok{=}\NormalTok{ [(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{), (}\DecValTok{1}\NormalTok{, }\DecValTok{100}\NormalTok{), (}\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{)]}
 \NormalTok{var\_type }\OperatorTok{=}\NormalTok{ [}\StringTok{"float"}\NormalTok{, }\StringTok{"int"}\NormalTok{, }\StringTok{"factor"}\NormalTok{]}
+\NormalTok{var\_name }\OperatorTok{=}\NormalTok{ [}\StringTok{"temperature"}\NormalTok{, }\StringTok{"iterations"}\NormalTok{, }\StringTok{"algorithm"}\NormalTok{]}
 
 \NormalTok{opt }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{mixed\_func,}
 \NormalTok{    bounds}\OperatorTok{=}\NormalTok{bounds,}
 \NormalTok{    var\_type}\OperatorTok{=}\NormalTok{var\_type,}
+\NormalTok{    var\_name}\OperatorTok{=}\NormalTok{var\_name,}
 \NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{20}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{10}\NormalTok{,}
 \NormalTok{    seed}\OperatorTok{=}\DecValTok{42}
 \NormalTok{)}
 
 \NormalTok{result }\OperatorTok{=}\NormalTok{ opt.optimize()}
-\CommentTok{\# result.x[0]: continuous float like 0.123}
-\CommentTok{\# result.x[1]: integer like 5.0}
-\CommentTok{\# result.x[2]: integer category like 0.0}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best value: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best point: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  }\SpecialCharTok{\{}\NormalTok{var\_name[}\DecValTok{0}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{ (float): }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x[}\DecValTok{0}\NormalTok{]}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  }\SpecialCharTok{\{}\NormalTok{var\_name[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{ (int): }\SpecialCharTok{\{}\BuiltInTok{int}\NormalTok{(result.x[}\DecValTok{1}\NormalTok{])}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  }\SpecialCharTok{\{}\NormalTok{var\_name[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{ (factor): }\SpecialCharTok{\{}\BuiltInTok{int}\NormalTok{(result.x[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+Best value: 1.000000
+Best point: [-1.72126687e-04  1.00000000e+00  0.00000000e+00]
+  temperature (float): -0.000172
+  iterations (int): 1
+  algorithm (factor): 0
+\end{verbatim}
 
 \section{Key Findings}\label{key-findings}
 
@@ -17992,6 +19498,84 @@ Potential improvements that could be added:
 \markboth{References}{References}
 
 \phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-arlot2010}
+Arlot, Sylvain, Alain Celisse, et al. 2010. {``A Survey of
+Cross-Validation Procedures for Model Selection.''} \emph{Statistics
+Surveys} 4: 40--79.
+
+\bibitem[\citeproctext]{ref-bart21i}
+Bartz, Eva, Thomas Bartz-Beielstein, Martin Zaefferer, and Olaf
+Mersmann, eds. 2022. \emph{{Hyperparameter Tuning for Machine and Deep
+Learning with R - A Practical Guide}}. Springer.
+
+\bibitem[\citeproctext]{ref-Box57a}
+Box, G E P. 1957. {``{Evolutionary operation: A method for increasing
+industrial productivity.}''} \emph{Applied Statistics} 6: 81--101.
+
+\bibitem[\citeproctext]{ref-Forr08a}
+Forrester, Alexander, András Sóbester, and Andy Keane. 2008.
+\emph{{Engineering Design via Surrogate Modelling}}. Wiley.
+
+\bibitem[\citeproctext]{ref-Hast17a}
+Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2017. \emph{The
+Elements of Statistical Learning}. Second. Springer.
+
+\bibitem[\citeproctext]{ref-john90a}
+Johnson, M. E., L. M. Moore, and D. Ylvisaker. 1990. {``Minimax and
+Maximin Distance Designs.''} \emph{Journal of Statistical Planning and
+Inference} 26 (2): 131--48.
+
+\bibitem[\citeproctext]{ref-Jones1998}
+Jones, Donald R., Matthias Schonlau, and William J. Welch. 1998.
+{``Efficient Global Optimization of Expensive Black-Box Functions.''}
+\emph{Journal of Global Optimization} 13 (4): 455--92.
+
+\bibitem[\citeproctext]{ref-kean05a}
+Keane, Andrew J, and Prasanth B Nair. 2005. \emph{Computational
+Approaches for Aerospace Design: The Pursuit of Excellence}. Wiley.
+
+\bibitem[\citeproctext]{ref-Koha95a}
+Kohavi, Ron. 1995. {``A Study of Cross-Validation and Bootstrap for
+Accuracy Estimation and Model Selection.''} In \emph{Proceedings of the
+14th International Joint Conference on Artificial Intelligence - Volume
+2}, 1137--43. IJCAI'95. San Francisco, CA, USA: Morgan Kaufmann
+Publishers Inc.
+
+\bibitem[\citeproctext]{ref-micc86a}
+Micchelli, Charles A. 1986. {``Interpolation of Scattered Data: Distance
+Matrices and Conditionally Positive Definite Functions.''}
+\emph{Constructive Approximation} 2 (1): 11--22.
+\url{https://doi.org/10.1007/BF01893414}.
+
+\bibitem[\citeproctext]{ref-mockus1978toward}
+Močkus, J. 1974. {``{On Bayesian Methods for Seeking the Extremum}.''}
+In \emph{Optimization Techniques {IFIP} Technical Conference}, 400--404.
+
+\bibitem[\citeproctext]{ref-morr95a}
+Morris, Max D., and Toby J. Mitchell. 1995. {``Exploratory Designs for
+Computational Experiments.''} \emph{Journal of Statistical Planning and
+Inference} 43 (3): 381--402.
+https://doi.org/\url{https://doi.org/10.1016/0378-3758(94)00035-T}.
+
+\bibitem[\citeproctext]{ref-pogg90a}
+Poggio, T, and F Girosi. 1990. {``Regularization Algorithms for Learning
+That Are Equivalent to Multilayer Networks.''} \emph{Science} 247
+(4945): 978--82. \url{https://doi.org/10.1126/science.247.4945.978}.
+
+\bibitem[\citeproctext]{ref-raym06a}
+Raymer, Daniel P. 2006. \emph{Aircraft Design: A Conceptual Approach}.
+{AIAA}.
+
+\bibitem[\citeproctext]{ref-Sant03a}
+Santner, T J, B J Williams, and W I Notz. 2003. \emph{{The Design and
+Analysis of Computer Experiments}}. Berlin, Heidelberg, New York:
+Springer.
+
+\bibitem[\citeproctext]{ref-vapn98a}
+Vapnik, V N. 1998. \emph{{Statistical learning theory}}. Wiley; Wiley.
+
+\end{CSLReferences}
 
 
 \backmatter

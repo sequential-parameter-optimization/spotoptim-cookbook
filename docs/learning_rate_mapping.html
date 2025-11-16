@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; Learning Rate Mapping for Unified Optimizer Interface – Sequential Parameter Optimization Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./unified_learning_rate.html" rel="next">
+<link href="./kriging.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta name="twitter:title" content="16&nbsp; Learning Rate Mapping for Unified Optimizer Interface – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reproducibility.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./learning_rate_mapping.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Sequential Parameter Optimization Cookbook</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/sequential-parameter-optimization/spotpython" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Sequential-Parameter-Optimization-Cookbook.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">16.1</span> Overview</a></li>
+  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start"><span class="header-section-number">16.2</span> Quick Start</a>
+  <ul class="collapse">
+  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">16.2.1</span> Basic Usage</a></li>
+  <li><a href="#scaling-learning-rates" id="toc-scaling-learning-rates" class="nav-link" data-scroll-target="#scaling-learning-rates"><span class="header-section-number">16.2.2</span> Scaling Learning Rates</a></li>
+  <li><a href="#integration-with-linearregressor" id="toc-integration-with-linearregressor" class="nav-link" data-scroll-target="#integration-with-linearregressor"><span class="header-section-number">16.2.3</span> Integration with LinearRegressor</a></li>
+  </ul></li>
+  <li><a href="#function-reference" id="toc-function-reference" class="nav-link" data-scroll-target="#function-reference"><span class="header-section-number">16.3</span> Function Reference</a>
+  <ul class="collapse">
+  <li><a href="#map_lrlr_unified-optimizer_name-use_default_scaletrue" id="toc-map_lrlr_unified-optimizer_name-use_default_scaletrue" class="nav-link" data-scroll-target="#map_lrlr_unified-optimizer_name-use_default_scaletrue"><span class="header-section-number">16.3.1</span> <code>map_lr(lr_unified, optimizer_name, use_default_scale=True)</code></a></li>
+  </ul></li>
+  <li><a href="#supported-optimizers" id="toc-supported-optimizers" class="nav-link" data-scroll-target="#supported-optimizers"><span class="header-section-number">16.4</span> Supported Optimizers</a></li>
+  <li><a href="#use-cases" id="toc-use-cases" class="nav-link" data-scroll-target="#use-cases"><span class="header-section-number">16.5</span> Use Cases</a>
+  <ul class="collapse">
+  <li><a href="#comparing-different-optimizers" id="toc-comparing-different-optimizers" class="nav-link" data-scroll-target="#comparing-different-optimizers"><span class="header-section-number">16.5.1</span> Comparing Different Optimizers</a></li>
+  <li><a href="#hyperparameter-optimization-with-spotoptim" id="toc-hyperparameter-optimization-with-spotoptim" class="nav-link" data-scroll-target="#hyperparameter-optimization-with-spotoptim"><span class="header-section-number">16.5.2</span> Hyperparameter Optimization with SpotOptim</a></li>
+  <li><a href="#log-scale-hyperparameter-search" id="toc-log-scale-hyperparameter-search" class="nav-link" data-scroll-target="#log-scale-hyperparameter-search"><span class="header-section-number">16.5.3</span> Log-Scale Hyperparameter Search</a></li>
+  <li><a href="#custom-learning-rate-schedules" id="toc-custom-learning-rate-schedules" class="nav-link" data-scroll-target="#custom-learning-rate-schedules"><span class="header-section-number">16.5.4</span> Custom Learning Rate Schedules</a></li>
+  <li><a href="#direct-usage-without-linearregressor" id="toc-direct-usage-without-linearregressor" class="nav-link" data-scroll-target="#direct-usage-without-linearregressor"><span class="header-section-number">16.5.5</span> Direct Usage Without LinearRegressor</a></li>
+  </ul></li>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">16.6</span> Best Practices</a>
+  <ul class="collapse">
+  <li><a href="#choosing-unified-learning-rate" id="toc-choosing-unified-learning-rate" class="nav-link" data-scroll-target="#choosing-unified-learning-rate"><span class="header-section-number">16.6.1</span> Choosing Unified Learning Rate</a></li>
+  <li><a href="#optimizer-selection-guidelines" id="toc-optimizer-selection-guidelines" class="nav-link" data-scroll-target="#optimizer-selection-guidelines"><span class="header-section-number">16.6.2</span> Optimizer Selection Guidelines</a></li>
+  <li><a href="#common-patterns" id="toc-common-patterns" class="nav-link" data-scroll-target="#common-patterns"><span class="header-section-number">16.6.3</span> Common Patterns</a></li>
+  </ul></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">16.7</span> Troubleshooting</a>
+  <ul class="collapse">
+  <li><a href="#issue-training-is-unstable-loss-explodes" id="toc-issue-training-is-unstable-loss-explodes" class="nav-link" data-scroll-target="#issue-training-is-unstable-loss-explodes"><span class="header-section-number">16.7.1</span> Issue: Training is unstable (loss explodes)</a></li>
+  <li><a href="#issue-training-is-too-slow-loss-decreases-very-slowly" id="toc-issue-training-is-too-slow-loss-decreases-very-slowly" class="nav-link" data-scroll-target="#issue-training-is-too-slow-loss-decreases-very-slowly"><span class="header-section-number">16.7.2</span> Issue: Training is too slow (loss decreases very slowly)</a></li>
+  <li><a href="#issue-different-results-across-optimizer-runs" id="toc-issue-different-results-across-optimizer-runs" class="nav-link" data-scroll-target="#issue-different-results-across-optimizer-runs"><span class="header-section-number">16.7.3</span> Issue: Different results across optimizer runs</a></li>
+  <li><a href="#issue-want-to-use-raw-learning-rate-without-mapping" id="toc-issue-want-to-use-raw-learning-rate-without-mapping" class="nav-link" data-scroll-target="#issue-want-to-use-raw-learning-rate-without-mapping"><span class="header-section-number">16.7.4</span> Issue: Want to use raw learning rate without mapping</a></li>
+  <li><a href="#issue-optimizer-not-supported" id="toc-issue-optimizer-not-supported" class="nav-link" data-scroll-target="#issue-optimizer-not-supported"><span class="header-section-number">16.7.5</span> Issue: Optimizer not supported</a></li>
+  </ul></li>
+  <li><a href="#technical-details" id="toc-technical-details" class="nav-link" data-scroll-target="#technical-details"><span class="header-section-number">16.8</span> Technical Details</a>
+  <ul class="collapse">
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">16.8.1</span> How It Works</a></li>
+  <li><a href="#design-rationale" id="toc-design-rationale" class="nav-link" data-scroll-target="#design-rationale"><span class="header-section-number">16.8.2</span> Design Rationale</a></li>
+  <li><a href="#default-learning-rates" id="toc-default-learning-rates" class="nav-link" data-scroll-target="#default-learning-rates"><span class="header-section-number">16.8.3</span> Default Learning Rates</a></li>
+  </ul></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">16.9</span> Examples</a>
+  <ul class="collapse">
+  <li><a href="#complete-example-optimizer-comparison-study" id="toc-complete-example-optimizer-comparison-study" class="nav-link" data-scroll-target="#complete-example-optimizer-comparison-study"><span class="header-section-number">16.9.1</span> Complete Example: Optimizer Comparison Study</a></li>
+  </ul></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">16.10</span> See Also</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">16.11</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reproducibility.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./learning_rate_mapping.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>SpotOptim provides a sophisticated learning rate mapping system through the <code>map_lr()</code> function, enabling a unified interface for learning rates across different PyTorch optimizers. This solves the challenge that different optimizers operate on vastly different learning rate scales.</p>
+<section id="overview" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">16.1</span> Overview</h2>
+<p>Different PyTorch optimizers use different default learning rates and optimal ranges:</p>
+<ul>
+<li><strong>Adam</strong>: default 0.001, typical range 0.0001-0.01</li>
+<li><strong>SGD</strong>: default 0.01, typical range 0.001-0.1</li>
+<li><strong>RMSprop</strong>: default 0.01, typical range 0.001-0.1</li>
+</ul>
+<p>This makes it difficult to compare optimizer performance fairly or optimize learning rates across different optimizers. The <code>map_lr()</code> function provides a unified scale where <strong><code>lr_unified=1.0</code> corresponds to each optimizer’s PyTorch default</strong>.</p>
+<p><strong>Module</strong>: <code>spotoptim.utils.mapping</code></p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Unified learning rate scale across all optimizers</li>
+<li>Fair comparison when evaluating different optimizers</li>
+<li>Simplified hyperparameter optimization</li>
+<li>Based on official PyTorch default learning rates</li>
+<li>Supports 13 major PyTorch optimizers</li>
+</ul>
+</section>
+<section id="quick-start" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">16.2</span> Quick Start</h2>
+<section id="basic-usage" class="level3" data-number="16.2.1">
+<h3 data-number="16.2.1" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">16.2.1</span> Basic Usage</h3>
+<div id="basic-usage" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get optimizer-specific learning rate from unified scale</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>lr_adam <span class="op">=</span> map_lr(<span class="fl">1.0</span>, <span class="st">"Adam"</span>)      <span class="co"># Returns 0.001 (Adam's default)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>lr_sgd <span class="op">=</span> map_lr(<span class="fl">1.0</span>, <span class="st">"SGD"</span>)        <span class="co"># Returns 0.01 (SGD's default)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>lr_rmsprop <span class="op">=</span> map_lr(<span class="fl">1.0</span>, <span class="st">"RMSprop"</span>)  <span class="co"># Returns 0.01 (RMSprop's default)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unified lr=1.0:"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Adam:    </span><span class="sc">{</span>lr_adam<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  SGD:     </span><span class="sc">{</span>lr_sgd<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  RMSprop: </span><span class="sc">{</span>lr_rmsprop<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unified lr=1.0:
+  Adam:    0.001
+  SGD:     0.01
+  RMSprop: 0.01</code></pre>
+</div>
+</div>
+</section>
+<section id="scaling-learning-rates" class="level3" data-number="16.2.2">
+<h3 data-number="16.2.2" class="anchored" data-anchor-id="scaling-learning-rates"><span class="header-section-number">16.2.2</span> Scaling Learning Rates</h3>
+<div id="scaling-learning-rates" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale all learning rates by the same factor</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>unified_lr <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>lr_adam <span class="op">=</span> map_lr(unified_lr, <span class="st">"Adam"</span>)      <span class="co"># 0.5 * 0.001 = 0.0005</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>lr_sgd <span class="op">=</span> map_lr(unified_lr, <span class="st">"SGD"</span>)        <span class="co"># 0.5 * 0.01 = 0.005</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>lr_rmsprop <span class="op">=</span> map_lr(unified_lr, <span class="st">"RMSprop"</span>)  <span class="co"># 0.5 * 0.01 = 0.005</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unified lr=</span><span class="sc">{</span>unified_lr<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Adam:    </span><span class="sc">{</span>lr_adam<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  SGD:     </span><span class="sc">{</span>lr_sgd<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  RMSprop: </span><span class="sc">{</span>lr_rmsprop<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unified lr=0.5:
+  Adam:    0.0005
+  SGD:     0.005
+  RMSprop: 0.005</code></pre>
+</div>
+</div>
+</section>
+<section id="integration-with-linearregressor" class="level3" data-number="16.2.3">
+<h3 data-number="16.2.3" class="anchored" data-anchor-id="integration-with-linearregressor"><span class="header-section-number">16.2.3</span> Integration with LinearRegressor</h3>
+<div id="linear-regressor-integration" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create model with unified learning rate</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    input_dim<span class="op">=</span><span class="dv">10</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    output_dim<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    l1<span class="op">=</span><span class="dv">32</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    num_hidden_layers<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    lr<span class="op">=</span><span class="fl">1.0</span>  <span class="co"># Unified learning rate</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Get optimizer - automatically uses mapped learning rate</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>optimizer_adam <span class="op">=</span> model.get_optimizer(<span class="st">"Adam"</span>)     <span class="co"># Gets 1.0 * 0.001 = 0.001</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>optimizer_sgd <span class="op">=</span> model.get_optimizer(<span class="st">"SGD"</span>)       <span class="co"># Gets 1.0 * 0.01 = 0.01</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify the actual learning rates</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Adam actual lr: </span><span class="sc">{</span>optimizer_adam<span class="sc">.</span>param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SGD actual lr: </span><span class="sc">{</span>optimizer_sgd<span class="sc">.</span>param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Adam actual lr: 0.001
+SGD actual lr: 0.01</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="function-reference" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="function-reference"><span class="header-section-number">16.3</span> Function Reference</h2>
+<section id="map_lrlr_unified-optimizer_name-use_default_scaletrue" class="level3" data-number="16.3.1">
+<h3 data-number="16.3.1" class="anchored" data-anchor-id="map_lrlr_unified-optimizer_name-use_default_scaletrue"><span class="header-section-number">16.3.1</span> <code>map_lr(lr_unified, optimizer_name, use_default_scale=True)</code></h3>
+<p>Maps a unified learning rate to an optimizer-specific learning rate.</p>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>lr_unified</code> (float): Unified learning rate multiplier. A value of 1.0 corresponds to the optimizer’s default learning rate. Typical range: [0.001, 100.0].</li>
+<li><code>optimizer_name</code> (str): Name of the PyTorch optimizer. Must be one of: “Adadelta”, “Adagrad”, “Adam”, “AdamW”, “SparseAdam”, “Adamax”, “ASGD”, “LBFGS”, “NAdam”, “RAdam”, “RMSprop”, “Rprop”, “SGD”.</li>
+<li><code>use_default_scale</code> (bool, optional): Whether to scale by the optimizer’s default learning rate. If <code>True</code> (default), <code>lr_unified</code> is multiplied by the default lr. If <code>False</code>, returns <code>lr_unified</code> directly.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>float</code>: The optimizer-specific learning rate.</li>
+</ul>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>ValueError</code>: If <code>optimizer_name</code> is not supported.</li>
+<li><code>ValueError</code>: If <code>lr_unified</code> is not positive.</li>
+</ul>
+<p><strong>Example</strong>:</p>
+<div id="map-lr-example" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get default learning rates (unified lr = 1.0)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">1.0</span>, <span class="st">"Adam"</span>)      <span class="co"># 0.001</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">1.0</span>, <span class="st">"SGD"</span>)       <span class="co"># 0.01</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">1.0</span>, <span class="st">"RMSprop"</span>)   <span class="co"># 0.01</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale learning rates</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">0.5</span>, <span class="st">"Adam"</span>)      <span class="co"># 0.0005</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">2.0</span>, <span class="st">"SGD"</span>)       <span class="co"># 0.02</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Without default scaling</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">0.01</span>, <span class="st">"Adam"</span>, use_default_scale<span class="op">=</span><span class="va">False</span>)  <span class="co"># 0.01 (direct)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="supported-optimizers" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="supported-optimizers"><span class="header-section-number">16.4</span> Supported Optimizers</h2>
+<p>All major PyTorch optimizers are supported with their default learning rates:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Optimizer</th>
+<th>Default LR</th>
+<th>Typical Range</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Adam</strong></td>
+<td>0.001</td>
+<td>0.0001-0.01</td>
+<td>Most popular, good default</td>
+</tr>
+<tr class="even">
+<td><strong>AdamW</strong></td>
+<td>0.001</td>
+<td>0.0001-0.01</td>
+<td>Adam with weight decay</td>
+</tr>
+<tr class="odd">
+<td><strong>Adamax</strong></td>
+<td>0.002</td>
+<td>0.0001-0.01</td>
+<td>Adam variant with infinity norm</td>
+</tr>
+<tr class="even">
+<td><strong>NAdam</strong></td>
+<td>0.002</td>
+<td>0.0001-0.01</td>
+<td>Adam with Nesterov momentum</td>
+</tr>
+<tr class="odd">
+<td><strong>RAdam</strong></td>
+<td>0.001</td>
+<td>0.0001-0.01</td>
+<td>Rectified Adam</td>
+</tr>
+<tr class="even">
+<td><strong>SparseAdam</strong></td>
+<td>0.001</td>
+<td>0.0001-0.01</td>
+<td>For sparse gradients</td>
+</tr>
+<tr class="odd">
+<td><strong>SGD</strong></td>
+<td>0.01</td>
+<td>0.001-0.1</td>
+<td>Classic, needs momentum</td>
+</tr>
+<tr class="even">
+<td><strong>RMSprop</strong></td>
+<td>0.01</td>
+<td>0.001-0.1</td>
+<td>Good for RNNs</td>
+</tr>
+<tr class="odd">
+<td><strong>Adagrad</strong></td>
+<td>0.01</td>
+<td>0.001-0.1</td>
+<td>Adaptive learning rate</td>
+</tr>
+<tr class="even">
+<td><strong>Adadelta</strong></td>
+<td>1.0</td>
+<td>0.1-10.0</td>
+<td>Extension of Adagrad</td>
+</tr>
+<tr class="odd">
+<td><strong>ASGD</strong></td>
+<td>0.01</td>
+<td>0.001-0.1</td>
+<td>Averaged SGD</td>
+</tr>
+<tr class="even">
+<td><strong>LBFGS</strong></td>
+<td>1.0</td>
+<td>0.1-10.0</td>
+<td>Second-order optimizer</td>
+</tr>
+<tr class="odd">
+<td><strong>Rprop</strong></td>
+<td>0.01</td>
+<td>0.001-0.1</td>
+<td>Resilient backpropagation</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="use-cases" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="use-cases"><span class="header-section-number">16.5</span> Use Cases</h2>
+<section id="comparing-different-optimizers" class="level3" data-number="16.5.1">
+<h3 data-number="16.5.1" class="anchored" data-anchor-id="comparing-different-optimizers"><span class="header-section-number">16.5.1</span> Comparing Different Optimizers</h3>
+<div id="optimizer-comparison" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, _ <span class="op">=</span> get_diabetes_dataloaders(batch_size<span class="op">=</span><span class="dv">32</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Test different optimizers with unified learning rate</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>unified_lr <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>optimizers_to_test <span class="op">=</span> [<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>, <span class="st">"AdamW"</span>]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> opt_name <span class="kw">in</span> optimizers_to_test:</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reset for fair comparison</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    torch.manual_seed(<span class="dv">42</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, l1<span class="op">=</span><span class="dv">32</span>, </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>                           num_hidden_layers<span class="op">=</span><span class="dv">2</span>, lr<span class="op">=</span>unified_lr)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create optimizer with mapped learning rate</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> opt_name <span class="op">==</span> <span class="st">"SGD"</span>:</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        optimizer <span class="op">=</span> model.get_optimizer(opt_name, momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>        optimizer <span class="op">=</span> model.get_optimizer(opt_name)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    criterion <span class="op">=</span> nn.MSELoss()</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Train</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">50</span>):</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> batch_X, batch_y <span class="kw">in</span> train_loader:</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>            optimizer.zero_grad()</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>            predictions <span class="op">=</span> model(batch_X)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>            loss <span class="op">=</span> criterion(predictions, batch_y)</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>            loss.backward()</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>            optimizer.step()</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluate</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    test_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> batch_X, batch_y <span class="kw">in</span> test_loader:</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>            predictions <span class="op">=</span> model(batch_X)</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>            test_loss <span class="op">+=</span> criterion(predictions, batch_y).item()</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    avg_test_loss <span class="op">=</span> test_loss <span class="op">/</span> <span class="bu">len</span>(test_loader)</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    results[opt_name] <span class="op">=</span> avg_test_loss</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>opt_name<span class="sc">:10s}</span><span class="ss">: Test MSE = </span><span class="sc">{</span>avg_test_loss<span class="sc">:.4f}</span><span class="ss"> "</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"(actual lr = </span><span class="sc">{</span>optimizer<span class="sc">.</span>param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]<span class="sc">:.6f}</span><span class="ss">)"</span>)</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Find best optimizer</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>best_opt <span class="op">=</span> <span class="bu">min</span>(results, key<span class="op">=</span>results.get)</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Best optimizer: </span><span class="sc">{</span>best_opt<span class="sc">}</span><span class="ss"> with MSE = </span><span class="sc">{</span>results[best_opt]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Adam      : Test MSE = 3859.4478 (actual lr = 0.001000)
+SGD       : Test MSE = 5271.6840 (actual lr = 0.010000)
+RMSprop   : Test MSE = 2769.5164 (actual lr = 0.010000)
+AdamW     : Test MSE = 3866.1197 (actual lr = 0.001000)
+
+Best optimizer: RMSprop with MSE = 2769.5164</code></pre>
+</div>
+</div>
+</section>
+<section id="hyperparameter-optimization-with-spotoptim" class="level3" data-number="16.5.2">
+<h3 data-number="16.5.2" class="anchored" data-anchor-id="hyperparameter-optimization-with-spotoptim"><span class="header-section-number">16.5.2</span> Hyperparameter Optimization with SpotOptim</h3>
+<p>Note, <code>N_INITIAL</code> and <code>MAX_ITER</code> are kept small for demonstration; increase for real use.</p>
+<div id="hyperparameter-optimization" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>MAX_ITER <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>N_INITIAL <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_and_evaluate(X):</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Objective function for hyperparameter optimization."""</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Load data once</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    train_loader, test_loader, _ <span class="op">=</span> get_diabetes_dataloaders(</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        batch_size<span class="op">=</span><span class="dv">32</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> params <span class="kw">in</span> X:</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract hyperparameters</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        lr_unified <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> params[<span class="dv">0</span>]  <span class="co"># Log scale</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        optimizer_name <span class="op">=</span> params[<span class="dv">1</span>]     <span class="co"># Factor variable</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        l1 <span class="op">=</span> <span class="bu">int</span>(params[<span class="dv">2</span>])           <span class="co"># Integer</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        num_layers <span class="op">=</span> <span class="bu">int</span>(params[<span class="dv">3</span>])   <span class="co"># Integer</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create model with unified learning rate</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> LinearRegressor(</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>            input_dim<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>            output_dim<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>            l1<span class="op">=</span>l1,</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>            num_hidden_layers<span class="op">=</span>num_layers,</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>            lr<span class="op">=</span>lr_unified  <span class="co"># Automatically mapped per optimizer</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get optimizer (lr already mapped internally)</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> optimizer_name <span class="op">==</span> <span class="st">"SGD"</span>:</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>            optimizer <span class="op">=</span> model.get_optimizer(optimizer_name, momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>            optimizer <span class="op">=</span> model.get_optimizer(optimizer_name)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>        criterion <span class="op">=</span> nn.MSELoss()</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Train</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>        model.train()</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">30</span>):</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> batch_X, batch_y <span class="kw">in</span> train_loader:</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>                optimizer.zero_grad()</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>                predictions <span class="op">=</span> model(batch_X)</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>                loss <span class="op">=</span> criterion(predictions, batch_y)</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>                loss.backward()</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>                optimizer.step()</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Evaluate</span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>        model.<span class="bu">eval</span>()</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>        test_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> batch_X, batch_y <span class="kw">in</span> test_loader:</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>                predictions <span class="op">=</span> model(batch_X)</span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>                test_loss <span class="op">+=</span> criterion(predictions, batch_y).item()</span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>        avg_test_loss <span class="op">=</span> test_loss <span class="op">/</span> <span class="bu">len</span>(test_loader)</span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>        results.append(avg_test_loss)</span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(results)</span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Optimize learning rate, optimizer choice, and architecture</span></span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>train_and_evaluate,</span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[</span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>        (<span class="op">-</span><span class="dv">4</span>, <span class="dv">0</span>),                           <span class="co"># log10(lr_unified): [0.0001, 1.0]</span></span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>, <span class="st">"AdamW"</span>),  <span class="co"># Optimizer choice</span></span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>        (<span class="dv">16</span>, <span class="dv">128</span>),                         <span class="co"># Layer size</span></span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>        (<span class="dv">1</span>, <span class="dv">3</span>)                             <span class="co"># Number of hidden layers</span></span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>    var_type<span class="op">=</span>[<span class="st">"num"</span>, <span class="st">"factor"</span>, <span class="st">"int"</span>, <span class="st">"int"</span>],</span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span>MAX_ITER,</span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span>N_INITIAL,</span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Optimization Results:"</span>)</span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best unified lr: </span><span class="sc">{</span><span class="dv">10</span><span class="op">**</span>result<span class="sc">.</span>x[<span class="dv">0</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best optimizer: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best layer size: </span><span class="sc">{</span><span class="bu">int</span>(result.x[<span class="dv">2</span>])<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best num layers: </span><span class="sc">{</span><span class="bu">int</span>(result.x[<span class="dv">3</span>])<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best test MSE: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Show actual learning rate used</span></span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>actual_lr <span class="op">=</span> map_lr(<span class="dv">10</span><span class="op">**</span>result.x[<span class="dv">0</span>], result.x[<span class="dv">1</span>])</span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> learning rate: </span><span class="sc">{</span>actual_lr<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Optimization Results:
+Best unified lr: 0.100000
+Best optimizer: RMSprop
+Best layer size: 118
+Best num layers: 2
+Best test MSE: 3082.2285
+Actual RMSprop learning rate: 0.001000</code></pre>
+</div>
+</div>
+</section>
+<section id="log-scale-hyperparameter-search" class="level3" data-number="16.5.3">
+<h3 data-number="16.5.3" class="anchored" data-anchor-id="log-scale-hyperparameter-search"><span class="header-section-number">16.5.3</span> Log-Scale Hyperparameter Search</h3>
+<div id="log-scale-search" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Common pattern: sample unified lr from log scale</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>log_lr_range <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">10</span>)  <span class="co"># [-4, -3.56, ..., 0]</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>optimizers <span class="op">=</span> [<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Log-scale learning rate search:"</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'log_lr'</span><span class="sc">:&lt;10}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'unified_lr'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Adam'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'SGD'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'RMSprop'</span><span class="sc">:&lt;12}</span><span class="ss">"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> log_lr <span class="kw">in</span> log_lr_range:</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    lr_unified <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> log_lr</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    lr_adam <span class="op">=</span> map_lr(lr_unified, <span class="st">"Adam"</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    lr_sgd <span class="op">=</span> map_lr(lr_unified, <span class="st">"SGD"</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    lr_rmsprop <span class="op">=</span> map_lr(lr_unified, <span class="st">"RMSprop"</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>log_lr<span class="sc">:&lt;10.2f}</span><span class="ss"> </span><span class="sc">{</span>lr_unified<span class="sc">:&lt;12.6f}</span><span class="ss"> </span><span class="sc">{</span>lr_adam<span class="sc">:&lt;12.8f}</span><span class="ss"> "</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"</span><span class="sc">{</span>lr_sgd<span class="sc">:&lt;12.8f}</span><span class="ss"> </span><span class="sc">{</span>lr_rmsprop<span class="sc">:&lt;12.8f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Log-scale learning rate search:
+
+log_lr     unified_lr   Adam         SGD          RMSprop     
+------------------------------------------------------------
+-4.00      0.000100     0.00000010   0.00000100   0.00000100  
+-3.56      0.000278     0.00000028   0.00000278   0.00000278  
+-3.11      0.000774     0.00000077   0.00000774   0.00000774  
+-2.67      0.002154     0.00000215   0.00002154   0.00002154  
+-2.22      0.005995     0.00000599   0.00005995   0.00005995  
+-1.78      0.016681     0.00001668   0.00016681   0.00016681  
+-1.33      0.046416     0.00004642   0.00046416   0.00046416  
+-0.89      0.129155     0.00012915   0.00129155   0.00129155  
+-0.44      0.359381     0.00035938   0.00359381   0.00359381  
+0.00       1.000000     0.00100000   0.01000000   0.01000000  </code></pre>
+</div>
+</div>
+</section>
+<section id="custom-learning-rate-schedules" class="level3" data-number="16.5.4">
+<h3 data-number="16.5.4" class="anchored" data-anchor-id="custom-learning-rate-schedules"><span class="header-section-number">16.5.4</span> Custom Learning Rate Schedules</h3>
+<div id="custom-lr-schedules" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create model with unified lr</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Get initial optimizer</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> model.get_optimizer(<span class="st">"Adam"</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>initial_lr <span class="op">=</span> optimizer.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Initial learning rate: </span><span class="sc">{</span>initial_lr<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Use PyTorch learning rate scheduler</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">30</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Training with scheduler</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... training code ...</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    scheduler.step()</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (epoch <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="dv">30</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        current_lr <span class="op">=</span> optimizer.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: lr = </span><span class="sc">{</span>current_lr<span class="sc">:.8f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Initial learning rate: 0.001
+Epoch 30: lr = 0.00010000
+Epoch 60: lr = 0.00001000
+Epoch 90: lr = 0.00000100</code></pre>
+</div>
+</div>
+</section>
+<section id="direct-usage-without-linearregressor" class="level3" data-number="16.5.5">
+<h3 data-number="16.5.5" class="anchored" data-anchor-id="direct-usage-without-linearregressor"><span class="header-section-number">16.5.5</span> Direct Usage Without LinearRegressor</h3>
+<div id="direct-usage-without-linearregressor" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define your own model</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyModel(nn.Module):</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fc1 <span class="op">=</span> nn.Linear(<span class="dv">10</span>, <span class="dv">32</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fc2 <span class="op">=</span> nn.Linear(<span class="dv">32</span>, <span class="dv">1</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> torch.relu(<span class="va">self</span>.fc1(x))</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.fc2(x)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> MyModel()</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Use map_lr to get optimizer-specific learning rate</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>unified_lr <span class="op">=</span> <span class="fl">2.0</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>optimizer_name <span class="op">=</span> <span class="st">"Adam"</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>actual_lr <span class="op">=</span> map_lr(unified_lr, optimizer_name)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span>actual_lr)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unified lr: </span><span class="sc">{</span>unified_lr<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>optimizer_name<span class="sc">}</span><span class="ss"> lr: </span><span class="sc">{</span>actual_lr<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unified lr: 2.0
+Actual Adam lr: 0.002</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="best-practices" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">16.6</span> Best Practices</h2>
+<section id="choosing-unified-learning-rate" class="level3" data-number="16.6.1">
+<h3 data-number="16.6.1" class="anchored" data-anchor-id="choosing-unified-learning-rate"><span class="header-section-number">16.6.1</span> Choosing Unified Learning Rate</h3>
+<p><strong>For initial experiments:</strong></p>
+<ul>
+<li>Start with <code>lr=1.0</code> (gives defaults for all optimizers)</li>
+<li>Test with <code>lr=0.1</code>, <code>lr=1.0</code>, <code>lr=10.0</code> to get a sense of scale</li>
+</ul>
+<p><strong>For hyperparameter optimization:</strong></p>
+<ul>
+<li>Use log scale: sample from <code>[-4, 0]</code> or <code>[-3, 1]</code></li>
+<li>Convert with <code>lr_unified = 10 ** log_lr</code></li>
+<li>This gives reasonable ranges for all optimizers</li>
+</ul>
+<p><strong>For fine-tuning:</strong></p>
+<ul>
+<li>If training is unstable: try smaller <code>lr</code> (e.g., 0.1 or 0.5)</li>
+<li>If training is too slow: try larger <code>lr</code> (e.g., 2.0 or 5.0)</li>
+<li>Monitor loss curves to adjust</li>
+</ul>
+</section>
+<section id="optimizer-selection-guidelines" class="level3" data-number="16.6.2">
+<h3 data-number="16.6.2" class="anchored" data-anchor-id="optimizer-selection-guidelines"><span class="header-section-number">16.6.2</span> Optimizer Selection Guidelines</h3>
+<p><strong>Adam family (Adam, AdamW, NAdam, RAdam):</strong></p>
+<ul>
+<li>✅ Good default choice for most tasks</li>
+<li>✅ Adaptive learning rates per parameter</li>
+<li>✅ Works well out of the box</li>
+<li>Use <code>lr=1.0</code> as starting point</li>
+</ul>
+<p><strong>SGD:</strong></p>
+<ul>
+<li>✅ Good for large datasets</li>
+<li>✅ Often achieves better generalization</li>
+<li>⚠️ Requires momentum (e.g., 0.9)</li>
+<li>Use <code>lr=1.0</code> with momentum=0.9</li>
+</ul>
+<p><strong>RMSprop:</strong></p>
+<ul>
+<li>✅ Good for recurrent networks</li>
+<li>✅ Handles non-stationary objectives</li>
+<li>Use <code>lr=1.0</code> as starting point</li>
+</ul>
+<p><strong>Others (Adadelta, Adagrad, etc.):</strong></p>
+<ul>
+<li>Specialized use cases</li>
+<li>Start with <code>lr=1.0</code> and adjust</li>
+</ul>
+</section>
+<section id="common-patterns" class="level3" data-number="16.6.3">
+<h3 data-number="16.6.3" class="anchored" data-anchor-id="common-patterns"><span class="header-section-number">16.6.3</span> Common Patterns</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern 1: Quick optimizer comparison</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> opt <span class="kw">in</span> [<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>]:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> model.get_optimizer(opt)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... train and compare ...</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern 2: Hyperparameter optimization</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> objective(X):</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    lr_unified <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> X[:, <span class="dv">0</span>]  <span class="co"># Log scale</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    optimizer_name <span class="op">=</span> X[:, <span class="dv">1</span>]     <span class="co"># Factor</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... use unified lr ...</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern 3: Override model's lr</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> model.get_optimizer(<span class="st">"Adam"</span>, lr<span class="op">=</span><span class="fl">2.0</span>)  <span class="co"># Override with 2.0</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern 4: Direct mapping</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>lr_actual <span class="op">=</span> map_lr(unified_lr, optimizer_name)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(params, lr<span class="op">=</span>lr_actual)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="troubleshooting" class="level2" data-number="16.7">
+<h2 data-number="16.7" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">16.7</span> Troubleshooting</h2>
+<section id="issue-training-is-unstable-loss-explodes" class="level3" data-number="16.7.1">
+<h3 data-number="16.7.1" class="anchored" data-anchor-id="issue-training-is-unstable-loss-explodes"><span class="header-section-number">16.7.1</span> Issue: Training is unstable (loss explodes)</h3>
+<p><strong>Solution</strong>: Learning rate is too high. Try:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">0.1</span>)  <span class="co"># Reduce from 1.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="issue-training-is-too-slow-loss-decreases-very-slowly" class="level3" data-number="16.7.2">
+<h3 data-number="16.7.2" class="anchored" data-anchor-id="issue-training-is-too-slow-loss-decreases-very-slowly"><span class="header-section-number">16.7.2</span> Issue: Training is too slow (loss decreases very slowly)</h3>
+<p><strong>Solution</strong>: Learning rate is too low. Try:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">5.0</span>)  <span class="co"># Increase from 1.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="issue-different-results-across-optimizer-runs" class="level3" data-number="16.7.3">
+<h3 data-number="16.7.3" class="anchored" data-anchor-id="issue-different-results-across-optimizer-runs"><span class="header-section-number">16.7.3</span> Issue: Different results across optimizer runs</h3>
+<p><strong>Solution</strong>: Set random seed for reproducibility:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="issue-want-to-use-raw-learning-rate-without-mapping" class="level3" data-number="16.7.4">
+<h3 data-number="16.7.4" class="anchored" data-anchor-id="issue-want-to-use-raw-learning-rate-without-mapping"><span class="header-section-number">16.7.4</span> Issue: Want to use raw learning rate without mapping</h3>
+<p><strong>Solution</strong>: Use <code>use_default_scale=False</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">0.001</span>, <span class="st">"Adam"</span>, use_default_scale<span class="op">=</span><span class="va">False</span>)  <span class="co"># Returns 0.001 directly</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="issue-optimizer-not-supported" class="level3" data-number="16.7.5">
+<h3 data-number="16.7.5" class="anchored" data-anchor-id="issue-optimizer-not-supported"><span class="header-section-number">16.7.5</span> Issue: Optimizer not supported</h3>
+<p><strong>Solution</strong>: Check supported optimizers:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> OPTIMIZER_DEFAULT_LR</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Supported optimizers:"</span>, <span class="bu">list</span>(OPTIMIZER_DEFAULT_LR.keys()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="technical-details" class="level2" data-number="16.8">
+<h2 data-number="16.8" class="anchored" data-anchor-id="technical-details"><span class="header-section-number">16.8</span> Technical Details</h2>
+<section id="how-it-works" class="level3" data-number="16.8.1">
+<h3 data-number="16.8.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">16.8.1</span> How It Works</h3>
+<p>The mapping is simple but effective:</p>
+<pre><code>actual_lr = lr_unified * default_lr[optimizer_name]</code></pre>
+<p>For example:</p>
+<ul>
+<li><code>map_lr(1.0, "Adam")</code> → <code>1.0 * 0.001</code> = <code>0.001</code></li>
+<li><code>map_lr(0.5, "SGD")</code> → <code>0.5 * 0.01</code> = <code>0.005</code></li>
+<li><code>map_lr(2.0, "RMSprop")</code> → <code>2.0 * 0.01</code> = <code>0.02</code></li>
+</ul>
+<p>This ensures that the same unified learning rate gives optimizer-specific learning rates in their typical working ranges.</p>
+</section>
+<section id="design-rationale" class="level3" data-number="16.8.2">
+<h3 data-number="16.8.2" class="anchored" data-anchor-id="design-rationale"><span class="header-section-number">16.8.2</span> Design Rationale</h3>
+<p><strong>Why use defaults as scaling factors?</strong></p>
+<p>PyTorch’s default learning rates are carefully chosen to work well for typical use cases. By using them as scaling factors:</p>
+<ol type="1">
+<li><code>lr=1.0</code> always gives sensible defaults</li>
+<li>Scaling preserves the relative relationships between optimizers</li>
+<li>Each optimizer stays in its optimal range</li>
+<li>Easy to understand and explain</li>
+</ol>
+<p><strong>Comparison with spotPython’s approach:</strong></p>
+<p>spotPython uses <code>lr = lr_mult * default_lr</code> in <code>optimizer_handler()</code>. Our implementation:</p>
+<ul>
+<li>✅ Separates mapping logic (testable, reusable)</li>
+<li>✅ Provides standalone function (<code>map_lr()</code>)</li>
+<li>✅ Comprehensive error handling and validation</li>
+<li>✅ Extensive documentation and examples</li>
+<li>✅ Full integration with <code>LinearRegressor</code></li>
+</ul>
+</section>
+<section id="default-learning-rates" class="level3" data-number="16.8.3">
+<h3 data-number="16.8.3" class="anchored" data-anchor-id="default-learning-rates"><span class="header-section-number">16.8.3</span> Default Learning Rates</h3>
+<p>All values verified against <a href="https://pytorch.org/docs/stable/optim.html">PyTorch documentation</a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>OPTIMIZER_DEFAULT_LR <span class="op">=</span> {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adadelta"</span>: <span class="fl">1.0</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adagrad"</span>: <span class="fl">0.01</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adam"</span>: <span class="fl">0.001</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AdamW"</span>: <span class="fl">0.001</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SparseAdam"</span>: <span class="fl">0.001</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adamax"</span>: <span class="fl">0.002</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ASGD"</span>: <span class="fl">0.01</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LBFGS"</span>: <span class="fl">1.0</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAdam"</span>: <span class="fl">0.002</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RAdam"</span>: <span class="fl">0.001</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RMSprop"</span>: <span class="fl">0.01</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rprop"</span>: <span class="fl">0.01</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SGD"</span>: <span class="fl">0.01</span>,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="examples" class="level2" data-number="16.9">
+<h2 data-number="16.9" class="anchored" data-anchor-id="examples"><span class="header-section-number">16.9</span> Examples</h2>
+<section id="complete-example-optimizer-comparison-study" class="level3" data-number="16.9.1">
+<h3 data-number="16.9.1" class="anchored" data-anchor-id="complete-example-optimizer-comparison-study"><span class="header-section-number">16.9.1</span> Complete Example: Optimizer Comparison Study</h3>
+<div id="ba540158" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">Complete example: Compare optimizers with unified learning rate interface.</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">42</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, _ <span class="op">=</span> get_diabetes_dataloaders(</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    batch_size<span class="op">=</span><span class="dv">32</span>, </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Test configurations</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>optimizers <span class="op">=</span> [<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>, <span class="st">"AdamW"</span>]</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>unified_lrs <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">2.0</span>]</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Store results</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Training models with different optimizers and learning rates..."</span>)</span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> unified_lr <span class="kw">in</span> unified_lrs:</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>    results[unified_lr] <span class="op">=</span> {}</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> opt_name <span class="kw">in</span> optimizers:</span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reset model for fair comparison</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>        torch.manual_seed(<span class="dv">42</span>)</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create model with unified lr</span></span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> LinearRegressor(</span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>            input_dim<span class="op">=</span><span class="dv">10</span>, </span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>            output_dim<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>            l1<span class="op">=</span><span class="dv">32</span>, </span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>            num_hidden_layers<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>            lr<span class="op">=</span>unified_lr</span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get optimizer</span></span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> opt_name <span class="op">==</span> <span class="st">"SGD"</span>:</span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>            optimizer <span class="op">=</span> model.get_optimizer(opt_name, momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>            optimizer <span class="op">=</span> model.get_optimizer(opt_name)</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>        actual_lr <span class="op">=</span> optimizer.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]</span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>        criterion <span class="op">=</span> nn.MSELoss()</span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Track training loss</span></span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a>        train_losses <span class="op">=</span> []</span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Train</span></span>
+<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a>        model.train()</span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">50</span>):</span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>            epoch_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> batch_X, batch_y <span class="kw">in</span> train_loader:</span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>                optimizer.zero_grad()</span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>                predictions <span class="op">=</span> model(batch_X)</span>
+<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>                loss <span class="op">=</span> criterion(predictions, batch_y)</span>
+<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>                loss.backward()</span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>                optimizer.step()</span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>                epoch_loss <span class="op">+=</span> loss.item()</span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>            avg_epoch_loss <span class="op">=</span> epoch_loss <span class="op">/</span> <span class="bu">len</span>(train_loader)</span>
+<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>            train_losses.append(avg_epoch_loss)</span>
+<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Evaluate on test set</span></span>
+<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a>        model.<span class="bu">eval</span>()</span>
+<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>        test_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> batch_X, batch_y <span class="kw">in</span> test_loader:</span>
+<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a>                predictions <span class="op">=</span> model(batch_X)</span>
+<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>                test_loss <span class="op">+=</span> criterion(predictions, batch_y).item()</span>
+<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a>        avg_test_loss <span class="op">=</span> test_loss <span class="op">/</span> <span class="bu">len</span>(test_loader)</span>
+<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a>        results[unified_lr][opt_name] <span class="op">=</span> {</span>
+<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>            <span class="st">'train_losses'</span>: train_losses,</span>
+<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a>            <span class="st">'test_loss'</span>: avg_test_loss,</span>
+<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a>            <span class="st">'actual_lr'</span>: actual_lr</span>
+<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Unified lr=</span><span class="sc">{</span>unified_lr<span class="sc">:.1f}</span><span class="ss">, </span><span class="sc">{</span>opt_name<span class="sc">:10s}</span><span class="ss">: "</span></span>
+<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a>              <span class="ss">f"actual_lr=</span><span class="sc">{</span>actual_lr<span class="sc">:.6f}</span><span class="ss">, test_MSE=</span><span class="sc">{</span>avg_test_loss<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Display summary</span></span>
+<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Summary: Best configurations"</span>)</span>
+<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> unified_lr <span class="kw">in</span> unified_lrs:</span>
+<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a>    best_opt <span class="op">=</span> <span class="bu">min</span>(results[unified_lr].items(), </span>
+<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a>                   key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>][<span class="st">'test_loss'</span>])</span>
+<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a>    opt_name, metrics <span class="op">=</span> best_opt</span>
+<span id="cb26-101"><a href="#cb26-101" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Unified lr=</span><span class="sc">{</span>unified_lr<span class="sc">:.1f}</span><span class="ss">: </span><span class="sc">{</span>opt_name<span class="sc">:10s}</span><span class="ss"> "</span></span>
+<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"(test MSE=</span><span class="sc">{</span>metrics[<span class="st">'test_loss'</span>]<span class="sc">:.4f}</span><span class="ss">, "</span></span>
+<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"actual lr=</span><span class="sc">{</span>metrics[<span class="st">'actual_lr'</span>]<span class="sc">:.6f}</span><span class="ss">)"</span>)</span>
+<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a><span class="co"># Find overall best</span></span>
+<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a>best_overall <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a>best_overall_loss <span class="op">=</span> <span class="bu">float</span>(<span class="st">'inf'</span>)</span>
+<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> unified_lr <span class="kw">in</span> unified_lrs:</span>
+<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> opt_name, metrics <span class="kw">in</span> results[unified_lr].items():</span>
+<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> metrics[<span class="st">'test_loss'</span>] <span class="op">&lt;</span> best_overall_loss:</span>
+<span id="cb26-113"><a href="#cb26-113" aria-hidden="true" tabindex="-1"></a>            best_overall_loss <span class="op">=</span> metrics[<span class="st">'test_loss'</span>]</span>
+<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a>            best_overall <span class="op">=</span> (unified_lr, opt_name, metrics[<span class="st">'actual_lr'</span>])</span>
+<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Overall best: unified_lr=</span><span class="sc">{</span>best_overall[<span class="dv">0</span>]<span class="sc">:.1f}</span><span class="ss">, "</span></span>
+<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"optimizer=</span><span class="sc">{</span>best_overall[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">, "</span></span>
+<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"test_MSE=</span><span class="sc">{</span>best_overall_loss<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual learning rate used: </span><span class="sc">{</span>best_overall[<span class="dv">2</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Training models with different optimizers and learning rates...
+
+Unified lr=0.5, Adam      : actual_lr=0.000500, test_MSE=5095.8747
+Unified lr=0.5, SGD       : actual_lr=0.005000, test_MSE=5291.3903
+Unified lr=0.5, RMSprop   : actual_lr=0.005000, test_MSE=2828.7084
+Unified lr=0.5, AdamW     : actual_lr=0.000500, test_MSE=5107.9592
+Unified lr=1.0, Adam      : actual_lr=0.001000, test_MSE=3859.4478
+Unified lr=1.0, SGD       : actual_lr=0.010000, test_MSE=5271.6840
+Unified lr=1.0, RMSprop   : actual_lr=0.010000, test_MSE=2769.5164
+Unified lr=1.0, AdamW     : actual_lr=0.001000, test_MSE=3866.1197
+Unified lr=2.0, Adam      : actual_lr=0.002000, test_MSE=3160.6882
+Unified lr=2.0, SGD       : actual_lr=0.020000, test_MSE=nan
+Unified lr=2.0, RMSprop   : actual_lr=0.020000, test_MSE=2883.3345
+Unified lr=2.0, AdamW     : actual_lr=0.002000, test_MSE=3162.8034
+
+======================================================================
+Summary: Best configurations
+======================================================================
+Unified lr=0.5: RMSprop    (test MSE=2828.7084, actual lr=0.005000)
+Unified lr=1.0: RMSprop    (test MSE=2769.5164, actual lr=0.010000)
+Unified lr=2.0: RMSprop    (test MSE=2883.3345, actual lr=0.020000)
+
+Overall best: unified_lr=1.0, optimizer=RMSprop, test_MSE=2769.5164
+Actual learning rate used: 0.010000</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="see-also" class="level2" data-number="16.10">
+<h2 data-number="16.10" class="anchored" data-anchor-id="see-also"><span class="header-section-number">16.10</span> See Also</h2>
+<ul>
+<li><a href="../api/linear_regressor.md">LinearRegressor Documentation</a> - Neural network class with lr parameter</li>
+<li><a href="diabetes_dataset.md">Diabetes Dataset Utilities</a> - Data loading for examples</li>
+<li><a href="../tutorials/hyperparameter_optimization.md">Hyperparameter Optimization</a> - Using map_lr with SpotOptim</li>
+<li><a href="https://pytorch.org/docs/stable/optim.html">PyTorch Optimizer Documentation</a> - Official PyTorch reference</li>
+</ul>
+</section>
+<section id="references" class="level2" data-number="16.11">
+<h2 data-number="16.11" class="anchored" data-anchor-id="references"><span class="header-section-number">16.11</span> References</h2>
+<ul>
+<li>Kingma, D. P., &amp; Ba, J. (2014). Adam: A method for stochastic optimization. arXiv:1412.6980.</li>
+<li>Loshchilov, I., &amp; Hutter, F. (2017). Decoupled weight decay regularization. arXiv:1711.05101.</li>
+<li>PyTorch Team. (2023). PyTorch Optimizer Documentation. https://pytorch.org/docs/stable/optim.html</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./kriging.html" class="pagination-link" aria-label="Kriging Surrogate Integration">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./unified_learning_rate.html" class="pagination-link" aria-label="Unified Learning Rate Interface in SpotOptim">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, T. Bartz-Beielstein</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://sequential-parameter-optimization.github.io/Hyperparameter-Tuning-Cookbook/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://x.com/bartzbeielstein">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

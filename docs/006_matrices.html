@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Matrices – Sequential Parameter Optimization Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./006_infill.html" rel="next">
+<link href="./006_num_gp.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="9&nbsp; Matrices – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./001_surrogate.html">Numerical Methods</a></li><li class="breadcrumb-item"><a href="./006_matrices.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Sequential Parameter Optimization Cookbook</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/sequential-parameter-optimization/spotpython" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Sequential-Parameter-Optimization-Cookbook.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-derivative-quadratic-form" id="toc-sec-derivative-quadratic-form" class="nav-link active" data-scroll-target="#sec-derivative-quadratic-form"><span class="header-section-number">9.1</span> Derivatives of Quadratic Forms</a></li>
+  <li><a href="#sec-conditon-number" id="toc-sec-conditon-number" class="nav-link" data-scroll-target="#sec-conditon-number"><span class="header-section-number">9.2</span> The Condition Number</a></li>
+  <li><a href="#sec-matrix-pseudoinverse" id="toc-sec-matrix-pseudoinverse" class="nav-link" data-scroll-target="#sec-matrix-pseudoinverse"><span class="header-section-number">9.3</span> The Moore-Penrose Pseudoinverse</a>
+  <ul class="collapse">
+  <li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions"><span class="header-section-number">9.3.1</span> Definitions</a></li>
+  <li><a href="#implementation-in-python" id="toc-implementation-in-python" class="nav-link" data-scroll-target="#implementation-in-python"><span class="header-section-number">9.3.2</span> Implementation in Python</a></li>
+  </ul></li>
+  <li><a href="#sec-strictly-positive-definite" id="toc-sec-strictly-positive-definite" class="nav-link" data-scroll-target="#sec-strictly-positive-definite"><span class="header-section-number">9.4</span> Strictly Positive Definite Kernels</a>
+  <ul class="collapse">
+  <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition"><span class="header-section-number">9.4.1</span> Definition</a></li>
+  <li><a href="#connection-to-positive-definite-matrices" id="toc-connection-to-positive-definite-matrices" class="nav-link" data-scroll-target="#connection-to-positive-definite-matrices"><span class="header-section-number">9.4.2</span> Connection to Positive Definite Matrices</a></li>
+  <li><a href="#connection-to-rbf-models" id="toc-connection-to-rbf-models" class="nav-link" data-scroll-target="#connection-to-rbf-models"><span class="header-section-number">9.4.3</span> Connection to RBF Models</a></li>
+  </ul></li>
+  <li><a href="#cholesky-decomposition-and-positive-definite-matrices" id="toc-cholesky-decomposition-and-positive-definite-matrices" class="nav-link" data-scroll-target="#cholesky-decomposition-and-positive-definite-matrices"><span class="header-section-number">9.5</span> Cholesky Decomposition and Positive Definite Matrices</a>
+  <ul class="collapse">
+  <li><a href="#example-of-cholesky-decomposition" id="toc-example-of-cholesky-decomposition" class="nav-link" data-scroll-target="#example-of-cholesky-decomposition"><span class="header-section-number">9.5.1</span> Example of Cholesky Decomposition</a></li>
+  <li><a href="#inverse-matrix-using-cholesky-decomposition" id="toc-inverse-matrix-using-cholesky-decomposition" class="nav-link" data-scroll-target="#inverse-matrix-using-cholesky-decomposition"><span class="header-section-number">9.5.2</span> Inverse Matrix Using Cholesky Decomposition</a></li>
+  </ul></li>
+  <li><a href="#nyström-approximation" id="toc-nyström-approximation" class="nav-link" data-scroll-target="#nyström-approximation"><span class="header-section-number">9.6</span> Nyström Approximation</a>
+  <ul class="collapse">
+  <li><a href="#whats-the-big-idea" id="toc-whats-the-big-idea" class="nav-link" data-scroll-target="#whats-the-big-idea"><span class="header-section-number">9.6.1</span> What’s the Big Idea?</a></li>
+  <li><a href="#how-does-it-work" id="toc-how-does-it-work" class="nav-link" data-scroll-target="#how-does-it-work"><span class="header-section-number">9.6.2</span> How Does It Work?</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">9.6.3</span> Example</a></li>
+  <li><a href="#why-is-this-useful" id="toc-why-is-this-useful" class="nav-link" data-scroll-target="#why-is-this-useful"><span class="header-section-number">9.6.4</span> Why Is This Useful?</a></li>
+  <li><a href="#applying-the-nyström-approximation-how-nyström-approximation-helps-kriging" id="toc-applying-the-nyström-approximation-how-nyström-approximation-helps-kriging" class="nav-link" data-scroll-target="#applying-the-nyström-approximation-how-nyström-approximation-helps-kriging"><span class="header-section-number">9.6.5</span> Applying the Nyström Approximation: How Nyström Approximation Helps Kriging</a></li>
+  <li><a href="#example-predicting-temperature-with-nyström-kriging" id="toc-example-predicting-temperature-with-nyström-kriging" class="nav-link" data-scroll-target="#example-predicting-temperature-with-nyström-kriging"><span class="header-section-number">9.6.6</span> Example: Predicting Temperature with Nyström-Kriging</a></li>
+  <li><a href="#details-woodbury-matrix-identity-for-avoiding-the-big-inversion" id="toc-details-woodbury-matrix-identity-for-avoiding-the-big-inversion" class="nav-link" data-scroll-target="#details-woodbury-matrix-identity-for-avoiding-the-big-inversion"><span class="header-section-number">9.6.7</span> Details: Woodbury Matrix Identity for Avoiding the Big Inversion</a></li>
+  <li><a href="#the-example-step-by-step" id="toc-the-example-step-by-step" class="nav-link" data-scroll-target="#the-example-step-by-step"><span class="header-section-number">9.6.8</span> The Example: Step-by-Step</a></li>
+  </ul></li>
+  <li><a href="#extending-spotpythons-kriging-surrogate-with-nyström-approximation-for-enhanced-scalability" id="toc-extending-spotpythons-kriging-surrogate-with-nyström-approximation-for-enhanced-scalability" class="nav-link" data-scroll-target="#extending-spotpythons-kriging-surrogate-with-nyström-approximation-for-enhanced-scalability"><span class="header-section-number">9.7</span> Extending spotpython’s Kriging Surrogate with Nyström Approximation for Enhanced Scalability</a>
+  <ul class="collapse">
+  <li><a href="#introduction-overcoming-the-scalability-challenge-in-kriging-for-sequential-optimization" id="toc-introduction-overcoming-the-scalability-challenge-in-kriging-for-sequential-optimization" class="nav-link" data-scroll-target="#introduction-overcoming-the-scalability-challenge-in-kriging-for-sequential-optimization"><span class="header-section-number">9.7.1</span> Introduction: Overcoming the Scalability Challenge in Kriging for Sequential Optimization</a></li>
+  <li><a href="#report-objectives-and-structure" id="toc-report-objectives-and-structure" class="nav-link" data-scroll-target="#report-objectives-and-structure"><span class="header-section-number">9.7.2</span> Report Objectives and Structure</a></li>
+  </ul></li>
+  <li><a href="#theoretical-foundations-the-nyströmkriging-framework" id="toc-theoretical-foundations-the-nyströmkriging-framework" class="nav-link" data-scroll-target="#theoretical-foundations-the-nyströmkriging-framework"><span class="header-section-number">9.8</span> Theoretical Foundations: The Nyström–Kriging Framework</a>
+  <ul class="collapse">
+  <li><a href="#a-primer-on-kriging-gaussian-process-regression" id="toc-a-primer-on-kriging-gaussian-process-regression" class="nav-link" data-scroll-target="#a-primer-on-kriging-gaussian-process-regression"><span class="header-section-number">9.8.1</span> A Primer on Kriging (Gaussian Process Regression)</a></li>
+  <li><a href="#the-nyström-method-for-low-rank-kernel-approximation" id="toc-the-nyström-method-for-low-rank-kernel-approximation" class="nav-link" data-scroll-target="#the-nyström-method-for-low-rank-kernel-approximation"><span class="header-section-number">9.8.2</span> The Nyström Method for Low-Rank Kernel Approximation</a></li>
+  <li><a href="#justification-for-landmark-selection" id="toc-justification-for-landmark-selection" class="nav-link" data-scroll-target="#justification-for-landmark-selection"><span class="header-section-number">9.8.3</span> Justification for Landmark Selection</a></li>
+  </ul></li>
+  <li><a href="#implementation-a-scalable-kriging-class-for-spotpython" id="toc-implementation-a-scalable-kriging-class-for-spotpython" class="nav-link" data-scroll-target="#implementation-a-scalable-kriging-class-for-spotpython"><span class="header-section-number">9.9</span> Implementation: A Scalable Kriging Class for spotpython</a>
+  <ul class="collapse">
+  <li><a href="#updated-kriging.py-with-nyström-approximation-excerpt" id="toc-updated-kriging.py-with-nyström-approximation-excerpt" class="nav-link" data-scroll-target="#updated-kriging.py-with-nyström-approximation-excerpt"><span class="header-section-number">9.9.1</span> Updated kriging.py with Nyström Approximation (excerpt)</a></li>
+  </ul></li>
+  <li><a href="#implementation-details" id="toc-implementation-details" class="nav-link" data-scroll-target="#implementation-details"><span class="header-section-number">9.10</span> Implementation Details</a>
+  <ul class="collapse">
+  <li><a href="#architectural-enhancements-to-init" id="toc-architectural-enhancements-to-init" class="nav-link" data-scroll-target="#architectural-enhancements-to-init"><span class="header-section-number">9.10.1</span> Architectural Enhancements to <code>init</code></a></li>
+  <li><a href="#the-fit-method-a-dual-pathway-approach" id="toc-the-fit-method-a-dual-pathway-approach" class="nav-link" data-scroll-target="#the-fit-method-a-dual-pathway-approach"><span class="header-section-number">9.10.2</span> The <code>fit()</code> Method: A Dual-Pathway Approach</a></li>
+  <li><a href="#the-predict-method-conditional-prediction-logic" id="toc-the-predict-method-conditional-prediction-logic" class="nav-link" data-scroll-target="#the-predict-method-conditional-prediction-logic"><span class="header-section-number">9.10.3</span> The <code>predict()</code> Method: Conditional Prediction Logic</a></li>
+  <li><a href="#critical-detail-preserving-mixed-variable-type-functionality" id="toc-critical-detail-preserving-mixed-variable-type-functionality" class="nav-link" data-scroll-target="#critical-detail-preserving-mixed-variable-type-functionality"><span class="header-section-number">9.10.4</span> Critical Detail: Preserving Mixed Variable Type Functionality</a></li>
+  <li><a href="#seamless-integration-into-the-nyström-workflow" id="toc-seamless-integration-into-the-nyström-workflow" class="nav-link" data-scroll-target="#seamless-integration-into-the-nyström-workflow"><span class="header-section-number">9.10.5</span> Seamless Integration into the Nyström Workflow</a></li>
+  </ul></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">9.11</span> Jupyter Notebook</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./001_surrogate.html">Numerical Methods</a></li><li class="breadcrumb-item"><a href="./006_matrices.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-derivative-quadratic-form" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="sec-derivative-quadratic-form"><span class="header-section-number">9.1</span> Derivatives of Quadratic Forms</h2>
+<p>We present a step-by-step derivation of the general formula <span id="eq-derivative-quadratic-form"><span class="math display">\[
+\frac{\partial}{\partial \mathbf{v}} (\mathbf{v}^T \mathbf{A} \mathbf{v}) = \mathbf{A} \mathbf{v} + \mathbf{A}^T \mathbf{v}.
+\tag{9.1}\]</span></span></p>
+<ol type="1">
+<li><p>Define the components. Let <span class="math inline">\(\mathbf{v}\)</span> be a vector of size <span class="math inline">\(n \times 1\)</span>, and let <span class="math inline">\(\mathbf{A}\)</span> be a matrix of size <span class="math inline">\(n \times n\)</span>.</p></li>
+<li><p>Write out the quadratic form in summation notation. The product <span class="math inline">\(\mathbf{v}^T \mathbf{A} \mathbf{v}\)</span> is a scalar. It can be expanded and be rewritten as a double summation: <span class="math display">\[
+\mathbf{v}^T \mathbf{A} \mathbf{v} = \sum_{i=1}^n \sum_{j=1}^n v_i a_{ij} v_j.
+\]</span></p></li>
+<li><p>Calculate the partial derivative with respect to a component <span class="math inline">\(v_k\)</span>: The derivative of the scalar <span class="math inline">\(\mathbf{v}^T \mathbf{A} \mathbf{v}\)</span> with respect to the vector <span class="math inline">\(\mathbf{v}\)</span> is the gradient vector, whose <span class="math inline">\(k\)</span>-th component is <span class="math inline">\(\frac{\partial}{\partial v_k} (\mathbf{v}^T \mathbf{A} \mathbf{v})\)</span>. We need to find <span class="math inline">\(\frac{\partial}{\partial v_k} \left( \sum_{i=1}^n \sum_{j=1}^n v_i a_{ij} v_j \right)\)</span>. Consider the terms in the summation that involve <span class="math inline">\(v_k\)</span>. A term <span class="math inline">\(v_i a_{ij} v_j\)</span> involves <span class="math inline">\(v_k\)</span> if <span class="math inline">\(i=k\)</span> or <span class="math inline">\(j=k\)</span> (or both).</p>
+<ul>
+<li>Terms where <span class="math inline">\(i=k\)</span>: <span class="math inline">\(v_k a_{kj} v_j\)</span>. The derivative with respect to <span class="math inline">\(v_k\)</span> is <span class="math inline">\(a_{kj} v_j\)</span>.</li>
+<li>Terms where <span class="math inline">\(j=k\)</span>: <span class="math inline">\(v_i a_{ik} v_k\)</span>. The derivative with respect to <span class="math inline">\(v_k\)</span> is <span class="math inline">\(v_i a_{ik}\)</span>.</li>
+<li>The term where <span class="math inline">\(i=k\)</span> and <span class="math inline">\(j=k\)</span>: <span class="math inline">\(v_k a_{kk} v_k = a_{kk} v_k^2\)</span>. Its derivative with respect to <span class="math inline">\(v_k\)</span> is <span class="math inline">\(2 a_{kk} v_k\)</span>. Notice this term is included in both cases above when <span class="math inline">\(i=k\)</span> and <span class="math inline">\(j=k\)</span>. When <span class="math inline">\(i=k\)</span>, the term is <span class="math inline">\(v_k a_{kk} v_k\)</span>, derivative is <span class="math inline">\(a_{kk} v_k\)</span>. When <span class="math inline">\(j=k\)</span>, the term is <span class="math inline">\(v_k a_{kk} v_k\)</span>, derivative is <span class="math inline">\(v_k a_{kk}\)</span>. Summing these two gives <span class="math inline">\(2 a_{kk} v_k\)</span>.</li>
+</ul></li>
+<li><p>Let’s differentiate the sum <span class="math inline">\(\sum_{i=1}^n \sum_{j=1}^n v_i a_{ij} v_j\)</span> with respect to <span class="math inline">\(v_k\)</span>: <span class="math display">\[
+\frac{\partial}{\partial v_k} \left( \sum_{i=1}^n \sum_{j=1}^n v_i a_{ij} v_j \right) = \sum_{i=1}^n \sum_{j=1}^n \frac{\partial}{\partial v_k} (v_i a_{ij} v_j).
+\]</span></p></li>
+<li><p>The partial derivative <span class="math inline">\(\frac{\partial}{\partial v_k} (v_i a_{ij} v_j)\)</span> is non-zero only if <span class="math inline">\(i=k\)</span> or <span class="math inline">\(j=k\)</span>.</p>
+<ul>
+<li>If <span class="math inline">\(i=k\)</span> and <span class="math inline">\(j \ne k\)</span>: <span class="math inline">\(\frac{\partial}{\partial v_k} (v_k a_{kj} v_j) = a_{kj} v_j\)</span>.</li>
+<li>If <span class="math inline">\(i \ne k\)</span> and <span class="math inline">\(j = k\)</span>: <span class="math inline">\(\frac{\partial}{\partial v_k} (v_i a_{ik} v_k) = v_i a_{ik}\)</span>.</li>
+<li>If <span class="math inline">\(i=k\)</span> and <span class="math inline">\(j=k\)</span>: <span class="math inline">\(\frac{\partial}{\partial v_k} (v_k a_{kk} v_k) = \frac{\partial}{\partial v_k} (a_{kk} v_k^2) = 2 a_{kk} v_k\)</span>.</li>
+</ul></li>
+<li><p>So, the partial derivative is the sum of derivatives of all terms involving <span class="math inline">\(v_k\)</span>: <span class="math inline">\(\frac{\partial}{\partial v_k} (\mathbf{v}^T \mathbf{A} \mathbf{v}) = \sum_{j \ne k} (a_{kj} v_j) + \sum_{i \ne k} (v_i a_{ik}) + (2 a_{kk} v_k)\)</span>.</p></li>
+<li><p>We can rewrite this by including the <span class="math inline">\(i=k, j=k\)</span> term back into the summations: <span class="math inline">\(\sum_{j \ne k} (a_{kj} v_j) + a_{kk} v_k + \sum_{i \ne k} (v_i a_{ik}) + v_k a_{kk}\)</span> (since <span class="math inline">\(v_k a_{kk} = a_{kk} v_k\)</span>) <span class="math inline">\(= \sum_{j=1}^n a_{kj} v_j + \sum_{i=1}^n v_i a_{ik}\)</span>.</p></li>
+<li><p>Convert back to matrix/vector notation: The first summation <span class="math inline">\(\sum_{j=1}^n a_{kj} v_j\)</span> is the <span class="math inline">\(k\)</span>-th component of the matrix-vector product <span class="math inline">\(\mathbf{A} \mathbf{v}\)</span>.The second summation <span class="math inline">\(\sum_{i=1}^n v_i a_{ik}\)</span> can be written as <span class="math inline">\(\sum_{i=1}^n a_{ik} v_i\)</span>. Recall that the element in the <span class="math inline">\(k\)</span>-th row and <span class="math inline">\(i\)</span>-th column of the transpose matrix <span class="math inline">\(\mathbf{A}^T\)</span> is <span class="math inline">\((A^T)_{ki} = a_{ik}\)</span>. So, <span class="math inline">\(\sum_{i=1}^n a_{ik} v_i = \sum_{i=1}^n (A^T)_{ki} v_i\)</span>, which is the <span class="math inline">\(k\)</span>-th component of the matrix-vector product <span class="math inline">\(\mathbf{A}^T \mathbf{v}\)</span>.</p></li>
+<li><p>Assemble the gradient vector: The <span class="math inline">\(k\)</span>-th component of the gradient <span class="math inline">\(\frac{\partial}{\partial \mathbf{v}} (\mathbf{v}^T \mathbf{A} \mathbf{v})\)</span> is <span class="math inline">\((\mathbf{A} \mathbf{v})_k + (\mathbf{A}^T \mathbf{v})_k\)</span>. Since this holds for all <span class="math inline">\(k = 1, \dots, n\)</span>, the gradient vector is the sum of the two vectors <span class="math inline">\(\mathbf{A} \mathbf{v}\)</span> and <span class="math inline">\(\mathbf{A}^T \mathbf{v}\)</span>. Therefore, the general formula for the derivative is <span class="math inline">\(\frac{\partial}{\partial \mathbf{v}} (\mathbf{v}^T \mathbf{A} \mathbf{v}) = \mathbf{A} \mathbf{v} + \mathbf{A}^T \mathbf{v}\)</span>.</p></li>
+</ol>
+</section>
+<section id="sec-conditon-number" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="sec-conditon-number"><span class="header-section-number">9.2</span> The Condition Number</h2>
+<p>A small value, <code>eps</code>, can be passed to the function <code>build_Psi</code> to improve the condition number. For example, <code>eps=sqrt(spacing(1))</code> can be used. The numpy function <code>spacing()</code> returns the distance between a number and its nearest adjacent number.</p>
+<p>The condition number of a matrix is a measure of its sensitivity to small changes in its elements. It is used to estimate how much the output of a function will change if the input is slightly altered.</p>
+<p>A matrix with a low condition number is well-conditioned, which means its behavior is relatively stable, while a matrix with a high condition number is ill-conditioned, meaning its behavior is unstable with respect to numerical precision.</p>
+<div id="5a0dcc23" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a well-conditioned matrix (low condition number)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="fl">0.1</span>], [<span class="fl">0.1</span>, <span class="dv">1</span>]])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Condition number of A: "</span>, np.linalg.cond(A))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define an ill-conditioned matrix (high condition number)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="fl">0.99999999</span>], [<span class="fl">0.99999999</span>, <span class="dv">1</span>]])</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Condition number of B: "</span>, np.linalg.cond(B))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Condition number of A:  1.2222222222222225
+Condition number of B:  200000000.57495335</code></pre>
+</div>
+</div>
+</section>
+<section id="sec-matrix-pseudoinverse" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="sec-matrix-pseudoinverse"><span class="header-section-number">9.3</span> The Moore-Penrose Pseudoinverse</h2>
+<section id="definitions" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="definitions"><span class="header-section-number">9.3.1</span> Definitions</h3>
+<p>The Moore-Penrose pseudoinverse is a generalization of the inverse matrix for non-square or singular matrices. It is computed as</p>
+<p><span class="math display">\[
+A^+ = (A^* A)^{-1} A^*,
+\]</span> where <span class="math inline">\(A^*\)</span> is the conjugate transpose of <span class="math inline">\(A\)</span>.</p>
+<p>It satisfies the following properties:</p>
+<ol type="1">
+<li><span class="math inline">\(AA^+A = A\)</span></li>
+<li><span class="math inline">\(A^+AA^+ = A^+\)</span></li>
+<li><span class="math inline">\((AA^+)^* = AA^+\)</span>.</li>
+<li><span class="math inline">\((A^+A)^* = A^+A\)</span></li>
+<li><span class="math inline">\(A^+ = (A^*)^+\)</span></li>
+<li><span class="math inline">\(A^+ = A^T\)</span> if <span class="math inline">\(A\)</span> is a square matrix and <span class="math inline">\(A\)</span> is invertible.</li>
+</ol>
+<p>The pseudoinverse can be computed using Singular Value Decomposition (SVD).</p>
+</section>
+<section id="implementation-in-python" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="implementation-in-python"><span class="header-section-number">9.3.2</span> Implementation in Python</h3>
+<div id="f2e2319a" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> pinv</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">5</span>, <span class="dv">6</span>]])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Matrix A:</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>A<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>A_pseudo_inv <span class="op">=</span> pinv(A)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moore-Penrose Pseudoinverse:</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>A_pseudo_inv<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Matrix A:
+ [[1 2]
+ [3 4]
+ [5 6]]
+Moore-Penrose Pseudoinverse:
+ [[-1.33333333 -0.33333333  0.66666667]
+ [ 1.08333333  0.33333333 -0.41666667]]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-strictly-positive-definite" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="sec-strictly-positive-definite"><span class="header-section-number">9.4</span> Strictly Positive Definite Kernels</h2>
+<section id="definition" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="definition"><span class="header-section-number">9.4.1</span> Definition</h3>
+<div id="def-strictly-positive-definite" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.1 (Strictly Positive Definite Kernel)</strong></span> A kernel function <span class="math inline">\(k(x,y)\)</span> is called strictly positive definite if for any finite collection of distinct points <span class="math inline">\({x_1, x_2, \ldots, x_n}\)</span> in the input space and any non-zero vector of coefficients <span class="math inline">\(\alpha = (\alpha_1, \alpha_2, \ldots, \alpha_n)\)</span>, the following inequality holds:</p>
+<p><span id="eq-strictly-positive-definite"><span class="math display">\[
+\sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_i \alpha_j k(x_i, x_j) &gt; 0.
+\tag{9.2}\]</span></span></p>
+</div>
+<p>In contrast, a kernel function <span class="math inline">\(k(x,y)\)</span> is called positive definite (but not strictly) if the “<span class="math inline">\(&gt;\)</span>” sign is replaced by “<span class="math inline">\(\geq\)</span>” in the above inequality.</p>
+</section>
+<section id="connection-to-positive-definite-matrices" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="connection-to-positive-definite-matrices"><span class="header-section-number">9.4.2</span> Connection to Positive Definite Matrices</h3>
+<p>The connection between strictly positive definite kernels and positive definite matrices lies in the Gram matrix construction:</p>
+<ul>
+<li>When we evaluate a kernel function <span class="math inline">\(k(x,y)\)</span> at all pairs of data points in our sample, we construct the Gram matrix <span class="math inline">\(K\)</span> where <span class="math inline">\(K_{ij} = k(x_i, x_j)\)</span>.</li>
+<li>If the kernel function <span class="math inline">\(k\)</span> is strictly positive definite, then for any set of distinct points, the resulting Gram matrix will be symmetric positive definite.</li>
+</ul>
+<p>A symmetric matrix is positive definite if and only if for any non-zero vector <span class="math inline">\(\alpha\)</span>, the quadratic form <span class="math inline">\(\alpha^T K \alpha &gt; 0\)</span>, which directly corresponds to the kernel definition above.</p>
+</section>
+<section id="connection-to-rbf-models" class="level3" data-number="9.4.3">
+<h3 data-number="9.4.3" class="anchored" data-anchor-id="connection-to-rbf-models"><span class="header-section-number">9.4.3</span> Connection to RBF Models</h3>
+<p>For RBF models, the kernel function is the radial basis function itself: <span class="math display">\[
+k(x,y) = \psi(||x-y||).
+\]</span></p>
+<p>The Gaussian RBF kernel <span class="math inline">\(\psi(r) = e^{-r^2/(2\sigma^2)}\)</span> is strictly positive definite in <span class="math inline">\(\mathbb{R}^n\)</span> for any dimension <span class="math inline">\(n\)</span>. The inverse multiquadric kernel <span class="math inline">\(\psi(r) = (r^2 + \sigma^2)^{-1/2}\)</span> is also strictly positive definite in any dimension.</p>
+<p>This mathematical property guarantees that the interpolation problem has a unique solution (the weight vector <span class="math inline">\(\vec{w}\)</span> is uniquely determined). The linear system <span class="math inline">\(\Psi \vec{w} = \vec{y}\)</span> can be solved reliably using Cholesky decomposition. The RBF interpolant exists and is unique for any distinct set of centers.</p>
+</section>
+</section>
+<section id="cholesky-decomposition-and-positive-definite-matrices" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="cholesky-decomposition-and-positive-definite-matrices"><span class="header-section-number">9.5</span> Cholesky Decomposition and Positive Definite Matrices</h2>
+<p>We consider the definiteness of a matrix, before discussing the Cholesky decomposition.</p>
+<div id="def-positive-definite" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.2 (Positive Definite Matrix)</strong></span> A symmetric matrix <span class="math inline">\(A\)</span> is positive definite if all its eigenvalues are positive.</p>
+</div>
+<div id="exm-positive-definite" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.1 (Positive Definite Matrix)</strong></span> Given a symmetric matrix <span class="math inline">\(A = \begin{pmatrix} 9 &amp; 4 \\ 4 &amp; 9 \end{pmatrix}\)</span>, the eigenvalues of <span class="math inline">\(A\)</span> are <span class="math inline">\(\lambda_1 = 13\)</span> and <span class="math inline">\(\lambda_2 = 5\)</span>. Since both eigenvalues are positive, the matrix <span class="math inline">\(A\)</span> is positive definite.</p>
+</div>
+<div id="def-negative-definite" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.3 (Negative Definite, Positive Semidefinite, and Negative Semidefinite Matrices)</strong></span> Similarily, a symmetric matrix <span class="math inline">\(A\)</span> is negative definite if all its eigenvalues are negative. It is positive semidefinite if all its eigenvalues are non-negative, and negative semidefinite if all its eigenvalues are non-positive.</p>
+</div>
+<p>The covariance matrix must be positive definite for a multivariate normal distribution for a couple of reasons:</p>
+<ul>
+<li>Semidefinite vs Definite: A covariance matrix is always symmetric and positive semidefinite. However, for a multivariate normal distribution, it must be positive definite, not just semidefinite. This is because a positive semidefinite matrix can have zero eigenvalues, which would imply that some dimensions in the distribution have zero variance, collapsing the distribution in those dimensions. A positive definite matrix has all positive eigenvalues, ensuring that the distribution has positive variance in all dimensions.</li>
+<li>Invertibility: The multivariate normal distribution’s probability density function involves the inverse of the covariance matrix. If the covariance matrix is not positive definite, it may not be invertible, and the density function would be undefined.</li>
+</ul>
+<p>In summary, the covariance matrix being positive definite ensures that the multivariate normal distribution is well-defined and has positive variance in all dimensions.</p>
+<p>The definiteness of a matrix can be checked by examining the eigenvalues of the matrix. If all eigenvalues are positive, the matrix is positive definite.</p>
+<div id="289d233b" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_positive_definite(matrix):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">all</span>(np.linalg.eigvals(matrix) <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> np.array([[<span class="dv">9</span>, <span class="dv">4</span>], [<span class="dv">4</span>, <span class="dv">9</span>]])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(is_positive_definite(matrix))  <span class="co"># Outputs: True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True</code></pre>
+</div>
+</div>
+<p>However, a more efficient way to check the definiteness of a matrix is through the Cholesky decomposition.</p>
+<div id="def-cholesky-decomposition" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 9.4 (Cholesky Decomposition)</strong></span> For a given symmetric positive-definite matrix <span class="math inline">\(A \in \mathbb{R}^{n \times n}\)</span>, there exists a unique lower triangular matrix <span class="math inline">\(L \in \mathbb{R}^{n \times n}\)</span> with positive diagonal elements such that:</p>
+<p><span class="math display">\[
+A = L L^T.
+\]</span></p>
+<p>Here, <span class="math inline">\(L^T\)</span> denotes the transpose of <span class="math inline">\(L\)</span>.</p>
+</div>
+<div id="exm-cholesky-decomposition" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.2 (Cholesky decomposition using <code>numpy</code>)</strong></span> <code>linalg.cholesky</code> computes the Cholesky decomposition of a matrix, i.e., it computes a lower triangular matrix <span class="math inline">\(L\)</span> such that <span class="math inline">\(LL^T = A\)</span>. If the matrix is not positive definite, an error (<code>LinAlgError</code>) is raised.</p>
+<div id="39821d79" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a Hermitian, positive-definite matrix</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">9</span>, <span class="dv">4</span>], [<span class="dv">4</span>, <span class="dv">9</span>]]) </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the Cholesky decomposition</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> np.linalg.cholesky(A)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"L = </span><span class="ch">\n</span><span class="st">"</span>, L)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"L*LT = </span><span class="ch">\n</span><span class="st">"</span>, np.dot(L, L.T))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>L = 
+ [[3.         0.        ]
+ [1.33333333 2.68741925]]
+L*LT = 
+ [[9. 4.]
+ [4. 9.]]</code></pre>
+</div>
+</div>
+</div>
+<div id="exm-cholesky-decomposition" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.3 (Cholesky Decomposition)</strong></span> Given a symmetric positive-definite matrix <span class="math inline">\(A = \begin{pmatrix} 9 &amp; 4 \\ 4 &amp; 9 \end{pmatrix}\)</span>, the Cholesky decomposition computes the lower triangular matrix <span class="math inline">\(L\)</span> such that <span class="math inline">\(A = L L^T\)</span>. The matrix <span class="math inline">\(L\)</span> is computed as: <span class="math display">\[
+L = \begin{pmatrix} 3 &amp; 0 \\ 4/3 &amp; 2 \end{pmatrix},
+\]</span> so that <span class="math display">\[
+L L^T = \begin{pmatrix} 3 &amp; 0 \\ 4/3 &amp; \sqrt{65}/3 \end{pmatrix} \begin{pmatrix} 3 &amp; 4/3 \\ 0 &amp; \sqrt{65}/3 \end{pmatrix} = \begin{pmatrix} 9 &amp; 4 \\ 4 &amp; 9 \end{pmatrix} = A.
+\]</span></p>
+</div>
+<p>An efficient implementation of the definiteness-check based on Cholesky is already available in the <code>numpy</code> library. It provides the <code>np.linalg.cholesky</code> function to compute the Cholesky decomposition of a matrix. This more efficient <code>numpy</code>-approach can be used as follows:</p>
+<div id="84e108b7" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_pd(K):</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        np.linalg.cholesky(K)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> np.linalg.linalg.LinAlgError <span class="im">as</span> err:</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="st">'Matrix is not positive definite'</span> <span class="kw">in</span> err.message:</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>matrix <span class="op">=</span> np.array([[<span class="dv">9</span>, <span class="dv">4</span>], [<span class="dv">4</span>, <span class="dv">9</span>]])</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(is_pd(matrix))  <span class="co"># Outputs: True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True</code></pre>
+</div>
+</div>
+<section id="example-of-cholesky-decomposition" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="example-of-cholesky-decomposition"><span class="header-section-number">9.5.1</span> Example of Cholesky Decomposition</h3>
+<p>We consider dimension <span class="math inline">\(k=1\)</span> and <span class="math inline">\(n=2\)</span> sample points. The sample points are located at <span class="math inline">\(x_1=1\)</span> and <span class="math inline">\(x_2=5\)</span>. The response values are <span class="math inline">\(y_1=2\)</span> and <span class="math inline">\(y_2=10\)</span>. The correlation parameter is <span class="math inline">\(\theta=1\)</span> and <span class="math inline">\(p\)</span> is set to <span class="math inline">\(1\)</span>. Using <a href="006_num_gp.html#eq-krigingbase" class="quarto-xref">Equation&nbsp;<span>8.1</span></a>, we can compute the correlation matrix <span class="math inline">\(\Psi\)</span>:</p>
+<p><span class="math display">\[
+\Psi = \begin{pmatrix}
+1 &amp; e^{-1}\\
+e^{-1} &amp; 1
+\end{pmatrix}.
+\]</span></p>
+<p>To determine MLE as in <a href="006_num_gp.html#eq-mle-yhat" class="quarto-xref">Equation&nbsp;<span>8.13</span></a>, we need to compute <span class="math inline">\(\Psi^{-1}\)</span>:</p>
+<p><span class="math display">\[
+\Psi^{-1} = \frac{e}{e^2 -1} \begin{pmatrix}
+e &amp; -1\\
+-1 &amp; e
+\end{pmatrix}.
+\]</span></p>
+<p>Cholesky-decomposition of <span class="math inline">\(\Psi\)</span> is recommended to compute <span class="math inline">\(\Psi^{-1}\)</span>. Cholesky decomposition is a decomposition of a positive definite symmetric matrix into the product of a lower triangular matrix <span class="math inline">\(L\)</span>, a diagonal matrix <span class="math inline">\(D\)</span> and the transpose of <span class="math inline">\(L\)</span>, which is denoted as <span class="math inline">\(L^T\)</span>. Consider the following example:</p>
+<p><span class="math display">\[
+LDL^T=
+\begin{pmatrix}
+1 &amp; 0 \\
+l_{21} &amp; 1
+\end{pmatrix}
+\begin{pmatrix}
+d_{11} &amp; 0 \\
+0 &amp; d_{22}
+\end{pmatrix}
+\begin{pmatrix}
+1 &amp; l_{21} \\
+0 &amp; 1
+\end{pmatrix}=
+\]</span></p>
+<p><span id="eq-cholex"><span class="math display">\[
+\begin{pmatrix}
+d_{11} &amp; 0 \\
+d_{11} l_{21} &amp; d_{22}
+\end{pmatrix}
+\begin{pmatrix}
+1 &amp; l_{21} \\
+0 &amp; 1
+\end{pmatrix}
+=
+\begin{pmatrix}
+d_{11} &amp; d_{11} l_{21} \\
+d_{11} l_{21} &amp; d_{11} l_{21}^2 + d_{22}
+\end{pmatrix}.
+\tag{9.3}\]</span></span></p>
+<p>Using <a href="#eq-cholex" class="quarto-xref">Equation&nbsp;<span>9.3</span></a>, we can compute the Cholesky decomposition of <span class="math inline">\(\Psi\)</span>:</p>
+<ol type="1">
+<li><span class="math inline">\(d_{11} = 1\)</span>,</li>
+<li><span class="math inline">\(l_{21}d_{11} = e^{-1} \Rightarrow l_{21} = e^{-1}\)</span>, and</li>
+<li><span class="math inline">\(d_{11} l_{21}^2 + d_{22} = 1 \Rightarrow d_{22} = 1 - e^{-2}\)</span>.</li>
+</ol>
+<p>The Cholesky decomposition of <span class="math inline">\(\Psi\)</span> is <span class="math display">\[
+\Psi = \begin{pmatrix}
+1 &amp; 0\\
+e^{-1} &amp; 1\\
+\end{pmatrix}
+\begin{pmatrix}
+1 &amp; 0\\
+0 &amp; 1 - e^{-2}\\
+\end{pmatrix}
+\begin{pmatrix}
+1 &amp; e^{-1}\\
+0 &amp; 1\\
+\end{pmatrix}
+= LDL^T\]</span></p>
+<p>Some programs use <span class="math inline">\(U\)</span> instead of <span class="math inline">\(L\)</span>. The Cholesky decomposition of <span class="math inline">\(\Psi\)</span> is <span class="math display">\[
+\Psi = LDL^T = U^TDU.
+\]</span></p>
+<p>Using <span class="math display">\[
+\sqrt{D} =\begin{pmatrix}
+1 &amp; 0\\
+0 &amp; \sqrt{1 - e^{-2}}\\
+\end{pmatrix},
+\]</span> we can write the Cholesky decomposition of <span class="math inline">\(\Psi\)</span> without a diagonal matrix <span class="math inline">\(D\)</span> as <span class="math display">\[
+\Psi = \begin{pmatrix}
+1 &amp; 0\\
+e^{-1} &amp; \sqrt{1 - e^{-2}}\\
+\end{pmatrix}
+\begin{pmatrix}
+1 &amp; e^{-1}\\
+0 &amp; \sqrt{1 - e^{-2}}\\
+\end{pmatrix}
+= U^TU.
+\]</span></p>
+</section>
+<section id="inverse-matrix-using-cholesky-decomposition" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="inverse-matrix-using-cholesky-decomposition"><span class="header-section-number">9.5.2</span> Inverse Matrix Using Cholesky Decomposition</h3>
+<p>To compute the inverse of a matrix using the Cholesky decomposition, you can follow these steps:</p>
+<ol type="1">
+<li>Decompose the matrix <span class="math inline">\(A\)</span> into <span class="math inline">\(L\)</span> and <span class="math inline">\(L^T\)</span>, where <span class="math inline">\(L\)</span> is a lower triangular matrix and <span class="math inline">\(L^T\)</span> is the transpose of <span class="math inline">\(L\)</span>.</li>
+<li>Compute <span class="math inline">\(L^{-1}\)</span>, the inverse of <span class="math inline">\(L\)</span>.</li>
+<li>The inverse of <span class="math inline">\(A\)</span> is then <span class="math inline">\((L^{-1})^T  L^-1\)</span>.</li>
+</ol>
+<p>Please note that this method only applies to symmetric, positive-definite matrices.</p>
+<p>The inverse of the matrix <span class="math inline">\(\Psi\)</span> from above is:</p>
+<p><span class="math display">\[
+\Psi^{-1} = \frac{e}{e^2 -1} \begin{pmatrix}
+e &amp; -1\\
+-1 &amp; e
+\end{pmatrix}.
+\]</span></p>
+<p>Here’s an example of how to compute the inverse of a matrix using Cholesky decomposition in Python:</p>
+<div id="ac265dd4" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> cholesky, inv</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>E <span class="op">=</span> np.exp(<span class="dv">1</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Psi is a symmetric, positive-definite matrix </span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Psi <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">1</span><span class="op">/</span>E], [<span class="dv">1</span><span class="op">/</span>E, <span class="dv">1</span>]])</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> cholesky(Psi, lower<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>L_inv <span class="op">=</span> inv(L)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># The inverse of A is (L^-1)^T * L^-1</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>Psi_inv <span class="op">=</span> np.dot(L_inv.T, L_inv)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Psi:</span><span class="ch">\n</span><span class="st">"</span>, Psi)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Psi Inverse:</span><span class="ch">\n</span><span class="st">"</span>, Psi_inv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Psi:
+ [[1.         0.36787944]
+ [0.36787944 1.        ]]
+Psi Inverse:
+ [[ 1.15651764 -0.42545906]
+ [-0.42545906  1.15651764]]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="nyström-approximation" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="nyström-approximation"><span class="header-section-number">9.6</span> Nyström Approximation</h2>
+<section id="whats-the-big-idea" class="level3" data-number="9.6.1">
+<h3 data-number="9.6.1" class="anchored" data-anchor-id="whats-the-big-idea"><span class="header-section-number">9.6.1</span> What’s the Big Idea?</h3>
+<p>Imagine you have a huge, detailed map of a country. Working with the full, high-resolution map is slow and takes up a lot of computer memory. The Nyström method is like creating a smaller-scale summary map by only looking at a few key, representative locations.</p>
+<p>In machine learning, we often work with a <strong>kernel matrix</strong> (or Gram matrix), which tells us how similar every pair of data points is to each other. For very large datasets, this matrix can become massive, making it computationally expensive to store and process.</p>
+<p>The Nyström method provides an efficient way to create a <strong>low-rank approximation</strong> of this large kernel matrix. In simple terms, it finds a “simpler” version of the matrix that captures its most important properties without needing to compute or store the whole thing.</p>
+<hr>
+</section>
+<section id="how-does-it-work" class="level3" data-number="9.6.2">
+<h3 data-number="9.6.2" class="anchored" data-anchor-id="how-does-it-work"><span class="header-section-number">9.6.2</span> How Does It Work?</h3>
+<p>The core idea is to select a small, random subset of the columns of the full kernel matrix and use them to reconstruct the entire matrix. Let’s say our full kernel matrix is <span class="math inline">\(K\)</span>.</p>
+<ol type="1">
+<li><strong>Sample:</strong> Randomly select <span class="math inline">\(l\)</span> columns from the <span class="math inline">\(n\)</span> total columns of <span class="math inline">\(K\)</span>. Let <span class="math inline">\(C\)</span> be the <span class="math inline">\(n \times l\)</span> matrix of these sampled columns.</li>
+<li><strong>Intersect:</strong> Take the rows of <span class="math inline">\(C\)</span> corresponding to the sampled column indices to form the <span class="math inline">\(l \times l\)</span> matrix <span class="math inline">\(W\)</span>.</li>
+<li><strong>Approximate:</strong> Using <span class="math inline">\(C\)</span> and <span class="math inline">\(W\)</span>, calculate the Nyström approximation <span class="math inline">\(\tilde{K}\)</span> of <span class="math inline">\(K\)</span>: <span class="math display">\[
+\tilde{K} \approx C W^{+} C^T
+\]</span> where <span class="math inline">\(W^{+}\)</span> is the pseudoinverse of <span class="math inline">\(W\)</span>.</li>
+</ol>
+<hr>
+</section>
+<section id="example" class="level3" data-number="9.6.3">
+<h3 data-number="9.6.3" class="anchored" data-anchor-id="example"><span class="header-section-number">9.6.3</span> Example</h3>
+<p>Suppose we have 4 data points and the full kernel matrix <span class="math inline">\(K\)</span> is: <span class="math display">\[
+K = \begin{pmatrix}
+9 &amp; 6 &amp; 3 &amp; 1 \\
+6 &amp; 4 &amp; 2 &amp; 0.5 \\
+3 &amp; 2 &amp; 1 &amp; 0.25 \\
+1 &amp; 0.5 &amp; 0.25 &amp; 0.1
+\end{pmatrix}
+\]</span></p>
+<p>Let’s approximate it by sampling 2 columns (<span class="math inline">\(l=2\)</span>):</p>
+<ol type="1">
+<li><strong>Sample:</strong> Pick the 1st and 3rd columns: <span class="math display">\[
+C = \begin{pmatrix}
+9 &amp; 3 \\
+6 &amp; 2 \\
+3 &amp; 1 \\
+1 &amp; 0.25
+\end{pmatrix}
+\]</span></li>
+<li><strong>Intersect:</strong> Take the 1st and 3rd rows from <span class="math inline">\(C\)</span> to form <span class="math inline">\(W\)</span>: <span class="math display">\[
+W = \begin{pmatrix}
+9 &amp; 3 \\
+3 &amp; 1
+\end{pmatrix}
+\]</span></li>
+<li><strong>Approximate:</strong> Suppose the pseudoinverse of <span class="math inline">\(W\)</span> is: <span class="math display">\[
+W^{+} = \begin{pmatrix}
+0.09 &amp; -0.27 \\
+-0.27 &amp; 0.81
+\end{pmatrix}
+\]</span> Then, <span class="math display">\[
+\tilde{K} = C W^{+} C^T = \begin{pmatrix}
+9 &amp; 6 &amp; 3 &amp; 0.675 \\
+6 &amp; 4 &amp; 2 &amp; 0.45 \\
+3 &amp; 2 &amp; 1 &amp; 0.225 \\
+0.675 &amp; 0.45 &amp; 0.225 &amp; 0.05
+\end{pmatrix}
+\]</span></li>
+</ol>
+<p><span class="math inline">\(\tilde{K}\)</span> is a good approximation of the original <span class="math inline">\(K\)</span>, especially in the top-left portion.</p>
+<hr>
+</section>
+<section id="why-is-this-useful" class="level3" data-number="9.6.4">
+<h3 data-number="9.6.4" class="anchored" data-anchor-id="why-is-this-useful"><span class="header-section-number">9.6.4</span> Why Is This Useful?</h3>
+<ul>
+<li><strong>Speed:</strong> The Nyström method is much faster than computing the full kernel matrix. The complexity is roughly <span class="math inline">\(O(l^2 n)\)</span> instead of <span class="math inline">\(O(n^2 d)\)</span> (where <span class="math inline">\(d\)</span> is the number of features).</li>
+<li><strong>Scalability:</strong> It allows kernel methods (like SVM or Kernel PCA) to be used on much larger datasets.</li>
+<li><strong>Feature Mapping:</strong> The method can be used to project new data points into the same feature space for prediction tasks.</li>
+</ul>
+<p>The quality of the approximation depends on the columns you sample. Uniform random sampling is common and often effective, but more advanced techniques exist to select more informative columns.</p>
+</section>
+<section id="applying-the-nyström-approximation-how-nyström-approximation-helps-kriging" class="level3" data-number="9.6.5">
+<h3 data-number="9.6.5" class="anchored" data-anchor-id="applying-the-nyström-approximation-how-nyström-approximation-helps-kriging"><span class="header-section-number">9.6.5</span> Applying the Nyström Approximation: How Nyström Approximation Helps Kriging</h3>
+<p>Kriging can significantly benefit from the Nyström approximation, especially when dealing with large datasets. Kriging is a spatial interpolation method used to estimate values at unmeasured locations based on observed points. It relies on a <strong>covariance matrix</strong> (often denoted as <strong>K</strong>) that describes the spatial correlation between all observed data points.</p>
+<p><strong>The Problem with Standard Kriging:</strong></p>
+<p>The main computational challenge in Kriging is solving for the weights needed for prediction, which requires <strong>inverting the covariance matrix K</strong>. For <code>n</code> data points, <strong>K</strong> is an <code>n x n</code> matrix, and inverting it has computational complexity <span class="math inline">\(O(n^3)\)</span>. This becomes impractical for large datasets.</p>
+<p><strong>The Nyström Solution:</strong></p>
+<p>Since the covariance matrix in Kriging is a type of kernel matrix, we can use the Nyström method to create a low-rank approximation, <span class="math inline">\(\tilde{K}\)</span>. Instead of inverting the full matrix, we use the <strong>Woodbury matrix identity</strong> on the Nyström approximation, allowing us to efficiently compute <span class="math inline">\(\tilde{K}^{-1}\)</span> without forming the full matrix. This reduces computational complexity to roughly <span class="math inline">\(O(l^2 n)\)</span>, where <code>l</code> is the number of sampled columns.</p>
+<p>In summary, Nyström makes Kriging feasible for large-scale problems by replacing expensive matrix inversion with a faster, memory-efficient approximation.</p>
+<hr>
+</section>
+<section id="example-predicting-temperature-with-nyström-kriging" class="level3" data-number="9.6.6">
+<h3 data-number="9.6.6" class="anchored" data-anchor-id="example-predicting-temperature-with-nyström-kriging"><span class="header-section-number">9.6.6</span> Example: Predicting Temperature with Nyström-Kriging</h3>
+<p>Suppose we have temperature readings from 100 weather stations (<code>n=100</code>) and want to predict the temperature at a new location.</p>
+<p><strong>Data:</strong></p>
+<ul>
+<li>Observed Locations (X): 100 coordinate pairs</li>
+<li>Observed Temperatures (y): 100 values</li>
+<li>Prediction Location (x*): Coordinates of the new location</li>
+</ul>
+<section id="step-1-nyström-approximation-of-the-covariance-matrix" class="level4" data-number="9.6.6.1">
+<h4 data-number="9.6.6.1" class="anchored" data-anchor-id="step-1-nyström-approximation-of-the-covariance-matrix"><span class="header-section-number">9.6.6.1</span> Step 1: Nyström Approximation of the Covariance Matrix</h4>
+<ol type="1">
+<li><strong>Sample Representative Points:</strong> Randomly select <code>l=10</code> stations as landmarks.</li>
+<li><strong>Compute C and W:</strong>
+<ul>
+<li><strong>C:</strong> Covariance between all 100 stations and the 10 landmarks (<code>100x10</code> matrix)</li>
+<li><strong>W:</strong> Covariance among the 10 landmarks (<code>10x10</code> matrix)</li>
+</ul></li>
+</ol>
+<p>Nyström approximation: <span class="math inline">\(\tilde{K} = C W^{+} C^T\)</span></p>
+</section>
+<section id="step-2-modeling-and-prediction" class="level4" data-number="9.6.6.2">
+<h4 data-number="9.6.6.2" class="anchored" data-anchor-id="step-2-modeling-and-prediction"><span class="header-section-number">9.6.6.2</span> Step 2: Modeling and Prediction</h4>
+<p>Standard Kriging prediction: <span class="math display">\[
+y(x^*) = \mathbf{k}^{*T} \mathbf{K}^{-1} \mathbf{y}
+\]</span> where <span class="math inline">\(\mathbf{k}^{*T}\)</span> is the covariance vector between the prediction location and all observed locations.</p>
+<p>Nyström-Kriging prediction: <span class="math display">\[
+y(x^*) \approx \mathbf{k}^{*T} (\text{fast\_approx\_inverse}(\mathbf{C}, \mathbf{W})) \mathbf{y}
+\]</span></p>
+<p><strong>Prediction Steps:</strong></p>
+<ol type="1">
+<li>Calculate <span class="math inline">\(\mathbf{k}^{*T}\)</span>: Covariance between new location and all stations.</li>
+<li>Approximate the inverse term using the Woodbury identity with <strong>C</strong> and <strong>W</strong>.</li>
+<li>Make the prediction: Take the dot product of <span class="math inline">\(\mathbf{k}^{*T}\)</span> and the weights vector.</li>
+</ol>
+<p>This yields an accurate prediction efficiently, enabling rapid mapping for large regions.</p>
+</section>
+</section>
+<section id="details-woodbury-matrix-identity-for-avoiding-the-big-inversion" class="level3" data-number="9.6.7">
+<h3 data-number="9.6.7" class="anchored" data-anchor-id="details-woodbury-matrix-identity-for-avoiding-the-big-inversion"><span class="header-section-number">9.6.7</span> Details: Woodbury Matrix Identity for Avoiding the Big Inversion</h3>
+<p>First, what is the <strong>Woodbury matrix identity</strong>? It’s a mathematical rule that tells you how to find the inverse of a matrix that’s been modified slightly. Its most useful form is for a “low-rank update”:</p>
+<p><span class="math display">\[
+(A + UCV)^{-1} = A^{-1} - A^{-1}U(C^{-1} + VA^{-1}U)^{-1}VA^{-1}
+\]</span></p>
+<p>This looks complicated, but the core idea is simple:</p>
+<ul>
+<li>If you have a matrix <span class="math inline">\(A\)</span> that is <strong>easy to invert</strong> (like a diagonal matrix).</li>
+<li>And you add a low-rank matrix to it (the <span class="math inline">\(UCV\)</span> part, where <span class="math inline">\(C\)</span> is small).</li>
+<li>You can find the new inverse without directly inverting the big <span class="math inline">\((A + UCV)\)</span> matrix. Instead, you only need to invert the much smaller matrix in the middle of the formula: <span class="math inline">\((C^{-1} + VA^{-1}U)\)</span>.</li>
+</ul>
+<p><strong>How does this apply to the Nyström approximation?</strong></p>
+<p>In many machine learning and Kriging applications, we don’t just need the kernel matrix <span class="math inline">\(\tilde{K}\)</span>, but a “regularized” version, <span class="math inline">\((\lambda I + \tilde{K})\)</span>, where <span class="math inline">\(\lambda I\)</span> is a diagonal matrix that helps prevent overfitting. We need to find the inverse of this:</p>
+<p><span class="math display">\[
+(\lambda I + \tilde{K})^{-1}
+\]</span></p>
+<p>Substituting the Nyström formula <span class="math inline">\(\tilde{K} = C W^{+} C^T\)</span>, we get:</p>
+<p><span class="math display">\[
+(\lambda I + C W^{+} C^T)^{-1}
+\]</span></p>
+<p>This expression fits the Woodbury identity perfectly!</p>
+<ul>
+<li><span class="math inline">\(A = \lambda I\)</span> (very easy to invert: <span class="math inline">\(A^{-1} = \frac{1}{\lambda}I\)</span>)</li>
+<li><span class="math inline">\(U = C\)</span> (our <span class="math inline">\(n \times l\)</span> matrix)</li>
+<li><span class="math inline">\(C\)</span> (middle matrix) <span class="math inline">\(= W^{+}\)</span> (our small <span class="math inline">\(l \times l\)</span> matrix)</li>
+<li><span class="math inline">\(V = C^T\)</span> (our <span class="math inline">\(l \times n\)</span> matrix)</li>
+</ul>
+<p>By plugging these into the Woodbury formula, we get an expression for the inverse that only requires inverting a small <span class="math inline">\(l \times l\)</span> matrix. This means we never have to build the full <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\tilde{K}\)</span> or invert it directly. This is the source of the massive speed-up.</p>
+<hr>
+</section>
+<section id="the-example-step-by-step" class="level3" data-number="9.6.8">
+<h3 data-number="9.6.8" class="anchored" data-anchor-id="the-example-step-by-step"><span class="header-section-number">9.6.8</span> The Example: Step-by-Step</h3>
+<p>Let’s reuse our 4-point example and show both the slow way and the fast Woodbury way.</p>
+<p><strong>Recall our matrices:</strong></p>
+<ul>
+<li><span class="math inline">\(C = \begin{pmatrix} 9 &amp; 3 \\ 6 &amp; 2 \\ 3 &amp; 1 \\ 1 &amp; 0.25 \end{pmatrix}\)</span></li>
+<li><span class="math inline">\(W^{+} = \begin{pmatrix} 0.09 &amp; -0.27 \\ -0.27 &amp; 0.81 \end{pmatrix}\)</span></li>
+<li>Let’s use a regularization value <span class="math inline">\(\lambda = 0.1\)</span>.</li>
+</ul>
+<section id="method-1-the-slow-way-forming-the-full-matrix" class="level4" data-number="9.6.8.1">
+<h4 data-number="9.6.8.1" class="anchored" data-anchor-id="method-1-the-slow-way-forming-the-full-matrix"><span class="header-section-number">9.6.8.1</span> Method 1: The Slow Way (Forming the full matrix)</h4>
+<ol type="1">
+<li><p><strong>Construct <span class="math inline">\(\tilde{K}\)</span>:</strong> First, we explicitly calculate the full <span class="math inline">\(4 \times 4\)</span> Nyström approximation <span class="math inline">\(\tilde{K} = C W^{+} C^T\)</span>.</p>
+<p><span class="math display">\[
+\tilde{K} = \begin{pmatrix}
+9 &amp; 6 &amp; 3 &amp; 0.675 \\
+6 &amp; 4 &amp; 2 &amp; 0.45 \\
+3 &amp; 2 &amp; 1 &amp; 0.225 \\
+0.675 &amp; 0.45 &amp; 0.225 &amp; 0.05
+\end{pmatrix}
+\]</span></p></li>
+<li><p><strong>Add the regularization:</strong> Now we compute <span class="math inline">\((\lambda I + \tilde{K})\)</span>.</p>
+<p><span class="math display">\[
+(\lambda I + \tilde{K}) = \begin{pmatrix}
+9.1 &amp; 6 &amp; 3 &amp; 0.675 \\
+6 &amp; 4.1 &amp; 2 &amp; 0.45 \\
+3 &amp; 2 &amp; 1.1 &amp; 0.225 \\
+0.675 &amp; 0.45 &amp; 0.225 &amp; 0.15
+\end{pmatrix}
+\]</span></p></li>
+<li><p><strong>Invert the <span class="math inline">\(4 \times 4\)</span> matrix:</strong> This is the expensive step. The result is:</p>
+<p><span class="math display">\[
+(\lambda I + \tilde{K})^{-1} \approx
+\begin{pmatrix}
+9.85 &amp; -14.78 &amp; -0.07 &amp; 0.27 \\
+-14.78 &amp; 22.22 &amp; 0.09 &amp; -0.41 \\
+-0.07 &amp; 0.09 &amp; 0.91 &amp; -0.03 \\
+0.27 &amp; -0.41 &amp; -0.03 &amp; 6.67
+\end{pmatrix}
+\]</span></p></li>
+</ol>
+<p>This works for our tiny <span class="math inline">\(4 \times 4\)</span> example, but it would be computationally infeasible if <span class="math inline">\(n\)</span> was 10,000.</p>
+</section>
+<section id="method-2-the-fast-way-using-woodbury-identity" class="level4" data-number="9.6.8.2">
+<h4 data-number="9.6.8.2" class="anchored" data-anchor-id="method-2-the-fast-way-using-woodbury-identity"><span class="header-section-number">9.6.8.2</span> Method 2: The Fast Way (Using Woodbury Identity)</h4>
+<p>We use the Woodbury formula to get the same result without ever creating a <span class="math inline">\(4 \times 4\)</span> matrix. The formula simplifies to:</p>
+<p><span class="math display">\[
+(\lambda I + \tilde{K})^{-1} = \frac{1}{\lambda}I - \frac{1}{\lambda^2} C \left(W + \frac{1}{\lambda}C^T C\right)^{-1} C^T
+\]</span></p>
+<ol type="1">
+<li><p><strong>Compute the small <span class="math inline">\(2 \times 2\)</span> pieces:</strong></p>
+<ul>
+<li><span class="math inline">\(C^T C = \begin{pmatrix} 127 &amp; 42.25 \\ 42.25 &amp; 14.0625 \end{pmatrix}\)</span></li>
+<li><span class="math inline">\(W = \begin{pmatrix} 9 &amp; 3 \\ 3 &amp; 1 \end{pmatrix}\)</span></li>
+<li>The matrix to invert is <span class="math inline">\(W + \frac{1}{0.1}C^T C = W + 10 \cdot (C^T C)\)</span>, which is: <span class="math display">\[
+\begin{pmatrix} 9 &amp; 3 \\ 3 &amp; 1 \end{pmatrix} +
+\begin{pmatrix} 1270 &amp; 422.5 \\ 422.5 &amp; 140.625 \end{pmatrix} =
+\begin{pmatrix} 1279 &amp; 425.5 \\ 425.5 &amp; 141.625 \end{pmatrix}
+\]</span></li>
+</ul></li>
+<li><p><strong>Invert the small <span class="math inline">\(2 \times 2\)</span> matrix:</strong> This is the only inversion we need, and it’s extremely fast.</p>
+<p><span class="math display">\[
+(W + \frac{1}{\lambda}C^T C)^{-1} \approx
+\begin{pmatrix}
+0.22 &amp; -0.66 \\
+-0.66 &amp; 1.99
+\end{pmatrix}
+\]</span></p></li>
+<li><p><strong>Combine the results:</strong> Now we plug this small inverse back into the full formula. The rest is just matrix multiplication, no more inversions.</p>
+<ul>
+<li>First, calculate the middle term: <span class="math inline">\(M = \frac{1}{\lambda^2} C (\dots)^{-1} C^T\)</span>. This will result in a <span class="math inline">\(4 \times 4\)</span> matrix.</li>
+<li>Then, calculate the final result: <span class="math inline">\(\frac{1}{\lambda}I - M\)</span>.</li>
+</ul></li>
+</ol>
+<p>After performing these multiplications, you will get the <strong>exact same <span class="math inline">\(4 \times 4\)</span> inverse matrix</strong> as in the slow method.</p>
+<p>The crucial difference is that the most expensive operation—the matrix inversion—was performed on a tiny <span class="math inline">\(2 \times 2\)</span> matrix instead of a <span class="math inline">\(4 \times 4\)</span> one. For a large-scale problem, this is the difference between a calculation that takes seconds and one that could take hours or even be impossible.</p>
+</section>
+</section>
+</section>
+<section id="extending-spotpythons-kriging-surrogate-with-nyström-approximation-for-enhanced-scalability" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="extending-spotpythons-kriging-surrogate-with-nyström-approximation-for-enhanced-scalability"><span class="header-section-number">9.7</span> Extending spotpython’s Kriging Surrogate with Nyström Approximation for Enhanced Scalability</h2>
+<section id="introduction-overcoming-the-scalability-challenge-in-kriging-for-sequential-optimization" class="level3" data-number="9.7.1">
+<h3 data-number="9.7.1" class="anchored" data-anchor-id="introduction-overcoming-the-scalability-challenge-in-kriging-for-sequential-optimization"><span class="header-section-number">9.7.1</span> Introduction: Overcoming the Scalability Challenge in Kriging for Sequential Optimization</h3>
+<p>The Sequential Parameter Optimization Toolbox (spotpython) is a framework for hyperparameter tuning and black-box optimization based on Sequential Model-Based Optimization (SMBO). At the core of SMBO lies a surrogate model that approximates the true, expensive objective. Kriging (Gaussian Process regression) is a premier choice because it provides both predictions and a principled measure of uncertainty. This uncertainty enables a balance between exploration and exploitation. In each SMBO iteration, the Kriging model is updated with new evaluations, refining its approximation and proposing the next points.</p>
+<p>Standard Kriging requires constructing and inverting an <span class="math inline">\(n \times n\)</span> covariance matrix, where <span class="math inline">\(n\)</span> is the number of data points. Matrix inversion scales as <span class="math inline">\(O(n^3)\)</span>. During SMBO, <span class="math inline">\(n\)</span> can reach hundreds or thousands; refitting the surrogate each iteration becomes prohibitively expensive. This cubic scaling is the key obstacle to applying Kriging at larger scales.</p>
+<p>We integrate the Nyström method into the spotpython Kriging class. The Nyström method yields a low-rank approximation of a symmetric positive semidefinite (SPSD) kernel matrix by selecting <span class="math inline">\(l \ll n\)</span> “landmark” points. It approximates the full <span class="math inline">\(n \times n\)</span> covariance while requiring inversion of only an <span class="math inline">\(l \times l\)</span> matrix, reducing fitting cost from <span class="math inline">\(O(n^3)\)</span> to <span class="math inline">\(O(n\,l^2)\)</span>. This makes Kriging viable even when the number of function evaluations is large.</p>
+</section>
+<section id="report-objectives-and-structure" class="level3" data-number="9.7.2">
+<h3 data-number="9.7.2" class="anchored" data-anchor-id="report-objectives-and-structure"><span class="header-section-number">9.7.2</span> Report Objectives and Structure</h3>
+<ul>
+<li>Review theoretical foundations of Kriging and Nyström approximation</li>
+<li>Present documented Python code updates for Kriging (as in kriging.py)</li>
+<li>Explain changes to <code>__init__</code>, <code>fit</code>, and <code>predict</code></li>
+<li>Show how mixed variable types are preserved via <code>build_Psi</code> and <code>build_psi_vec</code></li>
+<li>Provide practical usage guidance and a formal complexity analysis</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="theoretical-foundations-the-nyströmkriging-framework" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="theoretical-foundations-the-nyströmkriging-framework"><span class="header-section-number">9.8</span> Theoretical Foundations: The Nyström–Kriging Framework</h2>
+<section id="a-primer-on-kriging-gaussian-process-regression" class="level3" data-number="9.8.1">
+<h3 data-number="9.8.1" class="anchored" data-anchor-id="a-primer-on-kriging-gaussian-process-regression"><span class="header-section-number">9.8.1</span> A Primer on Kriging (Gaussian Process Regression)</h3>
+<p>Kriging models <span class="math inline">\(f(x)\)</span> as a Gaussian Process with mean function <span class="math inline">\(m(\cdot)\)</span> and covariance (kernel) <span class="math inline">\(k(\cdot,\cdot)\)</span>. For training inputs <span class="math inline">\(X = \{x_1,\dots,x_n\}\)</span> and observations <span class="math inline">\(y = \{y_1,\dots,y_n\}\)</span>: <span class="math display">\[
+y \sim \mathcal{N}\!\big(m(X),\, K(X,X) + \sigma_n^2 I\big)
+\]</span> For a new point <span class="math inline">\(x_\ast\)</span>: <span class="math display">\[
+\mu(x_\ast) = k(x_\ast, X)\,[K(X,X) + \sigma_n^2 I]^{-1} y
+\]</span> <span class="math display">\[
+\sigma^2(x_\ast) = k(x_\ast, x_\ast) - k(x_\ast, X)\,[K(X,X) + \sigma_n^2 I]^{-1} k(X, x_\ast)
+\]</span> The challenge is inverting the <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(K(X,X) + \sigma_n^2 I\)</span>.</p>
+</section>
+<section id="the-nyström-method-for-low-rank-kernel-approximation" class="level3" data-number="9.8.2">
+<h3 data-number="9.8.2" class="anchored" data-anchor-id="the-nyström-method-for-low-rank-kernel-approximation"><span class="header-section-number">9.8.2</span> The Nyström Method for Low-Rank Kernel Approximation</h3>
+<p>Select <span class="math inline">\(l\)</span> landmark points <span class="math inline">\(X_m \subset X\)</span>. Let: - <span class="math inline">\(C = K_{nm} = K(X, X_m) \in \mathbb{R}^{n \times l}\)</span> - <span class="math inline">\(W = K_{mm} = K(X_m, X_m) \in \mathbb{R}^{l \times l}\)</span> Then the Nyström approximation is: <span class="math display">\[
+\tilde{K}_{nn} = C\,W^{+}\,C^\top = K_{nm}\,K_{mm}^{+}\,K_{mn}
+\]</span> where <span class="math inline">\(W^{+}\)</span> is the pseudoinverse of <span class="math inline">\(W\)</span>. The approximation has rank <span class="math inline">\(\le l\)</span>.</p>
+</section>
+<section id="justification-for-landmark-selection" class="level3" data-number="9.8.3">
+<h3 data-number="9.8.3" class="anchored" data-anchor-id="justification-for-landmark-selection"><span class="header-section-number">9.8.3</span> Justification for Landmark Selection</h3>
+<p>Uniform sampling without replacement is an effective and inexpensive strategy for selecting landmarks across varied datasets and kernels.</p>
+<hr>
+</section>
+</section>
+<section id="implementation-a-scalable-kriging-class-for-spotpython" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="implementation-a-scalable-kriging-class-for-spotpython"><span class="header-section-number">9.9</span> Implementation: A Scalable Kriging Class for spotpython</h2>
+<section id="updated-kriging.py-with-nyström-approximation-excerpt" class="level3" data-number="9.9.1">
+<h3 data-number="9.9.1" class="anchored" data-anchor-id="updated-kriging.py-with-nyström-approximation-excerpt"><span class="header-section-number">9.9.1</span> Updated kriging.py with Nyström Approximation (excerpt)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">Kriging surrogate with optional Nyström approximation.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial.distance <span class="im">import</span> cdist</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> cholesky, cho_solve, solve_triangular</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Kriging:</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, fun_control, n_theta<span class="op">=</span><span class="va">None</span>, theta<span class="op">=</span><span class="va">None</span>, p<span class="op">=</span><span class="fl">2.0</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                 corr<span class="op">=</span><span class="st">"squared_exponential"</span>, isotropic<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                 approximation<span class="op">=</span><span class="st">"None"</span>, n_landmarks<span class="op">=</span><span class="dv">100</span>):</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fun_control <span class="op">=</span> fun_control</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dim <span class="op">=</span> <span class="va">self</span>.fun_control[<span class="st">"lower"</span>].shape</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.p <span class="op">=</span> p</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.corr <span class="op">=</span> corr</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.isotropic <span class="op">=</span> isotropic</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.approximation <span class="op">=</span> approximation</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_landmarks <span class="op">=</span> n_landmarks</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.factor_mask <span class="op">=</span> <span class="va">self</span>.fun_control[<span class="st">"var_type"</span>] <span class="op">==</span> <span class="st">"factor"</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ordered_mask <span class="op">=</span> <span class="op">~</span><span class="va">self</span>.factor_mask</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_theta <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> isotropic <span class="cf">else</span> (n_theta <span class="kw">or</span> <span class="va">self</span>.dim)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.theta <span class="op">=</span> np.full(<span class="va">self</span>.n_theta, <span class="fl">0.1</span>) <span class="cf">if</span> theta <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> theta</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.X_, <span class="va">self</span>.y_, <span class="va">self</span>.L_, <span class="va">self</span>.alpha_ <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.landmarks_, <span class="va">self</span>.W_cho_, <span class="va">self</span>.nystrom_alpha_ <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> fit(<span class="va">self</span>, X, y):</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.X_, <span class="va">self</span>.y_ <span class="op">=</span> X, y</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        n_samples <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.approximation.lower() <span class="op">==</span> <span class="st">"nystroem"</span> <span class="kw">and</span> n_samples <span class="op">&gt;</span> <span class="va">self</span>.n_landmarks:</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>._fit_nystrom(X, y)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>._fit_standard(X, y)</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _fit_standard(<span class="va">self</span>, X, y):</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>        Psi <span class="op">=</span> <span class="va">self</span>.build_Psi(X, X)</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        Psi[np.diag_indices_from(Psi)] <span class="op">+=</span> <span class="fl">1e-8</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.L_ <span class="op">=</span> cholesky(Psi, lower<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.alpha_ <span class="op">=</span> cho_solve((<span class="va">self</span>.L_, <span class="va">True</span>), y)</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> np.linalg.LinAlgError:</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.L_ <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.alpha_ <span class="op">=</span> np.linalg.pinv(Psi) <span class="op">@</span> y</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _fit_nystrom(<span class="va">self</span>, X, y):</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        n_samples <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> np.random.choice(n_samples, <span class="va">self</span>.n_landmarks, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.landmarks_ <span class="op">=</span> X[idx, :]</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>        W <span class="op">=</span> <span class="va">self</span>.build_Psi(<span class="va">self</span>.landmarks_, <span class="va">self</span>.landmarks_) <span class="op">+</span> <span class="fl">1e-8</span> <span class="op">*</span> np.eye(<span class="va">self</span>.n_landmarks)</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        C <span class="op">=</span> <span class="va">self</span>.build_Psi(X, <span class="va">self</span>.landmarks_)</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.W_cho_ <span class="op">=</span> cholesky(W, lower<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.nystrom_alpha_ <span class="op">=</span> cho_solve((<span class="va">self</span>.W_cho_, <span class="va">True</span>), C.T <span class="op">@</span> y)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> np.linalg.LinAlgError:</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.W_cho_ <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._fit_standard(X, y)</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> predict(<span class="va">self</span>, X_star):</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.approximation.lower() <span class="op">==</span> <span class="st">"nystroem"</span> <span class="kw">and</span> <span class="va">self</span>.landmarks_ <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>._predict_nystrom(X_star)</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>._predict_standard(X_star)</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _predict_standard(<span class="va">self</span>, X_star):</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>        psi <span class="op">=</span> <span class="va">self</span>.build_Psi(X_star, <span class="va">self</span>.X_)</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span> psi <span class="op">@</span> <span class="va">self</span>.alpha_</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.L_ <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>            v <span class="op">=</span> solve_triangular(<span class="va">self</span>.L_, psi.T, lower<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>            y_mse <span class="op">=</span> <span class="fl">1.0</span> <span class="op">-</span> np.<span class="bu">sum</span>(v<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>            Psi <span class="op">=</span> <span class="va">self</span>.build_Psi(<span class="va">self</span>.X_, <span class="va">self</span>.X_) <span class="op">+</span> <span class="fl">1e-8</span> <span class="op">*</span> np.eye(<span class="va">self</span>.X_.shape[<span class="dv">0</span>])</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>            pi_Psi <span class="op">=</span> np.linalg.pinv(Psi)</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>            y_mse <span class="op">=</span> <span class="fl">1.0</span> <span class="op">-</span> np.<span class="bu">sum</span>((psi <span class="op">@</span> pi_Psi) <span class="op">*</span> psi, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>        y_mse[y_mse <span class="op">&lt;</span> <span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y_pred, y_mse.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _predict_nystrom(<span class="va">self</span>, X_star):</span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>        psi_star_m <span class="op">=</span> <span class="va">self</span>.build_Psi(X_star, <span class="va">self</span>.landmarks_)</span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span> psi_star_m <span class="op">@</span> <span class="va">self</span>.nystrom_alpha_</span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.W_cho_ <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>            v <span class="op">=</span> cho_solve((<span class="va">self</span>.W_cho_, <span class="va">True</span>), psi_star_m.T)</span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>            quad <span class="op">=</span> np.<span class="bu">sum</span>(psi_star_m <span class="op">*</span> v.T, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>            y_mse <span class="op">=</span> <span class="fl">1.0</span> <span class="op">-</span> quad</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>            y_mse <span class="op">=</span> np.ones(X_star.shape[<span class="dv">0</span>])</span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>        y_mse[y_mse <span class="op">&lt;</span> <span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y_pred, y_mse.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> build_Psi(<span class="va">self</span>, X1, X2):</span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>        n1 <span class="op">=</span> X1.shape[<span class="dv">0</span>]</span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a>        Psi <span class="op">=</span> np.zeros((n1, X2.shape[<span class="dv">0</span>]))</span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n1):</span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>            Psi[i, :] <span class="op">=</span> <span class="va">self</span>.build_psi_vec(X1[i, :], X2)</span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Psi</span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> build_psi_vec(<span class="va">self</span>, x, X_):</span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>        theta10 <span class="op">=</span> np.full(<span class="va">self</span>.dim, <span class="dv">10</span><span class="op">**</span><span class="va">self</span>.theta) <span class="cf">if</span> <span class="va">self</span>.isotropic <span class="cf">else</span> <span class="dv">10</span><span class="op">**</span><span class="va">self</span>.theta</span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a>        D <span class="op">=</span> np.zeros(X_.shape[<span class="dv">0</span>])</span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.ordered_mask.<span class="bu">any</span>():</span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a>            Xo <span class="op">=</span> X_[:, <span class="va">self</span>.ordered_mask]</span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a>            xo <span class="op">=</span> x[<span class="va">self</span>.ordered_mask]</span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a>            D <span class="op">+=</span> cdist(xo.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), Xo, metric<span class="op">=</span><span class="st">"sqeuclidean"</span>,</span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a>                       w<span class="op">=</span>theta10[<span class="va">self</span>.ordered_mask]).ravel()</span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.factor_mask.<span class="bu">any</span>():</span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a>            Xf <span class="op">=</span> X_[:, <span class="va">self</span>.factor_mask]</span>
+<span id="cb13-103"><a href="#cb13-103" aria-hidden="true" tabindex="-1"></a>            xf <span class="op">=</span> x[<span class="va">self</span>.factor_mask]</span>
+<span id="cb13-104"><a href="#cb13-104" aria-hidden="true" tabindex="-1"></a>            D <span class="op">+=</span> cdist(xf.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), Xf, metric<span class="op">=</span><span class="st">"hamming"</span>,</span>
+<span id="cb13-105"><a href="#cb13-105" aria-hidden="true" tabindex="-1"></a>                       w<span class="op">=</span>theta10[<span class="va">self</span>.factor_mask]).ravel() <span class="op">*</span> <span class="va">self</span>.factor_mask.<span class="bu">sum</span>()</span>
+<span id="cb13-106"><a href="#cb13-106" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.exp(<span class="op">-</span>D) <span class="cf">if</span> <span class="va">self</span>.corr <span class="op">==</span> <span class="st">"squared_exponential"</span> <span class="cf">else</span> np.exp(<span class="op">-</span>(D<span class="op">**</span><span class="va">self</span>.p))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="implementation-details" class="level2" data-number="9.10">
+<h2 data-number="9.10" class="anchored" data-anchor-id="implementation-details"><span class="header-section-number">9.10</span> Implementation Details</h2>
+<section id="architectural-enhancements-to-init" class="level3" data-number="9.10.1">
+<h3 data-number="9.10.1" class="anchored" data-anchor-id="architectural-enhancements-to-init"><span class="header-section-number">9.10.1</span> Architectural Enhancements to <code>init</code></h3>
+<ul>
+<li>New argument <code>approximation="None"</code> for backward-compatible selection between exact Kriging and Nyström</li>
+<li>New argument <code>n_landmarks</code> (default 100) controls the number of inducing points when using Nyström</li>
+<li>State attributes for both exact and Nyström paths are maintained separately</li>
+</ul>
+</section>
+<section id="the-fit-method-a-dual-pathway-approach" class="level3" data-number="9.10.2">
+<h3 data-number="9.10.2" class="anchored" data-anchor-id="the-fit-method-a-dual-pathway-approach"><span class="header-section-number">9.10.2</span> The <code>fit()</code> Method: A Dual-Pathway Approach</h3>
+<ul>
+<li>Dispatcher selecting exact or Nyström pathway</li>
+<li>The Nyström fit Pathway (<code>_fit_nystrom</code>):
+<ul>
+<li>Landmark selection via uniform sampling without replacement</li>
+<li>Core matrices:
+<ul>
+<li><span class="math inline">\(W = K_{mm}\)</span> (landmark-landmark)</li>
+<li><span class="math inline">\(C = K_{nm}\)</span> (data-landmark)</li>
+</ul></li>
+<li>Cholesky factorization of <span class="math inline">\(W\)</span> (with jitter) for stability</li>
+<li>Pre-computation: <span class="math inline">\(\alpha_{nys} = W^{-1} C^T y\)</span> via <code>cho_solve</code></li>
+</ul></li>
+<li>The Standard fit Pathway (<code>_fit_standard</code>):
+<ul>
+<li>Full <span class="math inline">\(\Psi\)</span> construction, Cholesky decomposition, and solve for <span class="math inline">\(\alpha\)</span></li>
+<li>Fallback to pseudoinverse if Cholesky fails</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-predict-method-conditional-prediction-logic" class="level3" data-number="9.10.3">
+<h3 data-number="9.10.3" class="anchored" data-anchor-id="the-predict-method-conditional-prediction-logic"><span class="header-section-number">9.10.3</span> The <code>predict()</code> Method: Conditional Prediction Logic</h3>
+<ul>
+<li>Routes to Nyström or standard prediction path based on fitted model state</li>
+<li>The Nyström predict Pathway (<code>_predict_nystrom</code>):
+<ul>
+<li>Cross-covariance <span class="math inline">\(\psi\)</span> between test points and landmarks</li>
+<li>Mean: <span class="math inline">\(\psi \cdot \alpha_{nys}\)</span></li>
+<li>Variance: uses <code>cho_solve</code> with <span class="math inline">\(W\)</span> Cholesky; non-negative clipping</li>
+</ul></li>
+<li>The Standard predict Pathway (<code>_predict_standard</code>):
+<ul>
+<li>Cross-covariance with all training points</li>
+<li>Mean from <span class="math inline">\(\alpha\)</span>; variance via triangular solves or pseudoinverse fallback</li>
+</ul></li>
+</ul>
+</section>
+<section id="critical-detail-preserving-mixed-variable-type-functionality" class="level3" data-number="9.10.4">
+<h3 data-number="9.10.4" class="anchored" data-anchor-id="critical-detail-preserving-mixed-variable-type-functionality"><span class="header-section-number">9.10.4</span> Critical Detail: Preserving Mixed Variable Type Functionality</h3>
+<p>The Significance of <code>build_psi_vec</code>:</p>
+<ul>
+<li>Mixed spaces: continuous (ordered) and categorical (factor) variables</li>
+<li>Distances:
+<ul>
+<li>Weighted squared Euclidean for ordered variables</li>
+<li>Weighted Hamming for factors</li>
+</ul></li>
+<li>Anisotropic kernel via per-dimension length-scales <span class="math inline">\(\theta\)</span></li>
+<li>Nyström path reuses <code>build_Psi</code> → <code>build_psi_vec</code>, preserving mixed-type handling</li>
+</ul>
+</section>
+<section id="seamless-integration-into-the-nyström-workflow" class="level3" data-number="9.10.5">
+<h3 data-number="9.10.5" class="anchored" data-anchor-id="seamless-integration-into-the-nyström-workflow"><span class="header-section-number">9.10.5</span> Seamless Integration into the Nyström Workflow</h3>
+<p>All covariance computations (<span class="math inline">\(W\)</span>, <span class="math inline">\(C\)</span>, predictive cross-covariance) use <code>build_Psi</code>, ensuring identical handling for mixed variable types in both standard and Nyström modes.</p>
+</section>
+</section>
+<section id="jupyter-notebook" class="level2" data-number="9.11">
+<h2 data-number="9.11" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">9.11</span> Jupyter Notebook</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The Jupyter-Notebook of this lecture is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/Hyperparameter-Tuning-Cookbook/blob/main/006_matrices.ipynb">Hyperparameter-Tuning-Cookbook Repository</a></li>
+</ul>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./006_num_gp.html" class="pagination-link" aria-label="Kriging (Gaussian Process Regression)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./006_infill.html" class="pagination-link" aria-label="Infill Criteria">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, T. Bartz-Beielstein</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://sequential-parameter-optimization.github.io/Hyperparameter-Tuning-Cookbook/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://x.com/bartzbeielstein">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
