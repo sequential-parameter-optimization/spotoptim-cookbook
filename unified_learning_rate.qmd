@@ -1,4 +1,8 @@
-# Unified Learning Rate Interface
+---
+title: Unified Learning Rate Interface in SpotOptim
+sidebar_position: 5
+eval: true
+---
 
 This module provides a sophisticated unified learning rate interface for PyTorch optimizers through the `map_lr()` function and integration with `LinearRegressor`.
 
@@ -31,7 +35,8 @@ The `map_lr()` function solves this by providing a unified learning rate scale w
 
 ### Basic Usage with LinearRegressor
 
-```python
+```{python}
+#| label: basic-unified-lr-example-with-linear-regressor
 from spotoptim.nn.linear_regressor import LinearRegressor
 
 # Create model with unified lr=1.0 (gives each optimizer its default)
@@ -49,7 +54,8 @@ optimizer_rmsprop = model.get_optimizer("RMSprop")
 
 ### Using Custom Unified Learning Rate
 
-```python
+```{python}
+#| label: custom-unified-lr-example-0.5
 # Using lr=0.5 scales all optimizers by 0.5
 model = LinearRegressor(input_dim=10, output_dim=1, lr=0.5)
 
@@ -59,7 +65,8 @@ optimizer_sgd = model.get_optimizer("SGD")       # Gets 0.5 * 0.01 = 0.005
 
 ### Direct Use of map_lr()
 
-```python
+```{python}
+#| label: direct-map-lr-usage-unified-lr
 from spotoptim.utils.mapping import map_lr
 
 # Map unified lr to optimizer-specific lr
@@ -74,33 +81,75 @@ lr_sgd = map_lr(2.0, "SGD")        # Returns 0.02
 
 ### Hyperparameter Optimization
 
-```python
+```{python}
+#| label: hyperparameter-optimization-unified-learning-rate
 from spotoptim import SpotOptim
+from spotoptim.nn.linear_regressor import LinearRegressor
+from spotoptim.data import get_diabetes_dataloaders
+import torch
+import torch.nn as nn
 import numpy as np
 
 def train_model(X):
+    """Objective function for hyperparameter optimization."""
     results = []
+    
+    # Load data once
+    train_loader, test_loader, _ = get_diabetes_dataloaders(batch_size=32, random_state=42)
+    
     for params in X:
         lr_unified = 10 ** params[0]  # Log scale: [-4, 0]
         optimizer_name = params[1]     # Factor: "Adam", "SGD", "RMSprop"
         
         # Create model with unified lr - automatically scaled per optimizer
-        model = LinearRegressor(input_dim=10, output_dim=1, lr=lr_unified)
+        torch.manual_seed(42)
+        model = LinearRegressor(input_dim=10, output_dim=1, l1=32, num_hidden_layers=2, lr=lr_unified)
         optimizer = model.get_optimizer(optimizer_name)
         
-        # Train and evaluate
-        # ... training code ...
-        results.append(test_loss)
+        criterion = nn.MSELoss()
+        
+        # Train
+        model.train()
+        for epoch in range(30):
+            for batch_X, batch_y in train_loader:
+                optimizer.zero_grad()
+                predictions = model(batch_X)
+                loss = criterion(predictions, batch_y)
+                loss.backward()
+                optimizer.step()
+        
+        # Evaluate
+        model.eval()
+        test_loss = 0.0
+        with torch.no_grad():
+            for batch_X, batch_y in test_loader:
+                predictions = model(batch_X)
+                test_loss += criterion(predictions, batch_y).item()
+        
+        avg_test_loss = test_loss / len(test_loader)
+        results.append(avg_test_loss)
+    
     return np.array(results)
 
 # Optimize unified lr across different optimizers
-optimizer = SpotOptim(
+spot_optimizer = SpotOptim(
     fun=train_model,
     bounds=[(-4, 0), ("Adam", "SGD", "RMSprop")],
     var_type=["num", "factor"],
-    max_iter=30
+    max_iter=10,  # Small for demo
+    n_initial=5,
+    seed=42
 )
-result = optimizer.optimize()
+result = spot_optimizer.optimize()
+
+print(f"\nBest unified lr: {10**result.x[0]:.6f}")
+print(f"Best optimizer: {result.x[1]}")
+print(f"Best test MSE: {result.fun:.4f}")
+
+# Show actual learning rate used
+from spotoptim.utils.mapping import map_lr
+actual_lr = map_lr(10**result.x[0], result.x[1])
+print(f"Actual {result.x[1]} learning rate: {actual_lr:.6f}")
 ```
 
 ## Supported Optimizers

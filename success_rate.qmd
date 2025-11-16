@@ -1,4 +1,8 @@
-# Success Rate Tracking in SpotOptim
+---
+title: Success Rate Tracking in SpotOptim
+sidebar_position: 5
+eval: true
+---
 
 SpotOptim tracks the **success rate** of the optimization process, which measures how often the optimizer finds improvements over recent evaluations. This metric helps you understand whether the optimization is making progress or has stalled.
 
@@ -24,6 +28,7 @@ tensorboard --logdir=runs
 The execute the following code:
 
 ```{python}
+#| label: success-rate-example
 import numpy as np
 from spotoptim import SpotOptim
 
@@ -37,8 +42,8 @@ def rosenbrock(X):
 optimizer = SpotOptim(
     fun=rosenbrock,
     bounds=[(-2, 2), (-2, 2)],
-    max_iter=200,
-    n_initial=20,
+    max_iter=20,
+    n_initial=10,
     tensorboard_log=True,
     tensorboard_clean=True,
     seed=42
@@ -65,7 +70,8 @@ else:
 
 ## Second Example
 
-```python
+```{python}
+#| label: success-rate-sphere-example-two
 from spotoptim import SpotOptim
 import numpy as np
 
@@ -77,8 +83,8 @@ def sphere(X):
 optimizer = SpotOptim(
     fun=sphere,
     bounds=[(-5, 5), (-5, 5), (-5, 5)],
-    max_iter=100,
-    n_initial=20,
+    max_iter=20,
+    n_initial=10,
     verbose=True
 )
 
@@ -94,8 +100,15 @@ print(f"Total evaluations: {optimizer.counter}")
 
 The success rate is stored in the `success_rate` attribute:
 
-```python
-optimizer = SpotOptim(fun=objective, bounds=bounds, max_iter=50)
+```{python}
+#| label: success-rate-access-example-access
+import numpy as np
+from spotoptim import SpotOptim
+
+def sphere(X):
+    return np.sum(X**2, axis=1)
+
+optimizer = SpotOptim(fun=sphere, bounds=[(-5, 5), (-5, 5)], max_iter=20)
 result = optimizer.optimize()
 
 # Access success rate
@@ -104,6 +117,7 @@ print(f"Success rate: {current_rate:.2%}")
 
 # Also available via getter method
 rate = optimizer._get_success_rate()
+print(f"Via getter method: {rate:.2%}")
 ```
 
 ## Interpreting Success Rate
@@ -148,12 +162,14 @@ Success Rate: 8%
 
 When TensorBoard logging is enabled, success rate is automatically logged and can be visualized in real-time:
 
-```python
+```{python}
+#| label: success-rate-tensorboard-example
+#| eval: false
 optimizer = SpotOptim(
     fun=objective,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=100,
-    n_initial=20,
+    max_iter=20,
+    n_initial=10,
     tensorboard_log=True,  # Enable logging
     verbose=True
 )
@@ -171,48 +187,10 @@ In the TensorBoard interface, look for:
 - Compare multiple runs side-by-side
 - Identify when optimization stalls
 
-## Example: Monitoring Optimization Progress
-
-```python
-import numpy as np
-from spotoptim import SpotOptim
-
-def rosenbrock(X):
-    """Rosenbrock function - challenging optimization problem"""
-    x = X[:, 0]
-    y = X[:, 1]
-    return (1 - x)**2 + 100 * (y - x**2)**2
-
-# Run optimization with periodic success rate checks
-optimizer = SpotOptim(
-    fun=rosenbrock,
-    bounds=[(-2, 2), (-2, 2)],
-    max_iter=100,
-    n_initial=20,
-    tensorboard_log=True,
-    seed=42
-)
-
-result = optimizer.optimize()
-
-# Analyze final success rate
-print(f"\nOptimization Results:")
-print(f"Best value: {result.fun:.6f}")
-print(f"Total evaluations: {optimizer.counter}")
-print(f"Final success rate: {optimizer.success_rate:.2%}")
-
-# Interpret the result
-if optimizer.success_rate > 0.5:
-    print("→ High success rate: Optimization is still making good progress")
-elif optimizer.success_rate > 0.2:
-    print("→ Medium success rate: Approaching convergence")
-else:
-    print("→ Low success rate: Optimization has likely converged")
-```
-
 ## Example: Comparing Multiple Runs
 
-```python
+```{python}
+#| label: comparing-runs-example
 import numpy as np
 from spotoptim import SpotOptim
 
@@ -230,8 +208,8 @@ def ackley(X):
 
 # Run with different configurations
 configs = [
-    {"n_initial": 10, "max_iter": 50, "name": "Small initial"},
-    {"n_initial": 30, "max_iter": 50, "name": "Large initial"},
+    {"n_initial": 10, "max_iter": 30, "name": "Small initial"},
+    {"n_initial": 20, "max_iter": 30, "name": "Large initial"},
 ]
 
 results = []
@@ -269,7 +247,8 @@ print(f"  Final success rate: {best['success_rate']:.2%}")
 
 For noisy functions (when `repeats_initial > 1` or `repeats_surrogate > 1`), the success rate tracks improvements in the **raw** y values, not the aggregated means:
 
-```python
+```{python}
+#| label: noisy-function-example
 import numpy as np
 from spotoptim import SpotOptim
 
@@ -282,8 +261,8 @@ def noisy_sphere(X):
 optimizer = SpotOptim(
     fun=noisy_sphere,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=50,
-    n_initial=15,
+    max_iter=30,
+    n_initial=10,
     repeats_initial=3,    # 3 evaluations per initial point
     repeats_surrogate=2,  # 2 evaluations per new point
     seed=42,
@@ -309,11 +288,18 @@ print(f"Unique design points: {optimizer.mean_X.shape[0]}")
 
 The success rate is calculated over a window of 100 evaluations by default. This is controlled by the `window_size` attribute:
 
-```python
+```{python}
+#| label: custom-window-size-example
+import numpy as np
+from spotoptim import SpotOptim
+
+def sphere(X):
+    return np.sum(X**2, axis=1)
+
 optimizer = SpotOptim(
-    fun=objective,
+    fun=sphere,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=50,
+    max_iter=30,
     n_initial=10
 )
 
@@ -344,7 +330,7 @@ Always enable TensorBoard logging for visual monitoring:
 optimizer = SpotOptim(
     fun=expensive_function,
     bounds=bounds,
-    max_iter=1000,
+    max_iter=25,
     tensorboard_log=True,  # Track success_rate visually
     tensorboard_path="runs/long_optimization"
 )
@@ -367,7 +353,7 @@ Use success rate to compare optimization strategies:
 ```python
 strategies = ["ei", "pi", "y"]  # Different acquisition functions
 for acq in strategies:
-    opt = SpotOptim(fun=obj, bounds=bnds, acquisition=acq, max_iter=50)
+    opt = SpotOptim(fun=obj, bounds=bnds, acquisition=acq, max_iter=25)
     result = opt.optimize()
     print(f"{acq}: success_rate={opt.success_rate:.2%}, best={result.fun:.6f}")
 ```

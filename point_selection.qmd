@@ -1,4 +1,8 @@
-# Point Selection Implementation
+---
+title: Point Selection Implementation in SpotOptim
+sidebar_position: 5
+eval: true
+---
 
 ## Overview
 
@@ -46,36 +50,66 @@ While the implementation follows spotpython's design, there is a difference: `sp
 
 ## Example Usage
 
-```python
+This example demonstrates the point selection feature with a limited number of surrogate points.
+Increase `MAX_ITER`, `N_INITIAL`, and `MAX_SURROGATE_POINTS` to see more pronounced effects.
+
+```{python}
+#| label: point-selection-example
 from spotoptim import SpotOptim
+import numpy as np
+
+MAX_ITER = 20
+N_INITIAL = 5
+MAX_SURROGATE_POINTS = 10
+
+# Define an example objective function
+def sphere(X):
+    """Simple sphere function for demonstration"""
+    return np.sum(X**2, axis=1)
+
+bounds = [(-5, 5), (-5, 5), (-5, 5)]
 
 # Without point selection (default behavior)
 optimizer1 = SpotOptim(
-    fun=expensive_function,
+    fun=sphere,
     bounds=bounds,
-    max_iter=100,
-    n_initial=20
+    max_iter=MAX_ITER,
+    n_initial=N_INITIAL,
+    seed=42
 )
+result1 = optimizer1.optimize()
+print(f"Without selection - Best value: {result1.fun:.6f}")
+print(f"Total points evaluated: {result1.nfev}")
 
 # With point selection using distant method
 optimizer2 = SpotOptim(
-    fun=expensive_function,
+    fun=sphere,
     bounds=bounds,
-    max_iter=100,
-    n_initial=20,
-    max_surrogate_points=50,
-    selection_method='distant'
+    max_iter=MAX_ITER,
+    n_initial=N_INITIAL,
+    max_surrogate_points=MAX_SURROGATE_POINTS,
+    selection_method='distant',
+    seed=42
 )
+result2 = optimizer2.optimize()
+print(f"\nWith 'distant' selection - Best value: {result2.fun:.6f}")
+print(f"Total points evaluated: {result2.nfev}")
+print(f"Max surrogate points: {optimizer2.max_surrogate_points}")
 
 # With point selection using best cluster method
 optimizer3 = SpotOptim(
-    fun=expensive_function,
+    fun=sphere,
     bounds=bounds,
-    max_iter=100,
-    n_initial=20,
-    max_surrogate_points=50,
-    selection_method='best'
+    max_iter=MAX_ITER,
+    n_initial=N_INITIAL,
+    max_surrogate_points=MAX_SURROGATE_POINTS,
+    selection_method='best',
+    seed=42
 )
+result3 = optimizer3.optimize()
+print(f"\nWith 'best' selection - Best value: {result3.fun:.6f}")
+print(f"Total points evaluated: {result3.nfev}")
+print(f"Max surrogate points: {optimizer3.max_surrogate_points}")
 ```
 
 ## Benefits

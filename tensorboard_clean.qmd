@@ -1,6 +1,8 @@
-# TensorBoard Log Cleaning Feature
-
-## Summary
+---
+title: TensorBoard Log Cleaning Feature in SpotOptim
+sidebar_position: 5
+eval: true
+---
 
 Automatic cleaning of old TensorBoard log directories with the `tensorboard_clean` parameter.
 
@@ -8,19 +10,30 @@ Automatic cleaning of old TensorBoard log directories with the `tensorboard_clea
 
 ### Basic Usage
 
-```python
+```{python}
+#| label: basic-usage-example
+import numpy as np
 from spotoptim import SpotOptim
+
+def sphere(X):
+    """Simple sphere function"""
+    return np.sum(X**2, axis=1)
 
 # Remove old logs and create new log directory
 optimizer = SpotOptim(
-    fun=objective,
+    fun=sphere,
     bounds=[(-5, 5), (-5, 5)],
+    max_iter=20,
+    n_initial=10,
     tensorboard_log=True,
     tensorboard_clean=True,  # Removes all subdirectories in 'runs'
-    verbose=True
+    verbose=True,
+    seed=42
 )
 
 result = optimizer.optimize()
+print(f"Best value: {result.fun:.6f}")
+print(f"Logs saved to: runs/{optimizer.tensorboard_path}")
 ```
 
 ### Use Cases

@@ -1,4 +1,8 @@
-# Save and Load in SpotOptim
+---
+title: Save and Load in SpotOptim
+sidebar_position: 5
+eval: true
+---
 
 SpotOptim provides comprehensive save and load functionality for serializing optimization configurations and results. This enables distributed workflows where experiments are defined locally, executed remotely, and analyzed back on the local machine.
 
@@ -28,7 +32,8 @@ SpotOptim distinguishes between two types of saved data:
 
 ### Basic Save and Load
 
-```python
+```{python}
+#| label: basic-save-load-example
 import numpy as np
 from spotoptim import SpotOptim
 
@@ -40,8 +45,8 @@ def sphere(X):
 optimizer = SpotOptim(
     fun=sphere,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=50,
-    n_initial=15,
+    max_iter=20,
+    n_initial=10,
     seed=42
 )
 
@@ -65,15 +70,22 @@ The save/load functionality enables a powerful workflow for distributed optimiza
 
 ### Step 1: Define Experiment Locally
 
-```python
+```{python}
+#| label: define-experiment-locally
 import numpy as np
 from spotoptim import SpotOptim
 
-# Define configuration locally (no need to run optimization yet)
+# Define a placeholder function (will be replaced on remote machine)
+def placeholder(X):
+    """Placeholder function - will be replaced remotely"""
+    return np.sum(X**2, axis=1)
+
+# Define configuration locally
 optimizer = SpotOptim(
+    fun=placeholder,  # Temporary function
     bounds=[(-10, 10), (-10, 10), (-10, 10)],
-    max_iter=200,
-    n_initial=30,
+    max_iter=20,
+    n_initial=10,
     seed=42,
     verbose=True
 )
@@ -83,11 +95,13 @@ optimizer.save_experiment(prefix="remote_job_001")
 # Creates: remote_job_001_exp.pkl
 
 print("Experiment saved. Transfer remote_job_001_exp.pkl to remote machine.")
+print("The objective function will be replaced on the remote machine.")
 ```
 
 ### Step 2: Execute on Remote Machine
 
-```python
+```{python}
+#| label: execute-remote
 from spotoptim import SpotOptim
 import numpy as np
 
@@ -117,7 +131,8 @@ print("Results saved. Transfer remote_job_001_res.pkl back to local machine.")
 
 ### Step 3: Analyze Results Locally
 
-```python
+```{python}
+#| label: analyze-results-locally
 from spotoptim import SpotOptim
 import matplotlib.pyplot as plt
 
@@ -152,7 +167,8 @@ print(f"All objective values shape: {optimizer.y_.shape}")
 
 ### Custom Filenames and Paths
 
-```python
+```{python}
+#| label: custom-save-load-example
 import os
 from spotoptim import SpotOptim
 import numpy as np
@@ -185,7 +201,8 @@ optimizer.save_experiment(
 
 ### Overwrite Protection
 
-```python
+```{python}
+#| label: overwrite-protection-example
 from spotoptim import SpotOptim
 import numpy as np
 
@@ -211,7 +228,8 @@ print("File overwritten successfully")
 
 ### Loading and Continuing Optimization
 
-```python
+```{python}
+#| label: load-continue-optimization-example
 from spotoptim import SpotOptim
 import numpy as np
 
@@ -222,7 +240,7 @@ def objective(X):
 opt1 = SpotOptim(
     fun=objective,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=30,
+    max_iter=20,
     seed=42
 )
 result1 = opt1.optimize()
@@ -233,7 +251,7 @@ print(f"Initial optimization: {result1.nfev} evaluations, best={result1.fun:.6f}
 # Load and continue
 opt2 = SpotOptim.load_result("checkpoint_res.pkl")
 opt2.fun = objective  # Re-attach function
-opt2.max_iter = 50  # Increase budget
+opt2.max_iter = 25  # Increase budget
 
 # Continue optimization
 result2 = opt2.optimize()
@@ -244,7 +262,8 @@ print(f"After continuation: {result2.nfev} evaluations, best={result2.fun:.6f}")
 
 Save and load preserves noise statistics for reproducible analysis:
 
-```python
+```{python}
+#| label: noisy-function-save-load-example
 import numpy as np
 from spotoptim import SpotOptim
 
@@ -258,8 +277,8 @@ def noisy_objective(X):
 optimizer = SpotOptim(
     fun=noisy_objective,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=40,
-    n_initial=15,
+    max_iter=20,
+    n_initial=10,
     repeats_initial=3,    # Repeat initial points
     repeats_surrogate=2,  # Repeat surrogate points
     seed=42,
@@ -286,7 +305,8 @@ if loaded_opt.mean_y is not None:
 
 Save and load preserves variable type information:
 
-```python
+```{python}
+#| label: mixed-vars-save-load-example
 import numpy as np
 from spotoptim import SpotOptim
 
@@ -300,8 +320,8 @@ optimizer = SpotOptim(
     bounds=[(-5, 5), (-5, 5), (-5, 5), (-5, 5)],
     var_type=["num", "int", "factor", "num"],
     var_name=["continuous", "integer", "categorical", "another_cont"],
-    max_iter=50,
-    n_initial=20,
+    max_iter=20,
+    n_initial=10,
     seed=42
 )
 
@@ -328,7 +348,9 @@ print(loaded_opt.X_[:5, 1])  # Should be integers
 
 After loading an experiment, you **must** re-attach the objective function:
 
-```python
+```{python}
+#| label: reattach-function-example
+#| eval: false
 # Load experiment
 optimizer = SpotOptim.load_experiment("experiment_exp.pkl")
 
@@ -343,7 +365,8 @@ result = optimizer.optimize()
 
 Organize your experiments with descriptive prefixes:
 
-```python
+```{python}
+#| eval: false
 # Good practice: descriptive prefixes
 optimizer.save_experiment(prefix="sphere_d10_seed42")
 optimizer.save_experiment(prefix="rosenbrock_n100_lhs")
@@ -356,9 +379,10 @@ optimizer.save_result(prefix="result")     # Hard to track
 
 ### 3. Save Experiments Before Remote Execution
 
-```python
+```{python}
+#| eval: false
 # Define locally
-optimizer = SpotOptim(bounds=bounds, max_iter=500, seed=42)
+optimizer = SpotOptim(bounds=bounds, max_iter=20, seed=42)
 optimizer.save_experiment(prefix="remote_job")
 
 # Transfer file to remote machine
@@ -369,7 +393,8 @@ optimizer.save_experiment(prefix="remote_job")
 
 ### 4. Version Your Experiments
 
-```python
+```{python}
+#| eval: false
 import datetime
 
 # Add timestamp to prefix
@@ -382,7 +407,8 @@ optimizer.save_experiment(prefix=prefix)
 
 ### 5. Handle File Paths Robustly
 
-```python
+```{python}
+#| eval: false
 import os
 
 # Create directory structure
@@ -406,27 +432,33 @@ Here's a complete example demonstrating the entire workflow:
 
 ### Local Machine (Setup)
 
-```python
+```{python}
+#| label: define-experiment-locally-complete
 # setup_experiment.py
 import numpy as np
 from spotoptim import SpotOptim
 import os
+
+# Placeholder function for experiment setup
+def placeholder_func(X):
+    return np.sum(X**2, axis=1)
 
 # Create experiments directory
 os.makedirs("experiments", exist_ok=True)
 
 # Define multiple experiments
 experiments = [
-    {"seed": 42, "max_iter": 100, "prefix": "exp_seed42"},
-    {"seed": 123, "max_iter": 100, "prefix": "exp_seed123"},
-    {"seed": 999, "max_iter": 100, "prefix": "exp_seed999"},
+    {"seed": 42, "max_iter": 20, "prefix": "exp_seed42"},
+    {"seed": 123, "max_iter": 20, "prefix": "exp_seed123"},
+    {"seed": 999, "max_iter": 20, "prefix": "exp_seed999"},
 ]
 
 for exp_config in experiments:
     optimizer = SpotOptim(
+        fun=placeholder_func,  # Placeholder - will be replaced remotely
         bounds=[(-10, 10), (-10, 10), (-10, 10)],
         max_iter=exp_config["max_iter"],
-        n_initial=30,
+        n_initial=10,
         seed=exp_config["seed"],
         verbose=False
     )
@@ -443,7 +475,8 @@ print("\nAll experiments created. Transfer 'experiments' folder to remote machin
 
 ### Remote Machine (Execution)
 
-```python
+```{python}
+#| label: execute-remote-complete
 # run_experiments.py
 import numpy as np
 from spotoptim import SpotOptim
@@ -488,7 +521,8 @@ print("\nAll experiments completed. Transfer results back to local machine.")
 
 ### Local Machine (Analysis)
 
-```python
+```{python}
+#| label: analyze-results-locally-complete
 # analyze_results.py
 import numpy as np
 from spotoptim import SpotOptim
@@ -570,7 +604,8 @@ Some components cannot be pickled and are automatically excluded:
 
 Files are saved using pickle's highest protocol:
 
-```python
+```{python}
+#| eval: false
 with open(filename, "wb") as handle:
     pickle.dump(optimizer_state, handle, protocol=pickle.HIGHEST_PROTOCOL)
 ```
@@ -583,7 +618,8 @@ with open(filename, "wb") as handle:
 
 **Solution**: Always re-attach the function after loading:
 
-```python
+```{python}
+#| eval: false
 opt = SpotOptim.load_experiment("exp.pkl")
 opt.fun = your_objective_function  # Add this line
 result = opt.optimize()
@@ -595,7 +631,8 @@ result = opt.optimize()
 
 **Solution**: Check file path and ensure file exists:
 
-```python
+```{python}
+#| eval: false
 import os
 
 filename = "experiment_exp.pkl"
@@ -611,7 +648,8 @@ else:
 
 **Solution**: Either use a different prefix or enable overwriting:
 
-```python
+```{python}
+#| eval: false
 # Option 1: Use different prefix
 optimizer.save_result(prefix="my_result_v2")
 
@@ -625,7 +663,8 @@ optimizer.save_result(prefix="my_result", overwrite=True)
 
 **Solution**: Ensure you're using the same seed and function definition:
 
-```python
+```{python}
+#| eval: false
 # When saving
 optimizer = SpotOptim(..., seed=42)  # Use fixed seed
 
