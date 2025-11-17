@@ -4,6 +4,7 @@ execute:
   eval: true
   echo: true
   warning: false
+jupyter: python3
 ---
 
 # Optimizing the Aircraft Wing Weight Example {#sec-awwe-opt}
@@ -16,6 +17,7 @@ execute:
   - **Nelder-Mead**: Derivative-free simplex method from scipy.optimize
   - **BFGS**: Quasi-Newton method from scipy.optimize
 * The following Python packages are imported:
+
 ```{python}
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,7 +25,9 @@ import pandas as pd
 from scipy.optimize import minimize
 from spotoptim import SpotOptim
 import time
+import pprint
 ```
+
 :::
 
 ## The AWWE Objective Function
@@ -100,13 +104,9 @@ print(f"Starting point: {x0}")
 print(f"Starting weight: {baseline_weight:.2f} lb")
 ```
 
-## Method 1: SpotOptim (Bayesian Optimization)
+## Method 1: SpotOptim (Surrogate Model Based Optimization)
 
 ```{python}
-print("=" * 60)
-print("Running SpotOptim (Bayesian Optimization)...")
-print("=" * 60)
-
 # Start timing
 start_time = time.time()
 
@@ -114,16 +114,33 @@ start_time = time.time()
 optimizer_spot = SpotOptim(
     fun=wingwt,
     bounds=bounds,
+    x0=None,
     max_iter=max_evals,
     n_initial=10,  # Initial design points
     var_name=['Sw', 'Wfw', 'A', 'L', 'q', 'l', 'Rtc', 'Nz', 'Wdg'],
-    acquisition='ei',  # Expected Improvement
+    acquisition='y',  # ei: Expected Improvement
+    max_surrogate_points=100,
     seed=42,
-    verbose=True
+    verbose=True,
+    tensorboard_log=True,
+    tensorboard_clean=True
 )
+```
 
-# Run optimization
+## Design Table
+
+```{python}
+
+pprint.pprint(optimizer_spot.print_design_table())
+```
+
+## Run optimization
+
+```{python}
 result_spot = optimizer_spot.optimize()
+```
+
+```{python}
 
 # End timing
 spot_time = time.time() - start_time
@@ -133,6 +150,28 @@ print(f"  Best weight: {result_spot.fun:.4f} lb")
 print(f"  Function evaluations: {result_spot.nfev}")
 print(f"  Time elapsed: {spot_time:.2f} seconds")
 print(f"  Success: {result_spot.success}")
+```
+
+```{python}
+optimizer_spot.print_best()
+```
+
+## Result Table
+
+```{python}
+pprint.pprint(optimizer_spot.print_results_table(show_importance=True))
+```
+
+## Progress of the Optimization
+
+```{python}
+optimizer_spot.plot_progress(log_y=False)
+```
+
+## Contour Plots of Most Important Hyperparameters
+
+```{python}
+optimizer_spot.plot_important_hyperparameter_contour(max_imp=3)
 ```
 
 ## Method 2: Nelder-Mead Simplex
@@ -170,6 +209,7 @@ print(f"  Success: {result_nm.success}")
 print("\n" + "=" * 60)
 print("Running BFGS (Quasi-Newton)...")
 print("=" * 60)
+
 
 # Start timing
 start_time = time.time()
@@ -455,51 +495,6 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Summary and Recommendations
-
-```{python}
-print("\n" + "=" * 80)
-print("SUMMARY AND RECOMMENDATIONS")
-print("=" * 80)
-
-print("\n1. BEST SOLUTION:")
-best_method = comparison.loc[1:, 'Best Weight (lb)'].idxmin() + 1
-best_name = comparison.loc[best_method, 'Method']
-best_weight = comparison.loc[best_method, 'Best Weight (lb)']
-best_improvement = comparison.loc[best_method, 'Improvement (%)']
-print(f"   Method: {best_name}")
-print(f"   Wing Weight: {best_weight:.2f} lb")
-print(f"   Improvement: {best_improvement:.2f}%")
-
-print("\n2. METHOD CHARACTERISTICS:")
-print("   - SpotOptim (Bayesian Optimization):")
-print("     * Best for expensive black-box functions")
-print("     * Efficient exploration-exploitation trade-off")
-print("     * Provides uncertainty quantification")
-print("     * Good for global optimization")
-print("\n   - Nelder-Mead:")
-print("     * Derivative-free, robust to noise")
-print("     * Can be slow to converge")
-print("     * May get stuck in local minima")
-print("\n   - BFGS:")
-print("     * Fast convergence for smooth functions")
-print("     * Uses gradient approximations")
-print("     * Good for local optimization")
-
-print("\n3. KEY FINDINGS:")
-print(f"   - All methods achieved significant weight reduction")
-print(f"   - Baseline weight: {baseline_weight:.2f} lb")
-print(f"   - Best optimized weight: {best_weight:.2f} lb")
-print(f"   - Maximum improvement: {best_improvement:.2f}%")
-
-print("\n4. DESIGN IMPLICATIONS:")
-print("   - Primary weight drivers: Load factor (Nz), Wing area (Sw), Gross weight (Wdg)")
-print("   - Optimization suggests reducing these parameters where feasible")
-print("   - Consider trade-offs with performance requirements (stall speed, turn rate, etc.)")
-
-print("=" * 80)
-```
-
 ## Conclusion
 
 This analysis demonstrates the application of different optimization methods to the Aircraft Wing Weight Example. Key takeaways:
@@ -517,3 +512,4 @@ For aircraft design problems with expensive simulations, Bayesian optimization (
 * The Jupyter-Notebook of this lecture is available on GitHub in the [Hyperparameter-Tuning-Cookbook Repository](https://github.com/sequential-parameter-optimization/Hyperparameter-Tuning-Cookbook)
 
 :::
+
