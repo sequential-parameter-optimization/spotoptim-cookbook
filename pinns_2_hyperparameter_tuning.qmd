@@ -85,6 +85,9 @@ np.random.seed(42)
 # Set number of epochs for training
 N_EPOCHS=5000
 
+# 
+MAX_ITER = 50
+
 ```
 
 # Data Generation
@@ -451,7 +454,7 @@ optimizer = SpotOptim(
     var_type=var_type,
     var_name=var_name,
     var_trans=var_trans,  # Automatic log-scale handling!
-    max_iter=20,
+    max_iter=MAX_ITER,
     n_initial=10,
     seed=42,
     verbose=True,
@@ -829,6 +832,9 @@ optimizer.sensitivity_spearman()
 
 ```{python}
 #| label: pinn-summary-pinn2
+# Get optimization history for statistics
+history = optimizer.y_
+
 print("\n" + "="*70)
 print("HYPERPARAMETER OPTIMIZATION SUMMARY")
 print("="*70)
@@ -941,7 +947,7 @@ opt = SpotOptim(
     bounds=bounds,
     var_type=var_type,
     var_trans=var_trans,  # Automatic log-scale and factor handling!
-    max_iter=20,
+    max_iter=MAX_ITER,
     n_initial=10
 )
 

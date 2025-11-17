@@ -456,7 +456,10 @@ window.Quarto = {
   <li><a href="#evaluate-final-model" id="toc-evaluate-final-model" class="nav-link" data-scroll-target="#evaluate-final-model"><span class="header-section-number">22</span> Evaluate Final Model</a></li>
   <li><a href="#visualize-final-solution" id="toc-visualize-final-solution" class="nav-link" data-scroll-target="#visualize-final-solution"><span class="header-section-number">23</span> Visualize Final Solution</a></li>
   <li><a href="#comparison-with-baseline" id="toc-comparison-with-baseline" class="nav-link" data-scroll-target="#comparison-with-baseline"><span class="header-section-number">24</span> Comparison with Baseline</a></li>
-  <li><a href="#hyperparameter-sensitivity-analysis" id="toc-hyperparameter-sensitivity-analysis" class="nav-link" data-scroll-target="#hyperparameter-sensitivity-analysis"><span class="header-section-number">25</span> Hyperparameter Sensitivity Analysis</a></li>
+  <li><a href="#hyperparameter-sensitivity-analysis" id="toc-hyperparameter-sensitivity-analysis" class="nav-link" data-scroll-target="#hyperparameter-sensitivity-analysis"><span class="header-section-number">25</span> Hyperparameter Sensitivity Analysis</a>
+  <ul class="collapse">
+  <li><a href="#sensitivity-analysis-spearman-correlation" id="toc-sensitivity-analysis-spearman-correlation" class="nav-link" data-scroll-target="#sensitivity-analysis-spearman-correlation"><span class="header-section-number">25.1</span> Sensitivity Analysis (Spearman Correlation)</a></li>
+  </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">26</span> Summary</a>
   <ul class="collapse">
   <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings"><span class="header-section-number">26.1</span> Key Findings</a></li>
@@ -560,7 +563,7 @@ window.Quarto = {
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set number of epochs for training</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>N_EPOCHS<span class="op">=</span><span class="dv">2000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>N_EPOCHS<span class="op">=</span><span class="dv">5000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="data-generation" class="level1" data-number="17">
@@ -657,7 +660,7 @@ window.Quarto = {
 <span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.t[idx].unsqueeze(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Generate exact solution using RK2</p>
-<div id="33d57820" class="cell" data-execution_count="3">
+<div id="68a66da1" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x_exact, y_exact <span class="op">=</span> oscillator()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create training data (sparse sampling)</span></span>
@@ -836,9 +839,10 @@ Sample from training dataset:
 <span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test validation MSE: </span><span class="sc">{</span>test_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Testing PINN training function with DataLoaders...
-  Epoch 2000/2000: Avg Loss = 0.185009
+  Epoch 2000/5000: Avg Loss = 0.185009
+  Epoch 4000/5000: Avg Loss = 0.153585
 
-Test validation MSE: 0.169622</code></pre>
+Test validation MSE: 0.130621</code></pre>
 </div>
 </div>
 </section>
@@ -907,19 +911,20 @@ Test validation MSE: 0.169622</code></pre>
 Configuration 1/2:
   l1=32, num_layers=2, activation=Tanh, 
   optimizer=Adam, lr_unified=3.0000, alpha=0.0600
-  Validation MSE: 0.169622
+  Validation MSE: 0.130621
 
 Configuration 2/2:
   l1=64, num_layers=3, activation=ReLU, 
   optimizer=AdamW, lr_unified=2.0000, alpha=0.0400
-  Validation MSE: 0.147564
+  Validation MSE: 0.127441
 
-Test results: [0.16962173 0.1475635 ]</code></pre>
+Test results: [0.13062107 0.12744086]</code></pre>
 </div>
 </div>
 </section>
 <section id="run-the-optimization" class="level2" data-number="19.2">
 <h2 data-number="19.2" class="anchored" data-anchor-id="run-the-optimization"><span class="header-section-number">19.2</span> Run the Optimization</h2>
+<p>Use <code>tensorboard --logdir=runs</code> from a shell in the current directory (where this notebook is located) to visualize the optimization process.</p>
 <div id="pinn-hyperparameter-optimization-pinn2" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define search space with var_trans for automatic log-scale handling</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [</span>
@@ -948,8 +953,10 @@ Test results: [0.16962173 0.1475635 ]</code></pre>
 <span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">20</span>,</span>
 <span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">10</span>,</span>
 <span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span>,</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    tensorboard_clean<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    tensorboard_log<span class="op">=</span><span class="va">True</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Factor variable at dimension 2:
   Levels: ['Tanh', 'ReLU', 'Sigmoid', 'GELU']
@@ -957,11 +964,13 @@ Test results: [0.16962173 0.1475635 ]</code></pre>
 Factor variable at dimension 3:
   Levels: ['Adam', 'SGD', 'RMSprop', 'AdamW']
   Mapped to integers: 0 to 3
-TensorBoard logging disabled</code></pre>
+Removed old TensorBoard logs: runs/spotoptim_20251117_100251
+Cleaned 1 old TensorBoard log directory
+TensorBoard logging enabled: runs/spotoptim_20251117_101157</code></pre>
 </div>
 </div>
 <p>Display search space configuration. The <code>trans</code>column shows applied transformations. <code>lr_unified</code> and <code>alpha</code> use log10 transformation internally. This enables efficient exploration of log-scale parameters. All values shown are in original scale (not transformed).</p>
-<div id="61e5244f" class="cell" data-execution_count="7">
+<div id="29761773" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display search space configuration</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>design_table <span class="op">=</span> optimizer.print_design_table(tablefmt<span class="op">=</span><span class="st">"github"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(design_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -984,47 +993,47 @@ TensorBoard logging disabled</code></pre>
 Configuration 1/10:
   l1=19, num_layers=3, activation=ReLU, 
   optimizer=SGD, lr_unified=9.5756, alpha=0.1603
-  Validation MSE: 0.212684
+  Validation MSE: 0.194649
 
 Configuration 2/10:
   l1=30, num_layers=3, activation=ReLU, 
   optimizer=Adam, lr_unified=0.8430, alpha=0.0412
-  Validation MSE: 0.189506
+  Validation MSE: 0.175142
 
 Configuration 3/10:
   l1=110, num_layers=4, activation=ReLU, 
   optimizer=AdamW, lr_unified=1.9457, alpha=0.3866
-  Validation MSE: 0.155698
+  Validation MSE: 0.125290
 
 Configuration 4/10:
   l1=74, num_layers=1, activation=Sigmoid, 
   optimizer=RMSprop, lr_unified=0.1014, alpha=0.1050
-  Validation MSE: 0.190902
+  Validation MSE: 0.188408
 
 Configuration 5/10:
   l1=41, num_layers=3, activation=Sigmoid, 
   optimizer=RMSprop, lr_unified=0.5877, alpha=0.7301
-  Validation MSE: 0.123401
+  Validation MSE: 0.095178
 
 Configuration 6/10:
   l1=52, num_layers=1, activation=Sigmoid, 
   optimizer=RMSprop, lr_unified=0.2023, alpha=0.0145
-  Validation MSE: 0.191662
+  Validation MSE: 0.184968
 
 Configuration 7/10:
   l1=71, num_layers=2, activation=Sigmoid, 
   optimizer=SGD, lr_unified=3.2551, alpha=0.4300
-  Validation MSE: 0.217354
+  Validation MSE: 0.199493
 
 Configuration 8/10:
   l1=120, num_layers=3, activation=ReLU, 
   optimizer=AdamW, lr_unified=0.3330, alpha=0.0220
-  Validation MSE: 0.165832
+  Validation MSE: 0.144155
 
 Configuration 9/10:
   l1=98, num_layers=2, activation=Tanh, 
   optimizer=SGD, lr_unified=4.3915, alpha=0.0293
-  Validation MSE: 0.186928
+  Validation MSE: 0.182948
 
 Configuration 10/10:
   l1=87, num_layers=2, activation=GELU, 
@@ -1032,73 +1041,74 @@ Configuration 10/10:
   Validation MSE: nan
 Warning: Found 1 NaN/inf value(s), replacing with inf + noise
 Warning: Removed 1 sample(s) with NaN/inf values
-Initial best: f(x) = 0.123401
+Initial best: f(x) = 0.095178
 
 Configuration 1/1:
-  l1=41, num_layers=4, activation=GELU, 
-  optimizer=AdamW, lr_unified=0.1893, alpha=0.9411
-  Validation MSE: 0.149702
-Iteration 1: f(x) = 0.149702
+  l1=40, num_layers=4, activation=GELU, 
+  optimizer=AdamW, lr_unified=7.3833, alpha=1.0000
+  Validation MSE: 0.002527
+Iteration 1: New best f(x) = 0.002527
 
 Configuration 1/1:
-  l1=41, num_layers=2, activation=Sigmoid, 
-  optimizer=RMSprop, lr_unified=1.0971, alpha=0.3324
-  Validation MSE: 0.168198
-Iteration 2: f(x) = 0.168198
+  l1=39, num_layers=4, activation=GELU, 
+  optimizer=AdamW, lr_unified=10.0000, alpha=1.0000
+  Validation MSE: 0.012075
+Iteration 2: f(x) = 0.012075
 
 Configuration 1/1:
-  l1=41, num_layers=3, activation=Sigmoid, 
-  optimizer=RMSprop, lr_unified=0.4315, alpha=0.9034
-  Validation MSE: 0.147431
-Iteration 3: f(x) = 0.147431
+  l1=40, num_layers=4, activation=GELU, 
+  optimizer=AdamW, lr_unified=10.0000, alpha=0.1303
+  Validation MSE: 0.115034
+Iteration 3: f(x) = 0.115034
 
 Configuration 1/1:
-  l1=120, num_layers=4, activation=ReLU, 
-  optimizer=RMSprop, lr_unified=0.7084, alpha=0.0223
-  Validation MSE: 0.192493
-Iteration 4: f(x) = 0.192493
+  l1=40, num_layers=4, activation=GELU, 
+  optimizer=AdamW, lr_unified=6.5964, alpha=1.0000
+  Validation MSE: 0.014098
+Iteration 4: f(x) = 0.014098
 
 Configuration 1/1:
-  l1=41, num_layers=3, activation=Sigmoid, 
-  optimizer=AdamW, lr_unified=0.1922, alpha=0.0607
-  Validation MSE: 0.203450
-Iteration 5: f(x) = 0.203450
+  l1=39, num_layers=3, activation=Sigmoid, 
+  optimizer=RMSprop, lr_unified=5.9855, alpha=0.0296
+  Validation MSE: 0.241010
+Iteration 5: f(x) = 0.241010
 
 Configuration 1/1:
-  l1=111, num_layers=3, activation=ReLU, 
-  optimizer=RMSprop, lr_unified=0.6980, alpha=0.1358
-  Validation MSE: 0.188511
-Iteration 6: f(x) = 0.188511
+  l1=110, num_layers=4, activation=ReLU, 
+  optimizer=RMSprop, lr_unified=2.4108, alpha=0.2108
+  Validation MSE: 0.232185
+Iteration 6: f(x) = 0.232185
 
 Configuration 1/1:
-  l1=42, num_layers=2, activation=ReLU, 
-  optimizer=AdamW, lr_unified=0.9678, alpha=0.0769
-  Validation MSE: 0.182839
-Iteration 7: f(x) = 0.182839
+  l1=40, num_layers=1, activation=Sigmoid, 
+  optimizer=RMSprop, lr_unified=0.4781, alpha=0.0889
+  Validation MSE: 0.186958
+Iteration 7: f(x) = 0.186958
+
+Configuration 1/1:
+  l1=40, num_layers=4, activation=GELU, 
+  optimizer=AdamW, lr_unified=10.0000, alpha=1.0000
+  Validation MSE: 0.028080
+Iteration 8: f(x) = 0.028080
 
 Configuration 1/1:
   l1=40, num_layers=3, activation=GELU, 
-  optimizer=RMSprop, lr_unified=0.1368, alpha=0.9287
-  Validation MSE: 0.120842
-Iteration 8: New best f(x) = 0.120842
+  optimizer=RMSprop, lr_unified=0.3760, alpha=0.1345
+  Validation MSE: 0.142926
+Iteration 9: f(x) = 0.142926
 
 Configuration 1/1:
-  l1=41, num_layers=3, activation=Sigmoid, 
-  optimizer=RMSprop, lr_unified=0.6786, alpha=0.6441
-  Validation MSE: 0.145306
-Iteration 9: f(x) = 0.145306
+  l1=43, num_layers=3, activation=GELU, 
+  optimizer=SGD, lr_unified=1.6193, alpha=0.4429
+  Validation MSE: 0.174359
+Iteration 10: f(x) = 0.174359
 
 Configuration 1/1:
-  l1=121, num_layers=4, activation=Sigmoid, 
-  optimizer=AdamW, lr_unified=0.1978, alpha=0.0391
-  Validation MSE: 0.203172
-Iteration 10: f(x) = 0.203172
-
-Configuration 1/1:
-  l1=41, num_layers=1, activation=ReLU, 
-  optimizer=AdamW, lr_unified=0.2271, alpha=0.6241
-  Validation MSE: 0.199705
-Iteration 11: f(x) = 0.199705</code></pre>
+  l1=60, num_layers=1, activation=ReLU, 
+  optimizer=RMSprop, lr_unified=0.1454, alpha=0.0135
+  Validation MSE: 0.173427
+Iteration 11: f(x) = 0.173427
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251117_101157</code></pre>
 </div>
 </div>
 </section>
@@ -1115,17 +1125,17 @@ Iteration 11: f(x) = 0.199705</code></pre>
 Best Solution Found:
 --------------------------------------------------
   l1: 40
-  num_layers: 3
+  num_layers: 4
   activation: GELU
-  optimizer: RMSprop
-  lr_unified: 0.1368
-  alpha: 0.9287
-  Objective Value: 0.1208
+  optimizer: AdamW
+  lr_unified: 7.3833
+  alpha: 1.0000
+  Objective Value: 0.0025
   Total Evaluations: 20</code></pre>
 </div>
 </div>
 <p>Store values for later use in visualizations. Values are already in original scale thanks to <code>var_trans</code>. Factor variables are returned as strings.</p>
-<div id="748cfb98" class="cell" data-execution_count="10">
+<div id="538a9a56" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>best_l1 <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">0</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>best_num_layers <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">1</span>])</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>best_activation <span class="op">=</span> result.x[<span class="dv">2</span>]</span>
@@ -1138,7 +1148,7 @@ Best Solution Found:
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best optimizer: </span><span class="sc">{</span>best_optimizer<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best activation: GELU
-Best optimizer: RMSprop</code></pre>
+Best optimizer: AdamW</code></pre>
 </div>
 </div>
 <section id="results-table-with-importance-scores" class="level3" data-number="20.1.1">
@@ -1148,14 +1158,14 @@ Best optimizer: RMSprop</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> optimizer.print_results_table(show_importance<span class="op">=</span><span class="va">True</span>, tablefmt<span class="op">=</span><span class="st">"github"</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>| name       | type   | lower   | upper   | tuned               | trans   |   importance | stars   |
-|------------|--------|---------|---------|---------------------|---------|--------------|---------|
-| l1         | int    | 16.0    | 128.0   | 40                  | -       |         8.30 | *       |
-| num_layers | int    | 1.0     | 4.0     | 3                   | -       |        13.75 | *       |
-| activation | factor | Tanh    | GELU    | GELU                | -       |        19.91 | *       |
-| optimizer  | factor | Adam    | AdamW   | RMSprop             | -       |         8.90 | *       |
-| lr_unified | num    | 0.1     | 10.0    | 0.13678714783116164 | log10   |        16.93 | *       |
-| alpha      | num    | 0.01    | 1.0     | 0.9287492634451227  | log10   |        32.21 | *       |
+<pre><code>| name       | type   | lower   | upper   | tuned             | trans   |   importance | stars   |
+|------------|--------|---------|---------|-------------------|---------|--------------|---------|
+| l1         | int    | 16.0    | 128.0   | 40                | -       |         7.87 | *       |
+| num_layers | int    | 1.0     | 4.0     | 4                 | -       |        16.36 | *       |
+| activation | factor | Tanh    | GELU    | GELU              | -       |        17.11 | *       |
+| optimizer  | factor | Adam    | AdamW   | AdamW             | -       |        18.69 | *       |
+| lr_unified | num    | 0.1     | 10.0    | 7.383304340746509 | log10   |        14.79 | *       |
+| alpha      | num    | 0.01    | 1.0     | 1.0               | log10   |        25.17 | *       |
 
 Interpretation: ***: &gt;95%, **: &gt;50%, *: &gt;1%, .: &gt;0.1%</code></pre>
 </div>
@@ -1183,37 +1193,37 @@ Interpretation: ***: &gt;95%, **: &gt;50%, *: &gt;1%, .: &gt;0.1%</code></pre>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>optimizer.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
-  alpha: importance = 32.21% (type: num)
-  activation: importance = 19.91% (type: factor)
-  lr_unified: importance = 16.93% (type: num)
+  alpha: importance = 25.17% (type: num)
+  optimizer: importance = 18.69% (type: factor)
+  activation: importance = 17.11% (type: factor)
 
 Generating 3 surrogate plots...
-  Plotting alpha vs activation</code></pre>
+  Plotting alpha vs optimizer</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-2.png" id="pinn-surrogate-visualization-pinn2-1" width="990" height="819" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-2.png" id="pinn-surrogate-visualization-pinn2-1" width="994" height="819" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Plotting alpha vs lr_unified</code></pre>
+<pre><code>  Plotting alpha vs activation</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-4.png" id="pinn-surrogate-visualization-pinn2-2" width="1131" height="950" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-4.png" id="pinn-surrogate-visualization-pinn2-2" width="990" height="819" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Plotting activation vs lr_unified</code></pre>
+<pre><code>  Plotting optimizer vs activation</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-6.png" id="pinn-surrogate-visualization-pinn2-3" width="960" height="853" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-6.png" id="pinn-surrogate-visualization-pinn2-3" width="990" height="857" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1340,12 +1350,12 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-stdout">
 <pre><code>Training final model with best hyperparameters using DataLoaders...
 Training for 30,000 epochs...
-  Epoch 5000/30000: Avg Loss = 0.151573
-  Epoch 10000/30000: Avg Loss = 0.025751
-  Epoch 15000/30000: Avg Loss = 0.022447
-  Epoch 20000/30000: Avg Loss = 0.035008
-  Epoch 25000/30000: Avg Loss = 0.034133
-  Epoch 30000/30000: Avg Loss = 0.017587
+  Epoch 5000/30000: Avg Loss = 0.020906
+  Epoch 10000/30000: Avg Loss = 0.002042
+  Epoch 15000/30000: Avg Loss = 0.000876
+  Epoch 20000/30000: Avg Loss = 0.000303
+  Epoch 25000/30000: Avg Loss = 0.000276
+  Epoch 30000/30000: Avg Loss = 0.051943
 Training completed!</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1394,9 +1404,9 @@ Training completed!</code></pre>
 <pre><code>
 Final Model Performance:
 --------------------------------------------------
-  Validation MSE: 0.004629
-  Full domain MSE: 0.004570
-  Maximum absolute error: 0.185277</code></pre>
+  Validation MSE: 0.005140
+  Full domain MSE: 0.005039
+  Maximum absolute error: 0.148863</code></pre>
 </div>
 </div>
 </section>
@@ -1529,9 +1539,9 @@ Baseline Configuration:
 
 Validation MSE Comparison:
 --------------------------------------------------
-  Baseline: 0.144893
-  Optimized: 0.120842
-  Improvement: 16.6%</code></pre>
+  Baseline: 0.058316
+  Optimized: 0.002527
+  Improvement: 95.7%</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1544,154 +1554,81 @@ Validation MSE Comparison:
 </section>
 <section id="hyperparameter-sensitivity-analysis" class="level1" data-number="25">
 <h1 data-number="25"><span class="header-section-number">25</span> Hyperparameter Sensitivity Analysis</h1>
-<p>Let’s analyze how sensitive the model is to each hyperparameter:</p>
+<p>Let’s analyze how sensitive the model is to each hyperparameter using the enhanced <code>plot_parameter_scatter()</code> method with Spearman correlation:</p>
 <div id="cell-pinn-sensitivity-analysis-pinn2" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute correlation between parameters and error</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> spearmanr</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get optimization history and parameters</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> optimizer.y_</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>all_params <span class="op">=</span> optimizer.X_</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameter metadata</span></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>param_names <span class="op">=</span> [<span class="st">'l1 (neurons)'</span>, <span class="st">'num_layers'</span>, <span class="st">'activation'</span>, <span class="st">'optimizer'</span>, <span class="st">'lr_unified'</span>, <span class="st">'alpha'</span>]</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>param_indices <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>transforms <span class="op">=</span> [<span class="kw">lambda</span> x: x, <span class="kw">lambda</span> x: x, <span class="kw">lambda</span> x: x, <span class="kw">lambda</span> x: x, <span class="kw">lambda</span> x: x, <span class="kw">lambda</span> x: x]</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>))</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, (ax, name, param_idx, transform) <span class="kw">in</span> <span class="bu">enumerate</span>(</span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">zip</span>(axes.flat, param_names, param_indices, transforms)</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>):</span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    param_values <span class="op">=</span> all_params[:, param_idx]</span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>    errors <span class="op">=</span> history</span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Handle different parameter types</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> idx <span class="op">&lt;</span> <span class="dv">2</span>:  <span class="co"># Integer parameters (l1, num_layers)</span></span>
-<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>        corr, p_value <span class="op">=</span> spearmanr(param_values, errors)</span>
-<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>        ax.scatter(param_values, errors, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">40</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>        ax.scatter([result.x[param_idx]], [best_val_error], </span>
-<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>                  color<span class="op">=</span><span class="st">'red'</span>, s<span class="op">=</span><span class="dv">200</span>, marker<span class="op">=</span><span class="st">'*'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, </span>
-<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>                  label<span class="op">=</span><span class="st">'Best'</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>        ax.set_yscale(<span class="st">'log'</span>)</span>
-<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> idx <span class="op">&lt;</span> <span class="dv">4</span>:  <span class="co"># Factor parameters (activation, optimizer)</span></span>
-<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># For categorical variables, create a box plot or strip plot</span></span>
-<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>        unique_vals <span class="op">=</span> np.unique(param_values)</span>
-<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>        positions <span class="op">=</span> {val: i <span class="cf">for</span> i, val <span class="kw">in</span> <span class="bu">enumerate</span>(unique_vals)}</span>
-<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>        numeric_vals <span class="op">=</span> np.array([positions[val] <span class="cf">for</span> val <span class="kw">in</span> param_values])</span>
-<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>        ax.scatter(numeric_vals, errors, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">40</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get best value - handle both string and potential numeric representations</span></span>
-<span id="cb35-38"><a href="#cb35-38" aria-hidden="true" tabindex="-1"></a>        best_val <span class="op">=</span> result.x[param_idx]</span>
-<span id="cb35-39"><a href="#cb35-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ensure best_val is in positions dict, if not, add it</span></span>
-<span id="cb35-40"><a href="#cb35-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> best_val <span class="kw">not</span> <span class="kw">in</span> positions:</span>
-<span id="cb35-41"><a href="#cb35-41" aria-hidden="true" tabindex="-1"></a>            <span class="co"># This shouldn't happen, but handle gracefully</span></span>
-<span id="cb35-42"><a href="#cb35-42" aria-hidden="true" tabindex="-1"></a>            positions[best_val] <span class="op">=</span> <span class="bu">len</span>(positions)</span>
-<span id="cb35-43"><a href="#cb35-43" aria-hidden="true" tabindex="-1"></a>            unique_vals <span class="op">=</span> np.append(unique_vals, best_val)</span>
-<span id="cb35-44"><a href="#cb35-44" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb35-45"><a href="#cb35-45" aria-hidden="true" tabindex="-1"></a>        best_pos <span class="op">=</span> positions[best_val]</span>
-<span id="cb35-46"><a href="#cb35-46" aria-hidden="true" tabindex="-1"></a>        ax.scatter([best_pos], [best_val_error], </span>
-<span id="cb35-47"><a href="#cb35-47" aria-hidden="true" tabindex="-1"></a>                  color<span class="op">=</span><span class="st">'red'</span>, s<span class="op">=</span><span class="dv">200</span>, marker<span class="op">=</span><span class="st">'*'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, </span>
-<span id="cb35-48"><a href="#cb35-48" aria-hidden="true" tabindex="-1"></a>                  label<span class="op">=</span><span class="st">'Best'</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb35-49"><a href="#cb35-49" aria-hidden="true" tabindex="-1"></a>        ax.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(unique_vals)))</span>
-<span id="cb35-50"><a href="#cb35-50" aria-hidden="true" tabindex="-1"></a>        ax.set_xticklabels(unique_vals, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
-<span id="cb35-51"><a href="#cb35-51" aria-hidden="true" tabindex="-1"></a>        ax.set_yscale(<span class="st">'log'</span>)</span>
-<span id="cb35-52"><a href="#cb35-52" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb35-53"><a href="#cb35-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># For categorical, correlation doesn't apply</span></span>
-<span id="cb35-54"><a href="#cb35-54" aria-hidden="true" tabindex="-1"></a>        corr, p_value <span class="op">=</span> np.nan, np.nan</span>
-<span id="cb35-55"><a href="#cb35-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># Log-scale parameters (lr_unified, alpha)</span></span>
-<span id="cb35-56"><a href="#cb35-56" aria-hidden="true" tabindex="-1"></a>        corr, p_value <span class="op">=</span> spearmanr(np.log10(param_values), np.log10(errors))</span>
-<span id="cb35-57"><a href="#cb35-57" aria-hidden="true" tabindex="-1"></a>        ax.scatter(param_values, errors, alpha<span class="op">=</span><span class="fl">0.6</span>, s<span class="op">=</span><span class="dv">40</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb35-58"><a href="#cb35-58" aria-hidden="true" tabindex="-1"></a>        ax.scatter([result.x[param_idx]], [best_val_error], </span>
-<span id="cb35-59"><a href="#cb35-59" aria-hidden="true" tabindex="-1"></a>                  color<span class="op">=</span><span class="st">'red'</span>, s<span class="op">=</span><span class="dv">200</span>, marker<span class="op">=</span><span class="st">'*'</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, </span>
-<span id="cb35-60"><a href="#cb35-60" aria-hidden="true" tabindex="-1"></a>                  label<span class="op">=</span><span class="st">'Best'</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb35-61"><a href="#cb35-61" aria-hidden="true" tabindex="-1"></a>        ax.set_xscale(<span class="st">'log'</span>)</span>
-<span id="cb35-62"><a href="#cb35-62" aria-hidden="true" tabindex="-1"></a>        ax.set_yscale(<span class="st">'log'</span>)</span>
-<span id="cb35-63"><a href="#cb35-63" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb35-64"><a href="#cb35-64" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(name, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb35-65"><a href="#cb35-65" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">'Validation MSE'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb35-66"><a href="#cb35-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> np.isnan(corr):</span>
-<span id="cb35-67"><a href="#cb35-67" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f'</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> Sensitivity</span><span class="ch">\n</span><span class="ss">Correlation: </span><span class="sc">{</span>corr<span class="sc">:.3f}</span><span class="ss"> (p=</span><span class="sc">{</span>p_value<span class="sc">:.3f}</span><span class="ss">)'</span>, </span>
-<span id="cb35-68"><a href="#cb35-68" aria-hidden="true" tabindex="-1"></a>                    fontsize<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb35-69"><a href="#cb35-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb35-70"><a href="#cb35-70" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f'</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> Sensitivity'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb35-71"><a href="#cb35-71" aria-hidden="true" tabindex="-1"></a>    ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb35-72"><a href="#cb35-72" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb35-73"><a href="#cb35-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-74"><a href="#cb35-74" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb35-75"><a href="#cb35-75" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb35-76"><a href="#cb35-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-77"><a href="#cb35-77" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Sensitivity Analysis (Spearman Correlation):"</span>)</span>
-<span id="cb35-78"><a href="#cb35-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">50</span>)</span>
-<span id="cb35-79"><a href="#cb35-79" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, param_idx <span class="kw">in</span> <span class="bu">zip</span>(param_names, param_indices):</span>
-<span id="cb35-80"><a href="#cb35-80" aria-hidden="true" tabindex="-1"></a>    param_values <span class="op">=</span> all_params[:, param_idx]</span>
-<span id="cb35-81"><a href="#cb35-81" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb35-82"><a href="#cb35-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Handle different parameter types</span></span>
-<span id="cb35-83"><a href="#cb35-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> param_idx <span class="op">&lt;</span> <span class="dv">2</span>:  <span class="co"># Integer parameters</span></span>
-<span id="cb35-84"><a href="#cb35-84" aria-hidden="true" tabindex="-1"></a>        corr, p_value <span class="op">=</span> spearmanr(param_values, history)</span>
-<span id="cb35-85"><a href="#cb35-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> param_idx <span class="op">&lt;</span> <span class="dv">4</span>:  <span class="co"># Factor parameters (skip correlation)</span></span>
-<span id="cb35-86"><a href="#cb35-86" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>name<span class="sc">:20s}</span><span class="ss">: (categorical variable, use visual inspection)"</span>)</span>
-<span id="cb35-87"><a href="#cb35-87" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb35-88"><a href="#cb35-88" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># Log-scale parameters</span></span>
-<span id="cb35-89"><a href="#cb35-89" aria-hidden="true" tabindex="-1"></a>        corr, p_value <span class="op">=</span> spearmanr(np.log10(param_values), np.log10(history))</span>
-<span id="cb35-90"><a href="#cb35-90" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb35-91"><a href="#cb35-91" aria-hidden="true" tabindex="-1"></a>    significance <span class="op">=</span> <span class="st">"***"</span> <span class="cf">if</span> p_value <span class="op">&lt;</span> <span class="fl">0.001</span> <span class="cf">else</span> <span class="st">"**"</span> <span class="cf">if</span> p_value <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="cf">else</span> <span class="st">"*"</span> <span class="cf">if</span> p_value <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">""</span></span>
-<span id="cb35-92"><a href="#cb35-92" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>name<span class="sc">:20s}</span><span class="ss">: </span><span class="sc">{</span>corr<span class="sc">:+.3f}</span><span class="ss"> (p=</span><span class="sc">{</span>p_value<span class="sc">:.3f}</span><span class="ss">) </span><span class="sc">{</span>significance<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the enhanced plot_parameter_scatter method with correlation display</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>optimizer.plot_parameter_scatter(</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    result,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">"Validation MSE"</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"plasma"</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">10</span>),</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    show_correlation<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    log_y<span class="op">=</span><span class="va">True</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-sensitivity-analysis-pinn2-output-1.png" id="pinn-sensitivity-analysis-pinn2" width="1426" height="946" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-sensitivity-analysis-pinn2-output-1.png" id="pinn-sensitivity-analysis-pinn2" width="1428" height="943" class="figure-img"></p>
 </figure>
 </div>
 </div>
+</div>
+<section id="sensitivity-analysis-spearman-correlation" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="sensitivity-analysis-spearman-correlation"><span class="header-section-number">25.1</span> Sensitivity Analysis (Spearman Correlation)</h2>
+<div id="e2b7907d" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the new sensitivity_spearman() method for tabular output</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>optimizer.sensitivity_spearman()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Sensitivity Analysis (Spearman Correlation):
 --------------------------------------------------
-  l1 (neurons)        : +0.188 (p=0.429) 
-  num_layers          : -0.225 (p=0.341) 
+  l1                  : +0.164 (p=0.490)
+  num_layers          : -0.573 (p=0.008) **
   activation          : (categorical variable, use visual inspection)
   optimizer           : (categorical variable, use visual inspection)
-  lr_unified          : +0.170 (p=0.474) 
-  alpha               : -0.502 (p=0.024) *</code></pre>
+  lr_unified          : -0.315 (p=0.176)
+  alpha               : -0.545 (p=0.013) *</code></pre>
 </div>
 </div>
+</section>
 </section>
 <section id="summary" class="level1" data-number="26">
 <h1 data-number="26"><span class="header-section-number">26</span> Summary</h1>
 <section id="key-findings" class="level2" data-number="26.1">
 <h2 data-number="26.1" class="anchored" data-anchor-id="key-findings"><span class="header-section-number">26.1</span> Key Findings</h2>
-<div id="pinn-summary-pinn2" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"HYPERPARAMETER OPTIMIZATION SUMMARY"</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">1. BEST CONFIGURATION FOUND:"</span>)</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Neurons per layer (l1): </span><span class="sc">{</span>best_l1<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Number of hidden layers: </span><span class="sc">{</span>best_num_layers<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Activation function: </span><span class="sc">{</span>best_activation<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Optimizer: </span><span class="sc">{</span>best_optimizer<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Learning rate: </span><span class="sc">{</span>best_lr_unified<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Physics weight (alpha): </span><span class="sc">{</span>best_alpha<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">2. PERFORMANCE:"</span>)</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Validation MSE: </span><span class="sc">{</span>best_val_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Full domain MSE: </span><span class="sc">{</span>full_mse<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Maximum absolute error: </span><span class="sc">{</span>max_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">3. OPTIMIZATION STATISTICS:"</span>)</span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Total evaluations: </span><span class="sc">{</span>result<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Initial best: </span><span class="sc">{</span>history[<span class="dv">0</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Final best: </span><span class="sc">{</span>best_val_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Improvement: </span><span class="sc">{</span>(<span class="dv">1</span> <span class="op">-</span> best_val_error<span class="op">/</span>history[<span class="dv">0</span>])<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
-<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">4. COMPARISON TO BASELINE:"</span>)</span>
-<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Baseline MSE: </span><span class="sc">{</span>baseline_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Optimized MSE: </span><span class="sc">{</span>best_val_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Improvement: </span><span class="sc">{</span>(<span class="dv">1</span> <span class="op">-</span> best_val_error<span class="op">/</span>baseline_error)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
-<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="pinn-summary-pinn2" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get optimization history for statistics</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> optimizer.y_</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"HYPERPARAMETER OPTIMIZATION SUMMARY"</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">1. BEST CONFIGURATION FOUND:"</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Neurons per layer (l1): </span><span class="sc">{</span>best_l1<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Number of hidden layers: </span><span class="sc">{</span>best_num_layers<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Activation function: </span><span class="sc">{</span>best_activation<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Optimizer: </span><span class="sc">{</span>best_optimizer<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Learning rate: </span><span class="sc">{</span>best_lr_unified<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Physics weight (alpha): </span><span class="sc">{</span>best_alpha<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">2. PERFORMANCE:"</span>)</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Validation MSE: </span><span class="sc">{</span>best_val_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Full domain MSE: </span><span class="sc">{</span>full_mse<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Maximum absolute error: </span><span class="sc">{</span>max_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">3. OPTIMIZATION STATISTICS:"</span>)</span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Total evaluations: </span><span class="sc">{</span>result<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Initial best: </span><span class="sc">{</span>history[<span class="dv">0</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Final best: </span><span class="sc">{</span>best_val_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Improvement: </span><span class="sc">{</span>(<span class="dv">1</span> <span class="op">-</span> best_val_error<span class="op">/</span>history[<span class="dv">0</span>])<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">4. COMPARISON TO BASELINE:"</span>)</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Baseline MSE: </span><span class="sc">{</span>baseline_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Optimized MSE: </span><span class="sc">{</span>best_val_error<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Improvement: </span><span class="sc">{</span>(<span class="dv">1</span> <span class="op">-</span> best_val_error<span class="op">/</span>baseline_error)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%"</span>)</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ======================================================================
@@ -1700,27 +1637,27 @@ HYPERPARAMETER OPTIMIZATION SUMMARY
 
 1. BEST CONFIGURATION FOUND:
    - Neurons per layer (l1): 40
-   - Number of hidden layers: 3
+   - Number of hidden layers: 4
    - Activation function: GELU
-   - Optimizer: RMSprop
-   - Learning rate: 0.1368
-   - Physics weight (alpha): 0.9287
+   - Optimizer: AdamW
+   - Learning rate: 7.3833
+   - Physics weight (alpha): 1.0000
 
 2. PERFORMANCE:
-   - Validation MSE: 0.120842
-   - Full domain MSE: 0.004570
-   - Maximum absolute error: 0.185277
+   - Validation MSE: 0.002527
+   - Full domain MSE: 0.005039
+   - Maximum absolute error: 0.148863
 
 3. OPTIMIZATION STATISTICS:
    - Total evaluations: 20
-   - Initial best: 0.212684
-   - Final best: 0.120842
-   - Improvement: 43.2%
+   - Initial best: 0.194649
+   - Final best: 0.002527
+   - Improvement: 98.7%
 
 4. COMPARISON TO BASELINE:
-   - Baseline MSE: 0.144893
-   - Optimized MSE: 0.120842
-   - Improvement: 16.6%
+   - Baseline MSE: 0.058316
+   - Optimized MSE: 0.002527
+   - Improvement: 95.7%
 
 ======================================================================</code></pre>
 </div>
@@ -1772,49 +1709,49 @@ HYPERPARAMETER OPTIMIZATION SUMMARY
 <section id="using-these-results" class="level2" data-number="26.3">
 <h2 data-number="26.3" class="anchored" data-anchor-id="using-these-results"><span class="header-section-number">26.3</span> Using These Results</h2>
 <p>To use the optimized configuration in your own PINN problems:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create optimized PINN</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    input_dim<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    output_dim<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    l1<span class="op">=</span>{best_l1},</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    num_hidden_layers<span class="op">=</span>{best_num_layers},</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    activation<span class="op">=</span><span class="st">"</span><span class="sc">{best_activation}</span><span class="st">"</span>,</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    lr<span class="op">=</span>{best_lr_unified:<span class="fl">.4</span><span class="er">f</span>}</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> model.get_optimizer(<span class="st">"</span><span class="sc">{best_optimizer}</span><span class="st">"</span>)</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Use alpha={best_alpha:.4f} for physics loss weight</span></span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> data_loss <span class="op">+</span> {best_alpha:<span class="fl">.4</span><span class="er">f</span>} <span class="op">*</span> physics_loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create optimized PINN</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    input_dim<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    output_dim<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    l1<span class="op">=</span>{best_l1},</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    num_hidden_layers<span class="op">=</span>{best_num_layers},</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    activation<span class="op">=</span><span class="st">"</span><span class="sc">{best_activation}</span><span class="st">"</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    lr<span class="op">=</span>{best_lr_unified:<span class="fl">.4</span><span class="er">f</span>}</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> model.get_optimizer(<span class="st">"</span><span class="sc">{best_optimizer}</span><span class="st">"</span>)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Use alpha={best_alpha:.4f} for physics loss weight</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> data_loss <span class="op">+</span> {best_alpha:<span class="fl">.4</span><span class="er">f</span>} <span class="op">*</span> physics_loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="using-var_trans-for-your-hyperparameter-optimization" class="level2" data-number="26.4">
 <h2 data-number="26.4" class="anchored" data-anchor-id="using-var_trans-for-your-hyperparameter-optimization"><span class="header-section-number">26.4</span> Using var_trans for Your Hyperparameter Optimization</h2>
 <p>When setting up optimization for your own PINN problems:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define search space with factor variables and log-scale parameters</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">16</span>, <span class="dv">128</span>),                                    <span class="co"># neurons (integer)</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">4</span>),                                       <span class="co"># layers (integer)</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tanh"</span>, <span class="st">"ReLU"</span>, <span class="st">"Sigmoid"</span>, <span class="st">"GELU"</span>),       <span class="co"># activation (factor)</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>, <span class="st">"AdamW"</span>),        <span class="co"># optimizer (factor)</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">0.1</span>, <span class="fl">10.0</span>),                                  <span class="co"># learning rate (log-scale)</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">0.01</span>, <span class="fl">1.0</span>)                                   <span class="co"># physics weight (log-scale)</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>var_type <span class="op">=</span> [<span class="st">"int"</span>, <span class="st">"int"</span>, <span class="st">"factor"</span>, <span class="st">"factor"</span>, <span class="st">"num"</span>, <span class="st">"num"</span>]</span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>var_trans <span class="op">=</span> [<span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="st">"log10"</span>, <span class="st">"log10"</span>]</span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>your_objective_function,</span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>    var_type<span class="op">=</span>var_type,</span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>    var_trans<span class="op">=</span>var_trans,  <span class="co"># Automatic log-scale and factor handling!</span></span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">20</span>,</span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">10</span></span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> opt.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define search space with factor variables and log-scale parameters</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">16</span>, <span class="dv">128</span>),                                    <span class="co"># neurons (integer)</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="dv">4</span>),                                       <span class="co"># layers (integer)</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tanh"</span>, <span class="st">"ReLU"</span>, <span class="st">"Sigmoid"</span>, <span class="st">"GELU"</span>),       <span class="co"># activation (factor)</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>, <span class="st">"AdamW"</span>),        <span class="co"># optimizer (factor)</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">0.1</span>, <span class="fl">10.0</span>),                                  <span class="co"># learning rate (log-scale)</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">0.01</span>, <span class="fl">1.0</span>)                                   <span class="co"># physics weight (log-scale)</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>var_type <span class="op">=</span> [<span class="st">"int"</span>, <span class="st">"int"</span>, <span class="st">"factor"</span>, <span class="st">"factor"</span>, <span class="st">"num"</span>, <span class="st">"num"</span>]</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>var_trans <span class="op">=</span> [<span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="va">None</span>, <span class="st">"log10"</span>, <span class="st">"log10"</span>]</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>your_objective_function,</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    var_type<span class="op">=</span>var_type,</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>    var_trans<span class="op">=</span>var_trans,  <span class="co"># Automatic log-scale and factor handling!</span></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> opt.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Your objective function receives parameters in <strong>original scale</strong> - no manual transformations needed!</p>
 </section>
 <section id="future-directions" class="level2" data-number="26.5">
