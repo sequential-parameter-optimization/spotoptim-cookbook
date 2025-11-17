@@ -83,7 +83,7 @@ torch.manual_seed(42)
 np.random.seed(42)
 
 # Set number of epochs for training
-N_EPOCHS=2000
+N_EPOCHS=5000
 
 ```
 
@@ -423,6 +423,8 @@ print(f"\nTest results: {test_results}")
 
 ## Run the Optimization
 
+Use `tensorboard --logdir=runs` from a shell in the current directory (where this notebook is located) to visualize the optimization process.
+
 ```{python}
 #| label: pinn-hyperparameter-optimization-pinn2
 # Define search space with var_trans for automatic log-scale handling
@@ -452,7 +454,9 @@ optimizer = SpotOptim(
     max_iter=20,
     n_initial=10,
     seed=42,
-    verbose=True
+    verbose=True,
+    tensorboard_clean=True,
+    tensorboard_log=True
 )
 ```
 
@@ -797,102 +801,26 @@ plt.show()
 
 # Hyperparameter Sensitivity Analysis
 
-Let's analyze how sensitive the model is to each hyperparameter:
+Let's analyze how sensitive the model is to each hyperparameter using the enhanced `plot_parameter_scatter()` method with Spearman correlation:
 
 ```{python}
 #| label: pinn-sensitivity-analysis-pinn2
-# Compute correlation between parameters and error
-from scipy.stats import spearmanr
+# Use the enhanced plot_parameter_scatter method with correlation display
+optimizer.plot_parameter_scatter(
+    result,
+    ylabel="Validation MSE",
+    cmap="plasma",
+    figsize=(15, 10),
+    show_correlation=True,
+    log_y=True
+)
+```
 
-# Get optimization history and parameters
-history = optimizer.y_
-all_params = optimizer.X_
+## Sensitivity Analysis (Spearman Correlation)
 
-# Define parameter metadata
-param_names = ['l1 (neurons)', 'num_layers', 'activation', 'optimizer', 'lr_unified', 'alpha']
-param_indices = [0, 1, 2, 3, 4, 5]
-transforms = [lambda x: x, lambda x: x, lambda x: x, lambda x: x, lambda x: x, lambda x: x]
-
-fig, axes = plt.subplots(2, 3, figsize=(15, 10))
-
-for idx, (ax, name, param_idx, transform) in enumerate(
-    zip(axes.flat, param_names, param_indices, transforms)
-):
-    param_values = all_params[:, param_idx]
-    errors = history
-    
-    # Handle different parameter types
-    if idx < 2:  # Integer parameters (l1, num_layers)
-        corr, p_value = spearmanr(param_values, errors)
-        ax.scatter(param_values, errors, alpha=0.6, s=40, edgecolors='black', linewidth=0.5)
-        ax.scatter([result.x[param_idx]], [best_val_error], 
-                  color='red', s=200, marker='*', edgecolors='black', linewidth=1.5, 
-                  label='Best', zorder=5)
-        ax.set_yscale('log')
-    elif idx < 4:  # Factor parameters (activation, optimizer)
-        # For categorical variables, create a box plot or strip plot
-        unique_vals = np.unique(param_values)
-        positions = {val: i for i, val in enumerate(unique_vals)}
-        numeric_vals = np.array([positions[val] for val in param_values])
-        
-        ax.scatter(numeric_vals, errors, alpha=0.6, s=40, edgecolors='black', linewidth=0.5)
-        
-        # Get best value - handle both string and potential numeric representations
-        best_val = result.x[param_idx]
-        # Ensure best_val is in positions dict, if not, add it
-        if best_val not in positions:
-            # This shouldn't happen, but handle gracefully
-            positions[best_val] = len(positions)
-            unique_vals = np.append(unique_vals, best_val)
-        
-        best_pos = positions[best_val]
-        ax.scatter([best_pos], [best_val_error], 
-                  color='red', s=200, marker='*', edgecolors='black', linewidth=1.5, 
-                  label='Best', zorder=5)
-        ax.set_xticks(range(len(unique_vals)))
-        ax.set_xticklabels(unique_vals, rotation=45, ha='right')
-        ax.set_yscale('log')
-        
-        # For categorical, correlation doesn't apply
-        corr, p_value = np.nan, np.nan
-    else:  # Log-scale parameters (lr_unified, alpha)
-        corr, p_value = spearmanr(np.log10(param_values), np.log10(errors))
-        ax.scatter(param_values, errors, alpha=0.6, s=40, edgecolors='black', linewidth=0.5)
-        ax.scatter([result.x[param_idx]], [best_val_error], 
-                  color='red', s=200, marker='*', edgecolors='black', linewidth=1.5, 
-                  label='Best', zorder=5)
-        ax.set_xscale('log')
-        ax.set_yscale('log')
-    
-    ax.set_xlabel(name, fontsize=11)
-    ax.set_ylabel('Validation MSE', fontsize=11)
-    if not np.isnan(corr):
-        ax.set_title(f'{name} Sensitivity\nCorrelation: {corr:.3f} (p={p_value:.3f})', 
-                    fontsize=11)
-    else:
-        ax.set_title(f'{name} Sensitivity', fontsize=11)
-    ax.legend(fontsize=9)
-    ax.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.show()
-
-print("\nSensitivity Analysis (Spearman Correlation):")
-print("-" * 50)
-for name, param_idx in zip(param_names, param_indices):
-    param_values = all_params[:, param_idx]
-    
-    # Handle different parameter types
-    if param_idx < 2:  # Integer parameters
-        corr, p_value = spearmanr(param_values, history)
-    elif param_idx < 4:  # Factor parameters (skip correlation)
-        print(f"  {name:20s}: (categorical variable, use visual inspection)")
-        continue
-    else:  # Log-scale parameters
-        corr, p_value = spearmanr(np.log10(param_values), np.log10(history))
-    
-    significance = "***" if p_value < 0.001 else "**" if p_value < 0.01 else "*" if p_value < 0.05 else ""
-    print(f"  {name:20s}: {corr:+.3f} (p={p_value:.3f}) {significance}")
+```{python}
+# Use the new sensitivity_spearman() method for tabular output
+optimizer.sensitivity_spearman()
 ```
 
 # Summary
