@@ -32,7 +32,7 @@ print("All packages imported successfully!")
 
 The `optimize()` method is the main entry point for running the optimization process. It coordinates all other methods in the optimization workflow:
 
-1. **Initial Design Phase**: `_set_initial_design()`, `_curate_initial_design()`, `_handle_NA_initial_design()`, `_check_size_initial_design()`, `_get_best_xy_initial_design()`
+1. **Initial Design Phase**: `get_initial_design()`, `_curate_initial_design()`, `_handle_NA_initial_design()`, `_check_size_initial_design()`, `_get_best_xy_initial_design()`
 2. **Main Loop**: Surrogate fitting, OCBA application, point suggestion, evaluation
 3. **Termination**: `_determine_termination()`
 
@@ -69,7 +69,7 @@ print(f"Message: {result.message}")
 
 These methods handle the creation and validation of the initial design of experiments.
 
-### 2.1 `_set_initial_design()`
+### 2.1 `get_initial_design()`
 
 **Purpose**: Generate or process initial design points  
 **Used by**: `optimize()` method at the start  
@@ -88,7 +88,7 @@ opt = SpotOptim(
     n_initial=10,
     seed=42
 )
-X0 = opt._set_initial_design()
+X0 = opt.get_initial_design()
 print(f"Generated LHS design shape: {X0.shape}")
 print(f"First 3 points:\n{X0[:3]}")
 
@@ -100,19 +100,19 @@ opt_x0 = SpotOptim(
     x0=[0.0, 0.0],
     seed=42
 )
-X0_with_x0 = opt_x0._set_initial_design()
+X0_with_x0 = opt_x0.get_initial_design()
 print(f"\nDesign with x0, first point: {X0_with_x0[0]}")
 
 # Example 3: Provide custom initial design
 X0_custom = np.array([[0, 0], [1, 1], [2, 2]])
-X0_processed = opt._set_initial_design(X0_custom)
+X0_processed = opt.get_initial_design(X0_custom)
 print(f"\nCustom design shape: {X0_processed.shape}")
 ```
 
 ### 2.2 `_curate_initial_design()`
 
 **Purpose**: Remove duplicates and ensure sufficient unique points  
-**Used by**: `optimize()` after `_set_initial_design()`  
+**Used by**: `optimize()` after `get_initial_design()`  
 **Handles**: Duplicate removal, point generation, repetition for noisy functions
 
 ```{python}
@@ -727,7 +727,7 @@ Here's how all the methods relate to each other in the optimization workflow:
 optimize()
 │
 ├─── Initial Design Phase
-│    ├── _set_initial_design()
+│    ├── get_initial_design()
 │    │   └── _generate_initial_design() [if X0 is None]
 │    ├── _curate_initial_design()
 │    ├── _evaluate_function()
