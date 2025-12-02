@@ -1,0 +1,783 @@
+---
+title: SpotOptim Internal Methods Examples
+jupyter: python3
+---
+
+
+## Setup: Import Required Packages
+
+First, we import all necessary packages for the examples.
+
+
+```{python}
+# Core imports
+import numpy as np
+import time
+from scipy.optimize import OptimizeResult
+
+# SpotOptim
+from spotoptim import SpotOptim
+
+# Surrogate models
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF, ConstantKernel
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+print("All packages imported successfully!")
+```
+
+## 1. Main Optimization Method: `optimize()`
+
+The `optimize()` method is the main entry point for running the optimization process. It coordinates all other methods in the optimization workflow:
+
+1. **Initial Design Phase**: `get_initial_design()`, `_curate_initial_design()`, `_handle_NA_initial_design()`, `_check_size_initial_design()`, `_get_best_xy_initial_design()`
+2. **Main Loop**: Surrogate fitting, OCBA application, point suggestion, evaluation
+3. **Termination**: `_determine_termination()`
+
+Let's see a complete optimization example:
+
+```{python}
+# Define a simple quadratic function
+def sphere(X):
+    """Sphere function: f(x) = sum(x^2)"""
+    X = np.atleast_2d(X)
+    return np.sum(X**2, axis=1)
+
+# Create optimizer
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=5,
+    max_iter=20,
+    verbose=True
+)
+
+# Run optimization
+result = opt.optimize()
+
+print(f"\nBest point found: {result.x}")
+print(f"Best value: {result.fun:.6f}")
+print(f"Total evaluations: {result.nfev}")
+print(f"Sequential iterations: {result.nit}")
+print(f"Success: {result.success}")
+print(f"Message: {result.message}")
+```
+
+## 2. Initial Design Methods
+
+These methods handle the creation and validation of the initial design of experiments.
+
+### 2.1 `get_initial_design()`
+
+**Purpose**: Generate or process initial design points  
+**Used by**: `optimize()` method at the start  
+**Calls**: `_generate_initial_design()` if X0 is None
+
+This method handles three scenarios:
+1. Generate LHS design when X0=None
+2. Include starting point x0 if provided
+3. Transform user-provided X0
+
+```{python}
+# Example 1: Generate default LHS design
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=10,
+    seed=42
+)
+X0 = opt.get_initial_design()
+print(f"Generated LHS design shape: {X0.shape}")
+print(f"First 3 points:\n{X0[:3]}")
+
+# Example 2: With starting point x0
+opt_x0 = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=10,
+    x0=[0.0, 0.0],
+    seed=42
+)
+X0_with_x0 = opt_x0.get_initial_design()
+print(f"\nDesign with x0, first point: {X0_with_x0[0]}")
+
+# Example 3: Provide custom initial design
+X0_custom = np.array([[0, 0], [1, 1], [2, 2]])
+X0_processed = opt.get_initial_design(X0_custom)
+print(f"\nCustom design shape: {X0_processed.shape}")
+```
+
+### 2.2 `_curate_initial_design()`
+
+**Purpose**: Remove duplicates and ensure sufficient unique points  
+**Used by**: `optimize()` after `get_initial_design()`  
+**Handles**: Duplicate removal, point generation, repetition for noisy functions
+
+```{python}
+# Example 1: Remove duplicates
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=10,
+    seed=42
+)
+X0_with_dups = np.array([[1, 2], [1, 2], [3, 4], [3, 4], [5, 6]])
+X0_curated = opt._curate_initial_design(X0_with_dups)
+print(f"Original points: {len(X0_with_dups)}")
+print(f"After removing duplicates: {len(X0_curated)}")
+
+# Example 2: With repeats for noisy functions
+opt_repeat = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=5,
+    repeats_initial=3,  # Repeat each point 3 times
+    seed=42
+)
+X0 = np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
+X0_repeated = opt_repeat._curate_initial_design(X0)
+print(f"\nOriginal points: {len(X0)}")
+print(f"After repeating (3x): {len(X0_repeated)}")
+```
+
+### 2.3 `_handle_NA_initial_design()`
+
+**Purpose**: Remove NaN/inf values from initial design evaluations  
+**Used by**: `optimize()` after evaluating initial design  
+**Returns**: Cleaned arrays and original count
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=10,
+    seed=42
+)
+
+# Simulate initial design with some NaN values
+X0 = np.array([[1, 2], [3, 4], [5, 6]])
+y0 = np.array([5.0, np.nan, np.inf])
+
+X0_clean, y0_clean, n_eval = opt._handle_NA_initial_design(X0, y0)
+
+print(f"Original evaluations: {n_eval}")
+print(f"Valid points remaining: {X0_clean.shape[0]}")
+print(f"Clean X0:\n{X0_clean}")
+print(f"Clean y0: {y0_clean}")
+```
+
+### 2.4 `_check_size_initial_design()`
+
+**Purpose**: Validate sufficient points for surrogate fitting  
+**Used by**: `optimize()` after handling NaN values  
+**Raises**: ValueError if insufficient points
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=10,
+    seed=42
+)
+
+# Example 1: Sufficient points - no error
+y0_sufficient = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
+try:
+    opt._check_size_initial_design(y0_sufficient, n_evaluated=10)
+    print("✓ Sufficient points - validation passed")
+except ValueError as e:
+    print(f"✗ Error: {e}")
+
+# Example 2: Insufficient points - raises error
+y0_insufficient = np.array([1.0])  # Only 1 point, need at least 3 for 2D
+try:
+    opt._check_size_initial_design(y0_insufficient, n_evaluated=10)
+    print("✓ Validation passed")
+except ValueError as e:
+    print(f"✗ Expected error: {e}")
+```
+
+### 2.5 `_get_best_xy_initial_design()`
+
+**Purpose**: Determine and store the best point from initial design  
+**Used by**: `optimize()` after initial design evaluation  
+**Updates**: `self.best_x_` and `self.best_y_` attributes
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=5,
+    verbose=True,
+    seed=42
+)
+
+# Simulate initial design (normally done in optimize())
+opt.X_ = np.array([[1, 2], [0, 0], [2, 1]])
+opt.y_ = np.array([5.0, 0.0, 5.0])
+
+opt._get_best_xy_initial_design()
+
+print(f"\nBest x from initial design: {opt.best_x_}")
+print(f"Best y from initial design: {opt.best_y_}")
+```
+
+## 3. Surrogate Model Methods
+
+These methods handle surrogate model operations during the optimization loop.
+
+### 3.1 `_fit_surrogate()`
+
+**Purpose**: Fit surrogate model to data  
+**Used by**: `optimize()` in main loop  
+**Calls**: `_selection_dispatcher()` if max_surrogate_points exceeded
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    max_surrogate_points=10,
+    seed=42
+)
+
+# Generate some training data
+X = np.random.rand(50, 2) * 10 - 5  # 50 points in [-5, 5]
+y = np.sum(X**2, axis=1)
+
+# Fit surrogate (will select 10 best points)
+opt._fit_surrogate(X, y)
+
+print(f"Surrogate fitted successfully!")
+print(f"Surrogate model: {type(opt.surrogate).__name__}")
+```
+
+### 3.2 `_predict_with_uncertainty()`
+
+**Purpose**: Predict with uncertainty estimates, handling surrogates without return_std  
+**Used by**: `_acquisition_function()` and `plot_surrogate()`  
+**Returns**: Predictions and standard deviations
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    surrogate=GaussianProcessRegressor(),
+    seed=42
+)
+
+# Train surrogate
+X_train = np.array([[0, 0], [1, 1], [2, 2]])
+y_train = np.array([0, 2, 8])
+opt._fit_surrogate(X_train, y_train)
+
+# Predict on new points
+X_test = np.array([[1.5, 1.5], [3.0, 3.0]])
+preds, stds = opt._predict_with_uncertainty(X_test)
+
+print(f"Test points:\n{X_test}")
+print(f"Predictions: {preds}")
+print(f"Uncertainties: {stds}")
+```
+
+### 3.3 `_acquisition_function()`
+
+**Purpose**: Compute acquisition function value  
+**Used by**: `_suggest_next_point()` for optimization  
+**Calls**: `_predict_with_uncertainty()`  
+**Supports**: Expected Improvement (EI), Probability of Improvement (PI), Mean prediction
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    surrogate=GaussianProcessRegressor(),
+    acquisition='ei',
+    seed=42
+)
+
+# Setup
+X_train = np.array([[0, 0], [1, 1], [2, 2]])
+y_train = np.array([0, 2, 8])
+opt._fit_surrogate(X_train, y_train)
+opt.y_ = y_train  # Needed for acquisition function
+
+# Evaluate acquisition function
+x_eval = np.array([1.5, 1.5])
+acq_value = opt._acquisition_function(x_eval)
+
+print(f"Point to evaluate: {x_eval}")
+print(f"Acquisition function value (EI): {acq_value:.6f}")
+print(f"(Lower is better for minimization)")
+```
+
+### 3.4 `_suggest_next_point()`
+
+**Purpose**: Suggest next point to evaluate using acquisition function optimization  
+**Used by**: `optimize()` in main loop  
+**Calls**: `_acquisition_function()`, `_handle_acquisition_failure()` if needed  
+**Handles**: Integer/factor rounding, duplicate avoidance
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    surrogate=GaussianProcessRegressor(),
+    acquisition='ei',
+    seed=42
+)
+
+# Setup
+X_train = np.array([[0, 0], [1, 1], [2, 2]])
+y_train = np.array([0, 2, 8])
+opt._fit_surrogate(X_train, y_train)
+opt.X_ = X_train
+opt.y_ = y_train
+
+# Suggest next point
+x_next = opt._suggest_next_point()
+
+print(f"Next point to evaluate: {x_next}")
+print(f"Expected to be between known points or in unexplored regions")
+```
+
+## 4. OCBA Method (Optimal Computing Budget Allocation)
+
+### 4.1 `_apply_ocba()`
+
+**Purpose**: Apply OCBA for noisy functions to determine which points to re-evaluate  
+**Used by**: `optimize()` in main loop when noise=True and ocba_delta > 0  
+**Returns**: Points to re-evaluate or None
+
+```{python}
+# Example with OCBA enabled
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    repeats_initial=2,  # Enable noise handling
+    ocba_delta=5,
+    verbose=True,
+    seed=42
+)
+
+# Simulate optimization state
+opt.mean_X = np.array([[1, 2], [0, 0], [2, 1], [1, 1]])
+opt.mean_y = np.array([5.0, 0.1, 5.0, 2.0])
+opt.var_y = np.array([0.1, 0.05, 0.15, 0.08])
+
+X_ocba = opt._apply_ocba()
+
+if X_ocba is not None:
+    print(f"\nOCBA returned {X_ocba.shape[0]} points for re-evaluation")
+else:
+    print("\nOCBA: No re-evaluation needed")
+```
+
+## 5. NaN/Inf Handling Methods
+
+### 5.1 `_apply_penalty_NA()`
+
+**Purpose**: Replace NaN and infinite values with penalty plus random noise  
+**Used by**: `_handle_NA_new_points()` and indirectly by `optimize()`  
+**Algorithm**: penalty = max(finite_y) + 3 * std(finite_y) + noise
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5)],
+    seed=42
+)
+
+# Historical values (used for penalty computation)
+y_hist = np.array([1.0, 2.0, 3.0, 5.0])
+
+# New evaluations with NaN/inf
+y_new = np.array([4.0, np.nan, np.inf])
+
+y_clean = opt._apply_penalty_NA(y_new, y_history=y_hist)
+
+print(f"Original: {y_new}")
+print(f"After penalty: {y_clean}")
+print(f"All finite: {np.all(np.isfinite(y_clean))}")
+print(f"Penalty values > max(hist): {y_clean[1] > np.max(y_hist)}")
+```
+
+### 5.2 `_remove_nan()`
+
+**Purpose**: Remove rows where y contains NaN or inf values  
+**Used by**: `optimize()` after function evaluations  
+**Returns**: Cleaned arrays
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5)],
+    seed=42
+)
+
+X = np.array([[1, 2], [3, 4], [5, 6]])
+y = np.array([1.0, np.nan, np.inf])
+
+X_clean, y_clean = opt._remove_nan(X, y, stop_on_zero_return=False)
+
+print(f"Original X shape: {X.shape}")
+print(f"Clean X shape: {X_clean.shape}")
+print(f"Clean X:\n{X_clean}")
+print(f"Clean y: {y_clean}")
+```
+
+### 5.3 `_handle_NA_new_points()`
+
+**Purpose**: Handle NaN/inf values in new evaluation points during main loop  
+**Used by**: `optimize()` after evaluating new points  
+**Calls**: `_apply_penalty_NA()` and `_remove_nan()`  
+**Returns**: None, None if all evaluations invalid (skip iteration)
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=5,
+    verbose=True,
+    seed=42
+)
+
+# Simulate optimization state
+opt.y_ = np.array([1.0, 2.0, 3.0])  # Historical values
+opt.n_iter_ = 1
+
+# Case 1: Some valid values
+print("Case 1: Some valid evaluations")
+x_next = np.array([[1, 2], [3, 4], [5, 6]])
+y_next = np.array([5.0, np.nan, 10.0])
+x_clean, y_clean = opt._handle_NA_new_points(x_next, y_next)
+print(f"Valid points remaining: {x_clean.shape[0] if x_clean is not None else 0}")
+
+# Case 2: All invalid - should return None
+print("\nCase 2: All invalid evaluations")
+x_all_bad = np.array([[1, 2], [3, 4]])
+y_all_bad = np.array([np.nan, np.inf])
+x_clean, y_clean = opt._handle_NA_new_points(x_all_bad, y_all_bad)
+print(f"Result: {'None (skip iteration)' if x_clean is None else 'Valid points'}")
+```
+
+## 6. Main Loop Update Methods
+
+### 6.1 `_update_best_main_loop()`
+
+**Purpose**: Update best solution found during main optimization loop  
+**Used by**: `optimize()` after each iteration  
+**Updates**: `self.best_x_` and `self.best_y_` if improvement found
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=5,
+    verbose=True,
+    seed=42
+)
+
+# Simulate optimization state
+opt.n_iter_ = 1
+opt.best_x_ = np.array([1.0, 1.0])
+opt.best_y_ = 2.0
+
+# Case 1: New best found
+print("Case 1: New best found")
+x_new = np.array([[0.1, 0.1], [0.5, 0.5]])
+y_new = np.array([0.02, 0.5])
+opt._update_best_main_loop(x_new, y_new)
+print(f"Updated best_y: {opt.best_y_}\n")
+
+# Case 2: No improvement
+print("Case 2: No improvement")
+opt.n_iter_ = 2
+x_no_improve = np.array([[1.5, 1.5]])
+y_no_improve = np.array([4.5])
+opt._update_best_main_loop(x_no_improve, y_no_improve)
+print(f"Best_y unchanged: {opt.best_y_}")
+```
+
+## 7. Termination Method
+
+### 7.1 `_determine_termination()`
+
+**Purpose**: Determine termination reason for optimization  
+**Used by**: `optimize()` at the end  
+**Checks**: Max iterations, time limit, or successful completion
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    max_iter=20,
+    max_time=10.0,
+    seed=42
+)
+
+# Case 1: Maximum evaluations reached
+print("Case 1: Maximum evaluations reached")
+opt.y_ = np.zeros(20)
+start_time = time.time()
+msg = opt._determine_termination(start_time)
+print(f"Message: {msg}\n")
+
+# Case 2: Time limit exceeded (simulated)
+print("Case 2: Time limit exceeded")
+opt.y_ = np.zeros(10)
+start_time = time.time() - 700  # 11.67 minutes ago
+msg = opt._determine_termination(start_time)
+print(f"Message: {msg}\n")
+
+# Case 3: Successful completion
+print("Case 3: Successful completion")
+opt.y_ = np.zeros(10)
+start_time = time.time()
+msg = opt._determine_termination(start_time)
+print(f"Message: {msg}")
+```
+
+## 8. Utility Methods
+
+### 8.1 `_select_new()`
+
+**Purpose**: Select rows from A that are not in X (avoid duplicate evaluations)  
+**Used by**: `_suggest_next_point()` to ensure new points are different from evaluated points
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5)],
+    seed=42
+)
+
+A = np.array([[1, 2], [3, 4], [5, 6]])
+X = np.array([[3, 4], [7, 8]])
+
+new_A, is_new = opt._select_new(A, X)
+
+print(f"Candidate points A:\n{A}")
+print(f"\nKnown points X:\n{X}")
+print(f"\nNew points from A:\n{new_A}")
+print(f"\nIs new mask: {is_new}")
+```
+
+### 8.2 `_repair_non_numeric()`
+
+**Purpose**: Round non-numeric values (int, factor) to integers  
+**Used by**: Various methods to ensure integer/factor variables have valid values
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    var_type=['int', 'float'],
+    seed=42
+)
+
+X = np.array([[1.2, 2.5], [3.7, 4.1], [5.9, 6.8]])
+X_repaired = opt._repair_non_numeric(X.copy(), opt.var_type)
+
+print(f"Original X:\n{X}")
+print(f"\nRepaired X (first column rounded to int):\n{X_repaired}")
+```
+
+### 8.3 `_map_to_factor_values()`
+
+**Purpose**: Map internal integer values to original factor strings  
+**Used by**: `optimize()` when preparing results for user  
+**Handles**: Factor (categorical) variables
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), ('red', 'green', 'blue')],
+    var_type=['float', 'factor'],
+    seed=42
+)
+
+# Internal representation (integers for factors)
+X_internal = np.array([[1.0, 0], [2.0, 1], [3.0, 2]])
+X_mapped = opt._map_to_factor_values(X_internal)
+
+print(f"Internal representation:\n{X_internal}")
+print(f"\nMapped to factor values:\n{X_mapped}")
+```
+
+## 9. Integration Examples
+
+### 9.1 Optimization with Custom Initial Design
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    max_iter=15,
+    seed=42,
+    verbose=True
+)
+
+# Provide custom initial design
+X0 = np.array([[0, 0], [1, 1], [2, 2], [-1, -1], [-2, -2]])
+result = opt.optimize(X0=X0)
+
+print(f"\nBest point: {result.x}")
+print(f"Best value: {result.fun:.6f}")
+```
+
+### 9.2 Optimization with Starting Point
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    max_iter=15,
+    n_initial=5,
+    x0=[0.5, 0.5],  # Starting point near optimum
+    seed=42,
+    verbose=True
+)
+
+result = opt.optimize()
+
+print(f"\nBest point: {result.x}")
+print(f"Best value: {result.fun:.6f}")
+```
+
+### 9.3 Optimization with Integer Variables
+
+```{python}
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    var_type=['int', 'int'],
+    max_iter=20,
+    n_initial=10,
+    seed=42,
+    verbose=True
+)
+
+result = opt.optimize()
+
+print(f"\nBest point: {result.x}")
+print(f"Best value: {result.fun:.6f}")
+print(f"Point has integers: {np.all(result.x == np.round(result.x))}")
+```
+
+### 9.4 Noisy Function Optimization with OCBA
+
+```{python}
+# Noisy sphere function
+def noisy_sphere(X):
+    X = np.atleast_2d(X)
+    return np.sum(X**2, axis=1) + np.random.normal(0, 0.1, X.shape[0])
+
+opt = SpotOptim(
+    fun=noisy_sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    max_iter=25,
+    n_initial=10,
+    repeats_initial=2,  # Enable noise handling
+    ocba_delta=5,  # Enable OCBA with 5 re-evaluations
+    seed=42,
+    verbose=True
+)
+
+result = opt.optimize()
+
+print(f"\nBest point: {result.x}")
+print(f"Best value: {result.fun:.6f}")
+print(f"Note: OCBA re-evaluated promising points to reduce uncertainty")
+```
+
+### 9.5 Optimization with NaN Handling
+
+```{python}
+# Function that sometimes returns NaN
+def sometimes_nan(X):
+    X = np.atleast_2d(X)
+    y = np.sum(X**2, axis=1)
+    # Return NaN for large values (penalty will be applied)
+    y[y > 100] = np.nan
+    return y
+
+opt = SpotOptim(
+    fun=sometimes_nan,
+    bounds=[(-10, 10), (-10, 10)],
+    max_iter=20,
+    n_initial=10,
+    seed=42,
+    verbose=True
+)
+
+result = opt.optimize()
+
+print(f"\nBest point: {result.x}")
+print(f"Best value: {result.fun:.6f}")
+print(f"Optimization succeeded despite NaN values: {result.success}")
+```
+
+## 10. Method Relationship Diagram
+
+Here's how all the methods relate to each other in the optimization workflow:
+
+```
+optimize()
+│
+├─── Initial Design Phase
+│    ├── get_initial_design()
+│    │   └── _generate_initial_design() [if X0 is None]
+│    ├── _curate_initial_design()
+│    ├── _evaluate_function()
+│    ├── _handle_NA_initial_design()
+│    ├── _check_size_initial_design()
+│    └── _get_best_xy_initial_design()
+│
+├─── Main Optimization Loop (while not terminated)
+│    │
+│    ├── _fit_surrogate()
+│    │   └── _selection_dispatcher() [if max_surrogate_points exceeded]
+│    │
+│    ├── _apply_ocba() [if noise=True and ocba_delta > 0]
+│    │
+│    ├── _suggest_next_point()
+│    │   ├── _acquisition_function()
+│    │   │   └── _predict_with_uncertainty()
+│    │   ├── _repair_non_numeric()
+│    │   ├── _select_new()
+│    │   └── _handle_acquisition_failure() [if needed]
+│    │
+│    ├── _evaluate_function()
+│    │
+│    ├── _handle_NA_new_points()
+│    │   ├── _apply_penalty_NA()
+│    │   └── _remove_nan()
+│    │
+│    └── _update_best_main_loop()
+│
+└─── Termination Phase
+     ├── _determine_termination()
+     └── _map_to_factor_values() [for results]
+```
+
+## 11. Summary
+
+This notebook demonstrated all major methods in SpotOptim with executable examples:
+
+**Core Flow:**
+1. **Initial Design**: Generate/process → Curate → Evaluate → Handle NaN → Validate → Get best
+2. **Main Loop**: Fit surrogate → Apply OCBA → Suggest point → Evaluate → Handle NaN → Update best
+3. **Termination**: Determine reason → Prepare results
+
+**Key Features:**
+- Automatic handling of NaN/inf values with penalties
+- Support for noisy functions with OCBA re-evaluation
+- Integer and factor variable support
+- Flexible initial design (LHS, custom, or with starting point)
+- Multiple acquisition functions (EI, PI, mean)
+- Termination by max iterations or time limit
+
+All examples can be run independently and demonstrate the modular design of SpotOptim!
+
