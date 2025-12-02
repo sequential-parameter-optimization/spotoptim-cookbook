@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions – Sequential Parameter Optimization Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./kriging_surrogate.html" rel="next">
+<link href="./spotoptim_examples.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta name="twitter:title" content="13&nbsp; Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="019_spotoptim_sk_matern_files/figure-html/cell-7-output-1.png">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./019_spotoptim_sk_matern.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Sequential Parameter Optimization Cookbook</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/sequential-parameter-optimization/spotpython" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Sequential-Parameter-Optimization-Cookbook.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" id="toc-spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="nav-link active" data-scroll-target="#spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">13.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</a>
+  <ul class="collapse">
+  <li><a href="#define-the-6d-rosenbrock-function" id="toc-define-the-6d-rosenbrock-function" class="nav-link" data-scroll-target="#define-the-6d-rosenbrock-function"><span class="header-section-number">13.1.1</span> Define the 6D Rosenbrock Function</a></li>
+  <li><a href="#set-up-spotoptim-parameters" id="toc-set-up-spotoptim-parameters" class="nav-link" data-scroll-target="#set-up-spotoptim-parameters"><span class="header-section-number">13.1.2</span> Set up SpotOptim Parameters</a></li>
+  <li><a href="#sklearn-gaussian-process-regressor-as-surrogate" id="toc-sklearn-gaussian-process-regressor-as-surrogate" class="nav-link" data-scroll-target="#sklearn-gaussian-process-regressor-as-surrogate"><span class="header-section-number">13.1.3</span> Sklearn Gaussian Process Regressor as Surrogate</a></li>
+  <li><a href="#visualize-optimization-progress" id="toc-visualize-optimization-progress" class="nav-link" data-scroll-target="#visualize-optimization-progress"><span class="header-section-number">13.1.4</span> Visualize Optimization Progress</a></li>
+  <li><a href="#evaluation-of-multiple-repeats" id="toc-evaluation-of-multiple-repeats" class="nav-link" data-scroll-target="#evaluation-of-multiple-repeats"><span class="header-section-number">13.1.5</span> Evaluation of Multiple Repeats</a></li>
+  </ul></li>
+  <li><a href="#spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" id="toc-spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" class="nav-link" data-scroll-target="#spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function"><span class="header-section-number">13.2</span> SpotOptim with Sklearn Kriging in 10 Dimensions: Michalewicz Function</a>
+  <ul class="collapse">
+  <li><a href="#define-the-10d-michalewicz-function" id="toc-define-the-10d-michalewicz-function" class="nav-link" data-scroll-target="#define-the-10d-michalewicz-function"><span class="header-section-number">13.2.1</span> Define the 10D Michalewicz Function</a></li>
+  <li><a href="#set-up-spotoptim-parameters-1" id="toc-set-up-spotoptim-parameters-1" class="nav-link" data-scroll-target="#set-up-spotoptim-parameters-1"><span class="header-section-number">13.2.2</span> Set up SpotOptim Parameters</a></li>
+  <li><a href="#sklearn-gaussian-process-regressor-as-surrogate-1" id="toc-sklearn-gaussian-process-regressor-as-surrogate-1" class="nav-link" data-scroll-target="#sklearn-gaussian-process-regressor-as-surrogate-1"><span class="header-section-number">13.2.3</span> Sklearn Gaussian Process Regressor as Surrogate</a></li>
+  <li><a href="#visualize-optimization-progress-1" id="toc-visualize-optimization-progress-1" class="nav-link" data-scroll-target="#visualize-optimization-progress-1"><span class="header-section-number">13.2.4</span> Visualize Optimization Progress</a></li>
+  <li><a href="#evaluation-of-multiple-repeats-1" id="toc-evaluation-of-multiple-repeats-1" class="nav-link" data-scroll-target="#evaluation-of-multiple-repeats-1"><span class="header-section-number">13.2.5</span> Evaluation of Multiple Repeats</a></li>
+  </ul></li>
+  <li><a href="#comparison-spotoptim-vs-spotpython" id="toc-comparison-spotoptim-vs-spotpython" class="nav-link" data-scroll-target="#comparison-spotoptim-vs-spotpython"><span class="header-section-number">13.3</span> Comparison: SpotOptim vs SpotPython</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">13.4</span> Summary</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">13.5</span> Jupyter Notebook</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./019_spotoptim_sk_matern.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These test functions were used during the Dagstuhl Seminar 25451 Bayesian Optimisation (Nov 02 – Nov 07, 2025), see <a href="https://www.dagstuhl.de/25451">here</a>.</p>
+<p>This notebook demonstrates the use of <code>SpotOptim</code> with sklearn’s Gaussian Process Regressor as a surrogate model.</p>
+</div>
+</div>
+<section id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">13.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</h2>
+<p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 6-dimensional Rosenbrock function. We use a maximum of 100 function evaluations.</p>
+<div id="655ce0c6" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> rosenbrock</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="define-the-6d-rosenbrock-function" class="level3" data-number="13.1.1">
+<h3 data-number="13.1.1" class="anchored" data-anchor-id="define-the-6d-rosenbrock-function"><span class="header-section-number">13.1.1</span> Define the 6D Rosenbrock Function</h3>
+<div id="fd24ae97" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.full(dim, <span class="op">-</span><span class="fl">2.0</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.full(dim, <span class="fl">2.0</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(lower, upper))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fun <span class="op">=</span> rosenbrock</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="set-up-spotoptim-parameters" class="level3" data-number="13.1.2">
+<h3 data-number="13.1.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters"><span class="header-section-number">13.1.2</span> Set up SpotOptim Parameters</h3>
+<div id="6b8d43c5" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="sklearn-gaussian-process-regressor-as-surrogate" class="level3" data-number="13.1.3">
+<h3 data-number="13.1.3" class="anchored" data-anchor-id="sklearn-gaussian-process-regressor-as-surrogate"><span class="header-section-number">13.1.3</span> Sklearn Gaussian Process Regressor as Surrogate</h3>
+<div id="kriging-matern-6d-rosen_run" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process <span class="im">import</span> GaussianProcessRegressor</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process.kernels <span class="im">import</span> Matern, ConstantKernel</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a Matern kernel instead of the standard RBF kernel</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>kernel <span class="op">=</span> ConstantKernel(<span class="fl">1.0</span>, (<span class="fl">1e-2</span>, <span class="fl">1e12</span>)) <span class="op">*</span> Matern(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    length_scale<span class="op">=</span><span class="fl">1.0</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    length_scale_bounds<span class="op">=</span>(<span class="fl">1e-4</span>, <span class="fl">1e2</span>), </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    nu<span class="op">=</span><span class="fl">2.5</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>surrogate <span class="op">=</span> GaussianProcessRegressor(kernel<span class="op">=</span>kernel, n_restarts_optimizer<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create SpotOptim instance with sklearn surrogate</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>opt_rosen <span class="op">=</span> SpotOptim(</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>fun,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span>n_initial,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span>max_iter,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    surrogate<span class="op">=</span>surrogate,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span>seed,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Run optimization</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>result_rosen <span class="op">=</span> opt_rosen.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorBoard logging disabled
+Initial best: f(x) = 321.834153
+Iteration 1: f(x) = 3523.035877
+Iteration 2: f(x) = 1535.228391
+Iteration 3: f(x) = 326.971706
+Iteration 4: New best f(x) = 179.355508
+Iteration 5: New best f(x) = 147.216352
+Iteration 6: New best f(x) = 126.875114
+Iteration 7: New best f(x) = 106.904521
+Iteration 8: New best f(x) = 77.669128
+Iteration 9: New best f(x) = 67.617299
+Iteration 10: f(x) = 70.961648
+Iteration 11: New best f(x) = 66.967286
+Iteration 12: New best f(x) = 66.895363
+Iteration 13: New best f(x) = 63.361266
+Iteration 14: New best f(x) = 53.734207
+Iteration 15: New best f(x) = 53.406010
+Iteration 16: New best f(x) = 52.732493
+Iteration 17: New best f(x) = 51.288924
+Iteration 18: New best f(x) = 48.508851
+Iteration 19: New best f(x) = 48.416069
+Iteration 20: f(x) = 48.607214
+Iteration 21: New best f(x) = 46.770668
+Iteration 22: New best f(x) = 43.914540
+Iteration 23: New best f(x) = 43.254721
+Iteration 24: f(x) = 43.291581
+Iteration 25: New best f(x) = 42.411817
+Iteration 26: New best f(x) = 39.623988
+Iteration 27: New best f(x) = 38.502231
+Iteration 28: f(x) = 38.770608
+Iteration 29: f(x) = 39.369860
+Iteration 30: New best f(x) = 34.632973
+Iteration 31: New best f(x) = 34.569160
+Iteration 32: f(x) = 35.137815
+Iteration 33: New best f(x) = 33.742656
+Iteration 34: New best f(x) = 31.884739
+Iteration 35: New best f(x) = 30.459009
+Iteration 36: New best f(x) = 30.174841
+Iteration 37: New best f(x) = 28.255525
+Iteration 38: New best f(x) = 24.121792
+Iteration 39: f(x) = 24.181482
+Iteration 40: f(x) = 24.138016
+Iteration 41: f(x) = 24.255060
+Iteration 42: New best f(x) = 23.871394
+Iteration 43: New best f(x) = 23.436325
+Iteration 44: New best f(x) = 22.173239
+Iteration 45: New best f(x) = 18.185462
+Iteration 46: New best f(x) = 12.317941
+Iteration 47: New best f(x) = 11.680706
+Iteration 48: New best f(x) = 11.619099
+Iteration 49: New best f(x) = 11.339768
+Iteration 50: f(x) = 11.435165
+Iteration 51: New best f(x) = 10.353561
+Iteration 52: New best f(x) = 5.761820
+Iteration 53: f(x) = 5.929004
+Iteration 54: f(x) = 8.091353
+Iteration 55: f(x) = 5.781610
+Iteration 56: f(x) = 5.775219
+Iteration 57: f(x) = 5.968408
+Iteration 58: New best f(x) = 5.733723
+Iteration 59: New best f(x) = 5.686104
+Iteration 60: f(x) = 5.704052
+Iteration 61: f(x) = 5.687804
+Iteration 62: f(x) = 5.889423
+Iteration 63: New best f(x) = 5.582101
+Iteration 64: New best f(x) = 5.567810
+Iteration 65: f(x) = 5.599297
+Iteration 66: New best f(x) = 5.552732
+Iteration 67: f(x) = 5.570675
+Iteration 68: New best f(x) = 5.550554
+Iteration 69: f(x) = 5.566261
+Iteration 70: New best f(x) = 5.524807
+Iteration 71: New best f(x) = 5.516099
+Iteration 72: New best f(x) = 5.514696
+Iteration 73: f(x) = 5.518039
+Iteration 74: f(x) = 5.544667
+Iteration 75: New best f(x) = 5.462185
+Iteration 76: New best f(x) = 5.434393
+Iteration 77: New best f(x) = 5.429851
+Iteration 78: f(x) = 5.433619
+Iteration 79: f(x) = 5.454661
+Iteration 80: New best f(x) = 5.416503
+Iteration 81: New best f(x) = 5.384556
+Iteration 82: New best f(x) = 5.336085
+Iteration 83: New best f(x) = 5.245265
+Iteration 84: New best f(x) = 5.187754
+Iteration 85: New best f(x) = 5.158456
+Iteration 86: New best f(x) = 5.131915
+Iteration 87: New best f(x) = 5.092477
+Iteration 88: New best f(x) = 5.052519
+Iteration 89: New best f(x) = 5.019587
+Iteration 90: f(x) = 5.037044
+Iteration 91: New best f(x) = 4.980142
+Iteration 92: New best f(x) = 4.906306
+Iteration 93: f(x) = 4.960896
+Iteration 94: New best f(x) = 4.849446</code></pre>
+</div>
+</div>
+<div id="267b7072" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[6D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[6D] Sklearn Kriging: min y = 4.8494 at x = [0.06568329 0.00253728 0.01005153 0.00843757 0.01467048 0.00961113]
+Number of function evaluations: 100
+Number of iterations: 94</code></pre>
+</div>
+</div>
+</section>
+<section id="visualize-optimization-progress" class="level3" data-number="13.1.4">
+<h3 data-number="13.1.4" class="anchored" data-anchor-id="visualize-optimization-progress"><span class="header-section-number">13.1.4</span> Visualize Optimization Progress</h3>
+<div id="a5cd9dd0" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.semilogy(np.minimum.accumulate(opt_rosen.y_), <span class="st">'b-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Function Evaluations'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Best Objective Value (log scale)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'6D Rosenbrock: Sklearn Kriging Progress'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="019_spotoptim_sk_matern_files/figure-html/cell-7-output-1.png" width="950" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluation-of-multiple-repeats" class="level3" data-number="13.1.5">
+<h3 data-number="13.1.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats"><span class="header-section-number">13.1.5</span> Evaluation of Multiple Repeats</h3>
+<p>To perform 30 repeats and collect statistics:</p>
+<div id="c71cb536" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Running </span><span class="sc">{</span>n_repeats<span class="sc">}</span><span class="ss"> independent optimizations..."</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_repeats):</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    kernel_i <span class="op">=</span> ConstantKernel(<span class="fl">1.0</span>, (<span class="fl">1e-2</span>, <span class="fl">1e12</span>)) <span class="op">*</span> Matern(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        length_scale<span class="op">=</span><span class="fl">1.0</span>, </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        length_scale_bounds<span class="op">=</span>(<span class="fl">1e-4</span>, <span class="fl">1e2</span>), </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        nu<span class="op">=</span><span class="fl">2.5</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    surrogate_i <span class="op">=</span> GaussianProcessRegressor(kernel<span class="op">=</span>kernel_i, n_restarts_optimizer<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    opt_i <span class="op">=</span> SpotOptim(</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        fun<span class="op">=</span>fun,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        bounds<span class="op">=</span>bounds,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        n_initial<span class="op">=</span>n_initial,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        max_iter<span class="op">=</span>max_iter,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        surrogate<span class="op">=</span>surrogate_i,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        seed<span class="op">=</span>seed <span class="op">+</span> i,  <span class="co"># Different seed for each run</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        verbose<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    result_i <span class="op">=</span> opt_i.optimize()</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    results.append(result_i.fun)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="dv">10</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  Completed </span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>n_repeats<span class="sc">}</span><span class="ss"> runs"</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute statistics</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>mean_result <span class="op">=</span> np.mean(results)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>std_result <span class="op">=</span> np.std(results)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>min_result <span class="op">=</span> np.<span class="bu">min</span>(results)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>max_result <span class="op">=</span> np.<span class="bu">max</span>(results)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Results over </span><span class="sc">{</span>n_repeats<span class="sc">}</span><span class="ss"> runs:"</span>)</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Mean of best values: </span><span class="sc">{</span>mean_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Std of best values:  </span><span class="sc">{</span>std_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Min of best values:  </span><span class="sc">{</span>min_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Max of best values:  </span><span class="sc">{</span>max_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function"><span class="header-section-number">13.2</span> SpotOptim with Sklearn Kriging in 10 Dimensions: Michalewicz Function</h2>
+<p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 10-dimensional Michalewicz function. We use a maximum of 300 function evaluations.</p>
+<section id="define-the-10d-michalewicz-function" class="level3" data-number="13.2.1">
+<h3 data-number="13.2.1" class="anchored" data-anchor-id="define-the-10d-michalewicz-function"><span class="header-section-number">13.2.1</span> Define the 10D Michalewicz Function</h3>
+<div id="b0072101" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> michalewicz</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.full(dim, <span class="fl">0.0</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.full(dim, np.pi)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(lower, upper))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>fun <span class="op">=</span> michalewicz</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">300</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="set-up-spotoptim-parameters-1" class="level3" data-number="13.2.2">
+<h3 data-number="13.2.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters-1"><span class="header-section-number">13.2.2</span> Set up SpotOptim Parameters</h3>
+<div id="c513c99f" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="sklearn-gaussian-process-regressor-as-surrogate-1" class="level3" data-number="13.2.3">
+<h3 data-number="13.2.3" class="anchored" data-anchor-id="sklearn-gaussian-process-regressor-as-surrogate-1"><span class="header-section-number">13.2.3</span> Sklearn Gaussian Process Regressor as Surrogate</h3>
+<div id="kriging-matern-10d-michalewicz_run" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process <span class="im">import</span> GaussianProcessRegressor</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process.kernels <span class="im">import</span> Matern, ConstantKernel</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a Matern kernel instead of the standard RBF kernel</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>kernel <span class="op">=</span> ConstantKernel(<span class="fl">1.0</span>, (<span class="fl">1e-2</span>, <span class="fl">1e12</span>)) <span class="op">*</span> Matern(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    length_scale<span class="op">=</span><span class="fl">1.0</span>, </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    length_scale_bounds<span class="op">=</span>(<span class="fl">1e-4</span>, <span class="fl">1e2</span>), </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    nu<span class="op">=</span><span class="fl">2.5</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>surrogate <span class="op">=</span> GaussianProcessRegressor(kernel<span class="op">=</span>kernel, n_restarts_optimizer<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create SpotOptim instance with sklearn surrogate</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>opt_micha <span class="op">=</span> SpotOptim(</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>fun,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span>n_initial,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span>max_iter,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    surrogate<span class="op">=</span>surrogate,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span>seed,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Run optimization</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>result_micha <span class="op">=</span> opt_micha.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorBoard logging disabled
+Initial best: f(x) = -1.909129
+Iteration 1: f(x) = -0.471751
+Iteration 2: New best f(x) = -2.778226
+Iteration 3: f(x) = -1.577058
+Iteration 4: f(x) = -1.694359
+Iteration 5: New best f(x) = -3.210641
+Iteration 6: f(x) = -2.819606
+Iteration 7: f(x) = -2.982698
+Iteration 8: New best f(x) = -3.366470
+Iteration 9: f(x) = -3.201759
+Iteration 10: New best f(x) = -3.432570
+Iteration 11: New best f(x) = -3.527877
+Iteration 12: f(x) = -3.504520
+Iteration 13: New best f(x) = -3.562644
+Iteration 14: f(x) = -3.547038
+Iteration 15: New best f(x) = -3.565505
+Iteration 16: f(x) = -3.553183
+Iteration 17: New best f(x) = -3.595616
+Iteration 18: New best f(x) = -3.671383
+Iteration 19: New best f(x) = -3.713695
+Iteration 20: New best f(x) = -3.737969
+Iteration 21: f(x) = -3.727671
+Iteration 22: New best f(x) = -3.781389
+Iteration 23: New best f(x) = -3.815294
+Iteration 24: New best f(x) = -3.817426
+Iteration 25: New best f(x) = -4.013697
+Iteration 26: f(x) = -3.999787
+Iteration 27: New best f(x) = -4.044009
+Iteration 28: f(x) = -4.038050
+Iteration 29: New best f(x) = -4.073980
+Iteration 30: New best f(x) = -4.084493
+Iteration 31: New best f(x) = -4.128250
+Iteration 32: New best f(x) = -4.168658
+Iteration 33: New best f(x) = -4.172880
+Iteration 34: f(x) = -4.146185
+Iteration 35: New best f(x) = -4.293347
+Iteration 36: New best f(x) = -4.312362
+Iteration 37: f(x) = -4.289076
+Iteration 38: f(x) = -4.294401
+Iteration 39: New best f(x) = -4.339989
+Iteration 40: New best f(x) = -4.347110
+Iteration 41: New best f(x) = -4.496414
+Iteration 42: New best f(x) = -4.720985
+Iteration 43: New best f(x) = -4.769322
+Iteration 44: New best f(x) = -4.820892
+Iteration 45: New best f(x) = -5.523194
+Iteration 46: New best f(x) = -5.544444
+Iteration 47: f(x) = -5.485251
+Iteration 48: New best f(x) = -5.679042
+Iteration 49: New best f(x) = -5.728856
+Iteration 50: f(x) = -5.713454
+Iteration 51: New best f(x) = -5.810308
+Iteration 52: New best f(x) = -5.822810
+Iteration 53: New best f(x) = -6.007102
+Iteration 54: New best f(x) = -6.065657
+Iteration 55: f(x) = -5.894116
+Iteration 56: New best f(x) = -6.128321
+Iteration 57: f(x) = -6.117134
+Iteration 58: f(x) = -6.089022
+Iteration 59: New best f(x) = -6.153586
+Iteration 60: f(x) = -6.153496
+Iteration 61: New best f(x) = -6.154117
+Iteration 62: f(x) = -6.145165
+Iteration 63: f(x) = -6.153499
+Iteration 64: f(x) = -6.147537
+Iteration 65: New best f(x) = -6.176618
+Iteration 66: New best f(x) = -6.198679
+Iteration 67: New best f(x) = -6.199809
+Iteration 68: New best f(x) = -6.212758
+Iteration 69: f(x) = -6.209788
+Iteration 70: New best f(x) = -6.225959
+Iteration 71: f(x) = -6.221108
+Iteration 72: New best f(x) = -6.235835
+Iteration 73: New best f(x) = -6.239913
+Iteration 74: f(x) = -6.236491
+Iteration 75: New best f(x) = -6.249874
+Iteration 76: f(x) = -6.248650
+Iteration 77: New best f(x) = -6.254337
+Iteration 78: New best f(x) = -6.255686
+Iteration 79: f(x) = -6.253849
+Iteration 80: New best f(x) = -6.260994
+Iteration 81: f(x) = -6.260993
+Iteration 82: f(x) = -6.260468
+Iteration 83: New best f(x) = -6.274534
+Iteration 84: New best f(x) = -6.274590
+Iteration 85: New best f(x) = -6.296523
+Iteration 86: New best f(x) = -6.298934
+Iteration 87: New best f(x) = -6.299100
+Iteration 88: f(x) = -6.298132
+Iteration 89: New best f(x) = -6.307340
+Iteration 90: New best f(x) = -6.307582
+Iteration 91: New best f(x) = -6.307747
+Iteration 92: New best f(x) = -6.316321
+Iteration 93: f(x) = -6.316074
+Iteration 94: f(x) = -6.314603
+Iteration 95: New best f(x) = -6.316471
+Iteration 96: New best f(x) = -6.317010
+Iteration 97: New best f(x) = -6.317641
+Iteration 98: New best f(x) = -6.321132
+Iteration 99: f(x) = -6.320694
+Iteration 100: f(x) = -6.319272
+Iteration 101: New best f(x) = -6.331238
+Iteration 102: New best f(x) = -6.333815
+Iteration 103: New best f(x) = -6.334254
+Iteration 104: f(x) = -6.334095
+Iteration 105: f(x) = -6.333526
+Iteration 106: f(x) = -6.313235
+Iteration 107: New best f(x) = -6.340705
+Iteration 108: New best f(x) = -6.342540
+Iteration 109: New best f(x) = -6.346718
+Iteration 110: New best f(x) = -6.347457
+Iteration 111: f(x) = -6.347277
+Iteration 112: New best f(x) = -6.349371
+Iteration 113: New best f(x) = -6.349385
+Iteration 114: New best f(x) = -6.349796
+Iteration 115: New best f(x) = -6.351657
+Iteration 116: f(x) = -6.351468
+Iteration 117: New best f(x) = -6.358798
+Iteration 118: New best f(x) = -6.363537
+Iteration 119: f(x) = -6.329287
+Iteration 120: New best f(x) = -6.370744
+Iteration 121: New best f(x) = -6.375039
+Iteration 122: f(x) = -6.364329
+Iteration 123: New best f(x) = -6.380095
+Iteration 124: New best f(x) = -6.380149
+Iteration 125: New best f(x) = -6.380542
+Iteration 126: New best f(x) = -6.380722
+Iteration 127: f(x) = -6.378664
+Iteration 128: f(x) = -6.377485
+Iteration 129: New best f(x) = -6.382280
+Iteration 130: New best f(x) = -6.383360
+Iteration 131: New best f(x) = -6.389637
+Iteration 132: f(x) = -6.389593
+Iteration 133: New best f(x) = -6.389650
+Iteration 134: New best f(x) = -6.389938
+Iteration 135: New best f(x) = -6.389962
+Iteration 136: f(x) = -6.389737
+Iteration 137: New best f(x) = -6.391061
+Iteration 138: New best f(x) = -6.391178
+Iteration 139: New best f(x) = -6.391350
+Iteration 140: f(x) = -6.336366
+Iteration 141: New best f(x) = -6.392279
+Iteration 142: f(x) = -6.392114
+Iteration 143: New best f(x) = -6.394001
+Iteration 144: New best f(x) = -6.394823
+Iteration 145: New best f(x) = -6.395547
+Iteration 146: New best f(x) = -6.396330
+Iteration 147: New best f(x) = -6.398681
+Iteration 148: New best f(x) = -6.400004
+Iteration 149: New best f(x) = -6.408147
+Iteration 150: New best f(x) = -6.411590
+Iteration 151: New best f(x) = -6.445504
+Iteration 152: New best f(x) = -6.570437
+Iteration 153: New best f(x) = -6.907678
+Iteration 154: f(x) = -6.715445
+Iteration 155: f(x) = -6.859522
+Iteration 156: New best f(x) = -7.058979
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 157: f(x) = -2.167836
+Iteration 158: New best f(x) = -7.092411
+Iteration 159: New best f(x) = -7.109979
+Iteration 160: f(x) = -7.109543
+Iteration 161: f(x) = -7.100065
+Iteration 162: f(x) = -7.076225
+Iteration 163: f(x) = -7.067143
+Iteration 164: New best f(x) = -7.157908
+Iteration 165: New best f(x) = -7.158954
+Iteration 166: f(x) = -7.155147
+Iteration 167: f(x) = -7.156493
+Iteration 168: f(x) = -7.112127
+Iteration 169: New best f(x) = -7.182645
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 170: f(x) = -1.719617
+Iteration 171: f(x) = -7.182247
+Iteration 172: New best f(x) = -7.182754
+Iteration 173: New best f(x) = -7.186636
+Iteration 174: f(x) = -7.172811
+Iteration 175: New best f(x) = -7.187552
+Iteration 176: f(x) = -7.181461
+Iteration 177: f(x) = -7.117022
+Iteration 178: New best f(x) = -7.195177
+Iteration 179: New best f(x) = -7.206760
+Iteration 180: New best f(x) = -7.207315
+Iteration 181: New best f(x) = -7.207998
+Iteration 182: New best f(x) = -7.209295
+Iteration 183: New best f(x) = -7.210453
+Iteration 184: New best f(x) = -7.211930
+Iteration 185: f(x) = -7.210859
+Iteration 186: New best f(x) = -7.223471
+Iteration 187: New best f(x) = -7.244183
+Iteration 188: New best f(x) = -7.249511
+Iteration 189: f(x) = -7.249477
+Iteration 190: New best f(x) = -7.249743
+Iteration 191: New best f(x) = -7.250388
+Iteration 192: f(x) = -7.249115
+Iteration 193: New best f(x) = -7.254238
+Iteration 194: New best f(x) = -7.255252
+Iteration 195: New best f(x) = -7.258149
+Iteration 196: New best f(x) = -7.259044
+Iteration 197: f(x) = -7.257182
+Iteration 198: f(x) = -7.253438
+Iteration 199: New best f(x) = -7.261403
+Iteration 200: New best f(x) = -7.262523
+Iteration 201: New best f(x) = -7.264531
+Iteration 202: f(x) = -7.264126
+Iteration 203: New best f(x) = -7.276752
+Iteration 204: New best f(x) = -7.285664
+Iteration 205: New best f(x) = -7.285751
+Iteration 206: f(x) = -7.285175
+Iteration 207: New best f(x) = -7.287979
+Iteration 208: New best f(x) = -7.291624
+Iteration 209: New best f(x) = -7.293043
+Iteration 210: New best f(x) = -7.293667
+Iteration 211: New best f(x) = -7.294087
+Iteration 212: New best f(x) = -7.294537
+Iteration 213: New best f(x) = -7.313151
+Iteration 214: New best f(x) = -7.317460
+Iteration 215: f(x) = -7.316577
+Iteration 216: New best f(x) = -7.321206
+Iteration 217: f(x) = -7.319651
+Iteration 218: f(x) = -7.320973
+Iteration 219: f(x) = -7.320017
+Iteration 220: f(x) = -7.320755
+Iteration 221: New best f(x) = -7.326544
+Iteration 222: New best f(x) = -7.326676
+Iteration 223: New best f(x) = -7.326781
+Iteration 224: New best f(x) = -7.327023
+Iteration 225: f(x) = -7.325760
+Iteration 226: f(x) = -7.325290
+Iteration 227: New best f(x) = -7.333735
+Iteration 228: New best f(x) = -7.334667
+Iteration 229: New best f(x) = -7.336343
+Iteration 230: New best f(x) = -7.336379
+Iteration 231: New best f(x) = -7.336937
+Iteration 232: New best f(x) = -7.338846
+Iteration 233: f(x) = -7.324801
+Iteration 234: New best f(x) = -7.340357
+Iteration 235: f(x) = -7.340331
+Iteration 236: New best f(x) = -7.340914
+Iteration 237: f(x) = -7.340850
+Iteration 238: f(x) = -7.340555
+Iteration 239: New best f(x) = -7.342492
+Iteration 240: New best f(x) = -7.344282
+Iteration 241: f(x) = -1.490073
+Iteration 242: f(x) = -1.490414
+Iteration 243: New best f(x) = -7.344289
+Iteration 244: f(x) = -7.344258
+Iteration 245: f(x) = -1.525476
+Iteration 246: f(x) = -1.529494
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 247: f(x) = -0.531363
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 248: f(x) = -1.677672
+Iteration 249: f(x) = -1.677672
+Iteration 250: f(x) = -1.677678
+Iteration 251: f(x) = -1.692980
+Iteration 252: f(x) = -7.344073
+Iteration 253: New best f(x) = -7.345125
+Iteration 254: f(x) = -1.717307
+Iteration 255: f(x) = -1.780155
+Iteration 256: f(x) = -1.788536
+Iteration 257: f(x) = -1.788457
+Iteration 258: f(x) = -1.789952
+Iteration 259: f(x) = -1.790588
+Iteration 260: f(x) = -1.752082
+Iteration 261: f(x) = -1.533725
+Iteration 262: f(x) = -1.323585
+Iteration 263: f(x) = -1.326084
+Iteration 264: New best f(x) = -7.345244
+Iteration 265: New best f(x) = -7.345337
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 266: f(x) = -0.041277
+Iteration 267: f(x) = -7.345083
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 268: f(x) = -0.595027
+Iteration 269: New best f(x) = -7.346771
+Iteration 270: f(x) = -7.346679
+Iteration 271: New best f(x) = -7.346822
+Iteration 272: New best f(x) = -7.346913
+Iteration 273: New best f(x) = -7.347292
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 274: f(x) = -0.192104
+Iteration 275: f(x) = -7.347276
+Iteration 276: New best f(x) = -7.347393
+Iteration 277: New best f(x) = -7.347414
+Iteration 278: f(x) = -7.347371
+Iteration 279: New best f(x) = -7.347513
+Iteration 280: f(x) = -7.347511
+Iteration 281: f(x) = -7.347509
+Iteration 282: f(x) = -7.347502
+Iteration 283: New best f(x) = -7.347541
+Iteration 284: f(x) = -7.347522
+Iteration 285: New best f(x) = -7.347676
+Iteration 286: New best f(x) = -7.347911
+Iteration 287: f(x) = -1.793091
+Iteration 288: New best f(x) = -7.347957
+Iteration 289: f(x) = -7.347953
+Iteration 290: f(x) = -7.347944</code></pre>
+</div>
+</div>
+<div id="e8be2da0" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[10D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_micha<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_micha<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[10D] Sklearn Kriging: min y = -7.3480 at x = [2.20503242 2.71129625 2.21891182 2.48213434 2.36018149 2.02745108
+ 1.87714802 1.36056791 1.28302799 1.21719709]
+Number of function evaluations: 300
+Number of iterations: 290</code></pre>
+</div>
+</div>
+</section>
+<section id="visualize-optimization-progress-1" class="level3" data-number="13.2.4">
+<h3 data-number="13.2.4" class="anchored" data-anchor-id="visualize-optimization-progress-1"><span class="header-section-number">13.2.4</span> Visualize Optimization Progress</h3>
+<div id="31643f55" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>plt.plot(np.minimum.accumulate(opt_micha.y_), <span class="st">'b-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Function Evaluations'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Best Objective Value'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'10D Michalewicz: Sklearn Kriging Progress'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="019_spotoptim_sk_matern_files/figure-html/cell-13-output-1.png" width="951" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluation-of-multiple-repeats-1" class="level3" data-number="13.2.5">
+<h3 data-number="13.2.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats-1"><span class="header-section-number">13.2.5</span> Evaluation of Multiple Repeats</h3>
+<p>To perform 30 repeats and collect statistics:</p>
+<div id="eeab7085" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Running </span><span class="sc">{</span>n_repeats<span class="sc">}</span><span class="ss"> independent optimizations..."</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_repeats):</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    kernel_i <span class="op">=</span> ConstantKernel(<span class="fl">1.0</span>, (<span class="fl">1e-2</span>, <span class="fl">1e12</span>)) <span class="op">*</span> Matern(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        length_scale<span class="op">=</span><span class="fl">1.0</span>, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        length_scale_bounds<span class="op">=</span>(<span class="fl">1e-4</span>, <span class="fl">1e2</span>), </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        nu<span class="op">=</span><span class="fl">2.5</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    surrogate_i <span class="op">=</span> GaussianProcessRegressor(kernel<span class="op">=</span>kernel_i, n_restarts_optimizer<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    opt_i <span class="op">=</span> SpotOptim(</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        fun<span class="op">=</span>fun,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        bounds<span class="op">=</span>bounds,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        n_initial<span class="op">=</span>n_initial,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        max_iter<span class="op">=</span>max_iter,</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        surrogate<span class="op">=</span>surrogate_i,</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        seed<span class="op">=</span>seed <span class="op">+</span> i,  <span class="co"># Different seed for each run</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        verbose<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    result_i <span class="op">=</span> opt_i.optimize()</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    results.append(result_i.fun)</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="dv">10</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  Completed </span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>n_repeats<span class="sc">}</span><span class="ss"> runs"</span>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute statistics</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>mean_result <span class="op">=</span> np.mean(results)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>std_result <span class="op">=</span> np.std(results)</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>min_result <span class="op">=</span> np.<span class="bu">min</span>(results)</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>max_result <span class="op">=</span> np.<span class="bu">max</span>(results)</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Results over </span><span class="sc">{</span>n_repeats<span class="sc">}</span><span class="ss"> runs:"</span>)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Mean of best values: </span><span class="sc">{</span>mean_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Std of best values:  </span><span class="sc">{</span>std_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Min of best values:  </span><span class="sc">{</span>min_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Max of best values:  </span><span class="sc">{</span>max_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="comparison-spotoptim-vs-spotpython" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="comparison-spotoptim-vs-spotpython"><span class="header-section-number">13.3</span> Comparison: SpotOptim vs SpotPython</h2>
+<p>The <code>SpotOptim</code> package provides a scipy-compatible interface for Bayesian optimization with the following key features:</p>
+<ol type="1">
+<li><strong>Scipy-compatible API</strong>: Returns <code>OptimizeResult</code> objects that work seamlessly with scipy’s optimization ecosystem</li>
+<li><strong>Custom Surrogates</strong>: Supports any sklearn-compatible surrogate model (as demonstrated with GaussianProcessRegressor)</li>
+<li><strong>Flexible Interface</strong>: Simplified parameter specification with bounds, n_initial, and max_iter</li>
+<li><strong>Analytical Test Functions</strong>: Built-in test functions (rosenbrock, ackley, michalewicz) for benchmarking</li>
+</ol>
+<p>The main differences from spotpython are:</p>
+<ul>
+<li><strong>SpotOptim</strong>: Uses <code>bounds</code>, <code>n_initial</code>, <code>max_iter</code> parameters with scipy-style interface</li>
+<li><strong>SpotPython</strong>: Uses <code>fun_control</code>, <code>design_control</code>, <code>surrogate_control</code> with more complex configuration</li>
+</ul>
+<p>Both packages support custom surrogates and provide powerful Bayesian optimization capabilities.</p>
+</section>
+<section id="summary" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">13.4</span> Summary</h2>
+<p>This notebook demonstrated how to:</p>
+<ol type="1">
+<li>Use <code>SpotOptim</code> with sklearn’s Gaussian Process Regressor (Matern kernel) as a surrogate</li>
+<li>Optimize 6D Rosenbrock function with 100 evaluations</li>
+<li>Optimize 10D Michalewicz function with 300 evaluations</li>
+<li>Visualize optimization progress</li>
+<li>Perform multiple independent runs for statistical analysis</li>
+</ol>
+<p>The results show that <code>SpotOptim</code> with sklearn surrogates provides effective Bayesian optimization for challenging benchmark functions.</p>
+</section>
+<section id="jupyter-notebook" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">13.5</span> Jupyter Notebook</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>This Quarto document is part of the spotoptim package benchmarking suite</li>
+<li>Source available at: <a href="https://github.com/sequential-parameter-optimization/spotoptim">spotoptim GitHub Repository</a></li>
+</ul>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./spotoptim_examples.html" class="pagination-link" aria-label="SpotOptim Internal Methods Examples">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./kriging_surrogate.html" class="pagination-link" aria-label="Kriging Surrogate Models in SpotOptim">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, T. Bartz-Beielstein</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://sequential-parameter-optimization.github.io/Hyperparameter-Tuning-Cookbook/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://x.com/bartzbeielstein">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
