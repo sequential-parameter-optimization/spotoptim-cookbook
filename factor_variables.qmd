@@ -211,7 +211,7 @@ optimizer = SpotOptim(
         (0, 4),                                      # num_hidden_layers
         ("ReLU", "Sigmoid", "Tanh", "LeakyReLU")   # activation function
     ],
-    var_type=["num", "int", "int", "factor"],
+    var_type=["float", "int", "int", "factor"],
     max_iter=50
 )
 
@@ -290,7 +290,7 @@ opt = SpotOptim(
         ("Adam", "SGD", "RMSprop", "AdamW"),         # Optimizer
         (-4, -2)                                      # log10(lr)
     ],
-    var_type=["factor", "factor", "num"],
+    var_type=["factor", "factor", "float"],
     max_iter=40
 )
 
@@ -502,7 +502,7 @@ If you don't specify `var_type`, SpotOptim automatically detects factor variable
 # optimizer = SpotOptim(
 #     fun=my_function,
 #     bounds=[(-4, -2), ("ReLU", "Tanh")],
-#     var_type=["num", "factor"]  # Explicit
+#     var_type=["float", "factor"]  # Explicit
 # )
 
 # Example 2: Auto-detection (works but less explicit)
@@ -529,7 +529,7 @@ def demo_function(X):
 optimizer = SpotOptim(
     fun=demo_function,
     bounds=[(-4, -2), ("ReLU", "Tanh")],
-    var_type=["num", "factor"],  # Explicit is clearer
+    var_type=["float", "factor"],  # Explicit is clearer
     max_iter=10,
     seed=42
 )
@@ -628,7 +628,7 @@ def main():
             (0, 4),                                      # num_hidden_layers
             ("ReLU", "Sigmoid", "Tanh", "LeakyReLU")   # activation (factor!)
         ],
-        var_type=["num", "int", "int", "factor"],
+        var_type=["float", "int", "int", "factor"],
         max_iter=50,
         seed=42
     )
@@ -742,7 +742,7 @@ bounds=[("xavier_uniform", "kaiming_normal", "orthogonal")]
 ✅ **Explicitly specify var_type for clarity**
 
 ```{python}
-var_type=["num", "int", "factor"]
+var_type=["float", "int", "factor"]
 ```
 
 ✅ **Access results as strings**
@@ -789,7 +789,7 @@ print(f"Best activation: {best_activation} (type: {type(best_activation).__name_
 
 ```{python}
 bounds=[(-4, -2), (16, 128), ("ReLU", "Tanh")]
-var_type=["num", "int", "factor"]
+var_type=["float", "int", "factor"]
 ```
 
 ### Don'ts
