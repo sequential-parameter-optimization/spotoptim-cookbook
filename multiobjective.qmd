@@ -4,6 +4,58 @@ sidebar_position: 5
 eval: true
 ---
 
+```{python}
+#| label: import-libraries
+
+import copy
+import numpy as np
+import pandas as pd
+import numpy as np
+import warnings
+
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.kernel_approximation import Nystroem
+from sklearn.gaussian_process.kernels import RBF, WhiteKernel
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from scipy.stats.qmc import LatinHypercube
+from scipy.optimize import dual_annealing
+
+from spotdesirability.utils.desirability import DMin, DMax, DOverall
+
+
+from spotoptim.sampling.mm import mmphi_intensive, mmphi_intensive_update, mm_improvement_contour
+from spotoptim.inspection.predictions import plot_actual_vs_predicted
+from spotoptim.inspection import (generate_mdi, generate_imp, plot_importances, plot_feature_importances, plot_feature_scatter_matrix)
+
+from spotoptim.utils.boundaries import get_boundaries, map_to_original_scale
+from spotoptim.mo.pareto import is_pareto_efficient, plot_mo
+from spotoptim.eda import plot_ip_boxplots, plot_ip_histograms
+from spotoptim.utils import get_combinations
+from spotoptim.sampling.lhs import rlh
+from spotoptim.sampling.mm import (bestlh, plot_mmphi_vs_n_lhs, mmphi, mmphi_intensive, mm_improvement, plot_mmphi_vs_points, mmphi_intensive_update)
+from spotoptim.mo import mo_mm_desirability_function, mo_mm_desirability_optimizer
+from spotoptim.mo.mo_mm import mo_xy_desirability_plot
+from spotoptim.function.mo import mo_conv2_max
+from spotoptim.mo.pareto import (mo_xy_surface, mo_xy_contour, mo_pareto_optx_plot)
+from spotoptim.utils.eval import mo_cv_models, mo_eval_models
+warnings.filterwarnings("ignore")
+```
+
+
+```{python}
+#| label: rf-parameter-setup
+n_estimators=100
+max_depth = None
+random_state=42
+```
 
 ## Overview
 
@@ -820,14 +872,131 @@ for name, (x, y) in results.items():
     print(f"{name:20s}: f1={y[0]:.4f}, f2={y[1]:.4f}")
 ```
 
-## Summary
+## A Simple Visualization Example
 
-SpotOptim provides flexible multi-objective optimization support through:
 
-- Automatic detection of multi-objective functions
-- Customizable scalarization strategies via `fun_mo2so`
-- Complete storage of multi-objective values in `y_mo`
-- Full integration with existing features (noise, OCBA, TensorBoard, etc.)
-- 100% backward compatible with existing code
+The `mo_mm_desirability_function` computes the negative combined desirability for a candidate point `x`. It predicts the objective values using the provided surrogate models, computes the Morris-Mitchell improvement if requested, and then calculates the overall desirability using the provided `DOverall` object. The function returns the negative desirability (for minimization) and the list of individual objective values. Consider the following example usage:
 
-This implementation mirrors the approach used in spotPython's Spot class, providing consistency across the ecosystem.
+Generate `X_base` in the range [0,1] as input data and evaluate the two-objective maximization function `mo_conv2_max`.
+
+A smooth, convex two-objective maximization problem on [0, 1]^2 using flipped versions of the minimization objectives: 
+
+\begin{align}
+f1(x, y) = 2 - (x^2 + y^2)\\
+f2(x, y) = 2 - ((1 - x)^2 + (1 - y)^2)
+\end{align}
+    
+It has the following properties:
+
+* Domain: $[0, 1]^2$
+* Objectives: maximize both $f1$ and $f2$
+* Ideal points: $(0, 0)$ for $f1$ (gives $f1=2$); $(1, 1)$ for $f2$ (gives $f2=2$)
+* Pareto set: line $x = y$ in $[0, 1]$
+* Pareto front: convex quadratic trade-off $f1 = 2 - 2t^2$, $f2 = 2 - 2(1 - t)^2$, $t \in [0, 1]$
+
+```{python}
+#| label: generate-base-design
+X_base = np.random.rand(500, 2)
+y = mo_conv2_max(X_base)
+```
+
+The RandomForestRegressor models are fitted for each objective.
+
+```{python}
+# | label: mo-mm-desirability-function-setup-fit-rf
+models = []
+for i in range(y.shape[1]):
+    model = RandomForestRegressor(n_estimators=n_estimators, random_state=random_state, max_depth=max_depth)
+    model.fit(X_base, y[:, i])
+    models.append(model)
+```
+
+```{python}
+# calculate base Morris-Mitchell stats
+phi_base, J_base, d_base = mmphi_intensive(X_base, q=2, p=2)
+print(f"phi_base: {phi_base}, J_base: {J_base}, d_base: {d_base}")
+```
+
+@fig-mo-xy-surface-plot shows the surfaces of the two objectives using the fitted models.
+```{python}
+# | label: fig-mo-xy-surface-plot
+# | fig-cap: Surfaces of the two objectives of the mo_conv2_max function
+x_min = 0
+x_max = 1
+combinations = [(0,1)]
+target_names = ["y1", "y2"]
+
+mo_xy_surface(models, bounds=[(x_min, x_max), (x_min, x_max)], target_names=target_names)
+```
+
+@fig-mo-xy-contour-plot shows the contours of the two objectives using the fitted models.
+```{python}
+# | label: fig-mo-xy-contour-plot
+# | fig-cap: Contours of the two objectives of the mo_conv2_max function
+x_min = 0
+x_max = 1
+mo_xy_contour(models, bounds=[(x_min, x_max), (x_min, x_max)], target_names=target_names)
+```
+
+@fig-mo-pareto-front-orig-plot shows the Pareto front of the original data.
+```{python}
+# | label: fig-mo-pareto-front-orig-plot
+# | fig-cap: Pareto front of the original data
+plot_mo(y_orig=y, target_names=target_names, combinations=combinations, pareto="max", pareto_front_orig=True, title="Original data. Pareto front (maximization)", pareto_label=True)
+```
+
+@fig-mo-pareto-optx-plot visualizes the Pareto-optimal points, i.e., the points in the input space that correspond to the Pareto front:
+
+```{python}
+# | label: fig-mo-pareto-optx-plot
+# | fig-cap: Pareto-optimal points in the input space
+mo_pareto_optx_plot(X=X_base, Y=y, minimize=False)
+```
+
+
+Compute desirability functions for each objective:
+```{python}
+#| label: comput-mo-desirability-functions-setup
+d_funcs = []
+for i in range(y.shape[1]):
+    d_func = DMax(low=np.min(y[:, i]), high=np.max(y[:, i]))
+    d_funcs.append(d_func)
+```
+
+The desirability functions can be visualized as follows:
+```{python}
+#| label: mo-desirability-function-plot
+d_funcs[0].plot(xlabel=target_names[0], figsize=(6,4))
+d_funcs[1].plot(xlabel=target_names[1], figsize=(6,4))
+```
+
+The minimal expected improvement of the Morris-Mitchell criterion is defined as 1 percent of the base value, and the maximal expected improvement as 10 percent of the base value.
+Then, the desirability function for Morris-Mitchell objective can be defined as follows:
+```{python}
+# imp_min = phi_base * 0.01
+# imp_max = phi_base * 0.1
+
+# d_mm = DMax(low=imp_min, high=imp_max)
+# d_mm.plot()
+```
+
+Combine into overall desirability
+```{python} 
+# D_overall = DOverall(*d_funcs, d_mm)
+D_overall = DOverall(*d_funcs)
+```
+Now we can call the `mo_mm_desirability_function` with a test point:
+```{python}
+x_test = np.array([0.5, 0.5])  # Example test point
+neg_D, objectives = mo_mm_desirability_function(x_test, models, X_base, J_base, d_base, phi_base, D_overall, mm_objective=False)
+print(f"Negative Desirability: {neg_D}")
+print(f"Objectives: {objectives}")
+```
+
+
+```{python}
+# | label: mo-mm-desirability-function-plot
+# | fig-cap: Desirability function for multi-objective optimization
+mo_xy_desirability_plot(models, bounds=[(x_min, x_max), (x_min, x_max)], X_base=X_base, J_base=J_base, d_base=d_base, phi_base=phi_base, D_overall=D_overall, mm_objective=False)
+```
+
