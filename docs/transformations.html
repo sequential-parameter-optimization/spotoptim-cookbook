@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>23&nbsp; Variable Transformations for Search Space Scaling – Sequential Parameter Optimization Cookbook</title>
+<title>19&nbsp; Variable Transformations for Search Space Scaling – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./kriging.html" rel="next">
+<link href="./learning_rate_mapping.html" rel="next">
 <link href="./factor_variables.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta name="twitter:title" content="23&nbsp; Variable Transformations for Search Space Scaling – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="19&nbsp; Variable Transformations for Search Space Scaling – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./transformations.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./transformations.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -284,128 +284,167 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./transformations.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./save_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./var_type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Kriging</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Multiobjective Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hyperparameter Tuning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
   </div>
 </li>
       </ul>
@@ -426,64 +465,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">23.1</span> Overview</a></li>
-  <li><a href="#why-use-transformations" id="toc-why-use-transformations" class="nav-link" data-scroll-target="#why-use-transformations"><span class="header-section-number">23.2</span> Why Use Transformations?</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">19.1</span> Overview</a></li>
+  <li><a href="#why-use-transformations" id="toc-why-use-transformations" class="nav-link" data-scroll-target="#why-use-transformations"><span class="header-section-number">19.2</span> Why Use Transformations?</a>
   <ul class="collapse">
-  <li><a href="#problem-poorly-scaled-search-spaces" id="toc-problem-poorly-scaled-search-spaces" class="nav-link" data-scroll-target="#problem-poorly-scaled-search-spaces"><span class="header-section-number">23.2.1</span> Problem: Poorly Scaled Search Spaces</a></li>
-  <li><a href="#solution-logarithmic-and-other-transformations" id="toc-solution-logarithmic-and-other-transformations" class="nav-link" data-scroll-target="#solution-logarithmic-and-other-transformations"><span class="header-section-number">23.2.2</span> Solution: Logarithmic and Other Transformations</a></li>
+  <li><a href="#problem-poorly-scaled-search-spaces" id="toc-problem-poorly-scaled-search-spaces" class="nav-link" data-scroll-target="#problem-poorly-scaled-search-spaces"><span class="header-section-number">19.2.1</span> Problem: Poorly Scaled Search Spaces</a></li>
+  <li><a href="#solution-logarithmic-and-other-transformations" id="toc-solution-logarithmic-and-other-transformations" class="nav-link" data-scroll-target="#solution-logarithmic-and-other-transformations"><span class="header-section-number">19.2.2</span> Solution: Logarithmic and Other Transformations</a></li>
   </ul></li>
-  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start"><span class="header-section-number">23.3</span> Quick Start</a>
+  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start"><span class="header-section-number">19.3</span> Quick Start</a>
   <ul class="collapse">
-  <li><a href="#basic-log-scale-transformation" id="toc-basic-log-scale-transformation" class="nav-link" data-scroll-target="#basic-log-scale-transformation"><span class="header-section-number">23.3.1</span> Basic Log-Scale Transformation</a></li>
+  <li><a href="#basic-log-scale-transformation" id="toc-basic-log-scale-transformation" class="nav-link" data-scroll-target="#basic-log-scale-transformation"><span class="header-section-number">19.3.1</span> Basic Log-Scale Transformation</a></li>
   </ul></li>
-  <li><a href="#supported-transformations" id="toc-supported-transformations" class="nav-link" data-scroll-target="#supported-transformations"><span class="header-section-number">23.4</span> Supported Transformations</a>
+  <li><a href="#supported-transformations" id="toc-supported-transformations" class="nav-link" data-scroll-target="#supported-transformations"><span class="header-section-number">19.4</span> Supported Transformations</a>
   <ul class="collapse">
-  <li><a href="#transformation-guidelines" id="toc-transformation-guidelines" class="nav-link" data-scroll-target="#transformation-guidelines"><span class="header-section-number">23.4.1</span> Transformation Guidelines</a></li>
+  <li><a href="#transformation-guidelines" id="toc-transformation-guidelines" class="nav-link" data-scroll-target="#transformation-guidelines"><span class="header-section-number">19.4.1</span> Transformation Guidelines</a></li>
   </ul></li>
-  <li><a href="#detailed-examples" id="toc-detailed-examples" class="nav-link" data-scroll-target="#detailed-examples"><span class="header-section-number">23.5</span> Detailed Examples</a>
+  <li><a href="#detailed-examples" id="toc-detailed-examples" class="nav-link" data-scroll-target="#detailed-examples"><span class="header-section-number">19.5</span> Detailed Examples</a>
   <ul class="collapse">
-  <li><a href="#example-1-neural-network-hyperparameter-tuning" id="toc-example-1-neural-network-hyperparameter-tuning" class="nav-link" data-scroll-target="#example-1-neural-network-hyperparameter-tuning"><span class="header-section-number">23.5.1</span> Example 1: Neural Network Hyperparameter Tuning</a></li>
-  <li><a href="#example-2-physics-informed-neural-networks-pinns" id="toc-example-2-physics-informed-neural-networks-pinns" class="nav-link" data-scroll-target="#example-2-physics-informed-neural-networks-pinns"><span class="header-section-number">23.5.2</span> Example 2: Physics-Informed Neural Networks (PINNs)</a></li>
-  <li><a href="#example-3-mixing-transformations" id="toc-example-3-mixing-transformations" class="nav-link" data-scroll-target="#example-3-mixing-transformations"><span class="header-section-number">23.5.3</span> Example 3: Mixing Transformations</a></li>
+  <li><a href="#example-1-neural-network-hyperparameter-tuning" id="toc-example-1-neural-network-hyperparameter-tuning" class="nav-link" data-scroll-target="#example-1-neural-network-hyperparameter-tuning"><span class="header-section-number">19.5.1</span> Example 1: Neural Network Hyperparameter Tuning</a></li>
+  <li><a href="#example-2-physics-informed-neural-networks-pinns" id="toc-example-2-physics-informed-neural-networks-pinns" class="nav-link" data-scroll-target="#example-2-physics-informed-neural-networks-pinns"><span class="header-section-number">19.5.2</span> Example 2: Physics-Informed Neural Networks (PINNs)</a></li>
+  <li><a href="#example-3-mixing-transformations" id="toc-example-3-mixing-transformations" class="nav-link" data-scroll-target="#example-3-mixing-transformations"><span class="header-section-number">19.5.3</span> Example 3: Mixing Transformations</a></li>
   </ul></li>
-  <li><a href="#viewing-transformations-in-tables" id="toc-viewing-transformations-in-tables" class="nav-link" data-scroll-target="#viewing-transformations-in-tables"><span class="header-section-number">23.6</span> Viewing Transformations in Tables</a>
+  <li><a href="#viewing-transformations-in-tables" id="toc-viewing-transformations-in-tables" class="nav-link" data-scroll-target="#viewing-transformations-in-tables"><span class="header-section-number">19.6</span> Viewing Transformations in Tables</a>
   <ul class="collapse">
-  <li><a href="#design-table-before-optimization" id="toc-design-table-before-optimization" class="nav-link" data-scroll-target="#design-table-before-optimization"><span class="header-section-number">23.6.1</span> Design Table (Before Optimization)</a></li>
-  <li><a href="#results-table-after-optimization" id="toc-results-table-after-optimization" class="nav-link" data-scroll-target="#results-table-after-optimization"><span class="header-section-number">23.6.2</span> Results Table (After Optimization)</a></li>
+  <li><a href="#design-table-before-optimization" id="toc-design-table-before-optimization" class="nav-link" data-scroll-target="#design-table-before-optimization"><span class="header-section-number">19.6.1</span> Design Table (Before Optimization)</a></li>
+  <li><a href="#results-table-after-optimization" id="toc-results-table-after-optimization" class="nav-link" data-scroll-target="#results-table-after-optimization"><span class="header-section-number">19.6.2</span> Results Table (After Optimization)</a></li>
   </ul></li>
-  <li><a href="#internal-architecture" id="toc-internal-architecture" class="nav-link" data-scroll-target="#internal-architecture"><span class="header-section-number">23.7</span> Internal Architecture</a>
+  <li><a href="#internal-architecture" id="toc-internal-architecture" class="nav-link" data-scroll-target="#internal-architecture"><span class="header-section-number">19.7</span> Internal Architecture</a>
   <ul class="collapse">
-  <li><a href="#flow-diagram" id="toc-flow-diagram" class="nav-link" data-scroll-target="#flow-diagram"><span class="header-section-number">23.7.1</span> Flow Diagram</a></li>
-  <li><a href="#key-components" id="toc-key-components" class="nav-link" data-scroll-target="#key-components"><span class="header-section-number">23.7.2</span> Key Components</a></li>
+  <li><a href="#flow-diagram" id="toc-flow-diagram" class="nav-link" data-scroll-target="#flow-diagram"><span class="header-section-number">19.7.1</span> Flow Diagram</a></li>
+  <li><a href="#key-components" id="toc-key-components" class="nav-link" data-scroll-target="#key-components"><span class="header-section-number">19.7.2</span> Key Components</a></li>
   </ul></li>
-  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">23.8</span> Best Practices</a>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">19.8</span> Best Practices</a>
   <ul class="collapse">
-  <li><a href="#choose-appropriate-transformations" id="toc-choose-appropriate-transformations" class="nav-link" data-scroll-target="#choose-appropriate-transformations"><span class="header-section-number">23.8.1</span> 1. Choose Appropriate Transformations</a></li>
-  <li><a href="#match-transformation-to-range" id="toc-match-transformation-to-range" class="nav-link" data-scroll-target="#match-transformation-to-range"><span class="header-section-number">23.8.2</span> 2. Match Transformation to Range</a></li>
-  <li><a href="#validate-transformation-choice" id="toc-validate-transformation-choice" class="nav-link" data-scroll-target="#validate-transformation-choice"><span class="header-section-number">23.8.3</span> 3. Validate Transformation Choice</a></li>
-  <li><a href="#combine-with-variable-types" id="toc-combine-with-variable-types" class="nav-link" data-scroll-target="#combine-with-variable-types"><span class="header-section-number">23.8.4</span> 4. Combine with Variable Types</a></li>
+  <li><a href="#choose-appropriate-transformations" id="toc-choose-appropriate-transformations" class="nav-link" data-scroll-target="#choose-appropriate-transformations"><span class="header-section-number">19.8.1</span> 1. Choose Appropriate Transformations</a></li>
+  <li><a href="#match-transformation-to-range" id="toc-match-transformation-to-range" class="nav-link" data-scroll-target="#match-transformation-to-range"><span class="header-section-number">19.8.2</span> 2. Match Transformation to Range</a></li>
+  <li><a href="#validate-transformation-choice" id="toc-validate-transformation-choice" class="nav-link" data-scroll-target="#validate-transformation-choice"><span class="header-section-number">19.8.3</span> 3. Validate Transformation Choice</a></li>
+  <li><a href="#combine-with-variable-types" id="toc-combine-with-variable-types" class="nav-link" data-scroll-target="#combine-with-variable-types"><span class="header-section-number">19.8.4</span> 4. Combine with Variable Types</a></li>
   </ul></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">23.9</span> Troubleshooting</a>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">19.9</span> Troubleshooting</a>
   <ul class="collapse">
-  <li><a href="#issue-values-out-of-bounds" id="toc-issue-values-out-of-bounds" class="nav-link" data-scroll-target="#issue-values-out-of-bounds"><span class="header-section-number">23.9.1</span> Issue: Values Out of Bounds</a></li>
-  <li><a href="#issue-poor-optimization-performance" id="toc-issue-poor-optimization-performance" class="nav-link" data-scroll-target="#issue-poor-optimization-performance"><span class="header-section-number">23.9.2</span> Issue: Poor Optimization Performance</a></li>
-  <li><a href="#issue-transformation-not-applied" id="toc-issue-transformation-not-applied" class="nav-link" data-scroll-target="#issue-transformation-not-applied"><span class="header-section-number">23.9.3</span> Issue: Transformation Not Applied</a></li>
+  <li><a href="#issue-values-out-of-bounds" id="toc-issue-values-out-of-bounds" class="nav-link" data-scroll-target="#issue-values-out-of-bounds"><span class="header-section-number">19.9.1</span> Issue: Values Out of Bounds</a></li>
+  <li><a href="#issue-poor-optimization-performance" id="toc-issue-poor-optimization-performance" class="nav-link" data-scroll-target="#issue-poor-optimization-performance"><span class="header-section-number">19.9.2</span> Issue: Poor Optimization Performance</a></li>
+  <li><a href="#issue-transformation-not-applied" id="toc-issue-transformation-not-applied" class="nav-link" data-scroll-target="#issue-transformation-not-applied"><span class="header-section-number">19.9.3</span> Issue: Transformation Not Applied</a></li>
   </ul></li>
-  <li><a href="#comparison-manual-vs-automatic-transformations" id="toc-comparison-manual-vs-automatic-transformations" class="nav-link" data-scroll-target="#comparison-manual-vs-automatic-transformations"><span class="header-section-number">23.10</span> Comparison: Manual vs Automatic Transformations</a>
+  <li><a href="#comparison-manual-vs-automatic-transformations" id="toc-comparison-manual-vs-automatic-transformations" class="nav-link" data-scroll-target="#comparison-manual-vs-automatic-transformations"><span class="header-section-number">19.10</span> Comparison: Manual vs Automatic Transformations</a>
   <ul class="collapse">
-  <li><a href="#manual-approach-old-way" id="toc-manual-approach-old-way" class="nav-link" data-scroll-target="#manual-approach-old-way"><span class="header-section-number">23.10.1</span> Manual Approach (Old Way)</a></li>
-  <li><a href="#automatic-approach-new-way" id="toc-automatic-approach-new-way" class="nav-link" data-scroll-target="#automatic-approach-new-way"><span class="header-section-number">23.10.2</span> Automatic Approach (New Way)</a></li>
+  <li><a href="#manual-approach-old-way" id="toc-manual-approach-old-way" class="nav-link" data-scroll-target="#manual-approach-old-way"><span class="header-section-number">19.10.1</span> Manual Approach (Old Way)</a></li>
+  <li><a href="#automatic-approach-new-way" id="toc-automatic-approach-new-way" class="nav-link" data-scroll-target="#automatic-approach-new-way"><span class="header-section-number">19.10.2</span> Automatic Approach (New Way)</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">23.11</span> Summary</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">19.11</span> Summary</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./transformations.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./transformations.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></h1>
+<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></h1>
 </div>
 
 
@@ -501,8 +540,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>SpotOptim supports automatic variable transformations to improve optimization in scaled search spaces. Instead of manually handling transformations (e.g., log-scale for learning rates), you can specify transformations via the <code>var_trans</code> parameter, and SpotOptim handles everything internally.</p>
-<section id="overview" class="level2" data-number="23.1">
-<h2 data-number="23.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">23.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">19.1</span> Overview</h2>
 <p><strong>What are Variable Transformations?</strong></p>
 <p>Variable transformations allow you to specify how search space dimensions should be scaled during optimization:</p>
 <ol type="1">
@@ -520,10 +559,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Mix transformed and non-transformed variables</li>
 </ul>
 </section>
-<section id="why-use-transformations" class="level2" data-number="23.2">
-<h2 data-number="23.2" class="anchored" data-anchor-id="why-use-transformations"><span class="header-section-number">23.2</span> Why Use Transformations?</h2>
-<section id="problem-poorly-scaled-search-spaces" class="level3" data-number="23.2.1">
-<h3 data-number="23.2.1" class="anchored" data-anchor-id="problem-poorly-scaled-search-spaces"><span class="header-section-number">23.2.1</span> Problem: Poorly Scaled Search Spaces</h3>
+<section id="why-use-transformations" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="why-use-transformations"><span class="header-section-number">19.2</span> Why Use Transformations?</h2>
+<section id="problem-poorly-scaled-search-spaces" class="level3" data-number="19.2.1">
+<h3 data-number="19.2.1" class="anchored" data-anchor-id="problem-poorly-scaled-search-spaces"><span class="header-section-number">19.2.1</span> Problem: Poorly Scaled Search Spaces</h3>
 <p>Some hyperparameters span multiple orders of magnitude:</p>
 <ul>
 <li><strong>Learning rates</strong>: 0.0001 to 1.0 (4 orders of magnitude)</li>
@@ -537,8 +576,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Acquisition functions behave poorly with skewed distributions</li>
 </ol>
 </section>
-<section id="solution-logarithmic-and-other-transformations" class="level3" data-number="23.2.2">
-<h3 data-number="23.2.2" class="anchored" data-anchor-id="solution-logarithmic-and-other-transformations"><span class="header-section-number">23.2.2</span> Solution: Logarithmic and Other Transformations</h3>
+<section id="solution-logarithmic-and-other-transformations" class="level3" data-number="19.2.2">
+<h3 data-number="19.2.2" class="anchored" data-anchor-id="solution-logarithmic-and-other-transformations"><span class="header-section-number">19.2.2</span> Solution: Logarithmic and Other Transformations</h3>
 <p>Transform the space for optimization while maintaining user-friendly interfaces:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Without transformations (manual approach)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="op">-</span><span class="dv">4</span>, <span class="dv">0</span>)]  <span class="co"># log10(lr): awkward for users</span></span>
@@ -550,11 +589,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> params[<span class="dv">0</span>]  <span class="co"># Already in original scale!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="quick-start" class="level2" data-number="23.3">
-<h2 data-number="23.3" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">23.3</span> Quick Start</h2>
-<section id="basic-log-scale-transformation" class="level3" data-number="23.3.1">
-<h3 data-number="23.3.1" class="anchored" data-anchor-id="basic-log-scale-transformation"><span class="header-section-number">23.3.1</span> Basic Log-Scale Transformation</h3>
-<div id="1411f372" class="cell" data-execution_count="1">
+<section id="quick-start" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">19.3</span> Quick Start</h2>
+<section id="basic-log-scale-transformation" class="level3" data-number="19.3.1">
+<h3 data-number="19.3.1" class="anchored" data-anchor-id="basic-log-scale-transformation"><span class="header-section-number">19.3.1</span> Basic Log-Scale Transformation</h3>
+<div id="3fc423a0" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -591,15 +630,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best alpha: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)   <span class="co"># In original scale</span></span>
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best score: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best lr: 0.044440
-Best alpha: 0.027720
-Best score: -0.010042</code></pre>
+<pre><code>Best lr: 0.001744
+Best alpha: 0.199167
+Best score: -0.013189</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="supported-transformations" class="level2" data-number="23.4">
-<h2 data-number="23.4" class="anchored" data-anchor-id="supported-transformations"><span class="header-section-number">23.4</span> Supported Transformations</h2>
+<section id="supported-transformations" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="supported-transformations"><span class="header-section-number">19.4</span> Supported Transformations</h2>
 <p>SpotOptim supports the following transformations:</p>
 <table class="caption-top table">
 <colgroup>
@@ -667,8 +706,8 @@ Best score: -0.010042</code></pre>
 </tr>
 </tbody>
 </table>
-<section id="transformation-guidelines" class="level3" data-number="23.4.1">
-<h3 data-number="23.4.1" class="anchored" data-anchor-id="transformation-guidelines"><span class="header-section-number">23.4.1</span> Transformation Guidelines</h3>
+<section id="transformation-guidelines" class="level3" data-number="19.4.1">
+<h3 data-number="19.4.1" class="anchored" data-anchor-id="transformation-guidelines"><span class="header-section-number">19.4.1</span> Transformation Guidelines</h3>
 <p><strong>When to use <code>"log10"</code> or <code>"log"</code>:</strong></p>
 <ul>
 <li>Parameters spanning multiple orders of magnitude</li>
@@ -695,11 +734,11 @@ Best score: -0.010042</code></pre>
 </ul>
 </section>
 </section>
-<section id="detailed-examples" class="level2" data-number="23.5">
-<h2 data-number="23.5" class="anchored" data-anchor-id="detailed-examples"><span class="header-section-number">23.5</span> Detailed Examples</h2>
-<section id="example-1-neural-network-hyperparameter-tuning" class="level3" data-number="23.5.1">
-<h3 data-number="23.5.1" class="anchored" data-anchor-id="example-1-neural-network-hyperparameter-tuning"><span class="header-section-number">23.5.1</span> Example 1: Neural Network Hyperparameter Tuning</h3>
-<div id="05e2a491" class="cell" data-execution_count="2">
+<section id="detailed-examples" class="level2" data-number="19.5">
+<h2 data-number="19.5" class="anchored" data-anchor-id="detailed-examples"><span class="header-section-number">19.5</span> Detailed Examples</h2>
+<section id="example-1-neural-network-hyperparameter-tuning" class="level3" data-number="19.5.1">
+<h3 data-number="19.5.1" class="anchored" data-anchor-id="example-1-neural-network-hyperparameter-tuning"><span class="header-section-number">19.5.1</span> Example 1: Neural Network Hyperparameter Tuning</h3>
+<div id="cc9dcf7d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -804,39 +843,39 @@ Training: hidden=100, layers=2, lr=0.072441, wd=0.000096
 Training: hidden=169, layers=1, lr=0.000238, wd=0.004102
 Training: hidden=100, layers=3, lr=0.001146, wd=0.001331
 Training: hidden=36, layers=3, lr=0.021475, wd=0.000340
-Training: hidden=81, layers=2, lr=0.004331, wd=0.000003
-Training: hidden=81, layers=2, lr=0.017944, wd=0.000006
-Training: hidden=100, layers=2, lr=0.008581, wd=0.000006
-Training: hidden=100, layers=3, lr=0.009103, wd=0.000248
-Training: hidden=25, layers=3, lr=0.058298, wd=0.000710
-Training: hidden=81, layers=2, lr=0.009188, wd=0.000003
-Training: hidden=81, layers=2, lr=0.006206, wd=0.000011
-Training: hidden=100, layers=4, lr=0.001739, wd=0.001781
-Training: hidden=81, layers=2, lr=0.006716, wd=0.000006
-Training: hidden=81, layers=2, lr=0.046635, wd=0.000025
-Training: hidden=81, layers=2, lr=0.007219, wd=0.000007
-Training: hidden=81, layers=2, lr=0.001929, wd=0.000017
-Training: hidden=81, layers=2, lr=0.069989, wd=0.000004
-Training: hidden=81, layers=2, lr=0.003286, wd=0.000009
-Training: hidden=81, layers=2, lr=0.004521, wd=0.000044
-Training: hidden=81, layers=2, lr=0.003920, wd=0.000023
-Training: hidden=81, layers=2, lr=0.006324, wd=0.000071
-Training: hidden=100, layers=2, lr=0.001687, wd=0.000039
-Training: hidden=81, layers=2, lr=0.001672, wd=0.000037
-Training: hidden=81, layers=2, lr=0.005019, wd=0.000005
+Training: hidden=100, layers=3, lr=0.001171, wd=0.001303
+Training: hidden=100, layers=3, lr=0.002483, wd=0.000611
+Training: hidden=100, layers=3, lr=0.001687, wd=0.000921
+Training: hidden=100, layers=3, lr=0.003067, wd=0.000423
+Training: hidden=100, layers=3, lr=0.001292, wd=0.001058
+Training: hidden=100, layers=3, lr=0.002451, wd=0.001730
+Training: hidden=100, layers=3, lr=0.001648, wd=0.001386
+Training: hidden=100, layers=3, lr=0.002867, wd=0.000930
+Training: hidden=100, layers=3, lr=0.002147, wd=0.000847
+Training: hidden=100, layers=3, lr=0.004127, wd=0.001660
+Training: hidden=100, layers=3, lr=0.003021, wd=0.000570
+Training: hidden=100, layers=3, lr=0.002216, wd=0.000393
+Training: hidden=225, layers=3, lr=0.001752, wd=0.000001
+Training: hidden=225, layers=3, lr=0.002676, wd=0.000002
+Training: hidden=100, layers=3, lr=0.002277, wd=0.000562
+Training: hidden=100, layers=3, lr=0.002879, wd=0.000268
+Training: hidden=36, layers=3, lr=0.021483, wd=0.000340
+Training: hidden=256, layers=1, lr=0.000216, wd=0.005748
+Training: hidden=81, layers=3, lr=0.080825, wd=0.000179
+Training: hidden=169, layers=3, lr=0.000275, wd=0.001159
 
 Best Configuration:
-  Hidden Size: 81
-  Num Layers: 2
-  Learning Rate: 0.006716
-  Weight Decay: 0.00000596
-  Best Loss: 2608.673177</code></pre>
+  Hidden Size: 100
+  Num Layers: 3
+  Learning Rate: 0.002483
+  Weight Decay: 0.00061053
+  Best Loss: 2494.819010</code></pre>
 </div>
 </div>
 </section>
-<section id="example-2-physics-informed-neural-networks-pinns" class="level3" data-number="23.5.2">
-<h3 data-number="23.5.2" class="anchored" data-anchor-id="example-2-physics-informed-neural-networks-pinns"><span class="header-section-number">23.5.2</span> Example 2: Physics-Informed Neural Networks (PINNs)</h3>
-<div id="8f33198a" class="cell" data-execution_count="3">
+<section id="example-2-physics-informed-neural-networks-pinns" class="level3" data-number="19.5.2">
+<h3 data-number="19.5.2" class="anchored" data-anchor-id="example-2-physics-informed-neural-networks-pinns"><span class="header-section-number">19.5.2</span> Example 2: Physics-Informed Neural Networks (PINNs)</h3>
+<div id="b28cc7c5" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -879,18 +918,18 @@ Best Configuration:
 <pre><code>
 Best Solution Found:
 --------------------------------------------------
-  neurons: 74
-  layers: 2
-  lr: 8.0660
-  alpha: 0.0980
-  Objective Value: 0.0167
+  neurons: 65
+  layers: 3
+  lr: 8.6769
+  alpha: 0.1338
+  Objective Value: 0.0008
   Total Evaluations: 20</code></pre>
 </div>
 </div>
 </section>
-<section id="example-3-mixing-transformations" class="level3" data-number="23.5.3">
-<h3 data-number="23.5.3" class="anchored" data-anchor-id="example-3-mixing-transformations"><span class="header-section-number">23.5.3</span> Example 3: Mixing Transformations</h3>
-<div id="37e6e7d1" class="cell" data-execution_count="4">
+<section id="example-3-mixing-transformations" class="level3" data-number="19.5.3">
+<h3 data-number="19.5.3" class="anchored" data-anchor-id="example-3-mixing-transformations"><span class="header-section-number">19.5.3</span> Example 3: Mixing Transformations</h3>
+<div id="029e2bde" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -934,12 +973,12 @@ Best Solution Found:
 </div>
 </section>
 </section>
-<section id="viewing-transformations-in-tables" class="level2" data-number="23.6">
-<h2 data-number="23.6" class="anchored" data-anchor-id="viewing-transformations-in-tables"><span class="header-section-number">23.6</span> Viewing Transformations in Tables</h2>
+<section id="viewing-transformations-in-tables" class="level2" data-number="19.6">
+<h2 data-number="19.6" class="anchored" data-anchor-id="viewing-transformations-in-tables"><span class="header-section-number">19.6</span> Viewing Transformations in Tables</h2>
 <p>The transformation type is displayed in the “trans” column of both design and results tables:</p>
-<section id="design-table-before-optimization" class="level3" data-number="23.6.1">
-<h3 data-number="23.6.1" class="anchored" data-anchor-id="design-table-before-optimization"><span class="header-section-number">23.6.1</span> Design Table (Before Optimization)</h3>
-<div id="c0d6d978" class="cell" data-execution_count="5">
+<section id="design-table-before-optimization" class="level3" data-number="19.6.1">
+<h3 data-number="19.6.1" class="anchored" data-anchor-id="design-table-before-optimization"><span class="header-section-number">19.6.1</span> Design Table (Before Optimization)</h3>
+<div id="f79ed941" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -975,9 +1014,9 @@ Best Solution Found:
 | neurons | num    |  10.0000 | 1000.0000 |  505.0000 | sqrt    |
 | bias    | num    |  -5.0000 |   5.0000 |    0.0000 | -       |</code></pre>
 </section>
-<section id="results-table-after-optimization" class="level3" data-number="23.6.2">
-<h3 data-number="23.6.2" class="anchored" data-anchor-id="results-table-after-optimization"><span class="header-section-number">23.6.2</span> Results Table (After Optimization)</h3>
-<div id="43deb958" class="cell" data-execution_count="6">
+<section id="results-table-after-optimization" class="level3" data-number="19.6.2">
+<h3 data-number="19.6.2" class="anchored" data-anchor-id="results-table-after-optimization"><span class="header-section-number">19.6.2</span> Results Table (After Optimization)</h3>
+<div id="6ee279e8" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results with transformations</span></span>
@@ -985,20 +1024,20 @@ Best Solution Found:
 <div class="cell-output cell-output-stdout">
 <pre><code>| name    | type   |   lower |     upper |   tuned | trans   |
 |---------|--------|---------|-----------|---------|---------|
-| lr      | float  |  0.0010 |    1.0000 |  0.0090 | log10   |
-| alpha   | float  |  0.0100 |   10.0000 |  9.5464 | log     |
-| neurons | float  | 10.0000 | 1000.0000 | 21.4283 | sqrt    |
-| bias    | float  | -5.0000 |    5.0000 |  2.6171 | -       |</code></pre>
+| lr      | float  |  0.0010 |    1.0000 |  0.0076 | log10   |
+| alpha   | float  |  0.0100 |   10.0000 |  0.0182 | log     |
+| neurons | float  | 10.0000 | 1000.0000 | 25.4839 | sqrt    |
+| bias    | float  | -5.0000 |    5.0000 | -2.8243 | -       |</code></pre>
 </div>
 </div>
 <p>Output shows the “trans” column with transformation types, helping you understand which parameters were optimized in which scale.</p>
 </section>
 </section>
-<section id="internal-architecture" class="level2" data-number="23.7">
-<h2 data-number="23.7" class="anchored" data-anchor-id="internal-architecture"><span class="header-section-number">23.7</span> Internal Architecture</h2>
+<section id="internal-architecture" class="level2" data-number="19.7">
+<h2 data-number="19.7" class="anchored" data-anchor-id="internal-architecture"><span class="header-section-number">19.7</span> Internal Architecture</h2>
 <p>Understanding how transformations work internally can help debug issues and understand behavior:</p>
-<section id="flow-diagram" class="level3" data-number="23.7.1">
-<h3 data-number="23.7.1" class="anchored" data-anchor-id="flow-diagram"><span class="header-section-number">23.7.1</span> Flow Diagram</h3>
+<section id="flow-diagram" class="level3" data-number="19.7.1">
+<h3 data-number="19.7.1" class="anchored" data-anchor-id="flow-diagram"><span class="header-section-number">19.7.1</span> Flow Diagram</h3>
 <pre><code>User Input (Original Scale)
     ↓
 [Transform to Internal Scale]
@@ -1014,8 +1053,8 @@ Objective Function Evaluation (Original Scale)
     ↓
 Storage &amp; Results (Original Scale)</code></pre>
 </section>
-<section id="key-components" class="level3" data-number="23.7.2">
-<h3 data-number="23.7.2" class="anchored" data-anchor-id="key-components"><span class="header-section-number">23.7.2</span> Key Components</h3>
+<section id="key-components" class="level3" data-number="19.7.2">
+<h3 data-number="19.7.2" class="anchored" data-anchor-id="key-components"><span class="header-section-number">19.7.2</span> Key Components</h3>
 <ol type="1">
 <li><p><strong>Bounds Transformation</strong> (<code>_transform_bounds()</code>):</p>
 <ul>
@@ -1044,10 +1083,10 @@ Storage &amp; Results (Original Scale)</code></pre>
 </ol>
 </section>
 </section>
-<section id="best-practices" class="level2" data-number="23.8">
-<h2 data-number="23.8" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">23.8</span> Best Practices</h2>
-<section id="choose-appropriate-transformations" class="level3" data-number="23.8.1">
-<h3 data-number="23.8.1" class="anchored" data-anchor-id="choose-appropriate-transformations"><span class="header-section-number">23.8.1</span> 1. Choose Appropriate Transformations</h3>
+<section id="best-practices" class="level2" data-number="19.8">
+<h2 data-number="19.8" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">19.8</span> Best Practices</h2>
+<section id="choose-appropriate-transformations" class="level3" data-number="19.8.1">
+<h3 data-number="19.8.1" class="anchored" data-anchor-id="choose-appropriate-transformations"><span class="header-section-number">19.8.1</span> 1. Choose Appropriate Transformations</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Log scale for learning rate</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="fl">1e-5</span>, <span class="fl">1e-1</span>)]</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>var_trans <span class="op">=</span> [<span class="st">"log10"</span>]</span>
@@ -1056,8 +1095,8 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="fl">1e-5</span>, <span class="fl">1e-1</span>)]</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>var_trans <span class="op">=</span> [<span class="va">None</span>]  <span class="co"># Poor sampling distribution</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="match-transformation-to-range" class="level3" data-number="23.8.2">
-<h3 data-number="23.8.2" class="anchored" data-anchor-id="match-transformation-to-range"><span class="header-section-number">23.8.2</span> 2. Match Transformation to Range</h3>
+<section id="match-transformation-to-range" class="level3" data-number="19.8.2">
+<h3 data-number="19.8.2" class="anchored" data-anchor-id="match-transformation-to-range"><span class="header-section-number">19.8.2</span> 2. Match Transformation to Range</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wide range (&gt;3 orders of magnitude): use log</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="fl">1e-6</span>, <span class="fl">1e-2</span>)]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>var_trans <span class="op">=</span> [<span class="st">"log10"</span>]</span>
@@ -1070,8 +1109,8 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)]</span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>var_trans <span class="op">=</span> [<span class="va">None</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="validate-transformation-choice" class="level3" data-number="23.8.3">
-<h3 data-number="23.8.3" class="anchored" data-anchor-id="validate-transformation-choice"><span class="header-section-number">23.8.3</span> 3. Validate Transformation Choice</h3>
+<section id="validate-transformation-choice" class="level3" data-number="19.8.3">
+<h3 data-number="19.8.3" class="anchored" data-anchor-id="validate-transformation-choice"><span class="header-section-number">19.8.3</span> 3. Validate Transformation Choice</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if transformation makes sense</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1085,8 +1124,8 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Range ratio:"</span>, np.ptp(x_trans) <span class="op">/</span> np.ptp(x_orig))</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Should be much more uniform distribution</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="combine-with-variable-types" class="level3" data-number="23.8.4">
-<h3 data-number="23.8.4" class="anchored" data-anchor-id="combine-with-variable-types"><span class="header-section-number">23.8.4</span> 4. Combine with Variable Types</h3>
+<section id="combine-with-variable-types" class="level3" data-number="19.8.4">
+<h3 data-number="19.8.4" class="anchored" data-anchor-id="combine-with-variable-types"><span class="header-section-number">19.8.4</span> 4. Combine with Variable Types</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mix transformations with variable types</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>objective,</span>
@@ -1102,10 +1141,10 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="troubleshooting" class="level2" data-number="23.9">
-<h2 data-number="23.9" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">23.9</span> Troubleshooting</h2>
-<section id="issue-values-out-of-bounds" class="level3" data-number="23.9.1">
-<h3 data-number="23.9.1" class="anchored" data-anchor-id="issue-values-out-of-bounds"><span class="header-section-number">23.9.1</span> Issue: Values Out of Bounds</h3>
+<section id="troubleshooting" class="level2" data-number="19.9">
+<h2 data-number="19.9" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">19.9</span> Troubleshooting</h2>
+<section id="issue-values-out-of-bounds" class="level3" data-number="19.9.1">
+<h3 data-number="19.9.1" class="anchored" data-anchor-id="issue-values-out-of-bounds"><span class="header-section-number">19.9.1</span> Issue: Values Out of Bounds</h3>
 <p><strong>Problem</strong>: Objective function receives values outside specified bounds.</p>
 <p><strong>Solution</strong>: This should not happen with transformations. If it does:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check transformation is applied correctly</span></span>
@@ -1113,8 +1152,8 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Transformed bounds: </span><span class="sc">{</span>optimizer<span class="sc">.</span>lower<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>optimizer<span class="sc">.</span>upper<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Transformations: </span><span class="sc">{</span>optimizer<span class="sc">.</span>var_trans<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="issue-poor-optimization-performance" class="level3" data-number="23.9.2">
-<h3 data-number="23.9.2" class="anchored" data-anchor-id="issue-poor-optimization-performance"><span class="header-section-number">23.9.2</span> Issue: Poor Optimization Performance</h3>
+<section id="issue-poor-optimization-performance" class="level3" data-number="19.9.2">
+<h3 data-number="19.9.2" class="anchored" data-anchor-id="issue-poor-optimization-performance"><span class="header-section-number">19.9.2</span> Issue: Poor Optimization Performance</h3>
 <p><strong>Problem</strong>: Optimization doesn’t find good solutions.</p>
 <p><strong>Possible causes</strong>:</p>
 <ol type="1">
@@ -1135,8 +1174,8 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Transformation: </span><span class="sc">{</span>trans<span class="sc">}</span><span class="ss">, Best: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="issue-transformation-not-applied" class="level3" data-number="23.9.3">
-<h3 data-number="23.9.3" class="anchored" data-anchor-id="issue-transformation-not-applied"><span class="header-section-number">23.9.3</span> Issue: Transformation Not Applied</h3>
+<section id="issue-transformation-not-applied" class="level3" data-number="19.9.3">
+<h3 data-number="19.9.3" class="anchored" data-anchor-id="issue-transformation-not-applied"><span class="header-section-number">19.9.3</span> Issue: Transformation Not Applied</h3>
 <p><strong>Problem</strong>: Transformation doesn’t seem to affect optimization.</p>
 <p><strong>Check</strong>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify var_trans length matches dimensions</span></span>
@@ -1148,10 +1187,10 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Transformations: </span><span class="sc">{</span>optimizer<span class="sc">.</span>var_trans<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="comparison-manual-vs-automatic-transformations" class="level2" data-number="23.10">
-<h2 data-number="23.10" class="anchored" data-anchor-id="comparison-manual-vs-automatic-transformations"><span class="header-section-number">23.10</span> Comparison: Manual vs Automatic Transformations</h2>
-<section id="manual-approach-old-way" class="level3" data-number="23.10.1">
-<h3 data-number="23.10.1" class="anchored" data-anchor-id="manual-approach-old-way"><span class="header-section-number">23.10.1</span> Manual Approach (Old Way)</h3>
+<section id="comparison-manual-vs-automatic-transformations" class="level2" data-number="19.10">
+<h2 data-number="19.10" class="anchored" data-anchor-id="comparison-manual-vs-automatic-transformations"><span class="header-section-number">19.10</span> Comparison: Manual vs Automatic Transformations</h2>
+<section id="manual-approach-old-way" class="level3" data-number="19.10.1">
+<h3 data-number="19.10.1" class="anchored" data-anchor-id="manual-approach-old-way"><span class="header-section-number">19.10.1</span> Manual Approach (Old Way)</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> objective_manual(X):</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Manual transformation - error-prone!"""</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
@@ -1177,8 +1216,8 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>best_lr <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> result.x[<span class="dv">0</span>]</span>
 <span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>best_alpha <span class="op">=</span> <span class="dv">10</span> <span class="op">**</span> result.x[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="automatic-approach-new-way" class="level3" data-number="23.10.2">
-<h3 data-number="23.10.2" class="anchored" data-anchor-id="automatic-approach-new-way"><span class="header-section-number">23.10.2</span> Automatic Approach (New Way)</h3>
+<section id="automatic-approach-new-way" class="level3" data-number="19.10.2">
+<h3 data-number="19.10.2" class="anchored" data-anchor-id="automatic-approach-new-way"><span class="header-section-number">19.10.2</span> Automatic Approach (New Way)</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> objective_auto(X):</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Automatic transformation - clean!"""</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
@@ -1206,8 +1245,8 @@ Storage &amp; Results (Original Scale)</code></pre>
 <span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>best_alpha <span class="op">=</span> result.x[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="summary" class="level2" data-number="23.11">
-<h2 data-number="23.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">23.11</span> Summary</h2>
+<section id="summary" class="level2" data-number="19.11">
+<h2 data-number="19.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">19.11</span> Summary</h2>
 <p><strong>Key Takeaways</strong>:</p>
 <ol type="1">
 <li>✅ Use <code>var_trans</code> to specify transformations for each dimension</li>
@@ -1646,12 +1685,12 @@ Storage &amp; Results (Original Scale)</code></pre>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./factor_variables.html" class="pagination-link" aria-label="Factor Variables for Categorical Hyperparameters">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./kriging.html" class="pagination-link" aria-label="Kriging Surrogate Integration">
-        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./learning_rate_mapping.html" class="pagination-link" aria-label="Learning Rate Mapping for Unified Optimizer Interface">
+        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
