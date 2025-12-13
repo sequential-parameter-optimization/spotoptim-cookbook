@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>33&nbsp; Diabetes Dataset Utilities – Sequential Parameter Optimization Cookbook</title>
+<title>34&nbsp; Diabetes Dataset Utilities – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta name="twitter:title" content="33&nbsp; Diabetes Dataset Utilities – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="34&nbsp; Diabetes Dataset Utilities – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./diabetes_dataset.html">Hyperparameter Tuning</a></li><li class="breadcrumb-item"><a href="./diabetes_dataset.html"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./diabetes_dataset.html">Hyperparameter Tuning</a></li><li class="breadcrumb-item"><a href="./diabetes_dataset.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -401,6 +401,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -415,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -432,19 +438,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
   </div>
 </li>
       </ul>
@@ -465,55 +471,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">33.1</span> Overview</a></li>
-  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start"><span class="header-section-number">33.2</span> Quick Start</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">34.1</span> Overview</a></li>
+  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start"><span class="header-section-number">34.2</span> Quick Start</a>
   <ul class="collapse">
-  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">33.2.1</span> Basic Usage</a></li>
-  <li><a href="#training-a-model" id="toc-training-a-model" class="nav-link" data-scroll-target="#training-a-model"><span class="header-section-number">33.2.2</span> Training a Model</a></li>
+  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">34.2.1</span> Basic Usage</a></li>
+  <li><a href="#training-a-model" id="toc-training-a-model" class="nav-link" data-scroll-target="#training-a-model"><span class="header-section-number">34.2.2</span> Training a Model</a></li>
   </ul></li>
-  <li><a href="#function-reference" id="toc-function-reference" class="nav-link" data-scroll-target="#function-reference"><span class="header-section-number">33.3</span> Function Reference</a>
+  <li><a href="#function-reference" id="toc-function-reference" class="nav-link" data-scroll-target="#function-reference"><span class="header-section-number">34.3</span> Function Reference</a>
   <ul class="collapse">
-  <li><a href="#get_diabetes_dataloaders" id="toc-get_diabetes_dataloaders" class="nav-link" data-scroll-target="#get_diabetes_dataloaders"><span class="header-section-number">33.3.1</span> get_diabetes_dataloaders()</a></li>
+  <li><a href="#get_diabetes_dataloaders" id="toc-get_diabetes_dataloaders" class="nav-link" data-scroll-target="#get_diabetes_dataloaders"><span class="header-section-number">34.3.1</span> get_diabetes_dataloaders()</a></li>
   </ul></li>
-  <li><a href="#diabetesdataset-class" id="toc-diabetesdataset-class" class="nav-link" data-scroll-target="#diabetesdataset-class"><span class="header-section-number">33.4</span> DiabetesDataset Class</a>
+  <li><a href="#diabetesdataset-class" id="toc-diabetesdataset-class" class="nav-link" data-scroll-target="#diabetesdataset-class"><span class="header-section-number">34.4</span> DiabetesDataset Class</a>
   <ul class="collapse">
-  <li><a href="#manual-dataset-creation" id="toc-manual-dataset-creation" class="nav-link" data-scroll-target="#manual-dataset-creation"><span class="header-section-number">33.4.1</span> Manual Dataset Creation</a></li>
+  <li><a href="#manual-dataset-creation" id="toc-manual-dataset-creation" class="nav-link" data-scroll-target="#manual-dataset-creation"><span class="header-section-number">34.4.1</span> Manual Dataset Creation</a></li>
   </ul></li>
-  <li><a href="#advanced-usage" id="toc-advanced-usage" class="nav-link" data-scroll-target="#advanced-usage"><span class="header-section-number">33.5</span> Advanced Usage</a>
+  <li><a href="#advanced-usage" id="toc-advanced-usage" class="nav-link" data-scroll-target="#advanced-usage"><span class="header-section-number">34.5</span> Advanced Usage</a>
   <ul class="collapse">
-  <li><a href="#custom-transforms" id="toc-custom-transforms" class="nav-link" data-scroll-target="#custom-transforms"><span class="header-section-number">33.5.1</span> Custom Transforms</a></li>
-  <li><a href="#different-traintest-splits" id="toc-different-traintest-splits" class="nav-link" data-scroll-target="#different-traintest-splits"><span class="header-section-number">33.5.2</span> Different Train/Test Splits</a></li>
-  <li><a href="#without-feature-scaling" id="toc-without-feature-scaling" class="nav-link" data-scroll-target="#without-feature-scaling"><span class="header-section-number">33.5.3</span> Without Feature Scaling</a></li>
-  <li><a href="#larger-batch-sizes" id="toc-larger-batch-sizes" class="nav-link" data-scroll-target="#larger-batch-sizes"><span class="header-section-number">33.5.4</span> Larger Batch Sizes</a></li>
-  <li><a href="#gpu-training-with-pin-memory" id="toc-gpu-training-with-pin-memory" class="nav-link" data-scroll-target="#gpu-training-with-pin-memory"><span class="header-section-number">33.5.5</span> GPU Training with Pin Memory</a></li>
+  <li><a href="#custom-transforms" id="toc-custom-transforms" class="nav-link" data-scroll-target="#custom-transforms"><span class="header-section-number">34.5.1</span> Custom Transforms</a></li>
+  <li><a href="#different-traintest-splits" id="toc-different-traintest-splits" class="nav-link" data-scroll-target="#different-traintest-splits"><span class="header-section-number">34.5.2</span> Different Train/Test Splits</a></li>
+  <li><a href="#without-feature-scaling" id="toc-without-feature-scaling" class="nav-link" data-scroll-target="#without-feature-scaling"><span class="header-section-number">34.5.3</span> Without Feature Scaling</a></li>
+  <li><a href="#larger-batch-sizes" id="toc-larger-batch-sizes" class="nav-link" data-scroll-target="#larger-batch-sizes"><span class="header-section-number">34.5.4</span> Larger Batch Sizes</a></li>
+  <li><a href="#gpu-training-with-pin-memory" id="toc-gpu-training-with-pin-memory" class="nav-link" data-scroll-target="#gpu-training-with-pin-memory"><span class="header-section-number">34.5.5</span> GPU Training with Pin Memory</a></li>
   </ul></li>
-  <li><a href="#complete-training-example" id="toc-complete-training-example" class="nav-link" data-scroll-target="#complete-training-example"><span class="header-section-number">33.6</span> Complete Training Example</a></li>
-  <li><a href="#integration-with-spotoptim" id="toc-integration-with-spotoptim" class="nav-link" data-scroll-target="#integration-with-spotoptim"><span class="header-section-number">33.7</span> Integration with SpotOptim</a></li>
-  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">33.8</span> Best Practices</a>
+  <li><a href="#complete-training-example" id="toc-complete-training-example" class="nav-link" data-scroll-target="#complete-training-example"><span class="header-section-number">34.6</span> Complete Training Example</a></li>
+  <li><a href="#integration-with-spotoptim" id="toc-integration-with-spotoptim" class="nav-link" data-scroll-target="#integration-with-spotoptim"><span class="header-section-number">34.7</span> Integration with SpotOptim</a></li>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">34.8</span> Best Practices</a>
   <ul class="collapse">
-  <li><a href="#always-use-feature-scaling" id="toc-always-use-feature-scaling" class="nav-link" data-scroll-target="#always-use-feature-scaling"><span class="header-section-number">33.8.1</span> 1. Always Use Feature Scaling</a></li>
-  <li><a href="#set-random-seeds-for-reproducibility" id="toc-set-random-seeds-for-reproducibility" class="nav-link" data-scroll-target="#set-random-seeds-for-reproducibility"><span class="header-section-number">33.8.2</span> 2. Set Random Seeds for Reproducibility</a></li>
-  <li><a href="#dont-shuffle-test-data" id="toc-dont-shuffle-test-data" class="nav-link" data-scroll-target="#dont-shuffle-test-data"><span class="header-section-number">33.8.3</span> 3. Don’t Shuffle Test Data</a></li>
-  <li><a href="#choose-appropriate-batch-size" id="toc-choose-appropriate-batch-size" class="nav-link" data-scroll-target="#choose-appropriate-batch-size"><span class="header-section-number">33.8.4</span> 4. Choose Appropriate Batch Size</a></li>
-  <li><a href="#save-the-scaler-for-production" id="toc-save-the-scaler-for-production" class="nav-link" data-scroll-target="#save-the-scaler-for-production"><span class="header-section-number">33.8.5</span> 5. Save the Scaler for Production</a></li>
+  <li><a href="#always-use-feature-scaling" id="toc-always-use-feature-scaling" class="nav-link" data-scroll-target="#always-use-feature-scaling"><span class="header-section-number">34.8.1</span> 1. Always Use Feature Scaling</a></li>
+  <li><a href="#set-random-seeds-for-reproducibility" id="toc-set-random-seeds-for-reproducibility" class="nav-link" data-scroll-target="#set-random-seeds-for-reproducibility"><span class="header-section-number">34.8.2</span> 2. Set Random Seeds for Reproducibility</a></li>
+  <li><a href="#dont-shuffle-test-data" id="toc-dont-shuffle-test-data" class="nav-link" data-scroll-target="#dont-shuffle-test-data"><span class="header-section-number">34.8.3</span> 3. Don’t Shuffle Test Data</a></li>
+  <li><a href="#choose-appropriate-batch-size" id="toc-choose-appropriate-batch-size" class="nav-link" data-scroll-target="#choose-appropriate-batch-size"><span class="header-section-number">34.8.4</span> 4. Choose Appropriate Batch Size</a></li>
+  <li><a href="#save-the-scaler-for-production" id="toc-save-the-scaler-for-production" class="nav-link" data-scroll-target="#save-the-scaler-for-production"><span class="header-section-number">34.8.5</span> 5. Save the Scaler for Production</a></li>
   </ul></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">33.9</span> Troubleshooting</a>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">34.9</span> Troubleshooting</a>
   <ul class="collapse">
-  <li><a href="#issue-out-of-memory" id="toc-issue-out-of-memory" class="nav-link" data-scroll-target="#issue-out-of-memory"><span class="header-section-number">33.9.1</span> Issue: Out of Memory</a></li>
-  <li><a href="#issue-different-data-ranges" id="toc-issue-different-data-ranges" class="nav-link" data-scroll-target="#issue-different-data-ranges"><span class="header-section-number">33.9.2</span> Issue: Different Data Ranges</a></li>
-  <li><a href="#issue-non-reproducible-results" id="toc-issue-non-reproducible-results" class="nav-link" data-scroll-target="#issue-non-reproducible-results"><span class="header-section-number">33.9.3</span> Issue: Non-Reproducible Results</a></li>
-  <li><a href="#issue-slow-data-loading" id="toc-issue-slow-data-loading" class="nav-link" data-scroll-target="#issue-slow-data-loading"><span class="header-section-number">33.9.4</span> Issue: Slow Data Loading</a></li>
+  <li><a href="#issue-out-of-memory" id="toc-issue-out-of-memory" class="nav-link" data-scroll-target="#issue-out-of-memory"><span class="header-section-number">34.9.1</span> Issue: Out of Memory</a></li>
+  <li><a href="#issue-different-data-ranges" id="toc-issue-different-data-ranges" class="nav-link" data-scroll-target="#issue-different-data-ranges"><span class="header-section-number">34.9.2</span> Issue: Different Data Ranges</a></li>
+  <li><a href="#issue-non-reproducible-results" id="toc-issue-non-reproducible-results" class="nav-link" data-scroll-target="#issue-non-reproducible-results"><span class="header-section-number">34.9.3</span> Issue: Non-Reproducible Results</a></li>
+  <li><a href="#issue-slow-data-loading" id="toc-issue-slow-data-loading" class="nav-link" data-scroll-target="#issue-slow-data-loading"><span class="header-section-number">34.9.4</span> Issue: Slow Data Loading</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">33.10</span> Summary</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">34.10</span> Summary</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./diabetes_dataset.html">Hyperparameter Tuning</a></li><li class="breadcrumb-item"><a href="./diabetes_dataset.html"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./diabetes_dataset.html">Hyperparameter Tuning</a></li><li class="breadcrumb-item"><a href="./diabetes_dataset.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></h1>
+<h1 class="title"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></h1>
 </div>
 
 
@@ -531,8 +537,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>SpotOptim provides convenient utilities for working with the sklearn diabetes dataset, including PyTorch <code>Dataset</code> and <code>DataLoader</code> implementations. These utilities simplify data loading, preprocessing, and model training for regression tasks.</p>
-<section id="overview" class="level2" data-number="33.1">
-<h2 data-number="33.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">33.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="34.1">
+<h2 data-number="34.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">34.1</span> Overview</h2>
 <p>The diabetes dataset contains 10 baseline variables (age, sex, body mass index, average blood pressure, and six blood serum measurements) for 442 diabetes patients. The target is a quantitative measure of disease progression one year after baseline.</p>
 <p><strong>Module</strong>: <code>spotoptim.data.diabetes</code></p>
 <p><strong>Key Components</strong>:</p>
@@ -541,11 +547,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>get_diabetes_dataloaders()</code>: Convenience function for complete data pipeline</li>
 </ul>
 </section>
-<section id="quick-start" class="level2" data-number="33.2">
-<h2 data-number="33.2" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">33.2</span> Quick Start</h2>
-<section id="basic-usage" class="level3" data-number="33.2.1">
-<h3 data-number="33.2.1" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">33.2.1</span> Basic Usage</h3>
-<div id="65aaab58" class="cell" data-execution_count="1">
+<section id="quick-start" class="level2" data-number="34.2">
+<h2 data-number="34.2" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">34.2</span> Quick Start</h2>
+<section id="basic-usage" class="level3" data-number="34.2.1">
+<h3 data-number="34.2.1" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">34.2.1</span> Basic Usage</h3>
+<div id="7180736a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data.diabetes <span class="im">import</span> DiabetesDataset</span>
@@ -572,9 +578,9 @@ Batch targets: torch.Size([32, 1])</code></pre>
 </div>
 </div>
 </section>
-<section id="training-a-model" class="level3" data-number="33.2.2">
-<h3 data-number="33.2.2" class="anchored" data-anchor-id="training-a-model"><span class="header-section-number">33.2.2</span> Training a Model</h3>
-<div id="93fb18bb" class="cell" data-execution_count="2">
+<section id="training-a-model" class="level3" data-number="34.2.2">
+<h3 data-number="34.2.2" class="anchored" data-anchor-id="training-a-model"><span class="header-section-number">34.2.2</span> Training a Model</h3>
+<div id="a969518d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
@@ -637,23 +643,23 @@ Batch targets: torch.Size([32, 1])</code></pre>
 <span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>avg_test_loss <span class="op">=</span> test_loss <span class="op">/</span> <span class="bu">len</span>(test_loader)</span>
 <span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test MSE: </span><span class="sc">{</span>avg_test_loss<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Epoch 20/100: Loss = 27842.2015
-Epoch 40/100: Loss = 34615.6554
-Epoch 60/100: Loss = 27452.0111
-Epoch 80/100: Loss = 31871.5889
-Epoch 100/100: Loss = 27439.6039
-Test MSE: 26431.2702</code></pre>
+<pre><code>Epoch 20/100: Loss = 27673.1847
+Epoch 40/100: Loss = 29942.3470
+Epoch 60/100: Loss = 30466.7785
+Epoch 80/100: Loss = 27503.3843
+Epoch 100/100: Loss = 29731.7186
+Test MSE: 26494.6667</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="function-reference" class="level2" data-number="33.3">
-<h2 data-number="33.3" class="anchored" data-anchor-id="function-reference"><span class="header-section-number">33.3</span> Function Reference</h2>
-<section id="get_diabetes_dataloaders" class="level3" data-number="33.3.1">
-<h3 data-number="33.3.1" class="anchored" data-anchor-id="get_diabetes_dataloaders"><span class="header-section-number">33.3.1</span> get_diabetes_dataloaders()</h3>
+<section id="function-reference" class="level2" data-number="34.3">
+<h2 data-number="34.3" class="anchored" data-anchor-id="function-reference"><span class="header-section-number">34.3</span> Function Reference</h2>
+<section id="get_diabetes_dataloaders" class="level3" data-number="34.3.1">
+<h3 data-number="34.3.1" class="anchored" data-anchor-id="get_diabetes_dataloaders"><span class="header-section-number">34.3.1</span> get_diabetes_dataloaders()</h3>
 <p>Loads the sklearn diabetes dataset and returns configured PyTorch DataLoaders.</p>
 <p><strong>Signature:</strong></p>
-<div id="86673af5" class="cell" data-execution_count="3">
+<div id="9d71762d" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>get_diabetes_dataloaders(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.2</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    batch_size<span class="op">=</span><span class="dv">32</span>,</span>
@@ -665,8 +671,8 @@ Test MSE: 26431.2702</code></pre>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    pin_memory<span class="op">=</span><span class="va">False</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>(&lt;torch.utils.data.dataloader.DataLoader at 0x124f3ba80&gt;,
- &lt;torch.utils.data.dataloader.DataLoader at 0x1250c5490&gt;,
+<pre><code>(&lt;torch.utils.data.dataloader.DataLoader at 0x11886bce0&gt;,
+ &lt;torch.utils.data.dataloader.DataLoader at 0x1189fd5b0&gt;,
  StandardScaler())</code></pre>
 </div>
 </div>
@@ -744,7 +750,7 @@ Test MSE: 26431.2702</code></pre>
 <li><code>scaler</code> (StandardScaler or None): Fitted scaler if <code>scale_features=True</code>, else None</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div id="b42e31c5" class="cell" data-execution_count="4">
+<div id="4c558ee4" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom configuration</span></span>
@@ -767,14 +773,14 @@ Scaler mean: [-0.00056537  0.00132258  0.00027836]</code></pre>
 </div>
 </section>
 </section>
-<section id="diabetesdataset-class" class="level2" data-number="33.4">
-<h2 data-number="33.4" class="anchored" data-anchor-id="diabetesdataset-class"><span class="header-section-number">33.4</span> DiabetesDataset Class</h2>
+<section id="diabetesdataset-class" class="level2" data-number="34.4">
+<h2 data-number="34.4" class="anchored" data-anchor-id="diabetesdataset-class"><span class="header-section-number">34.4</span> DiabetesDataset Class</h2>
 <p>PyTorch Dataset implementation for the diabetes dataset.</p>
 <p><strong>Signature:</strong></p>
-<div id="10013959" class="cell" data-execution_count="5">
+<div id="909e8f25" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>DiabetesDataset(X, y, transform<span class="op">=</span><span class="va">None</span>, target_transform<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>&lt;spotoptim.data.diabetes.DiabetesDataset at 0x125002450&gt;</code></pre>
+<pre><code>&lt;spotoptim.data.diabetes.DiabetesDataset at 0x11893e750&gt;</code></pre>
 </div>
 </div>
 <p><strong>Parameters:</strong></p>
@@ -796,9 +802,9 @@ Scaler mean: [-0.00056537  0.00132258  0.00027836]</code></pre>
 <li><code>__len__()</code>: Returns number of samples</li>
 <li><code>__getitem__(idx)</code>: Returns tuple (features, target) for given index</li>
 </ul>
-<section id="manual-dataset-creation" class="level3" data-number="33.4.1">
-<h3 data-number="33.4.1" class="anchored" data-anchor-id="manual-dataset-creation"><span class="header-section-number">33.4.1</span> Manual Dataset Creation</h3>
-<div id="2e1ee29c" class="cell" data-execution_count="6">
+<section id="manual-dataset-creation" class="level3" data-number="34.4.1">
+<h3 data-number="34.4.1" class="anchored" data-anchor-id="manual-dataset-creation"><span class="header-section-number">34.4.1</span> Manual Dataset Creation</h3>
+<div id="a5acdb6e" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> DiabetesDataset</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -846,11 +852,11 @@ Sample target: torch.Size([1])</code></pre>
 </div>
 </section>
 </section>
-<section id="advanced-usage" class="level2" data-number="33.5">
-<h2 data-number="33.5" class="anchored" data-anchor-id="advanced-usage"><span class="header-section-number">33.5</span> Advanced Usage</h2>
-<section id="custom-transforms" class="level3" data-number="33.5.1">
-<h3 data-number="33.5.1" class="anchored" data-anchor-id="custom-transforms"><span class="header-section-number">33.5.1</span> Custom Transforms</h3>
-<div id="8049b263" class="cell" data-execution_count="7">
+<section id="advanced-usage" class="level2" data-number="34.5">
+<h2 data-number="34.5" class="anchored" data-anchor-id="advanced-usage"><span class="header-section-number">34.5</span> Advanced Usage</h2>
+<section id="custom-transforms" class="level3" data-number="34.5.1">
+<h3 data-number="34.5.1" class="anchored" data-anchor-id="custom-transforms"><span class="header-section-number">34.5.1</span> Custom Transforms</h3>
+<div id="9e4cec58" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> DiabetesDataset</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -879,9 +885,9 @@ Sample target: torch.Size([1])</code></pre>
 <span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>features, target <span class="op">=</span> dataset[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="different-traintest-splits" class="level3" data-number="33.5.2">
-<h3 data-number="33.5.2" class="anchored" data-anchor-id="different-traintest-splits"><span class="header-section-number">33.5.2</span> Different Train/Test Splits</h3>
-<div id="82111fa9" class="cell" data-execution_count="8">
+<section id="different-traintest-splits" class="level3" data-number="34.5.2">
+<h3 data-number="34.5.2" class="anchored" data-anchor-id="different-traintest-splits"><span class="header-section-number">34.5.2</span> Different Train/Test Splits</h3>
+<div id="192f5863" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 70/30 split</span></span>
@@ -907,9 +913,9 @@ Test samples: 45</code></pre>
 </div>
 </div>
 </section>
-<section id="without-feature-scaling" class="level3" data-number="33.5.3">
-<h3 data-number="33.5.3" class="anchored" data-anchor-id="without-feature-scaling"><span class="header-section-number">33.5.3</span> Without Feature Scaling</h3>
-<div id="99d1111f" class="cell" data-execution_count="9">
+<section id="without-feature-scaling" class="level3" data-number="34.5.3">
+<h3 data-number="34.5.3" class="anchored" data-anchor-id="without-feature-scaling"><span class="header-section-number">34.5.3</span> Without Feature Scaling</h3>
+<div id="d9877718" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load without scaling (useful for tree-based models)</span></span>
@@ -925,13 +931,13 @@ Test samples: 45</code></pre>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Scaler: None
-Mean: tensor([ 0.0097, -0.0029,  0.0055])</code></pre>
+Mean: tensor([ 0.0016, -0.0059,  0.0036])</code></pre>
 </div>
 </div>
 </section>
-<section id="larger-batch-sizes" class="level3" data-number="33.5.4">
-<h3 data-number="33.5.4" class="anchored" data-anchor-id="larger-batch-sizes"><span class="header-section-number">33.5.4</span> Larger Batch Sizes</h3>
-<div id="7edc81a7" class="cell" data-execution_count="10">
+<section id="larger-batch-sizes" class="level3" data-number="34.5.4">
+<h3 data-number="34.5.4" class="anchored" data-anchor-id="larger-batch-sizes"><span class="header-section-number">34.5.4</span> Larger Batch Sizes</h3>
+<div id="82c42214" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Larger batches for faster training (if memory allows)</span></span>
@@ -951,9 +957,9 @@ Batches per epoch: 45</code></pre>
 </div>
 </div>
 </section>
-<section id="gpu-training-with-pin-memory" class="level3" data-number="33.5.5">
-<h3 data-number="33.5.5" class="anchored" data-anchor-id="gpu-training-with-pin-memory"><span class="header-section-number">33.5.5</span> GPU Training with Pin Memory</h3>
-<div id="d51a37dc" class="cell" data-execution_count="11">
+<section id="gpu-training-with-pin-memory" class="level3" data-number="34.5.5">
+<h3 data-number="34.5.5" class="anchored" data-anchor-id="gpu-training-with-pin-memory"><span class="header-section-number">34.5.5</span> GPU Training with Pin Memory</h3>
+<div id="e6d9a96b" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -983,10 +989,10 @@ Batches per epoch: 45</code></pre>
 </div>
 </section>
 </section>
-<section id="complete-training-example" class="level2" data-number="33.6">
-<h2 data-number="33.6" class="anchored" data-anchor-id="complete-training-example"><span class="header-section-number">33.6</span> Complete Training Example</h2>
+<section id="complete-training-example" class="level2" data-number="34.6">
+<h2 data-number="34.6" class="anchored" data-anchor-id="complete-training-example"><span class="header-section-number">34.6</span> Complete Training Example</h2>
 <p>Here’s a complete example showing data loading, model training, and evaluation:</p>
-<div id="f52aabc0" class="cell" data-execution_count="12">
+<div id="805c10b5" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
@@ -1083,26 +1089,26 @@ Training samples: 353
 Test samples: 89
 Batches per epoch: 12
 ------------------------------------------------------------
-Epoch  20/200: Train Loss = 28139.9127, Test Loss = 26616.0768
-Epoch  40/200: Train Loss = 32876.7827, Test Loss = 26612.0892
-Epoch  60/200: Train Loss = 28895.7982, Test Loss = 26608.1081
-Epoch  80/200: Train Loss = 29844.3278, Test Loss = 26603.9701
-Epoch 100/200: Train Loss = 28666.6795, Test Loss = 26599.6947
-Epoch 120/200: Train Loss = 32399.1222, Test Loss = 26595.2832
-Epoch 140/200: Train Loss = 32118.3389, Test Loss = 26590.6940
-Epoch 160/200: Train Loss = 30495.7376, Test Loss = 26585.9023
-Epoch 180/200: Train Loss = 33722.1699, Test Loss = 26580.9368
-Epoch 200/200: Train Loss = 28794.1805, Test Loss = 26575.8190
+Epoch  20/200: Train Loss = 27905.4546, Test Loss = 26639.9486
+Epoch  40/200: Train Loss = 27702.4174, Test Loss = 26636.2493
+Epoch  60/200: Train Loss = 28637.0363, Test Loss = 26632.5234
+Epoch  80/200: Train Loss = 28571.8590, Test Loss = 26628.8737
+Epoch 100/200: Train Loss = 27627.2423, Test Loss = 26625.2122
+Epoch 120/200: Train Loss = 28261.7628, Test Loss = 26621.4759
+Epoch 140/200: Train Loss = 30591.7601, Test Loss = 26617.6771
+Epoch 160/200: Train Loss = 32709.0368, Test Loss = 26613.8320
+Epoch 180/200: Train Loss = 29204.9435, Test Loss = 26609.8145
+Epoch 200/200: Train Loss = 28846.2244, Test Loss = 26605.6790
 ------------------------------------------------------------
 Training complete!
-Best test loss: 26575.8190</code></pre>
+Best test loss: 26605.6790</code></pre>
 </div>
 </div>
 </section>
-<section id="integration-with-spotoptim" class="level2" data-number="33.7">
-<h2 data-number="33.7" class="anchored" data-anchor-id="integration-with-spotoptim"><span class="header-section-number">33.7</span> Integration with SpotOptim</h2>
+<section id="integration-with-spotoptim" class="level2" data-number="34.7">
+<h2 data-number="34.7" class="anchored" data-anchor-id="integration-with-spotoptim"><span class="header-section-number">34.7</span> Integration with SpotOptim</h2>
 <p>Use the diabetes dataset for hyperparameter optimization with SpotOptim:</p>
-<div id="a3a2d8f5" class="cell" data-execution_count="13">
+<div id="cc8b419e" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
@@ -1193,74 +1199,78 @@ Best test loss: 26575.8190</code></pre>
 <span id="cb24-88"><a href="#cb24-88" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best MSE: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 26542.804036
-Iteration 1: f(x) = 26542.962240
-Iteration 2: f(x) = 26623.986328
-Iteration 3: f(x) = 26642.332031
+Initial best: f(x) = 26547.001953
+Iteration 1: f(x) = 26636.661458
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 4: f(x) = 26584.157552
+Iteration 2: f(x) = 26591.973307
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 5: f(x) = 26660.065104
+Iteration 3: New best f(x) = 26544.555339
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 6: f(x) = 26719.535807
+Iteration 4: f(x) = 26601.027344
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 7: f(x) = 26614.348958
+Iteration 5: f(x) = 26604.722005
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 8: f(x) = 26596.227214
+Iteration 6: f(x) = 26567.156250
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 9: f(x) = 26643.559245
+Iteration 7: f(x) = 26689.782552
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 10: f(x) = 26646.787109
+Iteration 8: f(x) = 26611.786458
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 11: f(x) = 26606.611328
+Iteration 9: f(x) = 26557.998698
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 12: f(x) = 26575.720052
+Iteration 10: f(x) = 26656.520182
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 13: f(x) = 26587.765625
+Iteration 11: f(x) = 26559.764974
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 14: f(x) = 26614.277995
+Iteration 12: f(x) = 26586.746094
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 15: f(x) = 26635.797526
+Iteration 13: f(x) = 26695.162109
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 16: f(x) = 26576.416016
+Iteration 14: f(x) = 26557.781250
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 17: f(x) = 26646.581380
+Iteration 15: f(x) = 26616.443359
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 18: f(x) = 26580.293620
+Iteration 16: f(x) = 26594.415365
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 19: f(x) = 26615.147786
+Iteration 17: f(x) = 26607.090495
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 20: f(x) = 26639.458333
+Iteration 18: f(x) = 26622.180339
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 19: f(x) = 26553.259766
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 20: f(x) = 26692.923177
 Best hyperparameters found:
-  Learning rate: 0.007043
-  Hidden neurons (l1): 119
-  Hidden layers: 0
-  Best MSE: 26542.8040</code></pre>
+  Learning rate: 0.003983
+  Hidden neurons (l1): 127
+  Hidden layers: 1
+  Best MSE: 26544.5553</code></pre>
 </div>
 </div>
 </section>
-<section id="best-practices" class="level2" data-number="33.8">
-<h2 data-number="33.8" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">33.8</span> Best Practices</h2>
-<section id="always-use-feature-scaling" class="level3" data-number="33.8.1">
-<h3 data-number="33.8.1" class="anchored" data-anchor-id="always-use-feature-scaling"><span class="header-section-number">33.8.1</span> 1. Always Use Feature Scaling</h3>
-<div id="da277eaf" class="cell" data-execution_count="14">
+<section id="best-practices" class="level2" data-number="34.8">
+<h2 data-number="34.8" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">34.8</span> Best Practices</h2>
+<section id="always-use-feature-scaling" class="level3" data-number="34.8.1">
+<h3 data-number="34.8.1" class="anchored" data-anchor-id="always-use-feature-scaling"><span class="header-section-number">34.8.1</span> 1. Always Use Feature Scaling</h3>
+<div id="29e4bd54" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Features are standardized</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, scaler <span class="op">=</span> get_diabetes_dataloaders(</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    scale_features<span class="op">=</span><span class="va">True</span></span>
@@ -1268,9 +1278,9 @@ Best hyperparameters found:
 </div>
 <p>Neural networks typically perform better with normalized inputs.</p>
 </section>
-<section id="set-random-seeds-for-reproducibility" class="level3" data-number="33.8.2">
-<h3 data-number="33.8.2" class="anchored" data-anchor-id="set-random-seeds-for-reproducibility"><span class="header-section-number">33.8.2</span> 2. Set Random Seeds for Reproducibility</h3>
-<div id="35bbb506" class="cell" data-execution_count="15">
+<section id="set-random-seeds-for-reproducibility" class="level3" data-number="34.8.2">
+<h3 data-number="34.8.2" class="anchored" data-anchor-id="set-random-seeds-for-reproducibility"><span class="header-section-number">34.8.2</span> 2. Set Random Seeds for Reproducibility</h3>
+<div id="1aaff8fa" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproducible train/test splits</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, scaler <span class="op">=</span> get_diabetes_dataloaders(</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
@@ -1280,13 +1290,13 @@ Best hyperparameters found:
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>&lt;torch._C.Generator at 0x11e965830&gt;</code></pre>
+<pre><code>&lt;torch._C.Generator at 0x112259010&gt;</code></pre>
 </div>
 </div>
 </section>
-<section id="dont-shuffle-test-data" class="level3" data-number="33.8.3">
-<h3 data-number="33.8.3" class="anchored" data-anchor-id="dont-shuffle-test-data"><span class="header-section-number">33.8.3</span> 3. Don’t Shuffle Test Data</h3>
-<div id="1ba9b118" class="cell" data-execution_count="16">
+<section id="dont-shuffle-test-data" class="level3" data-number="34.8.3">
+<h3 data-number="34.8.3" class="anchored" data-anchor-id="dont-shuffle-test-data"><span class="header-section-number">34.8.3</span> 3. Don’t Shuffle Test Data</h3>
+<div id="29b9091b" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Test data in consistent order</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, scaler <span class="op">=</span> get_diabetes_dataloaders(</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    shuffle_train<span class="op">=</span><span class="va">True</span>,   <span class="co"># Shuffle training data</span></span>
@@ -1295,9 +1305,9 @@ Best hyperparameters found:
 </div>
 <p>This ensures consistent evaluation metrics across runs.</p>
 </section>
-<section id="choose-appropriate-batch-size" class="level3" data-number="33.8.4">
-<h3 data-number="33.8.4" class="anchored" data-anchor-id="choose-appropriate-batch-size"><span class="header-section-number">33.8.4</span> 4. Choose Appropriate Batch Size</h3>
-<div id="fc278ccf" class="cell" data-execution_count="17">
+<section id="choose-appropriate-batch-size" class="level3" data-number="34.8.4">
+<h3 data-number="34.8.4" class="anchored" data-anchor-id="choose-appropriate-batch-size"><span class="header-section-number">34.8.4</span> 4. Choose Appropriate Batch Size</h3>
+<div id="a6d35940" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Small dataset (442 samples) - moderate batch size works well</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, scaler <span class="op">=</span> get_diabetes_dataloaders(</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    batch_size<span class="op">=</span><span class="dv">32</span>  <span class="co"># Good balance for this dataset</span></span>
@@ -1306,9 +1316,9 @@ Best hyperparameters found:
 <p>Too large: Fewer gradient updates per epoch<br>
 Too small: Noisy gradients, slower training</p>
 </section>
-<section id="save-the-scaler-for-production" class="level3" data-number="33.8.5">
-<h3 data-number="33.8.5" class="anchored" data-anchor-id="save-the-scaler-for-production"><span class="header-section-number">33.8.5</span> 5. Save the Scaler for Production</h3>
-<div id="003b9951" class="cell" data-execution_count="18">
+<section id="save-the-scaler-for-production" class="level3" data-number="34.8.5">
+<h3 data-number="34.8.5" class="anchored" data-anchor-id="save-the-scaler-for-production"><span class="header-section-number">34.8.5</span> 5. Save the Scaler for Production</h3>
+<div id="fa4cf1f9" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
@@ -1336,37 +1346,37 @@ Too small: Noisy gradients, slower training</p>
 <div class="cell-output cell-output-stdout">
 <pre><code>Original data shape: (5, 10)
 Scaled data shape: (5, 10)
-Scaled data mean: [-21.67175627  -6.24893244 -23.73938933]</code></pre>
+Scaled data mean: [ -0.58731302 -21.57139872   4.58041134]</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="troubleshooting" class="level2" data-number="33.9">
-<h2 data-number="33.9" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">33.9</span> Troubleshooting</h2>
-<section id="issue-out-of-memory" class="level3" data-number="33.9.1">
-<h3 data-number="33.9.1" class="anchored" data-anchor-id="issue-out-of-memory"><span class="header-section-number">33.9.1</span> Issue: Out of Memory</h3>
+<section id="troubleshooting" class="level2" data-number="34.9">
+<h2 data-number="34.9" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">34.9</span> Troubleshooting</h2>
+<section id="issue-out-of-memory" class="level3" data-number="34.9.1">
+<h3 data-number="34.9.1" class="anchored" data-anchor-id="issue-out-of-memory"><span class="header-section-number">34.9.1</span> Issue: Out of Memory</h3>
 <p><strong>Solution</strong>: Reduce batch size or disable pin_memory</p>
-<div id="6150c96f" class="cell" data-execution_count="19">
+<div id="0de02fb5" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, scaler <span class="op">=</span> get_diabetes_dataloaders(</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    batch_size<span class="op">=</span><span class="dv">16</span>,      <span class="co"># Smaller batches</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    pin_memory<span class="op">=</span><span class="va">False</span>    <span class="co"># Disable if not using GPU</span></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="issue-different-data-ranges" class="level3" data-number="33.9.2">
-<h3 data-number="33.9.2" class="anchored" data-anchor-id="issue-different-data-ranges"><span class="header-section-number">33.9.2</span> Issue: Different Data Ranges</h3>
+<section id="issue-different-data-ranges" class="level3" data-number="34.9.2">
+<h3 data-number="34.9.2" class="anchored" data-anchor-id="issue-different-data-ranges"><span class="header-section-number">34.9.2</span> Issue: Different Data Ranges</h3>
 <p><strong>Symptom</strong>: Model not converging, loss is NaN</p>
 <p><strong>Solution</strong>: Ensure feature scaling is enabled</p>
-<div id="9829dd37" class="cell" data-execution_count="20">
+<div id="f85349a5" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, scaler <span class="op">=</span> get_diabetes_dataloaders(</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    scale_features<span class="op">=</span><span class="va">True</span>  <span class="co"># Must be True for neural networks</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="issue-non-reproducible-results" class="level3" data-number="33.9.3">
-<h3 data-number="33.9.3" class="anchored" data-anchor-id="issue-non-reproducible-results"><span class="header-section-number">33.9.3</span> Issue: Non-Reproducible Results</h3>
+<section id="issue-non-reproducible-results" class="level3" data-number="34.9.3">
+<h3 data-number="34.9.3" class="anchored" data-anchor-id="issue-non-reproducible-results"><span class="header-section-number">34.9.3</span> Issue: Non-Reproducible Results</h3>
 <p><strong>Solution</strong>: Set all random seeds</p>
-<div id="841d9030" class="cell" data-execution_count="21">
+<div id="30196d76" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1380,10 +1390,10 @@ Scaled data mean: [-21.67175627  -6.24893244 -23.73938933]</code></pre>
 <span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="issue-slow-data-loading" class="level3" data-number="33.9.4">
-<h3 data-number="33.9.4" class="anchored" data-anchor-id="issue-slow-data-loading"><span class="header-section-number">33.9.4</span> Issue: Slow Data Loading</h3>
+<section id="issue-slow-data-loading" class="level3" data-number="34.9.4">
+<h3 data-number="34.9.4" class="anchored" data-anchor-id="issue-slow-data-loading"><span class="header-section-number">34.9.4</span> Issue: Slow Data Loading</h3>
 <p><strong>Solution</strong>: Use multiple workers (if not on Windows)</p>
-<div id="7c004d34" class="cell" data-execution_count="22">
+<div id="225855bd" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>train_loader, test_loader, scaler <span class="op">=</span> get_diabetes_dataloaders(</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    num_workers<span class="op">=</span><span class="dv">4</span>,      <span class="co"># Use 4 subprocesses</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    pin_memory<span class="op">=</span><span class="va">True</span>     <span class="co"># Enable for GPU</span></span>
@@ -1392,8 +1402,8 @@ Scaled data mean: [-21.67175627  -6.24893244 -23.73938933]</code></pre>
 <p>Note: On Windows, set <code>num_workers=0</code> to avoid multiprocessing issues.</p>
 </section>
 </section>
-<section id="summary" class="level2" data-number="33.10">
-<h2 data-number="33.10" class="anchored" data-anchor-id="summary"><span class="header-section-number">33.10</span> Summary</h2>
+<section id="summary" class="level2" data-number="34.10">
+<h2 data-number="34.10" class="anchored" data-anchor-id="summary"><span class="header-section-number">34.10</span> Summary</h2>
 <p>The diabetes dataset utilities in SpotOptim provide:</p>
 <ul>
 <li><strong>Easy data loading</strong>: One function call gets complete data pipeline</li>
@@ -1811,12 +1821,12 @@ Scaled data mean: [-21.67175627  -6.24893244 -23.73938933]</code></pre>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./multiobjective.html" class="pagination-link" aria-label="Multi-Objective Optimization Support in SpotOptim">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./pinns_1.html" class="pagination-link" aria-label="Physics-Informed Neural Networks (PINNs) Demo 1">
-        <span class="nav-page-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

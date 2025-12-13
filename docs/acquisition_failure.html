@@ -401,6 +401,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -415,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -432,19 +438,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
   </div>
 </li>
       </ul>
@@ -532,7 +538,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Default choice for most problems</li>
 </ul>
 <p><strong>Example</strong>:</p>
-<div id="5131a288" class="cell" data-execution_count="1">
+<div id="54426068" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -551,47 +557,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 4.264389
-Iteration 1: New best f(x) = 0.031051
-Iteration 2: New best f(x) = 0.002523
-Iteration 3: New best f(x) = 0.000009
-Iteration 4: f(x) = 0.000014
-Iteration 5: New best f(x) = 0.000003
-Iteration 6: f(x) = 0.000003
-Iteration 7: New best f(x) = 0.000003
-Iteration 8: f(x) = 0.000003
-Iteration 9: f(x) = 0.000003
-Iteration 10: New best f(x) = 0.000003
-Iteration 11: f(x) = 0.000003
-Iteration 12: New best f(x) = 0.000002
-Iteration 13: New best f(x) = 0.000002
-Iteration 14: f(x) = 0.000003
-Iteration 15: New best f(x) = 0.000002
-Iteration 16: New best f(x) = 0.000002
-Iteration 17: f(x) = 0.000002
-Iteration 18: New best f(x) = 0.000002
-Iteration 19: f(x) = 0.000002
-Iteration 20: New best f(x) = 0.000002
-Iteration 21: f(x) = 0.000002
-Iteration 22: New best f(x) = 0.000002
-Iteration 23: f(x) = 0.000002
-Iteration 24: New best f(x) = 0.000002
-Iteration 25: f(x) = 0.000002
-Iteration 26: New best f(x) = 0.000002
-Iteration 27: f(x) = 0.000002
-Iteration 28: f(x) = 0.000002
-Iteration 29: New best f(x) = 0.000001
-Iteration 30: New best f(x) = 0.000001
-Iteration 31: f(x) = 0.000001
-Iteration 32: New best f(x) = 0.000001
-Iteration 33: New best f(x) = 0.000001
-Iteration 34: New best f(x) = 0.000001
-Iteration 35: f(x) = 0.000001
-Iteration 36: f(x) = 0.000001
-Iteration 37: f(x) = 0.000001
-Iteration 38: New best f(x) = 0.000001
-Iteration 39: New best f(x) = 0.000001
-Iteration 40: f(x) = 0.000001</code></pre>
+Initial best: f(x) = 0.401915
+Iteration 1: New best f(x) = 0.006775
+Iteration 2: New best f(x) = 0.001721
+Iteration 3: New best f(x) = 0.001028
+Iteration 4: New best f(x) = 0.000000
+Iteration 5: f(x) = 0.000000
+Iteration 6: f(x) = 0.000000
+Iteration 7: f(x) = 0.000000
+Iteration 8: f(x) = 0.000000
+Iteration 9: f(x) = 0.000000
+Iteration 10: f(x) = 0.000000
+Iteration 11: f(x) = 0.000000
+Iteration 12: f(x) = 0.000000
+Iteration 13: f(x) = 0.000000
+Iteration 14: f(x) = 0.000000
+Iteration 15: f(x) = 0.000000
+Iteration 16: f(x) = 0.000000
+Iteration 17: f(x) = 0.000000
+Iteration 18: f(x) = 0.000000
+Iteration 19: f(x) = 0.000000
+Iteration 20: f(x) = 0.000000
+Iteration 21: f(x) = 0.000000
+Iteration 22: f(x) = 0.000000
+Iteration 23: f(x) = 0.000000
+Iteration 24: f(x) = 0.000000
+Iteration 25: f(x) = 0.000000
+Iteration 26: f(x) = 0.000000
+Iteration 27: f(x) = 0.000000
+Iteration 28: f(x) = 0.000000
+Iteration 29: f(x) = 0.000000
+Iteration 30: f(x) = 0.000000
+Iteration 31: f(x) = 0.000000
+Iteration 32: f(x) = 0.000000
+Iteration 33: f(x) = 0.000000
+Iteration 34: f(x) = 0.000000
+Iteration 35: f(x) = 0.000000
+Iteration 36: f(x) = 0.000000
+Iteration 37: f(x) = 0.000000
+Iteration 38: f(x) = 0.000000
+Iteration 39: f(x) = 0.000000
+Iteration 40: f(x) = 0.000000</code></pre>
 </div>
 </div>
 </section>
@@ -606,7 +612,7 @@ Iteration 40: f(x) = 0.000001</code></pre>
 <li>When the search space has been heavily sampled in some regions</li>
 </ul>
 <p><strong>Example</strong>:</p>
-<div id="abeff2c2" class="cell" data-execution_count="2">
+<div id="5e0fda0e" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -627,87 +633,87 @@ Iteration 40: f(x) = 0.000001</code></pre>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 1.881515
-Iteration 1: f(x) = 9.567494
-Iteration 2: f(x) = 3.851830
-Iteration 3: New best f(x) = 1.126863
-Iteration 4: f(x) = 9.703653
-Iteration 5: f(x) = 4.060019
-Iteration 6: f(x) = 1.487783
-Iteration 7: f(x) = 1.329760
-Iteration 8: f(x) = 1.339166
-Iteration 9: f(x) = 1.178828
-Iteration 10: New best f(x) = 0.335529
-Iteration 11: New best f(x) = 0.173112
-Iteration 12: f(x) = 1.092938
-Iteration 13: f(x) = 1.028329
-Iteration 14: f(x) = 1.000968
-Iteration 15: f(x) = 0.232483
-Iteration 16: New best f(x) = 0.020045
-Iteration 17: f(x) = 0.852039
-Iteration 18: New best f(x) = 0.019945
-Iteration 19: f(x) = 0.718448
-Iteration 20: f(x) = 0.649435
-Iteration 21: f(x) = 0.645986
-Iteration 22: New best f(x) = 0.018099
-Iteration 23: f(x) = 0.018250
-Iteration 24: f(x) = 0.018211
-Iteration 25: f(x) = 0.641389
-Iteration 26: New best f(x) = 0.018057
-Iteration 27: f(x) = 0.547801
-Iteration 28: f(x) = 0.018173
-Iteration 29: f(x) = 0.501778
-Iteration 30: f(x) = 0.453125
-Iteration 31: f(x) = 0.416963
-Iteration 32: f(x) = 0.018188
-Iteration 33: f(x) = 0.377907
-Iteration 34: f(x) = 0.018146
-Iteration 35: f(x) = 0.354363
-Iteration 36: f(x) = 0.018100
-Iteration 37: f(x) = 0.018174
-Iteration 38: f(x) = 0.018216
-Iteration 39: f(x) = 0.018061
-Iteration 40: f(x) = 0.336038
-Iteration 41: f(x) = 0.300267
-Iteration 42: f(x) = 0.018137
-Iteration 43: f(x) = 0.018085
-Iteration 44: f(x) = 0.018119
-Iteration 45: f(x) = 0.018095
-Iteration 46: f(x) = 0.269055
-Iteration 47: f(x) = 0.018085
-Iteration 48: f(x) = 0.018113
-Iteration 49: New best f(x) = 0.017974
-Iteration 50: f(x) = 0.018004
-Iteration 51: f(x) = 0.018065
-Iteration 52: New best f(x) = 0.017966
-Iteration 53: f(x) = 0.018038
-Iteration 54: New best f(x) = 0.017955
-Iteration 55: f(x) = 0.017990
-Iteration 56: New best f(x) = 0.017955
-Iteration 57: f(x) = 0.266287
-Iteration 58: f(x) = 0.018008
-Iteration 59: f(x) = 0.017980
-Iteration 60: f(x) = 0.017955
-Iteration 61: f(x) = 0.018025
-Iteration 62: f(x) = 0.018055
-Iteration 63: f(x) = 0.017975
-Iteration 64: f(x) = 0.018006
-Iteration 65: New best f(x) = 0.017859
-Iteration 66: f(x) = 0.017909
-Iteration 67: f(x) = 0.017872
-Iteration 68: f(x) = 0.017892
-Iteration 69: f(x) = 0.017871
-Iteration 70: New best f(x) = 0.017831
-Iteration 71: New best f(x) = 0.017773
-Iteration 72: f(x) = 0.017918
-Iteration 73: New best f(x) = 0.017689
-Iteration 74: f(x) = 0.017758
-Iteration 75: f(x) = 0.017697
-Iteration 76: f(x) = 0.017757
-Iteration 77: New best f(x) = 0.017592
-Iteration 78: New best f(x) = 0.017582
-Iteration 79: New best f(x) = 0.017558
-Iteration 80: New best f(x) = 0.017446</code></pre>
+Initial best: f(x) = 0.707598
+Iteration 1: f(x) = 18.758161
+Iteration 2: f(x) = 1.575215
+Iteration 3: f(x) = 3.615711
+Iteration 4: f(x) = 0.932419
+Iteration 5: f(x) = 5.671022
+Iteration 6: New best f(x) = 0.139114
+Iteration 7: f(x) = 2.670025
+Iteration 8: f(x) = 0.151561
+Iteration 9: f(x) = 2.696725
+Iteration 10: New best f(x) = 0.139103
+Iteration 11: f(x) = 4.139274
+Iteration 12: New best f(x) = 0.138797
+Iteration 13: New best f(x) = 0.138768
+Iteration 14: f(x) = 0.138968
+Iteration 15: New best f(x) = 0.138293
+Iteration 16: f(x) = 0.258909
+Iteration 17: f(x) = 0.247435
+Iteration 18: New best f(x) = 0.138179
+Iteration 19: New best f(x) = 0.138019
+Iteration 20: f(x) = 0.319217
+Iteration 21: New best f(x) = 0.031810
+Iteration 22: New best f(x) = 0.028634
+Iteration 23: New best f(x) = 0.026236
+Iteration 24: f(x) = 2.970000
+Iteration 25: f(x) = 2.477139
+Iteration 26: f(x) = 2.014200
+Iteration 27: New best f(x) = 0.024587
+Iteration 28: New best f(x) = 0.023343
+Iteration 29: New best f(x) = 0.022675
+Iteration 30: New best f(x) = 0.022145
+Iteration 31: f(x) = 1.999843
+Iteration 32: New best f(x) = 0.021822
+Iteration 33: New best f(x) = 0.021413
+Iteration 34: New best f(x) = 0.021110
+Iteration 35: New best f(x) = 0.020919
+Iteration 36: New best f(x) = 0.020632
+Iteration 37: New best f(x) = 0.020500
+Iteration 38: New best f(x) = 0.020186
+Iteration 39: New best f(x) = 0.019899
+Iteration 40: New best f(x) = 0.019623
+Iteration 41: f(x) = 1.785135
+Iteration 42: New best f(x) = 0.019529
+Iteration 43: New best f(x) = 0.019353
+Iteration 44: New best f(x) = 0.019183
+Iteration 45: New best f(x) = 0.018999
+Iteration 46: f(x) = 1.694663
+Iteration 47: New best f(x) = 0.018842
+Iteration 48: New best f(x) = 0.018526
+Iteration 49: New best f(x) = 0.018324
+Iteration 50: f(x) = 0.134481
+Iteration 51: New best f(x) = 0.017967
+Iteration 52: f(x) = 1.565922
+Iteration 53: New best f(x) = 0.017677
+Iteration 54: New best f(x) = 0.017405
+Iteration 55: New best f(x) = 0.017149
+Iteration 56: New best f(x) = 0.016747
+Iteration 57: New best f(x) = 0.016241
+Iteration 58: New best f(x) = 0.015699
+Iteration 59: New best f(x) = 0.015089
+Iteration 60: New best f(x) = 0.014446
+Iteration 61: New best f(x) = 0.013877
+Iteration 62: New best f(x) = 0.013407
+Iteration 63: New best f(x) = 0.013101
+Iteration 64: New best f(x) = 0.012918
+Iteration 65: New best f(x) = 0.012809
+Iteration 66: New best f(x) = 0.012763
+Iteration 67: New best f(x) = 0.012663
+Iteration 68: f(x) = 0.012693
+Iteration 69: New best f(x) = 0.012643
+Iteration 70: New best f(x) = 0.012565
+Iteration 71: f(x) = 0.012682
+Iteration 72: New best f(x) = 0.012444
+Iteration 73: f(x) = 0.012497
+Iteration 74: f(x) = 0.012462
+Iteration 75: f(x) = 0.012502
+Iteration 76: New best f(x) = 0.012437
+Iteration 77: f(x) = 0.012459
+Iteration 78: New best f(x) = 0.012381
+Iteration 79: New best f(x) = 0.012265
+Iteration 80: New best f(x) = 0.012193</code></pre>
 </div>
 </div>
 </section>
@@ -764,7 +770,7 @@ Iteration 80: New best f(x) = 0.017446</code></pre>
 </section>
 <section id="complete-example-comparing-strategies" class="level2" data-number="17.5">
 <h2 data-number="17.5" class="anchored" data-anchor-id="complete-example-comparing-strategies"><span class="header-section-number">17.5</span> Complete Example: Comparing Strategies</h2>
-<div id="7706caaf" class="cell" data-execution_count="3">
+<div id="3ef1c64f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1055,7 +1061,7 @@ Morris-Mitchell strategy: 3.159408
 <section id="advanced-usage-setting-tolerance" class="level2" data-number="17.6">
 <h2 data-number="17.6" class="anchored" data-anchor-id="advanced-usage-setting-tolerance"><span class="header-section-number">17.6</span> Advanced Usage: Setting Tolerance</h2>
 <p>The <code>tolerance_x</code> parameter controls when the fallback strategy is triggered. A larger tolerance means points need to be farther apart, triggering the fallback more often:</p>
-<div id="6f248d06" class="cell" data-execution_count="4">
+<div id="ef5f7260" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simple_objective(X):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Simple quadratic function for demonstration"""</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1095,7 +1101,7 @@ Relaxed tolerance setup complete</code></pre>
 <section id="use-random-for-most-problems" class="level3" data-number="17.7.1">
 <h3 data-number="17.7.1" class="anchored" data-anchor-id="use-random-for-most-problems"><span class="header-section-number">17.7.1</span> 1. Use Random for Most Problems</h3>
 <p>The random strategy (default) is sufficient for most optimization problems:</p>
-<div id="f24ef42f" class="cell" data-execution_count="5">
+<div id="07aa93df" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_objective(X):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1115,7 +1121,7 @@ Relaxed tolerance setup complete</code></pre>
 <section id="use-morris-mitchell-for-intensive-sampling" class="level3" data-number="17.7.2">
 <h3 data-number="17.7.2" class="anchored" data-anchor-id="use-morris-mitchell-for-intensive-sampling"><span class="header-section-number">17.7.2</span> 2. Use Morris-Mitchell for Intensive Sampling</h3>
 <p>When you have a large budget and want maximum exploration:</p>
-<div id="7e8c7d04" class="cell" data-execution_count="6">
+<div id="f56fd876" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> expensive_objective(X):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Simulated expensive objective function"""</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((X <span class="op">-</span> <span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1136,7 +1142,7 @@ Relaxed tolerance setup complete</code></pre>
 <section id="monitor-fallback-activations" class="level3" data-number="17.7.3">
 <h3 data-number="17.7.3" class="anchored" data-anchor-id="monitor-fallback-activations"><span class="header-section-number">17.7.3</span> 3. Monitor Fallback Activations</h3>
 <p>Enable verbose mode to see when fallbacks are triggered:</p>
-<div id="5bc1ca10" class="cell" data-execution_count="7">
+<div id="0388d3d3" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_objective(X):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1158,7 +1164,7 @@ Optimizer with verbose mode created</code></pre>
 <section id="adjust-tolerance-based-on-problem-scale" class="level3" data-number="17.7.4">
 <h3 data-number="17.7.4" class="anchored" data-anchor-id="adjust-tolerance-based-on-problem-scale"><span class="header-section-number">17.7.4</span> 4. Adjust Tolerance Based on Problem Scale</h3>
 <p>For problems with small search spaces, use smaller tolerance:</p>
-<div id="b48481a1" class="cell" data-execution_count="8">
+<div id="d9f55ec7" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scale_objective(X):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>

@@ -401,6 +401,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -415,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -432,19 +438,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
   </div>
 </li>
       </ul>
@@ -604,18 +610,18 @@ Final success rate: 30.00%
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total evaluations: </span><span class="sc">{</span>optimizer<span class="sc">.</span>counter<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 10.981120
-Iteration 1: f(x) = 16.290668
-Iteration 2: f(x) = 11.605281
-Iteration 3: New best f(x) = 10.822942
-Iteration 4: New best f(x) = 3.719680
-Iteration 5: New best f(x) = 0.074190
-Iteration 6: New best f(x) = 0.018258
-Iteration 7: New best f(x) = 0.000028
-Iteration 8: f(x) = 0.000042
-Iteration 9: New best f(x) = 0.000003
+Initial best: f(x) = 10.234347
+Iteration 1: New best f(x) = 10.171609
+Iteration 2: New best f(x) = 7.265053
+Iteration 3: New best f(x) = 0.677243
+Iteration 4: New best f(x) = 0.111994
+Iteration 5: New best f(x) = 0.004344
+Iteration 6: New best f(x) = 0.003151
+Iteration 7: New best f(x) = 0.003006
+Iteration 8: New best f(x) = 0.002392
+Iteration 9: New best f(x) = 0.000002
 Iteration 10: New best f(x) = 0.000001
-Final success rate: 70.00%
+Final success rate: 100.00%
 Total evaluations: 20</code></pre>
 </div>
 </div>
@@ -641,8 +647,8 @@ Total evaluations: 20</code></pre>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>rate <span class="op">=</span> optimizer._get_success_rate()</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Via getter method: </span><span class="sc">{</span>rate<span class="sc">:.2%}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Success rate: 80.00%
-Via getter method: 80.00%</code></pre>
+<pre><code>Success rate: 90.00%
+Via getter method: 90.00%</code></pre>
 </div>
 </div>
 </section>
@@ -791,11 +797,11 @@ Best configuration: Large initial
 <span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unique design points: </span><span class="sc">{</span>optimizer<span class="sc">.</span>mean_X<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 2.417851, mean best: f(x) = 2.918012
+Initial best: f(x) = 1.617527, mean best: f(x) = 2.011888
 
 Noisy Optimization Results:
-Best raw value: 2.417851
-Best mean value: 2.918012
+Best raw value: 1.617527
+Best mean value: 2.011888
 Success rate: 0.00%
 Total evaluations: 30
 Unique design points: 10</code></pre>
