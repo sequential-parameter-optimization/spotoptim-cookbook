@@ -1,5 +1,3 @@
 # Preface {.unnumbered}
 
-This is a Quarto book.
-
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+This document provides a comprehensive guide to optimization and hyperparameter tuning using the Sequential Parameter Optimization Toolbox (SPOT) for Python.

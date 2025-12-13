@@ -736,7 +736,7 @@ window.Quarto = {
 <span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.t[idx].unsqueeze(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Generate exact solution using RK2</p>
-<div id="f03f4734" class="cell" data-execution_count="3">
+<div id="018233b9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x_exact, y_exact <span class="op">=</span> oscillator()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create training data (sparse sampling)</span></span>
@@ -1040,13 +1040,13 @@ Test results: [0.13062107 0.12744086]</code></pre>
 Factor variable at dimension 3:
   Levels: ['Adam', 'SGD', 'RMSprop', 'AdamW']
   Mapped to integers: 0 to 3
-Removed old TensorBoard logs: runs/spotoptim_20251212_233438
+Removed old TensorBoard logs: runs/spotoptim_20251213_022354
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251213_001909</code></pre>
+TensorBoard logging enabled: runs/spotoptim_20251213_030741</code></pre>
 </div>
 </div>
 <p>Display search space configuration. The <code>trans</code>column shows applied transformations. <code>lr_unified</code> and <code>alpha</code> use log10 transformation internally. This enables efficient exploration of log-scale parameters. All values shown are in original scale (not transformed).</p>
-<div id="9bc82223" class="cell" data-execution_count="7">
+<div id="76eecbbb" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display search space configuration</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>design_table <span class="op">=</span> optimizer.print_design_table(tablefmt<span class="op">=</span><span class="st">"github"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(design_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1443,7 +1443,7 @@ Configuration 1/1:
   optimizer=SGD, lr_unified=2.5483, alpha=0.0127
   Validation MSE: 0.202666
 Iteration 41: f(x) = 0.202666
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251213_001909</code></pre>
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251213_030741</code></pre>
 </div>
 </div>
 </section>
@@ -1470,7 +1470,7 @@ Best Solution Found:
 </div>
 </div>
 <p>Store values for later use in visualizations. Values are already in original scale thanks to <code>var_trans</code>. Factor variables are returned as strings.</p>
-<div id="d1cb6784" class="cell" data-execution_count="10">
+<div id="f466af82" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>best_l1 <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">0</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>best_num_layers <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">1</span>])</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>best_activation <span class="op">=</span> result.x[<span class="dv">2</span>]</span>
@@ -1910,7 +1910,7 @@ Validation MSE Comparison:
 </div>
 <section id="sensitivity-analysis-spearman-correlation" class="level2" data-number="47.1">
 <h2 data-number="47.1" class="anchored" data-anchor-id="sensitivity-analysis-spearman-correlation"><span class="header-section-number">47.1</span> Sensitivity Analysis (Spearman Correlation)</h2>
-<div id="a3fd9e80" class="cell" data-execution_count="20">
+<div id="c6942aa4" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the new sensitivity_spearman() method for tabular output</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>optimizer.sensitivity_spearman()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
