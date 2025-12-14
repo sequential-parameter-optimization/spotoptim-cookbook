@@ -633,8 +633,11 @@ best_alpha = result.x[1]
 
 ---
 
-**See Also**:
+## Jupyter Notebook
 
-- [Variable Types Manual](var_type.md) - Integer, numeric, and factor types
-- [Factor Variables Manual](factor_variables.md) - Categorical optimization
-- [Reproducibility Manual](reproducibility.md) - Setting seeds for consistent results
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/transformations.ipynb)
+
+:::
+

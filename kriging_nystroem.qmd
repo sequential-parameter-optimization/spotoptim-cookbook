@@ -138,3 +138,11 @@ pipeline = Pipeline([
 
 When `fit` or `transform` is called, `SpotOptimKernel` will compute distances using the appropriate metric for each variable type (e.g., Hamming/Canberra distance for factors) before the Nystroem projection occurs.
 
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/kriging_nystroem.ipynb)
+
+:::
+

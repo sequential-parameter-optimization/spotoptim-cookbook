@@ -673,8 +673,11 @@ loaded_opt = SpotOptim.load_result("result_res.pkl")
 loaded_opt.fun = same_objective_function  # Same function definition
 ```
 
-## See Also
+## Jupyter Notebook
 
-- [Reproducibility Manual](reproducibility.md): Learn about using seeds for reproducible results
-- [TensorBoard Manual](tensorboard.md): Monitor optimization progress in real-time
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/spot_step_by_step.ipynb)
+
+:::
 

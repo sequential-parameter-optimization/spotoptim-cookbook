@@ -263,8 +263,11 @@ optimizer.plot_surrogate(i=5, j=1)  # ValueError: i must be less than n_dim
 optimizer.plot_surrogate(i=0, j=0)  # ValueError: i and j must be different
 ```
 
-## See Also
+## Jupyter Notebook
 
-- `notebooks/demos.ipynb`: Example 4 demonstrates `plot_surrogate()`
-- `examples/plot_surrogate_demo.py`: Standalone example script
-- `tests/test_plot_surrogate.py`: Comprehensive test suite
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/plot_surrogate.ipynb)
+
+:::
+

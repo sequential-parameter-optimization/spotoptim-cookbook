@@ -434,3 +434,12 @@ A: Any integer works. Common choices are 42, 123, or dates (e.g., 20241112). Wha
 - Essential for research, debugging, and production
 - Document your seeds for transparency
 - Test robustness with multiple different seeds
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/reproducibility.ipynb)
+
+:::
+

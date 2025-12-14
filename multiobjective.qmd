@@ -1000,3 +1000,11 @@ print(f"Objectives: {objectives}")
 mo_xy_desirability_plot(models, bounds=[(x_min, x_max), (x_min, x_max)], X_base=X_base, J_base=J_base, d_base=d_base, phi_base=phi_base, D_overall=D_overall, mm_objective=False)
 ```
 
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/multiobjective.ipynb)
+
+:::
+

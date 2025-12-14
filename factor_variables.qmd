@@ -870,10 +870,12 @@ Factor variables in SpotOptim enable:
 
 Factor variables make categorical hyperparameter optimization as easy as continuous optimization!
 
-## See Also
+## Jupyter Notebook
 
-- [LinearRegressor Documentation](https://sequential-parameter-optimization.github.io/spotPython/reference/) - Neural network class supporting string-based activation functions
-- [Diabetes Dataset Utilities](diabetes_dataset.md) - Data loading utilities used in examples
-- [Variable Types](var_type.md) - Overview of all variable types in SpotOptim
-- [Save and Load](save_load.md) - Saving and loading optimization results with factor variables
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/factor_variables.ipynb)
+
+:::
+
 

@@ -704,15 +704,11 @@ print(f"Overall best: unified_lr={best_overall[0]:.1f}, "
 print(f"Actual learning rate used: {best_overall[2]:.6f}")
 ```
 
-## See Also
+## Jupyter Notebook
 
-- [LinearRegressor Documentation](../api/linear_regressor.md) - Neural network class with lr parameter
-- [Diabetes Dataset Utilities](diabetes_dataset.md) - Data loading for examples
-- [Hyperparameter Optimization](../tutorials/hyperparameter_optimization.md) - Using map_lr with SpotOptim
-- [PyTorch Optimizer Documentation](https://pytorch.org/docs/stable/optim.html) - Official PyTorch reference
+:::{.callout-note}
 
-## References
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/learning_rate_mapping.ipynb)
 
-- Kingma, D. P., & Ba, J. (2014). Adam: A method for stochastic optimization. arXiv:1412.6980.
-- Loshchilov, I., & Hutter, F. (2017). Decoupled weight decay regularization. arXiv:1711.05101.
-- PyTorch Team. (2023). PyTorch Optimizer Documentation. https://pytorch.org/docs/stable/optim.html
+:::
+

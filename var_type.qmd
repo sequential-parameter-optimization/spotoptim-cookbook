@@ -226,3 +226,12 @@ Potential improvements that could be added:
 3. **Ordered Categories**: Support ordered categorical variables (ordinal data)
 4. **Type Checking**: Validate that var_type values are one of the allowed strings
 5. **Bounds Checking**: Warn if factor bounds are not integer ranges
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/var_type.ipynb)
+
+:::
+

@@ -970,3 +970,12 @@ Consider exploring:
 ---
 
 **Note**: The specific optimal values depend on the problem, data distribution, and computational budget. Always validate results on held-out test data.
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/pinns_2_hyperparameter_tuning.ipynb)
+
+:::
+

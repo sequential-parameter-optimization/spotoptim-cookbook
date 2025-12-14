@@ -131,7 +131,11 @@ print(f"Max surrogate points: {optimizer3.max_surrogate_points}")
 | Nyström approximation | ✓ | ✗ |
 | Modular design | ✓ (utils.aggregate) | ✓ (class methods) |
 
-## References
+## Jupyter Notebook
 
-- spotpython implementation: `src/spotpython/spot/spot.py` lines 1646-1778
-- spotpython utilities: `src/spotpython/utils/aggregate.py` lines 262-336
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/point_selection.ipynb)
+
+:::
+

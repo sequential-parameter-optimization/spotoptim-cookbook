@@ -1131,10 +1131,11 @@ result = optimizer.optimize()
 | `model_fun_evals` | `100` | Reduce for faster fitting |
 | `seed` | `124` | Always set for reproducibility |
 
-### Further Reading
+## Jupyter Notebook
 
-- Forrester, A., Sobester, A., & Keane, A. (2008). *Engineering Design via Surrogate Modelling*. Wiley.
-- Jones, D. R., Schonlau, M., & Welch, W. J. (1998). Efficient global optimization of expensive black-box functions. *Journal of Global optimization*, 13(4), 455-492.
-- Rasmussen, C. E., & Williams, C. K. I. (2006). *Gaussian Processes for Machine Learning*. MIT Press.
+:::{.callout-note}
 
-For more examples and documentation, visit the [SpotOptim GitHub repository](https://github.com/sequential-parameter-optimization/spotoptim).
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/kriging_surrogate.ipynb)
+
+:::
+
