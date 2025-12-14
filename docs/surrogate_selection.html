@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -164,7 +164,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -652,7 +654,7 @@ window.Quarto = {
 <ul>
 <li>XGBoost (if available)</li>
 </ul>
-<div id="d11e136b" class="cell" data-execution_count="2">
+<div id="c9c0e94f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> xgboost <span class="im">as</span> xgb</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    XGBOOST_AVAILABLE <span class="op">=</span> <span class="va">True</span></span>
@@ -763,7 +765,7 @@ Optimization budget: 30 evaluations</code></pre>
 Results:
   Best weight: 119.5041 lb
   Function evaluations: 30
-  Time: 40.18s
+  Time: 50.00s
   Success: True</code></pre>
 </div>
 </div>
@@ -780,7 +782,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="1aca8943" class="cell" data-execution_count="6">
+<div id="7ef3b381" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot most important hyperparameters</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>optimizer_default.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Default GP Matern ν=2.5: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
@@ -886,7 +888,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 119.5037 lb
   Function evaluations: 30
-  Time: 45.53s
+  Time: 57.55s
   Success: True</code></pre>
 </div>
 </div>
@@ -902,7 +904,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="eb2def5d" class="cell" data-execution_count="9">
+<div id="b0fbd876" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>optimizer_rbf.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP RBF Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1008,7 +1010,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 119.5056 lb
   Function evaluations: 30
-  Time: 38.35s
+  Time: 48.28s
   Success: True</code></pre>
 </div>
 </div>
@@ -1024,7 +1026,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="dad6dfd8" class="cell" data-execution_count="12">
+<div id="3bc8e7ae" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>optimizer_matern15.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP Matern ν=1.5 Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1131,7 +1133,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 119.5061 lb
   Function evaluations: 30
-  Time: 46.18s
+  Time: 58.43s
   Success: True</code></pre>
 </div>
 </div>
@@ -1147,7 +1149,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="4cea75cb" class="cell" data-execution_count="15">
+<div id="31e9ce84" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>optimizer_rq.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP Rational Quadratic Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1249,7 +1251,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 121.1616 lb
   Function evaluations: 30
-  Time: 58.22s
+  Time: 76.96s
   Success: True</code></pre>
 </div>
 </div>
@@ -1265,7 +1267,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="1034329c" class="cell" data-execution_count="18">
+<div id="71080d77" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>optimizer_kriging.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'SpotOptim Kriging: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1366,9 +1368,9 @@ Generating 3 surrogate plots...
 ================================================================================
 
 Results:
-  Best weight: 146.9945 lb
+  Best weight: 149.2566 lb
   Function evaluations: 30
-  Time: 916.82s
+  Time: 1195.26s
   Success: True
   Note: Using acquisition='y' (greedy) since RF doesn't provide uncertainty</code></pre>
 </div>
@@ -1385,15 +1387,15 @@ Results:
 </div>
 </div>
 </div>
-<div id="0fbe92a4" class="cell" data-execution_count="21">
+<div id="82e64661" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>optimizer_rf.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Random Forest: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
-  Wdg: importance = 14.97% (type: float)
-  A: importance = 14.96% (type: float)
-  l: importance = 13.35% (type: float)
+  Wdg: importance = 14.82% (type: float)
+  A: importance = 14.47% (type: float)
+  Rtc: importance = 14.09% (type: float)
 
 Generating 3 surrogate plots...
   Plotting Wdg vs A</code></pre>
@@ -1401,27 +1403,27 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="surrogate_selection_files/figure-html/cell-22-output-2.png" width="1117" height="950" class="figure-img"></p>
+<p><img src="surrogate_selection_files/figure-html/cell-22-output-2.png" width="1120" height="950" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Plotting Wdg vs l</code></pre>
+<pre><code>  Plotting Wdg vs Rtc</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="surrogate_selection_files/figure-html/cell-22-output-4.png" width="1117" height="950" class="figure-img"></p>
+<p><img src="surrogate_selection_files/figure-html/cell-22-output-4.png" width="1120" height="950" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Plotting A vs l</code></pre>
+<pre><code>  Plotting A vs Rtc</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="surrogate_selection_files/figure-html/cell-22-output-6.png" width="1120" height="950" class="figure-img"></p>
+<p><img src="surrogate_selection_files/figure-html/cell-22-output-6.png" width="1117" height="950" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1504,7 +1506,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 150.8548 lb
   Function evaluations: 30
-  Time: 18.29s
+  Time: 35.50s
   Success: True
   Note: Using acquisition='y' (greedy) since XGBoost doesn't provide uncertainty</code></pre>
 </div>
@@ -1617,7 +1619,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 140.0109 lb
   Function evaluations: 30
-  Time: 1.69s
+  Time: 2.45s
   Success: True</code></pre>
 </div>
 </div>
@@ -1633,7 +1635,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="4aada1c3" class="cell" data-execution_count="25">
+<div id="59fbf82b" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>optimizer_svr.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Support Vector Regression: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1734,7 +1736,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 124.6772 lb
   Function evaluations: 30
-  Time: 7.13s
+  Time: 9.54s
   Success: True</code></pre>
 </div>
 </div>
@@ -1750,7 +1752,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="c144f161" class="cell" data-execution_count="28">
+<div id="3aaf4a4a" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>optimizer_gb.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Gradient Boosting: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1822,16 +1824,16 @@ Generating 3 surrogate plots...
 ====================================================================================================
 SURROGATE MODEL COMPARISON
 ====================================================================================================
-                Surrogate  Best Weight  Evaluations   Time (s)  Success  Gap to Best (%)
-                   GP RBF   119.503672           30  45.526085     True         0.000000
-GP Matern ν=2.5 (Default)   119.504103           30  40.175109     True         0.000361
-          GP Matern ν=1.5   119.505612           30  38.352147     True         0.001624
-    GP Rational Quadratic   119.506083           30  46.175636     True         0.002017
-        SpotOptim Kriging   121.161582           30  58.218186     True         1.387330
-        Gradient Boosting   124.677233           30   7.131863     True         4.329207
-                SVR (RBF)   140.010945           30   1.693333     True        17.160371
-            Random Forest   146.994517           30 916.816917     True        23.004184
-                  XGBoost   150.854809           30  18.290144     True        26.234455
+                Surrogate  Best Weight  Evaluations    Time (s)  Success  Gap to Best (%)
+                   GP RBF   119.503672           30   57.551004     True         0.000000
+GP Matern ν=2.5 (Default)   119.504103           30   50.001901     True         0.000361
+          GP Matern ν=1.5   119.505612           30   48.278359     True         0.001624
+    GP Rational Quadratic   119.506083           30   58.434440     True         0.002017
+        SpotOptim Kriging   121.161582           30   76.963557     True         1.387330
+        Gradient Boosting   124.677233           30    9.542265     True         4.329207
+                SVR (RBF)   140.010945           30    2.447582     True        17.160371
+            Random Forest   149.256578           30 1195.261098     True        24.897065
+                  XGBoost   150.854809           30   35.498711     True        26.234455
 ====================================================================================================</code></pre>
 </div>
 </div>
@@ -1990,16 +1992,16 @@ KEY INSIGHTS AND RECOMMENDATIONS
 1. BEST OVERALL PERFORMANCE:
    Surrogate: GP RBF
    Best Weight: 119.5037 lb
-   Computation Time: 45.53s
+   Computation Time: 57.55s
 
 2. FASTEST OPTIMIZATION:
    Surrogate: SVR (RBF)
-   Time: 1.69s
+   Time: 2.45s
    Best Weight: 140.0109 lb
 
 3. MOST EFFICIENT (weight reduction per second):
    Surrogate: SVR (RBF)
-   Efficiency: 55.4513 lb/s
+   Efficiency: 38.3634 lb/s
 
 4. RECOMMENDATIONS BY PROBLEM TYPE:
    - Smooth, continuous functions: Gaussian Process with RBF or Matern ν=2.5
@@ -2012,10 +2014,10 @@ KEY INSIGHTS AND RECOMMENDATIONS
 
 5. KERNEL COMPARISON (Gaussian Process):
                 Surrogate  Best Weight  Time (s)
-                   GP RBF   119.503672 45.526085
-GP Matern ν=2.5 (Default)   119.504103 40.175109
-          GP Matern ν=1.5   119.505612 38.352147
-    GP Rational Quadratic   119.506083 46.175636
+                   GP RBF   119.503672 57.551004
+GP Matern ν=2.5 (Default)   119.504103 50.001901
+          GP Matern ν=1.5   119.505612 48.278359
+    GP Rational Quadratic   119.506083 58.434440
 
 ====================================================================================================</code></pre>
 </div>
@@ -2060,11 +2062,11 @@ SUMMARY STATISTICS
             Metric       Value
  Best Weight Found 119.5037 lb
 Worst Weight Found 150.8548 lb
-    Average Weight 129.0798 lb
-    Std Dev Weight  13.0546 lb
-      Fastest Time      1.69 s
-      Slowest Time    916.82 s
-      Average Time    130.26 s
+    Average Weight 129.3312 lb
+    Std Dev Weight  13.4581 lb
+      Fastest Time      2.45 s
+      Slowest Time   1195.26 s
+      Average Time    170.44 s
 ====================================================================================================</code></pre>
 </div>
 </div>
@@ -2101,7 +2103,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>The Jupyter-Notebook of this lecture is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/Hyperparameter-Tuning-Cookbook">Hyperparameter-Tuning-Cookbook Repository</a></li>
+<li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/surrogate_selection.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
 </ul>
 </div>
 </div>

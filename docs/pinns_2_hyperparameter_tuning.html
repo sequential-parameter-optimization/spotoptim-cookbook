@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -164,7 +164,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -552,6 +554,7 @@ window.Quarto = {
   <li><a href="#using-these-results" id="toc-using-these-results" class="nav-link" data-scroll-target="#using-these-results"><span class="header-section-number">50.3</span> Using These Results</a></li>
   <li><a href="#using-var_trans-for-your-hyperparameter-optimization" id="toc-using-var_trans-for-your-hyperparameter-optimization" class="nav-link" data-scroll-target="#using-var_trans-for-your-hyperparameter-optimization"><span class="header-section-number">50.4</span> Using var_trans for Your Hyperparameter Optimization</a></li>
   <li><a href="#future-directions" id="toc-future-directions" class="nav-link" data-scroll-target="#future-directions"><span class="header-section-number">50.5</span> Future Directions</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">50.6</span> Jupyter Notebook</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -748,7 +751,7 @@ window.Quarto = {
 <span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.t[idx].unsqueeze(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Generate exact solution using RK2</p>
-<div id="e4af0f31" class="cell" data-execution_count="3">
+<div id="7187cabe" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x_exact, y_exact <span class="op">=</span> oscillator()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create training data (sparse sampling)</span></span>
@@ -1052,13 +1055,13 @@ Test results: [0.13062107 0.12744086]</code></pre>
 Factor variable at dimension 3:
   Levels: ['Adam', 'SGD', 'RMSprop', 'AdamW']
   Mapped to integers: 0 to 3
-Removed old TensorBoard logs: runs/spotoptim_20251214_184728
+Removed old TensorBoard logs: runs/spotoptim_20251214_212934
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251214_193217</code></pre>
+TensorBoard logging enabled: runs/spotoptim_20251214_222447</code></pre>
 </div>
 </div>
 <p>Display search space configuration. The <code>trans</code>column shows applied transformations. <code>lr_unified</code> and <code>alpha</code> use log10 transformation internally. This enables efficient exploration of log-scale parameters. All values shown are in original scale (not transformed).</p>
-<div id="e6cecc81" class="cell" data-execution_count="7">
+<div id="9cc4d502" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display search space configuration</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>design_table <span class="op">=</span> optimizer.print_design_table(tablefmt<span class="op">=</span><span class="st">"github"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(design_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1081,17 +1084,17 @@ TensorBoard logging enabled: runs/spotoptim_20251214_193217</code></pre>
 Configuration 1/10:
   l1=19, num_layers=3, activation=ReLU, 
   optimizer=SGD, lr_unified=9.5756, alpha=0.1603
-  Validation MSE: 0.194649
+  Validation MSE: 0.194793
 
 Configuration 2/10:
   l1=30, num_layers=3, activation=ReLU, 
   optimizer=Adam, lr_unified=0.8430, alpha=0.0412
-  Validation MSE: 0.175142
+  Validation MSE: 0.168271
 
 Configuration 3/10:
   l1=110, num_layers=4, activation=ReLU, 
   optimizer=AdamW, lr_unified=1.9457, alpha=0.3866
-  Validation MSE: 0.125290
+  Validation MSE: 0.141383
 
 Configuration 4/10:
   l1=74, num_layers=1, activation=Sigmoid, 
@@ -1101,7 +1104,7 @@ Configuration 4/10:
 Configuration 5/10:
   l1=41, num_layers=3, activation=Sigmoid, 
   optimizer=RMSprop, lr_unified=0.5877, alpha=0.7301
-  Validation MSE: 0.095178
+  Validation MSE: 0.094801
 
 Configuration 6/10:
   l1=52, num_layers=1, activation=Sigmoid, 
@@ -1116,7 +1119,7 @@ Configuration 7/10:
 Configuration 8/10:
   l1=120, num_layers=3, activation=ReLU, 
   optimizer=AdamW, lr_unified=0.3330, alpha=0.0220
-  Validation MSE: 0.144155
+  Validation MSE: 0.141254
 
 Configuration 9/10:
   l1=98, num_layers=2, activation=Tanh, 
@@ -1129,31 +1132,25 @@ Configuration 10/10:
   Validation MSE: nan
 Warning: 1 initial design point(s) returned NaN/inf and will be ignored (reduced from 10 to 9 points)
 Note: Initial design size (9) is smaller than requested (10) due to NaN/inf values
-Initial best: f(x) = 0.095178
+Initial best: f(x) = 0.094801
 
 Configuration 1/1:
   l1=41, num_layers=3, activation=Sigmoid, 
-  optimizer=RMSprop, lr_unified=0.5938, alpha=0.7968
-  Validation MSE: 0.094611
-Iteration 1: New best f(x) = 0.094611
-
-Configuration 1/1:
-  l1=41, num_layers=3, activation=Sigmoid, 
-  optimizer=RMSprop, lr_unified=0.9299, alpha=1.0000
-  Validation MSE: 0.130813
-Iteration 2: f(x) = 0.130813
+  optimizer=RMSprop, lr_unified=0.5997, alpha=0.7984
+  Validation MSE: 0.099149
+Iteration 1: f(x) = 0.099149
 
 Configuration 1/1:
   l1=110, num_layers=4, activation=ReLU, 
   optimizer=AdamW, lr_unified=1.9457, alpha=0.3866
-  Validation MSE: 0.105465
-Iteration 3: f(x) = 0.105465
+  Validation MSE: 0.138219
+Iteration 2: f(x) = 0.138219
 
 Configuration 1/1:
   l1=52, num_layers=3, activation=ReLU, 
   optimizer=RMSprop, lr_unified=0.1454, alpha=0.0135
-  Validation MSE: 0.159544
-Iteration 4: f(x) = 0.159544
+  Validation MSE: 0.160411
+Iteration 3: f(x) = 0.160411
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1161,16 +1158,16 @@ Configuration 1/1:
   l1=115, num_layers=1, activation=Tanh, 
   optimizer=SGD, lr_unified=2.9394, alpha=0.0115
   Validation MSE: nan
-Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 0.3155)
-Iteration 5: f(x) = 0.365183
+Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 0.3060)
+Iteration 4: f(x) = 0.355678
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=41, num_layers=2, activation=Sigmoid, 
   optimizer=RMSprop, lr_unified=6.4153, alpha=0.0157
-  Validation MSE: 0.190298
-Iteration 6: f(x) = 0.190298
+  Validation MSE: 0.192692
+Iteration 5: f(x) = 0.192692
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1178,7 +1175,7 @@ Configuration 1/1:
   l1=77, num_layers=3, activation=Sigmoid, 
   optimizer=SGD, lr_unified=4.4305, alpha=0.0194
   Validation MSE: 0.202042
-Iteration 7: f(x) = 0.202042
+Iteration 6: f(x) = 0.202042
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1186,7 +1183,7 @@ Configuration 1/1:
   l1=43, num_layers=2, activation=Sigmoid, 
   optimizer=SGD, lr_unified=0.6789, alpha=0.0502
   Validation MSE: 0.203887
-Iteration 8: f(x) = 0.203887
+Iteration 7: f(x) = 0.203887
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1194,7 +1191,7 @@ Configuration 1/1:
   l1=119, num_layers=3, activation=GELU, 
   optimizer=RMSprop, lr_unified=2.1892, alpha=0.5140
   Validation MSE: 0.228413
-Iteration 9: f(x) = 0.228413
+Iteration 8: f(x) = 0.228413
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1202,15 +1199,15 @@ Configuration 1/1:
   l1=116, num_layers=2, activation=Sigmoid, 
   optimizer=Adam, lr_unified=0.6885, alpha=0.2024
   Validation MSE: 0.180719
-Iteration 10: f(x) = 0.180719
+Iteration 9: f(x) = 0.180719
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=62, num_layers=4, activation=Tanh, 
   optimizer=RMSprop, lr_unified=0.2720, alpha=0.6832
-  Validation MSE: 0.087061
-Iteration 11: New best f(x) = 0.087061
+  Validation MSE: 0.183771
+Iteration 10: f(x) = 0.183771
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1218,7 +1215,7 @@ Configuration 1/1:
   l1=73, num_layers=3, activation=Tanh, 
   optimizer=SGD, lr_unified=1.1299, alpha=0.2924
   Validation MSE: 0.186883
-Iteration 12: f(x) = 0.186883
+Iteration 11: f(x) = 0.186883
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1226,7 +1223,7 @@ Configuration 1/1:
   l1=91, num_layers=2, activation=Sigmoid, 
   optimizer=AdamW, lr_unified=0.2225, alpha=0.0161
   Validation MSE: 0.194576
-Iteration 13: f(x) = 0.194576
+Iteration 12: f(x) = 0.194576
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1234,16 +1231,16 @@ Configuration 1/1:
   l1=112, num_layers=2, activation=GELU, 
   optimizer=SGD, lr_unified=2.7386, alpha=0.0480
   Validation MSE: nan
-Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 0.5429)
-Iteration 14: f(x) = 0.529060
+Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 0.5121)
+Iteration 13: f(x) = 0.498268
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=47, num_layers=2, activation=GELU, 
   optimizer=Adam, lr_unified=3.4640, alpha=0.8417
-  Validation MSE: 0.128958
-Iteration 15: f(x) = 0.128958
+  Validation MSE: 0.130273
+Iteration 14: f(x) = 0.130273
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1251,16 +1248,16 @@ Configuration 1/1:
   l1=66, num_layers=3, activation=ReLU, 
   optimizer=SGD, lr_unified=2.3213, alpha=0.0124
   Validation MSE: nan
-Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 0.8074)
-Iteration 16: f(x) = 0.872169
+Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 0.7493)
+Iteration 15: f(x) = 0.814044
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=95, num_layers=2, activation=Sigmoid, 
   optimizer=Adam, lr_unified=4.6858, alpha=0.8132
-  Validation MSE: 0.000360
-Iteration 17: New best f(x) = 0.000360
+  Validation MSE: 0.000363
+Iteration 16: New best f(x) = 0.000363
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1268,7 +1265,7 @@ Configuration 1/1:
   l1=79, num_layers=1, activation=Tanh, 
   optimizer=SGD, lr_unified=0.1654, alpha=0.0163
   Validation MSE: 0.195575
-Iteration 18: f(x) = 0.195575
+Iteration 17: f(x) = 0.195575
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1276,24 +1273,24 @@ Configuration 1/1:
   l1=70, num_layers=3, activation=ReLU, 
   optimizer=SGD, lr_unified=1.7893, alpha=0.6472
   Validation MSE: nan
-Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 1.3620)
-Iteration 19: f(x) = 1.514328
+Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 1.2667)
+Iteration 18: f(x) = 1.419047
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=44, num_layers=3, activation=Tanh, 
   optimizer=RMSprop, lr_unified=5.6818, alpha=0.0218
-  Validation MSE: 6.802989
-Iteration 20: f(x) = 6.802989
+  Validation MSE: 6.802986
+Iteration 19: f(x) = 6.802986
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=111, num_layers=3, activation=ReLU, 
   optimizer=Adam, lr_unified=4.0470, alpha=0.2395
-  Validation MSE: 0.127627
-Iteration 21: f(x) = 0.127627
+  Validation MSE: 0.127338
+Iteration 20: f(x) = 0.127338
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1301,7 +1298,7 @@ Configuration 1/1:
   l1=41, num_layers=1, activation=ReLU, 
   optimizer=AdamW, lr_unified=9.3784, alpha=0.3473
   Validation MSE: 0.171482
-Iteration 22: f(x) = 0.171482
+Iteration 21: f(x) = 0.171482
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1309,7 +1306,7 @@ Configuration 1/1:
   l1=113, num_layers=2, activation=GELU, 
   optimizer=SGD, lr_unified=0.4088, alpha=0.0688
   Validation MSE: 0.181295
-Iteration 23: f(x) = 0.181295
+Iteration 22: f(x) = 0.181295
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1317,8 +1314,8 @@ Configuration 1/1:
   l1=106, num_layers=2, activation=ReLU, 
   optimizer=SGD, lr_unified=5.4687, alpha=0.5656
   Validation MSE: nan
-Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 10.3793)
-Iteration 24: f(x) = 10.355925
+Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 10.4204)
+Iteration 23: f(x) = 10.396952
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1326,7 +1323,7 @@ Configuration 1/1:
   l1=24, num_layers=3, activation=Sigmoid, 
   optimizer=RMSprop, lr_unified=0.4724, alpha=0.0123
   Validation MSE: 0.143761
-Iteration 25: f(x) = 0.143761
+Iteration 24: f(x) = 0.143761
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1334,7 +1331,7 @@ Configuration 1/1:
   l1=96, num_layers=1, activation=GELU, 
   optimizer=SGD, lr_unified=0.5396, alpha=0.6141
   Validation MSE: 0.189695
-Iteration 26: f(x) = 0.189695
+Iteration 25: f(x) = 0.189695
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1342,7 +1339,7 @@ Configuration 1/1:
   l1=112, num_layers=3, activation=Tanh, 
   optimizer=SGD, lr_unified=0.1361, alpha=0.0246
   Validation MSE: 0.195050
-Iteration 27: f(x) = 0.195050
+Iteration 26: f(x) = 0.195050
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1350,31 +1347,31 @@ Configuration 1/1:
   l1=76, num_layers=2, activation=GELU, 
   optimizer=AdamW, lr_unified=0.2194, alpha=0.0255
   Validation MSE: 0.166782
-Iteration 28: f(x) = 0.166782
+Iteration 27: f(x) = 0.166782
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=102, num_layers=2, activation=ReLU, 
   optimizer=Adam, lr_unified=0.6220, alpha=0.1496
-  Validation MSE: 0.178802
-Iteration 29: f(x) = 0.178802
+  Validation MSE: 0.180693
+Iteration 28: f(x) = 0.180693
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=86, num_layers=3, activation=ReLU, 
   optimizer=Adam, lr_unified=1.2365, alpha=0.3194
-  Validation MSE: 0.127320
-Iteration 30: f(x) = 0.127320
+  Validation MSE: 0.114003
+Iteration 29: f(x) = 0.114003
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=101, num_layers=2, activation=ReLU, 
   optimizer=AdamW, lr_unified=7.3601, alpha=0.0647
-  Validation MSE: 0.130081
-Iteration 31: f(x) = 0.130081
+  Validation MSE: 0.138163
+Iteration 30: f(x) = 0.138163
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1382,15 +1379,15 @@ Configuration 1/1:
   l1=112, num_layers=2, activation=Sigmoid, 
   optimizer=AdamW, lr_unified=0.1439, alpha=0.4666
   Validation MSE: 0.192847
-Iteration 32: f(x) = 0.192847
+Iteration 31: f(x) = 0.192847
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=96, num_layers=4, activation=GELU, 
   optimizer=AdamW, lr_unified=7.7483, alpha=0.4474
-  Validation MSE: 0.112189
-Iteration 33: f(x) = 0.112189
+  Validation MSE: 0.169612
+Iteration 32: f(x) = 0.169612
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1398,7 +1395,7 @@ Configuration 1/1:
   l1=122, num_layers=2, activation=ReLU, 
   optimizer=RMSprop, lr_unified=2.3122, alpha=0.0979
   Validation MSE: 0.229986
-Iteration 34: f(x) = 0.229986
+Iteration 33: f(x) = 0.229986
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1406,7 +1403,7 @@ Configuration 1/1:
   l1=30, num_layers=1, activation=GELU, 
   optimizer=RMSprop, lr_unified=3.3613, alpha=0.3171
   Validation MSE: 0.187535
-Iteration 35: f(x) = 0.187535
+Iteration 34: f(x) = 0.187535
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1414,7 +1411,7 @@ Configuration 1/1:
   l1=64, num_layers=3, activation=GELU, 
   optimizer=RMSprop, lr_unified=0.8964, alpha=0.6261
   Validation MSE: 0.195397
-Iteration 36: f(x) = 0.195397
+Iteration 35: f(x) = 0.195397
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1422,7 +1419,7 @@ Configuration 1/1:
   l1=35, num_layers=4, activation=Tanh, 
   optimizer=AdamW, lr_unified=0.2055, alpha=0.0157
   Validation MSE: 0.183670
-Iteration 37: f(x) = 0.183670
+Iteration 36: f(x) = 0.183670
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1430,23 +1427,23 @@ Configuration 1/1:
   l1=18, num_layers=2, activation=ReLU, 
   optimizer=SGD, lr_unified=0.2767, alpha=0.5381
   Validation MSE: 0.203944
-Iteration 38: f(x) = 0.203944
+Iteration 37: f(x) = 0.203944
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=68, num_layers=2, activation=Tanh, 
   optimizer=RMSprop, lr_unified=1.6975, alpha=0.0526
-  Validation MSE: 2.660376
-Iteration 39: f(x) = 2.660376
+  Validation MSE: 2.640711
+Iteration 38: f(x) = 2.640711
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
   l1=98, num_layers=4, activation=Sigmoid, 
   optimizer=RMSprop, lr_unified=3.4266, alpha=0.1841
-  Validation MSE: 0.874758
-Iteration 40: f(x) = 0.874758
+  Validation MSE: 0.874757
+Iteration 39: f(x) = 0.874757
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
 
@@ -1454,8 +1451,16 @@ Configuration 1/1:
   l1=87, num_layers=3, activation=Sigmoid, 
   optimizer=SGD, lr_unified=2.5483, alpha=0.0127
   Validation MSE: 0.202666
-Iteration 41: f(x) = 0.202666
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251214_193217</code></pre>
+Iteration 40: f(x) = 0.202666
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+
+Configuration 1/1:
+  l1=25, num_layers=3, activation=Sigmoid, 
+  optimizer=SGD, lr_unified=0.2009, alpha=0.0495
+  Validation MSE: 0.228677
+Iteration 41: f(x) = 0.228677
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251214_222447</code></pre>
 </div>
 </div>
 </section>
@@ -1482,7 +1487,7 @@ Best Solution Found:
 </div>
 </div>
 <p>Store values for later use in visualizations. Values are already in original scale thanks to <code>var_trans</code>. Factor variables are returned as strings.</p>
-<div id="0ccd736f" class="cell" data-execution_count="10">
+<div id="f551080b" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>best_l1 <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">0</span>])</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>best_num_layers <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">1</span>])</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>best_activation <span class="op">=</span> result.x[<span class="dv">2</span>]</span>
@@ -1507,12 +1512,12 @@ Best optimizer: Adam</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>| name       | type   | lower   | upper   | tuned              | trans   |   importance | stars   |
 |------------|--------|---------|---------|--------------------|---------|--------------|---------|
-| l1         | int    | 16.0    | 128.0   | 95                 | -       |         5.74 | *       |
-| num_layers | int    | 1.0     | 4.0     | 2                  | -       |         3.42 | *       |
-| activation | factor | Tanh    | GELU    | Sigmoid            | -       |        38.13 | *       |
-| optimizer  | factor | Adam    | AdamW   | Adam               | -       |         6.76 | *       |
-| lr_unified | float  | 0.1     | 10.0    | 4.685806654938922  | log10   |        41.27 | *       |
-| alpha      | float  | 0.01    | 1.0     | 0.8131651565643412 | log10   |         4.68 | *       |
+| l1         | int    | 16.0    | 128.0   | 95                 | -       |         5.86 | *       |
+| num_layers | int    | 1.0     | 4.0     | 2                  | -       |         2.73 | *       |
+| activation | factor | Tanh    | GELU    | Sigmoid            | -       |        37.19 | *       |
+| optimizer  | factor | Adam    | AdamW   | Adam               | -       |         5.12 | *       |
+| lr_unified | float  | 0.1     | 10.0    | 4.685806654938922  | log10   |        40.53 | *       |
+| alpha      | float  | 0.01    | 1.0     | 0.8131651565643412 | log10   |         8.57 | *       |
 
 Interpretation: ***: &gt;95%, **: &gt;50%, *: &gt;1%, .: &gt;0.1%</code></pre>
 </div>
@@ -1540,9 +1545,9 @@ Interpretation: ***: &gt;95%, **: &gt;50%, *: &gt;1%, .: &gt;0.1%</code></pre>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>optimizer.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
-  lr_unified: importance = 41.27% (type: float)
-  activation: importance = 38.13% (type: factor)
-  optimizer: importance = 6.76% (type: factor)
+  lr_unified: importance = 40.53% (type: float)
+  activation: importance = 37.19% (type: factor)
+  alpha: importance = 8.57% (type: float)
 
 Generating 3 surrogate plots...
   Plotting lr_unified vs activation</code></pre>
@@ -1550,27 +1555,27 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-2.png" id="pinn-surrogate-visualization-pinn2-1" width="990" height="819" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-2.png" id="pinn-surrogate-visualization-pinn2-1" width="1001" height="819" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Plotting lr_unified vs optimizer</code></pre>
+<pre><code>  Plotting lr_unified vs alpha</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-4.png" id="pinn-surrogate-visualization-pinn2-2" width="994" height="819" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-4.png" id="pinn-surrogate-visualization-pinn2-2" width="1133" height="950" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Plotting activation vs optimizer</code></pre>
+<pre><code>  Plotting activation vs alpha</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-6.png" id="pinn-surrogate-visualization-pinn2-3" width="994" height="853" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-6.png" id="pinn-surrogate-visualization-pinn2-3" width="975" height="853" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1697,12 +1702,12 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-stdout">
 <pre><code>Training final model with best hyperparameters using DataLoaders...
 Training for 30,000 epochs...
-  Epoch 5000/30000: Avg Loss = 0.002204
-  Epoch 10000/30000: Avg Loss = 0.000231
-  Epoch 15000/30000: Avg Loss = 0.000123
-  Epoch 20000/30000: Avg Loss = 0.000579
-  Epoch 25000/30000: Avg Loss = 0.003072
-  Epoch 30000/30000: Avg Loss = 0.000093
+  Epoch 5000/30000: Avg Loss = 0.001768
+  Epoch 10000/30000: Avg Loss = 0.000577
+  Epoch 15000/30000: Avg Loss = 0.000963
+  Epoch 20000/30000: Avg Loss = 0.002317
+  Epoch 25000/30000: Avg Loss = 0.001240
+  Epoch 30000/30000: Avg Loss = 0.000075
 Training completed!</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1751,9 +1756,9 @@ Training completed!</code></pre>
 <pre><code>
 Final Model Performance:
 --------------------------------------------------
-  Validation MSE: 0.000522
-  Full domain MSE: 0.000267
-  Maximum absolute error: 0.083369</code></pre>
+  Validation MSE: 0.001008
+  Full domain MSE: 0.000490
+  Maximum absolute error: 0.117216</code></pre>
 </div>
 </div>
 </section>
@@ -1887,7 +1892,7 @@ Baseline Configuration:
 Validation MSE Comparison:
 --------------------------------------------------
   Baseline: 0.058316
-  Optimized: 0.000360
+  Optimized: 0.000363
   Improvement: 99.4%</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1922,19 +1927,19 @@ Validation MSE Comparison:
 </div>
 <section id="sensitivity-analysis-spearman-correlation" class="level2" data-number="49.1">
 <h2 data-number="49.1" class="anchored" data-anchor-id="sensitivity-analysis-spearman-correlation"><span class="header-section-number">49.1</span> Sensitivity Analysis (Spearman Correlation)</h2>
-<div id="de66a10b" class="cell" data-execution_count="20">
+<div id="36bc3069" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the new sensitivity_spearman() method for tabular output</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>optimizer.sensitivity_spearman()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Sensitivity Analysis (Spearman Correlation):
 --------------------------------------------------
-  l1                  : +0.093 (p=0.520)
-  num_layers          : -0.243 (p=0.089)
+  l1                  : +0.032 (p=0.823)
+  num_layers          : -0.135 (p=0.350)
   activation          : (categorical variable, use visual inspection)
   optimizer           : (categorical variable, use visual inspection)
-  lr_unified          : +0.119 (p=0.410)
-  alpha               : -0.313 (p=0.027) *</code></pre>
+  lr_unified          : +0.084 (p=0.564)
+  alpha               : -0.228 (p=0.111)</code></pre>
 </div>
 </div>
 </section>
@@ -1991,19 +1996,19 @@ HYPERPARAMETER OPTIMIZATION SUMMARY
    - Physics weight (alpha): 0.8132
 
 2. PERFORMANCE:
-   - Validation MSE: 0.000360
-   - Full domain MSE: 0.000267
-   - Maximum absolute error: 0.083369
+   - Validation MSE: 0.000363
+   - Full domain MSE: 0.000490
+   - Maximum absolute error: 0.117216
 
 3. OPTIMIZATION STATISTICS:
    - Total evaluations: 50
-   - Initial best: 0.194649
-   - Final best: 0.000360
+   - Initial best: 0.194793
+   - Final best: 0.000363
    - Improvement: 99.8%
 
 4. COMPARISON TO BASELINE:
    - Baseline MSE: 0.058316
-   - Optimized MSE: 0.000360
+   - Optimized MSE: 0.000363
    - Improvement: 99.4%
 
 ======================================================================</code></pre>
@@ -2114,6 +2119,24 @@ HYPERPARAMETER OPTIMIZATION SUMMARY
 </ol>
 <hr>
 <p><strong>Note</strong>: The specific optimal values depend on the problem, data distribution, and computational budget. Always validate results on held-out test data.</p>
+</section>
+<section id="jupyter-notebook" class="level2" data-number="50.6">
+<h2 data-number="50.6" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">50.6</span> Jupyter Notebook</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/pinns_2_hyperparameter_tuning.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
+</ul>
+</div>
+</div>
 
 
 </section>

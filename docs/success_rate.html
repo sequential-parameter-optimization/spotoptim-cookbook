@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -134,7 +134,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -505,6 +507,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#update-frequency" id="toc-update-frequency" class="nav-link" data-scroll-target="#update-frequency"><span class="header-section-number">26.11.3</span> Update Frequency</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">26.12</span> Summary</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">26.13</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
@@ -616,18 +619,18 @@ Final success rate: 30.00%
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total evaluations: </span><span class="sc">{</span>optimizer<span class="sc">.</span>counter<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 1.960405
-Iteration 1: New best f(x) = 1.589891
-Iteration 2: New best f(x) = 1.032739
-Iteration 3: New best f(x) = 0.634805
-Iteration 4: New best f(x) = 0.436137
-Iteration 5: New best f(x) = 0.061650
-Iteration 6: New best f(x) = 0.035318
-Iteration 7: New best f(x) = 0.013250
-Iteration 8: New best f(x) = 0.002377
-Iteration 9: New best f(x) = 0.000142
-Iteration 10: New best f(x) = 0.000082
-Final success rate: 100.00%
+Initial best: f(x) = 9.797508
+Iteration 1: New best f(x) = 4.665909
+Iteration 2: New best f(x) = 2.468237
+Iteration 3: New best f(x) = 0.605508
+Iteration 4: New best f(x) = 0.100182
+Iteration 5: New best f(x) = 0.096697
+Iteration 6: New best f(x) = 0.049015
+Iteration 7: New best f(x) = 0.001855
+Iteration 8: New best f(x) = 0.000314
+Iteration 9: New best f(x) = 0.000026
+Iteration 10: f(x) = 0.000026
+Final success rate: 90.00%
 Total evaluations: 20</code></pre>
 </div>
 </div>
@@ -653,8 +656,8 @@ Total evaluations: 20</code></pre>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>rate <span class="op">=</span> optimizer._get_success_rate()</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Via getter method: </span><span class="sc">{</span>rate<span class="sc">:.2%}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Success rate: 40.00%
-Via getter method: 40.00%</code></pre>
+<pre><code>Success rate: 80.00%
+Via getter method: 80.00%</code></pre>
 </div>
 </div>
 </section>
@@ -803,11 +806,11 @@ Best configuration: Large initial
 <span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unique design points: </span><span class="sc">{</span>optimizer<span class="sc">.</span>mean_X<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 1.979256, mean best: f(x) = 2.221900
+Initial best: f(x) = 1.645168, mean best: f(x) = 2.146984
 
 Noisy Optimization Results:
-Best raw value: 1.979256
-Best mean value: 2.221900
+Best raw value: 1.645168
+Best mean value: 2.146984
 Success rate: 0.00%
 Total evaluations: 30
 Unique design points: 10</code></pre>
@@ -914,6 +917,24 @@ Unique design points: 10</code></pre>
 <li>Available via <code>optimizer.success_rate</code> attribute after optimization</li>
 </ul>
 <p>Use success rate to: - ✓ Monitor optimization progress in real-time - ✓ Identify when to stop optimization - ✓ Compare different optimization strategies - ✓ Assess optimization difficulty for different problems</p>
+</section>
+<section id="jupyter-notebook" class="level2" data-number="26.13">
+<h2 data-number="26.13" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">26.13</span> Jupyter Notebook</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/success_rate.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
+</ul>
+</div>
+</div>
 
 
 </section>

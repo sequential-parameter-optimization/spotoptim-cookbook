@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -163,7 +163,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -563,7 +565,7 @@ Note
 <section id="accessing-the-remote-function" class="level3" data-number="11.1.2">
 <h3 data-number="11.1.2" class="anchored" data-anchor-id="accessing-the-remote-function"><span class="header-section-number">11.1.2</span> Accessing the Remote Function</h3>
 <p>First, let’s verify we can connect to the server and evaluate a sample point.</p>
-<div id="eb525fde" class="cell" data-execution_count="1">
+<div id="94320b23" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.remote <span class="im">import</span> objective_remote</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -584,17 +586,17 @@ Objective Value (Wing Weight): 270.6871925704356</code></pre>
 </div>
 </div>
 <p>You can also send an array of sample points to the remote function and retrieve an array of objective values.</p>
-<div id="52399edd" class="cell" data-execution_count="2">
+<div id="04302bd8" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate an n x 10 array of sample points</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x_samples <span class="op">=</span> np.random.rand(n_samples, <span class="dv">10</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>y_samples <span class="op">=</span> objective_remote(x_samples)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Objective Values (Wing Weight):"</span>, y_samples)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Objective Values (Wing Weight): [206.88769996 290.23167123 248.35455379 306.39121209 279.82532051
- 337.25409789 260.96997242 295.60854275 377.73905684 204.5580405
- 338.01754771 253.88665798 270.19483503 390.92278644 186.91201694
- 285.94455012 328.8189942  309.95784107 270.18412535 309.75269001]</code></pre>
+<pre><code>Objective Values (Wing Weight): [244.62449427 282.62326305 240.72655386 241.80325263 209.70980855
+ 272.41876068 244.63385539 235.53978447 250.99672246 282.74230506
+ 264.99838759 231.18313969 303.10439132 220.52961388 218.48117074
+ 211.94438782 303.0057003  279.830226   310.54415952 286.02816045]</code></pre>
 </div>
 </div>
 </section>
@@ -603,7 +605,7 @@ Objective Value (Wing Weight): 270.6871925704356</code></pre>
 <h2 data-number="11.2" class="anchored" data-anchor-id="optimization-using-spotoptim"><span class="header-section-number">11.2</span> Optimization using <code>spotoptim</code></h2>
 <p>The <code>spotoptim</code> package provides a high-level <code>SpotOptim</code> class that streamlines the optimization process, especially when using surrogate models to reduce the number of expensive function evaluations.</p>
 <p>In this example, we will treat the remote function as an expensive black-box and use a surrogate-assisted approach.</p>
-<div id="8fbd8b6c" class="cell" data-execution_count="3">
+<div id="019cc637" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.remote <span class="im">import</span> objective_remote</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -703,7 +705,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>The Jupyter-Notebook of this lecture is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/Hyperparameter-Tuning-Cookbook/blob/main/006_infill.ipynb">Hyperparameter-Tuning-Cookbook Repository</a></li>
+<li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/007_challenge.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
 </ul>
 </div>
 </div>
