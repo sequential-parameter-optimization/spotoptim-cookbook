@@ -189,3 +189,13 @@ optimizer = SpotOptim(
 # References
 1. Forrester, A., Sóbester, A., & Keane, A. (2008). *Engineering Design via Surrogate Modelling: A Practical Guide*. Wiley.
 2. **SpotOptim Source Code**: `spotoptim/surrogate/kriging.py` (Validated against book's Matlab code).
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/kriging_forrester.ipynb)
+
+:::
+
+

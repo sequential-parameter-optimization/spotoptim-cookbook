@@ -238,13 +238,11 @@ Potential additions:
 - [ ] ARD (Automatic Relevance Determination)
 
 
-## Conclusion
+## Jupyter Notebook
 
-Implementation of a Kriging surrogate into SpotOptim with:
+:::{.callout-note}
 
-- ✅ Full scikit-learn compatibility
-- ✅ Comprehensive test coverage (9 new tests)
-- ✅ Complete documentation
-- ✅ Example notebook
-- ✅ Zero breaking changes
-- ✅ All 25 tests passing
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/kriging.ipynb)
+
+:::
+

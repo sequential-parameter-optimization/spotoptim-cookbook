@@ -781,3 +781,11 @@ This notebook demonstrated all major methods in SpotOptim with executable exampl
 
 All examples can be run independently and demonstrate the modular design of SpotOptim!
 
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/spotoptim_examples.ipynb)
+
+:::
+

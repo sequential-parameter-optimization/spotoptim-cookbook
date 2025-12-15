@@ -336,3 +336,13 @@ This is computationally efficient while maintaining good space-filling propertie
 Choose the strategy that best matches your optimization goals:
 - Use `"random"` for general-purpose optimization
 - Use `"mm"` when you want maximum exploration and have a generous function evaluation budget
+
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/acquisition_failure.ipynb)
+
+:::
+

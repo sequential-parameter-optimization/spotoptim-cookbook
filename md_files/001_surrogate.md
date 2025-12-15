@@ -166,3 +166,4 @@ The selection of infill points is often guided by infill criteria, such as:
 
 The iterative infill-points updating process ensures that the surrogate model becomes increasingly accurate and useful for optimization or decision-making tasks.
 
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/001_surrogate.ipynb)

@@ -303,7 +303,9 @@ The results show that `SpotOptim` with sklearn surrogates provides effective Bay
 
 :::{.callout-note}
 
-* This Quarto document is part of the spotoptim package benchmarking suite
-* Source available at: [spotoptim GitHub Repository](https://github.com/sequential-parameter-optimization/spotoptim)
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/019_spotoptim_sk_matern.ipynb)
 
 :::
+
+
+

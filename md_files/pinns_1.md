@@ -465,3 +465,12 @@ result = optimizer.optimize()
 ```
 
 This approach allows you to systematically find the best network architecture and learning rate for your specific PINN problem.
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/pinns_1.ipynb)
+
+:::
+

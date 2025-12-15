@@ -691,7 +691,11 @@ The diabetes dataset utilities in SpotOptim provide:
 - **Flexible configuration**: Control batch size, splitting, scaling, and more
 - **Production ready**: Save scalers and ensure reproducibility
 
-For more examples, see:
-- `examples/diabetes_dataset_example.py`
-- `notebooks/demos.ipynb`
-- Test suite: `tests/test_diabetes_dataset.py`
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/diabetes_dataset.ipynb)
+
+:::
+

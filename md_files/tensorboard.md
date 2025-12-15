@@ -326,3 +326,12 @@ TensorBoard logging has minimal overhead:
 - < 1% slowdown for typical optimizations
 - Event files are efficiently buffered and written
 - Writer is properly closed after optimization completes
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/tensorboard.ipynb)
+
+:::
+

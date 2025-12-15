@@ -1376,3 +1376,12 @@ SpotOptim provides a robust and flexible framework for surrogate-based optimizat
 ✓ Comprehensive progress tracking
 
 The modular design allows easy customization while maintaining robust defaults for most use cases.
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/spot_step_by_step.ipynb)
+
+:::
+
