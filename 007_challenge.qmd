@@ -325,3 +325,11 @@ The results indicate that [SpotOptim/Scipy] provides superior performance on thi
 ## References
 
 *   Bartz-Beielstein, T., et al. (2020). Benchmarking in Optimization: Best Practice and Open Issues. arXiv:2007.03488.
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/007_challenge.ipynb)
+
+:::
