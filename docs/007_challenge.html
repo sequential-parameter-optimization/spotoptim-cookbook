@@ -526,6 +526,7 @@ window.Quarto = {
   <li><a href="#comparative-analysis" id="toc-comparative-analysis" class="nav-link" data-scroll-target="#comparative-analysis"><span class="header-section-number">11.6</span> Comparative Analysis</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">11.7</span> Conclusion</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">11.8</span> References</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">11.9</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
@@ -597,7 +598,7 @@ window.Quarto = {
 <section id="estimating-noise-sigma" class="level3" data-number="11.3.1">
 <h3 data-number="11.3.1" class="anchored" data-anchor-id="estimating-noise-sigma"><span class="header-section-number">11.3.1</span> 1. Estimating Noise (<span class="math inline">\(\sigma\)</span>)</h3>
 <p>We evaluate a random design point 30 times to estimate the standard deviation of the noise.</p>
-<div id="e43e069f" class="cell" data-execution_count="1">
+<div id="2372db88" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statistics</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.remote <span class="im">import</span> objective_remote</span>
@@ -614,14 +615,14 @@ window.Quarto = {
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estimated Noise (sigma): </span><span class="sc">{</span>sigma_est<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimating noise...
-Estimated Noise (sigma): 0.1181</code></pre>
+Estimated Noise (sigma): 0.1170</code></pre>
 </div>
 </div>
 </section>
 <section id="determining-sample-size-n" class="level3" data-number="11.3.2">
 <h3 data-number="11.3.2" class="anchored" data-anchor-id="determining-sample-size-n"><span class="header-section-number">11.3.2</span> 2. Determining Sample Size (<span class="math inline">\(n\)</span>)</h3>
 <p>We perform a power analysis to calculate the number of evaluations (<span class="math inline">\(n\)</span>) needed to validate a solution. We aim to detect a “large” effect size (Cohen’s <span class="math inline">\(d=1.0\)</span>, which corresponds to a difference of <span class="math inline">\(1.0 \times \sigma\)</span>) with a power of 0.8 and significance level <span class="math inline">\(\alpha=0.05\)</span>.</p>
-<div id="14df43fb" class="cell" data-execution_count="2">
+<div id="a52e94cf" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Power Analysis</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>effect_size <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Detect difference of 1 sigma</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span>       <span class="co"># Significance level</span></span>
@@ -651,7 +652,7 @@ Estimated Noise (sigma): 0.1181</code></pre>
 <li><strong>Budget per Run</strong>: 50 evaluations</li>
 <li><strong>Validation Size (<span class="math inline">\(n\)</span>)</strong>: <code>n_validate</code> (calculated above)</li>
 </ul>
-<div id="45ba4c97" class="cell" data-execution_count="3">
+<div id="55149766" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -783,27 +784,27 @@ Estimated Noise (sigma): 0.1181</code></pre>
 
 --- SpotOptim ---
 Run 1/5
-  Best found: 128.5247 -&gt; Validated Mean: 128.5891
+  Best found: 128.5832 -&gt; Validated Mean: 128.6219
 Run 2/5
-  Best found: 128.4734 -&gt; Validated Mean: 128.5085
+  Error in SpotOptim run 1: unsupported operand type(s) for +: 'NoneType' and 'float'
 Run 3/5
-  Best found: 128.4349 -&gt; Validated Mean: 128.5450
+  Error in SpotOptim run 2: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 4/5
-  Error in SpotOptim run 3: unsupported operand type(s) for +: 'float' and 'NoneType'
+  Best found: 128.3852 -&gt; Validated Mean: 128.4939
 Run 5/5
-  Best found: 128.4350 -&gt; Validated Mean: 128.6173
+  Error in SpotOptim run 4: unsupported operand type(s) for +: 'float' and 'NoneType'
 
 --- Scipy L-BFGS-B ---
 Run 1/5
-  Error in Scipy run 0: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Best found: 200.2528 -&gt; Validated Mean: 200.5184
 Run 2/5
-  Error in Scipy run 1: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Best found: 171.9391 -&gt; Validated Mean: 172.0711
 Run 3/5
-  Best found: 290.9065 -&gt; Validated Mean: 291.0924
+  Best found: 238.0240 -&gt; Validated Mean: 238.1730
 Run 4/5
-  Error in Scipy run 3: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Best found: 230.4171 -&gt; Validated Mean: 230.4979
 Run 5/5
-  Error in Scipy run 4: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Best found: 167.3723 -&gt; Validated Mean: 167.4503
 
 Experiments completed.</code></pre>
 </div>
@@ -918,11 +919,11 @@ Figure&nbsp;11.2: Comparison of Validated True Means (Lower is Better)
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Statistical Comparison (Welch's t-test):
-  SpotOptim Mean: 128.5650 (std: 0.0416)
-  Scipy Mean:     291.0924 (std: 0.0000)
-  T-statistic: nan
-  P-value: nan
-  Result: No significant difference detected (p &gt;= 0.05).</code></pre>
+  SpotOptim Mean: 128.5579 (std: 0.0640)
+  Scipy Mean:     201.7421 (std: 29.0238)
+  T-statistic: -5.0430
+  P-value: 0.0073
+  Result: Significant difference detected (p &lt; 0.05).</code></pre>
 </div>
 </div>
 </section>
@@ -936,6 +937,24 @@ Figure&nbsp;11.2: Comparison of Validated True Means (Lower is Better)
 <ul>
 <li>Bartz-Beielstein, T., et al.&nbsp;(2020). Benchmarking in Optimization: Best Practice and Open Issues. arXiv:2007.03488.</li>
 </ul>
+</section>
+<section id="jupyter-notebook" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">11.9</span> Jupyter Notebook</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/007_challenge.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
+</ul>
+</div>
+</div>
 
 
 </section>
