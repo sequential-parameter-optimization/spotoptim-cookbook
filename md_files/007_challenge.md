@@ -34,6 +34,87 @@ The objective function is accessed via `objective_remote`. It simulates the weig
 *   **SpotOptim Settings**: Initial design $n=10$, surrogate-based optimization for the remaining budget.
 *   **Scipy Settings**: L-BFGS-B with numeric differentiation.
 
+## Comparison of the Difficulty
+
+To estimate the landscape difficulty of the remote function, we perform random linear cuts through the input space and plot the objective values along these cuts.
+We compare the following four functions:
+
+1. Wing Weight (10D)
+2. Robot Arm with Obstacles (10D)
+3. Lennard-Jones Potential (39D)
+4. Remote Objective (10D)
+
+```{python}
+import matplotlib.pyplot as plt
+import time
+import numpy as np
+from spotoptim.function.remote import objective_remote
+from spotoptim.function.so import wingwt, lennard_jones
+
+def get_landscape_cut(func, dim, steps=200):
+    np.random.seed(42)
+    # Define two random points in [0, 1]^dim
+    start_point = np.random.rand(dim)
+    end_point = np.random.rand(dim)
+    
+    # Interpolate
+    alphas = np.linspace(0, 1, steps)
+    # Shape (steps, dim)
+    trajectory = np.outer(1 - alphas, start_point) + np.outer(alphas, end_point)
+    
+    # Time execution
+    t0 = time.time()
+    values = func(trajectory)
+    dt = time.time() - t0
+    
+    return alphas, values, dt * 1000  # ms
+
+# Run Analysis
+steps = 300
+
+# 1. Wing Weight (10 dim)
+a1, v1, t1 = get_landscape_cut(wingwt, 10, steps)
+
+# 2. Lennard-Jones (39 dim)
+a2, v2, t2 = get_landscape_cut(lennard_jones, 39, steps)
+
+# 3. Challenge Remote (10 dim)
+a3, v3, t3 = get_landscape_cut(objective_remote, 10, steps)
+```
+
+```{python}
+#| label: fig-landscapes
+#| fig-cap: "1D Slice through High-Dimensional Landscapes"
+
+fig, axes = plt.subplots(3, 1, figsize=(10, 9))
+
+# Plot 1: Wing Weight
+axes[0].plot(a1, v1, color='blue', linewidth=2)
+axes[0].set_title(f"Wing Weight (10D)\nSmooth & Unimodal")
+axes[0].set_xlabel("Interpolation $\\alpha$")
+axes[0].set_ylabel("Weight")
+axes[0].grid(True, alpha=0.3)
+
+# Plot 2: Lennard-Jones
+axes[1].plot(a2, v2, color='green', linewidth=2)
+axes[1].set_title(f"Lennard-Jones (39D)\nRugged & Multimodal")
+axes[1].set_xlabel("Interpolation $\\alpha$")
+axes[1].set_ylabel("Potential Energy")
+axes[1].grid(True, alpha=0.3)
+
+# Plot 3: Remote Challenge
+axes[2].plot(a3, v3, color='red', linewidth=2)
+axes[2].set_title(f"Remote Challenge (10D)\nNoisy & Complex")
+axes[2].set_xlabel("Interpolation $\\alpha$")
+axes[2].set_ylabel("Objective Value")
+axes[2].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+```
+
+
 ## Statistical Power Analysis
 
 To compare the algorithms fairly in the presence of noise, we cannot simply take the final objective value of a single run. The objective function $f(x)$ is noisy, meaning $y = f(x) + \epsilon$. We want to compare the true performance $\mu = E[f(x)]$ of the best solutions found.

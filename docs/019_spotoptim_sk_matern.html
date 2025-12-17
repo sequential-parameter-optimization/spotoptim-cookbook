@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -135,9 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -541,7 +539,7 @@ Note
 <section id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="level2" data-number="14.1">
 <h2 data-number="14.1" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">14.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</h2>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 6-dimensional Rosenbrock function. We use a maximum of 100 function evaluations.</p>
-<div id="84440c0b" class="cell" data-execution_count="1">
+<div id="82c8744f" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -551,7 +549,7 @@ Note
 </div>
 <section id="define-the-6d-rosenbrock-function" class="level3" data-number="14.1.1">
 <h3 data-number="14.1.1" class="anchored" data-anchor-id="define-the-6d-rosenbrock-function"><span class="header-section-number">14.1.1</span> Define the 6D Rosenbrock Function</h3>
-<div id="06723313" class="cell" data-execution_count="2">
+<div id="db640a93" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">6</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.full(dim, <span class="op">-</span><span class="fl">2.0</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.full(dim, <span class="fl">2.0</span>)</span>
@@ -562,7 +560,7 @@ Note
 </section>
 <section id="set-up-spotoptim-parameters" class="level3" data-number="14.1.2">
 <h3 data-number="14.1.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters"><span class="header-section-number">14.1.2</span> Set up SpotOptim Parameters</h3>
-<div id="2fb5059f" class="cell" data-execution_count="3">
+<div id="aba2957f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -597,108 +595,108 @@ Note
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
 Initial best: f(x) = 321.834153
-Iteration 1: f(x) = 3523.030968
-Iteration 2: f(x) = 1535.228389
-Iteration 3: f(x) = 326.972482
-Iteration 4: New best f(x) = 179.355602
-Iteration 5: New best f(x) = 147.216324
-Iteration 6: New best f(x) = 126.875035
-Iteration 7: New best f(x) = 106.903984
-Iteration 8: New best f(x) = 77.678246
-Iteration 9: New best f(x) = 67.626548
-Iteration 10: f(x) = 70.969523
-Iteration 11: New best f(x) = 66.963648
-Iteration 12: New best f(x) = 66.896014
-Iteration 13: New best f(x) = 63.370812
-Iteration 14: New best f(x) = 53.787237
-Iteration 15: New best f(x) = 53.428092
-Iteration 16: New best f(x) = 52.685104
-Iteration 17: New best f(x) = 51.543477
-Iteration 18: New best f(x) = 48.507887
-Iteration 19: New best f(x) = 48.434042
-Iteration 20: New best f(x) = 48.351063
-Iteration 21: New best f(x) = 48.280553
-Iteration 22: New best f(x) = 47.905908
-Iteration 23: New best f(x) = 44.280989
-Iteration 24: New best f(x) = 40.630347
-Iteration 25: f(x) = 41.174985
-Iteration 26: New best f(x) = 39.878085
-Iteration 27: f(x) = 40.569455
-Iteration 28: New best f(x) = 35.861563
-Iteration 29: New best f(x) = 35.645768
-Iteration 30: New best f(x) = 33.711348
-Iteration 31: New best f(x) = 32.387219
-Iteration 32: f(x) = 33.417553
-Iteration 33: New best f(x) = 31.097689
-Iteration 34: New best f(x) = 30.637136
-Iteration 35: New best f(x) = 30.229822
-Iteration 36: New best f(x) = 29.880641
-Iteration 37: New best f(x) = 27.233958
-Iteration 38: New best f(x) = 26.025384
-Iteration 39: New best f(x) = 24.823578
-Iteration 40: New best f(x) = 23.232126
-Iteration 41: New best f(x) = 20.981309
-Iteration 42: New best f(x) = 17.428239
-Iteration 43: New best f(x) = 15.959956
-Iteration 44: New best f(x) = 15.825251
-Iteration 45: f(x) = 16.088644
-Iteration 46: New best f(x) = 14.736846
-Iteration 47: New best f(x) = 14.459624
-Iteration 48: New best f(x) = 14.133160
-Iteration 49: New best f(x) = 13.857269
-Iteration 50: New best f(x) = 12.485423
-Iteration 51: New best f(x) = 7.958115
-Iteration 52: New best f(x) = 7.366104
-Iteration 53: f(x) = 7.461096
-Iteration 54: New best f(x) = 7.241394
-Iteration 55: f(x) = 7.274008
-Iteration 56: New best f(x) = 7.021319
-Iteration 57: New best f(x) = 6.587234
-Iteration 58: New best f(x) = 6.115783
-Iteration 59: New best f(x) = 6.013483
-Iteration 60: New best f(x) = 5.648435
-Iteration 61: f(x) = 5.889444
-Iteration 62: New best f(x) = 5.304186
-Iteration 63: New best f(x) = 5.259967
-Iteration 64: New best f(x) = 5.133822
-Iteration 65: f(x) = 5.146766
-Iteration 66: f(x) = 5.153254
-Iteration 67: New best f(x) = 5.038525
-Iteration 68: New best f(x) = 4.937782
-Iteration 69: f(x) = 4.940314
-Iteration 70: New best f(x) = 4.897989
-Iteration 71: f(x) = 4.913816
-Iteration 72: New best f(x) = 4.894362
-Iteration 73: New best f(x) = 4.883950
-Iteration 74: New best f(x) = 4.881743
-Iteration 75: f(x) = 4.881934
-Iteration 76: f(x) = 4.892193
-Iteration 77: New best f(x) = 4.865536
-Iteration 78: New best f(x) = 4.841210
-Iteration 79: New best f(x) = 4.812096
-Iteration 80: New best f(x) = 4.739761
-Iteration 81: New best f(x) = 4.548473
-Iteration 82: f(x) = 4.605761
-Iteration 83: f(x) = 4.642851
-Iteration 84: New best f(x) = 4.471704
-Iteration 85: New best f(x) = 4.282718
-Iteration 86: f(x) = 4.831848
-Iteration 87: New best f(x) = 4.254008
-Iteration 88: f(x) = 4.267115
-Iteration 89: f(x) = 29.075649
-Iteration 90: New best f(x) = 4.230813
-Iteration 91: New best f(x) = 4.227508
-Iteration 92: New best f(x) = 4.206486
-Iteration 93: New best f(x) = 4.037542
-Iteration 94: New best f(x) = 4.037242</code></pre>
+Iteration 1: f(x) = 3523.041274
+Iteration 2: f(x) = 1535.228488
+Iteration 3: f(x) = 326.972330
+Iteration 4: New best f(x) = 179.355481
+Iteration 5: New best f(x) = 147.215530
+Iteration 6: New best f(x) = 126.870418
+Iteration 7: New best f(x) = 106.905934
+Iteration 8: New best f(x) = 77.680921
+Iteration 9: New best f(x) = 67.631489
+Iteration 10: f(x) = 70.976210
+Iteration 11: New best f(x) = 66.965479
+Iteration 12: New best f(x) = 66.885551
+Iteration 13: New best f(x) = 63.401554
+Iteration 14: New best f(x) = 53.838532
+Iteration 15: New best f(x) = 53.498833
+Iteration 16: New best f(x) = 52.821775
+Iteration 17: New best f(x) = 51.385702
+Iteration 18: New best f(x) = 48.224482
+Iteration 19: f(x) = 48.773684
+Iteration 20: f(x) = 48.505320
+Iteration 21: New best f(x) = 46.796881
+Iteration 22: New best f(x) = 43.972585
+Iteration 23: New best f(x) = 41.089081
+Iteration 24: f(x) = 41.248165
+Iteration 25: f(x) = 42.161157
+Iteration 26: New best f(x) = 40.453111
+Iteration 27: New best f(x) = 40.346459
+Iteration 28: f(x) = 41.128924
+Iteration 29: New best f(x) = 37.161236
+Iteration 30: f(x) = 37.301902
+Iteration 31: f(x) = 37.177480
+Iteration 32: New best f(x) = 37.003380
+Iteration 33: New best f(x) = 36.727852
+Iteration 34: New best f(x) = 34.372288
+Iteration 35: New best f(x) = 26.570993
+Iteration 36: f(x) = 27.268795
+Iteration 37: New best f(x) = 25.571158
+Iteration 38: New best f(x) = 24.508170
+Iteration 39: New best f(x) = 20.805209
+Iteration 40: New best f(x) = 17.077258
+Iteration 41: New best f(x) = 16.045500
+Iteration 42: New best f(x) = 15.943502
+Iteration 43: f(x) = 16.855897
+Iteration 44: New best f(x) = 13.346863
+Iteration 45: f(x) = 13.558160
+Iteration 46: f(x) = 13.692029
+Iteration 47: New best f(x) = 12.962539
+Iteration 48: f(x) = 13.238444
+Iteration 49: New best f(x) = 10.621715
+Iteration 50: New best f(x) = 7.276572
+Iteration 51: f(x) = 7.452041
+Iteration 52: New best f(x) = 7.178921
+Iteration 53: New best f(x) = 7.040025
+Iteration 54: f(x) = 7.125089
+Iteration 55: New best f(x) = 6.078095
+Iteration 56: f(x) = 6.437816
+Iteration 57: New best f(x) = 5.613835
+Iteration 58: New best f(x) = 5.545208
+Iteration 59: f(x) = 5.661450
+Iteration 60: New best f(x) = 5.204688
+Iteration 61: f(x) = 7.070343
+Iteration 62: f(x) = 5.327539
+Iteration 63: New best f(x) = 5.051902
+Iteration 64: New best f(x) = 5.011674
+Iteration 65: f(x) = 5.124268
+Iteration 66: New best f(x) = 4.857389
+Iteration 67: New best f(x) = 4.698551
+Iteration 68: f(x) = 4.778378
+Iteration 69: New best f(x) = 4.487435
+Iteration 70: f(x) = 4.546786
+Iteration 71: New best f(x) = 4.420964
+Iteration 72: f(x) = 4.480182
+Iteration 73: New best f(x) = 4.251062
+Iteration 74: New best f(x) = 4.133041
+Iteration 75: New best f(x) = 4.132160
+Iteration 76: f(x) = 4.156408
+Iteration 77: f(x) = 4.138211
+Iteration 78: New best f(x) = 4.029557
+Iteration 79: f(x) = 4.069572
+Iteration 80: New best f(x) = 3.948012
+Iteration 81: New best f(x) = 3.779178
+Iteration 82: New best f(x) = 3.749420
+Iteration 83: f(x) = 3.774624
+Iteration 84: New best f(x) = 3.677979
+Iteration 85: f(x) = 3.696197
+Iteration 86: New best f(x) = 3.671687
+Iteration 87: New best f(x) = 3.663129
+Iteration 88: f(x) = 3.689586
+Iteration 89: f(x) = 3.705687
+Iteration 90: New best f(x) = 3.644411
+Iteration 91: New best f(x) = 3.537077
+Iteration 92: New best f(x) = 3.506987
+Iteration 93: New best f(x) = 3.489835
+Iteration 94: New best f(x) = 3.479111</code></pre>
 </div>
 </div>
-<div id="b8bed2bf" class="cell" data-execution_count="5">
+<div id="fc16d069" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[6D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[6D] Sklearn Kriging: min y = 4.0372 at x = [0.43277261 0.17027941 0.0131948  0.00304768 0.00273829 0.00967764]
+<pre><code>[6D] Sklearn Kriging: min y = 3.4791 at x = [0.57246717 0.32295369 0.08726536 0.01537511 0.01919666 0.00152358]
 Number of function evaluations: 100
 Number of iterations: 94</code></pre>
 </div>
@@ -706,7 +704,7 @@ Number of iterations: 94</code></pre>
 </section>
 <section id="visualize-optimization-progress" class="level3" data-number="14.1.4">
 <h3 data-number="14.1.4" class="anchored" data-anchor-id="visualize-optimization-progress"><span class="header-section-number">14.1.4</span> Visualize Optimization Progress</h3>
-<div id="eaf48d47" class="cell" data-execution_count="6">
+<div id="6e9a67fe" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
@@ -730,7 +728,7 @@ Number of iterations: 94</code></pre>
 <section id="evaluation-of-multiple-repeats" class="level3" data-number="14.1.5">
 <h3 data-number="14.1.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats"><span class="header-section-number">14.1.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="75c5daac" class="cell" data-execution_count="7">
+<div id="fa7d9ca9" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
@@ -779,7 +777,7 @@ Number of iterations: 94</code></pre>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 10-dimensional Michalewicz function. We use a maximum of 300 function evaluations.</p>
 <section id="define-the-10d-michalewicz-function" class="level3" data-number="14.2.1">
 <h3 data-number="14.2.1" class="anchored" data-anchor-id="define-the-10d-michalewicz-function"><span class="header-section-number">14.2.1</span> Define the 10D Michalewicz Function</h3>
-<div id="b61c3383" class="cell" data-execution_count="8">
+<div id="51bc99a0" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> michalewicz</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">10</span></span>
@@ -792,7 +790,7 @@ Number of iterations: 94</code></pre>
 </section>
 <section id="set-up-spotoptim-parameters-1" class="level3" data-number="14.2.2">
 <h3 data-number="14.2.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters-1"><span class="header-section-number">14.2.2</span> Set up SpotOptim Parameters</h3>
-<div id="e1252630" class="cell" data-execution_count="9">
+<div id="3aa81dd5" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -827,305 +825,305 @@ Number of iterations: 94</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
 Initial best: f(x) = -1.909129
-Iteration 1: f(x) = -0.472039
-Iteration 2: New best f(x) = -2.778282
-Iteration 3: f(x) = -1.576129
-Iteration 4: f(x) = -1.696371
-Iteration 5: New best f(x) = -3.210538
-Iteration 6: f(x) = -2.820913
-Iteration 7: f(x) = -2.982425
-Iteration 8: New best f(x) = -3.367348
-Iteration 9: f(x) = -3.200811
-Iteration 10: New best f(x) = -3.433255
-Iteration 11: New best f(x) = -3.529435
-Iteration 12: f(x) = -3.506548
-Iteration 13: New best f(x) = -3.563064
-Iteration 14: f(x) = -3.548567
-Iteration 15: f(x) = -3.553387
-Iteration 16: New best f(x) = -3.591762
-Iteration 17: f(x) = -3.589840
-Iteration 18: f(x) = -3.581236
-Iteration 19: New best f(x) = -3.675394
-Iteration 20: New best f(x) = -3.717723
-Iteration 21: New best f(x) = -3.758883
-Iteration 22: f(x) = -3.744384
-Iteration 23: New best f(x) = -3.843933
-Iteration 24: f(x) = -3.835443
-Iteration 25: New best f(x) = -3.896299
-Iteration 26: f(x) = -3.886525
-Iteration 27: New best f(x) = -3.903717
-Iteration 28: New best f(x) = -4.004615
-Iteration 29: New best f(x) = -4.102961
-Iteration 30: New best f(x) = -4.112692
-Iteration 31: New best f(x) = -4.201838
-Iteration 32: New best f(x) = -4.316168
-Iteration 33: New best f(x) = -4.320543
-Iteration 34: New best f(x) = -4.555255
-Iteration 35: New best f(x) = -4.586444
-Iteration 36: New best f(x) = -4.628443
-Iteration 37: New best f(x) = -4.877391
-Iteration 38: New best f(x) = -4.890758
-Iteration 39: f(x) = -4.858959
-Iteration 40: New best f(x) = -5.003565
-Iteration 41: New best f(x) = -5.011935
-Iteration 42: New best f(x) = -5.064252
-Iteration 43: New best f(x) = -5.099649
-Iteration 44: New best f(x) = -5.119172
-Iteration 45: f(x) = -5.109926
-Iteration 46: f(x) = -5.113359
-Iteration 47: f(x) = -5.078323
-Iteration 48: New best f(x) = -5.166599
-Iteration 49: f(x) = -5.166201
-Iteration 50: New best f(x) = -5.182173
-Iteration 51: New best f(x) = -5.190737
-Iteration 52: New best f(x) = -5.234003
-Iteration 53: f(x) = -5.233624
-Iteration 54: New best f(x) = -5.242429
-Iteration 55: New best f(x) = -5.255295
-Iteration 56: New best f(x) = -5.301791
-Iteration 57: New best f(x) = -5.301936
-Iteration 58: New best f(x) = -5.302255
-Iteration 59: New best f(x) = -5.314095
-Iteration 60: New best f(x) = -5.358309
-Iteration 61: New best f(x) = -5.369083
-Iteration 62: New best f(x) = -5.383882
-Iteration 63: New best f(x) = -5.384527
-Iteration 64: New best f(x) = -5.416848
-Iteration 65: New best f(x) = -5.506826
-Iteration 66: New best f(x) = -5.755678
-Iteration 67: f(x) = -5.693342
-Iteration 68: New best f(x) = -5.760725
-Iteration 69: New best f(x) = -5.761684
-Iteration 70: f(x) = -5.760751
-Iteration 71: New best f(x) = -5.819923
-Iteration 72: New best f(x) = -5.828234
-Iteration 73: New best f(x) = -5.857019
-Iteration 74: f(x) = -5.812403
-Iteration 75: New best f(x) = -6.033748
-Iteration 76: New best f(x) = -6.062537
-Iteration 77: New best f(x) = -6.078266
-Iteration 78: New best f(x) = -6.126728
-Iteration 79: f(x) = -6.100368
-Iteration 80: New best f(x) = -6.222349
-Iteration 81: New best f(x) = -6.466451
-Iteration 82: f(x) = -6.449578
-Iteration 83: New best f(x) = -6.497278
-Iteration 84: New best f(x) = -6.507225
-Iteration 85: New best f(x) = -6.518060
-Iteration 86: New best f(x) = -6.529476
-Iteration 87: New best f(x) = -6.570619
-Iteration 88: New best f(x) = -6.586912
-Iteration 89: f(x) = -6.582810
-Iteration 90: New best f(x) = -6.624659
-Iteration 91: f(x) = -6.622883
-Iteration 92: f(x) = -6.620142
-Iteration 93: New best f(x) = -6.631993
-Iteration 94: New best f(x) = -6.665173
-Iteration 95: New best f(x) = -6.792745
-Iteration 96: New best f(x) = -6.795881
-Iteration 97: New best f(x) = -6.797597
-Iteration 98: New best f(x) = -6.804757
-Iteration 99: New best f(x) = -6.806457
-Iteration 100: f(x) = -1.909943
-Iteration 101: New best f(x) = -6.808733
-Iteration 102: f(x) = -6.807978
-Iteration 103: New best f(x) = -6.828597
-Iteration 104: New best f(x) = -6.829539
-Iteration 105: New best f(x) = -6.829662
-Iteration 106: New best f(x) = -6.830534
-Iteration 107: New best f(x) = -6.831703
-Iteration 108: New best f(x) = -6.831871
-Iteration 109: New best f(x) = -6.832837
-Iteration 110: New best f(x) = -6.833173
-Iteration 111: New best f(x) = -6.840679
-Iteration 112: New best f(x) = -6.841020
-Iteration 113: New best f(x) = -6.844752
-Iteration 114: New best f(x) = -6.845465
-Iteration 115: f(x) = -6.844942
-Iteration 116: New best f(x) = -6.851550
-Iteration 117: New best f(x) = -6.851550
-Iteration 118: f(x) = -6.851493
-Iteration 119: New best f(x) = -6.851793
-Iteration 120: New best f(x) = -6.851914
-Iteration 121: New best f(x) = -6.853996
-Iteration 122: New best f(x) = -6.859820
-Iteration 123: New best f(x) = -6.861895
-Iteration 124: New best f(x) = -6.861917
-Iteration 125: New best f(x) = -6.862281
-Iteration 126: f(x) = -6.862250
-Iteration 127: f(x) = -6.862141
-Iteration 128: New best f(x) = -6.863062
-Iteration 129: New best f(x) = -6.865529
-Iteration 130: f(x) = -6.865488
-Iteration 131: New best f(x) = -6.867891
-Iteration 132: New best f(x) = -6.868102
-Iteration 133: New best f(x) = -6.868973
-Iteration 134: New best f(x) = -6.871295
-Iteration 135: New best f(x) = -6.874494
-Iteration 136: f(x) = -6.874356
-Iteration 137: New best f(x) = -6.874689
-Iteration 138: New best f(x) = -6.874931
-Iteration 139: New best f(x) = -6.876358
-Iteration 140: New best f(x) = -6.878959
-Iteration 141: f(x) = -6.878633
-Iteration 142: New best f(x) = -6.879416
-Iteration 143: f(x) = -6.879021
-Iteration 144: New best f(x) = -6.882338
-Iteration 145: New best f(x) = -6.882851
-Iteration 146: f(x) = -6.882823
-Iteration 147: New best f(x) = -6.882873
-Iteration 148: New best f(x) = -6.883035
-Iteration 149: f(x) = -6.883023
-Iteration 150: New best f(x) = -6.883319
-Iteration 151: New best f(x) = -6.883520
-Iteration 152: f(x) = -6.883477
-Iteration 153: New best f(x) = -6.884094
-Iteration 154: New best f(x) = -6.884207
-Iteration 155: f(x) = -6.884174
-Iteration 156: New best f(x) = -6.884326
-Iteration 157: New best f(x) = -6.884529
-Iteration 158: New best f(x) = -6.884587
-Iteration 159: New best f(x) = -6.884667
-Iteration 160: New best f(x) = -6.884871
-Iteration 161: New best f(x) = -6.884961
-Iteration 162: f(x) = -6.884960
-Iteration 163: f(x) = -6.884947
-Iteration 164: New best f(x) = -6.884998
-Iteration 165: New best f(x) = -6.885026
-Iteration 166: New best f(x) = -6.885138
-Iteration 167: New best f(x) = -6.885359
-Iteration 168: New best f(x) = -6.885590
-Iteration 169: New best f(x) = -6.885652
-Iteration 170: New best f(x) = -6.885875
-Iteration 171: New best f(x) = -6.885931
-Iteration 172: New best f(x) = -6.885939
-Iteration 173: New best f(x) = -6.885948
-Iteration 174: New best f(x) = -6.885968
-Iteration 175: New best f(x) = -6.886018
-Iteration 176: New best f(x) = -6.886039
-Iteration 177: New best f(x) = -6.886071
-Iteration 178: New best f(x) = -6.886136
-Iteration 179: f(x) = -6.886118
-Iteration 180: New best f(x) = -6.886145
-Iteration 181: New best f(x) = -6.886148
-Iteration 182: New best f(x) = -6.886148
-Iteration 183: f(x) = -6.886145
-Iteration 184: New best f(x) = -6.886149
-Iteration 185: New best f(x) = -6.886149
-Iteration 186: f(x) = -6.886148
-Iteration 187: f(x) = -6.886146
-Iteration 188: New best f(x) = -6.886150
-Iteration 189: New best f(x) = -6.886154
-Iteration 190: New best f(x) = -6.886154
-Iteration 191: New best f(x) = -6.886154
-Iteration 192: f(x) = -6.886149
-Iteration 193: New best f(x) = -6.886157
-Iteration 194: New best f(x) = -6.886159
-Iteration 195: f(x) = -6.886157
-Iteration 196: New best f(x) = -6.886165
-Iteration 197: New best f(x) = -6.886173
-Iteration 198: New best f(x) = -6.886177
-Iteration 199: New best f(x) = -6.886182
-Iteration 200: New best f(x) = -6.886185
-Iteration 201: New best f(x) = -6.886185
-Iteration 202: f(x) = -6.886183
-Iteration 203: New best f(x) = -6.886187
-Iteration 204: New best f(x) = -6.886187
-Iteration 205: New best f(x) = -6.886187
-Iteration 206: f(x) = -1.730334
-Iteration 207: f(x) = -1.731550
-Iteration 208: New best f(x) = -6.886189
-Iteration 209: f(x) = -6.886189
-Iteration 210: f(x) = -6.886188
-Iteration 211: f(x) = -6.886189
-Iteration 212: f(x) = -6.886183
-Iteration 213: f(x) = -6.886182
-Iteration 214: New best f(x) = -6.886191
-Iteration 215: f(x) = -6.886189
-Iteration 216: f(x) = -6.886187
-Iteration 217: f(x) = -6.886190
-Iteration 218: f(x) = -6.886187
-Iteration 219: f(x) = -6.886189
-Iteration 220: f(x) = -6.886189
-Iteration 221: f(x) = -6.886191
-Iteration 222: f(x) = -6.886191
-Iteration 223: f(x) = -6.886188
-Iteration 224: f(x) = -6.886191
-Iteration 225: f(x) = -6.886189
-Iteration 226: New best f(x) = -6.886192
-Iteration 227: f(x) = -6.886189
-Iteration 228: f(x) = -6.886191
-Iteration 229: f(x) = -6.886191
-Iteration 230: f(x) = -6.830319
-Iteration 231: f(x) = -6.886190
-Iteration 232: f(x) = -6.886190
-Iteration 233: f(x) = -6.886190
-Iteration 234: f(x) = -6.886190
-Iteration 235: f(x) = -6.886190
-Iteration 236: f(x) = -6.886191
-Iteration 237: f(x) = -6.886190
-Iteration 238: f(x) = -6.886189
-Iteration 239: f(x) = -6.886192
-Iteration 240: f(x) = -6.886190
-Iteration 241: f(x) = -6.886191
-Iteration 242: f(x) = -6.886190
-Iteration 243: f(x) = -6.886191
-Iteration 244: f(x) = -6.886191
-Iteration 245: f(x) = -6.886190
-Iteration 246: f(x) = -6.886191
-Iteration 247: f(x) = -6.886191
-Iteration 248: f(x) = -6.886191
-Iteration 249: f(x) = -6.886191
-Iteration 250: f(x) = -6.886191
+Iteration 1: f(x) = -0.471507
+Iteration 2: New best f(x) = -2.778249
+Iteration 3: f(x) = -1.577893
+Iteration 4: f(x) = -1.692734
+Iteration 5: New best f(x) = -3.210712
+Iteration 6: f(x) = -2.818442
+Iteration 7: f(x) = -2.982897
+Iteration 8: New best f(x) = -3.365608
+Iteration 9: f(x) = -3.202631
+Iteration 10: New best f(x) = -3.431927
+Iteration 11: New best f(x) = -3.525708
+Iteration 12: f(x) = -3.501892
+Iteration 13: New best f(x) = -3.561588
+Iteration 14: f(x) = -3.545514
+Iteration 15: f(x) = -3.553220
+Iteration 16: f(x) = -3.538366
+Iteration 17: New best f(x) = -3.596899
+Iteration 18: New best f(x) = -3.614555
+Iteration 19: New best f(x) = -3.785522
+Iteration 20: New best f(x) = -4.081805
+Iteration 21: New best f(x) = -4.245134
+Iteration 22: New best f(x) = -4.254100
+Iteration 23: New best f(x) = -4.768816
+Iteration 24: New best f(x) = -4.982395
+Iteration 25: f(x) = -4.975171
+Iteration 26: f(x) = -4.936801
+Iteration 27: New best f(x) = -5.073974
+Iteration 28: f(x) = -4.958823
+Iteration 29: New best f(x) = -5.195438
+Iteration 30: New best f(x) = -5.201465
+Iteration 31: f(x) = -5.198323
+Iteration 32: New best f(x) = -5.212433
+Iteration 33: f(x) = -5.188809
+Iteration 34: New best f(x) = -5.273956
+Iteration 35: New best f(x) = -5.279668
+Iteration 36: New best f(x) = -5.346838
+Iteration 37: f(x) = -5.318993
+Iteration 38: New best f(x) = -5.425352
+Iteration 39: f(x) = -5.424138
+Iteration 40: New best f(x) = -5.449366
+Iteration 41: New best f(x) = -5.460881
+Iteration 42: f(x) = -5.437418
+Iteration 43: New best f(x) = -5.514963
+Iteration 44: f(x) = -5.490917
+Iteration 45: f(x) = -5.356791
+Iteration 46: New best f(x) = -5.615356
+Iteration 47: New best f(x) = -5.638825
+Iteration 48: New best f(x) = -5.665711
+Iteration 49: New best f(x) = -5.704155
+Iteration 50: New best f(x) = -5.717035
+Iteration 51: f(x) = -5.715928
+Iteration 52: New best f(x) = -5.725204
+Iteration 53: New best f(x) = -5.725354
+Iteration 54: New best f(x) = -5.727295
+Iteration 55: f(x) = -5.721408
+Iteration 56: New best f(x) = -5.756321
+Iteration 57: f(x) = -5.755381
+Iteration 58: New best f(x) = -5.762226
+Iteration 59: New best f(x) = -5.763352
+Iteration 60: New best f(x) = -5.790673
+Iteration 61: New best f(x) = -5.806107
+Iteration 62: New best f(x) = -5.807334
+Iteration 63: New best f(x) = -5.830695
+Iteration 64: New best f(x) = -5.831476
+Iteration 65: f(x) = -5.831234
+Iteration 66: f(x) = -5.831474
+Iteration 67: New best f(x) = -5.836791
+Iteration 68: New best f(x) = -5.894012
+Iteration 69: New best f(x) = -5.916477
+Iteration 70: New best f(x) = -5.947528
+Iteration 71: New best f(x) = -5.953534
+Iteration 72: New best f(x) = -5.982736
+Iteration 73: New best f(x) = -6.133696
+Iteration 74: New best f(x) = -6.273344
+Iteration 75: f(x) = -6.215846
+Iteration 76: f(x) = -6.241138
+Iteration 77: New best f(x) = -6.286297
+Iteration 78: New best f(x) = -6.324446
+Iteration 79: New best f(x) = -6.413914
+Iteration 80: f(x) = -6.404361
+Iteration 81: f(x) = -6.369973
+Iteration 82: New best f(x) = -6.657295
+Iteration 83: f(x) = -6.530057
+Iteration 84: New best f(x) = -6.785681
+Iteration 85: f(x) = -6.784880
+Iteration 86: f(x) = -6.749948
+Iteration 87: New best f(x) = -6.815006
+Iteration 88: New best f(x) = -6.844725
+Iteration 89: New best f(x) = -6.851049
+Iteration 90: New best f(x) = -6.864587
+Iteration 91: New best f(x) = -6.875915
+Iteration 92: f(x) = -6.875352
+Iteration 93: f(x) = -6.872792
+Iteration 94: New best f(x) = -6.877089
+Iteration 95: New best f(x) = -6.877178
+Iteration 96: New best f(x) = -6.877235
+Iteration 97: New best f(x) = -6.877373
+Iteration 98: f(x) = -6.876981
+Iteration 99: New best f(x) = -6.877877
+Iteration 100: New best f(x) = -6.878531
+Iteration 101: f(x) = -6.878357
+Iteration 102: New best f(x) = -6.878792
+Iteration 103: New best f(x) = -6.878809
+Iteration 104: New best f(x) = -6.879462
+Iteration 105: f(x) = -6.879423
+Iteration 106: New best f(x) = -6.879764
+Iteration 107: New best f(x) = -6.880050
+Iteration 108: New best f(x) = -6.880123
+Iteration 109: New best f(x) = -6.880209
+Iteration 110: New best f(x) = -6.880214
+Iteration 111: New best f(x) = -6.880215
+Iteration 112: f(x) = -6.880207
+Iteration 113: New best f(x) = -6.880252
+Iteration 114: New best f(x) = -6.880709
+Iteration 115: New best f(x) = -6.881920
+Iteration 116: New best f(x) = -6.882527
+Iteration 117: New best f(x) = -6.882669
+Iteration 118: f(x) = -6.882339
+Iteration 119: New best f(x) = -6.883291
+Iteration 120: New best f(x) = -6.883988
+Iteration 121: New best f(x) = -6.884071
+Iteration 122: New best f(x) = -6.884464
+Iteration 123: New best f(x) = -6.885140
+Iteration 124: f(x) = -6.885108
+Iteration 125: New best f(x) = -6.885375
+Iteration 126: New best f(x) = -6.885596
+Iteration 127: New best f(x) = -6.885660
+Iteration 128: New best f(x) = -6.885963
+Iteration 129: New best f(x) = -6.886041
+Iteration 130: New best f(x) = -6.886058
+Iteration 131: f(x) = -6.886046
+Iteration 132: New best f(x) = -6.886118
+Iteration 133: New best f(x) = -6.886120
+Iteration 134: f(x) = -6.886118
+Iteration 135: New best f(x) = -6.886123
+Iteration 136: New best f(x) = -6.886123
+Iteration 137: New best f(x) = -6.886124
+Iteration 138: New best f(x) = -6.886126
+Iteration 139: New best f(x) = -6.886127
+Iteration 140: f(x) = -6.886126
+Iteration 141: f(x) = -6.886125
+Iteration 142: f(x) = -6.886126
+Iteration 143: f(x) = -6.886124
+Iteration 144: f(x) = -6.886124
+Iteration 145: New best f(x) = -6.886127
+Iteration 146: New best f(x) = -6.886127
+Iteration 147: New best f(x) = -6.886128
+Iteration 148: f(x) = -6.886127
+Iteration 149: f(x) = -6.886128
+Iteration 150: f(x) = -6.886126
+Iteration 151: New best f(x) = -6.886135
+Iteration 152: New best f(x) = -6.886145
+Iteration 153: New best f(x) = -6.886152
+Iteration 154: New best f(x) = -6.886153
+Iteration 155: f(x) = -6.886149
+Iteration 156: New best f(x) = -6.886158
+Iteration 157: New best f(x) = -6.886160
+Iteration 158: New best f(x) = -6.886161
+Iteration 159: f(x) = -6.861583
+Iteration 160: f(x) = -6.886161
+Iteration 161: New best f(x) = -6.886161
+Iteration 162: f(x) = -6.886155
+Iteration 163: New best f(x) = -6.886166
+Iteration 164: New best f(x) = -6.886168
+Iteration 165: New best f(x) = -6.886171
+Iteration 166: New best f(x) = -6.886171
+Iteration 167: f(x) = -6.886171
+Iteration 168: f(x) = -6.886171
+Iteration 169: f(x) = -6.886170
+Iteration 170: New best f(x) = -6.886172
+Iteration 171: f(x) = -6.886171
+Iteration 172: New best f(x) = -6.886172
+Iteration 173: f(x) = -6.886172
+Iteration 174: f(x) = -6.886172
+Iteration 175: f(x) = -6.886170
+Iteration 176: f(x) = -6.886171
+Iteration 177: f(x) = -6.886171
+Iteration 178: New best f(x) = -6.886172
+Iteration 179: f(x) = -6.886170
+Iteration 180: f(x) = -6.886172
+Iteration 181: f(x) = -6.886172
+Iteration 182: New best f(x) = -6.886173
+Iteration 183: New best f(x) = -6.886173
+Iteration 184: f(x) = -6.886173
+Iteration 185: New best f(x) = -6.886175
+Iteration 186: New best f(x) = -6.886175
+Iteration 187: New best f(x) = -6.886176
+Iteration 188: New best f(x) = -6.886177
+Iteration 189: New best f(x) = -6.886177
+Iteration 190: New best f(x) = -6.886178
+Iteration 191: New best f(x) = -6.886179
+Iteration 192: f(x) = -6.886177
+Iteration 193: f(x) = -6.886178
+Iteration 194: New best f(x) = -6.886180
+Iteration 195: New best f(x) = -6.886181
+Iteration 196: f(x) = -6.886181
+Iteration 197: f(x) = -6.886180
+Iteration 198: New best f(x) = -6.886181
+Iteration 199: New best f(x) = -6.886181
+Iteration 200: New best f(x) = -6.886182
+Iteration 201: f(x) = -6.886181
+Iteration 202: New best f(x) = -6.886182
+Iteration 203: f(x) = -6.851605
+Iteration 204: New best f(x) = -6.886182
+Iteration 205: f(x) = -6.886181
+Iteration 206: f(x) = -6.886180
+Iteration 207: f(x) = -6.886181
+Iteration 208: New best f(x) = -6.886183
+Iteration 209: f(x) = -6.886182
+Iteration 210: New best f(x) = -6.886184
+Iteration 211: f(x) = -6.886177
+Iteration 212: f(x) = -6.886181
+Iteration 213: f(x) = -6.886181
+Iteration 214: f(x) = -6.886183
+Iteration 215: New best f(x) = -6.886184
+Iteration 216: New best f(x) = -6.886184
+Iteration 217: f(x) = -6.886184
+Iteration 218: f(x) = -6.886184
+Iteration 219: f(x) = -6.886184
+Iteration 220: f(x) = -6.886184
+Iteration 221: f(x) = -6.886184
+Iteration 222: f(x) = -6.886184
+Iteration 223: f(x) = -6.886184
+Iteration 224: f(x) = -6.886184
+Iteration 225: New best f(x) = -6.886185
+Iteration 226: f(x) = -6.886181
+Iteration 227: New best f(x) = -6.886185
+Iteration 228: New best f(x) = -6.886186
+Iteration 229: f(x) = -6.886185
+Iteration 230: f(x) = -6.878530
+Iteration 231: f(x) = -6.886180
+Iteration 232: New best f(x) = -6.886186
+Iteration 233: f(x) = -6.886186
+Iteration 234: f(x) = -6.886185
+Iteration 235: f(x) = -6.886184
+Iteration 236: f(x) = -6.886185
+Iteration 237: f(x) = -6.886186
+Iteration 238: New best f(x) = -6.886186
+Iteration 239: f(x) = -6.886183
+Iteration 240: New best f(x) = -6.886187
+Iteration 241: f(x) = -6.886186
+Iteration 242: f(x) = -6.886185
+Iteration 243: f(x) = -6.886184
+Iteration 244: f(x) = -6.886184
+Iteration 245: New best f(x) = -6.886188
+Iteration 246: f(x) = -6.886187
+Iteration 247: f(x) = -6.886186
+Iteration 248: f(x) = -6.820886
+Iteration 249: f(x) = -6.886185
+Iteration 250: f(x) = -6.886186
 Iteration 251: f(x) = -6.886187
-Iteration 252: f(x) = -6.886188
-Iteration 253: f(x) = -6.886190
-Iteration 254: f(x) = -6.886191
-Iteration 255: f(x) = -6.886191
-Iteration 256: f(x) = -6.886191
+Iteration 252: f(x) = -6.886182
+Iteration 253: f(x) = -6.886187
+Iteration 254: f(x) = -6.886186
+Iteration 255: f(x) = -6.886184
+Iteration 256: f(x) = -6.886183
 Iteration 257: f(x) = -6.886186
-Iteration 258: f(x) = -6.886192
-Iteration 259: f(x) = -6.886192
-Iteration 260: f(x) = -6.886189
-Iteration 261: f(x) = -6.886190
-Iteration 262: f(x) = -6.886192
-Iteration 263: f(x) = -6.886191
-Iteration 264: f(x) = -6.886190
-Iteration 265: f(x) = -6.886192
-Iteration 266: f(x) = -6.886191
-Iteration 267: f(x) = -6.886192
-Iteration 268: f(x) = -6.886191
-Iteration 269: f(x) = -6.886191
-Iteration 270: f(x) = -6.886191
-Iteration 271: New best f(x) = -6.886192
-Iteration 272: f(x) = -6.886189
-Iteration 273: f(x) = -6.886192
-Iteration 274: f(x) = -6.886190
-Iteration 275: f(x) = -6.886192
-Iteration 276: f(x) = -6.886191
-Iteration 277: f(x) = -6.886188
-Iteration 278: f(x) = -6.886191
-Iteration 279: f(x) = -6.886181
-Iteration 280: f(x) = -6.886191
-Iteration 281: f(x) = -6.886189
-Iteration 282: f(x) = -6.886191
-Iteration 283: New best f(x) = -6.886192
-Iteration 284: f(x) = -6.886190
-Iteration 285: f(x) = -6.886192
-Iteration 286: f(x) = -6.886192
-Iteration 287: f(x) = -6.886191
-Iteration 288: f(x) = -6.886192
-Iteration 289: New best f(x) = -6.886193
-Iteration 290: f(x) = -6.886186</code></pre>
+Iteration 258: f(x) = -6.886184
+Iteration 259: f(x) = -6.886186
+Iteration 260: f(x) = -6.886187
+Iteration 261: f(x) = -6.886186
+Iteration 262: f(x) = -6.886186
+Iteration 263: f(x) = -6.839718
+Iteration 264: f(x) = -6.886185
+Iteration 265: f(x) = -6.886182
+Iteration 266: f(x) = -6.886187
+Iteration 267: f(x) = -6.886185
+Iteration 268: f(x) = -6.886144
+Iteration 269: f(x) = -6.886187
+Iteration 270: f(x) = -6.886182
+Iteration 271: f(x) = -6.886185
+Iteration 272: f(x) = -6.853914
+Iteration 273: f(x) = -6.886187
+Iteration 274: f(x) = -6.825277
+Iteration 275: f(x) = -6.886186
+Iteration 276: f(x) = -6.886186
+Iteration 277: f(x) = -6.886186
+Iteration 278: f(x) = -6.886186
+Iteration 279: f(x) = -6.886186
+Iteration 280: f(x) = -6.886186
+Iteration 281: f(x) = -6.886186
+Iteration 282: f(x) = -6.886183
+Iteration 283: f(x) = -6.886186
+Iteration 284: f(x) = -6.886186
+Iteration 285: f(x) = -6.886187
+Iteration 286: f(x) = -6.886185
+Iteration 287: f(x) = -6.834981
+Iteration 288: f(x) = -6.886187
+Iteration 289: f(x) = -6.886184
+Iteration 290: f(x) = -6.886177</code></pre>
 </div>
 </div>
-<div id="ee58fe7b" class="cell" data-execution_count="11">
+<div id="62c5fe1d" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[10D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_micha<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_micha<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[10D] Sklearn Kriging: min y = -6.8862 at x = [2.20288793 2.71161968 2.219345   2.48202278 2.62715769 2.02749194
- 2.05073193 1.36054643 1.28281398 1.21701247]
+<pre><code>[10D] Sklearn Kriging: min y = -6.8862 at x = [2.20325257 2.7113246  2.21932979 2.48203217 2.62718617 2.0274465
+ 2.04366528 1.36057538 1.28279712 1.21706274]
 Number of function evaluations: 300
 Number of iterations: 290</code></pre>
 </div>
@@ -1133,7 +1131,7 @@ Number of iterations: 290</code></pre>
 </section>
 <section id="visualize-optimization-progress-1" class="level3" data-number="14.2.4">
 <h3 data-number="14.2.4" class="anchored" data-anchor-id="visualize-optimization-progress-1"><span class="header-section-number">14.2.4</span> Visualize Optimization Progress</h3>
-<div id="db032285" class="cell" data-execution_count="12">
+<div id="e595acf5" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
@@ -1157,7 +1155,7 @@ Number of iterations: 290</code></pre>
 <section id="evaluation-of-multiple-repeats-1" class="level3" data-number="14.2.5">
 <h3 data-number="14.2.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats-1"><span class="header-section-number">14.2.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="a0624801" class="cell" data-execution_count="13">
+<div id="98ecaad3" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
