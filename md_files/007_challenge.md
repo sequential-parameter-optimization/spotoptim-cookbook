@@ -40,9 +40,8 @@ To estimate the landscape difficulty of the remote function, we perform random l
 We compare the following four functions:
 
 1. Wing Weight (10D)
-2. Robot Arm with Obstacles (10D)
-3. Lennard-Jones Potential (39D)
-4. Remote Objective (10D)
+2. Lennard-Jones Potential (39D)
+3. Remote Objective (10D), SPOTSeven Optimization Challenge
 
 ```{python}
 import matplotlib.pyplot as plt
