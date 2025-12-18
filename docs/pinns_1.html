@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -164,7 +164,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -585,7 +587,7 @@ y(0) = 0
 <section id="setup" class="level1" data-number="38">
 <h1 data-number="38"><span class="header-section-number">38</span> Setup</h1>
 <p>First, let’s import the necessary libraries:</p>
-<div id="1c95519b" class="cell" data-execution_count="1">
+<div id="c22690c5" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -596,7 +598,7 @@ y(0) = 0
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set random seed for reproducibility</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">123</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>&lt;torch._C.Generator at 0x110386eb0&gt;</code></pre>
+<pre><code>&lt;torch._C.Generator at 0x10df99650&gt;</code></pre>
 </div>
 </div>
 </section>
@@ -610,7 +612,7 @@ y(0) = 0
 <li>3 hidden layers</li>
 <li>Tanh activation function</li>
 </ul>
-<div id="7ea7f707" class="cell" data-execution_count="2">
+<div id="5e6aaa28" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    input_dim<span class="op">=</span><span class="dv">1</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    output_dim<span class="op">=</span><span class="dv">1</span>,</span>
@@ -645,7 +647,7 @@ LinearRegressor(
 <section id="generate-training-data" class="level1" data-number="40">
 <h1 data-number="40"><span class="header-section-number">40</span> Generate Training Data</h1>
 <p>We’ll generate exact solution data using a numerical solver (RK2 method):</p>
-<div id="95148c5c" class="cell" data-execution_count="3">
+<div id="720181a4" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> oscillator(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    n_steps: <span class="bu">int</span> <span class="op">=</span> <span class="dv">3000</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    t_min: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
@@ -693,7 +695,7 @@ LinearRegressor(
 <span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> t_tensor, y_tensor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Generate the exact solution and sample training data points:</p>
-<div id="541a5b23" class="cell" data-execution_count="4">
+<div id="857696a2" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate exact solution (3000 points)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> oscillator()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -709,7 +711,7 @@ Training data points: 26</code></pre>
 </div>
 </div>
 <p>Visualize the exact solution and training data:</p>
-<div id="0b2beed2" class="cell" data-execution_count="5">
+<div id="92f894e9" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.plot(x.numpy(), y.numpy(), <span class="st">'b-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Exact solution y(t)"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_data.numpy(), y_data.numpy(), color<span class="op">=</span><span class="st">"tab:orange"</span>, </span>
@@ -733,7 +735,7 @@ Training data points: 26</code></pre>
 <section id="collocation-points" class="level1" data-number="41">
 <h1 data-number="41"><span class="header-section-number">41</span> Collocation Points</h1>
 <p>Create collocation points where we’ll enforce the physics (ODE) constraints:</p>
-<div id="fbf94216" class="cell" data-execution_count="6">
+<div id="02a55b17" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 50 evenly spaced points in [0, 30]</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x_physics <span class="op">=</span> torch.linspace(<span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">50</span>).view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>).requires_grad_(<span class="va">True</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -795,7 +797,7 @@ Range: [0.00, 30.00]</code></pre>
 </section>
 <section id="training-loop" class="level2" data-number="42.2">
 <h2 data-number="42.2" class="anchored" data-anchor-id="training-loop"><span class="header-section-number">42.2</span> Training Loop</h2>
-<div id="27e4cda2" class="cell" data-execution_count="7">
+<div id="d78e7180" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>loss_history_pinn <span class="op">=</span> []</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>loss2_history_pinn <span class="op">=</span> []</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plot_data_points_pinn <span class="op">=</span> []</span>
@@ -862,7 +864,7 @@ Training completed!</code></pre>
 <h1 data-number="43"><span class="header-section-number">43</span> Results Visualization</h1>
 <section id="training-progress" class="level2" data-number="43.1">
 <h2 data-number="43.1" class="anchored" data-anchor-id="training-progress"><span class="header-section-number">43.1</span> Training Progress</h2>
-<div id="f9a0679e" class="cell" data-execution_count="8">
+<div id="524346bf" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot total loss</span></span>
@@ -895,7 +897,7 @@ Training completed!</code></pre>
 <section id="solution-evolution-during-training" class="level2" data-number="43.2">
 <h2 data-number="43.2" class="anchored" data-anchor-id="solution-evolution-during-training"><span class="header-section-number">43.2</span> Solution Evolution During Training</h2>
 <p>Visualize how the neural network solution evolves during training:</p>
-<div id="d6e9c969" class="cell" data-execution_count="9">
+<div id="f60909d0" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>xp_plot <span class="op">=</span> x_physics.detach()</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> plot_info <span class="kw">in</span> plot_data_points_pinn:</span>
@@ -958,7 +960,7 @@ Training completed!</code></pre>
 </section>
 <section id="final-solution-comparison" class="level2" data-number="43.3">
 <h2 data-number="43.3" class="anchored" data-anchor-id="final-solution-comparison"><span class="header-section-number">43.3</span> Final Solution Comparison</h2>
-<div id="e50b5680" class="cell" data-execution_count="10">
+<div id="8aeefa37" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Final prediction</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
@@ -1002,7 +1004,7 @@ Training completed!</code></pre>
 </section>
 <section id="error-analysis" class="level2" data-number="43.4">
 <h2 data-number="43.4" class="anchored" data-anchor-id="error-analysis"><span class="header-section-number">43.4</span> Error Analysis</h2>
-<div id="0276f933" class="cell" data-execution_count="11">
+<div id="231dcf01" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute absolute error</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>error <span class="op">=</span> torch.<span class="bu">abs</span>(y_final <span class="op">-</span> y)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>

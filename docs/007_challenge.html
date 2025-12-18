@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -164,7 +164,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -595,11 +597,10 @@ window.Quarto = {
 <p>To estimate the landscape difficulty of the remote function, we perform random linear cuts through the input space and plot the objective values along these cuts. We compare the following four functions:</p>
 <ol type="1">
 <li>Wing Weight (10D)</li>
-<li>Robot Arm with Obstacles (10D)</li>
 <li>Lennard-Jones Potential (39D)</li>
-<li>Remote Objective (10D)</li>
+<li>Remote Objective (10D), SPOTSeven Optimization Challenge</li>
 </ol>
-<div id="cc07a1e2" class="cell" data-execution_count="1">
+<div id="94b9c0da" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -683,7 +684,7 @@ Figure&nbsp;11.1: 1D Slice through High-Dimensional Landscapes
 <section id="estimating-noise-sigma" class="level3" data-number="11.4.1">
 <h3 data-number="11.4.1" class="anchored" data-anchor-id="estimating-noise-sigma"><span class="header-section-number">11.4.1</span> 1. Estimating Noise (<span class="math inline">\(\sigma\)</span>)</h3>
 <p>We evaluate a random design point 30 times to estimate the standard deviation of the noise.</p>
-<div id="2f6b1bad" class="cell" data-execution_count="3">
+<div id="73f2fa3d" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statistics</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.remote <span class="im">import</span> objective_remote</span>
@@ -700,14 +701,14 @@ Figure&nbsp;11.1: 1D Slice through High-Dimensional Landscapes
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estimated Noise (sigma): </span><span class="sc">{</span>sigma_est<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimating noise...
-Estimated Noise (sigma): 0.0921</code></pre>
+Estimated Noise (sigma): 0.0973</code></pre>
 </div>
 </div>
 </section>
 <section id="determining-sample-size-n" class="level3" data-number="11.4.2">
 <h3 data-number="11.4.2" class="anchored" data-anchor-id="determining-sample-size-n"><span class="header-section-number">11.4.2</span> 2. Determining Sample Size (<span class="math inline">\(n\)</span>)</h3>
 <p>We perform a power analysis to calculate the number of evaluations (<span class="math inline">\(n\)</span>) needed to validate a solution. We aim to detect a “large” effect size (Cohen’s <span class="math inline">\(d=1.0\)</span>, which corresponds to a difference of <span class="math inline">\(1.0 \times \sigma\)</span>) with a power of 0.8 and significance level <span class="math inline">\(\alpha=0.05\)</span>.</p>
-<div id="88d5ba41" class="cell" data-execution_count="4">
+<div id="be2f9424" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Power Analysis</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>effect_size <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Detect difference of 1 sigma</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span>       <span class="co"># Significance level</span></span>
@@ -737,7 +738,7 @@ Estimated Noise (sigma): 0.0921</code></pre>
 <li><strong>Budget per Run</strong>: 50 evaluations</li>
 <li><strong>Validation Size (<span class="math inline">\(n\)</span>)</strong>: <code>n_validate</code> (calculated above)</li>
 </ul>
-<div id="0433f66b" class="cell" data-execution_count="5">
+<div id="282a590b" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -869,27 +870,27 @@ Estimated Noise (sigma): 0.0921</code></pre>
 
 --- SpotOptim ---
 Run 1/5
-  Error in SpotOptim run 0: unsupported operand type(s) for +: 'float' and 'NoneType'
+  Error in SpotOptim run 0: unsupported operand type(s) for +: 'NoneType' and 'float'
 Run 2/5
-  Best found: 21.7585 -&gt; Validated Mean: 21.8129
+  Error in SpotOptim run 1: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 3/5
-  Error in SpotOptim run 2: unsupported operand type(s) for +: 'float' and 'NoneType'
+  Best found: 16.9077 -&gt; Validated Mean: 16.9658
 Run 4/5
-  Best found: 18.6654 -&gt; Validated Mean: 18.8443
+  Best found: 14.6819 -&gt; Validated Mean: 14.5816
 Run 5/5
-  Best found: 12.7090 -&gt; Validated Mean: 12.7488
+  Best found: 18.4380 -&gt; Validated Mean: 18.5371
 
 --- Scipy L-BFGS-B ---
 Run 1/5
-  Error in Scipy run 0: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Best found: 36.7765 -&gt; Validated Mean: 36.9234
 Run 2/5
-  Error in Scipy run 1: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Best found: 59.2476 -&gt; Validated Mean: 59.3778
 Run 3/5
-  Best found: 48.9940 -&gt; Validated Mean: 49.1386
+  Error in Scipy run 2: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 4/5
-  Error in Scipy run 3: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Error in Scipy run 3: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 5/5
-  Best found: 32.7950 -&gt; Validated Mean: 32.9166
+  Error in Scipy run 4: '&gt;' not supported between instances of 'float' and 'NoneType'
 
 Experiments completed.</code></pre>
 </div>
@@ -953,7 +954,7 @@ Experiments completed.</code></pre>
 <div id="fig-convergence" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="007_challenge_files/figure-html/fig-convergence-output-1.png" width="827" height="523" class="figure-img">
+<img src="007_challenge_files/figure-html/fig-convergence-output-1.png" width="836" height="523" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;11.2: Convergence Plot: Mean Best-So-Far Objective Value (Noisy) vs.&nbsp;Evaluations
@@ -1004,10 +1005,10 @@ Figure&nbsp;11.3: Comparison of Validated True Means (Lower is Better)
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Statistical Comparison (Welch's t-test):
-  SpotOptim Mean: 17.8020 (std: 3.7731)
-  Scipy Mean:     41.0276 (std: 8.1110)
-  T-statistic: -2.7201
-  P-value: 0.1863
+  SpotOptim Mean: 16.6948 (std: 1.6262)
+  Scipy Mean:     48.1506 (std: 11.2272)
+  T-statistic: -2.7872
+  P-value: 0.2151
   Result: No significant difference detected (p &gt;= 0.05).</code></pre>
 </div>
 </div>
