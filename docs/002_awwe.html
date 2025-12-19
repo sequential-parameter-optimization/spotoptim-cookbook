@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Aircraft Wing Weight Example – Sequential Parameter Optimization Cookbook</title>
+<title>25&nbsp; Aircraft Wing Weight Example – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,7 +86,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./001_surrogate.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./spot_step_by_step.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -94,7 +94,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -156,7 +156,7 @@ window.Quarto = {
 };
 </script>
 
-<meta name="twitter:title" content="1&nbsp; Aircraft Wing Weight Example – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="25&nbsp; Aircraft Wing Weight Example – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="002_awwe_files/figure-html/cell-6-output-1.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -171,7 +171,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002_awwe.html">Optimization</a></li><li class="breadcrumb-item"><a href="./002_awwe.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002_awwe.html">Optimization</a></li><li class="breadcrumb-item"><a href="./002_awwe.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -184,9 +184,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -228,7 +226,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Optimization</span></a>
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -236,8 +234,26 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -245,7 +261,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Numerical Methods</span></a>
+ <span class="menu-text">Variables and Hyperparameters</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -253,62 +269,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
+  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
   </div>
 </li>
       </ul>
@@ -316,7 +290,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+ <span class="menu-text">Visualization</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -324,110 +298,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -435,7 +313,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Kriging</span></a>
+ <span class="menu-text">Saving and Loading Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -443,26 +321,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -470,7 +336,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Multiobjective Optimization</span></a>
+ <span class="menu-text">Surrogate Handling</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -478,8 +344,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -487,7 +365,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Hyperparameter Tuning</span></a>
+ <span class="menu-text">Kriging</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -495,20 +373,194 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Multiobjective Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hyperparameter Tuning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Sets</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Details About SPOT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
   </div>
 </li>
       </ul>
@@ -529,29 +581,29 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#awwe-equation" id="toc-awwe-equation" class="nav-link active" data-scroll-target="#awwe-equation"><span class="header-section-number">1.1</span> AWWE Equation</a></li>
-  <li><a href="#awwe-parameters-and-equations-part-1" id="toc-awwe-parameters-and-equations-part-1" class="nav-link" data-scroll-target="#awwe-parameters-and-equations-part-1"><span class="header-section-number">1.2</span> AWWE Parameters and Equations (Part 1)</a></li>
-  <li><a href="#goals-understanding-and-optimization" id="toc-goals-understanding-and-optimization" class="nav-link" data-scroll-target="#goals-understanding-and-optimization"><span class="header-section-number">1.3</span> Goals: Understanding and Optimization</a></li>
-  <li><a href="#properties-of-the-python-solver" id="toc-properties-of-the-python-solver" class="nav-link" data-scroll-target="#properties-of-the-python-solver"><span class="header-section-number">1.4</span> Properties of the Python “Solver”</a></li>
-  <li><a href="#plot-1-load-factor-n_z-and-aspect-ratio-a" id="toc-plot-1-load-factor-n_z-and-aspect-ratio-a" class="nav-link" data-scroll-target="#plot-1-load-factor-n_z-and-aspect-ratio-a"><span class="header-section-number">1.5</span> Plot 1: Load Factor (<span class="math inline">\(N_z\)</span>) and Aspect Ratio (<span class="math inline">\(A\)</span>)</a></li>
-  <li><a href="#plot-2-taper-ratio-and-fuel-weight" id="toc-plot-2-taper-ratio-and-fuel-weight" class="nav-link" data-scroll-target="#plot-2-taper-ratio-and-fuel-weight"><span class="header-section-number">1.6</span> Plot 2: Taper Ratio and Fuel Weight</a></li>
-  <li><a href="#the-big-picture-combining-all-variables" id="toc-the-big-picture-combining-all-variables" class="nav-link" data-scroll-target="#the-big-picture-combining-all-variables"><span class="header-section-number">1.7</span> The Big Picture: Combining all Variables</a></li>
-  <li><a href="#awwe-landscape" id="toc-awwe-landscape" class="nav-link" data-scroll-target="#awwe-landscape"><span class="header-section-number">1.8</span> AWWE Landscape</a></li>
-  <li><a href="#summary-of-the-first-experiments" id="toc-summary-of-the-first-experiments" class="nav-link" data-scroll-target="#summary-of-the-first-experiments"><span class="header-section-number">1.9</span> Summary of the First Experiments</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">1.10</span> Exercise</a>
+  <li><a href="#awwe-equation" id="toc-awwe-equation" class="nav-link active" data-scroll-target="#awwe-equation"><span class="header-section-number">25.1</span> AWWE Equation</a></li>
+  <li><a href="#awwe-parameters-and-equations-part-1" id="toc-awwe-parameters-and-equations-part-1" class="nav-link" data-scroll-target="#awwe-parameters-and-equations-part-1"><span class="header-section-number">25.2</span> AWWE Parameters and Equations (Part 1)</a></li>
+  <li><a href="#goals-understanding-and-optimization" id="toc-goals-understanding-and-optimization" class="nav-link" data-scroll-target="#goals-understanding-and-optimization"><span class="header-section-number">25.3</span> Goals: Understanding and Optimization</a></li>
+  <li><a href="#properties-of-the-python-solver" id="toc-properties-of-the-python-solver" class="nav-link" data-scroll-target="#properties-of-the-python-solver"><span class="header-section-number">25.4</span> Properties of the Python “Solver”</a></li>
+  <li><a href="#plot-1-load-factor-n_z-and-aspect-ratio-a" id="toc-plot-1-load-factor-n_z-and-aspect-ratio-a" class="nav-link" data-scroll-target="#plot-1-load-factor-n_z-and-aspect-ratio-a"><span class="header-section-number">25.5</span> Plot 1: Load Factor (<span class="math inline">\(N_z\)</span>) and Aspect Ratio (<span class="math inline">\(A\)</span>)</a></li>
+  <li><a href="#plot-2-taper-ratio-and-fuel-weight" id="toc-plot-2-taper-ratio-and-fuel-weight" class="nav-link" data-scroll-target="#plot-2-taper-ratio-and-fuel-weight"><span class="header-section-number">25.6</span> Plot 2: Taper Ratio and Fuel Weight</a></li>
+  <li><a href="#the-big-picture-combining-all-variables" id="toc-the-big-picture-combining-all-variables" class="nav-link" data-scroll-target="#the-big-picture-combining-all-variables"><span class="header-section-number">25.7</span> The Big Picture: Combining all Variables</a></li>
+  <li><a href="#awwe-landscape" id="toc-awwe-landscape" class="nav-link" data-scroll-target="#awwe-landscape"><span class="header-section-number">25.8</span> AWWE Landscape</a></li>
+  <li><a href="#summary-of-the-first-experiments" id="toc-summary-of-the-first-experiments" class="nav-link" data-scroll-target="#summary-of-the-first-experiments"><span class="header-section-number">25.9</span> Summary of the First Experiments</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">25.10</span> Exercise</a>
   <ul class="collapse">
-  <li><a href="#adding-paint-weight" id="toc-adding-paint-weight" class="nav-link" data-scroll-target="#adding-paint-weight"><span class="header-section-number">1.10.1</span> Adding Paint Weight</a></li>
+  <li><a href="#adding-paint-weight" id="toc-adding-paint-weight" class="nav-link" data-scroll-target="#adding-paint-weight"><span class="header-section-number">25.10.1</span> Adding Paint Weight</a></li>
   </ul></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">1.11</span> Jupyter Notebook</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">25.11</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002_awwe.html">Optimization</a></li><li class="breadcrumb-item"><a href="./002_awwe.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002_awwe.html">Optimization</a></li><li class="breadcrumb-item"><a href="./002_awwe.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-awwe" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></h1>
+<h1 class="title"><span id="sec-awwe" class="quarto-section-identifier"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></h1>
 </div>
 
 
@@ -583,7 +635,7 @@ window.Quarto = {
 <li>This section is based on chapter 1.3 “A ten-variable weight function” in <span class="citation" data-cites="Forr08a">Forrester, Sóbester, and Keane (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span>.</li>
 <li>The following Python packages are imported:</li>
 </ul>
-<div id="ec60b74f" class="cell" data-execution_count="1">
+<div id="c60bf807" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -591,20 +643,20 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="awwe-equation" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="awwe-equation"><span class="header-section-number">1.1</span> AWWE Equation</h2>
+<section id="awwe-equation" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="awwe-equation"><span class="header-section-number">25.1</span> AWWE Equation</h2>
 <ul>
 <li>Example from <span class="citation" data-cites="Forr08a">Forrester, Sóbester, and Keane (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span></li>
 <li>Understand the <strong>weight</strong> of an unpainted light aircraft wing as a function of nine design and operational parameters:</li>
 </ul>
 <p><span class="math display">\[ W = 0.036 S_W^{0.758} \times W_{fw}^{0.0035} \left( \frac{A}{\cos^2 \Lambda} \right)^{0.6} \times  q^{0.006}  \times \lambda^{0.04} \]</span> <span class="math display">\[ \times \left( \frac{100 R_{tc}}{\cos \Lambda} \right)^{-0.3} \times (N_z W_{dg})^{0.49}\]</span></p>
 </section>
-<section id="awwe-parameters-and-equations-part-1" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="awwe-parameters-and-equations-part-1"><span class="header-section-number">1.2</span> AWWE Parameters and Equations (Part 1)</h2>
+<section id="awwe-parameters-and-equations-part-1" class="level2" data-number="25.2">
+<h2 data-number="25.2" class="anchored" data-anchor-id="awwe-parameters-and-equations-part-1"><span class="header-section-number">25.2</span> AWWE Parameters and Equations (Part 1)</h2>
 <div id="tbl-awwe" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-awwe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1.1: Aircraft Wing Weight Parameters
+Table&nbsp;25.1: Aircraft Wing Weight Parameters
 </figcaption>
 <div aria-describedby="tbl-awwe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -704,20 +756,20 @@ Table&nbsp;1.1: Aircraft Wing Weight Parameters
 <p>It’s important to note that the equation used in this context is not a computer simulation but will be treated as one for the purpose of illustration. This approach involves employing a true mathematical equation, even if it’s considered unknown, as a useful tool for generating realistic settings to test the methodology. The functional form of this equation was derived by “calibrating” known physical relationships to curves obtained from existing aircraft data, as referenced in <span class="citation" data-cites="raym06a">Raymer (<a href="references.html#ref-raym06a" role="doc-biblioref">2006</a>)</span>. Essentially, it acts as a surrogate for actual measurements of aircraft weight.</p>
 <p>Examining the mathematical properties of the AWWE (Aircraft Weight With Wing Area and Fuel Weight Equation), it is evident that the response is highly nonlinear concerning its inputs. While it’s common to apply the logarithm to simplify equations with complex exponents, even when modeling the logarithm, which transforms powers into slope coefficients and products into sums, the response remains nonlinear due to the presence of trigonometric terms. Given the combination of nonlinearity and high input dimension, simple linear and quadratic response surface approximations are likely to be inadequate for this analysis.</p>
 </section>
-<section id="goals-understanding-and-optimization" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="goals-understanding-and-optimization"><span class="header-section-number">1.3</span> Goals: Understanding and Optimization</h2>
+<section id="goals-understanding-and-optimization" class="level2" data-number="25.3">
+<h2 data-number="25.3" class="anchored" data-anchor-id="goals-understanding-and-optimization"><span class="header-section-number">25.3</span> Goals: Understanding and Optimization</h2>
 <p>The primary goals of this study revolve around understanding and optimization:</p>
 <ol type="1">
 <li><p><strong>Understanding</strong>: One of the straightforward objectives is to gain a deep understanding of the input-output relationships in this context. Given the global perspective implied by this setting, it becomes evident that a more sophisticated model is almost necessary. At this stage, let’s focus on this specific scenario to establish a clear understanding.</p></li>
 <li><p><strong>Optimization</strong>: Another application of this analysis could be optimization. There may be an interest in minimizing the weight of the aircraft, but it’s likely that there will be constraints in place. For example, the presence of wings with a nonzero area is essential for the aircraft to be capable of flying. In situations involving (constrained) optimization, a global perspective and, consequently, the use of flexible modeling are vital.</p></li>
 </ol>
-<p>The provided Python code serves as a genuine computer implementation that “solves” a mathematical model. It accepts arguments encoded in the unit cube, with defaults used to represent baseline settings, as detailed in the table labeled as <a href="#tbl-awwe" class="quarto-xref">Table&nbsp;<span>1.1</span></a>. To map values from the interval <span class="math inline">\([a, b]\)</span> to the interval <span class="math inline">\([0, 1]\)</span>, the following formula can be employed:</p>
+<p>The provided Python code serves as a genuine computer implementation that “solves” a mathematical model. It accepts arguments encoded in the unit cube, with defaults used to represent baseline settings, as detailed in the table labeled as <a href="#tbl-awwe" class="quarto-xref">Table&nbsp;<span>25.1</span></a>. To map values from the interval <span class="math inline">\([a, b]\)</span> to the interval <span class="math inline">\([0, 1]\)</span>, the following formula can be employed:</p>
 <p><span id="eq-mapping"><span class="math display">\[
 y = f(x) = \frac{x - a}{b - a}.
-\tag{1.1}\]</span></span> To reverse this mapping and obtain the original values, the formula <span id="eq-reverse"><span class="math display">\[
+\tag{25.1}\]</span></span> To reverse this mapping and obtain the original values, the formula <span id="eq-reverse"><span class="math display">\[
 g(y) = a + (b - a) y
-\tag{1.2}\]</span></span> can be used. The function <code>wingwt()</code> expects inputs from the unit cube, which are then transformed back to their original scales using <a href="#eq-reverse" class="quarto-xref">Equation&nbsp;<span>1.2</span></a>. The function is defined as follows:</p>
-<div id="c79de79b" class="cell" data-execution_count="2">
+\tag{25.2}\]</span></span> can be used. The function <code>wingwt()</code> expects inputs from the unit cube, which are then transformed back to their original scales using <a href="#eq-reverse" class="quarto-xref">Equation&nbsp;<span>25.2</span></a>. The function is defined as follows:</p>
+<div id="abdf6f22" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> wingwt(Sw<span class="op">=</span><span class="fl">0.48</span>, Wfw<span class="op">=</span><span class="fl">0.4</span>, A<span class="op">=</span><span class="fl">0.38</span>, L<span class="op">=</span><span class="fl">0.5</span>, q<span class="op">=</span><span class="fl">0.62</span>, l<span class="op">=</span><span class="fl">0.344</span>,  Rtc<span class="op">=</span><span class="fl">0.4</span>, Nz<span class="op">=</span><span class="fl">0.37</span>, Wdg<span class="op">=</span><span class="fl">0.38</span>):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># put coded inputs back on natural scale</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    Sw <span class="op">=</span> Sw <span class="op">*</span> (<span class="dv">200</span> <span class="op">-</span> <span class="dv">150</span>) <span class="op">+</span> <span class="dv">150</span> </span>
@@ -735,12 +787,12 @@ g(y) = a + (b - a) y
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(W)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="properties-of-the-python-solver" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="properties-of-the-python-solver"><span class="header-section-number">1.4</span> Properties of the Python “Solver”</h2>
+<section id="properties-of-the-python-solver" class="level2" data-number="25.4">
+<h2 data-number="25.4" class="anchored" data-anchor-id="properties-of-the-python-solver"><span class="header-section-number">25.4</span> Properties of the Python “Solver”</h2>
 <p>The compute time required by the “wingwt” solver is extremely short and can be considered trivial in terms of computational resources. The approximation error is exceptionally small, effectively approaching machine precision, which indicates the high accuracy of the solver’s results.</p>
 <p>To simulate time-consuming evaluations, a deliberate delay is introduced by incorporating a <code>sleep(3600)</code> command, which effectively synthesizes a one-hour execution time for a particular evaluation.</p>
 <p>Moving on to the AWWE visualization, plotting in two dimensions is considerably simpler than dealing with nine dimensions. To aid in creating visual representations, the code provided below establishes a grid within the unit square to facilitate the generation of sliced visuals. This involves generating a “meshgrid” as outlined in the code.</p>
-<div id="9bb70929" class="cell" data-execution_count="3">
+<div id="619b44f0" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
@@ -759,7 +811,7 @@ g(y) = a + (b - a) y
 </div>
 </div>
 <p>The coding used to transform inputs from natural units is largely a matter of taste, so long as it’s easy to undo for reporting back on original scales</p>
-<div id="c09c064a" class="cell" data-execution_count="4">
+<div id="3083984f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.style.use('seaborn-white')</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
@@ -767,10 +819,10 @@ g(y) = a + (b - a) y
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="plot-1-load-factor-n_z-and-aspect-ratio-a" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="plot-1-load-factor-n_z-and-aspect-ratio-a"><span class="header-section-number">1.5</span> Plot 1: Load Factor (<span class="math inline">\(N_z\)</span>) and Aspect Ratio (<span class="math inline">\(A\)</span>)</h2>
+<section id="plot-1-load-factor-n_z-and-aspect-ratio-a" class="level2" data-number="25.5">
+<h2 data-number="25.5" class="anchored" data-anchor-id="plot-1-load-factor-n_z-and-aspect-ratio-a"><span class="header-section-number">25.5</span> Plot 1: Load Factor (<span class="math inline">\(N_z\)</span>) and Aspect Ratio (<span class="math inline">\(A\)</span>)</h2>
 <p>We will vary <span class="math inline">\(N_z\)</span> and <span class="math inline">\(A\)</span>, with other inputs fixed at their baseline values.</p>
-<div id="24086f3d" class="cell" data-execution_count="5">
+<div id="b82c121e" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> wingwt(A <span class="op">=</span> X, Nz <span class="op">=</span> Y)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">7.</span>, <span class="fl">5.</span>))</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, z, <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>)</span>
@@ -788,7 +840,7 @@ g(y) = a + (b - a) y
 </div>
 </div>
 <p>Contour plots can be refined, e.g., by adding explicit contour lines as shown in the following figure.</p>
-<div id="69b51727" class="cell" data-execution_count="6">
+<div id="bb5f9350" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> plt.contour(X, Y, z, <span class="dv">4</span>, colors<span class="op">=</span><span class="st">'black'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.clabel(contours, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"A"</span>)</span>
@@ -815,12 +867,12 @@ g(y) = a + (b - a) y
 <li>It’s plausible that this phenomenon is related to the design considerations of fighter jets, which cannot have the efficient and lightweight glider-like wings typically found in other types of aircraft.</li>
 </ul>
 </section>
-<section id="plot-2-taper-ratio-and-fuel-weight" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="plot-2-taper-ratio-and-fuel-weight"><span class="header-section-number">1.6</span> Plot 2: Taper Ratio and Fuel Weight</h2>
+<section id="plot-2-taper-ratio-and-fuel-weight" class="level2" data-number="25.6">
+<h2 data-number="25.6" class="anchored" data-anchor-id="plot-2-taper-ratio-and-fuel-weight"><span class="header-section-number">25.6</span> Plot 2: Taper Ratio and Fuel Weight</h2>
 <ul>
 <li>The same experiment for two other inputs, e.g., taper ratio <span class="math inline">\(\lambda\)</span> and fuel weight <span class="math inline">\(W_{fw}\)</span></li>
 </ul>
-<div id="50ff5b43" class="cell" data-execution_count="7">
+<div id="b2a8a7d9" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> wingwt(Wfw <span class="op">=</span> X,  Nz <span class="op">=</span> Y)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> plt.contour(X, Y, z, <span class="dv">4</span>, colors<span class="op">=</span><span class="st">'black'</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.clabel(contours, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
@@ -849,12 +901,12 @@ g(y) = a + (b - a) y
 </ul></li>
 </ul>
 </section>
-<section id="the-big-picture-combining-all-variables" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="the-big-picture-combining-all-variables"><span class="header-section-number">1.7</span> The Big Picture: Combining all Variables</h2>
-<div id="de9b594e" class="cell" data-execution_count="8">
+<section id="the-big-picture-combining-all-variables" class="level2" data-number="25.7">
+<h2 data-number="25.7" class="anchored" data-anchor-id="the-big-picture-combining-all-variables"><span class="header-section-number">25.7</span> The Big Picture: Combining all Variables</h2>
+<div id="d9c289b1" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pl <span class="op">=</span> [<span class="st">"Sw"</span>, <span class="st">"Wfw"</span>, <span class="st">"A"</span>, <span class="st">"L"</span>, <span class="st">"q"</span>, <span class="st">"l"</span>,  <span class="st">"Rtc"</span>, <span class="st">"Nz"</span>, <span class="st">"Wdg"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a1c90442" class="cell" data-execution_count="9">
+<div id="3f94a254" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> []</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Zlab <span class="op">=</span> []</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="bu">len</span>(pl)</span>
@@ -868,7 +920,7 @@ g(y) = a + (b - a) y
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        Zlab.append([pl[i],pl[j]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can generate all 36 combinations, e.g., our first example is combination <code>p = 19</code>.</p>
-<div id="86556bc2" class="cell" data-execution_count="10">
+<div id="cfe01e35" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">19</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Zlab[p]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
@@ -876,7 +928,7 @@ g(y) = a + (b - a) y
 </div>
 </div>
 <p>To help interpret outputs from experiments such as this one—to level the playing field when comparing outputs from other pairs of inputs—code below sets up a color palette that can be re-used from one experiment to the next. We use the arguments <code>vmin=180</code> and <code>vmax =360</code> to implement comparibility</p>
-<div id="96caf2b5" class="cell" data-execution_count="11">
+<div id="c770a321" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z[p], <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>, vmin<span class="op">=</span><span class="dv">180</span>, vmax<span class="op">=</span><span class="dv">360</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(Zlab[p][<span class="dv">0</span>])</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(Zlab[p][<span class="dv">1</span>])</span>
@@ -893,14 +945,14 @@ g(y) = a + (b - a) y
 <li>Let’s plot the second example, taper ratio <span class="math inline">\(\lambda\)</span> and fuel weight <span class="math inline">\(W_{fw}\)</span></li>
 <li>This is combination <code>11</code>:</li>
 </ul>
-<div id="6486ca4b" class="cell" data-execution_count="12">
+<div id="1cbbeb65" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">11</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Zlab[p]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>['Wfw', 'l']</code></pre>
 </div>
 </div>
-<div id="430e470d" class="cell" data-execution_count="13">
+<div id="e1113697" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z[p], <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>, vmin<span class="op">=</span><span class="dv">180</span>, vmax<span class="op">=</span><span class="dv">360</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(Zlab[p][<span class="dv">0</span>])</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(Zlab[p][<span class="dv">1</span>])</span>
@@ -918,7 +970,7 @@ g(y) = a + (b - a) y
 <li>Important factors can be detected by visual inspection</li>
 <li>Plotting the Big Picture: we can plot all 36 combinations in one figure.</li>
 </ul>
-<div id="225d0f21" class="cell" data-execution_count="14">
+<div id="3e1f4651" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">20.</span>, <span class="fl">20.</span>))</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> ImageGrid(fig, <span class="dv">111</span>,  <span class="co"># similar to subplot(111)</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                 nrows_ncols<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>),  <span class="co"># creates 2x2 grid of axes</span></span>
@@ -945,8 +997,8 @@ g(y) = a + (b - a) y
 </div>
 </div>
 </section>
-<section id="awwe-landscape" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="awwe-landscape"><span class="header-section-number">1.8</span> AWWE Landscape</h2>
+<section id="awwe-landscape" class="level2" data-number="25.8">
+<h2 data-number="25.8" class="anchored" data-anchor-id="awwe-landscape"><span class="header-section-number">25.8</span> AWWE Landscape</h2>
 <ul>
 <li>Our Observations
 <ol type="1">
@@ -973,8 +1025,8 @@ g(y) = a + (b - a) y
 </ul></li>
 </ul>
 </section>
-<section id="summary-of-the-first-experiments" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="summary-of-the-first-experiments"><span class="header-section-number">1.9</span> Summary of the First Experiments</h2>
+<section id="summary-of-the-first-experiments" class="level2" data-number="25.9">
+<h2 data-number="25.9" class="anchored" data-anchor-id="summary-of-the-first-experiments"><span class="header-section-number">25.9</span> Summary of the First Experiments</h2>
 <ul>
 <li>First, we considered two pairs of inputs, out of 36 total pairs</li>
 <li>Then, the “Big Picture”:
@@ -991,10 +1043,10 @@ g(y) = a + (b - a) y
 <li>Consequence: a different strategy is needed</li>
 </ul>
 </section>
-<section id="exercise" class="level2" data-number="1.10">
-<h2 data-number="1.10" class="anchored" data-anchor-id="exercise"><span class="header-section-number">1.10</span> Exercise</h2>
-<section id="adding-paint-weight" class="level3" data-number="1.10.1">
-<h3 data-number="1.10.1" class="anchored" data-anchor-id="adding-paint-weight"><span class="header-section-number">1.10.1</span> Adding Paint Weight</h3>
+<section id="exercise" class="level2" data-number="25.10">
+<h2 data-number="25.10" class="anchored" data-anchor-id="exercise"><span class="header-section-number">25.10</span> Exercise</h2>
+<section id="adding-paint-weight" class="level3" data-number="25.10.1">
+<h3 data-number="25.10.1" class="anchored" data-anchor-id="adding-paint-weight"><span class="header-section-number">25.10.1</span> Adding Paint Weight</h3>
 <ul>
 <li>Paint weight is not considered.</li>
 <li>Add Paint Weight <span class="math inline">\(W_p\)</span> to formula (the updated formula is shown below) and update the functions and plots in the notebook.</li>
@@ -1002,8 +1054,8 @@ g(y) = a + (b - a) y
 <p><span class="math display">\[ W = 0.036S_W^{0.758} \times W_{fw}^{0.0035} \times \left( \frac{A}{\cos^2 \Lambda} \right)^{0.6} \times q^{0.006} \times \lambda^{0.04} \]</span> <span class="math display">\[ \times \left( \frac{100 R_{tc}}{\cos \Lambda} \right)^{-0.3} \times (N_z W_{dg})^{0.49} + S_w W_p\]</span></p>
 </section>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="1.11">
-<h2 data-number="1.11" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">1.11</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="25.11">
+<h2 data-number="25.11" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">25.11</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1434,13 +1486,13 @@ Raymer, Daniel P. 2006. <em>Aircraft Design: A Conceptual Approach</em>. <span>A
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="./spot_step_by_step.html" class="pagination-link" aria-label="SpotOptim Step-by-Step Optimization Process">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./001_surrogate.html" class="pagination-link" aria-label="Simulation and Surrogate Modeling">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>28&nbsp; TensorBoard Logging in SpotOptim – Sequential Parameter Optimization Cookbook</title>
+<title>9&nbsp; TensorBoard Logging in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./var_type.html" rel="next">
-<link href="./tensorboard_clean.html" rel="prev">
+<link href="./save_load.html" rel="next">
+<link href="./plot_surrogate.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta name="twitter:title" content="28&nbsp; TensorBoard Logging in SpotOptim – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="9&nbsp; TensorBoard Logging in SpotOptim – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./tensorboard.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./plot_surrogate.html">Visualization</a></li><li class="breadcrumb-item"><a href="./tensorboard.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -134,9 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -178,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Optimization</span></a>
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -186,8 +184,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -195,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Numerical Methods</span></a>
+ <span class="menu-text">Variables and Hyperparameters</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -203,62 +219,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
+  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
   </div>
 </li>
       </ul>
@@ -266,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+ <span class="menu-text">Visualization</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -274,110 +248,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tensorboard.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -385,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Kriging</span></a>
+ <span class="menu-text">Saving and Loading Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -393,26 +271,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -420,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Multiobjective Optimization</span></a>
+ <span class="menu-text">Surrogate Handling</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -428,8 +294,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -437,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Hyperparameter Tuning</span></a>
+ <span class="menu-text">Kriging</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -445,20 +323,194 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Multiobjective Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hyperparameter Tuning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Sets</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Details About SPOT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
   </div>
 </li>
       </ul>
@@ -479,49 +531,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#quick-start" id="toc-quick-start" class="nav-link active" data-scroll-target="#quick-start"><span class="header-section-number">28.1</span> Quick Start</a>
+  <li><a href="#quick-start" id="toc-quick-start" class="nav-link active" data-scroll-target="#quick-start"><span class="header-section-number">9.1</span> Quick Start</a>
   <ul class="collapse">
-  <li><a href="#enable-tensorboard-logging" id="toc-enable-tensorboard-logging" class="nav-link" data-scroll-target="#enable-tensorboard-logging"><span class="header-section-number">28.1.1</span> 1. Enable TensorBoard Logging</a></li>
-  <li><a href="#view-logs-in-tensorboard" id="toc-view-logs-in-tensorboard" class="nav-link" data-scroll-target="#view-logs-in-tensorboard"><span class="header-section-number">28.1.2</span> 2. View Logs in TensorBoard</a></li>
+  <li><a href="#enable-tensorboard-logging" id="toc-enable-tensorboard-logging" class="nav-link" data-scroll-target="#enable-tensorboard-logging"><span class="header-section-number">9.1.1</span> Enable TensorBoard Logging</a></li>
+  <li><a href="#view-logs-in-tensorboard" id="toc-view-logs-in-tensorboard" class="nav-link" data-scroll-target="#view-logs-in-tensorboard"><span class="header-section-number">9.1.2</span> View Logs in TensorBoard</a></li>
+  <li><a href="#cleaning-old-logs" id="toc-cleaning-old-logs" class="nav-link" data-scroll-target="#cleaning-old-logs"><span class="header-section-number">9.1.3</span> Cleaning Old Logs</a></li>
+  <li><a href="#use-cases" id="toc-use-cases" class="nav-link" data-scroll-target="#use-cases"><span class="header-section-number">9.1.4</span> Use Cases</a></li>
+  <li><a href="#custom-log-directory" id="toc-custom-log-directory" class="nav-link" data-scroll-target="#custom-log-directory"><span class="header-section-number">9.1.5</span> Custom Log Directory</a></li>
+  <li><a href="#what-gets-logged" id="toc-what-gets-logged" class="nav-link" data-scroll-target="#what-gets-logged"><span class="header-section-number">9.1.6</span> What Gets Logged</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">9.1.7</span> Examples</a></li>
   </ul></li>
-  <li><a href="#cleaning-old-logs" id="toc-cleaning-old-logs" class="nav-link" data-scroll-target="#cleaning-old-logs"><span class="header-section-number">28.2</span> Cleaning Old Logs</a>
+  <li><a href="#tensorboard-features" id="toc-tensorboard-features" class="nav-link" data-scroll-target="#tensorboard-features"><span class="header-section-number">9.2</span> TensorBoard Features</a>
   <ul class="collapse">
-  <li><a href="#use-cases" id="toc-use-cases" class="nav-link" data-scroll-target="#use-cases"><span class="header-section-number">28.2.1</span> Use Cases</a></li>
+  <li><a href="#scalars-tab" id="toc-scalars-tab" class="nav-link" data-scroll-target="#scalars-tab"><span class="header-section-number">9.2.1</span> SCALARS Tab</a></li>
+  <li><a href="#hparams-tab" id="toc-hparams-tab" class="nav-link" data-scroll-target="#hparams-tab"><span class="header-section-number">9.2.2</span> HPARAMS Tab</a></li>
+  <li><a href="#text-tab" id="toc-text-tab" class="nav-link" data-scroll-target="#text-tab"><span class="header-section-number">9.2.3</span> Text Tab</a></li>
   </ul></li>
-  <li><a href="#custom-log-directory" id="toc-custom-log-directory" class="nav-link" data-scroll-target="#custom-log-directory"><span class="header-section-number">28.3</span> Custom Log Directory</a></li>
-  <li><a href="#what-gets-logged" id="toc-what-gets-logged" class="nav-link" data-scroll-target="#what-gets-logged"><span class="header-section-number">28.4</span> What Gets Logged</a>
+  <li><a href="#tensorboard-log-cleaning-feature-in-spotoptim" id="toc-tensorboard-log-cleaning-feature-in-spotoptim" class="nav-link" data-scroll-target="#tensorboard-log-cleaning-feature-in-spotoptim"><span class="header-section-number">9.3</span> TensorBoard Log Cleaning Feature in SpotOptim</a>
   <ul class="collapse">
-  <li><a href="#scalar-metrics" id="toc-scalar-metrics" class="nav-link" data-scroll-target="#scalar-metrics"><span class="header-section-number">28.4.1</span> Scalar Metrics</a></li>
-  <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters"><span class="header-section-number">28.4.2</span> Hyperparameters</a></li>
+  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">9.3.1</span> Basic Usage</a></li>
+  <li><a href="#use-cases-1" id="toc-use-cases-1" class="nav-link" data-scroll-target="#use-cases-1"><span class="header-section-number">9.3.2</span> Use Cases</a></li>
+  <li><a href="#implementation-details" id="toc-implementation-details" class="nav-link" data-scroll-target="#implementation-details"><span class="header-section-number">9.3.3</span> Implementation Details</a></li>
+  <li><a href="#execution-flow" id="toc-execution-flow" class="nav-link" data-scroll-target="#execution-flow"><span class="header-section-number">9.3.4</span> Execution Flow</a></li>
   </ul></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">28.5</span> Examples</a>
-  <ul class="collapse">
-  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">28.5.1</span> Basic Usage</a></li>
-  <li><a href="#noisy-optimization" id="toc-noisy-optimization" class="nav-link" data-scroll-target="#noisy-optimization"><span class="header-section-number">28.5.2</span> Noisy Optimization</a></li>
-  <li><a href="#with-ocba" id="toc-with-ocba" class="nav-link" data-scroll-target="#with-ocba"><span class="header-section-number">28.5.3</span> With OCBA</a></li>
-  </ul></li>
-  <li><a href="#comparing-multiple-runs" id="toc-comparing-multiple-runs" class="nav-link" data-scroll-target="#comparing-multiple-runs"><span class="header-section-number">28.6</span> Comparing Multiple Runs</a></li>
-  <li><a href="#tensorboard-features" id="toc-tensorboard-features" class="nav-link" data-scroll-target="#tensorboard-features"><span class="header-section-number">28.7</span> TensorBoard Features</a>
-  <ul class="collapse">
-  <li><a href="#scalars-tab" id="toc-scalars-tab" class="nav-link" data-scroll-target="#scalars-tab"><span class="header-section-number">28.7.1</span> SCALARS Tab</a></li>
-  <li><a href="#hparams-tab" id="toc-hparams-tab" class="nav-link" data-scroll-target="#hparams-tab"><span class="header-section-number">28.7.2</span> HPARAMS Tab</a></li>
-  <li><a href="#text-tab" id="toc-text-tab" class="nav-link" data-scroll-target="#text-tab"><span class="header-section-number">28.7.3</span> Text Tab</a></li>
-  </ul></li>
-  <li><a href="#tips" id="toc-tips" class="nav-link" data-scroll-target="#tips"><span class="header-section-number">28.8</span> Tips</a></li>
-  <li><a href="#demo-scripts" id="toc-demo-scripts" class="nav-link" data-scroll-target="#demo-scripts"><span class="header-section-number">28.9</span> Demo Scripts</a></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">28.10</span> Troubleshooting</a></li>
-  <li><a href="#related-parameters" id="toc-related-parameters" class="nav-link" data-scroll-target="#related-parameters"><span class="header-section-number">28.11</span> Related Parameters</a></li>
-  <li><a href="#performance-notes" id="toc-performance-notes" class="nav-link" data-scroll-target="#performance-notes"><span class="header-section-number">28.12</span> Performance Notes</a></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">28.13</span> Jupyter Notebook</a></li>
+  <li><a href="#safety-features" id="toc-safety-features" class="nav-link" data-scroll-target="#safety-features"><span class="header-section-number">9.4</span> Safety Features</a></li>
+  <li><a href="#tensorboard-demo-scripts" id="toc-tensorboard-demo-scripts" class="nav-link" data-scroll-target="#tensorboard-demo-scripts"><span class="header-section-number">9.5</span> Tensorboard Demo Scripts</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">9.6</span> Troubleshooting</a></li>
+  <li><a href="#related-parameters" id="toc-related-parameters" class="nav-link" data-scroll-target="#related-parameters"><span class="header-section-number">9.7</span> Related Parameters</a></li>
+  <li><a href="#performance-notes" id="toc-performance-notes" class="nav-link" data-scroll-target="#performance-notes"><span class="header-section-number">9.8</span> Performance Notes</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">9.9</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./tensorboard.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./plot_surrogate.html">Visualization</a></li><li class="breadcrumb-item"><a href="./tensorboard.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></h1>
 </div>
 
 
@@ -539,10 +586,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>SpotOptim supports TensorBoard logging for monitoring optimization progress in real-time.</p>
-<section id="quick-start" class="level2" data-number="28.1">
-<h2 data-number="28.1" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">28.1</span> Quick Start</h2>
-<section id="enable-tensorboard-logging" class="level3" data-number="28.1.1">
-<h3 data-number="28.1.1" class="anchored" data-anchor-id="enable-tensorboard-logging"><span class="header-section-number">28.1.1</span> 1. Enable TensorBoard Logging</h3>
+<section id="quick-start" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">9.1</span> Quick Start</h2>
+<section id="enable-tensorboard-logging" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="enable-tensorboard-logging"><span class="header-section-number">9.1.1</span> Enable TensorBoard Logging</h3>
 <div id="enable-tensorboard-logging" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -565,9 +612,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Logs saved to: runs/</span><span class="sc">{</span>optimizer<span class="sc">.</span>tensorboard_path<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Removed old TensorBoard logs: runs/spotoptim_20251218_193818
+<pre><code>Removed old TensorBoard logs: runs/spotoptim_20251219_131504
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251218_193827
+TensorBoard logging enabled: runs/spotoptim_20251219_131751
 Initial best: f(x) = 2.420807
 Iteration 1: New best f(x) = 2.390307
 Iteration 2: New best f(x) = 1.813139
@@ -579,21 +626,20 @@ Iteration 7: New best f(x) = 0.000001
 Iteration 8: f(x) = 0.000001
 Iteration 9: New best f(x) = 0.000001
 Iteration 10: f(x) = 0.000001
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251218_193827
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_131751
 Best value: 0.000001
-Logs saved to: runs/runs/spotoptim_20251218_193827</code></pre>
+Logs saved to: runs/runs/spotoptim_20251219_131751</code></pre>
 </div>
 </div>
 </section>
-<section id="view-logs-in-tensorboard" class="level3" data-number="28.1.2">
-<h3 data-number="28.1.2" class="anchored" data-anchor-id="view-logs-in-tensorboard"><span class="header-section-number">28.1.2</span> 2. View Logs in TensorBoard</h3>
+<section id="view-logs-in-tensorboard" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="view-logs-in-tensorboard"><span class="header-section-number">9.1.2</span> View Logs in TensorBoard</h3>
 <p>In a separate terminal, run:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tensorboard</span> <span class="at">--logdir</span><span class="op">=</span>runs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then open your browser to <a href="http://localhost:6006">http://localhost:6006</a></p>
 </section>
-</section>
-<section id="cleaning-old-logs" class="level2" data-number="28.2">
-<h2 data-number="28.2" class="anchored" data-anchor-id="cleaning-old-logs"><span class="header-section-number">28.2</span> Cleaning Old Logs</h2>
+<section id="cleaning-old-logs" class="level3" data-number="9.1.3">
+<h3 data-number="9.1.3" class="anchored" data-anchor-id="cleaning-old-logs"><span class="header-section-number">9.1.3</span> Cleaning Old Logs</h3>
 <p>You can automatically remove old TensorBoard logs before starting a new optimization:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>objective,</span>
@@ -602,9 +648,22 @@ Logs saved to: runs/runs/spotoptim_20251218_193827</code></pre>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    tensorboard_clean<span class="op">=</span><span class="va">True</span>,  <span class="co"># Remove old logs from 'runs' directory</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Warning:</strong> This permanently deletes all subdirectories in the <code>runs</code> folder. Make sure to save important logs elsewhere before enabling this feature.</p>
-<section id="use-cases" class="level3" data-number="28.2.1">
-<h3 data-number="28.2.1" class="anchored" data-anchor-id="use-cases"><span class="header-section-number">28.2.1</span> Use Cases</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This permanently deletes all subdirectories in the <code>runs</code> folder. Make sure to save important logs elsewhere before enabling this feature.</p>
+</div>
+</div>
+</section>
+<section id="use-cases" class="level3" data-number="9.1.4">
+<h3 data-number="9.1.4" class="anchored" data-anchor-id="use-cases"><span class="header-section-number">9.1.4</span> Use Cases</h3>
 <ol type="1">
 <li><p><strong>Clean Start</strong> - Remove old logs and create new one:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tensorboard_log<span class="op">=</span><span class="va">True</span>, tensorboard_clean<span class="op">=</span><span class="va">True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
@@ -614,9 +673,8 @@ Logs saved to: runs/runs/spotoptim_20251218_193827</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tensorboard_log<span class="op">=</span><span class="va">False</span>, tensorboard_clean<span class="op">=</span><span class="va">True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ol>
 </section>
-</section>
-<section id="custom-log-directory" class="level2" data-number="28.3">
-<h2 data-number="28.3" class="anchored" data-anchor-id="custom-log-directory"><span class="header-section-number">28.3</span> Custom Log Directory</h2>
+<section id="custom-log-directory" class="level3" data-number="9.1.5">
+<h3 data-number="9.1.5" class="anchored" data-anchor-id="custom-log-directory"><span class="header-section-number">9.1.5</span> Custom Log Directory</h3>
 <p>Specify a custom path for TensorBoard logs:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>objective,</span>
@@ -626,10 +684,10 @@ Logs saved to: runs/runs/spotoptim_20251218_193827</code></pre>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    ...</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="what-gets-logged" class="level2" data-number="28.4">
-<h2 data-number="28.4" class="anchored" data-anchor-id="what-gets-logged"><span class="header-section-number">28.4</span> What Gets Logged</h2>
-<section id="scalar-metrics" class="level3" data-number="28.4.1">
-<h3 data-number="28.4.1" class="anchored" data-anchor-id="scalar-metrics"><span class="header-section-number">28.4.1</span> Scalar Metrics</h3>
+<section id="what-gets-logged" class="level3" data-number="9.1.6">
+<h3 data-number="9.1.6" class="anchored" data-anchor-id="what-gets-logged"><span class="header-section-number">9.1.6</span> What Gets Logged</h3>
+<section id="scalar-metrics" class="level4" data-number="9.1.6.1">
+<h4 data-number="9.1.6.1" class="anchored" data-anchor-id="scalar-metrics"><span class="header-section-number">9.1.6.1</span> Scalar Metrics</h4>
 <p><strong>For Deterministic Functions:</strong></p>
 <ul>
 <li><code>y_values/min</code>: Best (minimum) y value found so far</li>
@@ -645,8 +703,8 @@ Logs saved to: runs/runs/spotoptim_20251218_193827</code></pre>
 <li><code>X_mean_best/x0, X_mean_best/x1, ...</code>: Coordinates of best mean point</li>
 </ul>
 </section>
-<section id="hyperparameters" class="level3" data-number="28.4.2">
-<h3 data-number="28.4.2" class="anchored" data-anchor-id="hyperparameters"><span class="header-section-number">28.4.2</span> Hyperparameters</h3>
+<section id="hyperparameters" class="level4" data-number="9.1.6.2">
+<h4 data-number="9.1.6.2" class="anchored" data-anchor-id="hyperparameters"><span class="header-section-number">9.1.6.2</span> Hyperparameters</h4>
 <p>Each function evaluation is logged with:</p>
 <ul>
 <li>Input coordinates (x0, x1, x2, …)</li>
@@ -655,10 +713,10 @@ Logs saved to: runs/runs/spotoptim_20251218_193827</code></pre>
 <p>This allows you to explore the relationship between hyperparameters and objective values in the HPARAMS tab.</p>
 </section>
 </section>
-<section id="examples" class="level2" data-number="28.5">
-<h2 data-number="28.5" class="anchored" data-anchor-id="examples"><span class="header-section-number">28.5</span> Examples</h2>
-<section id="basic-usage" class="level3" data-number="28.5.1">
-<h3 data-number="28.5.1" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">28.5.1</span> Basic Usage</h3>
+<section id="examples" class="level3" data-number="9.1.7">
+<h3 data-number="9.1.7" class="anchored" data-anchor-id="examples"><span class="header-section-number">9.1.7</span> Examples</h3>
+<div id="exm-tensorboard-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.1 (Basic Tensorboard Usage)</strong></span> &nbsp;</p>
 <div id="basic-usage-example" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -676,9 +734,9 @@ Logs saved to: runs/runs/spotoptim_20251218_193827</code></pre>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Removed old TensorBoard logs: runs/spotoptim_20251218_193827
+<pre><code>Removed old TensorBoard logs: runs/spotoptim_20251219_131751
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251218_193832
+TensorBoard logging enabled: runs/spotoptim_20251219_131755
 Initial best: f(x) = 2.420807
 Iteration 1: New best f(x) = 2.390307
 Iteration 2: New best f(x) = 1.813139
@@ -690,13 +748,13 @@ Iteration 7: New best f(x) = 0.000001
 Iteration 8: f(x) = 0.000001
 Iteration 9: New best f(x) = 0.000001
 Iteration 10: f(x) = 0.000001
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251218_193832
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_131755
 Best value: 0.000001</code></pre>
 </div>
 </div>
-</section>
-<section id="noisy-optimization" class="level3" data-number="28.5.2">
-<h3 data-number="28.5.2" class="anchored" data-anchor-id="noisy-optimization"><span class="header-section-number">28.5.2</span> Noisy Optimization</h3>
+</div>
+<div id="exm-tensorboard-noisy" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.2 (Noisy Optimization)</strong></span> &nbsp;</p>
 <div id="noisy-optimization-example" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -721,12 +779,12 @@ Best value: 0.000001</code></pre>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best value: 2.317520</code></pre>
+<pre><code>Best value: 2.360280</code></pre>
 </div>
 </div>
-</section>
-<section id="with-ocba" class="level3" data-number="28.5.3">
-<h3 data-number="28.5.3" class="anchored" data-anchor-id="with-ocba"><span class="header-section-number">28.5.3</span> With OCBA</h3>
+</div>
+<div id="exm-tensorboard-ocba" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.3 (With OCBA)</strong></span> &nbsp;</p>
 <div id="ocba-example" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -750,14 +808,12 @@ Best value: 0.000001</code></pre>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best value: 2.312822</code></pre>
+<pre><code>Best value: 2.378414</code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="comparing-multiple-runs" class="level2" data-number="28.6">
-<h2 data-number="28.6" class="anchored" data-anchor-id="comparing-multiple-runs"><span class="header-section-number">28.6</span> Comparing Multiple Runs</h2>
-<p>Run multiple optimizations with different settings:</p>
+</div>
+<div id="exm-tensorboard-compare" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.4 (Comparing Multiple Runs)</strong></span> Run multiple optimizations with different settings:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run 1: Standard</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>opt1 <span class="op">=</span> SpotOptim(..., tensorboard_path<span class="op">=</span><span class="st">"runs/standard"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>opt1.optimize()</span>
@@ -771,35 +827,43 @@ Best value: 0.000001</code></pre>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>opt3.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then view all runs together:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tensorboard</span> <span class="at">--logdir</span><span class="op">=</span>runs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="tensorboard-features" class="level2" data-number="28.7">
-<h2 data-number="28.7" class="anchored" data-anchor-id="tensorboard-features"><span class="header-section-number">28.7</span> TensorBoard Features</h2>
-<section id="scalars-tab" class="level3" data-number="28.7.1">
-<h3 data-number="28.7.1" class="anchored" data-anchor-id="scalars-tab"><span class="header-section-number">28.7.1</span> SCALARS Tab</h3>
+</section>
+<section id="tensorboard-features" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="tensorboard-features"><span class="header-section-number">9.2</span> TensorBoard Features</h2>
+<section id="scalars-tab" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="scalars-tab"><span class="header-section-number">9.2.1</span> SCALARS Tab</h3>
 <ul>
 <li>View convergence curves</li>
 <li>Compare optimization progress across runs</li>
 <li>Track how metrics change over iterations</li>
 </ul>
 </section>
-<section id="hparams-tab" class="level3" data-number="28.7.2">
-<h3 data-number="28.7.2" class="anchored" data-anchor-id="hparams-tab"><span class="header-section-number">28.7.2</span> HPARAMS Tab</h3>
+<section id="hparams-tab" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="hparams-tab"><span class="header-section-number">9.2.2</span> HPARAMS Tab</h3>
 <ul>
 <li>Explore hyperparameter space</li>
 <li>See which parameter combinations work best</li>
 <li>Identify patterns in successful configurations</li>
 </ul>
 </section>
-<section id="text-tab" class="level3" data-number="28.7.3">
-<h3 data-number="28.7.3" class="anchored" data-anchor-id="text-tab"><span class="header-section-number">28.7.3</span> Text Tab</h3>
+<section id="text-tab" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="text-tab"><span class="header-section-number">9.2.3</span> Text Tab</h3>
 <ul>
 <li>View configuration details</li>
 <li>Check run metadata</li>
 </ul>
-</section>
-</section>
-<section id="tips" class="level2" data-number="28.8">
-<h2 data-number="28.8" class="anchored" data-anchor-id="tips"><span class="header-section-number">28.8</span> Tips</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tips
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
 <li><p><strong>Organize Experiments</strong>: Use descriptive tensorboard_path names:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tensorboard_path<span class="op">=</span><span class="ss">f"runs/exp_</span><span class="sc">{</span>date<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>config_name<span class="sc">}</span><span class="ss">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
@@ -813,11 +877,161 @@ Best value: 0.000001</code></pre>
 <li><p><strong>Port Conflicts</strong>: If port 6006 is busy, use a different port:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tensorboard</span> <span class="at">--logdir</span><span class="op">=</span>runs <span class="at">--port</span><span class="op">=</span>6007</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ol>
+</div>
+</div>
 </section>
-<section id="demo-scripts" class="level2" data-number="28.9">
-<h2 data-number="28.9" class="anchored" data-anchor-id="demo-scripts"><span class="header-section-number">28.9</span> Demo Scripts</h2>
+</section>
+<section id="tensorboard-log-cleaning-feature-in-spotoptim" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="tensorboard-log-cleaning-feature-in-spotoptim"><span class="header-section-number">9.3</span> TensorBoard Log Cleaning Feature in SpotOptim</h2>
+<p>Automatic cleaning of old TensorBoard log directories with the <code>tensorboard_clean</code> parameter.</p>
+<section id="basic-usage" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">9.3.1</span> Basic Usage</h3>
+<div id="basic-usage-example-cleaning" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sphere(X):</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Simple sphere function"""</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove old logs and create new log directory</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    tensorboard_log<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    tensorboard_clean<span class="op">=</span><span class="va">True</span>,  <span class="co"># Removes all subdirectories in 'runs'</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Logs saved to: runs/</span><span class="sc">{</span>optimizer<span class="sc">.</span>tensorboard_path<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Removed old TensorBoard logs: runs/spotoptim_20251219_131758
+Cleaned 1 old TensorBoard log directory
+TensorBoard logging enabled: runs/spotoptim_20251219_131758
+Initial best: f(x) = 2.420807
+Iteration 1: New best f(x) = 2.390307
+Iteration 2: New best f(x) = 1.813139
+Iteration 3: New best f(x) = 0.009007
+Iteration 4: New best f(x) = 0.001900
+Iteration 5: New best f(x) = 0.000973
+Iteration 6: New best f(x) = 0.000001
+Iteration 7: New best f(x) = 0.000001
+Iteration 8: f(x) = 0.000001
+Iteration 9: New best f(x) = 0.000001
+Iteration 10: f(x) = 0.000001
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_131758
+Best value: 0.000001
+Logs saved to: runs/runs/spotoptim_20251219_131758</code></pre>
+</div>
+</div>
+</section>
+<section id="use-cases-1" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="use-cases-1"><span class="header-section-number">9.3.2</span> Use Cases</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><code>tensorboard_log</code></th>
+<th><code>tensorboard_clean</code></th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>True</code></td>
+<td><code>True</code></td>
+<td>Clean old logs, create new log directory</td>
+</tr>
+<tr class="even">
+<td><code>True</code></td>
+<td><code>False</code></td>
+<td>Preserve old logs, create new log directory</td>
+</tr>
+<tr class="odd">
+<td><code>False</code></td>
+<td><code>True</code></td>
+<td>Clean old logs, no new logging</td>
+</tr>
+<tr class="even">
+<td><code>False</code></td>
+<td><code>False</code></td>
+<td>No logging, no cleaning (default)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="implementation-details" class="level3" data-number="9.3.3">
+<h3 data-number="9.3.3" class="anchored" data-anchor-id="implementation-details"><span class="header-section-number">9.3.3</span> Implementation Details</h3>
+<section id="cleaning-method" class="level4" data-number="9.3.3.1">
+<h4 data-number="9.3.3.1" class="anchored" data-anchor-id="cleaning-method"><span class="header-section-number">9.3.3.1</span> Cleaning Method</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _clean_tensorboard_logs(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Clean old TensorBoard log directories from the runs folder."""</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">self</span>.tensorboard_clean:</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        runs_dir <span class="op">=</span> <span class="st">"runs"</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> os.path.exists(runs_dir) <span class="kw">and</span> os.path.isdir(runs_dir):</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Get all subdirectories in runs</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>            subdirs <span class="op">=</span> [</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                os.path.join(runs_dir, d)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> d <span class="kw">in</span> os.listdir(runs_dir)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> os.path.isdir(os.path.join(runs_dir, d))</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Remove each subdirectory</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> subdir <span class="kw">in</span> subdirs:</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>                    shutil.rmtree(subdir)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> <span class="va">self</span>.verbose:</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>                        <span class="bu">print</span>(<span class="ss">f"Removed old TensorBoard logs: </span><span class="sc">{</span>subdir<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> <span class="va">self</span>.verbose:</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>                        <span class="bu">print</span>(<span class="ss">f"Warning: Could not remove </span><span class="sc">{</span>subdir<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="execution-flow" class="level3" data-number="9.3.4">
+<h3 data-number="9.3.4" class="anchored" data-anchor-id="execution-flow"><span class="header-section-number">9.3.4</span> Execution Flow</h3>
+<ol type="1">
+<li>User creates <code>SpotOptim</code> instance with <code>tensorboard_clean=True</code></li>
+<li>During initialization, <code>_clean_tensorboard_logs()</code> is called</li>
+<li>Method checks if ‘runs’ directory exists</li>
+<li>Removes all subdirectories (but preserves files)</li>
+<li>If <code>tensorboard_log=True</code>, a new log directory is created</li>
+<li>Optimization proceeds normally</li>
+</ol>
+</section>
+</section>
+<section id="safety-features" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="safety-features"><span class="header-section-number">9.4</span> Safety Features</h2>
+<ul>
+<li>Only removes <strong>directories</strong>, not files in ‘runs’ folder</li>
+<li>Handles missing ‘runs’ directory gracefully</li>
+<li>Error handling for permission issues</li>
+<li>Verbose output shows what’s being removed</li>
+<li>Default is <code>False</code> to prevent accidental deletion</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Setting <code>tensorboard_clean=True</code> permanently deletes all subdirectories in the ‘runs’ folder. Make sure to save important logs elsewhere before enabling this feature.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="tensorboard-demo-scripts" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="tensorboard-demo-scripts"><span class="header-section-number">9.5</span> Tensorboard Demo Scripts</h2>
 <p>Run the comprehensive TensorBoard demo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> demo_tensorboard.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> demo_tensorboard.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This demonstrates:</p>
 <ul>
 <li>Deterministic optimization (Rosenbrock function)</li>
@@ -825,7 +1039,7 @@ Best value: 0.000001</code></pre>
 <li>OCBA for intelligent re-evaluation</li>
 </ul>
 <p>Run the log cleaning demo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> demo_tensorboard_clean.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> demo_tensorboard_clean.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This demonstrates:</p>
 <ul>
 <li>Creating multiple log directories</li>
@@ -833,23 +1047,17 @@ Best value: 0.000001</code></pre>
 <li>Cleaning old logs automatically</li>
 <li>Cleaning without creating new logs</li>
 </ul>
-<p>This demonstrates:</p>
-<ul>
-<li>Deterministic optimization (Rosenbrock function)</li>
-<li>Noisy optimization with repeated evaluations</li>
-<li>OCBA for intelligent re-evaluation</li>
-</ul>
 </section>
-<section id="troubleshooting" class="level2" data-number="28.10">
-<h2 data-number="28.10" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">28.10</span> Troubleshooting</h2>
+<section id="troubleshooting" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">9.6</span> Troubleshooting</h2>
 <p><strong>Q: TensorBoard shows “No dashboards are active”</strong> A: Make sure you’ve run an optimization with <code>tensorboard_log=True</code> first.</p>
 <p><strong>Q: Can’t see my latest run</strong> A: Refresh TensorBoard (click the reload button in the upper right).</p>
 <p><strong>Q: How do I stop TensorBoard?</strong> A: Press Ctrl+C in the terminal where TensorBoard is running.</p>
 <p><strong>Q: Logs taking up too much space?</strong> A: Use <code>tensorboard_clean=True</code> to automatically remove old logs, or manually delete old run directories.</p>
 <p><strong>Q: How do I remove all old logs at once?</strong> A: Set <code>tensorboard_clean=True</code> when creating your optimizer. This will remove all subdirectories in the <code>runs</code> folder.</p>
 </section>
-<section id="related-parameters" class="level2" data-number="28.11">
-<h2 data-number="28.11" class="anchored" data-anchor-id="related-parameters"><span class="header-section-number">28.11</span> Related Parameters</h2>
+<section id="related-parameters" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="related-parameters"><span class="header-section-number">9.7</span> Related Parameters</h2>
 <ul>
 <li><code>tensorboard_log</code> (bool): Enable/disable logging (default: False)</li>
 <li><code>tensorboard_path</code> (str): Custom log directory (default: auto-generated with timestamp)</li>
@@ -858,17 +1066,16 @@ Best value: 0.000001</code></pre>
 <li><code>var_name</code> (list): Custom names for variables (used in TensorBoard labels)</li>
 </ul>
 </section>
-<section id="performance-notes" class="level2" data-number="28.12">
-<h2 data-number="28.12" class="anchored" data-anchor-id="performance-notes"><span class="header-section-number">28.12</span> Performance Notes</h2>
+<section id="performance-notes" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="performance-notes"><span class="header-section-number">9.8</span> Performance Notes</h2>
 <p>TensorBoard logging has minimal overhead:</p>
 <ul>
-<li>&lt; 1% slowdown for typical optimizations</li>
 <li>Event files are efficiently buffered and written</li>
 <li>Writer is properly closed after optimization completes</li>
 </ul>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="28.13">
-<h2 data-number="28.13" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">28.13</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">9.9</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1291,13 +1498,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./tensorboard_clean.html" class="pagination-link" aria-label="TensorBoard Log Cleaning Feature in SpotOptim">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span>
+      <a href="./plot_surrogate.html" class="pagination-link" aria-label="Surrogate Model Visualization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./var_type.html" class="pagination-link" aria-label="Variable Type (var_type) Implementation in SpotOptim">
-        <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./save_load.html" class="pagination-link" aria-label="Save and Load in SpotOptim">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

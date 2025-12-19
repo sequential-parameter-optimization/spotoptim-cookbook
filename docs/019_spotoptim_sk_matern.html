@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>14&nbsp; Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions – Sequential Parameter Optimization Cookbook</title>
+<title>3&nbsp; Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./reproducibility.html" rel="next">
-<link href="./spotoptim_examples.html" rel="prev">
+<link href="./success_rate.html" rel="next">
+<link href="./awwe_optimization.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta name="twitter:title" content="14&nbsp; Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="3&nbsp; Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="019_spotoptim_sk_matern_files/figure-html/cell-7-output-1.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -122,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./019_spotoptim_sk_matern.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spotoptim_examples.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./019_spotoptim_sk_matern.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -135,9 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -179,7 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Optimization</span></a>
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -187,8 +185,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -196,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Numerical Methods</span></a>
+ <span class="menu-text">Variables and Hyperparameters</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -204,62 +220,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
+  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
   </div>
 </li>
       </ul>
@@ -267,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+ <span class="menu-text">Visualization</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -275,110 +249,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -386,7 +264,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Kriging</span></a>
+ <span class="menu-text">Saving and Loading Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -394,26 +272,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -421,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Multiobjective Optimization</span></a>
+ <span class="menu-text">Surrogate Handling</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -429,8 +295,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -438,7 +316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Hyperparameter Tuning</span></a>
+ <span class="menu-text">Kriging</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -446,20 +324,194 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Multiobjective Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hyperparameter Tuning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Sets</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Details About SPOT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
   </div>
 </li>
       </ul>
@@ -480,34 +532,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" id="toc-spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="nav-link active" data-scroll-target="#spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">14.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</a>
+  <li><a href="#spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" id="toc-spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="nav-link active" data-scroll-target="#spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">3.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</a>
   <ul class="collapse">
-  <li><a href="#define-the-6d-rosenbrock-function" id="toc-define-the-6d-rosenbrock-function" class="nav-link" data-scroll-target="#define-the-6d-rosenbrock-function"><span class="header-section-number">14.1.1</span> Define the 6D Rosenbrock Function</a></li>
-  <li><a href="#set-up-spotoptim-parameters" id="toc-set-up-spotoptim-parameters" class="nav-link" data-scroll-target="#set-up-spotoptim-parameters"><span class="header-section-number">14.1.2</span> Set up SpotOptim Parameters</a></li>
-  <li><a href="#sklearn-gaussian-process-regressor-as-surrogate" id="toc-sklearn-gaussian-process-regressor-as-surrogate" class="nav-link" data-scroll-target="#sklearn-gaussian-process-regressor-as-surrogate"><span class="header-section-number">14.1.3</span> Sklearn Gaussian Process Regressor as Surrogate</a></li>
-  <li><a href="#visualize-optimization-progress" id="toc-visualize-optimization-progress" class="nav-link" data-scroll-target="#visualize-optimization-progress"><span class="header-section-number">14.1.4</span> Visualize Optimization Progress</a></li>
-  <li><a href="#evaluation-of-multiple-repeats" id="toc-evaluation-of-multiple-repeats" class="nav-link" data-scroll-target="#evaluation-of-multiple-repeats"><span class="header-section-number">14.1.5</span> Evaluation of Multiple Repeats</a></li>
+  <li><a href="#define-the-6d-rosenbrock-function" id="toc-define-the-6d-rosenbrock-function" class="nav-link" data-scroll-target="#define-the-6d-rosenbrock-function"><span class="header-section-number">3.1.1</span> Define the 6D Rosenbrock Function</a></li>
+  <li><a href="#set-up-spotoptim-parameters" id="toc-set-up-spotoptim-parameters" class="nav-link" data-scroll-target="#set-up-spotoptim-parameters"><span class="header-section-number">3.1.2</span> Set up SpotOptim Parameters</a></li>
+  <li><a href="#sklearn-gaussian-process-regressor-as-surrogate" id="toc-sklearn-gaussian-process-regressor-as-surrogate" class="nav-link" data-scroll-target="#sklearn-gaussian-process-regressor-as-surrogate"><span class="header-section-number">3.1.3</span> Sklearn Gaussian Process Regressor as Surrogate</a></li>
+  <li><a href="#visualize-optimization-progress" id="toc-visualize-optimization-progress" class="nav-link" data-scroll-target="#visualize-optimization-progress"><span class="header-section-number">3.1.4</span> Visualize Optimization Progress</a></li>
+  <li><a href="#evaluation-of-multiple-repeats" id="toc-evaluation-of-multiple-repeats" class="nav-link" data-scroll-target="#evaluation-of-multiple-repeats"><span class="header-section-number">3.1.5</span> Evaluation of Multiple Repeats</a></li>
   </ul></li>
-  <li><a href="#spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" id="toc-spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" class="nav-link" data-scroll-target="#spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function"><span class="header-section-number">14.2</span> SpotOptim with Sklearn Kriging in 10 Dimensions: Michalewicz Function</a>
+  <li><a href="#spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" id="toc-spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" class="nav-link" data-scroll-target="#spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function"><span class="header-section-number">3.2</span> SpotOptim with Sklearn Kriging in 10 Dimensions: Michalewicz Function</a>
   <ul class="collapse">
-  <li><a href="#define-the-10d-michalewicz-function" id="toc-define-the-10d-michalewicz-function" class="nav-link" data-scroll-target="#define-the-10d-michalewicz-function"><span class="header-section-number">14.2.1</span> Define the 10D Michalewicz Function</a></li>
-  <li><a href="#set-up-spotoptim-parameters-1" id="toc-set-up-spotoptim-parameters-1" class="nav-link" data-scroll-target="#set-up-spotoptim-parameters-1"><span class="header-section-number">14.2.2</span> Set up SpotOptim Parameters</a></li>
-  <li><a href="#sklearn-gaussian-process-regressor-as-surrogate-1" id="toc-sklearn-gaussian-process-regressor-as-surrogate-1" class="nav-link" data-scroll-target="#sklearn-gaussian-process-regressor-as-surrogate-1"><span class="header-section-number">14.2.3</span> Sklearn Gaussian Process Regressor as Surrogate</a></li>
-  <li><a href="#visualize-optimization-progress-1" id="toc-visualize-optimization-progress-1" class="nav-link" data-scroll-target="#visualize-optimization-progress-1"><span class="header-section-number">14.2.4</span> Visualize Optimization Progress</a></li>
-  <li><a href="#evaluation-of-multiple-repeats-1" id="toc-evaluation-of-multiple-repeats-1" class="nav-link" data-scroll-target="#evaluation-of-multiple-repeats-1"><span class="header-section-number">14.2.5</span> Evaluation of Multiple Repeats</a></li>
+  <li><a href="#define-the-10d-michalewicz-function" id="toc-define-the-10d-michalewicz-function" class="nav-link" data-scroll-target="#define-the-10d-michalewicz-function"><span class="header-section-number">3.2.1</span> Define the 10D Michalewicz Function</a></li>
+  <li><a href="#set-up-spotoptim-parameters-1" id="toc-set-up-spotoptim-parameters-1" class="nav-link" data-scroll-target="#set-up-spotoptim-parameters-1"><span class="header-section-number">3.2.2</span> Set up SpotOptim Parameters</a></li>
+  <li><a href="#sklearn-gaussian-process-regressor-as-surrogate-1" id="toc-sklearn-gaussian-process-regressor-as-surrogate-1" class="nav-link" data-scroll-target="#sklearn-gaussian-process-regressor-as-surrogate-1"><span class="header-section-number">3.2.3</span> Sklearn Gaussian Process Regressor as Surrogate</a></li>
+  <li><a href="#visualize-optimization-progress-1" id="toc-visualize-optimization-progress-1" class="nav-link" data-scroll-target="#visualize-optimization-progress-1"><span class="header-section-number">3.2.4</span> Visualize Optimization Progress</a></li>
+  <li><a href="#evaluation-of-multiple-repeats-1" id="toc-evaluation-of-multiple-repeats-1" class="nav-link" data-scroll-target="#evaluation-of-multiple-repeats-1"><span class="header-section-number">3.2.5</span> Evaluation of Multiple Repeats</a></li>
   </ul></li>
-  <li><a href="#comparison-spotoptim-vs-spotpython" id="toc-comparison-spotoptim-vs-spotpython" class="nav-link" data-scroll-target="#comparison-spotoptim-vs-spotpython"><span class="header-section-number">14.3</span> Comparison: SpotOptim vs SpotPython</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">14.4</span> Summary</a></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">14.5</span> Jupyter Notebook</a></li>
+  <li><a href="#comparison-spotoptim-vs-spotpython" id="toc-comparison-spotoptim-vs-spotpython" class="nav-link" data-scroll-target="#comparison-spotoptim-vs-spotpython"><span class="header-section-number">3.3</span> Comparison: SpotOptim vs SpotPython</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.4</span> Summary</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">3.5</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./019_spotoptim_sk_matern.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spotoptim_examples.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./019_spotoptim_sk_matern.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></h1>
 </div>
 
 
@@ -538,10 +590,10 @@ Note
 <p>This notebook demonstrates the use of <code>SpotOptim</code> with sklearn’s Gaussian Process Regressor as a surrogate model.</p>
 </div>
 </div>
-<section id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="level2" data-number="14.1">
-<h2 data-number="14.1" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">14.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</h2>
+<section id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">3.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</h2>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 6-dimensional Rosenbrock function. We use a maximum of 100 function evaluations.</p>
-<div id="20bbbbf1" class="cell" data-execution_count="1">
+<div id="b20af8ca" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -549,9 +601,9 @@ Note
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> rosenbrock</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="define-the-6d-rosenbrock-function" class="level3" data-number="14.1.1">
-<h3 data-number="14.1.1" class="anchored" data-anchor-id="define-the-6d-rosenbrock-function"><span class="header-section-number">14.1.1</span> Define the 6D Rosenbrock Function</h3>
-<div id="d647eb90" class="cell" data-execution_count="2">
+<section id="define-the-6d-rosenbrock-function" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="define-the-6d-rosenbrock-function"><span class="header-section-number">3.1.1</span> Define the 6D Rosenbrock Function</h3>
+<div id="f9fe16f4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">6</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.full(dim, <span class="op">-</span><span class="fl">2.0</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.full(dim, <span class="fl">2.0</span>)</span>
@@ -560,15 +612,15 @@ Note
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="set-up-spotoptim-parameters" class="level3" data-number="14.1.2">
-<h3 data-number="14.1.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters"><span class="header-section-number">14.1.2</span> Set up SpotOptim Parameters</h3>
-<div id="cde395fd" class="cell" data-execution_count="3">
+<section id="set-up-spotoptim-parameters" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters"><span class="header-section-number">3.1.2</span> Set up SpotOptim Parameters</h3>
+<div id="3dc10913" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="sklearn-gaussian-process-regressor-as-surrogate" class="level3" data-number="14.1.3">
-<h3 data-number="14.1.3" class="anchored" data-anchor-id="sklearn-gaussian-process-regressor-as-surrogate"><span class="header-section-number">14.1.3</span> Sklearn Gaussian Process Regressor as Surrogate</h3>
+<section id="sklearn-gaussian-process-regressor-as-surrogate" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="sklearn-gaussian-process-regressor-as-surrogate"><span class="header-section-number">3.1.3</span> Sklearn Gaussian Process Regressor as Surrogate</h3>
 <div id="kriging-matern-6d-rosen_run" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process <span class="im">import</span> GaussianProcessRegressor</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process.kernels <span class="im">import</span> Matern, ConstantKernel</span>
@@ -597,116 +649,116 @@ Note
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
 Initial best: f(x) = 321.834153
-Iteration 1: f(x) = 3523.038873
-Iteration 2: f(x) = 1535.228561
-Iteration 3: f(x) = 326.971124
-Iteration 4: New best f(x) = 179.355664
-Iteration 5: New best f(x) = 147.215851
-Iteration 6: New best f(x) = 126.872652
-Iteration 7: New best f(x) = 106.904374
-Iteration 8: New best f(x) = 77.683077
-Iteration 9: New best f(x) = 67.636405
-Iteration 10: f(x) = 70.978424
-Iteration 11: New best f(x) = 66.965229
-Iteration 12: New best f(x) = 66.889901
-Iteration 13: New best f(x) = 63.392350
-Iteration 14: New best f(x) = 53.816220
-Iteration 15: New best f(x) = 53.454026
-Iteration 16: New best f(x) = 52.714266
-Iteration 17: New best f(x) = 51.523984
-Iteration 18: New best f(x) = 48.496238
-Iteration 19: f(x) = 48.531319
-Iteration 20: New best f(x) = 48.468600
-Iteration 21: New best f(x) = 46.701821
-Iteration 22: New best f(x) = 43.462010
-Iteration 23: f(x) = 44.052353
-Iteration 24: New best f(x) = 41.529655
-Iteration 25: f(x) = 41.822578
-Iteration 26: New best f(x) = 41.499283
-Iteration 27: f(x) = 41.892280
-Iteration 28: New best f(x) = 40.713164
-Iteration 29: f(x) = 41.826155
-Iteration 30: New best f(x) = 39.980682
-Iteration 31: New best f(x) = 36.898361
-Iteration 32: f(x) = 40.965730
-Iteration 33: New best f(x) = 35.670171
-Iteration 34: New best f(x) = 35.113668
-Iteration 35: New best f(x) = 31.737837
-Iteration 36: New best f(x) = 25.458732
-Iteration 37: New best f(x) = 24.671606
-Iteration 38: New best f(x) = 24.108766
-Iteration 39: New best f(x) = 23.582908
-Iteration 40: New best f(x) = 20.758161
-Iteration 41: New best f(x) = 19.133116
-Iteration 42: New best f(x) = 18.824033
-Iteration 43: New best f(x) = 18.262415
-Iteration 44: New best f(x) = 13.891034
-Iteration 45: New best f(x) = 8.778860
-Iteration 46: New best f(x) = 6.491600
-Iteration 47: New best f(x) = 6.019392
-Iteration 48: New best f(x) = 5.930977
-Iteration 49: New best f(x) = 5.907621
-Iteration 50: f(x) = 6.091240
-Iteration 51: f(x) = 6.051114
-Iteration 52: New best f(x) = 5.406880
-Iteration 53: New best f(x) = 5.182725
-Iteration 54: New best f(x) = 5.178526
-Iteration 55: f(x) = 5.206060
-Iteration 56: New best f(x) = 5.173932
-Iteration 57: New best f(x) = 5.093024
-Iteration 58: f(x) = 5.299485
-Iteration 59: New best f(x) = 5.020857
-Iteration 60: f(x) = 5.030111
-Iteration 61: New best f(x) = 5.016248
-Iteration 62: New best f(x) = 5.002455
-Iteration 63: New best f(x) = 4.994104
-Iteration 64: New best f(x) = 4.973284
-Iteration 65: New best f(x) = 4.940534
-Iteration 66: New best f(x) = 4.915947
-Iteration 67: f(x) = 4.937666
-Iteration 68: New best f(x) = 4.886886
-Iteration 69: New best f(x) = 4.770558
-Iteration 70: New best f(x) = 4.711098
-Iteration 71: New best f(x) = 4.702415
-Iteration 72: New best f(x) = 4.680296
-Iteration 73: New best f(x) = 4.647403
-Iteration 74: New best f(x) = 4.644190
-Iteration 75: New best f(x) = 4.576094
-Iteration 76: New best f(x) = 4.483912
-Iteration 77: New best f(x) = 4.420933
-Iteration 78: New best f(x) = 4.332510
-Iteration 79: f(x) = 4.423947
-Iteration 80: New best f(x) = 4.266829
-Iteration 81: New best f(x) = 4.214041
-Iteration 82: f(x) = 4.232703
-Iteration 83: New best f(x) = 4.169393
-Iteration 84: f(x) = 4.240112
-Iteration 85: New best f(x) = 4.082095
-Iteration 86: f(x) = 4.148774
-Iteration 87: New best f(x) = 4.036954
-Iteration 88: New best f(x) = 4.020205
-Iteration 89: New best f(x) = 3.971610
-Iteration 90: New best f(x) = 3.898325
-Iteration 91: New best f(x) = 3.815427
-Iteration 92: f(x) = 3.832681
-Iteration 93: New best f(x) = 3.813998
-Iteration 94: New best f(x) = 3.803360</code></pre>
+Iteration 1: f(x) = 3523.039822
+Iteration 2: f(x) = 1535.228517
+Iteration 3: f(x) = 326.971989
+Iteration 4: New best f(x) = 179.355636
+Iteration 5: New best f(x) = 147.215883
+Iteration 6: New best f(x) = 126.874362
+Iteration 7: New best f(x) = 106.905101
+Iteration 8: New best f(x) = 77.678140
+Iteration 9: New best f(x) = 67.626303
+Iteration 10: f(x) = 70.966829
+Iteration 11: New best f(x) = 66.963866
+Iteration 12: New best f(x) = 66.890257
+Iteration 13: New best f(x) = 62.691316
+Iteration 14: New best f(x) = 52.596575
+Iteration 15: New best f(x) = 50.101031
+Iteration 16: New best f(x) = 49.934003
+Iteration 17: New best f(x) = 49.487372
+Iteration 18: New best f(x) = 48.603343
+Iteration 19: f(x) = 48.857828
+Iteration 20: New best f(x) = 47.156754
+Iteration 21: New best f(x) = 43.290061
+Iteration 22: f(x) = 43.842575
+Iteration 23: New best f(x) = 41.851894
+Iteration 24: New best f(x) = 39.489265
+Iteration 25: f(x) = 39.703039
+Iteration 26: New best f(x) = 37.385559
+Iteration 27: f(x) = 38.635469
+Iteration 28: f(x) = 38.366547
+Iteration 29: New best f(x) = 36.582119
+Iteration 30: New best f(x) = 35.331284
+Iteration 31: f(x) = 35.689444
+Iteration 32: f(x) = 35.518146
+Iteration 33: New best f(x) = 32.408917
+Iteration 34: f(x) = 33.105212
+Iteration 35: New best f(x) = 30.343023
+Iteration 36: New best f(x) = 30.074855
+Iteration 37: New best f(x) = 28.609336
+Iteration 38: New best f(x) = 20.691906
+Iteration 39: New best f(x) = 16.447026
+Iteration 40: f(x) = 16.590834
+Iteration 41: New best f(x) = 16.265674
+Iteration 42: f(x) = 16.449731
+Iteration 43: f(x) = 16.794488
+Iteration 44: f(x) = 16.705170
+Iteration 45: New best f(x) = 16.101186
+Iteration 46: New best f(x) = 13.875042
+Iteration 47: New best f(x) = 10.178059
+Iteration 48: f(x) = 10.786791
+Iteration 49: New best f(x) = 8.171581
+Iteration 50: New best f(x) = 7.189904
+Iteration 51: New best f(x) = 7.166663
+Iteration 52: New best f(x) = 7.129244
+Iteration 53: New best f(x) = 6.435689
+Iteration 54: New best f(x) = 6.422889
+Iteration 55: New best f(x) = 6.231672
+Iteration 56: New best f(x) = 5.996581
+Iteration 57: f(x) = 6.112971
+Iteration 58: f(x) = 6.057079
+Iteration 59: f(x) = 5.997798
+Iteration 60: New best f(x) = 5.994206
+Iteration 61: New best f(x) = 5.993308
+Iteration 62: New best f(x) = 5.892752
+Iteration 63: New best f(x) = 5.874626
+Iteration 64: New best f(x) = 5.845706
+Iteration 65: New best f(x) = 5.843883
+Iteration 66: New best f(x) = 5.780600
+Iteration 67: New best f(x) = 5.481906
+Iteration 68: New best f(x) = 5.479123
+Iteration 69: f(x) = 5.546312
+Iteration 70: New best f(x) = 4.989921
+Iteration 71: New best f(x) = 4.948452
+Iteration 72: New best f(x) = 4.906135
+Iteration 73: New best f(x) = 4.883767
+Iteration 74: f(x) = 4.917188
+Iteration 75: New best f(x) = 4.822219
+Iteration 76: New best f(x) = 4.764622
+Iteration 77: New best f(x) = 4.763048
+Iteration 78: f(x) = 4.770975
+Iteration 79: New best f(x) = 4.700317
+Iteration 80: New best f(x) = 4.591449
+Iteration 81: New best f(x) = 4.526698
+Iteration 82: New best f(x) = 4.521671
+Iteration 83: New best f(x) = 4.493163
+Iteration 84: New best f(x) = 4.447263
+Iteration 85: New best f(x) = 4.392495
+Iteration 86: New best f(x) = 4.331084
+Iteration 87: New best f(x) = 4.296820
+Iteration 88: New best f(x) = 4.252504
+Iteration 89: New best f(x) = 4.215999
+Iteration 90: New best f(x) = 4.203356
+Iteration 91: New best f(x) = 4.180877
+Iteration 92: New best f(x) = 4.149393
+Iteration 93: New best f(x) = 4.113226
+Iteration 94: New best f(x) = 4.104562</code></pre>
 </div>
 </div>
-<div id="8ad79a61" class="cell" data-execution_count="5">
+<div id="8b3e6c6b" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[6D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[6D] Sklearn Kriging: min y = 3.8034 at x = [ 0.49987845  0.24113961  0.03925531 -0.00106389  0.01682772 -0.01123167]
+<pre><code>[6D] Sklearn Kriging: min y = 4.1046 at x = [ 0.38400152  0.13726466  0.01611986 -0.00245623  0.01667078 -0.00330306]
 Number of function evaluations: 100
 Number of iterations: 94</code></pre>
 </div>
 </div>
 </section>
-<section id="visualize-optimization-progress" class="level3" data-number="14.1.4">
-<h3 data-number="14.1.4" class="anchored" data-anchor-id="visualize-optimization-progress"><span class="header-section-number">14.1.4</span> Visualize Optimization Progress</h3>
-<div id="8bdcc84e" class="cell" data-execution_count="6">
+<section id="visualize-optimization-progress" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="visualize-optimization-progress"><span class="header-section-number">3.1.4</span> Visualize Optimization Progress</h3>
+<div id="68688377" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
@@ -727,10 +779,10 @@ Number of iterations: 94</code></pre>
 </div>
 </div>
 </section>
-<section id="evaluation-of-multiple-repeats" class="level3" data-number="14.1.5">
-<h3 data-number="14.1.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats"><span class="header-section-number">14.1.5</span> Evaluation of Multiple Repeats</h3>
+<section id="evaluation-of-multiple-repeats" class="level3" data-number="3.1.5">
+<h3 data-number="3.1.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats"><span class="header-section-number">3.1.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="7ed61ece" class="cell" data-execution_count="7">
+<div id="faa5e324" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
@@ -774,12 +826,12 @@ Number of iterations: 94</code></pre>
 </div>
 </section>
 </section>
-<section id="spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" class="level2" data-number="14.2">
-<h2 data-number="14.2" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function"><span class="header-section-number">14.2</span> SpotOptim with Sklearn Kriging in 10 Dimensions: Michalewicz Function</h2>
+<section id="spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-10-dimensions-michalewicz-function"><span class="header-section-number">3.2</span> SpotOptim with Sklearn Kriging in 10 Dimensions: Michalewicz Function</h2>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 10-dimensional Michalewicz function. We use a maximum of 300 function evaluations.</p>
-<section id="define-the-10d-michalewicz-function" class="level3" data-number="14.2.1">
-<h3 data-number="14.2.1" class="anchored" data-anchor-id="define-the-10d-michalewicz-function"><span class="header-section-number">14.2.1</span> Define the 10D Michalewicz Function</h3>
-<div id="cb49bb5c" class="cell" data-execution_count="8">
+<section id="define-the-10d-michalewicz-function" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="define-the-10d-michalewicz-function"><span class="header-section-number">3.2.1</span> Define the 10D Michalewicz Function</h3>
+<div id="ecca87d2" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> michalewicz</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">10</span></span>
@@ -790,15 +842,15 @@ Number of iterations: 94</code></pre>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">300</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="set-up-spotoptim-parameters-1" class="level3" data-number="14.2.2">
-<h3 data-number="14.2.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters-1"><span class="header-section-number">14.2.2</span> Set up SpotOptim Parameters</h3>
-<div id="dff09e18" class="cell" data-execution_count="9">
+<section id="set-up-spotoptim-parameters-1" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters-1"><span class="header-section-number">3.2.2</span> Set up SpotOptim Parameters</h3>
+<div id="5390ea66" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="sklearn-gaussian-process-regressor-as-surrogate-1" class="level3" data-number="14.2.3">
-<h3 data-number="14.2.3" class="anchored" data-anchor-id="sklearn-gaussian-process-regressor-as-surrogate-1"><span class="header-section-number">14.2.3</span> Sklearn Gaussian Process Regressor as Surrogate</h3>
+<section id="sklearn-gaussian-process-regressor-as-surrogate-1" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="sklearn-gaussian-process-regressor-as-surrogate-1"><span class="header-section-number">3.2.3</span> Sklearn Gaussian Process Regressor as Surrogate</h3>
 <div id="kriging-matern-10d-michalewicz_run" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process <span class="im">import</span> GaussianProcessRegressor</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process.kernels <span class="im">import</span> Matern, ConstantKernel</span>
@@ -827,313 +879,325 @@ Number of iterations: 94</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
 Initial best: f(x) = -1.909129
-Iteration 1: f(x) = -0.472408
-Iteration 2: New best f(x) = -2.778099
-Iteration 3: f(x) = -1.574735
-Iteration 4: f(x) = -1.698921
-Iteration 5: New best f(x) = -3.210404
-Iteration 6: f(x) = -2.822963
-Iteration 7: f(x) = -2.981661
-Iteration 8: New best f(x) = -3.369244
-Iteration 9: f(x) = -3.199115
-Iteration 10: New best f(x) = -3.434424
-Iteration 11: New best f(x) = -3.532066
-Iteration 12: f(x) = -3.510862
-Iteration 13: New best f(x) = -3.563773
-Iteration 14: f(x) = -3.550344
-Iteration 15: f(x) = -3.555612
-Iteration 16: New best f(x) = -3.582793
-Iteration 17: New best f(x) = -3.583628
-Iteration 18: f(x) = -3.572418
-Iteration 19: New best f(x) = -3.744491
-Iteration 20: New best f(x) = -3.822992
-Iteration 21: New best f(x) = -3.975115
-Iteration 22: New best f(x) = -4.035248
-Iteration 23: f(x) = -4.009610
-Iteration 24: New best f(x) = -4.605952
-Iteration 25: New best f(x) = -5.182345
-Iteration 26: f(x) = -5.118954
-Iteration 27: f(x) = -5.164464
-Iteration 28: New best f(x) = -5.269308
-Iteration 29: New best f(x) = -5.509328
-Iteration 30: New best f(x) = -5.525426
-Iteration 31: f(x) = -5.524871
-Iteration 32: New best f(x) = -5.533558
-Iteration 33: f(x) = -5.523822
-Iteration 34: f(x) = -5.511937
-Iteration 35: New best f(x) = -5.541752
-Iteration 36: New best f(x) = -5.543370
-Iteration 37: New best f(x) = -5.543662
-Iteration 38: f(x) = -5.543476
-Iteration 39: New best f(x) = -5.549643
-Iteration 40: New best f(x) = -5.555917
-Iteration 41: f(x) = -5.553748
-Iteration 42: New best f(x) = -5.655953
-Iteration 43: New best f(x) = -5.660102
-Iteration 44: New best f(x) = -5.661162
-Iteration 45: New best f(x) = -5.669478
-Iteration 46: New best f(x) = -5.680222
-Iteration 47: New best f(x) = -5.687445
-Iteration 48: New best f(x) = -5.692633
-Iteration 49: f(x) = -5.688029
-Iteration 50: New best f(x) = -5.709109
-Iteration 51: New best f(x) = -5.760917
-Iteration 52: New best f(x) = -5.772649
-Iteration 53: New best f(x) = -5.787058
-Iteration 54: New best f(x) = -5.791900
-Iteration 55: New best f(x) = -5.829604
-Iteration 56: f(x) = -5.811539
-Iteration 57: New best f(x) = -5.829990
-Iteration 58: New best f(x) = -5.835210
-Iteration 59: New best f(x) = -5.850868
-Iteration 60: f(x) = -5.850511
-Iteration 61: New best f(x) = -5.852111
-Iteration 62: New best f(x) = -5.852221
-Iteration 63: f(x) = -5.851118
-Iteration 64: New best f(x) = -5.858078
-Iteration 65: f(x) = -5.853929
-Iteration 66: f(x) = -5.850035
-Iteration 67: New best f(x) = -5.864330
-Iteration 68: New best f(x) = -5.959306
-Iteration 69: New best f(x) = -6.512098
-Iteration 70: f(x) = -6.236680
-Iteration 71: New best f(x) = -6.608116
-Iteration 72: New best f(x) = -6.722299
-Iteration 73: New best f(x) = -6.806648
-Iteration 74: New best f(x) = -6.959896
-Iteration 75: New best f(x) = -7.060054
-Iteration 76: f(x) = -7.056743
-Iteration 77: New best f(x) = -7.060822
-Iteration 78: New best f(x) = -7.143585
-Iteration 79: New best f(x) = -7.145399
-Iteration 80: New best f(x) = -7.225203
-Iteration 81: New best f(x) = -7.229356
-Iteration 82: New best f(x) = -7.340285
-Iteration 83: New best f(x) = -7.355053
-Iteration 84: New best f(x) = -7.355643
-Iteration 85: New best f(x) = -7.404683
-Iteration 86: f(x) = -7.396826
-Iteration 87: New best f(x) = -7.467233
-Iteration 88: New best f(x) = -7.562115
-Iteration 89: New best f(x) = -7.562153
-Iteration 90: f(x) = -7.562029
-Iteration 91: New best f(x) = -7.565155
-Iteration 92: New best f(x) = -7.584187
-Iteration 93: New best f(x) = -7.586548
-Iteration 94: New best f(x) = -7.588275
-Iteration 95: f(x) = -7.585173
-Iteration 96: New best f(x) = -7.608254
-Iteration 97: f(x) = -7.607981
-Iteration 98: f(x) = -7.596304
-Iteration 99: New best f(x) = -7.619232
-Iteration 100: New best f(x) = -7.626231
-Iteration 101: New best f(x) = -7.640336
-Iteration 102: New best f(x) = -7.640529
-Iteration 103: f(x) = -7.640328
-Iteration 104: f(x) = -7.640331
-Iteration 105: New best f(x) = -7.642233
-Iteration 106: New best f(x) = -7.644092
-Iteration 107: New best f(x) = -7.644783
-Iteration 108: New best f(x) = -7.651575
-Iteration 109: f(x) = -7.651344
-Iteration 110: New best f(x) = -7.652784
-Iteration 111: f(x) = -7.652257
-Iteration 112: New best f(x) = -7.655854
-Iteration 113: New best f(x) = -7.658166
-Iteration 114: New best f(x) = -7.658219
-Iteration 115: New best f(x) = -7.658246
-Iteration 116: New best f(x) = -7.658317
-Iteration 117: f(x) = -7.658250
-Iteration 118: New best f(x) = -7.659855
-Iteration 119: New best f(x) = -7.663212
-Iteration 120: New best f(x) = -7.668052
-Iteration 121: New best f(x) = -7.668265
-Iteration 122: New best f(x) = -7.670364
-Iteration 123: New best f(x) = -7.671803
-Iteration 124: New best f(x) = -7.673428
-Iteration 125: f(x) = -7.673103
-Iteration 126: f(x) = -7.673185
-Iteration 127: New best f(x) = -7.674047
-Iteration 128: New best f(x) = -7.674095
-Iteration 129: New best f(x) = -7.674291
-Iteration 130: New best f(x) = -7.675176
-Iteration 131: New best f(x) = -7.675846
-Iteration 132: New best f(x) = -7.676321
-Iteration 133: f(x) = -7.676218
-Iteration 134: New best f(x) = -7.676447
-Iteration 135: New best f(x) = -7.677380
-Iteration 136: New best f(x) = -7.677891
-Iteration 137: New best f(x) = -7.677967
-Iteration 138: New best f(x) = -7.678135
-Iteration 139: New best f(x) = -7.678515
-Iteration 140: New best f(x) = -7.678566
-Iteration 141: New best f(x) = -7.678627
-Iteration 142: f(x) = -7.678506
-Iteration 143: New best f(x) = -7.679143
-Iteration 144: f(x) = -7.678975
-Iteration 145: New best f(x) = -7.679323
-Iteration 146: f(x) = -7.679322
-Iteration 147: New best f(x) = -7.679328
-Iteration 148: f(x) = -7.679309
-Iteration 149: New best f(x) = -7.679416
-Iteration 150: New best f(x) = -7.679690
-Iteration 151: New best f(x) = -7.679792
-Iteration 152: New best f(x) = -7.679957
-Iteration 153: New best f(x) = -7.680519
-Iteration 154: New best f(x) = -7.680531
-Iteration 155: New best f(x) = -7.680543
-Iteration 156: f(x) = -7.680508
-Iteration 157: New best f(x) = -7.680667
-Iteration 158: New best f(x) = -7.680871
-Iteration 159: New best f(x) = -7.680920
-Iteration 160: New best f(x) = -7.680944
-Iteration 161: New best f(x) = -7.681066
-Iteration 162: f(x) = -7.680943
-Iteration 163: New best f(x) = -7.681221
-Iteration 164: New best f(x) = -7.681263
-Iteration 165: New best f(x) = -7.681280
-Iteration 166: f(x) = -7.681276
-Iteration 167: New best f(x) = -7.681299
-Iteration 168: New best f(x) = -7.681533
-Iteration 169: New best f(x) = -7.681744
-Iteration 170: New best f(x) = -7.681752
-Iteration 171: New best f(x) = -7.681778
-Iteration 172: New best f(x) = -7.681815
-Iteration 173: New best f(x) = -7.681818
-Iteration 174: New best f(x) = -7.681824
-Iteration 175: New best f(x) = -7.681841
-Iteration 176: New best f(x) = -7.681851
-Iteration 177: f(x) = -7.681849
-Iteration 178: f(x) = -7.643986
-Iteration 179: New best f(x) = -7.681868
-Iteration 180: New best f(x) = -7.681882
-Iteration 181: f(x) = -7.681881
-Iteration 182: New best f(x) = -7.681883
-Iteration 183: f(x) = -7.681883
-Iteration 184: New best f(x) = -7.681883
-Iteration 185: New best f(x) = -7.681884
-Iteration 186: New best f(x) = -7.681887
-Iteration 187: New best f(x) = -7.681892
-Iteration 188: New best f(x) = -7.681904
-Iteration 189: f(x) = -7.621629
-Iteration 190: New best f(x) = -7.681935
-Iteration 191: New best f(x) = -7.681956
-Iteration 192: New best f(x) = -7.681959
-Iteration 193: f(x) = -7.681956
-Iteration 194: f(x) = -7.659041
-Iteration 195: f(x) = -7.681950
-Iteration 196: New best f(x) = -7.681964
-Iteration 197: f(x) = -7.681962
-Iteration 198: f(x) = -7.681964
-Iteration 199: f(x) = -7.681962
-Iteration 200: New best f(x) = -7.681966
-Iteration 201: f(x) = -7.681966
-Iteration 202: f(x) = -7.681964
-Iteration 203: f(x) = -7.681964
-Iteration 204: New best f(x) = -7.681967
-Iteration 205: f(x) = -7.681962
-Iteration 206: f(x) = -7.681966
-Iteration 207: New best f(x) = -7.681970
-Iteration 208: New best f(x) = -7.681970
-Iteration 209: New best f(x) = -7.681970
-Iteration 210: f(x) = -7.681970
-Iteration 211: f(x) = -7.681969
-Iteration 212: New best f(x) = -7.681972
-Iteration 213: f(x) = -7.681971
-Iteration 214: f(x) = -7.681967
-Iteration 215: New best f(x) = -7.681974
-Iteration 216: New best f(x) = -7.681977
-Iteration 217: New best f(x) = -7.681981
-Iteration 218: f(x) = -7.681979
-Iteration 219: f(x) = -7.681980
-Iteration 220: f(x) = -7.681981
-Iteration 221: f(x) = -7.681980
-Iteration 222: New best f(x) = -7.681982
-Iteration 223: f(x) = -7.681979
-Iteration 224: New best f(x) = -7.681983
-Iteration 225: f(x) = -7.681978
-Iteration 226: f(x) = -7.681982
-Iteration 227: f(x) = -7.681982
-Iteration 228: New best f(x) = -7.681983
-Iteration 229: f(x) = -7.681982
-Iteration 230: f(x) = -7.681982
-Iteration 231: New best f(x) = -7.681983
-Iteration 232: f(x) = -7.681983
-Iteration 233: f(x) = -7.681982
-Iteration 234: f(x) = -7.681981
-Iteration 235: f(x) = -7.681983
-Iteration 236: f(x) = -7.681982
-Iteration 237: New best f(x) = -7.681984
-Iteration 238: f(x) = -7.681983
-Iteration 239: f(x) = -7.681982
-Iteration 240: f(x) = -7.681984
-Iteration 241: New best f(x) = -7.681984
-Iteration 242: f(x) = -7.681984
-Iteration 243: f(x) = -7.681984
-Iteration 244: f(x) = -7.681983
-Iteration 245: f(x) = -7.681982
-Iteration 246: f(x) = -7.681983
-Iteration 247: f(x) = -7.681980
-Iteration 248: New best f(x) = -7.681984
-Iteration 249: f(x) = -7.681983
-Iteration 250: f(x) = -7.681981
-Iteration 251: f(x) = -7.681983
-Iteration 252: f(x) = -7.681984
-Iteration 253: f(x) = -7.681982
-Iteration 254: f(x) = -7.681983
-Iteration 255: f(x) = -7.681982
-Iteration 256: New best f(x) = -7.681984
-Iteration 257: f(x) = -7.681984
-Iteration 258: New best f(x) = -7.681986
-Iteration 259: f(x) = -7.681984
-Iteration 260: f(x) = -7.681986
-Iteration 261: f(x) = -7.681981
-Iteration 262: f(x) = -7.681979
-Iteration 263: f(x) = -7.681986
-Iteration 264: New best f(x) = -7.681987
-Iteration 265: New best f(x) = -7.681987
-Iteration 266: New best f(x) = -7.681989
-Iteration 267: f(x) = -7.681989
-Iteration 268: New best f(x) = -7.681992
-Iteration 269: New best f(x) = -7.681992
-Iteration 270: New best f(x) = -7.681995
-Iteration 271: New best f(x) = -7.681998
-Iteration 272: f(x) = -7.681997
-Iteration 273: f(x) = -7.681993
-Iteration 274: New best f(x) = -7.682000
-Iteration 275: f(x) = -7.681997
-Iteration 276: New best f(x) = -7.682000
-Iteration 277: f(x) = -7.681993
-Iteration 278: f(x) = -7.682000
-Iteration 279: f(x) = -7.681999
-Iteration 280: f(x) = -7.681999
-Iteration 281: f(x) = -7.681999
-Iteration 282: New best f(x) = -7.682000
-Iteration 283: f(x) = -7.682000
-Iteration 284: f(x) = -7.681998
-Iteration 285: New best f(x) = -7.682001
-Iteration 286: f(x) = -7.681992
-Iteration 287: f(x) = -7.682000
-Iteration 288: f(x) = -7.681999
-Iteration 289: f(x) = -7.681996
-Iteration 290: New best f(x) = -7.682001</code></pre>
+Iteration 1: f(x) = -0.471951
+Iteration 2: New best f(x) = -2.778266
+Iteration 3: f(x) = -1.576412
+Iteration 4: f(x) = -1.695772
+Iteration 5: New best f(x) = -3.210562
+Iteration 6: f(x) = -2.820528
+Iteration 7: f(x) = -2.982456
+Iteration 8: New best f(x) = -3.367112
+Iteration 9: f(x) = -3.201079
+Iteration 10: New best f(x) = -3.433076
+Iteration 11: New best f(x) = -3.529252
+Iteration 12: f(x) = -3.506258
+Iteration 13: New best f(x) = -3.563344
+Iteration 14: f(x) = -3.548868
+Iteration 15: f(x) = -3.556105
+Iteration 16: f(x) = -3.488117
+Iteration 17: New best f(x) = -3.573272
+Iteration 18: New best f(x) = -3.578984
+Iteration 19: New best f(x) = -3.615093
+Iteration 20: New best f(x) = -3.767959
+Iteration 21: New best f(x) = -3.774415
+Iteration 22: New best f(x) = -3.862546
+Iteration 23: New best f(x) = -3.883078
+Iteration 24: New best f(x) = -3.887275
+Iteration 25: New best f(x) = -3.895764
+Iteration 26: New best f(x) = -3.930960
+Iteration 27: New best f(x) = -3.956344
+Iteration 28: New best f(x) = -3.970715
+Iteration 29: New best f(x) = -3.974649
+Iteration 30: New best f(x) = -3.981562
+Iteration 31: New best f(x) = -3.994585
+Iteration 32: f(x) = -3.992936
+Iteration 33: f(x) = -3.944395
+Iteration 34: f(x) = -3.958423
+Iteration 35: New best f(x) = -4.022264
+Iteration 36: New best f(x) = -4.025574
+Iteration 37: New best f(x) = -4.084395
+Iteration 38: New best f(x) = -4.084516
+Iteration 39: f(x) = -4.073475
+Iteration 40: f(x) = -4.079198
+Iteration 41: New best f(x) = -4.097697
+Iteration 42: f(x) = -4.097194
+Iteration 43: f(x) = -4.096619
+Iteration 44: f(x) = -4.094272
+Iteration 45: New best f(x) = -4.104435
+Iteration 46: f(x) = -4.101030
+Iteration 47: New best f(x) = -4.107465
+Iteration 48: New best f(x) = -4.107866
+Iteration 49: New best f(x) = -4.107955
+Iteration 50: New best f(x) = -4.109255
+Iteration 51: f(x) = -4.108940
+Iteration 52: New best f(x) = -4.122318
+Iteration 53: f(x) = -4.121475
+Iteration 54: New best f(x) = -4.129683
+Iteration 55: New best f(x) = -4.143851
+Iteration 56: New best f(x) = -4.147062
+Iteration 57: f(x) = -4.116853
+Iteration 58: New best f(x) = -4.187625
+Iteration 59: f(x) = -4.184470
+Iteration 60: New best f(x) = -4.221793
+Iteration 61: f(x) = -4.193048
+Iteration 62: New best f(x) = -4.242959
+Iteration 63: New best f(x) = -4.244120
+Iteration 64: f(x) = -4.237330
+Iteration 65: f(x) = -4.242590
+Iteration 66: New best f(x) = -4.278983
+Iteration 67: f(x) = -4.141923
+Iteration 68: New best f(x) = -4.313837
+Iteration 69: f(x) = -4.306781
+Iteration 70: New best f(x) = -4.315623
+Iteration 71: f(x) = -4.305458
+Iteration 72: New best f(x) = -4.367629
+Iteration 73: New best f(x) = -4.382326
+Iteration 74: New best f(x) = -4.418417
+Iteration 75: New best f(x) = -4.431610
+Iteration 76: f(x) = -4.420797
+Iteration 77: f(x) = -4.376801
+Iteration 78: New best f(x) = -4.460591
+Iteration 79: New best f(x) = -4.462263
+Iteration 80: f(x) = -4.444748
+Iteration 81: New best f(x) = -4.488736
+Iteration 82: New best f(x) = -4.489367
+Iteration 83: New best f(x) = -4.500515
+Iteration 84: New best f(x) = -4.508115
+Iteration 85: New best f(x) = -4.511340
+Iteration 86: New best f(x) = -4.537702
+Iteration 87: f(x) = -4.534429
+Iteration 88: New best f(x) = -4.589741
+Iteration 89: New best f(x) = -4.620637
+Iteration 90: New best f(x) = -4.927983
+Iteration 91: f(x) = -4.862580
+Iteration 92: New best f(x) = -4.946880
+Iteration 93: New best f(x) = -4.947024
+Iteration 94: New best f(x) = -4.948225
+Iteration 95: f(x) = -4.904153
+Iteration 96: New best f(x) = -5.110898
+Iteration 97: f(x) = -5.102069
+Iteration 98: f(x) = -5.090047
+Iteration 99: f(x) = -5.079085
+Iteration 100: f(x) = -5.102316
+Iteration 101: f(x) = -5.108960
+Iteration 102: New best f(x) = -5.119372
+Iteration 103: New best f(x) = -5.127002
+Iteration 104: New best f(x) = -5.129655
+Iteration 105: f(x) = -5.123326
+Iteration 106: New best f(x) = -5.131471
+Iteration 107: f(x) = -5.123184
+Iteration 108: New best f(x) = -5.149590
+Iteration 109: New best f(x) = -5.186872
+Iteration 110: New best f(x) = -5.187720
+Iteration 111: New best f(x) = -5.188134
+Iteration 112: New best f(x) = -5.191466
+Iteration 113: New best f(x) = -5.191670
+Iteration 114: f(x) = -5.189518
+Iteration 115: New best f(x) = -5.193265
+Iteration 116: f(x) = -5.193156
+Iteration 117: f(x) = -5.193246
+Iteration 118: New best f(x) = -5.194878
+Iteration 119: f(x) = -5.188365
+Iteration 120: New best f(x) = -5.197460
+Iteration 121: New best f(x) = -5.198459
+Iteration 122: f(x) = -5.198145
+Iteration 123: f(x) = -5.196165
+Iteration 124: New best f(x) = -5.199339
+Iteration 125: New best f(x) = -5.200080
+Iteration 126: New best f(x) = -5.210258
+Iteration 127: New best f(x) = -5.218608
+Iteration 128: f(x) = -5.217281
+Iteration 129: New best f(x) = -5.229483
+Iteration 130: New best f(x) = -5.232333
+Iteration 131: f(x) = -5.232133
+Iteration 132: f(x) = -5.231437
+Iteration 133: f(x) = -5.231678
+Iteration 134: New best f(x) = -5.233389
+Iteration 135: New best f(x) = -5.234606
+Iteration 136: New best f(x) = -5.237659
+Iteration 137: New best f(x) = -5.237733
+Iteration 138: New best f(x) = -5.238509
+Iteration 139: New best f(x) = -5.239984
+Iteration 140: New best f(x) = -5.240326
+Iteration 141: New best f(x) = -5.240597
+Iteration 142: New best f(x) = -5.251166
+Iteration 143: New best f(x) = -5.251715
+Iteration 144: New best f(x) = -5.252993
+Iteration 145: f(x) = -5.252813
+Iteration 146: New best f(x) = -5.254542
+Iteration 147: f(x) = -5.254530
+Iteration 148: f(x) = -5.191861
+Iteration 149: f(x) = -5.252447
+Iteration 150: f(x) = -5.252640
+Iteration 151: f(x) = -5.253928
+Iteration 152: New best f(x) = -5.255209
+Iteration 153: New best f(x) = -5.255264
+Iteration 154: f(x) = -5.254657
+Iteration 155: New best f(x) = -5.266740
+Iteration 156: f(x) = -5.266686
+Iteration 157: f(x) = -5.265088
+Iteration 158: New best f(x) = -5.271354
+Iteration 159: New best f(x) = -5.271393
+Iteration 160: New best f(x) = -5.274763
+Iteration 161: f(x) = -5.274729
+Iteration 162: f(x) = -5.258681
+Iteration 163: New best f(x) = -5.277496
+Iteration 164: New best f(x) = -5.278208
+Iteration 165: New best f(x) = -5.278608
+Iteration 166: New best f(x) = -5.278841
+Iteration 167: f(x) = -5.278561
+Iteration 168: New best f(x) = -5.280285
+Iteration 169: f(x) = -5.279773
+Iteration 170: f(x) = -5.280261
+Iteration 171: f(x) = -5.279205
+Iteration 172: New best f(x) = -5.288884
+Iteration 173: New best f(x) = -5.292642
+Iteration 174: New best f(x) = -5.292660
+Iteration 175: New best f(x) = -5.292688
+Iteration 176: New best f(x) = -5.292778
+Iteration 177: New best f(x) = -5.293517
+Iteration 178: New best f(x) = -5.297683
+Iteration 179: New best f(x) = -5.298941
+Iteration 180: New best f(x) = -5.299154
+Iteration 181: f(x) = -5.297061
+Iteration 182: New best f(x) = -5.302440
+Iteration 183: New best f(x) = -5.303831
+Iteration 184: New best f(x) = -5.304046
+Iteration 185: f(x) = -5.303928
+Iteration 186: New best f(x) = -5.305473
+Iteration 187: f(x) = -5.305458
+Iteration 188: New best f(x) = -5.306112
+Iteration 189: New best f(x) = -5.308361
+Iteration 190: New best f(x) = -5.310282
+Iteration 191: f(x) = -5.310117
+Iteration 192: f(x) = -5.309936
+Iteration 193: New best f(x) = -5.311408
+Iteration 194: f(x) = -5.309302
+Iteration 195: f(x) = -5.310464
+Iteration 196: New best f(x) = -5.311437
+Iteration 197: f(x) = -1.910426
+Iteration 198: New best f(x) = -5.311856
+Iteration 199: New best f(x) = -5.312267
+Iteration 200: New best f(x) = -5.312673
+Iteration 201: New best f(x) = -5.312954
+Iteration 202: f(x) = -5.312737
+Iteration 203: New best f(x) = -5.313136
+Iteration 204: New best f(x) = -5.313223
+Iteration 205: New best f(x) = -5.313558
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 206: f(x) = -2.167836
+Iteration 207: New best f(x) = -5.313671
+Iteration 208: New best f(x) = -5.313835
+Iteration 209: New best f(x) = -5.314096
+Iteration 210: f(x) = -5.291449
+Iteration 211: f(x) = -5.313975
+Iteration 212: f(x) = -5.314029
+Iteration 213: f(x) = -5.314077
+Iteration 214: New best f(x) = -5.314164
+Iteration 215: New best f(x) = -5.314216
+Iteration 216: f(x) = -1.943805
+Iteration 217: f(x) = -5.313959
+Iteration 218: New best f(x) = -5.314361
+Iteration 219: f(x) = -5.314319
+Iteration 220: New best f(x) = -5.314436
+Iteration 221: New best f(x) = -5.314451
+Iteration 222: f(x) = -5.314395
+Iteration 223: New best f(x) = -5.314709
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 224: f(x) = -1.719617
+Iteration 225: f(x) = -5.313254
+Iteration 226: New best f(x) = -5.314746
+Iteration 227: New best f(x) = -5.314895
+Iteration 228: New best f(x) = -5.314931
+Iteration 229: New best f(x) = -5.314950
+Iteration 230: New best f(x) = -5.314979
+Iteration 231: New best f(x) = -5.314997
+Iteration 232: New best f(x) = -5.315006
+Iteration 233: f(x) = -5.314954
+Iteration 234: New best f(x) = -5.315106
+Iteration 235: f(x) = -5.315101
+Iteration 236: f(x) = -5.315102
+Iteration 237: New best f(x) = -5.315117
+Iteration 238: New best f(x) = -5.315124
+Iteration 239: New best f(x) = -5.315129
+Iteration 240: f(x) = -5.315117
+Iteration 241: f(x) = -5.315121
+Iteration 242: f(x) = -1.958093
+Iteration 243: f(x) = -5.315127
+Iteration 244: f(x) = -5.315110
+Iteration 245: New best f(x) = -5.315129
+Iteration 246: New best f(x) = -5.315131
+Iteration 247: New best f(x) = -5.315132
+Iteration 248: f(x) = -5.315131
+Iteration 249: f(x) = -5.315127
+Iteration 250: New best f(x) = -5.315134
+Iteration 251: f(x) = -5.315128
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 252: f(x) = -0.531363
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 253: f(x) = -1.677672
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 254: f(x) = -0.041277
+Iteration 255: f(x) = -5.315118
+Iteration 256: f(x) = -5.315134
+Iteration 257: f(x) = -5.315133
+Iteration 258: f(x) = -5.315117
+Iteration 259: f(x) = -5.315133
+Iteration 260: f(x) = -5.315133
+Iteration 261: f(x) = -5.298360
+Iteration 262: f(x) = -5.315125
+Iteration 263: f(x) = -5.315131
+Iteration 264: f(x) = -5.315132
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
+Iteration 265: f(x) = -0.595027
+Iteration 266: f(x) = -5.315125
+Iteration 267: f(x) = -5.315128
+Iteration 268: f(x) = -5.315125
+Iteration 269: f(x) = -5.315130
+Iteration 270: f(x) = -5.315132
+Iteration 271: New best f(x) = -5.315136
+Iteration 272: New best f(x) = -5.315137
+Iteration 273: f(x) = -5.315132
+Iteration 274: f(x) = -5.315137
+Iteration 275: f(x) = -5.315115
+Iteration 276: f(x) = -5.315136
+Iteration 277: f(x) = -5.315134
+Iteration 278: f(x) = -5.315128
+Iteration 279: f(x) = -5.315123
+Iteration 280: f(x) = -5.315114
+Iteration 281: f(x) = -5.315135
+Iteration 282: f(x) = -5.315110
+Iteration 283: f(x) = -5.315130
+Iteration 284: f(x) = -5.315131
+Iteration 285: f(x) = -5.315132
+Iteration 286: New best f(x) = -5.315137
+Iteration 287: f(x) = -5.315135
+Iteration 288: New best f(x) = -5.315138
+Iteration 289: f(x) = -5.315135
+Iteration 290: f(x) = -5.315130</code></pre>
 </div>
 </div>
-<div id="bef52eb0" class="cell" data-execution_count="11">
+<div id="d9666758" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[10D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_micha<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_micha<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[10D] Sklearn Kriging: min y = -7.6820 at x = [2.20310012 2.71149327 2.21929099 2.48198141 2.6272106  2.02747057
- 2.22102996 1.36061012 1.28283806 1.21706239]
+<pre><code>[10D] Sklearn Kriging: min y = -5.3151 at x = [2.20294305 2.71156026 2.2194417  2.48207124 2.39123733 1.80056148
+ 2.22104574 1.53984927 1.28287042 1.21705072]
 Number of function evaluations: 300
 Number of iterations: 290</code></pre>
 </div>
 </div>
 </section>
-<section id="visualize-optimization-progress-1" class="level3" data-number="14.2.4">
-<h3 data-number="14.2.4" class="anchored" data-anchor-id="visualize-optimization-progress-1"><span class="header-section-number">14.2.4</span> Visualize Optimization Progress</h3>
-<div id="1b37370d" class="cell" data-execution_count="12">
+<section id="visualize-optimization-progress-1" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="visualize-optimization-progress-1"><span class="header-section-number">3.2.4</span> Visualize Optimization Progress</h3>
+<div id="cd64d597" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
@@ -1154,10 +1218,10 @@ Number of iterations: 290</code></pre>
 </div>
 </div>
 </section>
-<section id="evaluation-of-multiple-repeats-1" class="level3" data-number="14.2.5">
-<h3 data-number="14.2.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats-1"><span class="header-section-number">14.2.5</span> Evaluation of Multiple Repeats</h3>
+<section id="evaluation-of-multiple-repeats-1" class="level3" data-number="3.2.5">
+<h3 data-number="3.2.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats-1"><span class="header-section-number">3.2.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="1a23ec5d" class="cell" data-execution_count="13">
+<div id="6fa63d5e" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
@@ -1201,8 +1265,8 @@ Number of iterations: 290</code></pre>
 </div>
 </section>
 </section>
-<section id="comparison-spotoptim-vs-spotpython" class="level2" data-number="14.3">
-<h2 data-number="14.3" class="anchored" data-anchor-id="comparison-spotoptim-vs-spotpython"><span class="header-section-number">14.3</span> Comparison: SpotOptim vs SpotPython</h2>
+<section id="comparison-spotoptim-vs-spotpython" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="comparison-spotoptim-vs-spotpython"><span class="header-section-number">3.3</span> Comparison: SpotOptim vs SpotPython</h2>
 <p>The <code>SpotOptim</code> package provides a scipy-compatible interface for Bayesian optimization with the following key features:</p>
 <ol type="1">
 <li><strong>Scipy-compatible API</strong>: Returns <code>OptimizeResult</code> objects that work seamlessly with scipy’s optimization ecosystem</li>
@@ -1217,8 +1281,8 @@ Number of iterations: 290</code></pre>
 </ul>
 <p>Both packages support custom surrogates and provide powerful Bayesian optimization capabilities.</p>
 </section>
-<section id="summary" class="level2" data-number="14.4">
-<h2 data-number="14.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">14.4</span> Summary</h2>
+<section id="summary" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.4</span> Summary</h2>
 <p>This notebook demonstrated how to:</p>
 <ol type="1">
 <li>Use <code>SpotOptim</code> with sklearn’s Gaussian Process Regressor (Matern kernel) as a surrogate</li>
@@ -1229,8 +1293,8 @@ Number of iterations: 290</code></pre>
 </ol>
 <p>The results show that <code>SpotOptim</code> with sklearn surrogates provides effective Bayesian optimization for challenging benchmark functions.</p>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="14.5">
-<h2 data-number="14.5" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">14.5</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">3.5</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1653,13 +1717,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./spotoptim_examples.html" class="pagination-link" aria-label="SpotOptim Internal Methods Examples">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span>
+      <a href="./awwe_optimization.html" class="pagination-link" aria-label="Optimizing the Aircraft Wing Weight Example">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./reproducibility.html" class="pagination-link" aria-label="Reproducibility in SpotOptim">
-        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./success_rate.html" class="pagination-link" aria-label="Success Rate Tracking in SpotOptim">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

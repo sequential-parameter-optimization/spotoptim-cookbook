@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>19&nbsp; Factor Variables for Categorical Hyperparameters – Sequential Parameter Optimization Cookbook</title>
+<title>6&nbsp; Factor Variables for Categorical Hyperparameters – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./transformations.html" rel="next">
-<link href="./acquisition_failure.html" rel="prev">
+<link href="./var_type.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta name="twitter:title" content="19&nbsp; Factor Variables for Categorical Hyperparameters – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="6&nbsp; Factor Variables for Categorical Hyperparameters – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./factor_variables.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./var_type.html">Variables and Hyperparameters</a></li><li class="breadcrumb-item"><a href="./factor_variables.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -134,9 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -178,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Optimization</span></a>
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -186,8 +184,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -195,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Numerical Methods</span></a>
+ <span class="menu-text">Variables and Hyperparameters</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -203,62 +219,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
+  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
   </div>
 </li>
       </ul>
@@ -266,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+ <span class="menu-text">Visualization</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -274,110 +248,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -385,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Kriging</span></a>
+ <span class="menu-text">Saving and Loading Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -393,26 +271,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -420,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Multiobjective Optimization</span></a>
+ <span class="menu-text">Surrogate Handling</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -428,8 +294,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -437,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Hyperparameter Tuning</span></a>
+ <span class="menu-text">Kriging</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -445,20 +323,194 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Multiobjective Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hyperparameter Tuning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Sets</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Details About SPOT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
   </div>
 </li>
       </ul>
@@ -479,51 +531,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">19.1</span> Overview</a></li>
-  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start"><span class="header-section-number">19.2</span> Quick Start</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">6.1</span> Overview</a></li>
+  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start"><span class="header-section-number">6.2</span> Quick Start</a>
   <ul class="collapse">
-  <li><a href="#basic-factor-variable-usage" id="toc-basic-factor-variable-usage" class="nav-link" data-scroll-target="#basic-factor-variable-usage"><span class="header-section-number">19.2.1</span> Basic Factor Variable Usage</a></li>
-  <li><a href="#neural-network-activation-function-optimization" id="toc-neural-network-activation-function-optimization" class="nav-link" data-scroll-target="#neural-network-activation-function-optimization"><span class="header-section-number">19.2.2</span> Neural Network Activation Function Optimization</a></li>
+  <li><a href="#basic-factor-variable-usage" id="toc-basic-factor-variable-usage" class="nav-link" data-scroll-target="#basic-factor-variable-usage"><span class="header-section-number">6.2.1</span> Basic Factor Variable Usage</a></li>
+  <li><a href="#neural-network-activation-function-optimization" id="toc-neural-network-activation-function-optimization" class="nav-link" data-scroll-target="#neural-network-activation-function-optimization"><span class="header-section-number">6.2.2</span> Neural Network Activation Function Optimization</a></li>
   </ul></li>
-  <li><a href="#mixed-variable-types" id="toc-mixed-variable-types" class="nav-link" data-scroll-target="#mixed-variable-types"><span class="header-section-number">19.3</span> Mixed Variable Types</a>
+  <li><a href="#mixed-variable-types" id="toc-mixed-variable-types" class="nav-link" data-scroll-target="#mixed-variable-types"><span class="header-section-number">6.3</span> Mixed Variable Types</a>
   <ul class="collapse">
-  <li><a href="#combining-factor-integer-and-continuous-variables" id="toc-combining-factor-integer-and-continuous-variables" class="nav-link" data-scroll-target="#combining-factor-integer-and-continuous-variables"><span class="header-section-number">19.3.1</span> Combining Factor, Integer, and Continuous Variables</a></li>
+  <li><a href="#combining-factor-integer-and-continuous-variables" id="toc-combining-factor-integer-and-continuous-variables" class="nav-link" data-scroll-target="#combining-factor-integer-and-continuous-variables"><span class="header-section-number">6.3.1</span> Combining Factor, Integer, and Continuous Variables</a></li>
   </ul></li>
-  <li><a href="#multiple-factor-variables" id="toc-multiple-factor-variables" class="nav-link" data-scroll-target="#multiple-factor-variables"><span class="header-section-number">19.4</span> Multiple Factor Variables</a>
+  <li><a href="#multiple-factor-variables" id="toc-multiple-factor-variables" class="nav-link" data-scroll-target="#multiple-factor-variables"><span class="header-section-number">6.4</span> Multiple Factor Variables</a>
   <ul class="collapse">
-  <li><a href="#optimizing-both-activation-and-optimizer" id="toc-optimizing-both-activation-and-optimizer" class="nav-link" data-scroll-target="#optimizing-both-activation-and-optimizer"><span class="header-section-number">19.4.1</span> Optimizing Both Activation and Optimizer</a></li>
+  <li><a href="#optimizing-both-activation-and-optimizer" id="toc-optimizing-both-activation-and-optimizer" class="nav-link" data-scroll-target="#optimizing-both-activation-and-optimizer"><span class="header-section-number">6.4.1</span> Optimizing Both Activation and Optimizer</a></li>
   </ul></li>
-  <li><a href="#advanced-usage" id="toc-advanced-usage" class="nav-link" data-scroll-target="#advanced-usage"><span class="header-section-number">19.5</span> Advanced Usage</a>
+  <li><a href="#advanced-usage" id="toc-advanced-usage" class="nav-link" data-scroll-target="#advanced-usage"><span class="header-section-number">6.5</span> Advanced Usage</a>
   <ul class="collapse">
-  <li><a href="#custom-categorical-choices" id="toc-custom-categorical-choices" class="nav-link" data-scroll-target="#custom-categorical-choices"><span class="header-section-number">19.5.1</span> Custom Categorical Choices</a></li>
-  <li><a href="#viewing-all-evaluated-configurations" id="toc-viewing-all-evaluated-configurations" class="nav-link" data-scroll-target="#viewing-all-evaluated-configurations"><span class="header-section-number">19.5.2</span> Viewing All Evaluated Configurations</a></li>
+  <li><a href="#custom-categorical-choices" id="toc-custom-categorical-choices" class="nav-link" data-scroll-target="#custom-categorical-choices"><span class="header-section-number">6.5.1</span> Custom Categorical Choices</a></li>
+  <li><a href="#viewing-all-evaluated-configurations" id="toc-viewing-all-evaluated-configurations" class="nav-link" data-scroll-target="#viewing-all-evaluated-configurations"><span class="header-section-number">6.5.2</span> Viewing All Evaluated Configurations</a></li>
   </ul></li>
-  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">19.6</span> How It Works</a>
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">6.6</span> How It Works</a>
   <ul class="collapse">
-  <li><a href="#internal-mechanism" id="toc-internal-mechanism" class="nav-link" data-scroll-target="#internal-mechanism"><span class="header-section-number">19.6.1</span> Internal Mechanism</a></li>
-  <li><a href="#variable-type-auto-detection" id="toc-variable-type-auto-detection" class="nav-link" data-scroll-target="#variable-type-auto-detection"><span class="header-section-number">19.6.2</span> Variable Type Auto-Detection</a></li>
+  <li><a href="#internal-mechanism" id="toc-internal-mechanism" class="nav-link" data-scroll-target="#internal-mechanism"><span class="header-section-number">6.6.1</span> Internal Mechanism</a></li>
+  <li><a href="#variable-type-auto-detection" id="toc-variable-type-auto-detection" class="nav-link" data-scroll-target="#variable-type-auto-detection"><span class="header-section-number">6.6.2</span> Variable Type Auto-Detection</a></li>
   </ul></li>
-  <li><a href="#complete-example-full-workflow" id="toc-complete-example-full-workflow" class="nav-link" data-scroll-target="#complete-example-full-workflow"><span class="header-section-number">19.7</span> Complete Example: Full Workflow</a></li>
-  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">19.8</span> Best Practices</a>
+  <li><a href="#complete-example-full-workflow" id="toc-complete-example-full-workflow" class="nav-link" data-scroll-target="#complete-example-full-workflow"><span class="header-section-number">6.7</span> Complete Example: Full Workflow</a></li>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">6.8</span> Best Practices</a>
   <ul class="collapse">
-  <li><a href="#dos" id="toc-dos" class="nav-link" data-scroll-target="#dos"><span class="header-section-number">19.8.1</span> Do’s</a></li>
-  <li><a href="#donts" id="toc-donts" class="nav-link" data-scroll-target="#donts"><span class="header-section-number">19.8.2</span> Don’ts</a></li>
+  <li><a href="#dos" id="toc-dos" class="nav-link" data-scroll-target="#dos"><span class="header-section-number">6.8.1</span> Do’s</a></li>
+  <li><a href="#donts" id="toc-donts" class="nav-link" data-scroll-target="#donts"><span class="header-section-number">6.8.2</span> Don’ts</a></li>
   </ul></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">19.9</span> Troubleshooting</a>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">6.9</span> Troubleshooting</a>
   <ul class="collapse">
-  <li><a href="#common-issues" id="toc-common-issues" class="nav-link" data-scroll-target="#common-issues"><span class="header-section-number">19.9.1</span> Common Issues</a></li>
+  <li><a href="#common-issues" id="toc-common-issues" class="nav-link" data-scroll-target="#common-issues"><span class="header-section-number">6.9.1</span> Common Issues</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">19.10</span> Summary</a></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">19.11</span> Jupyter Notebook</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6.10</span> Summary</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">6.11</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./factor_variables.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./var_type.html">Variables and Hyperparameters</a></li><li class="breadcrumb-item"><a href="./factor_variables.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></h1>
 </div>
 
 
@@ -541,8 +593,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>SpotOptim supports factor variables for optimizing categorical hyperparameters, such as activation functions, optimizers, or any discrete string-based choices. Factor variables are automatically converted between string values (external interface) and integers (internal optimization), making categorical optimization seamless.</p>
-<section id="overview" class="level2" data-number="19.1">
-<h2 data-number="19.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">19.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">6.1</span> Overview</h2>
 <p><strong>What are Factor Variables?</strong></p>
 <p>Factor variables allow you to specify categorical choices as tuples of strings in the bounds. SpotOptim handles the conversion:</p>
 <ol type="1">
@@ -560,11 +612,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Mix factor variables with numeric/integer variables</li>
 </ul>
 </section>
-<section id="quick-start" class="level2" data-number="19.2">
-<h2 data-number="19.2" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">19.2</span> Quick Start</h2>
-<section id="basic-factor-variable-usage" class="level3" data-number="19.2.1">
-<h3 data-number="19.2.1" class="anchored" data-anchor-id="basic-factor-variable-usage"><span class="header-section-number">19.2.1</span> Basic Factor Variable Usage</h3>
-<div id="04b843b3" class="cell" data-execution_count="1">
+<section id="quick-start" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">6.2</span> Quick Start</h2>
+<section id="basic-factor-variable-usage" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="basic-factor-variable-usage"><span class="header-section-number">6.2.1</span> Basic Factor Variable Usage</h3>
+<div id="a8afb9fc" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -622,13 +674,13 @@ Testing activation: Sigmoid
 Testing activation: Tanh
 
 Best activation: ReLU
-Best score: 3377.4419</code></pre>
+Best score: 3446.6932</code></pre>
 </div>
 </div>
 </section>
-<section id="neural-network-activation-function-optimization" class="level3" data-number="19.2.2">
-<h3 data-number="19.2.2" class="anchored" data-anchor-id="neural-network-activation-function-optimization"><span class="header-section-number">19.2.2</span> Neural Network Activation Function Optimization</h3>
-<div id="abe50403" class="cell" data-execution_count="2">
+<section id="neural-network-activation-function-optimization" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="neural-network-activation-function-optimization"><span class="header-section-number">6.2.2</span> Neural Network Activation Function Optimization</h3>
+<div id="91fc67df" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -694,16 +746,16 @@ Best score: 3377.4419</code></pre>
 <span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best test MSE: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best activation function: Sigmoid
-Best test MSE: 26421.5208</code></pre>
+Best test MSE: 26315.9707</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="mixed-variable-types" class="level2" data-number="19.3">
-<h2 data-number="19.3" class="anchored" data-anchor-id="mixed-variable-types"><span class="header-section-number">19.3</span> Mixed Variable Types</h2>
-<section id="combining-factor-integer-and-continuous-variables" class="level3" data-number="19.3.1">
-<h3 data-number="19.3.1" class="anchored" data-anchor-id="combining-factor-integer-and-continuous-variables"><span class="header-section-number">19.3.1</span> Combining Factor, Integer, and Continuous Variables</h3>
-<div id="4aa42802" class="cell" data-execution_count="3">
+<section id="mixed-variable-types" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="mixed-variable-types"><span class="header-section-number">6.3</span> Mixed Variable Types</h2>
+<section id="combining-factor-integer-and-continuous-variables" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="combining-factor-integer-and-continuous-variables"><span class="header-section-number">6.3.1</span> Combining Factor, Integer, and Continuous Variables</h3>
+<div id="35d7cd04" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
@@ -788,72 +840,72 @@ Best test MSE: 26421.5208</code></pre>
 <span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best activation: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># String value!</span></span>
 <span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best test MSE: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lr=0.001015, l1=31, layers=4, activation=LeakyReLU
-lr=0.000534, l1=92, layers=3, activation=ReLU
-lr=0.000314, l1=77, layers=2, activation=Sigmoid
-lr=0.003523, l1=63, layers=4, activation=Sigmoid
-lr=0.002206, l1=115, layers=2, activation=Tanh
-lr=0.004470, l1=61, layers=1, activation=Tanh
-lr=0.007106, l1=95, layers=0, activation=Tanh
-lr=0.000108, l1=17, layers=3, activation=Sigmoid
-lr=0.000807, l1=123, layers=0, activation=Tanh
-lr=0.000189, l1=49, layers=1, activation=Sigmoid
-lr=0.000176, l1=20, layers=4, activation=ReLU
-lr=0.001110, l1=100, layers=1, activation=Tanh
-lr=0.000423, l1=77, layers=2, activation=Sigmoid
-lr=0.006701, l1=115, layers=3, activation=Tanh
-lr=0.000449, l1=20, layers=4, activation=ReLU
-lr=0.005793, l1=34, layers=0, activation=Tanh
-lr=0.001358, l1=76, layers=2, activation=Sigmoid
-lr=0.000306, l1=78, layers=3, activation=Sigmoid
-lr=0.000189, l1=49, layers=1, activation=Sigmoid
-lr=0.009349, l1=29, layers=3, activation=Sigmoid
-lr=0.001226, l1=106, layers=2, activation=ReLU
-lr=0.009052, l1=41, layers=1, activation=Tanh
-lr=0.001880, l1=102, layers=1, activation=Tanh
-lr=0.008667, l1=60, layers=0, activation=Tanh
-lr=0.003058, l1=108, layers=1, activation=Tanh
-lr=0.000736, l1=127, layers=4, activation=Sigmoid
-lr=0.000485, l1=33, layers=3, activation=Sigmoid
-lr=0.000634, l1=62, layers=1, activation=Sigmoid
-lr=0.000115, l1=49, layers=1, activation=Sigmoid
-lr=0.000941, l1=123, layers=1, activation=Sigmoid
-lr=0.009621, l1=86, layers=3, activation=Tanh
-lr=0.006155, l1=31, layers=0, activation=ReLU
-lr=0.000255, l1=106, layers=3, activation=Tanh
-lr=0.001871, l1=93, layers=2, activation=Tanh
-lr=0.000224, l1=106, layers=3, activation=Tanh
-lr=0.002178, l1=124, layers=2, activation=Sigmoid
-lr=0.001951, l1=78, layers=3, activation=Sigmoid
-lr=0.001373, l1=114, layers=1, activation=Sigmoid
-lr=0.006068, l1=67, layers=3, activation=Tanh
-lr=0.000337, l1=127, layers=0, activation=Tanh
-lr=0.000817, l1=96, layers=3, activation=Tanh
-lr=0.000995, l1=88, layers=3, activation=Sigmoid
-lr=0.001629, l1=45, layers=3, activation=Tanh
-lr=0.000692, l1=103, layers=1, activation=Tanh
-lr=0.000510, l1=108, layers=3, activation=Sigmoid
-lr=0.004318, l1=48, layers=3, activation=Sigmoid
-lr=0.000241, l1=99, layers=1, activation=Tanh
-lr=0.005376, l1=32, layers=2, activation=Tanh
-lr=0.002655, l1=113, layers=1, activation=Tanh
-lr=0.000132, l1=90, layers=0, activation=Sigmoid
+<pre><code>lr=0.001755, l1=54, layers=3, activation=ReLU
+lr=0.009546, l1=112, layers=1, activation=Tanh
+lr=0.001277, l1=32, layers=2, activation=Sigmoid
+lr=0.000513, l1=82, layers=1, activation=Sigmoid
+lr=0.000763, l1=39, layers=3, activation=LeakyReLU
+lr=0.003264, l1=117, layers=0, activation=Tanh
+lr=0.000124, l1=85, layers=2, activation=Tanh
+lr=0.000240, l1=69, layers=1, activation=ReLU
+lr=0.000361, l1=26, layers=4, activation=LeakyReLU
+lr=0.005005, l1=98, layers=3, activation=Sigmoid
+lr=0.002977, l1=117, layers=0, activation=Tanh
+lr=0.000225, l1=71, layers=3, activation=ReLU
+lr=0.000521, l1=24, layers=2, activation=Sigmoid
+lr=0.005900, l1=69, layers=1, activation=Tanh
+lr=0.004637, l1=37, layers=1, activation=ReLU
+lr=0.000404, l1=38, layers=1, activation=Sigmoid
+lr=0.000143, l1=101, layers=3, activation=Tanh
+lr=0.001500, l1=87, layers=0, activation=Tanh
+lr=0.000433, l1=113, layers=2, activation=Sigmoid
+lr=0.000197, l1=27, layers=0, activation=Sigmoid
+lr=0.000705, l1=118, layers=2, activation=Tanh
+lr=0.000142, l1=51, layers=2, activation=Sigmoid
+lr=0.005836, l1=127, layers=1, activation=ReLU
+lr=0.000231, l1=31, layers=2, activation=Sigmoid
+lr=0.000115, l1=41, layers=1, activation=LeakyReLU
+lr=0.000400, l1=55, layers=3, activation=Tanh
+lr=0.000235, l1=28, layers=4, activation=Sigmoid
+lr=0.000547, l1=82, layers=3, activation=Sigmoid
+lr=0.000124, l1=93, layers=3, activation=ReLU
+lr=0.001370, l1=52, layers=3, activation=Tanh
+lr=0.005733, l1=42, layers=3, activation=Tanh
+lr=0.000369, l1=74, layers=0, activation=LeakyReLU
+lr=0.002768, l1=35, layers=1, activation=Sigmoid
+lr=0.000518, l1=25, layers=3, activation=Sigmoid
+lr=0.007864, l1=80, layers=2, activation=Tanh
+lr=0.003865, l1=49, layers=1, activation=Tanh
+lr=0.007193, l1=85, layers=1, activation=Sigmoid
+lr=0.003005, l1=67, layers=2, activation=ReLU
+lr=0.000102, l1=26, layers=3, activation=Tanh
+lr=0.001105, l1=72, layers=2, activation=Tanh
+lr=0.002026, l1=41, layers=1, activation=Sigmoid
+lr=0.000126, l1=64, layers=2, activation=Tanh
+lr=0.000166, l1=42, layers=0, activation=LeakyReLU
+lr=0.001445, l1=83, layers=3, activation=Sigmoid
+lr=0.001053, l1=105, layers=2, activation=Tanh
+lr=0.004409, l1=34, layers=3, activation=Sigmoid
+lr=0.000438, l1=83, layers=1, activation=Sigmoid
+lr=0.000142, l1=57, layers=3, activation=Tanh
+lr=0.001952, l1=29, layers=3, activation=Tanh
+lr=0.001342, l1=105, layers=2, activation=LeakyReLU
 
 Optimization Results:
-Best learning rate: 0.000423
-Best layer size: 77
-Best num layers: 2
-Best activation: Sigmoid
-Best test MSE: 26438.5469</code></pre>
+Best learning rate: 0.005836
+Best layer size: 127
+Best num layers: 1
+Best activation: ReLU
+Best test MSE: 26502.3516</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="multiple-factor-variables" class="level2" data-number="19.4">
-<h2 data-number="19.4" class="anchored" data-anchor-id="multiple-factor-variables"><span class="header-section-number">19.4</span> Multiple Factor Variables</h2>
-<section id="optimizing-both-activation-and-optimizer" class="level3" data-number="19.4.1">
-<h3 data-number="19.4.1" class="anchored" data-anchor-id="optimizing-both-activation-and-optimizer"><span class="header-section-number">19.4.1</span> Optimizing Both Activation and Optimizer</h3>
-<div id="5ab8f02a" class="cell" data-execution_count="4">
+<section id="multiple-factor-variables" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="multiple-factor-variables"><span class="header-section-number">6.4</span> Multiple Factor Variables</h2>
+<section id="optimizing-both-activation-and-optimizer" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="optimizing-both-activation-and-optimizer"><span class="header-section-number">6.4.1</span> Optimizing Both Activation and Optimizer</h3>
+<div id="13c8334d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
@@ -922,19 +974,19 @@ Best test MSE: 26438.5469</code></pre>
 <span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best optimizer: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best learning rate: </span><span class="sc">{</span><span class="dv">10</span><span class="op">**</span>result<span class="sc">.</span>x[<span class="dv">2</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best activation: Sigmoid
+<pre><code>Best activation: ReLU
 Best optimizer: SGD
-Best learning rate: 0.008353</code></pre>
+Best learning rate: 0.007094</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="advanced-usage" class="level2" data-number="19.5">
-<h2 data-number="19.5" class="anchored" data-anchor-id="advanced-usage"><span class="header-section-number">19.5</span> Advanced Usage</h2>
-<section id="custom-categorical-choices" class="level3" data-number="19.5.1">
-<h3 data-number="19.5.1" class="anchored" data-anchor-id="custom-categorical-choices"><span class="header-section-number">19.5.1</span> Custom Categorical Choices</h3>
+<section id="advanced-usage" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="advanced-usage"><span class="header-section-number">6.5</span> Advanced Usage</h2>
+<section id="custom-categorical-choices" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="custom-categorical-choices"><span class="header-section-number">6.5.1</span> Custom Categorical Choices</h3>
 <p>Factor variables work with any string values, not just activation functions:</p>
-<div id="0e5efb5e" class="cell" data-execution_count="5">
+<div id="10ac71e5" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1000,14 +1052,14 @@ Best learning rate: 0.008353</code></pre>
 <pre><code>Best configuration:
   Dropout: light
   Batch norm: before
-  Weight init: xavier
-  Score: 2895.7941</code></pre>
+  Weight init: kaiming
+  Score: 2918.5748</code></pre>
 </div>
 </div>
 </section>
-<section id="viewing-all-evaluated-configurations" class="level3" data-number="19.5.2">
-<h3 data-number="19.5.2" class="anchored" data-anchor-id="viewing-all-evaluated-configurations"><span class="header-section-number">19.5.2</span> Viewing All Evaluated Configurations</h3>
-<div id="d58257bf" class="cell" data-execution_count="6">
+<section id="viewing-all-evaluated-configurations" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="viewing-all-evaluated-configurations"><span class="header-section-number">6.5.2</span> Viewing All Evaluated Configurations</h3>
+<div id="49cee15e" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -1096,52 +1148,52 @@ Best learning rate: 0.008353</code></pre>
 All evaluated configurations:
 Layer Size | Activation | Test MSE
 ------------------------------------------
-        41 | Tanh       | 26559.9492
-       118 | Sigmoid    | 26321.6725
-        26 | Tanh       | 26661.6387
-       108 | Sigmoid    | 26480.8874
-        71 | LeakyReLU  | 26520.0521
-        34 | Tanh       | 26581.7090
-        87 | ReLU       | 26561.4336
-       101 | Tanh       | 26566.5260
-        55 | Sigmoid    | 26435.7246
-        74 | ReLU       | 26582.0573
+        41 | Tanh       | 26635.4798
+       118 | Sigmoid    | 26291.0378
+        26 | Tanh       | 26662.6289
+       108 | Sigmoid    | 26354.4095
+        71 | LeakyReLU  | 26554.6139
+        34 | Tanh       | 26613.5228
+        87 | ReLU       | 26473.9440
+       101 | Tanh       | 26562.9622
+        55 | Sigmoid    | 26510.5098
+        74 | ReLU       | 26558.0658
 
 Top 5 configurations:
-l1=120, activation=Sigmoid   , MSE=26212.3086
-l1=118, activation=Sigmoid   , MSE=26321.6725
-l1=115, activation=Sigmoid   , MSE=26350.6777
-l1=127, activation=Sigmoid   , MSE=26363.3587
-l1= 93, activation=Sigmoid   , MSE=26428.5820</code></pre>
+l1=118, activation=Sigmoid   , MSE=26291.0378
+l1=108, activation=Sigmoid   , MSE=26354.4095
+l1=119, activation=Sigmoid   , MSE=26382.8418
+l1= 66, activation=Sigmoid   , MSE=26403.7018
+l1=115, activation=Sigmoid   , MSE=26408.5150</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="how-it-works" class="level2" data-number="19.6">
-<h2 data-number="19.6" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">19.6</span> How It Works</h2>
-<section id="internal-mechanism" class="level3" data-number="19.6.1">
-<h3 data-number="19.6.1" class="anchored" data-anchor-id="internal-mechanism"><span class="header-section-number">19.6.1</span> Internal Mechanism</h3>
+<section id="how-it-works" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">6.6</span> How It Works</h2>
+<section id="internal-mechanism" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="internal-mechanism"><span class="header-section-number">6.6.1</span> Internal Mechanism</h3>
 <p>SpotOptim handles factor variables through automatic conversion:</p>
 <ol type="1">
 <li><p><strong>Initialization</strong>: String tuples in bounds are detected</p>
-<div id="9fa209e6" class="cell" data-execution_count="7">
+<div id="0c19ba36" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="st">"ReLU"</span>, <span class="st">"Sigmoid"</span>, <span class="st">"Tanh"</span>)]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Internally mapped to: {0: "ReLU", 1: "Sigmoid", 2: "Tanh"}</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bounds become: [(0, 2)]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></li>
 <li><p><strong>Sampling</strong>: Initial design samples from <code>[0, n_levels-1]</code> and rounds to integers</p>
-<div id="2077d9a7" class="cell" data-execution_count="8">
+<div id="59f6ada7" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Samples might be: [0.3, 1.8, 2.1]</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># After rounding: [0, 2, 2]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></li>
 <li><p><strong>Evaluation</strong>: Before calling objective function, integers → strings</p>
-<div id="f782d02c" class="cell" data-execution_count="9">
+<div id="1d64fb62" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># [0, 2, 2] → ["ReLU", "Tanh", "Tanh"]</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Objective function receives strings</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></li>
 <li><p><strong>Optimization</strong>: Surrogate model works with integers <code>[0, n_levels-1]</code></p></li>
 <li><p><strong>Results</strong>: Final results mapped back to strings</p>
-<div id="e6d357a4" class="cell" data-execution_count="10">
+<div id="7aecdb25" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>result.x[<span class="dv">0</span>]  <span class="co"># Returns "ReLU", not 0</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>result.X     <span class="co"># All rows contain strings for factor variables</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
@@ -1155,12 +1207,13 @@ l1= 93, activation=Sigmoid   , MSE=26428.5820</code></pre>
        [101.0, 'Tanh'],
        [55.0, 'Sigmoid'],
        [74.0, 'ReLU'],
-       [120.0, 'Sigmoid'],
-       [121.0, 'Sigmoid'],
+       [115.0, 'Sigmoid'],
+       [119.0, 'Sigmoid'],
        [20.0, 'Tanh'],
        [87.0, 'Tanh'],
        [107.0, 'LeakyReLU'],
        [75.0, 'Tanh'],
+       [117.0, 'Sigmoid'],
        [53.0, 'Tanh'],
        [35.0, 'Sigmoid'],
        [93.0, 'Sigmoid'],
@@ -1170,7 +1223,6 @@ l1= 93, activation=Sigmoid   , MSE=26428.5820</code></pre>
        [127.0, 'Sigmoid'],
        [54.0, 'Sigmoid'],
        [64.0, 'LeakyReLU'],
-       [115.0, 'Sigmoid'],
        [75.0, 'Sigmoid'],
        [42.0, 'Sigmoid'],
        [66.0, 'Sigmoid'],
@@ -1179,10 +1231,10 @@ l1= 93, activation=Sigmoid   , MSE=26428.5820</code></pre>
 </div></li>
 </ol>
 </section>
-<section id="variable-type-auto-detection" class="level3" data-number="19.6.2">
-<h3 data-number="19.6.2" class="anchored" data-anchor-id="variable-type-auto-detection"><span class="header-section-number">19.6.2</span> Variable Type Auto-Detection</h3>
+<section id="variable-type-auto-detection" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="variable-type-auto-detection"><span class="header-section-number">6.6.2</span> Variable Type Auto-Detection</h3>
 <p>If you don’t specify <code>var_type</code>, SpotOptim automatically detects factor variables:</p>
-<div id="1e96ffd7" class="cell" data-execution_count="11">
+<div id="7ddff4b4" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: Explicit var_type (recommended)</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This shows the syntax - replace my_function with your actual function</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1229,9 +1281,9 @@ l1= 93, activation=Sigmoid   , MSE=26428.5820</code></pre>
 </div>
 </section>
 </section>
-<section id="complete-example-full-workflow" class="level2" data-number="19.7">
-<h2 data-number="19.7" class="anchored" data-anchor-id="complete-example-full-workflow"><span class="header-section-number">19.7</span> Complete Example: Full Workflow</h2>
-<div id="90eda5d8" class="cell" data-execution_count="12">
+<section id="complete-example-full-workflow" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="complete-example-full-workflow"><span class="header-section-number">6.7</span> Complete Example: Full Workflow</h2>
+<div id="05acbe68" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">Complete example: Neural network hyperparameter optimization with factor variables.</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
@@ -1425,157 +1477,157 @@ Neural Network Hyperparameter Optimization with Factor Variables
 
 Starting optimization...
 Testing: lr=0.007002, l1=101, layers=2, activation=ReLU
-  → Test MSE: 26545.8633
+  → Test MSE: 26569.6263
 Testing: lr=0.000604, l1=50, layers=2, activation=ReLU
-  → Test MSE: 26665.1009
+  → Test MSE: 26652.6439
 Testing: lr=0.000149, l1=67, layers=1, activation=Tanh
-  → Test MSE: 26604.3535
+  → Test MSE: 26607.4342
 Testing: lr=0.000296, l1=40, layers=0, activation=Tanh
-  → Test MSE: 26626.8418
+  → Test MSE: 26591.8900
 Testing: lr=0.004887, l1=116, layers=2, activation=Sigmoid
-  → Test MSE: 26657.2878
+  → Test MSE: 26695.2637
 Testing: lr=0.001772, l1=124, layers=3, activation=Sigmoid
-  → Test MSE: 26669.3164
+  → Test MSE: 26587.9642
 Testing: lr=0.001107, l1=36, layers=4, activation=Sigmoid
-  → Test MSE: 26630.8529
+  → Test MSE: 26653.7467
 Testing: lr=0.003708, l1=20, layers=1, activation=LeakyReLU
-  → Test MSE: 26802.8197
+  → Test MSE: 26600.3216
 Testing: lr=0.000861, l1=90, layers=1, activation=Tanh
-  → Test MSE: 26596.5612
+  → Test MSE: 26622.2363
 Testing: lr=0.000237, l1=78, layers=3, activation=Tanh
-  → Test MSE: 26636.7930
-Testing: lr=0.007756, l1=100, layers=2, activation=ReLU
-  → Test MSE: 26572.7689
-Testing: lr=0.006468, l1=102, layers=2, activation=ReLU
-  → Test MSE: 26542.2292
-Testing: lr=0.006360, l1=102, layers=2, activation=ReLU
-  → Test MSE: 26628.2370
+  → Test MSE: 26615.8587
 Testing: lr=0.009463, l1=24, layers=0, activation=LeakyReLU
-  → Test MSE: 26557.7539
+  → Test MSE: 26665.3392
 Testing: lr=0.000761, l1=94, layers=4, activation=Tanh
-  → Test MSE: 26620.5983
+  → Test MSE: 26619.1536
 Testing: lr=0.003722, l1=82, layers=1, activation=Tanh
-  → Test MSE: 26646.7142
+  → Test MSE: 26585.9167
 Testing: lr=0.007645, l1=96, layers=3, activation=Sigmoid
-  → Test MSE: 26455.2910
+  → Test MSE: 26521.8672
 Testing: lr=0.000769, l1=40, layers=1, activation=Tanh
-  → Test MSE: 26577.0000
+  → Test MSE: 26624.6068
 Testing: lr=0.000235, l1=109, layers=4, activation=LeakyReLU
-  → Test MSE: 26630.7936
+  → Test MSE: 26629.4349
+Testing: lr=0.008965, l1=97, layers=4, activation=Sigmoid
+  → Test MSE: 26635.3327
 Testing: lr=0.000359, l1=76, layers=3, activation=Sigmoid
-  → Test MSE: 26704.4701
+  → Test MSE: 26556.5391
 Testing: lr=0.004959, l1=50, layers=2, activation=Tanh
-  → Test MSE: 26602.6406
+  → Test MSE: 26639.7734
+Testing: lr=0.006327, l1=82, layers=1, activation=Tanh
+  → Test MSE: 26607.9811
+Testing: lr=0.007644, l1=96, layers=3, activation=Sigmoid
+  → Test MSE: 26672.1185
 Testing: lr=0.002494, l1=57, layers=3, activation=LeakyReLU
-  → Test MSE: 26600.3203
+  → Test MSE: 26622.1243
 Testing: lr=0.005807, l1=20, layers=0, activation=Sigmoid
-  → Test MSE: 26599.3783
+  → Test MSE: 26542.9036
 Testing: lr=0.002939, l1=19, layers=1, activation=Sigmoid
-  → Test MSE: 26607.6328
+  → Test MSE: 26768.1960
 Testing: lr=0.001263, l1=98, layers=4, activation=ReLU
-  → Test MSE: 26623.8626
+  → Test MSE: 26596.8268
 Testing: lr=0.001226, l1=105, layers=3, activation=Sigmoid
-  → Test MSE: 26729.4609
+  → Test MSE: 26549.5143
 Testing: lr=0.004431, l1=32, layers=1, activation=Sigmoid
-  → Test MSE: 26752.3001
+  → Test MSE: 26736.0391
 Testing: lr=0.001367, l1=58, layers=2, activation=Sigmoid
-  → Test MSE: 26458.6621
+  → Test MSE: 26490.9811
 Testing: lr=0.006778, l1=81, layers=4, activation=Tanh
-  → Test MSE: 26542.7038
+  → Test MSE: 26583.0527
 Testing: lr=0.002189, l1=112, layers=4, activation=Sigmoid
-  → Test MSE: 26720.1953
+  → Test MSE: 26638.4017
 Testing: lr=0.004558, l1=24, layers=2, activation=Tanh
-  → Test MSE: 26632.7663
+  → Test MSE: 26630.6654
 Testing: lr=0.000658, l1=125, layers=0, activation=Tanh
-  → Test MSE: 26630.1335
+  → Test MSE: 26629.9915
 Testing: lr=0.000272, l1=119, layers=2, activation=Tanh
-  → Test MSE: 26639.5339
+  → Test MSE: 26643.0488
 Testing: lr=0.000133, l1=64, layers=2, activation=Tanh
-  → Test MSE: 26660.4798
+  → Test MSE: 26618.6960
 Testing: lr=0.002172, l1=70, layers=2, activation=LeakyReLU
-  → Test MSE: 26621.5931
+  → Test MSE: 26613.5150
 Testing: lr=0.000223, l1=28, layers=3, activation=Sigmoid
-  → Test MSE: 26640.9935
+  → Test MSE: 26558.2448
 Testing: lr=0.006065, l1=53, layers=3, activation=Sigmoid
-  → Test MSE: 26503.3965
+  → Test MSE: 26518.7500
 Testing: lr=0.000352, l1=42, layers=4, activation=ReLU
-  → Test MSE: 26613.8828
+  → Test MSE: 26603.2168
 Testing: lr=0.003464, l1=124, layers=2, activation=Tanh
-  → Test MSE: 26648.3620
+  → Test MSE: 26579.4837
 Testing: lr=0.000219, l1=37, layers=3, activation=ReLU
-  → Test MSE: 26640.0176
+  → Test MSE: 26576.3079
 Testing: lr=0.002619, l1=70, layers=3, activation=ReLU
-  → Test MSE: 26612.4603
+  → Test MSE: 26651.7292
 Testing: lr=0.004686, l1=123, layers=2, activation=ReLU
-  → Test MSE: 26536.8867
+  → Test MSE: 26549.1191
 Testing: lr=0.000165, l1=44, layers=0, activation=ReLU
-  → Test MSE: 26695.3691
+  → Test MSE: 26683.2572
 Testing: lr=0.000917, l1=93, layers=1, activation=Sigmoid
-  → Test MSE: 26624.5983
+  → Test MSE: 26488.3737
 Testing: lr=0.001789, l1=117, layers=1, activation=Tanh
-  → Test MSE: 26645.5853
+  → Test MSE: 26649.5371
 Testing: lr=0.000134, l1=101, layers=4, activation=Sigmoid
-  → Test MSE: 26618.9004
+  → Test MSE: 26479.3014
 Testing: lr=0.004937, l1=108, layers=2, activation=ReLU
-  → Test MSE: 26633.2826
+  → Test MSE: 26574.7012
 Testing: lr=0.004047, l1=93, layers=1, activation=ReLU
-  → Test MSE: 26532.1901
+  → Test MSE: 26599.9661
 Testing: lr=0.000997, l1=112, layers=4, activation=Tanh
-  → Test MSE: 26608.7930
+  → Test MSE: 26662.9251
 Testing: lr=0.005449, l1=52, layers=4, activation=Sigmoid
-  → Test MSE: 26500.6335
+  → Test MSE: 26584.7949
 
 ================================================================================
 OPTIMIZATION RESULTS
 ================================================================================
-Best learning rate: 0.007645
-Best layer size (l1): 96
-Best num hidden layers: 3
+Best learning rate: 0.000134
+Best layer size (l1): 101
+Best num hidden layers: 4
 Best activation function: Sigmoid
-Best test MSE: 26455.2910
+Best test MSE: 26479.3014
 
 ================================================================================
 TOP 5 CONFIGURATIONS
 ================================================================================
 Rank   LR           L1     Layers   Activation   MSE       
 --------------------------------------------------------------------------------
-1      0.007645     96     3        Sigmoid      26455.2910
-2      0.001367     58     2        Sigmoid      26458.6621
-3      0.005449     52     4        Sigmoid      26500.6335
-4      0.006065     53     3        Sigmoid      26503.3965
-5      0.004047     93     1        ReLU         26532.1901
+1      0.000134     101    4        Sigmoid      26479.3014
+2      0.000917     93     1        Sigmoid      26488.3737
+3      0.001367     58     2        Sigmoid      26490.9811
+4      0.006065     53     3        Sigmoid      26518.7500
+5      0.007645     96     3        Sigmoid      26521.8672
 
 ================================================================================
 TRAINING FINAL MODEL
 ================================================================================
-Configuration: lr=0.007645, l1=96, layers=3, activation=Sigmoid
+Configuration: lr=0.000134, l1=101, layers=4, activation=Sigmoid
 
 Training for 100 epochs...
-Epoch 20/100: Train MSE = 30130.0661
-Epoch 40/100: Train MSE = 32524.0168
-Epoch 60/100: Train MSE = 28724.0298
-Epoch 80/100: Train MSE = 28013.8889
-Epoch 100/100: Train MSE = 27767.9285
+Epoch 20/100: Train MSE = 28752.0352
+Epoch 40/100: Train MSE = 34543.3784
+Epoch 60/100: Train MSE = 27476.1080
+Epoch 80/100: Train MSE = 27324.3652
+Epoch 100/100: Train MSE = 30129.1283
 
-Final Test MSE: 26236.2318
+Final Test MSE: 26510.2357
 ================================================================================</code></pre>
 </div>
 </div>
 </section>
-<section id="best-practices" class="level2" data-number="19.8">
-<h2 data-number="19.8" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">19.8</span> Best Practices</h2>
-<section id="dos" class="level3" data-number="19.8.1">
-<h3 data-number="19.8.1" class="anchored" data-anchor-id="dos"><span class="header-section-number">19.8.1</span> Do’s</h3>
+<section id="best-practices" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">6.8</span> Best Practices</h2>
+<section id="dos" class="level3" data-number="6.8.1">
+<h3 data-number="6.8.1" class="anchored" data-anchor-id="dos"><span class="header-section-number">6.8.1</span> Do’s</h3>
 <p>✅ <strong>Use descriptive string values</strong></p>
-<div id="48865a0a" class="cell" data-execution_count="13">
+<div id="b6a39842" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[(<span class="st">"xavier_uniform"</span>, <span class="st">"kaiming_normal"</span>, <span class="st">"orthogonal"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>✅ <strong>Explicitly specify var_type for clarity</strong></p>
-<div id="9aef6a47" class="cell" data-execution_count="14">
+<div id="5bee28a2" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>var_type<span class="op">=</span>[<span class="st">"float"</span>, <span class="st">"int"</span>, <span class="st">"factor"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>✅ <strong>Access results as strings</strong></p>
-<div id="65217689" class="cell" data-execution_count="15">
+<div id="e7661341" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Accessing factor variable results as strings</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (This assumes you've run an optimization with activation as a factor variable)</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1616,21 +1668,21 @@ Final Test MSE: 26236.2318
 </div>
 </div>
 <p>✅ <strong>Mix factor variables with numeric/integer variables</strong></p>
-<div id="85cae44e" class="cell" data-execution_count="16">
+<div id="cac5699e" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">2</span>), (<span class="dv">16</span>, <span class="dv">128</span>), (<span class="st">"ReLU"</span>, <span class="st">"Tanh"</span>)]</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>var_type<span class="op">=</span>[<span class="st">"float"</span>, <span class="st">"int"</span>, <span class="st">"factor"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="donts" class="level3" data-number="19.8.2">
-<h3 data-number="19.8.2" class="anchored" data-anchor-id="donts"><span class="header-section-number">19.8.2</span> Don’ts</h3>
+<section id="donts" class="level3" data-number="6.8.2">
+<h3 data-number="6.8.2" class="anchored" data-anchor-id="donts"><span class="header-section-number">6.8.2</span> Don’ts</h3>
 <p>❌ <strong>Don’t use integers in factor bounds</strong></p>
-<div id="4c1f4680" class="cell" data-execution_count="17">
+<div id="6350718e" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wrong: Use strings, not integers</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>)]  <span class="co"># Wrong!</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[(<span class="st">"ReLU"</span>, <span class="st">"Sigmoid"</span>, <span class="st">"Tanh"</span>)]  <span class="co"># Correct!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>❌ <strong>Don’t expect integers in objective function</strong></p>
-<div id="f58a53be" class="cell" data-execution_count="18">
+<div id="f410bad0" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> objective(X):</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    activation <span class="op">=</span> X[<span class="dv">0</span>][<span class="dv">2</span>]</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># activation is a string, not an integer!</span></span>
@@ -1638,12 +1690,12 @@ Final Test MSE: 26236.2318
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Do: if activation == "ReLU":   # Correct!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>❌ <strong>Don’t manually convert factor variables</strong></p>
-<div id="48ea75bc" class="cell" data-execution_count="19">
+<div id="ca1048c3" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SpotOptim handles conversion automatically</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Don't do manual mapping in your objective function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>❌ <strong>Don’t use empty tuples</strong></p>
-<div id="2174fdf7" class="cell" data-execution_count="20">
+<div id="1c13ccb4" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wrong: Empty tuple</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[()]</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1652,10 +1704,10 @@ Final Test MSE: 26236.2318
 </div>
 </section>
 </section>
-<section id="troubleshooting" class="level2" data-number="19.9">
-<h2 data-number="19.9" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">19.9</span> Troubleshooting</h2>
-<section id="common-issues" class="level3" data-number="19.9.1">
-<h3 data-number="19.9.1" class="anchored" data-anchor-id="common-issues"><span class="header-section-number">19.9.1</span> Common Issues</h3>
+<section id="troubleshooting" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">6.9</span> Troubleshooting</h2>
+<section id="common-issues" class="level3" data-number="6.9.1">
+<h3 data-number="6.9.1" class="anchored" data-anchor-id="common-issues"><span class="header-section-number">6.9.1</span> Common Issues</h3>
 <p><strong>Issue</strong>: Objective function receives integers instead of strings</p>
 <p><strong>Solution</strong>: Ensure you’re using the latest version of SpotOptim with factor variable support. Factor variables are automatically converted before calling the objective function.</p>
 <hr>
@@ -1670,8 +1722,8 @@ Final Test MSE: 26236.2318
 <p><strong>Solution</strong>: Use at least two choices for optimization, or remove single-choice dimensions from bounds.</p>
 </section>
 </section>
-<section id="summary" class="level2" data-number="19.10">
-<h2 data-number="19.10" class="anchored" data-anchor-id="summary"><span class="header-section-number">19.10</span> Summary</h2>
+<section id="summary" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.10</span> Summary</h2>
 <p>Factor variables in SpotOptim enable:</p>
 <ul>
 <li>✅ <strong>Categorical optimization</strong>: Optimize over discrete string choices</li>
@@ -1683,8 +1735,8 @@ Final Test MSE: 26236.2318
 </ul>
 <p>Factor variables make categorical hyperparameter optimization as easy as continuous optimization!</p>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="19.11">
-<h2 data-number="19.11" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">19.11</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">6.11</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2107,13 +2159,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./acquisition_failure.html" class="pagination-link" aria-label="Acquisition Failure Handling in SpotOptim">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span>
+      <a href="./var_type.html" class="pagination-link" aria-label="Variable Type (var_type) Implementation in SpotOptim">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./transformations.html" class="pagination-link" aria-label="Variable Transformations for Search Space Scaling">
-        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -69,7 +69,7 @@ with initial condition $y(0) = 0$.
 # Setup
 
 ```{python}
-#| label: setup-pinn2
+#| label: setup-pinn2-1
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -77,17 +77,23 @@ import torch.nn as nn
 from typing import Tuple
 from spotoptim import SpotOptim
 from spotoptim.nn.linear_regressor import LinearRegressor
+```
 
+```{python}
+#| label: setup-pinn2-2
 # Set random seed for reproducibility
 torch.manual_seed(42)
 np.random.seed(42)
+```
 
-# Set number of epochs for training
-N_EPOCHS=5000
+Set number of epochs for training, maximum number of iterations for hyperparameter optimization, and initial design size.
+For this example we use a small number of epochs and iterations to keep the runtime short.
 
-# 
-MAX_ITER = 50
-
+```{python}
+#| label: setup-pinn2-3
+N_EPOCHS = 500
+MAX_ITER = 15
+N_INITIAL = 10
 ```
 
 # Data Generation
@@ -141,8 +147,10 @@ def oscillator(
     y_tensor = torch.tensor(y, dtype=torch.float32).view(-1, 1)
     
     return t_tensor, y_tensor
+```
 
-
+```{python}
+#| label: data-generation-pinnDataset
 class PINNDataset(Dataset):
     """PyTorch Dataset for PINN supervised data (training/validation).
     
@@ -162,8 +170,10 @@ class PINNDataset(Dataset):
     
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor]:
         return self.t[idx], self.y[idx]
+```
 
-
+```{python}
+#| label: data-generation-pinnCollocationDataset
 class CollocationDataset(Dataset):
     """PyTorch Dataset for PINN collocation points.
     
@@ -186,9 +196,10 @@ class CollocationDataset(Dataset):
         return self.t[idx].unsqueeze(0)
 ```
 
-Generate exact solution using RK2
+Generate exact solution using Runge-Kutta 2 (RK2) method:
 
 ```{python}
+#| label: data-generation-pinnExactSolution
 x_exact, y_exact = oscillator()
 
 # Create training data (sparse sampling)
@@ -413,9 +424,12 @@ def objective_pinn(X):
         results.append(val_error)
     
     return np.array(results)
+```
 
-# Test the objective function
-print("Testing objective function with 2 configurations...")
+We test the objective function with two configurations:
+
+```{python}
+#| label: data-generation-pinnObjectiveFunctionTest
 X_test = np.array([
     [32, 2, "Tanh", "Adam", 3.0, 0.06],    # Baseline config
     [64, 3, "ReLU", "AdamW", 2.0, 0.04]    # Alternative config
@@ -428,6 +442,7 @@ print(f"\nTest results: {test_results}")
 
 Use `tensorboard --logdir=runs` from a shell in the current directory (where this notebook is located) to visualize the optimization process.
 
+Setting the bounds for the search space:
 ```{python}
 #| label: pinn-hyperparameter-optimization-pinn2
 # Define search space with var_trans for automatic log-scale handling
@@ -439,14 +454,20 @@ bounds = [
     (0.1, 10.0),                                    # lr_unified: learning rate (0.1 to 10)
     (0.01, 1.0)                                     # alpha: physics weight (0.01 to 1.0)
 ]
+```
 
+Specify the variable types and transformations.
+Use var_trans to handle log-scale transformations automatically, factor variables don't need transformations (None):
+
+```{python}
+#| label: pinn-hyperparameter-optimization-var-types
 var_type = ["int", "int", "factor", "factor", "float", "float"]
 var_name = ["l1", "num_layers", "activation", "optimizer", "lr_unified", "alpha"]
-
-# Use var_trans to handle log-scale transformations automatically
-# Factor variables don't need transformations (None)
 var_trans = [None, None, None, None, "log10", "log10"]
+```
 
+```{python}
+#| label: pinn-hyperparameter-optimization-create-optimizer
 # Create optimizer
 optimizer = SpotOptim(
     fun=objective_pinn,
@@ -455,7 +476,7 @@ optimizer = SpotOptim(
     var_name=var_name,
     var_trans=var_trans,  # Automatic log-scale handling!
     max_iter=MAX_ITER,
-    n_initial=10,
+    n_initial=N_INITIAL,
     seed=42,
     verbose=True,
     tensorboard_clean=True,
@@ -468,7 +489,7 @@ The `trans`column shows applied transformations. `lr_unified` and `alpha` use lo
 This enables efficient exploration of log-scale parameters. All values shown are in original scale (not transformed).
 
 ```{python}
-# Display search space configuration
+#| label: pinn-display-search-space-pinn2
 design_table = optimizer.print_design_table(tablefmt="github")
 print(design_table)
 ```
@@ -871,29 +892,35 @@ print("\n" + "="*70)
 Based on the hyperparameter optimization results:
 
 1. **Network Architecture**:
+
    - The optimal architecture was found with `{best_l1}` neurons and `{best_num_layers}` hidden layers
    - Best activation function: `{best_activation}`
    - This balances model capacity with training efficiency
 
 2. **Optimizer Selection**:
+
    - Best optimizer: `{best_optimizer}`
    - Different optimizers have different convergence characteristics for PINNs
 
 3. **Learning Rate**:
+
    - Optimal unified learning rate: `{best_lr_unified:.4f}`
    - This translates to an actual Adam learning rate of `{best_lr_unified * 0.001:.6f}`
 
 4. **Physics Loss Weight**:
+
    - Optimal alpha: `{best_alpha:.4f}`
    - This balances data fitting with physics constraint satisfaction
 
 5. **Training Strategy**:
+
    - Start with a broad search space to explore different architectures
    - Use `var_trans` with "log10" for learning rate and physics weight parameters
    - This enables efficient exploration of log-scale parameters without manual transformations
    - Validate on held-out data to prevent overfitting to training points
 
 6. **Benefits of var_trans and Factor Variables**:
+
    - **Factor variables**: Categorical choices (activation, optimizer) handled automatically
    - SpotOptim maps strings to integers internally and back to strings in results
    - **Cleaner code**: No manual `10**x` conversions in objective function
@@ -948,7 +975,7 @@ opt = SpotOptim(
     var_type=var_type,
     var_trans=var_trans,  # Automatic log-scale and factor handling!
     max_iter=MAX_ITER,
-    n_initial=10
+    n_initial=N_INITIAL
 )
 
 result = opt.optimize()

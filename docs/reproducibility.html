@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>15&nbsp; Reproducibility in SpotOptim – Sequential Parameter Optimization Cookbook</title>
+<title>11&nbsp; Reproducibility in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./awwe_optimization.html" rel="next">
-<link href="./019_spotoptim_sk_matern.html" rel="prev">
+<link href="./surrogate_selection.html" rel="next">
+<link href="./save_load.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<meta name="twitter:title" content="15&nbsp; Reproducibility in SpotOptim – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="11&nbsp; Reproducibility in SpotOptim – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./reproducibility.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./save_load.html">Saving and Loading Models</a></li><li class="breadcrumb-item"><a href="./reproducibility.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -134,9 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -178,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Optimization</span></a>
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -186,8 +184,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -195,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Numerical Methods</span></a>
+ <span class="menu-text">Variables and Hyperparameters</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -203,62 +219,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
+  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
   </div>
 </li>
       </ul>
@@ -266,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+ <span class="menu-text">Visualization</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -274,110 +248,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unified_learning_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Unified Learning Rate Interface in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./tensorboard_clean.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">TensorBoard Log Cleaning Feature in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -385,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Kriging</span></a>
+ <span class="menu-text">Saving and Loading Models</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -393,26 +271,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -420,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Multiobjective Optimization</span></a>
+ <span class="menu-text">Surrogate Handling</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -428,8 +294,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
   </div>
 </li>
       </ul>
@@ -437,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Hyperparameter Tuning</span></a>
+ <span class="menu-text">Kriging</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -445,20 +323,194 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Multiobjective Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hyperparameter Tuning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Sets</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Details About SPOT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
   </div>
 </li>
       </ul>
@@ -479,45 +531,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">15.1</span> Introduction</a></li>
-  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">15.2</span> Basic Usage</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">11.1</span> Introduction</a></li>
+  <li><a href="#basic-usage" id="toc-basic-usage" class="nav-link" data-scroll-target="#basic-usage"><span class="header-section-number">11.2</span> Basic Usage</a>
   <ul class="collapse">
-  <li><a href="#making-optimization-reproducible" id="toc-making-optimization-reproducible" class="nav-link" data-scroll-target="#making-optimization-reproducible"><span class="header-section-number">15.2.1</span> Making Optimization Reproducible</a></li>
-  <li><a href="#running-independent-experiments" id="toc-running-independent-experiments" class="nav-link" data-scroll-target="#running-independent-experiments"><span class="header-section-number">15.2.2</span> Running Independent Experiments</a></li>
+  <li><a href="#making-optimization-reproducible" id="toc-making-optimization-reproducible" class="nav-link" data-scroll-target="#making-optimization-reproducible"><span class="header-section-number">11.2.1</span> Making Optimization Reproducible</a></li>
+  <li><a href="#running-independent-experiments" id="toc-running-independent-experiments" class="nav-link" data-scroll-target="#running-independent-experiments"><span class="header-section-number">11.2.2</span> Running Independent Experiments</a></li>
   </ul></li>
-  <li><a href="#practical-examples" id="toc-practical-examples" class="nav-link" data-scroll-target="#practical-examples"><span class="header-section-number">15.3</span> Practical Examples</a>
+  <li><a href="#practical-examples" id="toc-practical-examples" class="nav-link" data-scroll-target="#practical-examples"><span class="header-section-number">11.3</span> Practical Examples</a>
   <ul class="collapse">
-  <li><a href="#example-1-comparing-different-configurations" id="toc-example-1-comparing-different-configurations" class="nav-link" data-scroll-target="#example-1-comparing-different-configurations"><span class="header-section-number">15.3.1</span> Example 1: Comparing Different Configurations</a></li>
-  <li><a href="#example-2-reproducible-research-experiment" id="toc-example-2-reproducible-research-experiment" class="nav-link" data-scroll-target="#example-2-reproducible-research-experiment"><span class="header-section-number">15.3.2</span> Example 2: Reproducible Research Experiment</a></li>
-  <li><a href="#example-3-multiple-independent-runs" id="toc-example-3-multiple-independent-runs" class="nav-link" data-scroll-target="#example-3-multiple-independent-runs"><span class="header-section-number">15.3.3</span> Example 3: Multiple Independent Runs</a></li>
-  <li><a href="#example-4-reproducible-initial-design" id="toc-example-4-reproducible-initial-design" class="nav-link" data-scroll-target="#example-4-reproducible-initial-design"><span class="header-section-number">15.3.4</span> Example 4: Reproducible Initial Design</a></li>
-  <li><a href="#example-5-custom-initial-design-with-seed" id="toc-example-5-custom-initial-design-with-seed" class="nav-link" data-scroll-target="#example-5-custom-initial-design-with-seed"><span class="header-section-number">15.3.5</span> Example 5: Custom Initial Design with Seed</a></li>
+  <li><a href="#example-1-comparing-different-configurations" id="toc-example-1-comparing-different-configurations" class="nav-link" data-scroll-target="#example-1-comparing-different-configurations"><span class="header-section-number">11.3.1</span> Example 1: Comparing Different Configurations</a></li>
+  <li><a href="#example-2-reproducible-research-experiment" id="toc-example-2-reproducible-research-experiment" class="nav-link" data-scroll-target="#example-2-reproducible-research-experiment"><span class="header-section-number">11.3.2</span> Example 2: Reproducible Research Experiment</a></li>
+  <li><a href="#example-3-multiple-independent-runs" id="toc-example-3-multiple-independent-runs" class="nav-link" data-scroll-target="#example-3-multiple-independent-runs"><span class="header-section-number">11.3.3</span> Example 3: Multiple Independent Runs</a></li>
+  <li><a href="#example-4-reproducible-initial-design" id="toc-example-4-reproducible-initial-design" class="nav-link" data-scroll-target="#example-4-reproducible-initial-design"><span class="header-section-number">11.3.4</span> Example 4: Reproducible Initial Design</a></li>
+  <li><a href="#example-5-custom-initial-design-with-seed" id="toc-example-5-custom-initial-design-with-seed" class="nav-link" data-scroll-target="#example-5-custom-initial-design-with-seed"><span class="header-section-number">11.3.5</span> Example 5: Custom Initial Design with Seed</a></li>
   </ul></li>
-  <li><a href="#advanced-topics" id="toc-advanced-topics" class="nav-link" data-scroll-target="#advanced-topics"><span class="header-section-number">15.4</span> Advanced Topics</a>
+  <li><a href="#advanced-topics" id="toc-advanced-topics" class="nav-link" data-scroll-target="#advanced-topics"><span class="header-section-number">11.4</span> Advanced Topics</a>
   <ul class="collapse">
-  <li><a href="#seed-and-noisy-functions" id="toc-seed-and-noisy-functions" class="nav-link" data-scroll-target="#seed-and-noisy-functions"><span class="header-section-number">15.4.1</span> Seed and Noisy Functions</a></li>
-  <li><a href="#different-seeds-for-different-exploration" id="toc-different-seeds-for-different-exploration" class="nav-link" data-scroll-target="#different-seeds-for-different-exploration"><span class="header-section-number">15.4.2</span> Different Seeds for Different Exploration</a></li>
+  <li><a href="#seed-and-noisy-functions" id="toc-seed-and-noisy-functions" class="nav-link" data-scroll-target="#seed-and-noisy-functions"><span class="header-section-number">11.4.1</span> Seed and Noisy Functions</a></li>
+  <li><a href="#different-seeds-for-different-exploration" id="toc-different-seeds-for-different-exploration" class="nav-link" data-scroll-target="#different-seeds-for-different-exploration"><span class="header-section-number">11.4.2</span> Different Seeds for Different Exploration</a></li>
   </ul></li>
-  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">15.5</span> Best Practices</a>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">11.5</span> Best Practices</a>
   <ul class="collapse">
-  <li><a href="#always-use-seeds-for-production-code" id="toc-always-use-seeds-for-production-code" class="nav-link" data-scroll-target="#always-use-seeds-for-production-code"><span class="header-section-number">15.5.1</span> 1. Always Use Seeds for Production Code</a></li>
-  <li><a href="#document-your-seeds" id="toc-document-your-seeds" class="nav-link" data-scroll-target="#document-your-seeds"><span class="header-section-number">15.5.2</span> 2. Document Your Seeds</a></li>
-  <li><a href="#use-different-seeds-for-different-experiments" id="toc-use-different-seeds-for-different-experiments" class="nav-link" data-scroll-target="#use-different-seeds-for-different-experiments"><span class="header-section-number">15.5.3</span> 3. Use Different Seeds for Different Experiments</a></li>
-  <li><a href="#test-robustness-across-multiple-seeds" id="toc-test-robustness-across-multiple-seeds" class="nav-link" data-scroll-target="#test-robustness-across-multiple-seeds"><span class="header-section-number">15.5.4</span> 4. Test Robustness Across Multiple Seeds</a></li>
+  <li><a href="#always-use-seeds-for-production-code" id="toc-always-use-seeds-for-production-code" class="nav-link" data-scroll-target="#always-use-seeds-for-production-code"><span class="header-section-number">11.5.1</span> 1. Always Use Seeds for Production Code</a></li>
+  <li><a href="#document-your-seeds" id="toc-document-your-seeds" class="nav-link" data-scroll-target="#document-your-seeds"><span class="header-section-number">11.5.2</span> 2. Document Your Seeds</a></li>
+  <li><a href="#use-different-seeds-for-different-experiments" id="toc-use-different-seeds-for-different-experiments" class="nav-link" data-scroll-target="#use-different-seeds-for-different-experiments"><span class="header-section-number">11.5.3</span> 3. Use Different Seeds for Different Experiments</a></li>
+  <li><a href="#test-robustness-across-multiple-seeds" id="toc-test-robustness-across-multiple-seeds" class="nav-link" data-scroll-target="#test-robustness-across-multiple-seeds"><span class="header-section-number">11.5.4</span> 4. Test Robustness Across Multiple Seeds</a></li>
   </ul></li>
-  <li><a href="#what-the-seed-controls" id="toc-what-the-seed-controls" class="nav-link" data-scroll-target="#what-the-seed-controls"><span class="header-section-number">15.6</span> What the Seed Controls</a></li>
-  <li><a href="#common-questions" id="toc-common-questions" class="nav-link" data-scroll-target="#common-questions"><span class="header-section-number">15.7</span> Common Questions</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">15.8</span> Summary</a></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">15.9</span> Jupyter Notebook</a></li>
+  <li><a href="#what-the-seed-controls" id="toc-what-the-seed-controls" class="nav-link" data-scroll-target="#what-the-seed-controls"><span class="header-section-number">11.6</span> What the Seed Controls</a></li>
+  <li><a href="#common-questions" id="toc-common-questions" class="nav-link" data-scroll-target="#common-questions"><span class="header-section-number">11.7</span> Common Questions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">11.8</span> Summary</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">11.9</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spot_step_by_step.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./reproducibility.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./save_load.html">Saving and Loading Models</a></li><li class="breadcrumb-item"><a href="./reproducibility.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></h1>
 </div>
 
 
@@ -534,8 +586,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level2" data-number="15.1">
-<h2 data-number="15.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">15.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">11.1</span> Introduction</h2>
 <p>SpotOptim provides full support for reproducible optimization runs through the <code>seed</code> parameter. This is essential for:</p>
 <ul>
 <li><strong>Scientific research</strong>: Ensuring experiments can be replicated</li>
@@ -545,12 +597,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>When you specify a seed, SpotOptim guarantees that running the same optimization multiple times will produce identical results. Without a seed, each run explores the search space differently, which can be useful for robustness testing.</p>
 </section>
-<section id="basic-usage" class="level2" data-number="15.2">
-<h2 data-number="15.2" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">15.2</span> Basic Usage</h2>
-<section id="making-optimization-reproducible" class="level3" data-number="15.2.1">
-<h3 data-number="15.2.1" class="anchored" data-anchor-id="making-optimization-reproducible"><span class="header-section-number">15.2.1</span> Making Optimization Reproducible</h3>
+<section id="basic-usage" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">11.2</span> Basic Usage</h2>
+<section id="making-optimization-reproducible" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="making-optimization-reproducible"><span class="header-section-number">11.2.1</span> Making Optimization Reproducible</h3>
 <p>To ensure reproducible results, simply specify the <code>seed</code> parameter when creating the optimizer:</p>
-<div id="f5ab25ec" class="cell" data-execution_count="1">
+<div id="1df15837" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -595,10 +647,10 @@ Best value: 1.1160017787260647e-07</code></pre>
 </div>
 <p><strong>Key Point</strong>: Running this code multiple times (even on different days or machines) will always produce the same result.</p>
 </section>
-<section id="running-independent-experiments" class="level3" data-number="15.2.2">
-<h3 data-number="15.2.2" class="anchored" data-anchor-id="running-independent-experiments"><span class="header-section-number">15.2.2</span> Running Independent Experiments</h3>
+<section id="running-independent-experiments" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="running-independent-experiments"><span class="header-section-number">11.2.2</span> Running Independent Experiments</h3>
 <p>If you don’t specify a seed, each optimization run will explore the search space differently:</p>
-<div id="7714cf86" class="cell" data-execution_count="2">
+<div id="1b3dceb5" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-reproducible: different results each time</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
@@ -614,12 +666,12 @@ Best value: 1.1160017787260647e-07</code></pre>
 <p>This is useful when you want to: - Explore different regions of the search space - Test the robustness of your results - Run multiple independent optimization attempts</p>
 </section>
 </section>
-<section id="practical-examples" class="level2" data-number="15.3">
-<h2 data-number="15.3" class="anchored" data-anchor-id="practical-examples"><span class="header-section-number">15.3</span> Practical Examples</h2>
-<section id="example-1-comparing-different-configurations" class="level3" data-number="15.3.1">
-<h3 data-number="15.3.1" class="anchored" data-anchor-id="example-1-comparing-different-configurations"><span class="header-section-number">15.3.1</span> Example 1: Comparing Different Configurations</h3>
+<section id="practical-examples" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="practical-examples"><span class="header-section-number">11.3</span> Practical Examples</h2>
+<section id="example-1-comparing-different-configurations" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="example-1-comparing-different-configurations"><span class="header-section-number">11.3.1</span> Example 1: Comparing Different Configurations</h3>
 <p>When comparing different optimizer settings, use the same seed for fair comparison:</p>
-<div id="03108fb5" class="cell" data-execution_count="3">
+<div id="ec378d02" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -652,15 +704,15 @@ Best value: 1.1160017787260647e-07</code></pre>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Config 1 (more initial): </span><span class="sc">{</span>result1<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Config 2 (fewer initial): </span><span class="sc">{</span>result2<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Config 1 (more initial): 0.002472
+<pre><code>Config 1 (more initial): 0.002494
 Config 2 (fewer initial): 0.011538</code></pre>
 </div>
 </div>
 </section>
-<section id="example-2-reproducible-research-experiment" class="level3" data-number="15.3.2">
-<h3 data-number="15.3.2" class="anchored" data-anchor-id="example-2-reproducible-research-experiment"><span class="header-section-number">15.3.2</span> Example 2: Reproducible Research Experiment</h3>
+<section id="example-2-reproducible-research-experiment" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="example-2-reproducible-research-experiment"><span class="header-section-number">11.3.2</span> Example 2: Reproducible Research Experiment</h3>
 <p>For scientific papers or reports, always use a fixed seed and document it:</p>
-<div id="0e70e9b0" class="cell" data-execution_count="4">
+<div id="5fe68aa3" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -697,86 +749,86 @@ Initial best: f(x) = 20.392774
 Iteration 1: f(x) = 31.367736
 Iteration 2: f(x) = 30.822371
 Iteration 3: f(x) = 28.761963
-Iteration 4: f(x) = 25.354869
-Iteration 5: f(x) = 22.087388
-Iteration 6: f(x) = 23.609341
+Iteration 4: f(x) = 25.355390
+Iteration 5: f(x) = 22.087398
+Iteration 6: f(x) = 23.609642
 Iteration 7: f(x) = 27.024927
-Iteration 8: f(x) = 23.154860
-Iteration 9: New best f(x) = 8.927570
-Iteration 10: New best f(x) = 8.899651
-Iteration 11: f(x) = 19.831892
-Iteration 12: f(x) = 19.323387
-Iteration 13: New best f(x) = 8.692646
-Iteration 14: New best f(x) = 8.244386
-Iteration 15: f(x) = 8.404328
-Iteration 16: f(x) = 17.268241
-Iteration 17: f(x) = 17.249540
-Iteration 18: f(x) = 17.013913
-Iteration 19: f(x) = 22.060759
-Iteration 20: New best f(x) = 8.226806
-Iteration 21: New best f(x) = 2.728503
-Iteration 22: New best f(x) = 2.239279
-Iteration 23: New best f(x) = 2.001386
-Iteration 24: f(x) = 2.001807
-Iteration 25: f(x) = 2.002678
-Iteration 26: f(x) = 24.680717
-Iteration 27: f(x) = 25.446475
-Iteration 28: f(x) = 22.274149
-Iteration 29: New best f(x) = 1.990149
-Iteration 30: f(x) = 29.273443
-Iteration 31: f(x) = 42.726403
-Iteration 32: f(x) = 14.017748
-Iteration 33: New best f(x) = 1.989946
-Iteration 34: f(x) = 26.003417
-Iteration 35: f(x) = 25.661272
-Iteration 36: New best f(x) = 1.989929
-Iteration 37: New best f(x) = 1.989929
-Iteration 38: f(x) = 86.774141
-Iteration 39: New best f(x) = 1.989928
-Iteration 40: f(x) = 69.774917
-Iteration 41: f(x) = 1.989929
-Iteration 42: f(x) = 13.607012
-Iteration 43: f(x) = 12.969808
-Iteration 44: f(x) = 43.198054
-Iteration 45: f(x) = 1.989929
-Iteration 46: f(x) = 1.989930
-Iteration 47: f(x) = 1.989930
-Iteration 48: f(x) = 1.989929
-Iteration 49: New best f(x) = 1.989928
-Iteration 50: f(x) = 1.989930
-Iteration 51: f(x) = 1.989931
+Iteration 8: f(x) = 23.154774
+Iteration 9: New best f(x) = 8.927550
+Iteration 10: New best f(x) = 8.899624
+Iteration 11: f(x) = 19.831800
+Iteration 12: f(x) = 19.323148
+Iteration 13: New best f(x) = 8.692652
+Iteration 14: New best f(x) = 8.244681
+Iteration 15: f(x) = 8.404445
+Iteration 16: f(x) = 17.268172
+Iteration 17: f(x) = 17.250262
+Iteration 18: f(x) = 16.989215
+Iteration 19: f(x) = 22.061741
+Iteration 20: New best f(x) = 8.227940
+Iteration 21: New best f(x) = 2.732909
+Iteration 22: New best f(x) = 2.236454
+Iteration 23: New best f(x) = 2.001414
+Iteration 24: f(x) = 2.001821
+Iteration 25: f(x) = 2.002706
+Iteration 26: f(x) = 24.677487
+Iteration 27: f(x) = 25.445950
+Iteration 28: f(x) = 22.323886
+Iteration 29: New best f(x) = 1.990146
+Iteration 30: New best f(x) = 1.989946
+Iteration 31: f(x) = 30.157363
+Iteration 32: f(x) = 13.980500
+Iteration 33: f(x) = 26.257931
+Iteration 34: f(x) = 26.086756
+Iteration 35: f(x) = 16.955502
+Iteration 36: f(x) = 86.774141
+Iteration 37: f(x) = 42.005362
+Iteration 38: New best f(x) = 1.989929
+Iteration 39: f(x) = 1.989930
+Iteration 40: New best f(x) = 1.989929
+Iteration 41: f(x) = 69.717061
+Iteration 42: New best f(x) = 1.989929
+Iteration 43: f(x) = 66.932192
+Iteration 44: f(x) = 50.905256
+Iteration 45: f(x) = 1.989930
+Iteration 46: f(x) = 46.800517
+Iteration 47: f(x) = 67.429406
+Iteration 48: f(x) = 60.775651
+Iteration 49: f(x) = 1.989930
+Iteration 50: f(x) = 1.989929
+Iteration 51: f(x) = 1.989930
 Iteration 52: f(x) = 1.989929
-Iteration 53: New best f(x) = 1.989928
+Iteration 53: f(x) = 1.989930
 Iteration 54: f(x) = 1.989929
-Iteration 55: f(x) = 1.989929
-Iteration 56: f(x) = 1.989929
-Iteration 57: f(x) = 13.597903
-Iteration 58: f(x) = 12.970018
-Iteration 59: f(x) = 12.960404
-Iteration 60: f(x) = 76.861984
-Iteration 61: f(x) = 67.219873
-Iteration 62: f(x) = 16.955932
-Iteration 63: f(x) = 1.989929
+Iteration 55: f(x) = 1.989931
+Iteration 56: f(x) = 1.989930
+Iteration 57: f(x) = 1.989929
+Iteration 58: f(x) = 16.986975
+Iteration 59: f(x) = 14.520119
+Iteration 60: f(x) = 86.774141
+Iteration 61: f(x) = 1.989931
+Iteration 62: f(x) = 76.830975
+Iteration 63: f(x) = 59.126187
 Iteration 64: f(x) = 1.989929
-Iteration 65: f(x) = 1.989928
-Iteration 66: f(x) = 1.989929
-Iteration 67: f(x) = 1.989929
-Iteration 68: f(x) = 1.989930
-Iteration 69: f(x) = 1.989929
+Iteration 65: f(x) = 13.047213
+Iteration 66: New best f(x) = 1.989929
+Iteration 67: New best f(x) = 1.989928
+Iteration 68: f(x) = 1.989931
+Iteration 69: f(x) = 1.989930
 Iteration 70: f(x) = 1.989928
 
 Experiment Results (seed=12345):
-Best solution: [ 9.94889892e-01 -9.94836680e-01  1.73398777e-04]
-Best value: 1.9899279657092634
+Best solution: [ 9.94876607e-01 -9.94866368e-01  1.89299459e-04]
+Best value: 1.9899282459113223
 Iterations: 70
 Function evaluations: 100</code></pre>
 </div>
 </div>
 </section>
-<section id="example-3-multiple-independent-runs" class="level3" data-number="15.3.3">
-<h3 data-number="15.3.3" class="anchored" data-anchor-id="example-3-multiple-independent-runs"><span class="header-section-number">15.3.3</span> Example 3: Multiple Independent Runs</h3>
+<section id="example-3-multiple-independent-runs" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="example-3-multiple-independent-runs"><span class="header-section-number">11.3.3</span> Example 3: Multiple Independent Runs</h3>
 <p>To test robustness, run the same optimization with different seeds:</p>
-<div id="dcfd2c0a" class="cell" data-execution_count="5">
+<div id="778a3e0d" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -815,23 +867,23 @@ Function evaluations: 100</code></pre>
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean: </span><span class="sc">{</span>np<span class="sc">.</span>mean(results)<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Std dev: </span><span class="sc">{</span>np<span class="sc">.</span>std(results)<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Run with seed   42: f(x) = 0.000905
-Run with seed  123: f(x) = 0.001359
-Run with seed  456: f(x) = 0.001970
-Run with seed  789: f(x) = 0.000615
-Run with seed 1011: f(x) = 0.003033
+<pre><code>Run with seed   42: f(x) = 0.000907
+Run with seed  123: f(x) = 0.001394
+Run with seed  456: f(x) = 0.001941
+Run with seed  789: f(x) = 0.000616
+Run with seed 1011: f(x) = 0.003029
 
-Best result: 0.000615
-Worst result: 0.003033
-Mean: 0.001576
-Std dev: 0.000860</code></pre>
+Best result: 0.000616
+Worst result: 0.003029
+Mean: 0.001578
+Std dev: 0.000854</code></pre>
 </div>
 </div>
 </section>
-<section id="example-4-reproducible-initial-design" class="level3" data-number="15.3.4">
-<h3 data-number="15.3.4" class="anchored" data-anchor-id="example-4-reproducible-initial-design"><span class="header-section-number">15.3.4</span> Example 4: Reproducible Initial Design</h3>
+<section id="example-4-reproducible-initial-design" class="level3" data-number="11.3.4">
+<h3 data-number="11.3.4" class="anchored" data-anchor-id="example-4-reproducible-initial-design"><span class="header-section-number">11.3.4</span> Example 4: Reproducible Initial Design</h3>
 <p>The seed ensures that even the initial design points are reproducible:</p>
-<div id="4b05632c" class="cell" data-execution_count="6">
+<div id="f37dddc6" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -876,10 +928,10 @@ Best solutions are identical: True</code></pre>
 </div>
 </div>
 </section>
-<section id="example-5-custom-initial-design-with-seed" class="level3" data-number="15.3.5">
-<h3 data-number="15.3.5" class="anchored" data-anchor-id="example-5-custom-initial-design-with-seed"><span class="header-section-number">15.3.5</span> Example 5: Custom Initial Design with Seed</h3>
+<section id="example-5-custom-initial-design-with-seed" class="level3" data-number="11.3.5">
+<h3 data-number="11.3.5" class="anchored" data-anchor-id="example-5-custom-initial-design-with-seed"><span class="header-section-number">11.3.5</span> Example 5: Custom Initial Design with Seed</h3>
 <p>Even when providing a custom initial design, the seed ensures reproducible subsequent iterations:</p>
-<div id="2f3bb9e9" class="cell" data-execution_count="7">
+<div id="5d6ab9cf" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -928,12 +980,12 @@ Best value: 3.201102</code></pre>
 </div>
 </section>
 </section>
-<section id="advanced-topics" class="level2" data-number="15.4">
-<h2 data-number="15.4" class="anchored" data-anchor-id="advanced-topics"><span class="header-section-number">15.4</span> Advanced Topics</h2>
-<section id="seed-and-noisy-functions" class="level3" data-number="15.4.1">
-<h3 data-number="15.4.1" class="anchored" data-anchor-id="seed-and-noisy-functions"><span class="header-section-number">15.4.1</span> Seed and Noisy Functions</h3>
+<section id="advanced-topics" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="advanced-topics"><span class="header-section-number">11.4</span> Advanced Topics</h2>
+<section id="seed-and-noisy-functions" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="seed-and-noisy-functions"><span class="header-section-number">11.4.1</span> Seed and Noisy Functions</h3>
 <p>When optimizing noisy functions with repeated evaluations, the seed ensures reproducible noise:</p>
-<div id="68e30abf" class="cell" data-execution_count="8">
+<div id="ee131b86" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -957,16 +1009,16 @@ Best value: 3.201102</code></pre>
 <span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best mean value: </span><span class="sc">{</span>optimizer<span class="sc">.</span>min_mean_y<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Variance at best: </span><span class="sc">{</span>optimizer<span class="sc">.</span>min_var_y<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best mean value: 0.144455
-Variance at best: 0.010851</code></pre>
+<pre><code>Best mean value: 0.039974
+Variance at best: 0.003792</code></pre>
 </div>
 </div>
 <p><strong>Important</strong>: With the same seed, even the noise will be identical across runs!</p>
 </section>
-<section id="different-seeds-for-different-exploration" class="level3" data-number="15.4.2">
-<h3 data-number="15.4.2" class="anchored" data-anchor-id="different-seeds-for-different-exploration"><span class="header-section-number">15.4.2</span> Different Seeds for Different Exploration</h3>
+<section id="different-seeds-for-different-exploration" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="different-seeds-for-different-exploration"><span class="header-section-number">11.4.2</span> Different Seeds for Different Exploration</h3>
 <p>Use different seeds to explore different regions systematically:</p>
-<div id="13e89ff0" class="cell" data-execution_count="9">
+<div id="1971855f" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -998,27 +1050,27 @@ Variance at best: 0.010851</code></pre>
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Best result with seed </span><span class="sc">{</span>best_seed<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>best_overall<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Seed 10: f(x) = 1.365391
-Seed 11: f(x) = 2.492499
-Seed 12: f(x) = 8.813666
-Seed 13: f(x) = 0.652015
-Seed 14: f(x) = 0.164174
-Seed 15: f(x) = 0.123007
-Seed 16: f(x) = 8.409968
+<pre><code>Seed 10: f(x) = 4.597121
+Seed 11: f(x) = 1.946733
+Seed 12: f(x) = 6.030579
+Seed 13: f(x) = 0.851170
+Seed 14: f(x) = 0.154832
+Seed 15: f(x) = 0.044427
+Seed 16: f(x) = 8.343419
 Seed 17: f(x) = 0.547492
-Seed 18: f(x) = 2.112257
-Seed 19: f(x) = 0.294712
+Seed 18: f(x) = 2.121439
+Seed 19: f(x) = 0.257388
 
-Best result with seed 15: 0.123007</code></pre>
+Best result with seed 15: 0.044427</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="best-practices" class="level2" data-number="15.5">
-<h2 data-number="15.5" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">15.5</span> Best Practices</h2>
-<section id="always-use-seeds-for-production-code" class="level3" data-number="15.5.1">
-<h3 data-number="15.5.1" class="anchored" data-anchor-id="always-use-seeds-for-production-code"><span class="header-section-number">15.5.1</span> 1. Always Use Seeds for Production Code</h3>
-<div id="4385124a" class="cell" data-execution_count="10">
+<section id="best-practices" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">11.5</span> Best Practices</h2>
+<section id="always-use-seeds-for-production-code" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="always-use-seeds-for-production-code"><span class="header-section-number">11.5.1</span> 1. Always Use Seeds for Production Code</h3>
+<div id="361306c8" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Reproducible</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(fun<span class="op">=</span>objective, bounds<span class="op">=</span>bounds, seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1026,9 +1078,9 @@ Best result with seed 15: 0.123007</code></pre>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(fun<span class="op">=</span>objective, bounds<span class="op">=</span>bounds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="document-your-seeds" class="level3" data-number="15.5.2">
-<h3 data-number="15.5.2" class="anchored" data-anchor-id="document-your-seeds"><span class="header-section-number">15.5.2</span> 2. Document Your Seeds</h3>
-<div id="b39fd487" class="cell" data-execution_count="11">
+<section id="document-your-seeds" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="document-your-seeds"><span class="header-section-number">11.5.2</span> 2. Document Your Seeds</h3>
+<div id="4179816e" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration for experiment reported in Section 4.2</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>EXPERIMENT_SEED <span class="op">=</span> <span class="dv">2024</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>MAX_ITERATIONS <span class="op">=</span> <span class="dv">100</span></span>
@@ -1041,18 +1093,18 @@ Best result with seed 15: 0.123007</code></pre>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="use-different-seeds-for-different-experiments" class="level3" data-number="15.5.3">
-<h3 data-number="15.5.3" class="anchored" data-anchor-id="use-different-seeds-for-different-experiments"><span class="header-section-number">15.5.3</span> 3. Use Different Seeds for Different Experiments</h3>
-<div id="67c6f00c" class="cell" data-execution_count="12">
+<section id="use-different-seeds-for-different-experiments" class="level3" data-number="11.5.3">
+<h3 data-number="11.5.3" class="anchored" data-anchor-id="use-different-seeds-for-different-experiments"><span class="header-section-number">11.5.3</span> 3. Use Different Seeds for Different Experiments</h3>
+<div id="84d3d3db" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different experiments should use different seeds</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>BASELINE_SEED <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>EXPERIMENT_A_SEED <span class="op">=</span> <span class="dv">200</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>EXPERIMENT_B_SEED <span class="op">=</span> <span class="dv">300</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="test-robustness-across-multiple-seeds" class="level3" data-number="15.5.4">
-<h3 data-number="15.5.4" class="anchored" data-anchor-id="test-robustness-across-multiple-seeds"><span class="header-section-number">15.5.4</span> 4. Test Robustness Across Multiple Seeds</h3>
-<div id="20ead17d" class="cell" data-execution_count="13">
+<section id="test-robustness-across-multiple-seeds" class="level3" data-number="11.5.4">
+<h3 data-number="11.5.4" class="anchored" data-anchor-id="test-robustness-across-multiple-seeds"><span class="header-section-number">11.5.4</span> 4. Test Robustness Across Multiple Seeds</h3>
+<div id="24e14d7f" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run same optimization with multiple seeds</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> seed <span class="kw">in</span> [<span class="dv">42</span>, <span class="dv">123</span>, <span class="dv">456</span>, <span class="dv">789</span>, <span class="dv">1011</span>]:</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> SpotOptim(fun<span class="op">=</span>objective, bounds<span class="op">=</span>bounds, seed<span class="op">=</span>seed)</span>
@@ -1061,8 +1113,8 @@ Best result with seed 15: 0.123007</code></pre>
 </div>
 </section>
 </section>
-<section id="what-the-seed-controls" class="level2" data-number="15.6">
-<h2 data-number="15.6" class="anchored" data-anchor-id="what-the-seed-controls"><span class="header-section-number">15.6</span> What the Seed Controls</h2>
+<section id="what-the-seed-controls" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="what-the-seed-controls"><span class="header-section-number">11.6</span> What the Seed Controls</h2>
 <p>The <code>seed</code> parameter ensures reproducibility by controlling:</p>
 <ol type="1">
 <li><strong>Initial Design Generation</strong>: Latin Hypercube Sampling produces the same initial points</li>
@@ -1072,8 +1124,8 @@ Best result with seed 15: 0.123007</code></pre>
 </ol>
 <p>This guarantees that the entire optimization pipeline is deterministic and reproducible.</p>
 </section>
-<section id="common-questions" class="level2" data-number="15.7">
-<h2 data-number="15.7" class="anchored" data-anchor-id="common-questions"><span class="header-section-number">15.7</span> Common Questions</h2>
+<section id="common-questions" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="common-questions"><span class="header-section-number">11.7</span> Common Questions</h2>
 <p><strong>Q: Can I use seed=0?</strong><br>
 A: Yes, any integer (including 0) is a valid seed.</p>
 <p><strong>Q: Will different Python versions give the same results?</strong><br>
@@ -1083,8 +1135,8 @@ A: No, the seed only affects SpotOptim’s internal random processes. If your ob
 <p><strong>Q: How do I choose a good seed value?</strong><br>
 A: Any integer works. Common choices are 42, 123, or dates (e.g., 20241112). What matters is consistency, not the specific value.</p>
 </section>
-<section id="summary" class="level2" data-number="15.8">
-<h2 data-number="15.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">15.8</span> Summary</h2>
+<section id="summary" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="summary"><span class="header-section-number">11.8</span> Summary</h2>
 <ul>
 <li>Use <code>seed</code> parameter for reproducible optimization</li>
 <li>Same seed → identical results (every time)</li>
@@ -1095,8 +1147,8 @@ A: Any integer works. Common choices are 42, 123, or dates (e.g., 20241112). Wha
 <li>Test robustness with multiple different seeds</li>
 </ul>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="15.9">
-<h2 data-number="15.9" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">15.9</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">11.9</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1519,13 +1571,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./019_spotoptim_sk_matern.html" class="pagination-link" aria-label="Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span>
+      <a href="./save_load.html" class="pagination-link" aria-label="Save and Load in SpotOptim">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./awwe_optimization.html" class="pagination-link" aria-label="Optimizing the Aircraft Wing Weight Example">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./surrogate_selection.html" class="pagination-link" aria-label="Surrogate Model Selection in SpotOptim">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

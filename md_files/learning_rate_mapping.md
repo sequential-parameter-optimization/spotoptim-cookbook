@@ -211,6 +211,81 @@ best_opt = min(results, key=results.get)
 print(f"\nBest optimizer: {best_opt} with MSE = {results[best_opt]:.4f}")
 ```
 
+
+### Hyperparameter Optimization
+
+```{python}
+#| label: hyperparameter-optimization-unified-learning-rate
+from spotoptim import SpotOptim
+from spotoptim.nn.linear_regressor import LinearRegressor
+from spotoptim.data import get_diabetes_dataloaders
+import torch
+import torch.nn as nn
+import numpy as np
+
+def train_model(X):
+    """Objective function for hyperparameter optimization."""
+    results = []
+    
+    # Load data once
+    train_loader, test_loader, _ = get_diabetes_dataloaders(batch_size=32, random_state=42)
+    
+    for params in X:
+        lr_unified = 10 ** params[0]  # Log scale: [-4, 0]
+        optimizer_name = params[1]     # Factor: "Adam", "SGD", "RMSprop"
+        
+        # Create model with unified lr - automatically scaled per optimizer
+        torch.manual_seed(42)
+        model = LinearRegressor(input_dim=10, output_dim=1, l1=32, num_hidden_layers=2, lr=lr_unified)
+        optimizer = model.get_optimizer(optimizer_name)
+        
+        criterion = nn.MSELoss()
+        
+        # Train
+        model.train()
+        for epoch in range(30):
+            for batch_X, batch_y in train_loader:
+                optimizer.zero_grad()
+                predictions = model(batch_X)
+                loss = criterion(predictions, batch_y)
+                loss.backward()
+                optimizer.step()
+        
+        # Evaluate
+        model.eval()
+        test_loss = 0.0
+        with torch.no_grad():
+            for batch_X, batch_y in test_loader:
+                predictions = model(batch_X)
+                test_loss += criterion(predictions, batch_y).item()
+        
+        avg_test_loss = test_loss / len(test_loader)
+        results.append(avg_test_loss)
+    
+    return np.array(results)
+
+# Optimize unified lr across different optimizers
+spot_optimizer = SpotOptim(
+    fun=train_model,
+    bounds=[(-4, 0), ("Adam", "SGD", "RMSprop")],
+    var_type=["float", "factor"],
+    max_iter=10,  # Small for demo
+    n_initial=5,
+    seed=42
+)
+result = spot_optimizer.optimize()
+
+print(f"\nBest unified lr: {10**result.x[0]:.6f}")
+print(f"Best optimizer: {result.x[1]}")
+print(f"Best test MSE: {result.fun:.4f}")
+
+# Show actual learning rate used
+from spotoptim.utils.mapping import map_lr
+actual_lr = map_lr(10**result.x[0], result.x[1])
+print(f"Actual {result.x[1]} learning rate: {actual_lr:.6f}")
+```
+
+
 ### Hyperparameter Optimization with SpotOptim
 
 Note, `N_INITIAL` and `MAX_ITER` are kept small for demonstration; increase for real use.
