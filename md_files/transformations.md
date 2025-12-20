@@ -112,6 +112,8 @@ SpotOptim supports the following transformations:
 | `"square"` | t = x² | x = √t | Inverse of sqrt |
 | `"cube"` | t = x³ | x = ∛t | Strong scaling |
 | `"inv"` or `"reciprocal"` | t = 1/x | x = 1/t | Reciprocal relationships |
+| `"pow(base, x)"` | t = base^x | x = log_base(t) | Power scaling (e.g. `pow(2, x)`) |
+| `"log(x, base)"` | t = log_base(x) | x = base^t | Log scaling with custom base |
 | `None` or `"id"` | t = x | x = t | No transformation |
 
 ### Transformation Guidelines
@@ -133,6 +135,11 @@ SpotOptim supports the following transformations:
 
 - Inverse relationships (e.g., 1/temperature)
 - When smaller values are more important
+
+**Dynamic Transformations:**
+
+- `"pow(base, x)"`: Exponential scaling. Example: `transform="pow(2, x)"` with bounds `[2, 5]` leads to internal search on `[4, 32]`.
+- `"log(x, base)"`: Logarithmic scaling with custom base. Example: `transform="log(x, 2)"`.
 
 **When to use `None`:**
 

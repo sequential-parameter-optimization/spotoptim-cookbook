@@ -1106,9 +1106,9 @@ Test results: [0.18875158 0.16901682]</code></pre>
 Factor variable at dimension 3:
   Levels: ['Adam', 'SGD', 'RMSprop', 'AdamW']
   Mapped to integers: 0 to 3
-Removed old TensorBoard logs: runs/spotoptim_20251219_131811
+Removed old TensorBoard logs: runs/spotoptim_20251220_100904
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251219_145536</code></pre>
+TensorBoard logging enabled: runs/spotoptim_20251220_114016</code></pre>
 </div>
 </div>
 <p>Display search space configuration. The <code>trans</code>column shows applied transformations. <code>lr_unified</code> and <code>alpha</code> use log10 transformation internally. This enables efficient exploration of log-scale parameters. All values shown are in original scale (not transformed).</p>
@@ -1116,14 +1116,22 @@ TensorBoard logging enabled: runs/spotoptim_20251219_145536</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>design_table <span class="op">=</span> optimizer.print_design_table(tablefmt<span class="op">=</span><span class="st">"github"</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(design_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>| name       | type   | lower   | upper   | default   | trans   |
-|------------|--------|---------|---------|-----------|---------|
-| l1         | int    | 16.0    | 128.0   | 72        | -       |
-| num_layers | int    | 1.0     | 4.0     | 2         | -       |
-| activation | factor | Tanh    | GELU    | Sigmoid   | -       |
-| optimizer  | factor | Adam    | AdamW   | RMSprop   | -       |
-| lr_unified | float  | 0.1     | 10.0    | 5.05      | log10   |
-| alpha      | float  | 0.01    | 1.0     | 0.505     | log10   |</code></pre>
+<pre><code>| name       | type   | lower   | upper   | default   | transform   |
+|------------|--------|---------|---------|-----------|-------------|
+| l1         | int    | 16.0    | 128.0   | 72        | -           |
+| num_layers | int    | 1.0     | 4.0     | 2         | -           |
+| activation | factor | Tanh    | GELU    | Sigmoid   | -           |
+| optimizer  | factor | Adam    | AdamW   | RMSprop   | -           |
+| lr_unified | float  | 0.1     | 10.0    | 5.05      | log10       |
+| alpha      | float  | 0.01    | 1.0     | 0.505     | log10       |
+| name       | type   | lower   | upper   | default   | transform   |
+|------------|--------|---------|---------|-----------|-------------|
+| l1         | int    | 16.0    | 128.0   | 72        | -           |
+| num_layers | int    | 1.0     | 4.0     | 2         | -           |
+| activation | factor | Tanh    | GELU    | Sigmoid   | -           |
+| optimizer  | factor | Adam    | AdamW   | RMSprop   | -           |
+| lr_unified | float  | 0.1     | 10.0    | 5.05      | log10       |
+| alpha      | float  | 0.01    | 1.0     | 0.505     | log10       |</code></pre>
 </div>
 </div>
 <p>Run optimization</p>
@@ -1222,7 +1230,7 @@ Configuration 1/1:
   optimizer=AdamW, lr_unified=0.9493, alpha=0.3979
   Validation MSE: 0.168582
 Iteration 6: f(x) = 0.168582
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_145536</code></pre>
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251220_114016</code></pre>
 </div>
 </div>
 </section>
@@ -1249,7 +1257,7 @@ Best Solution Found:
 </div>
 </div>
 <p>Store values for later use in visualizations. Values are already in original scale thanks to <code>var_trans</code>. Factor variables are returned as strings.</p>
-<div id="340f04ed" class="cell" data-execution_count="17">
+<div id="8bb66227" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>best_l1 <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">0</span>])</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>best_num_layers <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">1</span>])</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>best_activation <span class="op">=</span> result.x[<span class="dv">2</span>]</span>
@@ -1272,16 +1280,26 @@ Best optimizer: AdamW</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> optimizer.print_results_table(show_importance<span class="op">=</span><span class="va">True</span>, tablefmt<span class="op">=</span><span class="st">"github"</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>| name       | type   | lower   | upper   | tuned               | trans   |   importance | stars   |
-|------------|--------|---------|---------|---------------------|---------|--------------|---------|
-| l1         | int    | 16.0    | 128.0   | 110                 | -       |        10.99 | *       |
-| num_layers | int    | 1.0     | 4.0     | 4                   | -       |        28.95 | *       |
-| activation | factor | Tanh    | GELU    | ReLU                | -       |        33.13 | *       |
-| optimizer  | factor | Adam    | AdamW   | AdamW               | -       |         2.77 | *       |
-| lr_unified | float  | 0.1     | 10.0    | 1.8630186679138154  | log10   |         7.77 | *       |
-| alpha      | float  | 0.01    | 1.0     | 0.38731466430172934 | log10   |        16.38 | *       |
+<pre><code>| name       | type   | default   | lower   | upper   | tuned               | transform   |   importance | stars   |
+|------------|--------|-----------|---------|---------|---------------------|-------------|--------------|---------|
+| l1         | int    | 72        | 16.0    | 128.0   | 110                 | -           |        10.99 | .       |
+| num_layers | int    | 2         | 1.0     | 4.0     | 4                   | -           |        28.95 | .       |
+| activation | factor | Sigmoid   | Tanh    | GELU    | ReLU                | -           |        33.13 | .       |
+| optimizer  | factor | RMSprop   | Adam    | AdamW   | AdamW               | -           |         2.77 |         |
+| lr_unified | float  | 5.05      | 0.1     | 10.0    | 1.8630186679138154  | log10       |         7.77 |         |
+| alpha      | float  | 0.505     | 0.01    | 1.0     | 0.38731466430172934 | log10       |        16.38 | .       |
 
-Interpretation: ***: &gt;95%, **: &gt;50%, *: &gt;1%, .: &gt;0.1%</code></pre>
+Interpretation: ***: &gt;99%, **: &gt;75%, *: &gt;50%, .: &gt;10%
+| name       | type   | default   | lower   | upper   | tuned               | transform   |   importance | stars   |
+|------------|--------|-----------|---------|---------|---------------------|-------------|--------------|---------|
+| l1         | int    | 72        | 16.0    | 128.0   | 110                 | -           |        10.99 | .       |
+| num_layers | int    | 2         | 1.0     | 4.0     | 4                   | -           |        28.95 | .       |
+| activation | factor | Sigmoid   | Tanh    | GELU    | ReLU                | -           |        33.13 | .       |
+| optimizer  | factor | RMSprop   | Adam    | AdamW   | AdamW               | -           |         2.77 |         |
+| lr_unified | float  | 5.05      | 0.1     | 10.0    | 1.8630186679138154  | log10       |         7.77 |         |
+| alpha      | float  | 0.505     | 0.01    | 1.0     | 0.38731466430172934 | log10       |        16.38 | .       |
+
+Interpretation: ***: &gt;99%, **: &gt;75%, *: &gt;50%, .: &gt;10%</code></pre>
 </div>
 </div>
 </section>
@@ -1689,7 +1707,7 @@ Validation MSE Comparison:
 </div>
 <section id="sensitivity-analysis-spearman-correlation" class="level2" data-number="33.1">
 <h2 data-number="33.1" class="anchored" data-anchor-id="sensitivity-analysis-spearman-correlation"><span class="header-section-number">33.1</span> Sensitivity Analysis (Spearman Correlation)</h2>
-<div id="ee997ae4" class="cell" data-execution_count="27">
+<div id="71a21ef9" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the new sensitivity_spearman() method for tabular output</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>optimizer.sensitivity_spearman()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

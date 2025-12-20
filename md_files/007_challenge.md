@@ -125,6 +125,7 @@ We first estimate the noise level ($\sigma$) of the objective function and then 
 We evaluate a random design point 30 times to estimate the standard deviation of the noise.
 
 ```{python}
+#| label: noise-estimation
 import numpy as np
 import statistics
 from spotoptim.function.remote import objective_remote
@@ -136,9 +137,14 @@ x_sample = np.array([[0.5] * 10])
 noise_samples = []
 for _ in range(30):
     noise_samples.append(objective_remote(x_sample)[0])
-
-sigma_est = statistics.stdev(noise_samples)
-print(f"Estimated Noise (sigma): {sigma_est:.4f}")
+# remove None values
+noise_samples = [x for x in noise_samples if x is not None]
+# heck if there are enough values for stdev
+if len(noise_samples) < 2:
+    raise ValueError("Not enough samples for stdev estimation")
+else:
+    sigma_est = statistics.stdev(noise_samples)
+    print(f"Estimated Noise (sigma): {sigma_est:.4f}")
 ```
 
 ### 2. Determining Sample Size ($n$)

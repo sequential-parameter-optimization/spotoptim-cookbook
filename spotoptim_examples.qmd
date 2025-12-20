@@ -669,6 +669,7 @@ print(f"Point has integers: {np.all(result.x == np.round(result.x))}")
 ### 9.4 Noisy Function Optimization with OCBA
 
 ```{python}
+#| label: noisy-sphere
 # Noisy sphere function
 def noisy_sphere(X):
     X = np.atleast_2d(X)

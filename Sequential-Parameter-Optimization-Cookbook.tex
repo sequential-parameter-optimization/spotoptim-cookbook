@@ -235,9 +235,9 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
 \theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
-\theoremstyle{definition}
 \newtheorem{definition}{Definition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -270,7 +270,7 @@
 \makeatother
 \subtitle{A guide for scikit-learn and PyTorch}
 \author{Thomas Bartz-Beielstein}
-\date{Dec 19, 2025}
+\date{Dec 20, 2025}
 \begin{document}
 \frontmatter
 \maketitle
@@ -384,25 +384,25 @@ Let's see a complete optimization example:
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 3.352821
-Iteration 1: f(x) = 26.076731
-Iteration 2: New best f(x) = 3.352372
-Iteration 3: New best f(x) = 2.972597
-Iteration 4: New best f(x) = 0.183290
-Iteration 5: New best f(x) = 0.028117
-Iteration 6: New best f(x) = 0.008360
-Iteration 7: New best f(x) = 0.000101
-Iteration 8: New best f(x) = 0.000014
-Iteration 9: New best f(x) = 0.000005
-Iteration 10: New best f(x) = 0.000005
-Iteration 11: New best f(x) = 0.000004
-Iteration 12: New best f(x) = 0.000004
-Iteration 13: New best f(x) = 0.000003
-Iteration 14: New best f(x) = 0.000003
-Iteration 15: New best f(x) = 0.000002
+Initial best: f(x) = 3.258069
+Iteration 1: New best f(x) = 1.641363
+Iteration 2: New best f(x) = 1.445519
+Iteration 3: New best f(x) = 0.233819
+Iteration 4: New best f(x) = 0.152919
+Iteration 5: New best f(x) = 0.023471
+Iteration 6: New best f(x) = 0.000173
+Iteration 7: New best f(x) = 0.000042
+Iteration 8: New best f(x) = 0.000002
+Iteration 9: New best f(x) = 0.000001
+Iteration 10: New best f(x) = 0.000001
+Iteration 11: f(x) = 0.000001
+Iteration 12: New best f(x) = 0.000001
+Iteration 13: f(x) = 0.000001
+Iteration 14: f(x) = 0.000001
+Iteration 15: f(x) = 0.000001
 
-Best point found: [ 0.00038633 -0.00148781]
-Best value: 0.000002
+Best point found: [ 0.00060119 -0.00083804]
+Best value: 0.000001
 Total evaluations: 20
 Sequential iterations: 15
 Success: True
@@ -830,6 +830,14 @@ ocba\_delta \textgreater{} 0\\
 
 \begin{verbatim}
 TensorBoard logging disabled
+
+In _get_ocba():
+means: [5.  0.1 5.  2. ]
+vars: [0.1  0.05 0.15 0.08]
+delta: 5
+n_designs: 4
+Ratios: [0.18794252 0.81801772 0.28191379 1.        ]
+Best: 1, Second best: 3
   OCBA: Adding 5 re-evaluation(s)
 
 OCBA returned 5 points for re-evaluation
@@ -872,7 +880,7 @@ noise
 
 \begin{verbatim}
 Original: [ 4. nan inf]
-After penalty: [ 4.         10.19107646 10.08560355]
+After penalty: [ 4.         10.22100895 10.1332034 ]
 All finite: True
 Penalty values > max(hist): True
 \end{verbatim}
@@ -1343,6 +1351,7 @@ Point has integers: True
 \subsection{9.4 Noisy Function Optimization with
 OCBA}\label{noisy-function-optimization-with-ocba}
 
+\phantomsection\label{noisy-sphere}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Noisy sphere function}
@@ -1371,12 +1380,25 @@ OCBA}\label{noisy-function-optimization-with-ocba}
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 2.446973, mean best: f(x) = 2.483484
-  OCBA: Adding 5 re-evaluation(s)
-Iteration 1: New best f(x) = 2.364184, mean best: f(x) = 2.364184
+Initial best: f(x) = 2.515129, mean best: f(x) = 2.528228
 
-Best point: [-1.545416    0.09984157]
-Best value: 2.364184
+In _get_ocba():
+means: [25.98208182 11.38525607 10.14299112  2.52822799 20.7340389  21.54008811
+ 16.41407594 14.27200231 18.24226149 20.03621041]
+vars: [1.88322602e-02 3.25775173e-04 4.44120528e-03 1.71576414e-04
+ 4.13689680e-03 1.54846106e-02 2.08413843e-02 1.69875196e-04
+ 2.48234692e-04 6.43994670e-07]
+delta: 5
+n_designs: 10
+Ratios: [4.46977812e-01 5.42192978e-02 1.00000000e+00 2.51684038e-01
+ 1.62954583e-01 5.59323435e-01 1.41121667e+00 1.60814990e-02
+ 1.31249929e-02 2.74297606e-05]
+Best: 3, Second best: 2
+  OCBA: Adding 5 re-evaluation(s)
+Iteration 1: mean f(x) = 15.485008
+
+Best point: [-1.55458479 -0.06381726]
+Best value: 2.515129
 Note: OCBA re-evaluated promising points to reduce uncertainty
 \end{verbatim}
 
@@ -1499,7 +1521,7 @@ of SpotOptim!
 
 \section{Jupyter Notebook}\label{jupyter-notebook}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -1514,7 +1536,7 @@ of SpotOptim!
 \chapter{Optimizing the Aircraft Wing Weight
 Example}\label{sec-awwe-opt}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -1682,9 +1704,9 @@ Optimization)}\label{method-1-spotoptim-surrogate-model-based-optimization}
 \end{Shaded}
 
 \begin{verbatim}
-Removed old TensorBoard logs: runs/spotoptim_20251219_124916
+Removed old TensorBoard logs: runs/spotoptim_20251220_094012
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251219_124928
+TensorBoard logging enabled: runs/spotoptim_20251220_094024
 \end{verbatim}
 
 \section{Design Table}\label{design-table}
@@ -1696,17 +1718,28 @@ TensorBoard logging enabled: runs/spotoptim_20251219_124928
 \end{Shaded}
 
 \begin{verbatim}
-('| name   | type   |   lower |   upper |   default | trans   |\n'
- '|--------|--------|---------|---------|-----------|---------|\n'
- '| Sw     | float  |  0.0000 |  1.0000 |    0.5000 | -       |\n'
- '| Wfw    | float  |  0.0000 |  1.0000 |    0.5000 | -       |\n'
- '| A      | float  |  0.0000 |  1.0000 |    0.5000 | -       |\n'
- '| L      | float  |  0.0000 |  1.0000 |    0.5000 | -       |\n'
- '| q      | float  |  0.0000 |  1.0000 |    0.5000 | -       |\n'
- '| l      | float  |  0.0000 |  1.0000 |    0.5000 | -       |\n'
- '| Rtc    | float  |  0.0000 |  1.0000 |    0.5000 | -       |\n'
- '| Nz     | float  |  0.0000 |  1.0000 |    0.5000 | -       |\n'
- '| Wdg    | float  |  0.0000 |  1.0000 |    0.5000 | -       |')
+| name   | type   |   lower |   upper |   default | transform   |
+|--------|--------|---------|---------|-----------|-------------|
+| Sw     | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+| Wfw    | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+| A      | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+| L      | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+| q      | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+| l      | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+| Rtc    | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+| Nz     | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+| Wdg    | float  |  0.0000 |  1.0000 |    0.5000 | -           |
+('| name   | type   |   lower |   upper |   default | transform   |\n'
+ '|--------|--------|---------|---------|-----------|-------------|\n'
+ '| Sw     | float  |  0.0000 |  1.0000 |    0.5000 | -           |\n'
+ '| Wfw    | float  |  0.0000 |  1.0000 |    0.5000 | -           |\n'
+ '| A      | float  |  0.0000 |  1.0000 |    0.5000 | -           |\n'
+ '| L      | float  |  0.0000 |  1.0000 |    0.5000 | -           |\n'
+ '| q      | float  |  0.0000 |  1.0000 |    0.5000 | -           |\n'
+ '| l      | float  |  0.0000 |  1.0000 |    0.5000 | -           |\n'
+ '| Rtc    | float  |  0.0000 |  1.0000 |    0.5000 | -           |\n'
+ '| Nz     | float  |  0.0000 |  1.0000 |    0.5000 | -           |\n'
+ '| Wdg    | float  |  0.0000 |  1.0000 |    0.5000 | -           |')
 \end{verbatim}
 
 \section{Run optimization}\label{run-optimization}
@@ -1739,7 +1772,7 @@ Iteration 17: f(x) = 119.503685
 Iteration 18: f(x) = 119.503693
 Iteration 19: f(x) = 119.503726
 Iteration 20: f(x) = 119.503749
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_124928
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251220_094024
 \end{verbatim}
 
 \begin{Shaded}
@@ -1760,7 +1793,7 @@ TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_2
 SpotOptim Results:
   Best weight: 119.5037 lb
   Function evaluations: 30
-  Time elapsed: 5.97 seconds
+  Time elapsed: 5.92 seconds
   Success: True
 \end{verbatim}
 
@@ -1796,29 +1829,42 @@ Best Solution Found:
 \end{Shaded}
 
 \begin{verbatim}
-('| name   | type   |   lower |   upper |   tuned | trans   |   importance | '
- 'stars   |\n'
- '|--------|--------|---------|---------|---------|---------|--------------|---------|\n'
- '| Sw     | float  |  0.0000 |  1.0000 |  0.0000 | -       |         9.52 | '
- '*       |\n'
- '| Wfw    | float  |  0.0000 |  1.0000 |  0.0000 | -       |        12.76 | '
- '*       |\n'
- '| A      | float  |  0.0000 |  1.0000 |  0.0000 | -       |        14.11 | '
- '*       |\n'
- '| L      | float  |  0.0000 |  1.0000 |  0.5000 | -       |         4.30 | '
- '*       |\n'
- '| q      | float  |  0.0000 |  1.0000 |  0.0000 | -       |         6.10 | '
- '*       |\n'
- '| l      | float  |  0.0000 |  1.0000 |  0.0000 | -       |        11.05 | '
- '*       |\n'
- '| Rtc    | float  |  0.0000 |  1.0000 |  1.0000 | -       |        13.87 | '
- '*       |\n'
- '| Nz     | float  |  0.0000 |  1.0000 |  0.0000 | -       |        14.03 | '
- '*       |\n'
- '| Wdg    | float  |  0.0000 |  1.0000 |  0.0000 | -       |        14.27 | '
- '*       |\n'
+| name   | type   |   default |   lower |   upper |   tuned | transform   |   importance | stars   |
+|--------|--------|-----------|---------|---------|---------|-------------|--------------|---------|
+| Sw     | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           |         9.52 |         |
+| Wfw    | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           |        12.76 | .       |
+| A      | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           |        14.11 | .       |
+| L      | float  |    0.5000 |  0.0000 |  1.0000 |  0.5000 | -           |         4.30 |         |
+| q      | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           |         6.10 |         |
+| l      | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           |        11.05 | .       |
+| Rtc    | float  |    0.5000 |  0.0000 |  1.0000 |  1.0000 | -           |        13.87 | .       |
+| Nz     | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           |        14.03 | .       |
+| Wdg    | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           |        14.27 | .       |
+
+Interpretation: ***: >99%, **: >75%, *: >50%, .: >10%
+('| name   | type   |   default |   lower |   upper |   tuned | transform   '
+ '|   importance | stars   |\n'
+ '|--------|--------|-----------|---------|---------|---------|-------------|--------------|---------|\n'
+ '| Sw     | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           '
+ '|         9.52 |         |\n'
+ '| Wfw    | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           '
+ '|        12.76 | .       |\n'
+ '| A      | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           '
+ '|        14.11 | .       |\n'
+ '| L      | float  |    0.5000 |  0.0000 |  1.0000 |  0.5000 | -           '
+ '|         4.30 |         |\n'
+ '| q      | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           '
+ '|         6.10 |         |\n'
+ '| l      | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           '
+ '|        11.05 | .       |\n'
+ '| Rtc    | float  |    0.5000 |  0.0000 |  1.0000 |  1.0000 | -           '
+ '|        13.87 | .       |\n'
+ '| Nz     | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           '
+ '|        14.03 | .       |\n'
+ '| Wdg    | float  |    0.5000 |  0.0000 |  1.0000 |  0.0000 | -           '
+ '|        14.27 | .       |\n'
  '\n'
- 'Interpretation: ***: >95%, **: >50%, *: >1%, .: >0.1%')
+ 'Interpretation: ***: >99%, **: >75%, *: >50%, .: >10%')
 \end{verbatim}
 
 \section{Progress of the
@@ -2010,9 +2056,9 @@ OPTIMIZATION COMPARISON
 ================================================================================
      Method  Best Weight (lb)  Improvement (%)  Function Evals  Time (s)  Success
    Baseline        233.908405         0.000000               1  0.000000     True
-  SpotOptim        119.503672        48.910057              30  5.967463     True
-Nelder-Mead        220.544928         5.713124              30  0.000845    False
-       BFGS        119.503672        48.910057              60  0.001517    False
+  SpotOptim        119.503672        48.910057              30  5.920530     True
+Nelder-Mead        220.544928         5.713124              30  0.000847    False
+       BFGS        119.503672        48.910057              60  0.001405    False
 ================================================================================
 \end{verbatim}
 
@@ -2244,9 +2290,9 @@ Comparison}\label{method-efficiency-comparison}
 METHOD EFFICIENCY METRICS
 ================================================================================
      Method  Weight Reduction (lb)  Evals to Best  Time per Eval (ms)
-  SpotOptim             114.404734             25          198.915426
-Nelder-Mead              13.363478             30            0.028173
-       BFGS             114.404734             60            0.025284
+  SpotOptim             114.404734             25          197.351011
+Nelder-Mead              13.363478             30            0.028237
+       BFGS             114.404734             60            0.023421
 ================================================================================
 \end{verbatim}
 
@@ -2340,7 +2386,7 @@ engineering applications.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-1}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -2356,7 +2402,7 @@ engineering applications.
 6D Rosenbrock and 10D Michalewicz
 Functions}\label{benchmarking-spotoptim-with-sklearn-kriging-matern-kernel-on-6d-rosenbrock-and-10d-michalewicz-functions}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 These test functions were used during the Dagstuhl Seminar 25451
 Bayesian Optimisation (Nov 02 -- Nov 07, 2025), see
@@ -2446,100 +2492,100 @@ Surrogate}\label{sklearn-gaussian-process-regressor-as-surrogate}
 \begin{verbatim}
 TensorBoard logging disabled
 Initial best: f(x) = 321.834153
-Iteration 1: f(x) = 3523.039108
-Iteration 2: f(x) = 1535.228463
-Iteration 3: f(x) = 326.971016
-Iteration 4: New best f(x) = 179.355798
-Iteration 5: New best f(x) = 147.216035
-Iteration 6: New best f(x) = 126.873069
-Iteration 7: New best f(x) = 106.907534
-Iteration 8: New best f(x) = 77.686766
-Iteration 9: New best f(x) = 67.640061
-Iteration 10: f(x) = 70.983508
-Iteration 11: New best f(x) = 66.964483
-Iteration 12: New best f(x) = 66.888215
-Iteration 13: New best f(x) = 63.387269
-Iteration 14: New best f(x) = 53.798365
-Iteration 15: New best f(x) = 53.449030
-Iteration 16: New best f(x) = 52.705379
-Iteration 17: New best f(x) = 51.590711
-Iteration 18: New best f(x) = 49.252619
-Iteration 19: New best f(x) = 48.451191
-Iteration 20: New best f(x) = 48.242832
-Iteration 21: New best f(x) = 47.479666
-Iteration 22: New best f(x) = 47.439929
-Iteration 23: New best f(x) = 47.406559
-Iteration 24: New best f(x) = 46.998931
-Iteration 25: New best f(x) = 40.777256
-Iteration 26: New best f(x) = 39.475486
-Iteration 27: New best f(x) = 38.672971
-Iteration 28: New best f(x) = 36.955937
-Iteration 29: f(x) = 37.389642
-Iteration 30: New best f(x) = 34.591953
-Iteration 31: New best f(x) = 31.526421
-Iteration 32: New best f(x) = 30.541340
-Iteration 33: New best f(x) = 25.753257
-Iteration 34: New best f(x) = 25.583731
-Iteration 35: f(x) = 25.586686
-Iteration 36: New best f(x) = 25.050128
-Iteration 37: New best f(x) = 24.602853
-Iteration 38: New best f(x) = 24.406922
-Iteration 39: f(x) = 25.149717
-Iteration 40: New best f(x) = 19.866032
-Iteration 41: New best f(x) = 15.296631
-Iteration 42: f(x) = 16.320479
-Iteration 43: New best f(x) = 11.875730
-Iteration 44: New best f(x) = 8.531859
-Iteration 45: New best f(x) = 8.439377
-Iteration 46: New best f(x) = 8.312352
-Iteration 47: New best f(x) = 7.855752
-Iteration 48: New best f(x) = 7.631184
-Iteration 49: f(x) = 7.746361
-Iteration 50: New best f(x) = 6.620744
-Iteration 51: New best f(x) = 6.596346
-Iteration 52: f(x) = 6.603721
-Iteration 53: New best f(x) = 6.468982
-Iteration 54: New best f(x) = 6.371833
-Iteration 55: f(x) = 6.382183
-Iteration 56: f(x) = 6.544425
-Iteration 57: New best f(x) = 6.089787
-Iteration 58: New best f(x) = 6.051351
-Iteration 59: New best f(x) = 6.026953
-Iteration 60: f(x) = 6.032123
-Iteration 61: f(x) = 6.049342
-Iteration 62: New best f(x) = 5.903407
-Iteration 63: New best f(x) = 5.669119
-Iteration 64: New best f(x) = 5.627365
-Iteration 65: f(x) = 5.662016
-Iteration 66: New best f(x) = 5.627311
-Iteration 67: f(x) = 5.636680
-Iteration 68: New best f(x) = 5.604687
-Iteration 69: New best f(x) = 5.458677
-Iteration 70: f(x) = 5.469341
-Iteration 71: New best f(x) = 5.446547
-Iteration 72: f(x) = 5.447324
-Iteration 73: New best f(x) = 5.403966
-Iteration 74: New best f(x) = 5.352916
-Iteration 75: f(x) = 5.353131
-Iteration 76: f(x) = 5.357212
-Iteration 77: New best f(x) = 5.350630
-Iteration 78: New best f(x) = 5.349506
-Iteration 79: New best f(x) = 5.344547
-Iteration 80: New best f(x) = 5.339762
-Iteration 81: f(x) = 5.341019
-Iteration 82: f(x) = 5.366974
-Iteration 83: New best f(x) = 5.335146
-Iteration 84: New best f(x) = 5.330922
-Iteration 85: New best f(x) = 5.329624
-Iteration 86: New best f(x) = 5.290252
-Iteration 87: New best f(x) = 5.226009
-Iteration 88: f(x) = 5.234601
-Iteration 89: New best f(x) = 5.207115
-Iteration 90: New best f(x) = 5.154825
-Iteration 91: New best f(x) = 5.080879
-Iteration 92: New best f(x) = 5.064811
-Iteration 93: New best f(x) = 5.044982
-Iteration 94: f(x) = 5.072816
+Iteration 1: f(x) = 3523.031155
+Iteration 2: f(x) = 1535.228444
+Iteration 3: f(x) = 326.972364
+Iteration 4: New best f(x) = 179.355785
+Iteration 5: New best f(x) = 147.216243
+Iteration 6: New best f(x) = 126.871053
+Iteration 7: New best f(x) = 106.906574
+Iteration 8: New best f(x) = 77.679931
+Iteration 9: New best f(x) = 67.629017
+Iteration 10: f(x) = 70.971738
+Iteration 11: New best f(x) = 66.969537
+Iteration 12: New best f(x) = 66.896224
+Iteration 13: New best f(x) = 63.379954
+Iteration 14: New best f(x) = 54.067234
+Iteration 15: New best f(x) = 53.621282
+Iteration 16: New best f(x) = 53.320713
+Iteration 17: New best f(x) = 48.663202
+Iteration 18: New best f(x) = 48.540259
+Iteration 19: New best f(x) = 47.725638
+Iteration 20: f(x) = 48.258855
+Iteration 21: f(x) = 48.197484
+Iteration 22: New best f(x) = 46.298670
+Iteration 23: New best f(x) = 41.616664
+Iteration 24: New best f(x) = 40.724257
+Iteration 25: New best f(x) = 38.350648
+Iteration 26: New best f(x) = 37.674355
+Iteration 27: f(x) = 38.494222
+Iteration 28: New best f(x) = 32.960933
+Iteration 29: New best f(x) = 29.033108
+Iteration 30: New best f(x) = 28.179964
+Iteration 31: New best f(x) = 24.939865
+Iteration 32: New best f(x) = 24.333511
+Iteration 33: New best f(x) = 22.262350
+Iteration 34: New best f(x) = 21.939903
+Iteration 35: f(x) = 21.963541
+Iteration 36: New best f(x) = 19.993646
+Iteration 37: f(x) = 20.122292
+Iteration 38: New best f(x) = 17.966790
+Iteration 39: New best f(x) = 15.565935
+Iteration 40: f(x) = 16.288929
+Iteration 41: New best f(x) = 13.197626
+Iteration 42: New best f(x) = 11.351160
+Iteration 43: New best f(x) = 10.922738
+Iteration 44: New best f(x) = 9.156473
+Iteration 45: New best f(x) = 7.216227
+Iteration 46: New best f(x) = 6.910232
+Iteration 47: f(x) = 6.926496
+Iteration 48: New best f(x) = 6.798823
+Iteration 49: New best f(x) = 6.778998
+Iteration 50: f(x) = 6.912932
+Iteration 51: New best f(x) = 6.365072
+Iteration 52: f(x) = 6.408699
+Iteration 53: New best f(x) = 6.244889
+Iteration 54: New best f(x) = 5.704130
+Iteration 55: New best f(x) = 5.524463
+Iteration 56: New best f(x) = 5.464542
+Iteration 57: New best f(x) = 5.392374
+Iteration 58: New best f(x) = 5.349325
+Iteration 59: f(x) = 5.387901
+Iteration 60: f(x) = 5.380596
+Iteration 61: f(x) = 5.410148
+Iteration 62: New best f(x) = 5.310701
+Iteration 63: New best f(x) = 5.236669
+Iteration 64: New best f(x) = 5.205214
+Iteration 65: f(x) = 5.265825
+Iteration 66: New best f(x) = 5.177558
+Iteration 67: New best f(x) = 5.170012
+Iteration 68: f(x) = 5.199574
+Iteration 69: New best f(x) = 5.113514
+Iteration 70: f(x) = 5.116612
+Iteration 71: New best f(x) = 5.113489
+Iteration 72: f(x) = 5.124969
+Iteration 73: New best f(x) = 5.108980
+Iteration 74: f(x) = 5.129656
+Iteration 75: New best f(x) = 5.104135
+Iteration 76: New best f(x) = 5.079981
+Iteration 77: New best f(x) = 5.076221
+Iteration 78: New best f(x) = 5.058641
+Iteration 79: New best f(x) = 5.035672
+Iteration 80: New best f(x) = 5.013369
+Iteration 81: New best f(x) = 4.920557
+Iteration 82: New best f(x) = 4.873432
+Iteration 83: f(x) = 4.881239
+Iteration 84: New best f(x) = 4.869763
+Iteration 85: f(x) = 4.874309
+Iteration 86: f(x) = 4.888076
+Iteration 87: New best f(x) = 4.812761
+Iteration 88: New best f(x) = 4.757053
+Iteration 89: New best f(x) = 4.701481
+Iteration 90: New best f(x) = 4.632554
+Iteration 91: New best f(x) = 4.621460
+Iteration 92: f(x) = 4.648070
+Iteration 93: New best f(x) = 4.611398
+Iteration 94: f(x) = 4.639891
 \end{verbatim}
 
 \begin{Shaded}
@@ -2551,7 +2597,7 @@ Iteration 94: f(x) = 5.072816
 \end{Shaded}
 
 \begin{verbatim}
-[6D] Sklearn Kriging: min y = 5.0450 at x = [-0.03665413  0.00206311  0.00359827  0.00982201  0.00914916 -0.00145908]
+[6D] Sklearn Kriging: min y = 4.6114 at x = [0.17736959 0.03524346 0.0162764  0.00591552 0.02432165 0.01051427]
 Number of function evaluations: 100
 Number of iterations: 94
 \end{verbatim}
@@ -2697,322 +2743,298 @@ Surrogate}\label{sklearn-gaussian-process-regressor-as-surrogate-1}
 \begin{verbatim}
 TensorBoard logging disabled
 Initial best: f(x) = -1.909129
-Iteration 1: f(x) = -0.472070
-Iteration 2: New best f(x) = -2.778148
-Iteration 3: f(x) = -1.575911
-Iteration 4: f(x) = -1.696615
-Iteration 5: New best f(x) = -3.210523
-Iteration 6: f(x) = -2.821265
-Iteration 7: f(x) = -2.982111
-Iteration 8: New best f(x) = -3.367932
-Iteration 9: f(x) = -3.200386
-Iteration 10: New best f(x) = -3.433560
-Iteration 11: New best f(x) = -3.530441
-Iteration 12: f(x) = -3.508215
-Iteration 13: New best f(x) = -3.563554
-Iteration 14: f(x) = -3.550044
-Iteration 15: f(x) = -3.554129
-Iteration 16: f(x) = -3.536516
-Iteration 17: New best f(x) = -3.575798
-Iteration 18: f(x) = -3.573108
-Iteration 19: New best f(x) = -3.622615
-Iteration 20: New best f(x) = -3.656056
-Iteration 21: New best f(x) = -3.675579
-Iteration 22: New best f(x) = -3.686076
-Iteration 23: New best f(x) = -3.688654
-Iteration 24: New best f(x) = -3.699989
-Iteration 25: f(x) = -3.699262
-Iteration 26: New best f(x) = -3.753000
-Iteration 27: New best f(x) = -3.788605
-Iteration 28: New best f(x) = -3.792187
-Iteration 29: New best f(x) = -3.873443
-Iteration 30: New best f(x) = -4.108256
-Iteration 31: New best f(x) = -4.207792
-Iteration 32: New best f(x) = -4.223634
-Iteration 33: New best f(x) = -4.241160
-Iteration 34: f(x) = -4.134759
-Iteration 35: New best f(x) = -4.246305
-Iteration 36: New best f(x) = -4.248658
-Iteration 37: New best f(x) = -4.459763
-Iteration 38: New best f(x) = -4.471001
-Iteration 39: f(x) = -4.447521
-Iteration 40: New best f(x) = -4.506187
-Iteration 41: f(x) = -4.489201
-Iteration 42: New best f(x) = -4.567494
-Iteration 43: f(x) = -4.558753
-Iteration 44: New best f(x) = -4.610698
-Iteration 45: New best f(x) = -4.630706
-Iteration 46: New best f(x) = -4.631353
-Iteration 47: New best f(x) = -4.631986
-Iteration 48: New best f(x) = -4.634683
-Iteration 49: New best f(x) = -4.803915
-Iteration 50: New best f(x) = -4.809131
-Iteration 51: New best f(x) = -4.902460
-Iteration 52: f(x) = -4.899605
-Iteration 53: New best f(x) = -4.957906
-Iteration 54: New best f(x) = -5.000145
-Iteration 55: New best f(x) = -5.075178
-Iteration 56: f(x) = -5.062032
-Iteration 57: New best f(x) = -5.176156
-Iteration 58: New best f(x) = -5.243024
-Iteration 59: New best f(x) = -5.246829
-Iteration 60: New best f(x) = -5.250275
-Iteration 61: f(x) = -1.910053
-Iteration 62: New best f(x) = -5.251230
-Iteration 63: New best f(x) = -5.259893
-Iteration 64: New best f(x) = -5.260089
-Iteration 65: f(x) = -5.198749
-Iteration 66: New best f(x) = -5.359266
-Iteration 67: f(x) = -5.358524
-Iteration 68: f(x) = -5.351478
-Iteration 69: New best f(x) = -5.387566
-Iteration 70: f(x) = -5.375808
-Iteration 71: New best f(x) = -5.434280
-Iteration 72: f(x) = -5.429088
-Iteration 73: f(x) = -5.412655
-Iteration 74: f(x) = -5.433370
-Iteration 75: New best f(x) = -5.434927
-Iteration 76: f(x) = -5.434778
-Iteration 77: f(x) = -5.434753
-Iteration 78: New best f(x) = -5.442650
-Iteration 79: New best f(x) = -5.457468
-Iteration 80: New best f(x) = -5.458359
-Iteration 81: f(x) = -5.457424
-Iteration 82: New best f(x) = -5.462896
-Iteration 83: f(x) = -5.461817
-Iteration 84: New best f(x) = -5.468605
-Iteration 85: New best f(x) = -5.469004
-Iteration 86: New best f(x) = -5.471942
-Iteration 87: New best f(x) = -5.475537
-Iteration 88: New best f(x) = -5.476073
-Iteration 89: f(x) = -5.475448
-Iteration 90: New best f(x) = -5.477006
-Iteration 91: New best f(x) = -5.477024
-Iteration 92: New best f(x) = -5.477414
-Iteration 93: f(x) = -5.477284
-Iteration 94: New best f(x) = -5.477896
-Iteration 95: New best f(x) = -5.480470
-Iteration 96: New best f(x) = -5.481833
-Iteration 97: f(x) = -5.481830
-Iteration 98: New best f(x) = -5.481850
-Iteration 99: f(x) = -5.481774
-Iteration 100: New best f(x) = -5.482415
-Iteration 101: f(x) = -0.786191
-Iteration 102: f(x) = -0.786445
-Iteration 103: New best f(x) = -5.489514
-Iteration 104: New best f(x) = -5.490387
-Iteration 105: f(x) = -5.490372
-Iteration 106: New best f(x) = -5.490849
-Iteration 107: New best f(x) = -5.491836
-Iteration 108: f(x) = -5.491760
-Iteration 109: f(x) = -5.491645
-Iteration 110: f(x) = -5.491630
-Iteration 111: f(x) = -5.490174
-Iteration 112: New best f(x) = -5.494562
-Iteration 113: New best f(x) = -5.494676
-Iteration 114: New best f(x) = -5.494754
-Iteration 115: f(x) = -5.494540
-Iteration 116: f(x) = -5.494662
-Iteration 117: New best f(x) = -5.494954
-Iteration 118: New best f(x) = -5.494978
-Iteration 119: New best f(x) = -5.495215
-Iteration 120: New best f(x) = -5.495245
-Iteration 121: New best f(x) = -5.495433
-Iteration 122: New best f(x) = -5.495939
-Iteration 123: f(x) = -5.495920
-Iteration 124: New best f(x) = -5.496256
-Iteration 125: New best f(x) = -5.496517
-Iteration 126: New best f(x) = -5.496529
-Iteration 127: New best f(x) = -5.496551
-Iteration 128: f(x) = -5.496427
-Iteration 129: New best f(x) = -5.497068
-Iteration 130: f(x) = -0.866803
-Iteration 131: f(x) = -5.496959
-Iteration 132: f(x) = -1.031475
+Iteration 1: f(x) = -0.471897
+Iteration 2: New best f(x) = -2.778390
+Iteration 3: f(x) = -1.576700
+Iteration 4: f(x) = -1.695405
+Iteration 5: New best f(x) = -3.210555
+Iteration 6: f(x) = -2.820114
+Iteration 7: f(x) = -2.982571
+Iteration 8: New best f(x) = -3.366549
+Iteration 9: f(x) = -3.201496
+Iteration 10: New best f(x) = -3.432741
+Iteration 11: New best f(x) = -3.528267
+Iteration 12: f(x) = -3.504902
+Iteration 13: New best f(x) = -3.562886
+Iteration 14: f(x) = -3.547978
+Iteration 15: f(x) = -3.555427
+Iteration 16: New best f(x) = -3.584859
+Iteration 17: f(x) = -3.584117
+Iteration 18: New best f(x) = -3.594070
+Iteration 19: New best f(x) = -3.762200
+Iteration 20: New best f(x) = -4.048201
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 133: f(x) = -2.167836
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 134: f(x) = -1.719617
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 135: f(x) = -0.531363
-Iteration 136: New best f(x) = -5.497226
-Iteration 137: f(x) = -5.497224
-Iteration 138: f(x) = -5.497209
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 139: f(x) = -1.677672
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 140: f(x) = -0.041277
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 141: f(x) = -0.595027
-Iteration 142: New best f(x) = -5.497232
-Iteration 143: f(x) = -5.497224
-Iteration 144: New best f(x) = -5.497243
-Iteration 145: New best f(x) = -5.497259
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 146: f(x) = -0.192104
-Iteration 147: New best f(x) = -5.497263
-Iteration 148: f(x) = -5.473151
-Iteration 149: f(x) = -5.497250
-Iteration 150: New best f(x) = -5.497270
-Iteration 151: New best f(x) = -5.497274
-Iteration 152: New best f(x) = -5.497277
-Iteration 153: New best f(x) = -5.497280
-Iteration 154: f(x) = -5.497276
-Iteration 155: f(x) = -5.497279
-Iteration 156: f(x) = -5.497280
-Iteration 157: New best f(x) = -5.497280
-Iteration 158: f(x) = -5.497280
-Iteration 159: f(x) = -5.497280
-Iteration 160: New best f(x) = -5.497281
-Iteration 161: f(x) = -5.497280
-Iteration 162: f(x) = -5.497281
-Iteration 163: f(x) = -5.497281
-Iteration 164: f(x) = -5.497278
-Iteration 165: f(x) = -5.497279
-Iteration 166: f(x) = -5.497280
-Iteration 167: New best f(x) = -5.497283
-Iteration 168: f(x) = -5.497280
-Iteration 169: f(x) = -5.497282
-Iteration 170: f(x) = -5.497280
-Iteration 171: f(x) = -5.497282
-Iteration 172: f(x) = -5.497280
-Iteration 173: f(x) = -5.497283
-Iteration 174: f(x) = -5.497281
-Iteration 175: f(x) = -5.497281
-Iteration 176: f(x) = -5.497283
-Iteration 177: f(x) = -5.497282
-Iteration 178: f(x) = -5.497281
-Iteration 179: f(x) = -5.497281
-Iteration 180: f(x) = -5.497283
-Iteration 181: f(x) = -5.497282
-Iteration 182: f(x) = -5.497282
-Iteration 183: f(x) = -5.497281
-Iteration 184: f(x) = -5.497283
-Iteration 185: f(x) = -5.497283
-Iteration 186: f(x) = -5.497282
-Iteration 187: f(x) = -5.497282
-Iteration 188: New best f(x) = -5.497284
-Iteration 189: f(x) = -5.497282
-Iteration 190: f(x) = -5.497284
-Iteration 191: f(x) = -5.497279
-Iteration 192: f(x) = -5.497284
-Iteration 193: f(x) = -5.497282
-Iteration 194: f(x) = -5.497282
-Iteration 195: New best f(x) = -5.497284
-Iteration 196: New best f(x) = -5.497285
-Iteration 197: f(x) = -5.497285
-Iteration 198: New best f(x) = -5.497286
-Iteration 199: f(x) = -5.497286
-Iteration 200: New best f(x) = -5.497289
-Iteration 201: f(x) = -5.497287
-Iteration 202: f(x) = -5.497287
-Iteration 203: f(x) = -5.497288
-Iteration 204: New best f(x) = -5.497289
-Iteration 205: f(x) = -5.497288
-Iteration 206: New best f(x) = -5.497289
-Iteration 207: New best f(x) = -5.497289
-Iteration 208: f(x) = -5.497284
-Iteration 209: New best f(x) = -5.497290
-Iteration 210: f(x) = -5.497285
-Iteration 211: f(x) = -5.497289
-Iteration 212: f(x) = -5.497289
-Iteration 213: f(x) = -5.497289
-Iteration 214: f(x) = -5.497289
-Iteration 215: f(x) = -5.497289
-Iteration 216: f(x) = -5.497287
-Iteration 217: f(x) = -5.497289
-Iteration 218: f(x) = -5.497288
-Iteration 219: f(x) = -5.497289
-Iteration 220: f(x) = -5.497288
-Iteration 221: f(x) = -5.497288
-Iteration 222: f(x) = -5.497289
-Iteration 223: f(x) = -5.497289
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 224: f(x) = -1.007814
-Iteration 225: f(x) = -5.497288
-Iteration 226: f(x) = -5.497289
-Iteration 227: f(x) = -5.497289
-Iteration 228: f(x) = -5.497289
-Iteration 229: New best f(x) = -5.497290
-Iteration 230: f(x) = -5.497290
-Iteration 231: f(x) = -5.497289
-Iteration 232: f(x) = -5.497289
-Iteration 233: f(x) = -5.497289
-Iteration 234: f(x) = -5.497289
-Iteration 235: f(x) = -5.497288
-Iteration 236: f(x) = -5.497290
-Iteration 237: f(x) = -5.497287
-Iteration 238: New best f(x) = -5.497290
-Iteration 239: f(x) = -5.497288
-Iteration 240: f(x) = -5.497290
-Iteration 241: f(x) = -5.480168
-Iteration 242: f(x) = -5.497289
-Iteration 243: f(x) = -5.497290
-Iteration 244: f(x) = -5.497289
-Iteration 245: f(x) = -5.497289
-Iteration 246: f(x) = -5.497289
-Iteration 247: f(x) = -5.497290
-Iteration 248: f(x) = -5.497287
-Iteration 249: f(x) = -5.497287
-Iteration 250: f(x) = -5.497289
-Iteration 251: f(x) = -5.497290
-Iteration 252: f(x) = -5.497289
-Iteration 253: f(x) = -5.497289
-Iteration 254: f(x) = -5.497288
-Iteration 255: f(x) = -5.497289
-Iteration 256: f(x) = -5.497290
-Iteration 257: f(x) = -5.497290
-Iteration 258: f(x) = -5.497290
-Iteration 259: f(x) = -5.477118
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 260: f(x) = -1.732312
-Iteration 261: f(x) = -5.497288
-Iteration 262: f(x) = -5.497288
-Iteration 263: f(x) = -5.497289
-Iteration 264: f(x) = -5.497288
-Iteration 265: f(x) = -5.497289
-Iteration 266: f(x) = -5.497290
-Iteration 267: f(x) = -5.497290
-Iteration 268: f(x) = -5.497290
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 269: f(x) = -1.268171
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 270: f(x) = -0.551961
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 271: f(x) = -0.579343
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 272: f(x) = -0.792485
-Iteration 273: f(x) = -5.497287
-Iteration 274: f(x) = -5.497281
-Iteration 275: f(x) = -5.497289
-Iteration 276: New best f(x) = -5.497291
-Iteration 277: f(x) = -5.497288
-Iteration 278: f(x) = -5.497289
-Iteration 279: New best f(x) = -5.497291
-Iteration 280: f(x) = -5.497287
-Iteration 281: f(x) = -5.497288
-Iteration 282: f(x) = -5.497289
-Iteration 283: f(x) = -5.497288
-Iteration 284: f(x) = -5.497289
-Iteration 285: f(x) = -5.497289
-Iteration 286: f(x) = -5.497289
-Iteration 287: f(x) = -5.497281
-Iteration 288: f(x) = -5.497288
-Iteration 289: f(x) = -5.497290
-Iteration 290: f(x) = -5.497290
+Iteration 21: f(x) = -2.167836
+Iteration 22: New best f(x) = -4.602166
+Iteration 23: New best f(x) = -5.077935
+Iteration 24: New best f(x) = -5.186293
+Iteration 25: New best f(x) = -5.203414
+Iteration 26: New best f(x) = -5.595463
+Iteration 27: f(x) = -5.457704
+Iteration 28: New best f(x) = -5.684386
+Iteration 29: New best f(x) = -5.737582
+Iteration 30: New best f(x) = -5.747975
+Iteration 31: New best f(x) = -5.748816
+Iteration 32: New best f(x) = -5.754623
+Iteration 33: New best f(x) = -5.799813
+Iteration 34: New best f(x) = -5.964056
+Iteration 35: New best f(x) = -6.022013
+Iteration 36: New best f(x) = -6.028901
+Iteration 37: New best f(x) = -6.082121
+Iteration 38: New best f(x) = -6.091717
+Iteration 39: New best f(x) = -6.095846
+Iteration 40: New best f(x) = -6.096010
+Iteration 41: f(x) = -6.049339
+Iteration 42: f(x) = -6.076236
+Iteration 43: New best f(x) = -6.122266
+Iteration 44: New best f(x) = -6.128134
+Iteration 45: f(x) = -6.125872
+Iteration 46: New best f(x) = -6.173651
+Iteration 47: New best f(x) = -6.175009
+Iteration 48: New best f(x) = -6.181490
+Iteration 49: f(x) = -6.148361
+Iteration 50: New best f(x) = -6.302875
+Iteration 51: f(x) = -6.300179
+Iteration 52: f(x) = -6.284843
+Iteration 53: New best f(x) = -6.375193
+Iteration 54: New best f(x) = -6.406638
+Iteration 55: New best f(x) = -6.412983
+Iteration 56: New best f(x) = -6.426663
+Iteration 57: New best f(x) = -6.431333
+Iteration 58: New best f(x) = -6.444586
+Iteration 59: New best f(x) = -6.453929
+Iteration 60: f(x) = -6.452940
+Iteration 61: New best f(x) = -6.468183
+Iteration 62: New best f(x) = -6.473056
+Iteration 63: New best f(x) = -6.482561
+Iteration 64: New best f(x) = -6.501237
+Iteration 65: New best f(x) = -6.532827
+Iteration 66: New best f(x) = -6.617722
+Iteration 67: New best f(x) = -6.618386
+Iteration 68: f(x) = -6.598316
+Iteration 69: New best f(x) = -6.619635
+Iteration 70: f(x) = -6.610526
+Iteration 71: New best f(x) = -6.627680
+Iteration 72: New best f(x) = -6.680090
+Iteration 73: New best f(x) = -6.732310
+Iteration 74: New best f(x) = -6.735648
+Iteration 75: New best f(x) = -6.744943
+Iteration 76: New best f(x) = -6.747280
+Iteration 77: New best f(x) = -6.747509
+Iteration 78: New best f(x) = -6.752044
+Iteration 79: New best f(x) = -6.752271
+Iteration 80: New best f(x) = -6.754208
+Iteration 81: f(x) = -6.754075
+Iteration 82: f(x) = -6.752283
+Iteration 83: New best f(x) = -6.763816
+Iteration 84: f(x) = -6.761101
+Iteration 85: New best f(x) = -6.807427
+Iteration 86: New best f(x) = -6.821693
+Iteration 87: New best f(x) = -6.830020
+Iteration 88: New best f(x) = -6.833581
+Iteration 89: New best f(x) = -6.846502
+Iteration 90: New best f(x) = -6.846678
+Iteration 91: New best f(x) = -6.847082
+Iteration 92: f(x) = -6.844715
+Iteration 93: New best f(x) = -6.850282
+Iteration 94: New best f(x) = -6.851126
+Iteration 95: f(x) = -6.850650
+Iteration 96: f(x) = -6.849436
+Iteration 97: New best f(x) = -6.857224
+Iteration 98: New best f(x) = -6.858052
+Iteration 99: f(x) = -6.856595
+Iteration 100: New best f(x) = -6.865125
+Iteration 101: New best f(x) = -6.865708
+Iteration 102: New best f(x) = -6.866702
+Iteration 103: New best f(x) = -6.870179
+Iteration 104: f(x) = -6.832861
+Iteration 105: New best f(x) = -6.870464
+Iteration 106: New best f(x) = -6.870710
+Iteration 107: f(x) = -6.870691
+Iteration 108: New best f(x) = -6.870738
+Iteration 109: New best f(x) = -6.871051
+Iteration 110: New best f(x) = -6.872771
+Iteration 111: f(x) = -6.872292
+Iteration 112: New best f(x) = -6.873726
+Iteration 113: f(x) = -6.873397
+Iteration 114: New best f(x) = -6.874837
+Iteration 115: f(x) = -6.874670
+Iteration 116: New best f(x) = -6.875096
+Iteration 117: New best f(x) = -6.875256
+Iteration 118: New best f(x) = -6.875388
+Iteration 119: New best f(x) = -6.875456
+Iteration 120: New best f(x) = -6.876965
+Iteration 121: New best f(x) = -6.877874
+Iteration 122: New best f(x) = -6.878075
+Iteration 123: f(x) = -6.878068
+Iteration 124: New best f(x) = -6.878109
+Iteration 125: New best f(x) = -6.878299
+Iteration 126: New best f(x) = -6.879215
+Iteration 127: New best f(x) = -6.879260
+Iteration 128: New best f(x) = -6.880030
+Iteration 129: New best f(x) = -6.880331
+Iteration 130: New best f(x) = -6.880360
+Iteration 131: New best f(x) = -6.880711
+Iteration 132: New best f(x) = -6.881065
+Iteration 133: f(x) = -6.881025
+Iteration 134: New best f(x) = -6.881323
+Iteration 135: New best f(x) = -6.882148
+Iteration 136: New best f(x) = -6.883967
+Iteration 137: New best f(x) = -6.884249
+Iteration 138: New best f(x) = -6.884437
+Iteration 139: f(x) = -6.884331
+Iteration 140: f(x) = -6.852648
+Iteration 141: New best f(x) = -6.885174
+Iteration 142: New best f(x) = -6.885231
+Iteration 143: f(x) = -6.885224
+Iteration 144: New best f(x) = -6.885372
+Iteration 145: New best f(x) = -6.885606
+Iteration 146: f(x) = -6.885589
+Iteration 147: New best f(x) = -6.885615
+Iteration 148: f(x) = -6.885589
+Iteration 149: f(x) = -6.885532
+Iteration 150: New best f(x) = -6.885788
+Iteration 151: f(x) = -6.885779
+Iteration 152: New best f(x) = -6.885801
+Iteration 153: New best f(x) = -6.885840
+Iteration 154: New best f(x) = -6.885906
+Iteration 155: New best f(x) = -6.885932
+Iteration 156: New best f(x) = -6.885939
+Iteration 157: New best f(x) = -6.885965
+Iteration 158: New best f(x) = -6.886078
+Iteration 159: f(x) = -6.886056
+Iteration 160: New best f(x) = -6.886111
+Iteration 161: New best f(x) = -6.886116
+Iteration 162: New best f(x) = -6.886118
+Iteration 163: f(x) = -6.886117
+Iteration 164: f(x) = -6.886114
+Iteration 165: New best f(x) = -6.886120
+Iteration 166: New best f(x) = -6.886120
+Iteration 167: New best f(x) = -6.886121
+Iteration 168: f(x) = -6.886116
+Iteration 169: f(x) = -6.886120
+Iteration 170: f(x) = -6.886120
+Iteration 171: f(x) = -6.886119
+Iteration 172: New best f(x) = -6.886122
+Iteration 173: f(x) = -6.886120
+Iteration 174: New best f(x) = -6.886126
+Iteration 175: New best f(x) = -6.886127
+Iteration 176: f(x) = -6.844961
+Iteration 177: New best f(x) = -6.886132
+Iteration 178: New best f(x) = -6.886135
+Iteration 179: New best f(x) = -6.886148
+Iteration 180: New best f(x) = -6.886151
+Iteration 181: New best f(x) = -6.886161
+Iteration 182: New best f(x) = -6.886169
+Iteration 183: New best f(x) = -6.886178
+Iteration 184: f(x) = -6.886176
+Iteration 185: f(x) = -6.886173
+Iteration 186: f(x) = -6.886175
+Iteration 187: New best f(x) = -6.886178
+Iteration 188: f(x) = -6.886174
+Iteration 189: f(x) = -6.886177
+Iteration 190: f(x) = -6.886178
+Iteration 191: f(x) = -6.886178
+Iteration 192: f(x) = -6.886173
+Iteration 193: f(x) = -6.886178
+Iteration 194: New best f(x) = -6.886180
+Iteration 195: f(x) = -6.886178
+Iteration 196: New best f(x) = -6.886182
+Iteration 197: New best f(x) = -6.886186
+Iteration 198: f(x) = -6.886184
+Iteration 199: f(x) = -6.886185
+Iteration 200: New best f(x) = -6.886188
+Iteration 201: f(x) = -6.886180
+Iteration 202: New best f(x) = -6.886189
+Iteration 203: f(x) = -6.886187
+Iteration 204: f(x) = -6.886187
+Iteration 205: f(x) = -1.911259
+Iteration 206: New best f(x) = -6.886191
+Iteration 207: f(x) = -6.886189
+Iteration 208: f(x) = -6.886186
+Iteration 209: f(x) = -6.886189
+Iteration 210: f(x) = -6.886188
+Iteration 211: f(x) = -6.886190
+Iteration 212: f(x) = -6.886190
+Iteration 213: New best f(x) = -6.886191
+Iteration 214: f(x) = -6.886190
+Iteration 215: f(x) = -6.886191
+Iteration 216: f(x) = -6.886185
+Iteration 217: f(x) = -6.886188
+Iteration 218: f(x) = -6.886182
+Iteration 219: f(x) = -6.886190
+Iteration 220: f(x) = -6.886189
+Iteration 221: f(x) = -6.886186
+Iteration 222: f(x) = -6.886191
+Iteration 223: f(x) = -6.886190
+Iteration 224: f(x) = -6.886187
+Iteration 225: f(x) = -6.886190
+Iteration 226: f(x) = -6.886190
+Iteration 227: f(x) = -6.886188
+Iteration 228: New best f(x) = -6.886191
+Iteration 229: f(x) = -6.886191
+Iteration 230: f(x) = -6.886190
+Iteration 231: f(x) = -6.886190
+Iteration 232: New best f(x) = -6.886192
+Iteration 233: New best f(x) = -6.886192
+Iteration 234: f(x) = -6.886191
+Iteration 235: New best f(x) = -6.886193
+Iteration 236: f(x) = -6.886192
+Iteration 237: f(x) = -6.886191
+Iteration 238: f(x) = -6.886189
+Iteration 239: f(x) = -6.886191
+Iteration 240: f(x) = -6.886184
+Iteration 241: f(x) = -6.886193
+Iteration 242: f(x) = -6.886191
+Iteration 243: f(x) = -6.886188
+Iteration 244: f(x) = -6.886190
+Iteration 245: f(x) = -6.886192
+Iteration 246: f(x) = -6.886193
+Iteration 247: f(x) = -6.886191
+Iteration 248: f(x) = -6.886192
+Iteration 249: f(x) = -6.886191
+Iteration 250: f(x) = -6.886190
+Iteration 251: f(x) = -6.847637
+Iteration 252: f(x) = -6.886192
+Iteration 253: f(x) = -6.886192
+Iteration 254: f(x) = -6.886192
+Iteration 255: f(x) = -6.886187
+Iteration 256: f(x) = -6.886187
+Iteration 257: f(x) = -6.886189
+Iteration 258: f(x) = -6.886191
+Iteration 259: f(x) = -6.886193
+Iteration 260: f(x) = -6.886178
+Iteration 261: f(x) = -6.886192
+Iteration 262: f(x) = -6.886177
+Iteration 263: f(x) = -6.886190
+Iteration 264: f(x) = -6.886193
+Iteration 265: f(x) = -6.886192
+Iteration 266: f(x) = -6.886193
+Iteration 267: f(x) = -6.886192
+Iteration 268: f(x) = -6.886192
+Iteration 269: f(x) = -6.886191
+Iteration 270: f(x) = -6.886190
+Iteration 271: f(x) = -6.886192
+Iteration 272: f(x) = -6.886190
+Iteration 273: f(x) = -6.886192
+Iteration 274: f(x) = -6.886191
+Iteration 275: f(x) = -6.886188
+Iteration 276: f(x) = -6.886184
+Iteration 277: f(x) = -6.886192
+Iteration 278: f(x) = -6.886176
+Iteration 279: f(x) = -6.886187
+Iteration 280: f(x) = -6.886191
+Iteration 281: f(x) = -6.886186
+Iteration 282: f(x) = -6.886182
+Iteration 283: f(x) = -6.886190
+Iteration 284: f(x) = -6.886192
+Iteration 285: f(x) = -6.886193
+Iteration 286: f(x) = -6.886192
+Iteration 287: f(x) = -6.886192
+Iteration 288: f(x) = -6.886191
+Iteration 289: f(x) = -6.886193
+Iteration 290: f(x) = -6.886193
 \end{verbatim}
 
 \begin{Shaded}
@@ -3024,8 +3046,8 @@ Iteration 290: f(x) = -5.497290
 \end{Shaded}
 
 \begin{verbatim}
-[10D] Sklearn Kriging: min y = -5.4973 at x = [2.20296885 2.71164409 2.21934211 2.48204385 2.49369659 1.83238402
- 2.0497268  1.36056628 1.28282558 1.21703627]
+[10D] Sklearn Kriging: min y = -6.8862 at x = [2.20299373 2.71157921 2.21932073 2.48199421 2.62719228 2.02746246
+ 2.00364851 1.36057903 1.28282431 1.21703873]
 Number of function evaluations: 300
 Number of iterations: 290
 \end{verbatim}
@@ -3166,7 +3188,7 @@ functions.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-2}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -3297,18 +3319,18 @@ Final success rate: 30.00%
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 5.536810
-Iteration 1: f(x) = 18.399695
-Iteration 2: f(x) = 22.592492
-Iteration 3: New best f(x) = 1.676752
-Iteration 4: New best f(x) = 0.972722
-Iteration 5: New best f(x) = 0.830781
-Iteration 6: New best f(x) = 0.286694
-Iteration 7: New best f(x) = 0.021067
-Iteration 8: New best f(x) = 0.004088
-Iteration 9: New best f(x) = 0.001685
-Iteration 10: New best f(x) = 0.000306
-Final success rate: 80.00%
+Initial best: f(x) = 11.891652
+Iteration 1: f(x) = 12.848358
+Iteration 2: New best f(x) = 9.938236
+Iteration 3: New best f(x) = 8.241295
+Iteration 4: f(x) = 9.008422
+Iteration 5: New best f(x) = 2.891104
+Iteration 6: New best f(x) = 0.293198
+Iteration 7: New best f(x) = 0.010009
+Iteration 8: New best f(x) = 0.000518
+Iteration 9: New best f(x) = 0.000209
+Iteration 10: f(x) = 0.000737
+Final success rate: 70.00%
 Total evaluations: 20
 \end{verbatim}
 
@@ -3339,8 +3361,8 @@ The success rate is stored in the \texttt{success\_rate} attribute:
 \end{Shaded}
 
 \begin{verbatim}
-Success rate: 60.00%
-Via getter method: 60.00%
+Success rate: 80.00%
+Via getter method: 80.00%
 \end{verbatim}
 
 \section{Interpreting Success Rate}\label{interpreting-success-rate}
@@ -3540,11 +3562,11 @@ means:
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 2.263031, mean best: f(x) = 2.498409
+Initial best: f(x) = 0.936896, mean best: f(x) = 1.705270
 
 Noisy Optimization Results:
-Best raw value: 2.263031
-Best mean value: 2.498409
+Best raw value: 0.936896
+Best mean value: 1.705270
 Success rate: 0.00%
 Total evaluations: 30
 Unique design points: 10
@@ -3718,7 +3740,7 @@ strategies - ✓ Assess optimization difficulty for different problems
 
 \section{Jupyter Notebook}\label{jupyter-notebook-3}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -4114,7 +4136,7 @@ Potential improvements that could be added:
 
 \section{Jupyter Notebook}\label{jupyter-notebook-4}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -4240,8 +4262,8 @@ Testing activation: LeakyReLU
 Testing activation: Sigmoid
 Testing activation: Tanh
 
-Best activation: ReLU
-Best score: 3434.8243
+Best activation: LeakyReLU
+Best score: 3505.9864
 \end{verbatim}
 
 \subsection{Neural Network Activation Function
@@ -4317,7 +4339,7 @@ Optimization}\label{neural-network-activation-function-optimization}
 
 \begin{verbatim}
 Best activation function: Sigmoid
-Best test MSE: 26348.6810
+Best test MSE: 26406.7357
 \end{verbatim}
 
 \section{Mixed Variable Types}\label{mixed-variable-types}
@@ -4414,63 +4436,63 @@ Variables}\label{combining-factor-integer-and-continuous-variables}
 \end{Shaded}
 
 \begin{verbatim}
-lr=0.003701, l1=27, layers=2, activation=Sigmoid
-lr=0.000498, l1=114, layers=1, activation=Tanh
-lr=0.000388, l1=76, layers=1, activation=Tanh
-lr=0.007028, l1=40, layers=4, activation=ReLU
-lr=0.000104, l1=60, layers=2, activation=Tanh
-lr=0.000662, l1=102, layers=3, activation=Tanh
-lr=0.001053, l1=66, layers=2, activation=LeakyReLU
-lr=0.000166, l1=124, layers=1, activation=ReLU
-lr=0.006083, l1=34, layers=3, activation=Sigmoid
-lr=0.002163, l1=87, layers=0, activation=Sigmoid
-lr=0.003701, l1=27, layers=2, activation=Sigmoid
-lr=0.003885, l1=40, layers=3, activation=Sigmoid
-lr=0.003476, l1=79, layers=3, activation=ReLU
-lr=0.000268, l1=91, layers=3, activation=Sigmoid
-lr=0.000269, l1=43, layers=3, activation=Tanh
-lr=0.003236, l1=62, layers=2, activation=Sigmoid
-lr=0.001142, l1=100, layers=4, activation=Sigmoid
-lr=0.000299, l1=126, layers=2, activation=LeakyReLU
-lr=0.005412, l1=48, layers=0, activation=Tanh
-lr=0.001012, l1=81, layers=3, activation=Tanh
-lr=0.000145, l1=31, layers=4, activation=Sigmoid
-lr=0.000554, l1=116, layers=1, activation=Tanh
-lr=0.000591, l1=124, layers=3, activation=ReLU
-lr=0.000207, l1=94, layers=2, activation=Sigmoid
-lr=0.001570, l1=38, layers=1, activation=Tanh
-lr=0.003074, l1=27, layers=3, activation=Tanh
-lr=0.001234, l1=119, layers=3, activation=Sigmoid
-lr=0.007501, l1=63, layers=1, activation=Tanh
-lr=0.005034, l1=116, layers=1, activation=Sigmoid
-lr=0.004719, l1=92, layers=0, activation=Tanh
-lr=0.003520, l1=22, layers=0, activation=Sigmoid
-lr=0.000194, l1=83, layers=2, activation=Sigmoid
-lr=0.003215, l1=43, layers=3, activation=Sigmoid
-lr=0.001463, l1=33, layers=2, activation=Sigmoid
-lr=0.000745, l1=50, layers=4, activation=ReLU
-lr=0.000389, l1=37, layers=0, activation=Tanh
-lr=0.008813, l1=42, layers=3, activation=Sigmoid
-lr=0.001176, l1=54, layers=4, activation=Tanh
-lr=0.000257, l1=19, layers=4, activation=Tanh
-lr=0.000646, l1=111, layers=1, activation=Sigmoid
-lr=0.005175, l1=47, layers=0, activation=LeakyReLU
-lr=0.004039, l1=66, layers=1, activation=LeakyReLU
-lr=0.000279, l1=84, layers=3, activation=Sigmoid
-lr=0.002831, l1=31, layers=0, activation=LeakyReLU
-lr=0.001352, l1=91, layers=1, activation=LeakyReLU
-lr=0.000389, l1=33, layers=3, activation=Sigmoid
-lr=0.004909, l1=90, layers=3, activation=Tanh
-lr=0.001217, l1=63, layers=1, activation=Tanh
-lr=0.000635, l1=101, layers=2, activation=Sigmoid
-lr=0.002011, l1=78, layers=3, activation=ReLU
+lr=0.000715, l1=94, layers=4, activation=Tanh
+lr=0.001695, l1=28, layers=1, activation=ReLU
+lr=0.003198, l1=21, layers=2, activation=Sigmoid
+lr=0.005605, l1=54, layers=0, activation=Sigmoid
+lr=0.000438, l1=101, layers=3, activation=Tanh
+lr=0.000188, l1=69, layers=1, activation=Sigmoid
+lr=0.000137, l1=113, layers=3, activation=Sigmoid
+lr=0.000279, l1=121, layers=1, activation=Tanh
+lr=0.008389, l1=46, layers=2, activation=LeakyReLU
+lr=0.001258, l1=73, layers=3, activation=LeakyReLU
+lr=0.005513, l1=54, layers=0, activation=Sigmoid
+lr=0.006387, l1=22, layers=3, activation=Sigmoid
+lr=0.000910, l1=49, layers=0, activation=Tanh
+lr=0.002885, l1=47, layers=3, activation=Sigmoid
+lr=0.000625, l1=63, layers=4, activation=Sigmoid
+lr=0.000687, l1=111, layers=1, activation=Sigmoid
+lr=0.005881, l1=28, layers=2, activation=Tanh
+lr=0.000239, l1=48, layers=2, activation=Tanh
+lr=0.000106, l1=67, layers=0, activation=Sigmoid
+lr=0.007171, l1=113, layers=2, activation=Tanh
+lr=0.001921, l1=19, layers=2, activation=Sigmoid
+lr=0.000104, l1=62, layers=0, activation=Sigmoid
+lr=0.002751, l1=62, layers=3, activation=Tanh
+lr=0.000145, l1=56, layers=2, activation=Tanh
+lr=0.000944, l1=94, layers=4, activation=Tanh
+lr=0.001615, l1=21, layers=3, activation=LeakyReLU
+lr=0.002402, l1=99, layers=1, activation=Sigmoid
+lr=0.000721, l1=88, layers=3, activation=Tanh
+lr=0.000136, l1=125, layers=1, activation=Sigmoid
+lr=0.000402, l1=33, layers=2, activation=ReLU
+lr=0.002675, l1=83, layers=0, activation=Tanh
+lr=0.001702, l1=43, layers=2, activation=ReLU
+lr=0.005154, l1=116, layers=4, activation=Sigmoid
+lr=0.002329, l1=78, layers=1, activation=ReLU
+lr=0.002244, l1=26, layers=1, activation=Tanh
+lr=0.004362, l1=109, layers=3, activation=Sigmoid
+lr=0.001336, l1=75, layers=2, activation=Sigmoid
+lr=0.000206, l1=32, layers=3, activation=Sigmoid
+lr=0.000158, l1=50, layers=4, activation=Sigmoid
+lr=0.000107, l1=41, layers=1, activation=ReLU
+lr=0.008772, l1=102, layers=4, activation=ReLU
+lr=0.001879, l1=122, layers=1, activation=Sigmoid
+lr=0.001048, l1=27, layers=2, activation=Sigmoid
+lr=0.002118, l1=96, layers=2, activation=ReLU
+lr=0.000155, l1=112, layers=1, activation=LeakyReLU
+lr=0.005462, l1=67, layers=3, activation=LeakyReLU
+lr=0.000266, l1=55, layers=2, activation=Tanh
+lr=0.007063, l1=84, layers=1, activation=LeakyReLU
+lr=0.000301, l1=48, layers=2, activation=Tanh
+lr=0.003782, l1=32, layers=1, activation=ReLU
 
 Optimization Results:
-Best learning rate: 0.001142
-Best layer size: 100
-Best num layers: 4
+Best learning rate: 0.000687
+Best layer size: 111
+Best num layers: 1
 Best activation: Sigmoid
-Best test MSE: 26485.7741
+Best test MSE: 26454.2025
 \end{verbatim}
 
 \section{Multiple Factor Variables}\label{multiple-factor-variables}
@@ -4551,9 +4573,9 @@ Optimizer}\label{optimizing-both-activation-and-optimizer}
 \end{Shaded}
 
 \begin{verbatim}
-Best activation: Sigmoid
+Best activation: LeakyReLU
 Best optimizer: SGD
-Best learning rate: 0.007777
+Best learning rate: 0.009243
 \end{verbatim}
 
 \section{Advanced Usage}\label{advanced-usage}
@@ -4632,10 +4654,10 @@ functions:
 
 \begin{verbatim}
 Best configuration:
-  Dropout: heavy
+  Dropout: light
   Batch norm: before
-  Weight init: xavier
-  Score: 2921.7914
+  Weight init: kaiming
+  Score: 2902.0093
 \end{verbatim}
 
 \subsection{Viewing All Evaluated
@@ -4734,23 +4756,23 @@ Configurations}\label{viewing-all-evaluated-configurations}
 All evaluated configurations:
 Layer Size | Activation | Test MSE
 ------------------------------------------
-        41 | Tanh       | 26568.6126
-       118 | Sigmoid    | 26535.3171
-        26 | Tanh       | 26591.5632
-       108 | Sigmoid    | 26480.9375
-        71 | LeakyReLU  | 26584.7051
-        34 | Tanh       | 26678.3027
-        87 | ReLU       | 26519.8965
-       101 | Tanh       | 26539.1901
-        55 | Sigmoid    | 26601.9681
-        74 | ReLU       | 26604.6992
+        41 | Tanh       | 26583.5052
+       118 | Sigmoid    | 26486.3841
+        26 | Tanh       | 26634.2480
+       108 | Sigmoid    | 26399.6211
+        71 | LeakyReLU  | 26515.7402
+        34 | Tanh       | 26701.5632
+        87 | ReLU       | 26496.3730
+       101 | Tanh       | 26585.3066
+        55 | Sigmoid    | 26547.7930
+        74 | ReLU       | 26610.8079
 
 Top 5 configurations:
-l1=127, activation=Sigmoid   , MSE=26247.5293
-l1= 96, activation=Sigmoid   , MSE=26425.8867
-l1= 93, activation=Sigmoid   , MSE=26447.6211
-l1=115, activation=Sigmoid   , MSE=26461.0618
-l1= 94, activation=LeakyReLU , MSE=26476.7448
+l1=109, activation=Sigmoid   , MSE=26242.3887
+l1=127, activation=Sigmoid   , MSE=26382.2493
+l1=108, activation=Sigmoid   , MSE=26399.6211
+l1= 54, activation=Sigmoid   , MSE=26417.8555
+l1=107, activation=LeakyReLU , MSE=26437.5527
 \end{verbatim}
 
 \section{How It Works}\label{how-it-works}
@@ -4815,10 +4837,11 @@ array([[41.0, 'Tanh'],
        [101.0, 'Tanh'],
        [55.0, 'Sigmoid'],
        [74.0, 'ReLU'],
+       [89.0, 'Sigmoid'],
+       [109.0, 'Sigmoid'],
        [20.0, 'Tanh'],
        [87.0, 'Tanh'],
        [107.0, 'LeakyReLU'],
-       [108.0, 'Tanh'],
        [75.0, 'Tanh'],
        [53.0, 'Tanh'],
        [35.0, 'Sigmoid'],
@@ -4833,8 +4856,7 @@ array([[41.0, 'Tanh'],
        [75.0, 'Sigmoid'],
        [42.0, 'Sigmoid'],
        [66.0, 'Sigmoid'],
-       [94.0, 'LeakyReLU'],
-       [79.0, 'Tanh']], dtype=object)
+       [94.0, 'LeakyReLU']], dtype=object)
 \end{verbatim}
 \end{enumerate}
 
@@ -4890,7 +4912,7 @@ factor variables:
 \end{Shaded}
 
 \begin{verbatim}
-Best lr: 0.004444, Best activation: ReLU
+Best lr: 0.006734, Best activation: ReLU
 \end{verbatim}
 
 \section{Complete Example: Full
@@ -5094,139 +5116,139 @@ Neural Network Hyperparameter Optimization with Factor Variables
 
 Starting optimization...
 Testing: lr=0.007002, l1=101, layers=2, activation=ReLU
-  → Test MSE: 26624.4577
+  → Test MSE: 26611.9297
 Testing: lr=0.000604, l1=50, layers=2, activation=ReLU
-  → Test MSE: 26560.6517
+  → Test MSE: 26643.1562
 Testing: lr=0.000149, l1=67, layers=1, activation=Tanh
-  → Test MSE: 26653.2435
+  → Test MSE: 26672.6816
 Testing: lr=0.000296, l1=40, layers=0, activation=Tanh
-  → Test MSE: 26716.6400
+  → Test MSE: 26648.8379
 Testing: lr=0.004887, l1=116, layers=2, activation=Sigmoid
-  → Test MSE: 26691.4056
+  → Test MSE: 26630.6296
 Testing: lr=0.001772, l1=124, layers=3, activation=Sigmoid
-  → Test MSE: 26665.2422
+  → Test MSE: 26525.2806
 Testing: lr=0.001107, l1=36, layers=4, activation=Sigmoid
-  → Test MSE: 26605.6406
+  → Test MSE: 26650.2389
 Testing: lr=0.003708, l1=20, layers=1, activation=LeakyReLU
-  → Test MSE: 26719.2448
+  → Test MSE: 26591.1322
 Testing: lr=0.000861, l1=90, layers=1, activation=Tanh
-  → Test MSE: 26627.6497
+  → Test MSE: 26643.9980
 Testing: lr=0.000237, l1=78, layers=3, activation=Tanh
-  → Test MSE: 26598.9043
+  → Test MSE: 26622.8711
+Testing: lr=0.001762, l1=124, layers=3, activation=Sigmoid
+  → Test MSE: 26557.4219
 Testing: lr=0.009463, l1=24, layers=0, activation=LeakyReLU
-  → Test MSE: 26593.3665
+  → Test MSE: 26649.9180
 Testing: lr=0.000761, l1=94, layers=4, activation=Tanh
-  → Test MSE: 26622.6745
+  → Test MSE: 26638.6699
 Testing: lr=0.003722, l1=82, layers=1, activation=Tanh
-  → Test MSE: 26655.8698
-Testing: lr=0.000189, l1=77, layers=3, activation=Tanh
-  → Test MSE: 26648.7715
+  → Test MSE: 26592.6934
 Testing: lr=0.007645, l1=96, layers=3, activation=Sigmoid
-  → Test MSE: 26664.1641
+  → Test MSE: 26584.0163
 Testing: lr=0.000769, l1=40, layers=1, activation=Tanh
-  → Test MSE: 26624.2409
+  → Test MSE: 26668.7474
 Testing: lr=0.000235, l1=109, layers=4, activation=LeakyReLU
-  → Test MSE: 26625.6406
+  → Test MSE: 26622.8704
 Testing: lr=0.000359, l1=76, layers=3, activation=Sigmoid
-  → Test MSE: 26781.9616
+  → Test MSE: 26585.8783
 Testing: lr=0.004959, l1=50, layers=2, activation=Tanh
-  → Test MSE: 26588.3385
+  → Test MSE: 26604.1777
 Testing: lr=0.002494, l1=57, layers=3, activation=LeakyReLU
-  → Test MSE: 26576.2428
+  → Test MSE: 26586.5501
 Testing: lr=0.005807, l1=20, layers=0, activation=Sigmoid
-  → Test MSE: 26633.4961
+  → Test MSE: 26652.9232
 Testing: lr=0.002939, l1=19, layers=1, activation=Sigmoid
-  → Test MSE: 26624.2878
+  → Test MSE: 26679.1842
 Testing: lr=0.001263, l1=98, layers=4, activation=ReLU
-  → Test MSE: 26657.2754
+  → Test MSE: 26600.2865
 Testing: lr=0.001226, l1=105, layers=3, activation=Sigmoid
-  → Test MSE: 26570.9180
+  → Test MSE: 26611.2689
 Testing: lr=0.004431, l1=32, layers=1, activation=Sigmoid
-  → Test MSE: 26735.3607
+  → Test MSE: 26626.6751
 Testing: lr=0.001367, l1=58, layers=2, activation=Sigmoid
-  → Test MSE: 26593.5970
+  → Test MSE: 26571.4199
 Testing: lr=0.006778, l1=81, layers=4, activation=Tanh
-  → Test MSE: 26605.5462
+  → Test MSE: 26540.2637
 Testing: lr=0.002189, l1=112, layers=4, activation=Sigmoid
-  → Test MSE: 26517.1224
+  → Test MSE: 26594.3451
 Testing: lr=0.004558, l1=24, layers=2, activation=Tanh
-  → Test MSE: 26606.8021
+  → Test MSE: 26638.2715
 Testing: lr=0.000658, l1=125, layers=0, activation=Tanh
-  → Test MSE: 26725.1198
+  → Test MSE: 26696.8926
 Testing: lr=0.000272, l1=119, layers=2, activation=Tanh
-  → Test MSE: 26644.4779
+  → Test MSE: 26619.2109
 Testing: lr=0.000133, l1=64, layers=2, activation=Tanh
-  → Test MSE: 26666.2493
+  → Test MSE: 26653.7038
 Testing: lr=0.002172, l1=70, layers=2, activation=LeakyReLU
-  → Test MSE: 26623.8665
+  → Test MSE: 26592.5020
 Testing: lr=0.000223, l1=28, layers=3, activation=Sigmoid
-  → Test MSE: 26681.2363
+  → Test MSE: 26620.8477
 Testing: lr=0.006065, l1=53, layers=3, activation=Sigmoid
-  → Test MSE: 26703.9401
+  → Test MSE: 26601.4251
 Testing: lr=0.000352, l1=42, layers=4, activation=ReLU
-  → Test MSE: 26624.1257
+  → Test MSE: 26623.2168
 Testing: lr=0.003464, l1=124, layers=2, activation=Tanh
-  → Test MSE: 26577.4616
+  → Test MSE: 26596.6315
 Testing: lr=0.000219, l1=37, layers=3, activation=ReLU
-  → Test MSE: 26673.8945
+  → Test MSE: 26585.4043
 Testing: lr=0.002619, l1=70, layers=3, activation=ReLU
-  → Test MSE: 26615.3900
+  → Test MSE: 26637.3704
 Testing: lr=0.004686, l1=123, layers=2, activation=ReLU
-  → Test MSE: 26579.4993
+  → Test MSE: 26569.2142
 Testing: lr=0.000165, l1=44, layers=0, activation=ReLU
-  → Test MSE: 26567.5996
+  → Test MSE: 26532.1517
 Testing: lr=0.000917, l1=93, layers=1, activation=Sigmoid
-  → Test MSE: 26508.2220
+  → Test MSE: 26705.4668
 Testing: lr=0.001789, l1=117, layers=1, activation=Tanh
-  → Test MSE: 26572.8451
+  → Test MSE: 26634.4108
 Testing: lr=0.000134, l1=101, layers=4, activation=Sigmoid
-  → Test MSE: 26526.0449
-Testing: lr=0.001536, l1=105, layers=3, activation=Sigmoid
-  → Test MSE: 26536.8405
-Testing: lr=0.000352, l1=42, layers=4, activation=ReLU
-  → Test MSE: 26602.8835
+  → Test MSE: 26644.3034
 Testing: lr=0.004937, l1=108, layers=2, activation=ReLU
-  → Test MSE: 26577.6829
+  → Test MSE: 26586.0710
 Testing: lr=0.004047, l1=93, layers=1, activation=ReLU
-  → Test MSE: 26671.8288
+  → Test MSE: 26681.0638
 Testing: lr=0.000997, l1=112, layers=4, activation=Tanh
-  → Test MSE: 26605.7337
+  → Test MSE: 26598.5638
 Testing: lr=0.005449, l1=52, layers=4, activation=Sigmoid
-  → Test MSE: 26594.9251
+  → Test MSE: 26679.7363
+Testing: lr=0.000409, l1=63, layers=3, activation=Sigmoid
+  → Test MSE: 26713.3411
+Testing: lr=0.000371, l1=45, layers=3, activation=LeakyReLU
+  → Test MSE: 26627.5566
 
 ================================================================================
 OPTIMIZATION RESULTS
 ================================================================================
-Best learning rate: 0.000917
-Best layer size (l1): 93
-Best num hidden layers: 1
+Best learning rate: 0.001772
+Best layer size (l1): 124
+Best num hidden layers: 3
 Best activation function: Sigmoid
-Best test MSE: 26508.2220
+Best test MSE: 26525.2806
 
 ================================================================================
 TOP 5 CONFIGURATIONS
 ================================================================================
 Rank   LR           L1     Layers   Activation   MSE       
 --------------------------------------------------------------------------------
-1      0.000917     93     1        Sigmoid      26508.2220
-2      0.002189     112    4        Sigmoid      26517.1224
-3      0.000134     101    4        Sigmoid      26526.0449
-4      0.001536     105    3        Sigmoid      26536.8405
-5      0.000604     50     2        ReLU         26560.6517
+1      0.001772     124    3        Sigmoid      26525.2806
+2      0.000165     44     0        ReLU         26532.1517
+3      0.006778     81     4        Tanh         26540.2637
+4      0.001762     124    3        Sigmoid      26557.4219
+5      0.004686     123    2        ReLU         26569.2142
 
 ================================================================================
 TRAINING FINAL MODEL
 ================================================================================
-Configuration: lr=0.000917, l1=93, layers=1, activation=Sigmoid
+Configuration: lr=0.001772, l1=124, layers=3, activation=Sigmoid
 
 Training for 100 epochs...
-Epoch 20/100: Train MSE = 33398.8999
-Epoch 40/100: Train MSE = 27621.3482
-Epoch 60/100: Train MSE = 31346.6655
-Epoch 80/100: Train MSE = 30740.5353
-Epoch 100/100: Train MSE = 31564.3700
+Epoch 20/100: Train MSE = 27789.9785
+Epoch 40/100: Train MSE = 27511.7025
+Epoch 60/100: Train MSE = 34997.5954
+Epoch 80/100: Train MSE = 27670.7340
+Epoch 100/100: Train MSE = 28047.8629
 
-Final Test MSE: 26438.5970
+Final Test MSE: 26527.3613
 ================================================================================
 \end{verbatim}
 
@@ -5418,7 +5440,7 @@ continuous optimization!
 
 \section{Jupyter Notebook}\label{jupyter-notebook-5}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -5575,9 +5597,9 @@ Transformation}\label{basic-log-scale-transformation}
 \end{Shaded}
 
 \begin{verbatim}
-Best lr: 0.003716
-Best alpha: 0.039393
-Best score: -0.029602
+Best lr: 0.038315
+Best alpha: 0.113107
+Best score: -0.017287
 \end{verbatim}
 
 \section{Supported Transformations}\label{supported-transformations}
@@ -5613,6 +5635,10 @@ exponential scales \\
 \texttt{"cube"} & t = x³ & x = ∛t & Strong scaling \\
 \texttt{"inv"} or \texttt{"reciprocal"} & t = 1/x & x = 1/t & Reciprocal
 relationships \\
+\texttt{"pow(base,\ x)"} & t = base\^{}x & x = log\_base(t) & Power
+scaling (e.g.~\texttt{pow(2,\ x)}) \\
+\texttt{"log(x,\ base)"} & t = log\_base(x) & x = base\^{}t & Log
+scaling with custom base \\
 \texttt{None} or \texttt{"id"} & t = x & x = t & No transformation \\
 \end{longtable}
 
@@ -5652,6 +5678,19 @@ relationships \\
   Inverse relationships (e.g., 1/temperature)
 \item
   When smaller values are more important
+\end{itemize}
+
+\textbf{Dynamic Transformations:}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{"pow(base,\ x)"}: Exponential scaling. Example:
+  \texttt{transform="pow(2,\ x)"} with bounds \texttt{{[}2,\ 5{]}} leads
+  to internal search on \texttt{{[}4,\ 32{]}}.
+\item
+  \texttt{"log(x,\ base)"}: Logarithmic scaling with custom base.
+  Example: \texttt{transform="log(x,\ 2)"}.
 \end{itemize}
 
 \textbf{When to use \texttt{None}:}
@@ -5780,33 +5819,33 @@ Training: hidden=100, layers=2, lr=0.072441, wd=0.000096
 Training: hidden=169, layers=1, lr=0.000238, wd=0.004102
 Training: hidden=100, layers=3, lr=0.001146, wd=0.001331
 Training: hidden=36, layers=3, lr=0.021475, wd=0.000340
-Training: hidden=81, layers=2, lr=0.004121, wd=0.000003
-Training: hidden=100, layers=3, lr=0.003692, wd=0.000436
-Training: hidden=100, layers=2, lr=0.009087, wd=0.000002
-Training: hidden=25, layers=3, lr=0.023754, wd=0.001451
-Training: hidden=81, layers=2, lr=0.010159, wd=0.000001
-Training: hidden=100, layers=4, lr=0.001683, wd=0.002264
-Training: hidden=81, layers=2, lr=0.006678, wd=0.000005
-Training: hidden=16, layers=2, lr=0.001894, wd=0.004745
-Training: hidden=36, layers=3, lr=0.100000, wd=0.000375
-Training: hidden=25, layers=3, lr=0.010398, wd=0.000654
-Training: hidden=100, layers=2, lr=0.005904, wd=0.000004
-Training: hidden=100, layers=3, lr=0.035444, wd=0.000001
-Training: hidden=225, layers=4, lr=0.006127, wd=0.000001
-Training: hidden=100, layers=3, lr=0.003756, wd=0.002807
-Training: hidden=25, layers=3, lr=0.014195, wd=0.002934
-Training: hidden=100, layers=2, lr=0.018349, wd=0.000001
-Training: hidden=100, layers=3, lr=0.001646, wd=0.001379
-Training: hidden=100, layers=3, lr=0.000185, wd=0.001519
-Training: hidden=100, layers=3, lr=0.039881, wd=0.010000
-Training: hidden=100, layers=3, lr=0.024727, wd=0.000068
+Training: hidden=100, layers=3, lr=0.001303, wd=0.001200
+Training: hidden=81, layers=2, lr=0.009723, wd=0.000004
+Training: hidden=100, layers=2, lr=0.006052, wd=0.000002
+Training: hidden=25, layers=3, lr=0.049720, wd=0.000793
+Training: hidden=225, layers=4, lr=0.004232, wd=0.000001
+Training: hidden=36, layers=3, lr=0.083860, wd=0.000386
+Training: hidden=100, layers=4, lr=0.001011, wd=0.003569
+Training: hidden=16, layers=2, lr=0.002796, wd=0.003487
+Training: hidden=81, layers=2, lr=0.005363, wd=0.000001
+Training: hidden=225, layers=3, lr=0.002943, wd=0.000001
+Training: hidden=100, layers=2, lr=0.004872, wd=0.000004
+Training: hidden=100, layers=2, lr=0.004560, wd=0.000005
+Training: hidden=100, layers=2, lr=0.003155, wd=0.000003
+Training: hidden=100, layers=2, lr=0.005634, wd=0.000003
+Training: hidden=100, layers=2, lr=0.004156, wd=0.000003
+Training: hidden=100, layers=2, lr=0.004617, wd=0.000001
+Training: hidden=100, layers=3, lr=0.001365, wd=0.002581
+Training: hidden=81, layers=2, lr=0.004767, wd=0.000002
+Training: hidden=81, layers=2, lr=0.004799, wd=0.000002
+Training: hidden=81, layers=2, lr=0.010326, wd=0.000005
 
 Best Configuration:
-  Hidden Size: 25
+  Hidden Size: 225
   Num Layers: 3
-  Learning Rate: 0.023754
-  Weight Decay: 0.00145057
-  Best Loss: 2587.527344
+  Learning Rate: 0.001748
+  Weight Decay: 0.00000132
+  Best Loss: 2528.505452
 \end{verbatim}
 
 \subsection{Example 2: Physics-Informed Neural Networks
@@ -5859,11 +5898,11 @@ Best Configuration:
 
 Best Solution Found:
 --------------------------------------------------
-  neurons: 47
-  layers: 3
-  lr: 4.7584
-  alpha: 0.0995
-  Objective Value: 0.0158
+  neurons: 74
+  layers: 2
+  lr: 8.0660
+  alpha: 0.0980
+  Objective Value: 0.0072
   Total Evaluations: 20
 \end{verbatim}
 
@@ -5948,12 +5987,18 @@ Optimization)}\label{design-table-before-optimization}
 \end{Shaded}
 
 \begin{verbatim}
-| name    | type   |   lower |     upper |   default | trans   |
-|---------|--------|---------|-----------|-----------|---------|
-| lr      | float  |  0.0010 |    1.0000 |    0.5005 | log10   |
-| alpha   | float  |  0.0100 |   10.0000 |    5.0050 | log     |
-| neurons | float  | 10.0000 | 1000.0000 |  505.0000 | sqrt    |
-| bias    | float  | -5.0000 |    5.0000 |    0.0000 | -       |
+| name    | type   |   lower |     upper |   default | transform   |
+|---------|--------|---------|-----------|-----------|-------------|
+| lr      | float  |  0.0010 |    1.0000 |    0.5005 | log10       |
+| alpha   | float  |  0.0100 |   10.0000 |    5.0050 | log         |
+| neurons | float  | 10.0000 | 1000.0000 |  505.0000 | sqrt        |
+| bias    | float  | -5.0000 |    5.0000 |    0.0000 | -           |
+| name    | type   |   lower |     upper |   default | transform   |
+|---------|--------|---------|-----------|-----------|-------------|
+| lr      | float  |  0.0010 |    1.0000 |    0.5005 | log10       |
+| alpha   | float  |  0.0100 |   10.0000 |    5.0050 | log         |
+| neurons | float  | 10.0000 | 1000.0000 |  505.0000 | sqrt        |
+| bias    | float  | -5.0000 |    5.0000 |    0.0000 | -           |
 \end{verbatim}
 
 Output:
@@ -5980,12 +6025,18 @@ Optimization)}\label{results-table-after-optimization}
 \end{Shaded}
 
 \begin{verbatim}
-| name    | type   |   lower |     upper |   tuned | trans   |
-|---------|--------|---------|-----------|---------|---------|
-| lr      | float  |  0.0010 |    1.0000 |  0.6231 | log10   |
-| alpha   | float  |  0.0100 |   10.0000 |  0.5163 | log     |
-| neurons | float  | 10.0000 | 1000.0000 | 28.7782 | sqrt    |
-| bias    | float  | -5.0000 |    5.0000 |  0.5865 | -       |
+| name    | type   |   default |   lower |     upper |   tuned | transform   |
+|---------|--------|-----------|---------|-----------|---------|-------------|
+| lr      | float  |    0.5005 |  0.0010 |    1.0000 |  0.0022 | log10       |
+| alpha   | float  |    5.0050 |  0.0100 |   10.0000 |  1.0688 | log         |
+| neurons | float  |  505.0000 | 10.0000 | 1000.0000 | 20.3597 | sqrt        |
+| bias    | float  |    0.0000 | -5.0000 |    5.0000 |  0.5766 | -           |
+| name    | type   |   default |   lower |     upper |   tuned | transform   |
+|---------|--------|-----------|---------|-----------|---------|-------------|
+| lr      | float  |    0.5005 |  0.0010 |    1.0000 |  0.0022 | log10       |
+| alpha   | float  |    5.0050 |  0.0100 |   10.0000 |  1.0688 | log         |
+| neurons | float  |  505.0000 | 10.0000 | 1000.0000 | 20.3597 | sqrt        |
+| bias    | float  |    0.0000 | -5.0000 |    5.0000 |  0.5766 | -           |
 \end{verbatim}
 
 Output shows the ``trans'' column with transformation types, helping you
@@ -6346,7 +6397,7 @@ Way)}\label{automatic-approach-new-way}
 
 \section{Jupyter Notebook}\label{jupyter-notebook-6}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -6763,7 +6814,7 @@ The method validates inputs and provides clear error messages:
 
 \section{Jupyter Notebook}\label{jupyter-notebook-7}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -6813,9 +6864,9 @@ Logging}\label{enable-tensorboard-logging}
 \end{Shaded}
 
 \begin{verbatim}
-Removed old TensorBoard logs: runs/spotoptim_20251219_131758
+Removed old TensorBoard logs: runs/spotoptim_20251220_100850
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251219_131805
+TensorBoard logging enabled: runs/spotoptim_20251220_100857
 Initial best: f(x) = 2.420807
 Iteration 1: New best f(x) = 2.390307
 Iteration 2: New best f(x) = 1.813139
@@ -6827,9 +6878,9 @@ Iteration 7: New best f(x) = 0.000001
 Iteration 8: f(x) = 0.000001
 Iteration 9: New best f(x) = 0.000001
 Iteration 10: f(x) = 0.000001
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_131805
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251220_100857
 Best value: 0.000001
-Logs saved to: runs/runs/spotoptim_20251219_131805
+Logs saved to: runs/runs/spotoptim_20251220_100857
 \end{verbatim}
 
 \subsection{View Logs in TensorBoard}\label{view-logs-in-tensorboard}
@@ -6861,7 +6912,7 @@ optimization:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Warning}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Warning}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 This permanently deletes all subdirectories in the \texttt{runs} folder.
 Make sure to save important logs elsewhere before enabling this feature.
@@ -6991,9 +7042,9 @@ Usage]\protect\hypertarget{exm-tensorboard-1}{}\label{exm-tensorboard-1}
 \end{Shaded}
 
 \begin{verbatim}
-Removed old TensorBoard logs: runs/spotoptim_20251219_131805
+Removed old TensorBoard logs: runs/spotoptim_20251220_100857
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251219_131808
+TensorBoard logging enabled: runs/spotoptim_20251220_100901
 Initial best: f(x) = 2.420807
 Iteration 1: New best f(x) = 2.390307
 Iteration 2: New best f(x) = 1.813139
@@ -7005,7 +7056,7 @@ Iteration 7: New best f(x) = 0.000001
 Iteration 8: f(x) = 0.000001
 Iteration 9: New best f(x) = 0.000001
 Iteration 10: f(x) = 0.000001
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_131808
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251220_100901
 Best value: 0.000001
 \end{verbatim}
 
@@ -7045,7 +7096,7 @@ Optimization]\protect\hypertarget{exm-tensorboard-noisy}{}\label{exm-tensorboard
 \end{Shaded}
 
 \begin{verbatim}
-Best value: 2.237026
+Best value: 2.217835
 \end{verbatim}
 
 \end{example}
@@ -7083,7 +7134,7 @@ OCBA]\protect\hypertarget{exm-tensorboard-ocba}{}\label{exm-tensorboard-ocba}
 \end{Shaded}
 
 \begin{verbatim}
-Best value: 2.272036
+Best value: 2.417607
 \end{verbatim}
 
 \end{example}
@@ -7155,7 +7206,7 @@ Then view all runs together:
   Check run metadata
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tips}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-tip-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tips}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-tip-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-tip-color-frame, toptitle=1mm]
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -7238,9 +7289,9 @@ Automatic cleaning of old TensorBoard log directories with the
 \end{Shaded}
 
 \begin{verbatim}
-Removed old TensorBoard logs: runs/spotoptim_20251219_131811
+Removed old TensorBoard logs: runs/spotoptim_20251220_100904
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251219_131811
+TensorBoard logging enabled: runs/spotoptim_20251220_100904
 Initial best: f(x) = 2.420807
 Iteration 1: New best f(x) = 2.390307
 Iteration 2: New best f(x) = 1.813139
@@ -7252,9 +7303,9 @@ Iteration 7: New best f(x) = 0.000001
 Iteration 8: f(x) = 0.000001
 Iteration 9: New best f(x) = 0.000001
 Iteration 10: f(x) = 0.000001
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_131811
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251220_100904
 Best value: 0.000001
-Logs saved to: runs/runs/spotoptim_20251219_131811
+Logs saved to: runs/runs/spotoptim_20251220_100904
 \end{verbatim}
 
 \subsection{Use Cases}\label{use-cases-1}
@@ -7340,7 +7391,7 @@ directory \\
   Default is \texttt{False} to prevent accidental deletion
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-warning-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-warning-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Warning}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-warning-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-warning-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -7449,7 +7500,7 @@ TensorBoard logging has minimal overhead:
 
 \section{Jupyter Notebook}\label{jupyter-notebook-8}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -7880,12 +7931,12 @@ Save and load preserves noise statistics for reproducible analysis:
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 2.290197, mean best: f(x) = 2.439957
+Initial best: f(x) = 2.286218, mean best: f(x) = 2.373803
 Experiment saved to noisy_opt_res.pkl
 Result saved to noisy_opt_res.pkl
 Loaded result from noisy_opt_res.pkl
 Noise handling enabled: True
-Best mean value: 2.290197
+Best mean value: 2.286218
 Mean values available: 10
 Variance values available: 10
 \end{verbatim}
@@ -8392,7 +8443,7 @@ definition:
 
 \section{Jupyter Notebook}\label{jupyter-notebook-9}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -8890,8 +8941,8 @@ ensures reproducible noise:
 \end{Shaded}
 
 \begin{verbatim}
-Best mean value: 0.011040
-Variance at best: 0.025471
+Best mean value: 0.165136
+Variance at best: 0.000940
 \end{verbatim}
 
 \textbf{Important}: With the same seed, even the noise will be identical
@@ -9072,7 +9123,7 @@ A: Any integer works. Common choices are 42, 123, or dates (e.g.,
 
 \section{Jupyter Notebook}\label{jupyter-notebook-10}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -9089,7 +9140,7 @@ A: Any integer works. Common choices are 42, 123, or dates (e.g.,
 \chapter{Surrogate Model Selection in
 SpotOptim}\label{sec-surrogate-selection}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \item
@@ -9156,7 +9207,7 @@ the surrogate that best fits your problem characteristics:
   Use \texttt{acquisition=\textquotesingle{}y\textquotesingle{}}.
 \end{itemize}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Acquisition Functions and Uncertainty}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Acquisition Functions and Uncertainty}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-important-color-frame, toptitle=1mm]
 
 Models that provide uncertainty estimates (Gaussian Process, Kriging)
 work with all acquisition functions: `ei' (Expected Improvement), `pi'
@@ -9330,7 +9381,7 @@ performance for most optimization problems.
 Results:
   Best weight: 119.5041 lb
   Function evaluations: 30
-  Time: 40.22s
+  Time: 41.05s
   Success: True
 \end{verbatim}
 
@@ -9450,7 +9501,7 @@ differentiable sample paths, resulting in very smooth predictions.
 Results:
   Best weight: 119.5037 lb
   Function evaluations: 30
-  Time: 46.99s
+  Time: 51.00s
   Success: True
 \end{verbatim}
 
@@ -9568,7 +9619,7 @@ allowing for more flexible (less smooth) fits than ν=2.5.
 Results:
   Best weight: 119.5056 lb
   Function evaluations: 30
-  Time: 39.43s
+  Time: 39.28s
   Success: True
 \end{verbatim}
 
@@ -9688,7 +9739,7 @@ different length scales, providing more flexibility than a single RBF.
 Results:
   Best weight: 119.5061 lb
   Function evaluations: 30
-  Time: 47.80s
+  Time: 46.18s
   Success: True
 \end{verbatim}
 
@@ -9803,7 +9854,7 @@ hyperparameters via differential evolution.
 Results:
   Best weight: 121.1616 lb
   Function evaluations: 30
-  Time: 58.75s
+  Time: 61.31s
   Success: True
 \end{verbatim}
 
@@ -9917,9 +9968,9 @@ the acquisition function uses predictions only.
 ================================================================================
 
 Results:
-  Best weight: 151.2634 lb
+  Best weight: 152.6161 lb
   Function evaluations: 30
-  Time: 1312.54s
+  Time: 996.31s
   Success: True
   Note: Using acquisition='y' (greedy) since RF doesn't provide uncertainty
 \end{verbatim}
@@ -9945,9 +9996,9 @@ Forest}\label{visualization-random-forest}
 
 \begin{verbatim}
 Plotting surrogate contours for top 3 most important parameters:
-  Wdg: importance = 13.97% (type: float)
-  A: importance = 13.89% (type: float)
-  Rtc: importance = 13.32% (type: float)
+  Wdg: importance = 14.76% (type: float)
+  A: importance = 14.44% (type: float)
+  Rtc: importance = 13.91% (type: float)
 
 Generating 3 surrogate plots...
   Plotting Wdg vs A
@@ -10051,7 +10102,7 @@ performance on structured data and fast training/prediction times.
 Results:
   Best weight: 150.8548 lb
   Function evaluations: 30
-  Time: 18.95s
+  Time: 19.18s
   Success: True
   Note: Using acquisition='y' (greedy) since XGBoost doesn't provide uncertainty
 \end{verbatim}
@@ -10151,7 +10202,7 @@ particularly good for high-dimensional problems with smooth structure.
 Results:
   Best weight: 140.0109 lb
   Function evaluations: 30
-  Time: 1.78s
+  Time: 1.74s
   Success: True
 \end{verbatim}
 
@@ -10265,7 +10316,7 @@ previous ones.
 Results:
   Best weight: 124.6772 lb
   Function evaluations: 30
-  Time: 7.36s
+  Time: 7.38s
   Success: True
 \end{verbatim}
 
@@ -10348,16 +10399,16 @@ Now let's compare all surrogate models side-by-side.
 ====================================================================================================
 SURROGATE MODEL COMPARISON
 ====================================================================================================
-                Surrogate  Best Weight  Evaluations    Time (s)  Success  Gap to Best (%)
-                   GP RBF   119.503672           30   46.985573     True         0.000000
-GP Matern ν=2.5 (Default)   119.504103           30   40.223124     True         0.000361
-          GP Matern ν=1.5   119.505612           30   39.425154     True         0.001624
-    GP Rational Quadratic   119.506083           30   47.797715     True         0.002017
-        SpotOptim Kriging   121.161582           30   58.746312     True         1.387330
-        Gradient Boosting   124.677233           30    7.357166     True         4.329207
-                SVR (RBF)   140.010945           30    1.778705     True        17.160371
-                  XGBoost   150.854809           30   18.949425     True        26.234455
-            Random Forest   151.263449           30 1312.544721     True        26.576403
+                Surrogate  Best Weight  Evaluations   Time (s)  Success  Gap to Best (%)
+                   GP RBF   119.503672           30  50.997636     True         0.000000
+GP Matern ν=2.5 (Default)   119.504103           30  41.054601     True         0.000361
+          GP Matern ν=1.5   119.505612           30  39.275846     True         0.001624
+    GP Rational Quadratic   119.506083           30  46.181950     True         0.002017
+        SpotOptim Kriging   121.161582           30  61.309369     True         1.387330
+        Gradient Boosting   124.677233           30   7.379013     True         4.329207
+                SVR (RBF)   140.010945           30   1.735399     True        17.160371
+                  XGBoost   150.854809           30  19.175808     True        26.234455
+            Random Forest   152.616148           30 996.306659     True        27.708333
 ====================================================================================================
 \end{verbatim}
 
@@ -10517,16 +10568,16 @@ KEY INSIGHTS AND RECOMMENDATIONS
 1. BEST OVERALL PERFORMANCE:
    Surrogate: GP RBF
    Best Weight: 119.5037 lb
-   Computation Time: 46.99s
+   Computation Time: 51.00s
 
 2. FASTEST OPTIMIZATION:
    Surrogate: SVR (RBF)
-   Time: 1.78s
+   Time: 1.74s
    Best Weight: 140.0109 lb
 
 3. MOST EFFICIENT (weight reduction per second):
    Surrogate: SVR (RBF)
-   Efficiency: 52.7898 lb/s
+   Efficiency: 54.1071 lb/s
 
 4. RECOMMENDATIONS BY PROBLEM TYPE:
    - Smooth, continuous functions: Gaussian Process with RBF or Matern ν=2.5
@@ -10539,10 +10590,10 @@ KEY INSIGHTS AND RECOMMENDATIONS
 
 5. KERNEL COMPARISON (Gaussian Process):
                 Surrogate  Best Weight  Time (s)
-                   GP RBF   119.503672 46.985573
-GP Matern ν=2.5 (Default)   119.504103 40.223124
-          GP Matern ν=1.5   119.505612 39.425154
-    GP Rational Quadratic   119.506083 47.797715
+                   GP RBF   119.503672 50.997636
+GP Matern ν=2.5 (Default)   119.504103 41.054601
+          GP Matern ν=1.5   119.505612 39.275846
+    GP Rational Quadratic   119.506083 46.181950
 
 ====================================================================================================
 \end{verbatim}
@@ -10590,12 +10641,12 @@ SUMMARY STATISTICS
 ====================================================================================================
             Metric       Value
  Best Weight Found 119.5037 lb
-Worst Weight Found 151.2634 lb
-    Average Weight 129.5542 lb
-    Std Dev Weight  13.8407 lb
-      Fastest Time      1.78 s
-      Slowest Time   1312.54 s
-      Average Time    174.87 s
+Worst Weight Found 152.6161 lb
+    Average Weight 129.7045 lb
+    Std Dev Weight  14.1107 lb
+      Fastest Time      1.74 s
+      Slowest Time    996.31 s
+      Average Time    140.38 s
 ====================================================================================================
 \end{verbatim}
 
@@ -10645,7 +10696,7 @@ high-dimensional problems.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-11}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -10726,38 +10777,38 @@ dividing each dimension into equal-probability intervals.
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 0.871444
-Iteration 1: New best f(x) = 0.338006
-Iteration 2: New best f(x) = 0.159444
-Iteration 3: New best f(x) = 0.000386
-Iteration 4: New best f(x) = 0.000062
-Iteration 5: f(x) = 0.000133
-Iteration 6: New best f(x) = 0.000008
-Iteration 7: New best f(x) = 0.000002
-Iteration 8: New best f(x) = 0.000001
-Iteration 9: New best f(x) = 0.000000
+Initial best: f(x) = 0.567137
+Iteration 1: New best f(x) = 0.000122
+Iteration 2: f(x) = 0.000527
+Iteration 3: New best f(x) = 0.000052
+Iteration 4: New best f(x) = 0.000000
+Iteration 5: New best f(x) = 0.000000
+Iteration 6: New best f(x) = 0.000000
+Iteration 7: New best f(x) = 0.000000
+Iteration 8: f(x) = 0.000000
+Iteration 9: f(x) = 0.000000
 Iteration 10: f(x) = 0.000000
 Iteration 11: New best f(x) = 0.000000
-Iteration 12: New best f(x) = 0.000000
-Iteration 13: New best f(x) = 0.000000
+Iteration 12: f(x) = 0.000000
+Iteration 13: f(x) = 0.000000
 Iteration 14: f(x) = 0.000000
 Iteration 15: f(x) = 0.000000
 Iteration 16: New best f(x) = 0.000000
 Iteration 17: f(x) = 0.000000
-Iteration 18: New best f(x) = 0.000000
+Iteration 18: f(x) = 0.000000
 Iteration 19: f(x) = 0.000000
 Iteration 20: f(x) = 0.000000
-Iteration 21: New best f(x) = 0.000000
+Iteration 21: f(x) = 0.000000
 Iteration 22: f(x) = 0.000000
-Iteration 23: New best f(x) = 0.000000
+Iteration 23: f(x) = 0.000000
 Iteration 24: f(x) = 0.000000
 Iteration 25: f(x) = 0.000000
 Iteration 26: f(x) = 0.000000
 Iteration 27: f(x) = 0.000000
 Iteration 28: f(x) = 0.000000
 Iteration 29: f(x) = 0.000000
-Iteration 30: New best f(x) = 0.000000
-Iteration 31: f(x) = 0.000000
+Iteration 30: f(x) = 0.000000
+Iteration 31: New best f(x) = 0.000000
 Iteration 32: f(x) = 0.000000
 Iteration 33: f(x) = 0.000000
 Iteration 34: f(x) = 0.000000
@@ -10765,8 +10816,8 @@ Iteration 35: f(x) = 0.000000
 Iteration 36: f(x) = 0.000000
 Iteration 37: f(x) = 0.000000
 Iteration 38: f(x) = 0.000000
-Iteration 39: New best f(x) = 0.000000
-Iteration 40: New best f(x) = 0.000000
+Iteration 39: f(x) = 0.000000
+Iteration 40: f(x) = 0.000000
 \end{verbatim}
 
 \subsection{2. Morris-Mitchell Minimizing
@@ -10818,87 +10869,87 @@ points, providing excellent space-filling properties.
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 3.087196
-Iteration 1: New best f(x) = 1.906442
-Iteration 2: f(x) = 6.144501
-Iteration 3: New best f(x) = 1.138221
-Iteration 4: New best f(x) = 1.114553
-Iteration 5: New best f(x) = 0.763552
-Iteration 6: New best f(x) = 0.723764
-Iteration 7: New best f(x) = 0.617539
-Iteration 8: New best f(x) = 0.517866
-Iteration 9: New best f(x) = 0.464276
-Iteration 10: New best f(x) = 0.371786
-Iteration 11: New best f(x) = 0.304829
-Iteration 12: New best f(x) = 0.265877
-Iteration 13: New best f(x) = 0.235744
-Iteration 14: New best f(x) = 0.203610
-Iteration 15: New best f(x) = 0.177147
-Iteration 16: New best f(x) = 0.152941
-Iteration 17: New best f(x) = 0.128833
-Iteration 18: New best f(x) = 0.115489
-Iteration 19: New best f(x) = 0.106921
-Iteration 20: New best f(x) = 0.101169
-Iteration 21: New best f(x) = 0.096403
-Iteration 22: New best f(x) = 0.091854
-Iteration 23: New best f(x) = 0.088908
-Iteration 24: New best f(x) = 0.086372
-Iteration 25: New best f(x) = 0.083677
-Iteration 26: New best f(x) = 0.077007
-Iteration 27: New best f(x) = 0.067597
-Iteration 28: New best f(x) = 0.062836
-Iteration 29: f(x) = 0.063332
-Iteration 30: New best f(x) = 0.062035
-Iteration 31: New best f(x) = 0.059398
-Iteration 32: New best f(x) = 0.055962
-Iteration 33: New best f(x) = 0.052990
-Iteration 34: New best f(x) = 0.050792
-Iteration 35: New best f(x) = 0.049584
-Iteration 36: New best f(x) = 0.048346
-Iteration 37: New best f(x) = 0.046429
-Iteration 38: New best f(x) = 0.044022
-Iteration 39: New best f(x) = 0.041787
-Iteration 40: New best f(x) = 0.040221
-Iteration 41: New best f(x) = 0.039208
-Iteration 42: New best f(x) = 0.038333
-Iteration 43: New best f(x) = 0.037128
-Iteration 44: New best f(x) = 0.035260
-Iteration 45: New best f(x) = 0.033415
-Iteration 46: New best f(x) = 0.031783
-Iteration 47: New best f(x) = 0.030962
-Iteration 48: New best f(x) = 0.030644
-Iteration 49: New best f(x) = 0.030607
-Iteration 50: f(x) = 0.030632
-Iteration 51: New best f(x) = 0.030458
-Iteration 52: New best f(x) = 0.030365
-Iteration 53: New best f(x) = 0.030045
-Iteration 54: New best f(x) = 0.029470
-Iteration 55: New best f(x) = 0.028093
-Iteration 56: New best f(x) = 0.026835
-Iteration 57: New best f(x) = 0.025946
-Iteration 58: New best f(x) = 0.025040
-Iteration 59: New best f(x) = 0.024243
-Iteration 60: New best f(x) = 0.023720
-Iteration 61: New best f(x) = 0.023249
-Iteration 62: New best f(x) = 0.022672
-Iteration 63: New best f(x) = 0.021873
-Iteration 64: New best f(x) = 0.021043
-Iteration 65: New best f(x) = 0.020169
-Iteration 66: New best f(x) = 0.019511
-Iteration 67: New best f(x) = 0.019136
-Iteration 68: New best f(x) = 0.019097
-Iteration 69: New best f(x) = 0.019045
-Iteration 70: f(x) = 0.019097
-Iteration 71: New best f(x) = 0.018995
-Iteration 72: New best f(x) = 0.018897
-Iteration 73: New best f(x) = 0.018890
-Iteration 74: New best f(x) = 0.018740
-Iteration 75: New best f(x) = 0.018571
-Iteration 76: New best f(x) = 0.018271
-Iteration 77: New best f(x) = 0.017631
-Iteration 78: New best f(x) = 0.016697
-Iteration 79: New best f(x) = 0.015835
-Iteration 80: New best f(x) = 0.015069
+Initial best: f(x) = 5.442086
+Iteration 1: New best f(x) = 4.152067
+Iteration 2: New best f(x) = 1.377723
+Iteration 3: New best f(x) = 1.294867
+Iteration 4: New best f(x) = 1.181174
+Iteration 5: f(x) = 2.555825
+Iteration 6: New best f(x) = 0.236822
+Iteration 7: New best f(x) = 0.233288
+Iteration 8: f(x) = 2.371494
+Iteration 9: f(x) = 0.250390
+Iteration 10: New best f(x) = 0.225073
+Iteration 11: New best f(x) = 0.207326
+Iteration 12: New best f(x) = 0.195699
+Iteration 13: New best f(x) = 0.185261
+Iteration 14: New best f(x) = 0.176937
+Iteration 15: New best f(x) = 0.169353
+Iteration 16: New best f(x) = 0.161182
+Iteration 17: New best f(x) = 0.154567
+Iteration 18: New best f(x) = 0.151787
+Iteration 19: New best f(x) = 0.151052
+Iteration 20: f(x) = 0.151476
+Iteration 21: f(x) = 0.151543
+Iteration 22: New best f(x) = 0.150745
+Iteration 23: New best f(x) = 0.148137
+Iteration 24: New best f(x) = 0.140714
+Iteration 25: New best f(x) = 0.136748
+Iteration 26: New best f(x) = 0.132837
+Iteration 27: New best f(x) = 0.128087
+Iteration 28: New best f(x) = 0.124831
+Iteration 29: New best f(x) = 0.122603
+Iteration 30: New best f(x) = 0.119469
+Iteration 31: New best f(x) = 0.115461
+Iteration 32: New best f(x) = 0.111383
+Iteration 33: New best f(x) = 0.108701
+Iteration 34: New best f(x) = 0.105350
+Iteration 35: New best f(x) = 0.102811
+Iteration 36: New best f(x) = 0.100960
+Iteration 37: New best f(x) = 0.098896
+Iteration 38: New best f(x) = 0.095172
+Iteration 39: New best f(x) = 0.092656
+Iteration 40: f(x) = 0.092973
+Iteration 41: New best f(x) = 0.091626
+Iteration 42: New best f(x) = 0.090394
+Iteration 43: New best f(x) = 0.087906
+Iteration 44: New best f(x) = 0.085668
+Iteration 45: New best f(x) = 0.083799
+Iteration 46: New best f(x) = 0.080923
+Iteration 47: New best f(x) = 0.078246
+Iteration 48: New best f(x) = 0.075868
+Iteration 49: New best f(x) = 0.073305
+Iteration 50: New best f(x) = 0.070281
+Iteration 51: New best f(x) = 0.067384
+Iteration 52: New best f(x) = 0.064653
+Iteration 53: New best f(x) = 0.061396
+Iteration 54: New best f(x) = 0.057927
+Iteration 55: New best f(x) = 0.054721
+Iteration 56: New best f(x) = 0.051302
+Iteration 57: New best f(x) = 0.048085
+Iteration 58: New best f(x) = 0.046212
+Iteration 59: New best f(x) = 0.045729
+Iteration 60: f(x) = 0.045775
+Iteration 61: f(x) = 0.045869
+Iteration 62: New best f(x) = 0.045468
+Iteration 63: New best f(x) = 0.044802
+Iteration 64: New best f(x) = 0.043067
+Iteration 65: New best f(x) = 0.040477
+Iteration 66: f(x) = 0.040953
+Iteration 67: New best f(x) = 0.040072
+Iteration 68: New best f(x) = 0.039576
+Iteration 69: New best f(x) = 0.038934
+Iteration 70: New best f(x) = 0.037763
+Iteration 71: New best f(x) = 0.036849
+Iteration 72: New best f(x) = 0.036437
+Iteration 73: New best f(x) = 0.036404
+Iteration 74: New best f(x) = 0.036182
+Iteration 75: New best f(x) = 0.035699
+Iteration 76: New best f(x) = 0.035290
+Iteration 77: New best f(x) = 0.033974
+Iteration 78: New best f(x) = 0.032053
+Iteration 79: New best f(x) = 0.031661
+Iteration 80: f(x) = 0.031987
 \end{verbatim}
 
 \section{How It Works}\label{how-it-works-1}
@@ -11471,7 +11522,7 @@ evaluation budget
 
 \section{Jupyter Notebook}\label{jupyter-notebook-12}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -11690,7 +11741,7 @@ Modular design & ✓ (utils.aggregate) & ✓ (class methods) \\
 
 \section{Jupyter Notebook}\label{jupyter-notebook-13}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -12076,7 +12127,7 @@ Potential additions:
 
 \section{Jupyter Notebook}\label{jupyter-notebook-14}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -13647,7 +13698,7 @@ variable types \\
 
 \section{Jupyter Notebook}\label{jupyter-notebook-15}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -13932,7 +13983,7 @@ the book.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-16}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -14147,7 +14198,7 @@ factors) before the Nystroem projection occurs.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-17}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -15066,7 +15117,7 @@ DTLZ2 Characteristics:
 - Scalable number of objectives
 - Pareto front is unit sphere: Σf_i² = 1
 - Concave, unimodal
-- Sample: sum of squares = 2.8680
+- Sample: sum of squares = 3.3716
 \end{verbatim}
 
 Optimize DTLZ2 with 3 objectives:
@@ -15426,7 +15477,8 @@ The RandomForestRegressor models are fitted for each objective.
 \end{Shaded}
 
 \begin{verbatim}
-phi_base: 5.917699358173764, J_base: [1 1 1 ... 1 1 1], d_base: [0.00172127 0.00181656 0.00199092 ... 1.36864838 1.37506567 1.3976137 ]
+phi_base: 7.664691627178843, J_base: [1 1 1 ... 1 1 1], d_base: [6.89559224e-04 1.02332316e-03 1.77989575e-03 ... 1.35275283e+00
+ 1.37109144e+00 1.37655463e+00]
 \end{verbatim}
 
 Figure~\ref{fig-mo-xy-surface-plot} shows the surfaces of the two
@@ -15588,8 +15640,8 @@ point:
 \end{Shaded}
 
 \begin{verbatim}
-Negative Desirability: -0.7453145739475663
-Objectives: [np.float64(1.5057151149900851), np.float64(1.490887594873969)]
+Negative Desirability: -0.7389272646499959
+Objectives: [np.float64(1.4891072624235804), np.float64(1.5188221414320862)]
 \end{verbatim}
 
 \begin{Shaded}
@@ -15610,7 +15662,7 @@ Objectives: [np.float64(1.5057151149900851), np.float64(1.490887594873969)]
 
 \section{Jupyter Notebook}\label{jupyter-notebook-18}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -15672,7 +15724,7 @@ First, let's import the necessary libraries:
 \end{Shaded}
 
 \begin{verbatim}
-<torch._C.Generator at 0x10eb0e830>
+<torch._C.Generator at 0x10e126770>
 \end{verbatim}
 
 \chapter{The Neural Network}\label{the-neural-network}
@@ -16247,7 +16299,7 @@ architecture and learning rate for your specific PINN problem.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-19}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -16873,9 +16925,9 @@ Factor variable at dimension 2:
 Factor variable at dimension 3:
   Levels: ['Adam', 'SGD', 'RMSprop', 'AdamW']
   Mapped to integers: 0 to 3
-Removed old TensorBoard logs: runs/spotoptim_20251219_145536
+Removed old TensorBoard logs: runs/spotoptim_20251220_114016
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251219_145654
+TensorBoard logging enabled: runs/spotoptim_20251220_114133
 \end{verbatim}
 
 Display search space configuration. The \texttt{trans}column shows
@@ -16893,14 +16945,22 @@ transformed).
 \end{Shaded}
 
 \begin{verbatim}
-| name       | type   | lower   | upper   | default   | trans   |
-|------------|--------|---------|---------|-----------|---------|
-| l1         | int    | 16.0    | 128.0   | 72        | -       |
-| num_layers | int    | 1.0     | 4.0     | 2         | -       |
-| activation | factor | Tanh    | GELU    | Sigmoid   | -       |
-| optimizer  | factor | Adam    | AdamW   | RMSprop   | -       |
-| lr_unified | float  | 0.1     | 10.0    | 5.05      | log10   |
-| alpha      | float  | 0.01    | 1.0     | 0.505     | log10   |
+| name       | type   | lower   | upper   | default   | transform   |
+|------------|--------|---------|---------|-----------|-------------|
+| l1         | int    | 16.0    | 128.0   | 72        | -           |
+| num_layers | int    | 1.0     | 4.0     | 2         | -           |
+| activation | factor | Tanh    | GELU    | Sigmoid   | -           |
+| optimizer  | factor | Adam    | AdamW   | RMSprop   | -           |
+| lr_unified | float  | 0.1     | 10.0    | 5.05      | log10       |
+| alpha      | float  | 0.01    | 1.0     | 0.505     | log10       |
+| name       | type   | lower   | upper   | default   | transform   |
+|------------|--------|---------|---------|-----------|-------------|
+| l1         | int    | 16.0    | 128.0   | 72        | -           |
+| num_layers | int    | 1.0     | 4.0     | 2         | -           |
+| activation | factor | Tanh    | GELU    | Sigmoid   | -           |
+| optimizer  | factor | Adam    | AdamW   | RMSprop   | -           |
+| lr_unified | float  | 0.1     | 10.0    | 5.05      | log10       |
+| alpha      | float  | 0.01    | 1.0     | 0.505     | log10       |
 \end{verbatim}
 
 Run optimization
@@ -17005,7 +17065,7 @@ Configuration 1/1:
   optimizer=AdamW, lr_unified=0.9493, alpha=0.3979
   Validation MSE: 0.168582
 Iteration 6: f(x) = 0.168582
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251219_145654
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251220_114133
 \end{verbatim}
 
 \chapter{Results Analysis}\label{results-analysis}
@@ -17074,16 +17134,26 @@ Display comprehensive results table with importance scores
 \end{Shaded}
 
 \begin{verbatim}
-| name       | type   | lower   | upper   | tuned               | trans   |   importance | stars   |
-|------------|--------|---------|---------|---------------------|---------|--------------|---------|
-| l1         | int    | 16.0    | 128.0   | 110                 | -       |        10.99 | *       |
-| num_layers | int    | 1.0     | 4.0     | 4                   | -       |        28.95 | *       |
-| activation | factor | Tanh    | GELU    | ReLU                | -       |        33.13 | *       |
-| optimizer  | factor | Adam    | AdamW   | AdamW               | -       |         2.77 | *       |
-| lr_unified | float  | 0.1     | 10.0    | 1.8630186679138154  | log10   |         7.77 | *       |
-| alpha      | float  | 0.01    | 1.0     | 0.38731466430172934 | log10   |        16.38 | *       |
+| name       | type   | default   | lower   | upper   | tuned               | transform   |   importance | stars   |
+|------------|--------|-----------|---------|---------|---------------------|-------------|--------------|---------|
+| l1         | int    | 72        | 16.0    | 128.0   | 110                 | -           |        10.99 | .       |
+| num_layers | int    | 2         | 1.0     | 4.0     | 4                   | -           |        28.95 | .       |
+| activation | factor | Sigmoid   | Tanh    | GELU    | ReLU                | -           |        33.13 | .       |
+| optimizer  | factor | RMSprop   | Adam    | AdamW   | AdamW               | -           |         2.77 |         |
+| lr_unified | float  | 5.05      | 0.1     | 10.0    | 1.8630186679138154  | log10       |         7.77 |         |
+| alpha      | float  | 0.505     | 0.01    | 1.0     | 0.38731466430172934 | log10       |        16.38 | .       |
 
-Interpretation: ***: >95%, **: >50%, *: >1%, .: >0.1%
+Interpretation: ***: >99%, **: >75%, *: >50%, .: >10%
+| name       | type   | default   | lower   | upper   | tuned               | transform   |   importance | stars   |
+|------------|--------|-----------|---------|---------|---------------------|-------------|--------------|---------|
+| l1         | int    | 72        | 16.0    | 128.0   | 110                 | -           |        10.99 | .       |
+| num_layers | int    | 2         | 1.0     | 4.0     | 4                   | -           |        28.95 | .       |
+| activation | factor | Sigmoid   | Tanh    | GELU    | ReLU                | -           |        33.13 | .       |
+| optimizer  | factor | RMSprop   | Adam    | AdamW   | AdamW               | -           |         2.77 |         |
+| lr_unified | float  | 5.05      | 0.1     | 10.0    | 1.8630186679138154  | log10       |         7.77 |         |
+| alpha      | float  | 0.505     | 0.01    | 1.0     | 0.38731466430172934 | log10       |        16.38 | .       |
+
+Interpretation: ***: >99%, **: >75%, *: >50%, .: >10%
 \end{verbatim}
 
 \section{Optimization History}\label{optimization-history}
@@ -17759,7 +17829,7 @@ held-out test data.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-20}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -18834,7 +18904,7 @@ Actual learning rate used: 0.010000
 
 \section{Jupyter Notebook}\label{jupyter-notebook-21}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -18978,12 +19048,12 @@ Batch targets: torch.Size([32, 1])
 \end{Shaded}
 
 \begin{verbatim}
-Epoch 20/100: Loss = 27436.8831
-Epoch 40/100: Loss = 36075.3145
-Epoch 60/100: Loss = 31644.6032
-Epoch 80/100: Loss = 27608.1511
-Epoch 100/100: Loss = 27643.8054
-Test MSE: 26403.6647
+Epoch 20/100: Loss = 27494.3093
+Epoch 40/100: Loss = 29340.1888
+Epoch 60/100: Loss = 27948.9766
+Epoch 80/100: Loss = 27642.7507
+Epoch 100/100: Loss = 27600.7547
+Test MSE: 26517.6699
 \end{verbatim}
 
 \section{Function Reference}\label{function-reference-1}
@@ -19011,8 +19081,8 @@ DataLoaders.
 \end{Shaded}
 
 \begin{verbatim}
-(<torch.utils.data.dataloader.DataLoader at 0x11b1cc770>,
- <torch.utils.data.dataloader.DataLoader at 0x11b1e5490>,
+(<torch.utils.data.dataloader.DataLoader at 0x11d0950f0>,
+ <torch.utils.data.dataloader.DataLoader at 0x11d12deb0>,
  StandardScaler())
 \end{verbatim}
 
@@ -19105,7 +19175,7 @@ PyTorch Dataset implementation for the diabetes dataset.
 \end{Shaded}
 
 \begin{verbatim}
-<spotoptim.data.diabetes.DiabetesDataset at 0x11b11a950>
+<spotoptim.data.diabetes.DiabetesDataset at 0x11d06bb50>
 \end{verbatim}
 
 \textbf{Parameters:}
@@ -19292,7 +19362,7 @@ Test samples: 45
 
 \begin{verbatim}
 Scaler: None
-Mean: tensor([-0.0102,  0.0120,  0.0071])
+Mean: tensor([0.0142, 0.0030, 0.0132])
 \end{verbatim}
 
 \subsection{Larger Batch Sizes}\label{larger-batch-sizes}
@@ -19460,19 +19530,19 @@ Training samples: 353
 Test samples: 89
 Batches per epoch: 12
 ------------------------------------------------------------
-Epoch  20/200: Train Loss = 28492.3632, Test Loss = 26645.1543
-Epoch  40/200: Train Loss = 29022.1919, Test Loss = 26640.9922
-Epoch  60/200: Train Loss = 28297.8351, Test Loss = 26636.8587
-Epoch  80/200: Train Loss = 35126.2936, Test Loss = 26632.7253
-Epoch 100/200: Train Loss = 33597.6911, Test Loss = 26628.3783
-Epoch 120/200: Train Loss = 30442.5654, Test Loss = 26623.9824
-Epoch 140/200: Train Loss = 27860.3028, Test Loss = 26619.4785
-Epoch 160/200: Train Loss = 34179.3517, Test Loss = 26614.8392
-Epoch 180/200: Train Loss = 27850.0359, Test Loss = 26610.0176
-Epoch 200/200: Train Loss = 27534.1029, Test Loss = 26605.0078
+Epoch  20/200: Train Loss = 28948.9683, Test Loss = 26638.0827
+Epoch  40/200: Train Loss = 27534.8274, Test Loss = 26633.5352
+Epoch  60/200: Train Loss = 27730.8024, Test Loss = 26629.1048
+Epoch  80/200: Train Loss = 35064.4762, Test Loss = 26624.5521
+Epoch 100/200: Train Loss = 29947.0649, Test Loss = 26620.0820
+Epoch 120/200: Train Loss = 33625.0223, Test Loss = 26615.4421
+Epoch 140/200: Train Loss = 32708.0872, Test Loss = 26610.6647
+Epoch 160/200: Train Loss = 28962.4118, Test Loss = 26605.8444
+Epoch 180/200: Train Loss = 28625.3312, Test Loss = 26600.7832
+Epoch 200/200: Train Loss = 34682.6623, Test Loss = 26595.5202
 ------------------------------------------------------------
 Training complete!
-Best test loss: 26605.0078
+Best test loss: 26595.5202
 \end{verbatim}
 
 \section{Integration with SpotOptim}\label{integration-with-spotoptim-1}
@@ -19574,70 +19644,68 @@ Use the diabetes dataset for hyperparameter optimization with SpotOptim:
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 26542.720703
-Iteration 1: f(x) = 26654.177083
+Initial best: f(x) = 26560.914062
+Iteration 1: f(x) = 26619.498047
+Iteration 2: f(x) = 26657.300130
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 2: f(x) = 26639.423177
+Iteration 3: f(x) = 26630.593750
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 3: f(x) = 26627.144531
+Iteration 4: f(x) = 26684.070964
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 4: f(x) = 26627.667318
+Iteration 5: f(x) = 26571.974609
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 5: f(x) = 26640.149089
+Iteration 6: f(x) = 26645.708984
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 6: f(x) = 26652.813802
+Iteration 7: New best f(x) = 26518.239583
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 7: f(x) = 26680.123698
+Iteration 8: f(x) = 26651.987630
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 8: f(x) = 26643.585938
+Iteration 9: f(x) = 26621.998047
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 9: New best f(x) = 26522.952474
+Iteration 10: f(x) = 26546.020182
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 10: f(x) = 26631.783854
+Iteration 11: f(x) = 26642.139323
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 11: f(x) = 26558.871745
+Iteration 12: f(x) = 26545.641276
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 12: f(x) = 26596.599609
+Iteration 13: f(x) = 26573.894531
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 13: f(x) = 26685.022786
+Iteration 14: f(x) = 26657.354167
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 14: f(x) = 26601.792318
+Iteration 15: f(x) = 26578.886068
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 15: f(x) = 26638.404297
+Iteration 16: f(x) = 26606.752604
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 16: f(x) = 26685.129557
+Iteration 17: f(x) = 26688.576823
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 17: f(x) = 26637.544271
+Iteration 18: f(x) = 26639.442708
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 18: f(x) = 26620.670573
+Iteration 19: f(x) = 26620.895833
   Attempt 2/10: Previous point was duplicate after rounding, trying fallback
 Acquisition failure: Using random space-filling design as fallback.
-Iteration 19: f(x) = 26611.211589
-  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
-Acquisition failure: Using random space-filling design as fallback.
-Iteration 20: f(x) = 26635.621094
+Iteration 20: f(x) = 26578.162760
 Best hyperparameters found:
-  Learning rate: 0.008677
-  Hidden neurons (l1): 79
-  Hidden layers: 3
-  Best MSE: 26522.9525
+  Learning rate: 0.005901
+  Hidden neurons (l1): 53
+  Hidden layers: 2
+  Best MSE: 26518.2396
 \end{verbatim}
 
 \section{Best Practices}\label{best-practices-8}
@@ -19673,7 +19741,7 @@ Reproducibility}\label{set-random-seeds-for-reproducibility}
 \end{Shaded}
 
 \begin{verbatim}
-<torch._C.Generator at 0x114a31db0>
+<torch._C.Generator at 0x116961e50>
 \end{verbatim}
 
 \subsection{3. Don't Shuffle Test Data}\label{dont-shuffle-test-data}
@@ -19740,7 +19808,7 @@ Production}\label{save-the-scaler-for-production}
 \begin{verbatim}
 Original data shape: (5, 10)
 Scaled data shape: (5, 10)
-Scaled data mean: [  9.56841764 -17.571974    -3.76569678]
+Scaled data mean: [7.45507756 0.05846817 5.04323937]
 \end{verbatim}
 
 \section{Troubleshooting}\label{troubleshooting-5}
@@ -19833,7 +19901,7 @@ The diabetes dataset utilities in SpotOptim provide:
 
 \section{Jupyter Notebook}\label{jupyter-notebook-22}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -22228,7 +22296,7 @@ defaults for most use cases.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-23}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -22244,7 +22312,7 @@ defaults for most use cases.
 
 \chapter{Aircraft Wing Weight Example}\label{sec-awwe}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -22837,7 +22905,7 @@ Experiments}\label{summary-of-the-first-experiments}
 
 \section{Jupyter Notebook}\label{jupyter-notebook-24}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -23263,7 +23331,7 @@ decision-making tasks.
 
 \chapter{Sampling Plans}\label{sampling-plans}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -23773,10 +23841,10 @@ Matrix]\protect\hypertarget{exm-randorient-3}{}\label{exm-randorient-3}
 
 \begin{verbatim}
 Random orientation of the sampling matrix:
-[[0.  0.  0. ]
- [0.5 0.  0. ]
- [0.5 0.  0.5]
- [0.5 0.5 0.5]]
+[[0.5 0.  0.5]
+ [0.5 0.5 0.5]
+ [0.  0.5 0.5]
+ [0.  0.5 0. ]]
 \end{verbatim}
 
 \end{example}
@@ -24040,7 +24108,7 @@ function. Example based on Forrester, Sóbester, and Keane (2008).}
 
 \end{figure}%
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nondeterministic Results}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nondeterministic Results}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 The code will generate a slightly different screening plan each time, as
 it uses random orientations of the sampling matrix \(B\).
@@ -24412,10 +24480,10 @@ points and edges=0:
 
 \begin{verbatim}
 [[0.3 0.1]
- [0.5 0.9]
+ [0.5 0.7]
+ [0.9 0.5]
  [0.7 0.3]
- [0.9 0.7]
- [0.1 0.5]]
+ [0.1 0.9]]
 \end{verbatim}
 
 Figure~\ref{fig-rlh-edges0} shows the points in the unit hypercube for
@@ -24450,11 +24518,11 @@ points and edges=1:
 \end{Shaded}
 
 \begin{verbatim}
-[[0.   0.  ]
- [0.25 1.  ]
- [0.75 0.5 ]
- [0.5  0.25]
- [1.   0.75]]
+[[0.5  0.  ]
+ [1.   0.75]
+ [0.75 0.25]
+ [0.   1.  ]
+ [0.25 0.5 ]]
 \end{verbatim}
 
 Figure~\ref{fig-rlh-edges1} shows the points in the unit hypercube for
@@ -25084,8 +25152,8 @@ plans in 3D space:
 \end{Shaded}
 
 \begin{verbatim}
-[2 1]
-[2 1]
+[1 2]
+[1 2]
 \end{verbatim}
 
 \end{example}
@@ -25200,10 +25268,10 @@ Original Sampling Plan:
  [3 1]
  [4 2]]
 Perturbed Sampling Plan:
-[[2 3]
- [1 4]
- [3 1]
- [4 2]]
+[[1 3]
+ [2 4]
+ [4 1]
+ [3 2]]
 \end{verbatim}
 
 \end{example}
@@ -25382,10 +25450,10 @@ Initial plan:
  [0.2 0.9]
  [0.9 0.2]]
 Optimized plan:
-[[0.1 0.2]
- [0.2 0.4]
+[[0.9 0.3]
  [0.1 0.9]
- [0.9 0.3]]
+ [0.2 0.4]
+ [0.1 0.2]]
 \end{verbatim}
 
 Figure~\ref{fig-forre08a-3} shows the initial and optimized plans in 2D.
@@ -25607,8 +25675,8 @@ properties using the Morris-Mitchell criterion.
 Calculating Morris-Mitchell metric (smaller is better):
   Grid (4x4): 20.2617
   LHS: 28.1868
-  Sobol: 28.2119
-  Random: 44.5987
+  Sobol: 28.9710
+  Random: 60.3385
   Collinear: 87.8829
   Clustered (3 clusters): 90.3702
 \end{verbatim}
@@ -26070,7 +26138,7 @@ Criteria for Different Sample Sizes}
 
 \section{Jupyter Notebook}\label{jupyter-notebook-25}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -26084,7 +26152,7 @@ Criteria for Different Sample Sizes}
 
 \chapter{Constructing a Surrogate}\label{constructing-a-surrogate}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 This section is based on chapter 2 in Forrester, Sóbester, and Keane
 (2008).
@@ -26258,7 +26326,7 @@ around each data point).
 
 \end{definition}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Maximum Likelihood Estimation}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Maximum Likelihood Estimation}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \textbf{?@sec-max-likelihood} presents a more detailed discussion of the
 maximum likelihood estimation (MLE) method.
@@ -26419,7 +26487,7 @@ for dissolving more sugar.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-26}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -26447,7 +26515,7 @@ models, which are used to replace the real-world problem with a simpler
 problem. The simpler problem is then solved numerically. The solution of
 the simpler problem is then used to solve the real-world problem.
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Numerical methods: Goals}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-important-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Numerical methods: Goals}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-important-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -27592,7 +27660,7 @@ RSM}\label{historical-considerations-about-rsm}
 
 \section{Jupyter Notebook}\label{jupyter-notebook-27}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -27606,7 +27674,7 @@ RSM}\label{historical-considerations-about-rsm}
 
 \chapter{Polynomial Models}\label{polynomial-models}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -28105,7 +28173,7 @@ Basis Functions and Kriging, which we'll examine in subsequent sections.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-28}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -28119,7 +28187,7 @@ Basis Functions and Kriging, which we'll examine in subsequent sections.
 
 \chapter{Radial Basis Function Models}\label{sec-rbf}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -29369,7 +29437,7 @@ both the underlying function and the noise process.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-29}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -29384,7 +29452,7 @@ both the underlying function and the noise process.
 \chapter{Kriging (Gaussian Process
 Regression)}\label{kriging-gaussian-process-regression}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -30796,7 +30864,7 @@ First 5 predicted f values:
 
 \section{Jupyter Notebook}\label{jupyter-notebook-30}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -32188,7 +32256,7 @@ types in both standard and Nyström modes.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-31}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -32398,7 +32466,7 @@ and incorporates a small epsilon value.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-32}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
@@ -32622,6 +32690,7 @@ distinguish between two solutions with sufficient statistical power.
 We evaluate a random design point 30 times to estimate the standard
 deviation of the noise.
 
+\phantomsection\label{noise-estimation}
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
@@ -32635,15 +32704,20 @@ deviation of the noise.
 \NormalTok{noise\_samples }\OperatorTok{=}\NormalTok{ []}
 \ControlFlowTok{for}\NormalTok{ \_ }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{30}\NormalTok{):}
 \NormalTok{    noise\_samples.append(objective\_remote(x\_sample)[}\DecValTok{0}\NormalTok{])}
-
-\NormalTok{sigma\_est }\OperatorTok{=}\NormalTok{ statistics.stdev(noise\_samples)}
-\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Estimated Noise (sigma): }\SpecialCharTok{\{}\NormalTok{sigma\_est}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
+\CommentTok{\# remove None values}
+\NormalTok{noise\_samples }\OperatorTok{=}\NormalTok{ [x }\ControlFlowTok{for}\NormalTok{ x }\KeywordTok{in}\NormalTok{ noise\_samples }\ControlFlowTok{if}\NormalTok{ x }\KeywordTok{is} \KeywordTok{not} \VariableTok{None}\NormalTok{]}
+\CommentTok{\# heck if there are enough values for stdev}
+\ControlFlowTok{if} \BuiltInTok{len}\NormalTok{(noise\_samples) }\OperatorTok{\textless{}} \DecValTok{2}\NormalTok{:}
+    \ControlFlowTok{raise} \PreprocessorTok{ValueError}\NormalTok{(}\StringTok{"Not enough samples for stdev estimation"}\NormalTok{)}
+\ControlFlowTok{else}\NormalTok{:}
+\NormalTok{    sigma\_est }\OperatorTok{=}\NormalTok{ statistics.stdev(noise\_samples)}
+    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Estimated Noise (sigma): }\SpecialCharTok{\{}\NormalTok{sigma\_est}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 Estimating noise...
-Estimated Noise (sigma): 0.1147
+Estimated Noise (sigma): 0.1009
 \end{verbatim}
 
 \subsection{\texorpdfstring{2. Determining Sample Size
@@ -32832,27 +32906,27 @@ Starting Benchmark: 5 runs, opt budget 50, validation n=17...
 
 --- SpotOptim ---
 Run 1/5
-  Best found: 23.2765 -> Validated Mean: 23.3946
+  Best found: 23.3024 -> Validated Mean: 23.3744
 Run 2/5
-  Best found: 27.9360 -> Validated Mean: 27.8421
+  Best found: 28.0052 -> Validated Mean: 27.8481
 Run 3/5
-  Best found: 16.3275 -> Validated Mean: 16.4507
+  Best found: 17.0327 -> Validated Mean: 16.9767
 Run 4/5
-  Best found: 14.5564 -> Validated Mean: 14.6043
+  Error in SpotOptim run 3: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 5/5
-  Best found: 18.4687 -> Validated Mean: 18.5058
+  Best found: 18.5741 -> Validated Mean: 18.4872
 
 --- Scipy L-BFGS-B ---
 Run 1/5
-  Best found: 55.2114 -> Validated Mean: 55.3515
+  Error in Scipy run 0: '<' not supported between instances of 'NoneType' and 'float'
 Run 2/5
-  Best found: 34.0777 -> Validated Mean: 34.3167
+  Error in Scipy run 1: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 3/5
-  Best found: 38.7487 -> Validated Mean: 38.9782
+  Error in Scipy run 2: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 4/5
-  Error in Scipy run 3: '>' not supported between instances of 'float' and 'NoneType'
+  Best found: 49.1201 -> Validated Mean: 49.2306
 Run 5/5
-  Error in Scipy run 4: '>' not supported between instances of 'float' and 'NoneType'
+  Best found: 39.6123 -> Validated Mean: 39.7255
 
 Experiments completed.
 \end{verbatim}
@@ -32981,10 +33055,10 @@ is Better)}
 
 \begin{verbatim}
 Statistical Comparison (Welch's t-test):
-  SpotOptim Mean: 20.1595 (std: 4.8340)
-  Scipy Mean:     42.8821 (std: 9.0202)
-  T-statistic: -3.3314
-  P-value: 0.0554
+  SpotOptim Mean: 21.6716 (std: 4.2788)
+  Scipy Mean:     44.4781 (std: 4.7526)
+  T-statistic: -4.2579
+  P-value: 0.0761
   Result: No significant difference detected (p >= 0.05).
 \end{verbatim}
 
@@ -33014,7 +33088,7 @@ random noise.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-33}
 
-\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colback=white, left=2mm, bottomtitle=1mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, rightrule=.15mm, opacitybacktitle=0.6, toptitle=1mm, coltitle=black, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, colframe=quarto-callout-note-color-frame, breakable]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, titlerule=0mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, bottomrule=.15mm, arc=.35mm, breakable, bottomtitle=1mm, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, toptitle=1mm]
 
 \begin{itemize}
 \tightlist
