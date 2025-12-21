@@ -1,6 +1,5 @@
 ---
 title: Multi-Objective Optimization Support in SpotOptim
-sidebar_position: 5
 eval: true
 ---
 
@@ -34,17 +33,18 @@ from spotdesirability.utils.desirability import DMin, DMax, DOverall
 from spotoptim.sampling.mm import mmphi_intensive, mmphi_intensive_update, mm_improvement_contour
 from spotoptim.inspection.predictions import plot_actual_vs_predicted
 from spotoptim.inspection import (generate_mdi, generate_imp, plot_importances, plot_feature_importances, plot_feature_scatter_matrix)
+
 from spotoptim.utils.boundaries import get_boundaries, map_to_original_scale
+from spotoptim.mo.pareto import is_pareto_efficient
+from spotoptim.plot.mo import plot_mo
 from spotoptim.eda import plot_ip_boxplots, plot_ip_histograms
 from spotoptim.utils import get_combinations
 from spotoptim.sampling.lhs import rlh
 from spotoptim.sampling.mm import (bestlh, plot_mmphi_vs_n_lhs, mmphi, mmphi_intensive, mm_improvement, plot_mmphi_vs_points, mmphi_intensive_update)
+from spotoptim.mo import mo_mm_desirability_function, mo_mm_desirability_optimizer
 from spotoptim.mo.mo_mm import mo_xy_desirability_plot
 from spotoptim.function.mo import mo_conv2_max
 from spotoptim.mo.pareto import (mo_xy_surface, mo_xy_contour, mo_pareto_optx_plot)
-from spotoptim.mo.pareto import is_pareto_efficient
-from spotoptim.mo import mo_mm_desirability_function, mo_mm_desirability_optimizer
-from spotoptim.plot.mo import plot_mo
 from spotoptim.utils.eval import mo_cv_models, mo_eval_models
 warnings.filterwarnings("ignore")
 ```
@@ -104,8 +104,8 @@ def bi_objective(X):
 optimizer = SpotOptim(
     fun=bi_objective,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=20,
-    n_initial=10,
+    max_iter=30,
+    n_initial=15,
     seed=42
 )
 
@@ -126,8 +126,8 @@ def weighted_sum(y_mo):
 optimizer = SpotOptim(
     fun=bi_objective,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=20,
-    n_initial=10,
+    max_iter=30,
+    n_initial=15,
     fun_mo2so=weighted_sum,  # Custom conversion
     seed=42
 )
@@ -146,8 +146,8 @@ def min_max(y_mo):
 optimizer = SpotOptim(
     fun=bi_objective,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=20,
-    n_initial=10,
+    max_iter=30,
+    n_initial=15,
     fun_mo2so=min_max,
     seed=42
 )
@@ -173,8 +173,8 @@ def custom_scalarization(y_mo):
 optimizer = SpotOptim(
     fun=three_objectives,
     bounds=[(-5, 5), (-5, 5), (-5, 5)],
-    max_iter=20,
-    n_initial=10,
+    max_iter=35,
+    n_initial=20,
     fun_mo2so=custom_scalarization,
     seed=42
 )
@@ -197,8 +197,8 @@ def noisy_bi_objective(X):
 optimizer = SpotOptim(
     fun=noisy_bi_objective,
     bounds=[(-5, 5), (-5, 5)],
-    max_iter=20,
-    n_initial=10,
+    max_iter=40,
+    n_initial=20,
     repeats_initial=3,      # Handle noise
     repeats_surrogate=2,
     seed=42
@@ -420,8 +420,8 @@ def weighted_sum_zdt1(y_mo):
 optimizer = SpotOptim(
     fun=zdt1,
     bounds=[(0, 1)] * 30,  # 30 variables in [0, 1]
-    max_iter=20,
-    n_initial=10,
+    max_iter=50,
+    n_initial=20,
     fun_mo2so=weighted_sum_zdt1,
     seed=42
 )
@@ -656,8 +656,8 @@ def weighted_sum_3obj(y_mo):
 optimizer = SpotOptim(
     fun=lambda X: dtlz2(X, n_obj=3),
     bounds=[(0, 1)] * 12,  # 12 variables for 3 objectives
-    max_iter=20,
-    n_initial=10,
+    max_iter=50,
+    n_initial=25,
     fun_mo2so=weighted_sum_3obj,
     seed=42
 )
@@ -800,8 +800,8 @@ def min_max_kursawe(y_mo):
 optimizer = SpotOptim(
     fun=kursawe,
     bounds=[(-5, 5)] * 3,
-    max_iter=20,
-    n_initial=10,
+    max_iter=50,
+    n_initial=20,
     fun_mo2so=min_max_kursawe,
     seed=42
 )
@@ -834,8 +834,8 @@ for name, scalarization in scalarizations.items():
     opt = SpotOptim(
         fun=zdt1,
         bounds=[(0, 1)] * 30,
-        max_iter=20,
-        n_initial=10,
+        max_iter=40,
+        n_initial=15,
         fun_mo2so=scalarization,
         seed=42,
         verbose=0
