@@ -389,7 +389,7 @@ def _screening(X, fun, xi, p, labels, bounds=None) -> tuple:
     for i in range(X.shape[0]):
         if bounds is not None:
             X[i, :] = bounds[0, :] + X[i, :] * (bounds[1, :] - bounds[0, :])
-        t[i] = fun(X[i, :])
+        t[i] = np.asarray(fun(X[i, :])).item()
 
     # Elementary effects
     F = np.zeros((k, r))

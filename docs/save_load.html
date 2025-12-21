@@ -1004,12 +1004,12 @@ After continuation: 25 evaluations, best=0.000002</code></pre>
 <span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Variance values available: </span><span class="sc">{</span><span class="bu">len</span>(loaded_opt.var_y)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 2.384966, mean best: f(x) = 2.485294
+Initial best: f(x) = 2.249392, mean best: f(x) = 2.341071
 Experiment saved to noisy_opt_res.pkl
 Result saved to noisy_opt_res.pkl
 Loaded result from noisy_opt_res.pkl
 Noise handling enabled: True
-Best mean value: 2.384966
+Best mean value: 2.249392
 Mean values available: 10
 Variance values available: 10</code></pre>
 </div>
@@ -1084,7 +1084,7 @@ Integer variable (dim 1) values:
 <section id="use-meaningful-prefixes" class="level3" data-number="10.7.2">
 <h3 data-number="10.7.2" class="anchored" data-anchor-id="use-meaningful-prefixes"><span class="header-section-number">10.7.2</span> 2. Use Meaningful Prefixes</h3>
 <p>Organize your experiments with descriptive prefixes:</p>
-<div id="2ab6c73d" class="cell" data-execution_count="11">
+<div id="06b2bc8d" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good practice: descriptive prefixes</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"sphere_d10_seed42"</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"rosenbrock_n100_lhs"</span>)</span>
@@ -1097,7 +1097,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="save-experiments-before-remote-execution" class="level3" data-number="10.7.3">
 <h3 data-number="10.7.3" class="anchored" data-anchor-id="save-experiments-before-remote-execution"><span class="header-section-number">10.7.3</span> 3. Save Experiments Before Remote Execution</h3>
-<div id="0fcd7431" class="cell" data-execution_count="12">
+<div id="561c1ed4" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define locally</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(bounds<span class="op">=</span>bounds, max_iter<span class="op">=</span><span class="dv">20</span>, seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"remote_job"</span>)</span>
@@ -1110,7 +1110,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="version-your-experiments" class="level3" data-number="10.7.4">
 <h3 data-number="10.7.4" class="anchored" data-anchor-id="version-your-experiments"><span class="header-section-number">10.7.4</span> 4. Version Your Experiments</h3>
-<div id="d47dd4ac" class="cell" data-execution_count="13">
+<div id="44b90cce" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add timestamp to prefix</span></span>
@@ -1123,7 +1123,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="handle-file-paths-robustly" class="level3" data-number="10.7.5">
 <h3 data-number="10.7.5" class="anchored" data-anchor-id="handle-file-paths-robustly"><span class="header-section-number">10.7.5</span> 5. Handle File Paths Robustly</h3>
-<div id="e440d31e" class="cell" data-execution_count="14">
+<div id="19c2dfdc" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create directory structure</span></span>
@@ -1381,7 +1381,7 @@ Convergence plot saved to: experiments/convergence_comparison.png</code></pre>
 <section id="file-format" class="level3" data-number="10.9.4">
 <h3 data-number="10.9.4" class="anchored" data-anchor-id="file-format"><span class="header-section-number">10.9.4</span> File Format</h3>
 <p>Files are saved using pickle’s highest protocol:</p>
-<div id="ac714a15" class="cell" data-execution_count="18">
+<div id="42950abe" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">"wb"</span>) <span class="im">as</span> handle:</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    pickle.dump(optimizer_state, handle, protocol<span class="op">=</span>pickle.HIGHEST_PROTOCOL)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1393,7 +1393,7 @@ Convergence plot saved to: experiments/convergence_comparison.png</code></pre>
 <h3 data-number="10.10.1" class="anchored" data-anchor-id="issue-attributeerror-spotoptim-object-has-no-attribute-fun"><span class="header-section-number">10.10.1</span> Issue: “AttributeError: ‘SpotOptim’ object has no attribute ‘fun’”</h3>
 <p><strong>Cause</strong>: Objective function not re-attached after loading experiment.</p>
 <p><strong>Solution</strong>: Always re-attach the function after loading:</p>
-<div id="da55af00" class="cell" data-execution_count="19">
+<div id="a0959de6" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim.load_experiment(<span class="st">"exp.pkl"</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>opt.fun <span class="op">=</span> your_objective_function  <span class="co"># Add this line</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> opt.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1403,7 +1403,7 @@ Convergence plot saved to: experiments/convergence_comparison.png</code></pre>
 <h3 data-number="10.10.2" class="anchored" data-anchor-id="issue-filenotfounderror-experiment-file-not-found"><span class="header-section-number">10.10.2</span> Issue: “FileNotFoundError: Experiment file not found”</h3>
 <p><strong>Cause</strong>: Incorrect file path or file doesn’t exist.</p>
 <p><strong>Solution</strong>: Check file path and ensure file exists:</p>
-<div id="0ec6bebf" class="cell" data-execution_count="20">
+<div id="9dc94a70" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> <span class="st">"experiment_exp.pkl"</span></span>
@@ -1417,7 +1417,7 @@ Convergence plot saved to: experiments/convergence_comparison.png</code></pre>
 <h3 data-number="10.10.3" class="anchored" data-anchor-id="issue-fileexistserror-file-already-exists"><span class="header-section-number">10.10.3</span> Issue: “FileExistsError: File already exists”</h3>
 <p><strong>Cause</strong>: Attempting to save over an existing file without <code>overwrite=True</code>.</p>
 <p><strong>Solution</strong>: Either use a different prefix or enable overwriting:</p>
-<div id="6ed81367" class="cell" data-execution_count="21">
+<div id="e0eb8674" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: Use different prefix</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>optimizer.save_result(prefix<span class="op">=</span><span class="st">"my_result_v2"</span>)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1429,7 +1429,7 @@ Convergence plot saved to: experiments/convergence_comparison.png</code></pre>
 <h3 data-number="10.10.4" class="anchored" data-anchor-id="issue-results-differ-after-loading"><span class="header-section-number">10.10.4</span> Issue: Results differ after loading</h3>
 <p><strong>Cause</strong>: Random state not preserved or function behavior changed.</p>
 <p><strong>Solution</strong>: Ensure you’re using the same seed and function definition:</p>
-<div id="0dc54569" class="cell" data-execution_count="22">
+<div id="1d4243a4" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># When saving</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(..., seed<span class="op">=</span><span class="dv">42</span>)  <span class="co"># Use fixed seed</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
