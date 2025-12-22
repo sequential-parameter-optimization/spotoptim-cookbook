@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -164,7 +164,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -1106,9 +1108,9 @@ Test results: [0.18875158 0.16901682]</code></pre>
 Factor variable at dimension 3:
   Levels: ['Adam', 'SGD', 'RMSprop', 'AdamW']
   Mapped to integers: 0 to 3
-Removed old TensorBoard logs: runs/spotoptim_20251221_172821
+Removed old TensorBoard logs: runs/spotoptim_20251221_214150
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251221_190625</code></pre>
+TensorBoard logging enabled: runs/spotoptim_20251221_233212</code></pre>
 </div>
 </div>
 <p>Display search space configuration. The <code>trans</code>column shows applied transformations. <code>lr_unified</code> and <code>alpha</code> use log10 transformation internally. This enables efficient exploration of log-scale parameters. All values shown are in original scale (not transformed).</p>
@@ -1152,7 +1154,7 @@ Configuration 2/10:
 Configuration 3/10:
   l1=110, num_layers=4, activation=ReLU, 
   optimizer=AdamW, lr_unified=1.9457, alpha=0.3866
-  Validation MSE: 0.172875
+  Validation MSE: 0.166404
 
 Configuration 4/10:
   l1=74, num_layers=1, activation=Sigmoid, 
@@ -1190,13 +1192,13 @@ Configuration 10/10:
   Validation MSE: nan
 Warning: 1 initial design point(s) returned NaN/inf and will be ignored (reduced from 10 to 9 points)
 Note: Initial design size (9) is smaller than requested (10) due to NaN/inf values
-Initial best: f(x) = 0.172875
+Initial best: f(x) = 0.166404
 
 Configuration 1/1:
   l1=110, num_layers=4, activation=ReLU, 
-  optimizer=AdamW, lr_unified=1.8630, alpha=0.3873
-  Validation MSE: 0.167599
-Iteration 1: New best f(x) = 0.167599
+  optimizer=AdamW, lr_unified=1.9424, alpha=0.4064
+  Validation MSE: 0.177801
+Iteration 1: f(x) = 0.177801
 
 Configuration 1/1:
   l1=52, num_layers=3, activation=ReLU, 
@@ -1210,27 +1212,33 @@ Configuration 1/1:
   l1=115, num_layers=1, activation=Tanh, 
   optimizer=SGD, lr_unified=2.9394, alpha=0.0115
   Validation MSE: nan
-Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 0.2379)
-Iteration 3: f(x) = 0.287547
+Warning: Found 1 NaN/inf value(s), replacing with adaptive penalty (max + 3*std = 0.2367)
+Iteration 3: f(x) = 0.286341
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
-  l1=111, num_layers=3, activation=ReLU, 
-  optimizer=RMSprop, lr_unified=0.6980, alpha=0.1358
-  Validation MSE: 0.202440
-Iteration 4: f(x) = 0.202440
+  l1=41, num_layers=2, activation=Sigmoid, 
+  optimizer=RMSprop, lr_unified=6.4153, alpha=0.0157
+  Validation MSE: 0.192384
+Iteration 4: f(x) = 0.192384
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
-  l1=53, num_layers=1, activation=GELU, 
-  optimizer=RMSprop, lr_unified=0.4545, alpha=0.0140
-  Validation MSE: 0.809881
-Iteration 5: f(x) = 0.809881
+  l1=77, num_layers=3, activation=Sigmoid, 
+  optimizer=SGD, lr_unified=4.4305, alpha=0.0194
+  Validation MSE: 0.230671
+Iteration 5: f(x) = 0.230671
+  Attempt 2/10: Previous point was duplicate after rounding, trying fallback
+Acquisition failure: Using random space-filling design as fallback.
 
 Configuration 1/1:
-  l1=110, num_layers=4, activation=ReLU, 
-  optimizer=AdamW, lr_unified=0.9493, alpha=0.3979
-  Validation MSE: 0.168582
-Iteration 6: f(x) = 0.168582
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251221_190625</code></pre>
+  l1=43, num_layers=2, activation=Sigmoid, 
+  optimizer=SGD, lr_unified=0.6789, alpha=0.0502
+  Validation MSE: 0.221320
+Iteration 6: f(x) = 0.221320
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251221_233212</code></pre>
 </div>
 </div>
 </section>
@@ -1250,14 +1258,14 @@ Best Solution Found:
   num_layers: 4
   activation: ReLU
   optimizer: AdamW
-  lr_unified: 1.8630
-  alpha: 0.3873
-  Objective Value: 0.1676
+  lr_unified: 1.9457
+  alpha: 0.3866
+  Objective Value: 0.1664
   Total Evaluations: 15</code></pre>
 </div>
 </div>
 <p>Store values for later use in visualizations. Values are already in original scale thanks to <code>var_trans</code>. Factor variables are returned as strings.</p>
-<div id="42730075" class="cell" data-execution_count="17">
+<div id="24f27542" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>best_l1 <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">0</span>])</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>best_num_layers <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">1</span>])</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>best_activation <span class="op">=</span> result.x[<span class="dv">2</span>]</span>
@@ -1282,22 +1290,22 @@ Best optimizer: AdamW</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>| name       | type   | default   | lower   | upper   | tuned               | transform   |   importance | stars   |
 |------------|--------|-----------|---------|---------|---------------------|-------------|--------------|---------|
-| l1         | int    | 72        | 16.0    | 128.0   | 110                 | -           |        10.99 | .       |
-| num_layers | int    | 2         | 1.0     | 4.0     | 4                   | -           |        28.95 | .       |
-| activation | factor | Sigmoid   | Tanh    | GELU    | ReLU                | -           |        33.13 | .       |
-| optimizer  | factor | RMSprop   | Adam    | AdamW   | AdamW               | -           |         2.77 |         |
-| lr_unified | float  | 5.05      | 0.1     | 10.0    | 1.8630186679138154  | log10       |         7.77 |         |
-| alpha      | float  | 0.505     | 0.01    | 1.0     | 0.38731466430172934 | log10       |        16.38 | .       |
+| l1         | int    | 72        | 16.0    | 128.0   | 110                 | -           |         6.60 |         |
+| num_layers | int    | 2         | 1.0     | 4.0     | 4                   | -           |        32.16 | .       |
+| activation | factor | Sigmoid   | Tanh    | GELU    | ReLU                | -           |         9.24 |         |
+| optimizer  | factor | RMSprop   | Adam    | AdamW   | AdamW               | -           |        28.58 | .       |
+| lr_unified | float  | 5.05      | 0.1     | 10.0    | 1.9457320946360819  | log10       |         6.60 |         |
+| alpha      | float  | 0.505     | 0.01    | 1.0     | 0.38657747830422984 | log10       |        16.82 | .       |
 
 Interpretation: ***: &gt;99%, **: &gt;75%, *: &gt;50%, .: &gt;10%
 | name       | type   | default   | lower   | upper   | tuned               | transform   |   importance | stars   |
 |------------|--------|-----------|---------|---------|---------------------|-------------|--------------|---------|
-| l1         | int    | 72        | 16.0    | 128.0   | 110                 | -           |        10.99 | .       |
-| num_layers | int    | 2         | 1.0     | 4.0     | 4                   | -           |        28.95 | .       |
-| activation | factor | Sigmoid   | Tanh    | GELU    | ReLU                | -           |        33.13 | .       |
-| optimizer  | factor | RMSprop   | Adam    | AdamW   | AdamW               | -           |         2.77 |         |
-| lr_unified | float  | 5.05      | 0.1     | 10.0    | 1.8630186679138154  | log10       |         7.77 |         |
-| alpha      | float  | 0.505     | 0.01    | 1.0     | 0.38731466430172934 | log10       |        16.38 | .       |
+| l1         | int    | 72        | 16.0    | 128.0   | 110                 | -           |         6.60 |         |
+| num_layers | int    | 2         | 1.0     | 4.0     | 4                   | -           |        32.16 | .       |
+| activation | factor | Sigmoid   | Tanh    | GELU    | ReLU                | -           |         9.24 |         |
+| optimizer  | factor | RMSprop   | Adam    | AdamW   | AdamW               | -           |        28.58 | .       |
+| lr_unified | float  | 5.05      | 0.1     | 10.0    | 1.9457320946360819  | log10       |         6.60 |         |
+| alpha      | float  | 0.505     | 0.01    | 1.0     | 0.38657747830422984 | log10       |        16.82 | .       |
 
 Interpretation: ***: &gt;99%, **: &gt;75%, *: &gt;50%, .: &gt;10%</code></pre>
 </div>
@@ -1325,27 +1333,17 @@ Interpretation: ***: &gt;99%, **: &gt;75%, *: &gt;50%, .: &gt;10%</code></pre>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>optimizer.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
-  activation: importance = 33.13% (type: factor)
-  num_layers: importance = 28.95% (type: int)
-  alpha: importance = 16.38% (type: float)
+  num_layers: importance = 32.16% (type: int)
+  optimizer: importance = 28.58% (type: factor)
+  alpha: importance = 16.82% (type: float)
 
 Generating 3 surrogate plots...
-  Plotting activation vs num_layers</code></pre>
+  Plotting num_layers vs optimizer</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-2.png" id="pinn-surrogate-visualization-pinn2-1" width="956" height="853" class="figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Plotting activation vs alpha</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-4.png" id="pinn-surrogate-visualization-pinn2-2" width="964" height="853" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-2.png" id="pinn-surrogate-visualization-pinn2-1" width="1003" height="819" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1355,7 +1353,17 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-6.png" id="pinn-surrogate-visualization-pinn2-3" width="1131" height="950" class="figure-img"></p>
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-4.png" id="pinn-surrogate-visualization-pinn2-2" width="1132" height="950" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Plotting optimizer vs alpha</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="pinns_2_hyperparameter_tuning_files/figure-html/pinn-surrogate-visualization-pinn2-output-6.png" id="pinn-surrogate-visualization-pinn2-3" width="973" height="857" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1482,12 +1490,12 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-stdout">
 <pre><code>Training final model with best hyperparameters using DataLoaders...
 Training for 30,000 epochs...
-  Epoch 5000/30000: Avg Loss = 0.159071
-  Epoch 10000/30000: Avg Loss = 0.053157
-  Epoch 15000/30000: Avg Loss = 0.031900
-  Epoch 20000/30000: Avg Loss = 0.082692
-  Epoch 25000/30000: Avg Loss = 0.030881
-  Epoch 30000/30000: Avg Loss = 0.042042
+  Epoch 5000/30000: Avg Loss = 0.235419
+  Epoch 10000/30000: Avg Loss = 0.196223
+  Epoch 15000/30000: Avg Loss = 0.163552
+  Epoch 20000/30000: Avg Loss = 0.162956
+  Epoch 25000/30000: Avg Loss = 0.148394
+  Epoch 30000/30000: Avg Loss = 0.138593
 Training completed!</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1536,9 +1544,9 @@ Training completed!</code></pre>
 <pre><code>
 Final Model Performance:
 --------------------------------------------------
-  Validation MSE: 0.014159
-  Full domain MSE: 0.009609
-  Maximum absolute error: 0.213946</code></pre>
+  Validation MSE: 0.075993
+  Full domain MSE: 0.075215
+  Maximum absolute error: 0.754101</code></pre>
 </div>
 </div>
 </section>
@@ -1672,8 +1680,8 @@ Baseline Configuration:
 Validation MSE Comparison:
 --------------------------------------------------
   Baseline: 0.185787
-  Optimized: 0.167599
-  Improvement: 9.8%</code></pre>
+  Optimized: 0.166404
+  Improvement: 10.4%</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1707,19 +1715,19 @@ Validation MSE Comparison:
 </div>
 <section id="sensitivity-analysis-spearman-correlation" class="level2" data-number="33.1">
 <h2 data-number="33.1" class="anchored" data-anchor-id="sensitivity-analysis-spearman-correlation"><span class="header-section-number">33.1</span> Sensitivity Analysis (Spearman Correlation)</h2>
-<div id="9b5ac19b" class="cell" data-execution_count="27">
+<div id="98dd4e70" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the new sensitivity_spearman() method for tabular output</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>optimizer.sensitivity_spearman()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Sensitivity Analysis (Spearman Correlation):
 --------------------------------------------------
-  l1                  : -0.102 (p=0.717)
-  num_layers          : -0.835 (p=0.000) ***
+  l1                  : -0.082 (p=0.770)
+  num_layers          : -0.689 (p=0.005) **
   activation          : (categorical variable, use visual inspection)
   optimizer           : (categorical variable, use visual inspection)
-  lr_unified          : -0.043 (p=0.879)
-  alpha               : -0.300 (p=0.277)</code></pre>
+  lr_unified          : +0.143 (p=0.612)
+  alpha               : -0.189 (p=0.499)</code></pre>
 </div>
 </div>
 </section>
@@ -1772,24 +1780,24 @@ HYPERPARAMETER OPTIMIZATION SUMMARY
    - Number of hidden layers: 4
    - Activation function: ReLU
    - Optimizer: AdamW
-   - Learning rate: 1.8630
-   - Physics weight (alpha): 0.3873
+   - Learning rate: 1.9457
+   - Physics weight (alpha): 0.3866
 
 2. PERFORMANCE:
-   - Validation MSE: 0.167599
-   - Full domain MSE: 0.009609
-   - Maximum absolute error: 0.213946
+   - Validation MSE: 0.166404
+   - Full domain MSE: 0.075215
+   - Maximum absolute error: 0.754101
 
 3. OPTIMIZATION STATISTICS:
    - Total evaluations: 15
    - Initial best: 0.196427
-   - Final best: 0.167599
-   - Improvement: 14.7%
+   - Final best: 0.166404
+   - Improvement: 15.3%
 
 4. COMPARISON TO BASELINE:
    - Baseline MSE: 0.185787
-   - Optimized MSE: 0.167599
-   - Improvement: 9.8%
+   - Optimized MSE: 0.166404
+   - Improvement: 10.4%
 
 ======================================================================</code></pre>
 </div>
