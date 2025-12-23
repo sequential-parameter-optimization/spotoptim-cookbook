@@ -654,7 +654,7 @@ window.Quarto = {
 <li>Lennard-Jones Potential (39D)</li>
 <li>Remote Objective (10D), SPOTSeven Optimization Challenge</li>
 </ol>
-<div id="cf8a2a02" class="cell" data-execution_count="1">
+<div id="e49406c1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -760,14 +760,14 @@ Figure&nbsp;35.1: 1D Slice through High-Dimensional Landscapes
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Estimated Noise (sigma): </span><span class="sc">{</span>sigma_est<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimating noise...
-Estimated Noise (sigma): 0.0999</code></pre>
+Estimated Noise (sigma): 0.0953</code></pre>
 </div>
 </div>
 </section>
 <section id="determining-sample-size-n" class="level3" data-number="35.4.2">
 <h3 data-number="35.4.2" class="anchored" data-anchor-id="determining-sample-size-n"><span class="header-section-number">35.4.2</span> 2. Determining Sample Size (<span class="math inline">\(n\)</span>)</h3>
 <p>We perform a power analysis to calculate the number of evaluations (<span class="math inline">\(n\)</span>) needed to validate a solution. We aim to detect a “large” effect size (Cohen’s <span class="math inline">\(d=1.0\)</span>, which corresponds to a difference of <span class="math inline">\(1.0 \times \sigma\)</span>) with a power of 0.8 and significance level <span class="math inline">\(\alpha=0.05\)</span>.</p>
-<div id="22a3a36f" class="cell" data-execution_count="4">
+<div id="c70841e5" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Power Analysis</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>effect_size <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Detect difference of 1 sigma</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span>       <span class="co"># Significance level</span></span>
@@ -797,7 +797,7 @@ Estimated Noise (sigma): 0.0999</code></pre>
 <li><strong>Budget per Run</strong>: 50 evaluations</li>
 <li><strong>Validation Size (<span class="math inline">\(n\)</span>)</strong>: <code>n_validate</code> (calculated above)</li>
 </ul>
-<div id="b296efbb" class="cell" data-execution_count="5">
+<div id="46d41284" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -929,27 +929,27 @@ Estimated Noise (sigma): 0.0999</code></pre>
 
 --- SpotOptim ---
 Run 1/5
-  Best found: 23.3720 -&gt; Validated Mean: 23.4216
+  Best found: 23.5527 -&gt; Validated Mean: 23.3909
 Run 2/5
-  Error in SpotOptim run 1: unsupported operand type(s) for +: 'float' and 'NoneType'
+  Best found: 27.8899 -&gt; Validated Mean: 27.8179
 Run 3/5
-  Best found: 16.8425 -&gt; Validated Mean: 16.9874
+  Best found: 16.9056 -&gt; Validated Mean: 16.9599
 Run 4/5
-  Best found: 14.7033 -&gt; Validated Mean: 14.6276
+  Best found: 13.8278 -&gt; Validated Mean: 13.8183
 Run 5/5
-  Best found: 18.3927 -&gt; Validated Mean: 18.5082
+  Best found: 18.5628 -&gt; Validated Mean: 18.4603
 
 --- Scipy L-BFGS-B ---
 Run 1/5
-  Error in Scipy run 0: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Best found: 31.7310 -&gt; Validated Mean: 31.9140
 Run 2/5
-  Error in Scipy run 1: unsupported operand type(s) for +: 'float' and 'NoneType'
+  Best found: 50.2436 -&gt; Validated Mean: 50.3763
 Run 3/5
-  Best found: 25.1727 -&gt; Validated Mean: 25.3214
+  Error in Scipy run 2: '&gt;' not supported between instances of 'float' and 'NoneType'
 Run 4/5
-  Best found: 21.2693 -&gt; Validated Mean: 21.3544
+  Error in Scipy run 3: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 5/5
-  Best found: 51.2254 -&gt; Validated Mean: 51.4000
+  Best found: 47.8516 -&gt; Validated Mean: 48.0575
 
 Experiments completed.</code></pre>
 </div>
@@ -1064,11 +1064,11 @@ Figure&nbsp;35.3: Comparison of Validated True Means (Lower is Better)
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Statistical Comparison (Welch's t-test):
-  SpotOptim Mean: 18.3862 (std: 3.2192)
-  Scipy Mean:     32.6919 (std: 13.3274)
-  T-statistic: -1.4893
-  P-value: 0.2661
-  Result: No significant difference detected (p &gt;= 0.05).</code></pre>
+  SpotOptim Mean: 20.0895 (std: 4.9478)
+  Scipy Mean:     43.4493 (std: 8.2114)
+  T-statistic: -3.7012
+  P-value: 0.0397
+  Result: Significant difference detected (p &lt; 0.05).</code></pre>
 </div>
 </div>
 </section>
