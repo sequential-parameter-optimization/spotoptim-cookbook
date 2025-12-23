@@ -152,21 +152,16 @@ else:
 We perform a power analysis to calculate the number of evaluations ($n$) needed to validate a solution. We aim to detect a "large" effect size (Cohen's $d=1.0$, which corresponds to a difference of $1.0 \times \sigma$) with a power of 0.8 and significance level $\alpha=0.05$.
 
 ```{python}
-# 2. Power Analysis
-effect_size = 1.0  # Detect difference of 1 sigma
-alpha = 0.05       # Significance level
-power = 0.8        # Statistical power
+#| label: sample-size
+from spotoptim.utils.stats import get_sample_size
 
-analysis = TTestIndPower()
-n_required = analysis.solve_power(
-    effect_size=effect_size, 
-    nobs1=None, 
-    ratio=1.0, 
-    alpha=alpha, 
-    power=power
-)
+delta = 1.0 * sigma_est # Detect difference of 1 sigma
+alpha = 0.05       # Significance level
+beta = 0.2         # Power = 0.8 implies beta = 0.2
+
+n_required = get_sample_size(alpha, beta, sigma_est, delta)
 n_validate = int(np.ceil(n_required))
-print(f"Required samples (n) for validation (d={effect_size}, power={power}): {n_validate}")
+print(f"Required samples (n) for validation (delta={delta:.4f}, sigma={sigma_est:.4f}, power={1-beta}): {n_validate}")
 ```
 
 ## Experimental Comparison
