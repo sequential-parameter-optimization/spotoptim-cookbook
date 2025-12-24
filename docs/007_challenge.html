@@ -654,7 +654,7 @@ window.Quarto = {
 <li>Lennard-Jones Potential (39D)</li>
 <li>Remote Objective (10D), SPOTSeven Optimization Challenge</li>
 </ol>
-<div id="f2ea02a6" class="cell" data-execution_count="1">
+<div id="07c912a0" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -760,7 +760,7 @@ Figure&nbsp;35.1: 1D Slice through High-Dimensional Landscapes
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Estimated Noise (sigma): </span><span class="sc">{</span>sigma_est<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimating noise...
-Estimated Noise (sigma): 0.1094</code></pre>
+Estimated Noise (sigma): 0.0950</code></pre>
 </div>
 </div>
 </section>
@@ -778,7 +778,7 @@ Estimated Noise (sigma): 0.1094</code></pre>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>n_validate <span class="op">=</span> <span class="bu">int</span>(np.ceil(n_required))</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Required samples (n) for validation (delta=</span><span class="sc">{</span>delta<span class="sc">:.4f}</span><span class="ss">, sigma=</span><span class="sc">{</span>sigma_est<span class="sc">:.4f}</span><span class="ss">, power=</span><span class="sc">{</span><span class="dv">1</span><span class="op">-</span>beta<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>n_validate<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Required samples (n) for validation (delta=0.1094, sigma=0.1094, power=0.8): 16</code></pre>
+<pre><code>Required samples (n) for validation (delta=0.0950, sigma=0.0950, power=0.8): 16</code></pre>
 </div>
 </div>
 </section>
@@ -791,7 +791,7 @@ Estimated Noise (sigma): 0.1094</code></pre>
 <li><strong>Budget per Run</strong>: 50 evaluations</li>
 <li><strong>Validation Size (<span class="math inline">\(n\)</span>)</strong>: <code>n_validate</code> (calculated above)</li>
 </ul>
-<div id="454b06a3" class="cell" data-execution_count="5">
+<div id="b8d3b994" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -923,27 +923,27 @@ Estimated Noise (sigma): 0.1094</code></pre>
 
 --- SpotOptim ---
 Run 1/5
-  Best found: 20.1007 -&gt; Validated Mean: 19.9764
+  Error in SpotOptim run 0: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 2/5
-  Error in SpotOptim run 1: unsupported operand type(s) for +: 'float' and 'NoneType'
+  Best found: 27.7675 -&gt; Validated Mean: 27.9237
 Run 3/5
-  Best found: 16.9892 -&gt; Validated Mean: 16.9731
+  Best found: 16.9550 -&gt; Validated Mean: 17.0210
 Run 4/5
-  Best found: 14.6159 -&gt; Validated Mean: 14.6005
+  Best found: 12.4843 -&gt; Validated Mean: 12.5900
 Run 5/5
-  Best found: 18.6183 -&gt; Validated Mean: 18.5008
+  Best found: 18.5758 -&gt; Validated Mean: 18.5012
 
 --- Scipy L-BFGS-B ---
 Run 1/5
-  Error in Scipy run 0: unsupported operand type(s) for +: 'float' and 'NoneType'
+  Error in Scipy run 0: '&gt;' not supported between instances of 'float' and 'NoneType'
 Run 2/5
-  Best found: 59.1520 -&gt; Validated Mean: 59.4380
+  Error in Scipy run 1: '&gt;' not supported between instances of 'float' and 'NoneType'
 Run 3/5
-  Best found: 39.4437 -&gt; Validated Mean: 39.5239
+  Error in Scipy run 2: unsupported operand type(s) for +: 'float' and 'NoneType'
 Run 4/5
-  Best found: 60.8179 -&gt; Validated Mean: 61.0971
+  Error in Scipy run 3: '&gt;' not supported between instances of 'float' and 'NoneType'
 Run 5/5
-  Error in Scipy run 4: '&gt;' not supported between instances of 'float' and 'NoneType'
+  Best found: 55.8538 -&gt; Validated Mean: 56.0565
 
 Experiments completed.</code></pre>
 </div>
@@ -1007,7 +1007,7 @@ Experiments completed.</code></pre>
 <div id="fig-convergence" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="007_challenge_files/figure-html/fig-convergence-output-1.png" width="836" height="523" class="figure-img">
+<img src="007_challenge_files/figure-html/fig-convergence-output-1.png" width="827" height="523" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;35.2: Convergence Plot: Mean Best-So-Far Objective Value (Noisy) vs.&nbsp;Evaluations
@@ -1058,11 +1058,11 @@ Figure&nbsp;35.3: Comparison of Validated True Means (Lower is Better)
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Statistical Comparison (Welch's t-test):
-  SpotOptim Mean: 17.5127 (std: 1.9886)
-  Scipy Mean:     53.3530 (std: 9.8021)
-  T-statistic: -5.1014
-  P-value: 0.0325
-  Result: Significant difference detected (p &lt; 0.05).</code></pre>
+  SpotOptim Mean: 19.0090 (std: 5.5876)
+  Scipy Mean:     56.0565 (std: 0.0000)
+  T-statistic: nan
+  P-value: nan
+  Result: No significant difference detected (p &gt;= 0.05).</code></pre>
 </div>
 </div>
 </section>
