@@ -587,7 +587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="examples" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Examples</h1>
 <p>Let us consider the problem of minimizing the Rosenbrock function. This function (and its respective derivatives) is implemented in <code>rosen</code> (and <code>rosen_der</code>, <code>rosen_hess</code>) in the <code>scipy.optimize</code> module.</p>
-<div id="a21879e6" class="cell" data-execution_count="1">
+<div id="eeb34c1b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> rosen, rosen_der, rosen_hess</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [<span class="fl">1.3</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">1.2</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rosen(X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -596,7 +596,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>A simple implementation of the Nelder-Mead method is:</p>
-<div id="ea417a19" class="cell" data-execution_count="2">
+<div id="49c59d2c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> [<span class="fl">1.3</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">1.9</span>, <span class="fl">1.2</span>]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> minimize(rosen, x0, method<span class="op">=</span><span class="st">'Nelder-Mead'</span>, tol<span class="op">=</span><span class="fl">1e-6</span>)</span>
@@ -606,7 +606,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Now, let’s see how to solve the same problem using <strong>SpotOptim</strong>, which uses a Surrogate-Model Based Optimization (SMBO) approach. Unlike <code>minimize</code>, SpotOptim requires bounds as it samples the search space globally.</p>
-<div id="30c2c56c" class="cell" data-execution_count="3">
+<div id="8c4e905c" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> rosen</span>
@@ -634,8 +634,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best objective value: </span><span class="sc">{</span>res<span class="sc">.</span>fun<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total evaluations: </span><span class="sc">{</span>res<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best solution found: [0.92824836 0.8585765  0.73350952 0.54042789 0.30369685]
-Best objective value: 0.3237503770972406
+<pre><code>Best solution found: [0.92125419 0.85060592 0.73868497 0.55375523 0.30417133]
+Best objective value: 0.32643756414942116
 Total evaluations: 50</code></pre>
 </div>
 </div>
@@ -644,7 +644,7 @@ Total evaluations: 50</code></pre>
 <h2 data-number="2.1" class="anchored" data-anchor-id="complex-constrained-optimization-the-robot-arm"><span class="header-section-number">2.1</span> Complex Constrained Optimization: The Robot Arm</h2>
 <p>For a more challenging example, let’s consider the <code>robot_arm_hard</code> problem. This is a 10-dimensional problem where a simulated robot arm must reach a target while avoiding obstacles in a maze-like configuration. It features “hard” constraints implemented as severe penalties, creating a rugged landscape that is difficult for local optimizers.</p>
 <p>First, let’s try solving it with <strong>Scipy’s</strong> default local optimizer. Note that we need to wrap the function to return a scalar float, as <code>robot_arm_hard</code> returns an array.</p>
-<div id="2e13fba5" class="cell" data-execution_count="4">
+<div id="2722548f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.so <span class="im">import</span> robot_arm_hard</span>
@@ -672,7 +672,7 @@ Scipy Success: True</code></pre>
 </div>
 <p>The local optimizer often gets stuck in local optima created by the obstacles (penalties), failing to find a path to the target.</p>
 <p>Now let’s use <strong>SpotOptim</strong>. We don’t need a wrapper because SpotOptim natively supports the batch-vectorized output of <code>robot_arm_hard</code>. We simply define the bounds for the 10 joint angles.</p>
-<div id="50068fdc" class="cell" data-execution_count="5">
+<div id="0702c46f" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define bounds: 10 angles normalized to [0, 1]</span></span>
@@ -683,14 +683,15 @@ Scipy Success: True</code></pre>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">50</span>,         <span class="co"># Budget</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">20</span>,        <span class="co"># More exploration for complex space</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>res_spot <span class="op">=</span> optimizer.optimize()</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SpotOptim Best cost: </span><span class="sc">{</span>res_spot<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    max_surrogate_points<span class="op">=</span><span class="dv">30</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>res_spot <span class="op">=</span> optimizer.optimize()</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SpotOptim Best cost: </span><span class="sc">{</span>res_spot<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>SpotOptim Best cost: 23.4430</code></pre>
+<pre><code>SpotOptim Best cost: 27.2162</code></pre>
 </div>
 </div>
 <p>SpotOptim’s use of a surrogate model and global acquisition function allows it to better explore the landscape and often jump out of the local traps that catch the local optimizer, finding a significantly better configuration for the robot arm.</p>
