@@ -1,0 +1,170 @@
+---
+title: The MLP Class
+sidebar_position: 1
+eval: true
+---
+
+SpotOptim provides a `MLP` class that implements a flexible Multi-Layer Perceptron (MLP) architecture using PyTorch. It is designed to be easily plug-and-play for both standalone usage and hyperparameter optimization with SpotOptim.
+
+## Overview
+
+The `MLP` class extends `torch.nn.Sequential` and offers:
+
+1.  **Flexible Architecture**: Define layers explicitly via `hidden_channels` or using compact hyperparameters like `l1` (width) and `num_hidden_layers` (depth).
+2.  **Integrated Components**: Built-in support for normalization layers, activation functions, and dropout.
+3.  **Optimization Helpers**: Includes a `get_optimizer` method to easily instantiate optimizers with unified learning rates.
+4.  **Tuning Ready**: A `get_default_parameters` static method returns a `ParameterSet` ready for SpotOptim.
+
+## Basic Usage
+
+### Initialization
+
+You can initialize an MLP by describing its architecture explicitly.
+
+```{python}
+import torch
+from spotoptim.nn.mlp import MLP
+
+# Input: 10 features
+# Hidden: 32 neurons, then 16 neurons
+# Output: 1 feature (regression)
+model = MLP(in_channels=10, hidden_channels=[32, 16, 1])
+print(model)
+
+# Forward pass
+x = torch.randn(5, 10)
+output = model(x)
+print("Output shape:", output.shape)
+```
+
+### Implicit Architecture (Width & Depth)
+
+For hyperparameter tuning, it is often easier to control the network's size with just two numbers: width and depth.
+
+```{python}
+# Create a network with 3 hidden layers, each having 64 neurons
+model_compact = MLP(
+    in_channels=10,
+    l1=64,                # Width (neurons per hidden layer)
+    num_hidden_layers=3,  # Depth (number of hidden layers)
+    output_dim=1
+)
+print(model_compact)
+```
+
+::: {.callout-note}
+If `hidden_channels` is provided, `l1` and `num_hidden_layers` are ignored.
+:::
+
+## Configuration Options
+
+The `MLP` constructor supports several customization options:
+
+*   **`activation_layer`**: The activation function class (default: `torch.nn.ReLU`).
+*   **`norm_layer`**: Optional normalization layer (e.g., `torch.nn.BatchNorm1d`).
+*   **`dropout`**: Dropout probability applied after each layer (default: 0.0).
+*   **`bias`**: Whether to use bias in linear layers (default: `True`).
+
+```{python}
+model_custom = MLP(
+    in_channels=10,
+    hidden_channels=[32, 1],
+    activation_layer=torch.nn.Tanh,
+    dropout=0.2
+)
+print(model_custom)
+```
+
+## Optimizer Integration
+
+The `MLP` class simplifies optimizer creation, specifically handling the "unified learning rate" concept used in SpotOptim (where different optimizers have their default learning rates mapped to a common scale).
+
+```{python}
+# Create model with a unified learning rate of 1.0 (default)
+model = MLP(in_channels=10, hidden_channels=[32, 1], lr=1.0)
+
+# Get Adam optimizer (lr=1.0 maps to 0.001)
+opt_adam = model.get_optimizer("Adam")
+print(f"Adam lr: {opt_adam.param_groups[0]['lr']}")
+
+# Get SGD optimizer (lr=1.0 maps to 0.01)
+opt_sgd = model.get_optimizer("SGD")
+print(f"SGD lr: {opt_sgd.param_groups[0]['lr']}")
+```
+
+You can also pass extra arguments to the optimizer:
+
+```{python}
+# SGD with momentum
+opt_sgd_mom = model.get_optimizer("SGD", momentum=0.9)
+print(opt_sgd_mom)
+```
+
+## Hyperparameter Tuning
+
+One of the key features of the `MLP` class is its ability to suggest a default `ParameterSet` for tuning. This provides a great starting point for finding the best architecture.
+
+```{python}
+from spotoptim.hyperparameters import ParameterSet
+
+# Get default search space
+params = MLP.get_default_parameters()
+print("Default tunable parameters:", params.names())
+```
+
+### Example: Tuning with SpotOptim
+
+Here is how you can use the `MLP` class in a full SpotOptim tuning loop using `TorchObjective`.
+
+```{python}
+from spotoptim import SpotOptim
+from spotoptim.core.experiment import ExperimentControl
+from spotoptim.core.data import SpotDataFromArray
+from spotoptim.function.torch_objective import TorchObjective
+import numpy as np
+
+# 1. Dummy Data
+X = np.random.rand(100, 10)
+y = np.random.rand(100, 1)
+data = SpotDataFromArray(X, y)
+
+# 2. Get Default Parameters & Add Custom Ones
+params = MLP.get_default_parameters()
+
+# Customize: fix the optimizer to Adam, but tune epochs
+params.add_int("epochs", 5, 20, default=10)
+
+# 3. Setup Experiment
+experiment = ExperimentControl(
+    name="mlp_tuning_demo",
+    model_class=MLP,
+    dataset=data,
+    hyperparameters=params,
+    metrics=["val_loss"], 
+    torch_device="cpu",
+    batch_size=16
+)
+
+# 4. Create Objective
+objective = TorchObjective(experiment)
+
+# 5. Optimize
+optimizer = SpotOptim(
+    fun=objective,
+    bounds=objective.bounds,
+    var_type=objective.var_type,
+    var_name=objective.var_name,
+    var_trans=objective.var_trans,
+    n_initial=3,
+    max_iter=5,
+    seed=42,
+    verbose=False
+)
+
+res = optimizer.optimize()
+
+print("Best Parameters:")
+print(objective._get_hyperparameters(res.x))
+```
+
+This setup automatically tunes the architecture (`l1`, `num_hidden_layers`), usage of activation functions (`activation`), learning rate (`lr`), and optimization method (`optimizer`) if left in the parameter set.
