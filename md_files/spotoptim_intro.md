@@ -1,0 +1,111 @@
+---
+title: Introduction to SpotOptim
+sidebar_position: 1
+eval: true
+---
+
+# Examples
+
+Let us consider the problem of minimizing the Rosenbrock function. This function (and its respective derivatives) is implemented in `rosen` (and `rosen_der`, `rosen_hess`) in the `scipy.optimize` module.
+
+```{python}
+from scipy.optimize import rosen, rosen_der, rosen_hess
+X = [1.3, 0.7, 0.8, 1.9, 1.2]
+print(rosen(X))
+```
+
+A simple implementation of the Nelder-Mead method is:
+
+```{python}
+from scipy.optimize import minimize
+x0 = [1.3, 0.7, 0.8, 1.9, 1.2]
+res = minimize(rosen, x0, method='Nelder-Mead', tol=1e-6)
+print(res.x)
+```
+
+Now, let's see how to solve the same problem using **SpotOptim**, which uses a Surrogate-Model Based Optimization (SMBO) approach. Unlike `minimize`, SpotOptim requires bounds as it samples the search space globally.
+
+```{python}
+import numpy as np
+from spotoptim import SpotOptim
+from scipy.optimize import rosen
+
+# SpotOptim expects function input as a 2D array (batch of points)
+# So we wrap the rosen function to handle (n_samples, n_dim) input
+def rosen_batch(X):
+    return np.array([rosen(x) for x in X])
+
+# Define the optimizer
+# We use a 5-dimensional problem similar to the example above
+# Bounds are required for SpotOptim
+optimizer = SpotOptim(
+    fun=rosen_batch,
+    bounds=[(0, 2), (0, 2), (0, 2), (0, 2), (0, 2)],
+    max_iter=50,  # Total budget of function evaluations
+    n_initial=10, # Initial random samples
+    seed=42
+)
+
+# Run optimization
+res = optimizer.optimize()
+
+print(f"Best solution found: {res.x}")
+print(f"Best objective value: {res.fun}")
+print(f"Total evaluations: {res.nfev}")
+```
+
+SpotOptim is particularly useful when the objective function is expensive to evaluate (e.g., simulations, hyperparameter tuning), as it builds a model to intelligently select the next point to evaluate, often finding good solutions with fewer function calls than gradient-free local search methods.
+
+## Complex Constrained Optimization: The Robot Arm
+
+For a more challenging example, let's consider the `robot_arm_hard` problem. This is a 10-dimensional problem where a simulated robot arm must reach a target while avoiding obstacles in a maze-like configuration. It features "hard" constraints implemented as severe penalties, creating a rugged landscape that is difficult for local optimizers.
+
+First, let's try solving it with **Scipy's** default local optimizer. Note that we need to wrap the function to return a scalar float, as `robot_arm_hard` returns an array.
+
+```{python}
+import numpy as np
+from scipy.optimize import minimize
+from spotoptim.function.so import robot_arm_hard
+
+# Wrapper for Scipy (expects scalar return)
+def objective_scipy(x):
+    # robot_arm_hard handles constraints internally via penalties
+    return float(robot_arm_hard(x)[0])
+
+# Starting point
+np.random.seed(42)
+x0 = np.random.rand(10)
+print(f"Initial cost: {objective_scipy(x0):.4f}")
+
+# Run generic minimization (Nelder-Mead is default for gradient-free)
+res_scipy = minimize(objective_scipy, x0, method='Nelder-Mead', tol=1e-4)
+
+print(f"Scipy Best cost: {res_scipy.fun:.4f}")
+print(f"Scipy Success: {res_scipy.success}")
+```
+
+The local optimizer often gets stuck in local optima created by the obstacles (penalties), failing to find a path to the target.
+
+Now let's use **SpotOptim**. We don't need a wrapper because SpotOptim natively supports the batch-vectorized output of `robot_arm_hard`. We simply define the bounds for the 10 joint angles.
+
+```{python}
+from spotoptim import SpotOptim
+
+# Define bounds: 10 angles normalized to [0, 1]
+bounds = [(0.0, 1.0)] * 10
+
+optimizer = SpotOptim(
+    fun=robot_arm_hard,  # Native array-based function
+    bounds=bounds,
+    max_iter=50,         # Budget
+    n_initial=20,        # More exploration for complex space
+    seed=42,
+    max_surrogate_points=30
+)
+
+res_spot = optimizer.optimize()
+
+print(f"SpotOptim Best cost: {res_spot.fun:.4f}")
+```
+
+SpotOptim's use of a surrogate model and global acquisition function allows it to better explore the landscape and often jump out of the local traps that catch the local optimizer, finding a significantly better configuration for the robot arm.

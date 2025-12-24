@@ -20,13 +20,16 @@ SpotOptim distinguishes between two types of saved data:
 | Component | Experiment | Result |
 |-----------|------------|--------|
 | Configuration (bounds, parameters) | ✓ | ✓ |
-| Objective function | ✗ | ✗ |
+| Objective function | ✓ | ✓ |
 | Evaluations (X, y) | ✗ | ✓ |
 | Best solution | ✗ | ✓ |
 | Surrogate model | Excluded* | ✓ |
 | TensorBoard writer | ✗ | ✗ |
 
-*Surrogate model is excluded from experiments and automatically recreated when loaded.
+::: {.callout-note title="Robust Function Saving"}
+SpotOptim uses `dill` for serialization, which allows robust saving of objective functions, including lambda functions and locally defined functions. This means you do **not** need to manually re-attach the objective function after loading a result file.
+:::
+
 
 ## Quick Start
 
@@ -69,65 +72,55 @@ print(f"Total evaluations: {loaded_opt.counter}")
 The save/load functionality enables a powerful workflow for distributed optimization:
 
 ### Step 1: Define Experiment Locally
-
-```{python}
-#| label: define-experiment-locally
-import numpy as np
-from spotoptim import SpotOptim
-
-# Define a placeholder function (will be replaced on remote machine)
-def placeholder(X):
-    """Placeholder function - will be replaced remotely"""
-    return np.sum(X**2, axis=1)
-
-# Define configuration locally
-optimizer = SpotOptim(
-    fun=placeholder,  # Temporary function
-    bounds=[(-10, 10), (-10, 10), (-10, 10)],
-    max_iter=20,
-    n_initial=10,
-    seed=42,
-    verbose=True
-)
-
-# Save experiment configuration
-optimizer.save_experiment(prefix="remote_job_001")
-# Creates: remote_job_001_exp.pkl
-
-print("Experiment saved. Transfer remote_job_001_exp.pkl to remote machine.")
-print("The objective function will be replaced on the remote machine.")
-```
-
-### Step 2: Execute on Remote Machine
-
-```{python}
-#| label: execute-remote
-from spotoptim import SpotOptim
-import numpy as np
-
-# Define objective function on remote machine
-def expensive_function(X):
-    """Expensive simulation or computation"""
-    # Your expensive computation here
-    return np.sum(X**2, axis=1) + 0.1 * np.sum(np.sin(10 * X), axis=1)
-
-# Load experiment configuration
-optimizer = SpotOptim.load_experiment("remote_job_001_exp.pkl")
-print("Experiment loaded successfully")
-
-# Attach objective function (must be done after loading)
-optimizer.fun = expensive_function
-
-# Run optimization
-result = optimizer.optimize()
-print(f"Optimization complete. Best value: {result.fun:.6f}")
-
-# Save results
-optimizer.save_result(prefix="remote_job_001")
-# Creates: remote_job_001_res.pkl
-
-print("Results saved. Transfer remote_job_001_res.pkl back to local machine.")
-```
+ 
+ ```{python}
+ #| label: define-experiment-locally
+ import numpy as np
+ from spotoptim import SpotOptim
+ 
+ # Define the actual function locally
+ def expensive_function(X):
+     """Function to be optimized remotely"""
+     return np.sum(X**2, axis=1) + 0.1 * np.sum(np.sin(10 * X), axis=1)
+ 
+ # Define configuration locally
+ optimizer = SpotOptim(
+     fun=expensive_function,  # Actual function is included!
+     bounds=[(-10, 10), (-10, 10), (-10, 10)],
+     max_iter=20,
+     n_initial=10,
+     seed=42,
+     verbose=True
+ )
+ 
+ # Save experiment configuration
+ optimizer.save_experiment(prefix="remote_job_001")
+ # Creates: remote_job_001_exp.pkl
+ 
+ print("Experiment saved. Transfer remote_job_001_exp.pkl to remote machine.")
+ ```
+ 
+ ### Step 2: Execute on Remote Machine
+ 
+ ```{python}
+ #| label: execute-remote
+ from spotoptim import SpotOptim
+ # No need to redefine function if it was serialized!
+ 
+ # Load experiment configuration (function is included via dill)
+ optimizer = SpotOptim.load_experiment("remote_job_001_exp.pkl")
+ print("Experiment loaded successfully with function included.")
+ 
+ # Run optimization
+ result = optimizer.optimize()
+ print(f"Optimization complete. Best value: {result.fun:.6f}")
+ 
+ # Save results
+ optimizer.save_result(prefix="remote_job_001")
+ # Creates: remote_job_001_res.pkl
+ 
+ print("Results saved. Transfer remote_job_001_res.pkl back to local machine.")
+ ```
 
 ### Step 3: Analyze Results Locally
 
@@ -596,7 +589,7 @@ This ensures loaded experiments can continue optimization without manual configu
 
 Some components cannot be pickled and are automatically excluded:
 
-- **Objective function** (`fun`): Lambda functions and local functions cannot be reliably pickled
+- **Objective function** (`fun`): Included (via `dill`) in both experiment and result files.
 - **TensorBoard writer** (`tb_writer`): File handles cannot be serialized
 - **Surrogate model** (experiments only): Recreated on load for experiments
 
@@ -613,15 +606,10 @@ with open(filename, "wb") as handle:
 ## Troubleshooting
 
 ### Issue: "AttributeError: 'SpotOptim' object has no attribute 'fun'"
-
-**Cause**: Objective function not re-attached after loading experiment.
-
-**Solution**: Always re-attach the function after loading:
-
-```{python}
+```python
 #| eval: false
 opt = SpotOptim.load_experiment("exp.pkl")
-opt.fun = your_objective_function  # Add this line
+# opt.fun is already populated!
 result = opt.optimize()
 ```
 
