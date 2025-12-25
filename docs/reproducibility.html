@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -134,7 +134,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -626,7 +628,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="making-optimization-reproducible" class="level3" data-number="13.2.1">
 <h3 data-number="13.2.1" class="anchored" data-anchor-id="making-optimization-reproducible"><span class="header-section-number">13.2.1</span> Making Optimization Reproducible</h3>
 <p>To ensure reproducible results, simply specify the <code>seed</code> parameter when creating the optimizer:</p>
-<div id="636280ed" class="cell" data-execution_count="1">
+<div id="f278a41e" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -674,7 +676,7 @@ Best value: 8.308655636334231e-06</code></pre>
 <section id="running-independent-experiments" class="level3" data-number="13.2.2">
 <h3 data-number="13.2.2" class="anchored" data-anchor-id="running-independent-experiments"><span class="header-section-number">13.2.2</span> Running Independent Experiments</h3>
 <p>If you don’t specify a seed, each optimization run will explore the search space differently:</p>
-<div id="664d0e72" class="cell" data-execution_count="2">
+<div id="19669a26" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-reproducible: different results each time</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
@@ -695,7 +697,7 @@ Best value: 8.308655636334231e-06</code></pre>
 <section id="example-1-comparing-different-configurations" class="level3" data-number="13.3.1">
 <h3 data-number="13.3.1" class="anchored" data-anchor-id="example-1-comparing-different-configurations"><span class="header-section-number">13.3.1</span> Example 1: Comparing Different Configurations</h3>
 <p>When comparing different optimizer settings, use the same seed for fair comparison:</p>
-<div id="f7025c12" class="cell" data-execution_count="3">
+<div id="af94ca72" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -728,7 +730,7 @@ Best value: 8.308655636334231e-06</code></pre>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Config 1 (more initial): </span><span class="sc">{</span>result1<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Config 2 (fewer initial): </span><span class="sc">{</span>result2<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Config 1 (more initial): 0.002400
+<pre><code>Config 1 (more initial): 0.002496
 Config 2 (fewer initial): 0.011548</code></pre>
 </div>
 </div>
@@ -736,7 +738,7 @@ Config 2 (fewer initial): 0.011548</code></pre>
 <section id="example-2-reproducible-research-experiment" class="level3" data-number="13.3.2">
 <h3 data-number="13.3.2" class="anchored" data-anchor-id="example-2-reproducible-research-experiment"><span class="header-section-number">13.3.2</span> Example 2: Reproducible Research Experiment</h3>
 <p>For scientific papers or reports, always use a fixed seed and document it:</p>
-<div id="840e7158" class="cell" data-execution_count="4">
+<div id="57336db0" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -773,77 +775,77 @@ Initial best: f(x) = 20.392774
 Iteration 1: f(x) = 31.367742
 Iteration 2: f(x) = 30.822371
 Iteration 3: f(x) = 28.763220
-Iteration 4: f(x) = 25.374425
-Iteration 5: f(x) = 22.086775
-Iteration 6: f(x) = 23.597504
-Iteration 7: f(x) = 27.024888
-Iteration 8: f(x) = 23.154396
-Iteration 9: New best f(x) = 8.927800
-Iteration 10: New best f(x) = 8.899463
-Iteration 11: f(x) = 19.828302
-Iteration 12: f(x) = 19.323471
-Iteration 13: New best f(x) = 8.692669
-Iteration 14: New best f(x) = 8.245333
-Iteration 15: f(x) = 8.404470
-Iteration 16: f(x) = 17.267988
-Iteration 17: f(x) = 17.250502
-Iteration 18: f(x) = 16.977620
-Iteration 19: f(x) = 22.062499
-Iteration 20: New best f(x) = 8.226410
-Iteration 21: New best f(x) = 2.728933
-Iteration 22: New best f(x) = 2.240486
-Iteration 23: New best f(x) = 2.001396
-Iteration 24: f(x) = 2.001807
-Iteration 25: f(x) = 2.002686
-Iteration 26: f(x) = 24.700728
-Iteration 27: f(x) = 25.466480
-Iteration 28: f(x) = 22.298082
-Iteration 29: f(x) = 16.955776
-Iteration 30: New best f(x) = 1.990147
-Iteration 31: New best f(x) = 1.989947
-Iteration 32: f(x) = 70.687779
-Iteration 33: New best f(x) = 1.989931
-Iteration 34: New best f(x) = 1.989929
-Iteration 35: New best f(x) = 1.989928
-Iteration 36: f(x) = 1.989929
-Iteration 37: f(x) = 13.867709
-Iteration 38: f(x) = 38.137352
-Iteration 39: f(x) = 14.982482
-Iteration 40: f(x) = 59.563696
-Iteration 41: f(x) = 26.887069
-Iteration 42: f(x) = 27.275004
-Iteration 43: New best f(x) = 1.989928
-Iteration 44: f(x) = 1.989929
-Iteration 45: f(x) = 1.989929
-Iteration 46: f(x) = 1.989929
-Iteration 47: f(x) = 1.989929
-Iteration 48: f(x) = 66.914757
-Iteration 49: f(x) = 77.894487
-Iteration 50: f(x) = 61.339373
-Iteration 51: f(x) = 16.999399
-Iteration 52: f(x) = 13.144192
-Iteration 53: f(x) = 13.867499
-Iteration 54: f(x) = 1.989929
+Iteration 4: f(x) = 25.374644
+Iteration 5: f(x) = 22.086644
+Iteration 6: f(x) = 23.596219
+Iteration 7: f(x) = 27.024883
+Iteration 8: f(x) = 23.153882
+Iteration 9: New best f(x) = 8.927718
+Iteration 10: New best f(x) = 8.899435
+Iteration 11: f(x) = 19.826171
+Iteration 12: f(x) = 19.324098
+Iteration 13: New best f(x) = 8.692665
+Iteration 14: New best f(x) = 8.245095
+Iteration 15: f(x) = 8.404572
+Iteration 16: f(x) = 17.268398
+Iteration 17: f(x) = 17.251184
+Iteration 18: f(x) = 16.970067
+Iteration 19: f(x) = 22.185275
+Iteration 20: New best f(x) = 8.230838
+Iteration 21: New best f(x) = 2.766234
+Iteration 22: New best f(x) = 2.221388
+Iteration 23: New best f(x) = 2.001324
+Iteration 24: f(x) = 2.001654
+Iteration 25: f(x) = 2.002591
+Iteration 26: New best f(x) = 1.990123
+Iteration 27: New best f(x) = 1.989948
+Iteration 28: f(x) = 56.853996
+Iteration 29: f(x) = 27.367407
+Iteration 30: f(x) = 24.840507
+Iteration 31: f(x) = 24.650650
+Iteration 32: f(x) = 25.467453
+Iteration 33: f(x) = 22.411652
+Iteration 34: New best f(x) = 1.989933
+Iteration 35: New best f(x) = 1.989930
+Iteration 36: f(x) = 1.989930
+Iteration 37: f(x) = 1.989931
+Iteration 38: f(x) = 1.989931
+Iteration 39: f(x) = 39.787720
+Iteration 40: f(x) = 1.989930
+Iteration 41: f(x) = 1.989930
+Iteration 42: f(x) = 1.989931
+Iteration 43: New best f(x) = 1.989929
+Iteration 44: f(x) = 64.383661
+Iteration 45: f(x) = 66.729681
+Iteration 46: f(x) = 78.965711
+Iteration 47: f(x) = 73.268188
+Iteration 48: f(x) = 66.151651
+Iteration 49: f(x) = 1.989931
+Iteration 50: f(x) = 1.989930
+Iteration 51: f(x) = 13.570894
+Iteration 52: f(x) = 38.281816
+Iteration 53: f(x) = 61.965122
+Iteration 54: f(x) = 15.321956
 Iteration 55: f(x) = 1.989929
 Iteration 56: f(x) = 1.989930
-Iteration 57: New best f(x) = 1.989928
-Iteration 58: f(x) = 16.995375
-Iteration 59: f(x) = 1.989931
-Iteration 60: f(x) = 1.989929
-Iteration 61: New best f(x) = 1.989928
-Iteration 62: f(x) = 1.989929
-Iteration 63: f(x) = 86.774141
-Iteration 64: New best f(x) = 1.989926
-Iteration 65: f(x) = 1.989928
-Iteration 66: f(x) = 58.536164
-Iteration 67: f(x) = 1.989929
-Iteration 68: f(x) = 1.989928
-Iteration 69: f(x) = 34.993802
-Iteration 70: f(x) = 17.070754
+Iteration 57: f(x) = 1.989931
+Iteration 58: f(x) = 1.989931
+Iteration 59: f(x) = 59.029501
+Iteration 60: f(x) = 1.989930
+Iteration 61: f(x) = 1.989931
+Iteration 62: f(x) = 1.989931
+Iteration 63: f(x) = 1.989931
+Iteration 64: f(x) = 1.989930
+Iteration 65: f(x) = 1.989930
+Iteration 66: New best f(x) = 1.989929
+Iteration 67: f(x) = 1.989931
+Iteration 68: New best f(x) = 1.989928
+Iteration 69: f(x) = 1.989931
+Iteration 70: f(x) = 1.989930
 
 Experiment Results (seed=12345):
-Best solution: [ 9.94851061e-01 -9.94868816e-01  1.47138236e-04]
-Best value: 1.9899263038780575
+Best solution: [ 9.94838635e-01 -9.94880088e-01  1.72264981e-04]
+Best value: 1.9899280804879211
 Iterations: 70
 Function evaluations: 100</code></pre>
 </div>
@@ -852,7 +854,7 @@ Function evaluations: 100</code></pre>
 <section id="example-3-multiple-independent-runs" class="level3" data-number="13.3.3">
 <h3 data-number="13.3.3" class="anchored" data-anchor-id="example-3-multiple-independent-runs"><span class="header-section-number">13.3.3</span> Example 3: Multiple Independent Runs</h3>
 <p>To test robustness, run the same optimization with different seeds:</p>
-<div id="e0d6717a" class="cell" data-execution_count="5">
+<div id="1a2c4a7f" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -892,22 +894,22 @@ Function evaluations: 100</code></pre>
 <span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Std dev: </span><span class="sc">{</span>np<span class="sc">.</span>std(results)<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Run with seed   42: f(x) = 0.000907
-Run with seed  123: f(x) = 0.000938
-Run with seed  456: f(x) = 0.001957
-Run with seed  789: f(x) = 0.000583
-Run with seed 1011: f(x) = 0.003035
+Run with seed  123: f(x) = 0.001442
+Run with seed  456: f(x) = 0.001956
+Run with seed  789: f(x) = 0.000587
+Run with seed 1011: f(x) = 0.003033
 
-Best result: 0.000583
-Worst result: 0.003035
-Mean: 0.001484
-Std dev: 0.000902</code></pre>
+Best result: 0.000587
+Worst result: 0.003033
+Mean: 0.001585
+Std dev: 0.000862</code></pre>
 </div>
 </div>
 </section>
 <section id="example-4-reproducible-initial-design" class="level3" data-number="13.3.4">
 <h3 data-number="13.3.4" class="anchored" data-anchor-id="example-4-reproducible-initial-design"><span class="header-section-number">13.3.4</span> Example 4: Reproducible Initial Design</h3>
 <p>The seed ensures that even the initial design points are reproducible:</p>
-<div id="772b6a74" class="cell" data-execution_count="6">
+<div id="62b012fd" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -955,7 +957,7 @@ Best solutions are identical: True</code></pre>
 <section id="example-5-custom-initial-design-with-seed" class="level3" data-number="13.3.5">
 <h3 data-number="13.3.5" class="anchored" data-anchor-id="example-5-custom-initial-design-with-seed"><span class="header-section-number">13.3.5</span> Example 5: Custom Initial Design with Seed</h3>
 <p>Even when providing a custom initial design, the seed ensures reproducible subsequent iterations:</p>
-<div id="1b35767f" class="cell" data-execution_count="7">
+<div id="ff9f2c62" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1009,7 +1011,7 @@ Best value: 2.196000</code></pre>
 <section id="seed-and-noisy-functions" class="level3" data-number="13.4.1">
 <h3 data-number="13.4.1" class="anchored" data-anchor-id="seed-and-noisy-functions"><span class="header-section-number">13.4.1</span> Seed and Noisy Functions</h3>
 <p>When optimizing noisy functions with repeated evaluations, the seed ensures reproducible noise:</p>
-<div id="4b36d4f3" class="cell" data-execution_count="8">
+<div id="4339920b" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1042,7 +1044,7 @@ Variance at best: 0.009499</code></pre>
 <section id="different-seeds-for-different-exploration" class="level3" data-number="13.4.2">
 <h3 data-number="13.4.2" class="anchored" data-anchor-id="different-seeds-for-different-exploration"><span class="header-section-number">13.4.2</span> Different Seeds for Different Exploration</h3>
 <p>Use different seeds to explore different regions systematically:</p>
-<div id="f56eb18a" class="cell" data-execution_count="9">
+<div id="1e69d26d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1074,18 +1076,18 @@ Variance at best: 0.009499</code></pre>
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Best result with seed </span><span class="sc">{</span>best_seed<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>best_overall<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Seed 10: f(x) = 0.619112
-Seed 11: f(x) = 1.345956
-Seed 12: f(x) = 5.390402
-Seed 13: f(x) = 1.234116
-Seed 14: f(x) = 0.514761
-Seed 15: f(x) = 0.446401
-Seed 16: f(x) = 9.239990
+<pre><code>Seed 10: f(x) = 0.575080
+Seed 11: f(x) = 1.132476
+Seed 12: f(x) = 2.479256
+Seed 13: f(x) = 1.195983
+Seed 14: f(x) = 0.445332
+Seed 15: f(x) = 0.233029
+Seed 16: f(x) = 9.415265
 Seed 17: f(x) = 0.546790
-Seed 18: f(x) = 2.097909
-Seed 19: f(x) = 0.417915
+Seed 18: f(x) = 2.079011
+Seed 19: f(x) = 0.189121
 
-Best result with seed 19: 0.417915</code></pre>
+Best result with seed 19: 0.189121</code></pre>
 </div>
 </div>
 </section>
@@ -1094,7 +1096,7 @@ Best result with seed 19: 0.417915</code></pre>
 <h2 data-number="13.5" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">13.5</span> Best Practices</h2>
 <section id="always-use-seeds-for-production-code" class="level3" data-number="13.5.1">
 <h3 data-number="13.5.1" class="anchored" data-anchor-id="always-use-seeds-for-production-code"><span class="header-section-number">13.5.1</span> 1. Always Use Seeds for Production Code</h3>
-<div id="99e81cb3" class="cell" data-execution_count="10">
+<div id="23461b36" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Reproducible</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(fun<span class="op">=</span>objective, bounds<span class="op">=</span>bounds, seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1104,7 +1106,7 @@ Best result with seed 19: 0.417915</code></pre>
 </section>
 <section id="document-your-seeds" class="level3" data-number="13.5.2">
 <h3 data-number="13.5.2" class="anchored" data-anchor-id="document-your-seeds"><span class="header-section-number">13.5.2</span> 2. Document Your Seeds</h3>
-<div id="74a4a1b3" class="cell" data-execution_count="11">
+<div id="9613ac58" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration for experiment reported in Section 4.2</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>EXPERIMENT_SEED <span class="op">=</span> <span class="dv">2024</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>MAX_ITERATIONS <span class="op">=</span> <span class="dv">100</span></span>
@@ -1119,7 +1121,7 @@ Best result with seed 19: 0.417915</code></pre>
 </section>
 <section id="use-different-seeds-for-different-experiments" class="level3" data-number="13.5.3">
 <h3 data-number="13.5.3" class="anchored" data-anchor-id="use-different-seeds-for-different-experiments"><span class="header-section-number">13.5.3</span> 3. Use Different Seeds for Different Experiments</h3>
-<div id="60418da7" class="cell" data-execution_count="12">
+<div id="be90e1b1" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different experiments should use different seeds</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>BASELINE_SEED <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>EXPERIMENT_A_SEED <span class="op">=</span> <span class="dv">200</span></span>
@@ -1128,7 +1130,7 @@ Best result with seed 19: 0.417915</code></pre>
 </section>
 <section id="test-robustness-across-multiple-seeds" class="level3" data-number="13.5.4">
 <h3 data-number="13.5.4" class="anchored" data-anchor-id="test-robustness-across-multiple-seeds"><span class="header-section-number">13.5.4</span> 4. Test Robustness Across Multiple Seeds</h3>
-<div id="d5b974e4" class="cell" data-execution_count="13">
+<div id="1f7567cf" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run same optimization with multiple seeds</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> seed <span class="kw">in</span> [<span class="dv">42</span>, <span class="dv">123</span>, <span class="dv">456</span>, <span class="dv">789</span>, <span class="dv">1011</span>]:</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> SpotOptim(fun<span class="op">=</span>objective, bounds<span class="op">=</span>bounds, seed<span class="op">=</span>seed)</span>

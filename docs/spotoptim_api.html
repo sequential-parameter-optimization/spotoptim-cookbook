@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -99,7 +99,9 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Sequential Parameter Optimization Cookbook</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -564,18 +566,35 @@ ul.task-list li input[type="checkbox"] {
 <section id="parameters" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="parameters"><span class="header-section-number">3.2</span> Parameters</h2>
 <p><strong>fun</strong> : callable The objective function to be minimized. <code>fun(x) -&gt; float</code> where <code>x</code> is an array with shape (n,) and <code>fun</code> returns a scalar float.</p>
-<p><strong>bounds</strong> : sequence or <code>Bounds</code> Bounds for variables. There are two ways to specify the bounds: 1. Instance of <code>scipy.optimize.Bounds</code> class. 2. Sequence of <code>(min, max)</code> pairs for each element in <code>x</code>. None is not supported.</p>
+<p><strong>bounds</strong> : sequence or <code>Bounds</code> Bounds for variables. There are two ways to specify the bounds:</p>
+<ol type="1">
+<li>Instance of <code>scipy.optimize.Bounds</code> class.</li>
+<li>Sequence of <code>(min, max)</code> pairs for each element in <code>x</code>. <code>None</code> is not supported.</li>
+</ol>
 <p><strong>max_iter</strong> : int, optional Maximum number of iterations (function evaluations). Default is 20. Note: This includes the initial design points.</p>
 <p><strong>n_initial</strong> : int, optional Number of initial design points (Latin Hypercube Sampling). Default is 10. Must be less than <code>max_iter</code>.</p>
 <p><strong>seed</strong> : int, optional Random seed for reproducibility. Default is None.</p>
 <p><strong>surrogate</strong> : estimator object, optional Surrogate model to use. If None, a default Gaussian Process Regressor (Matern kernel) is used.</p>
 <p><strong>acquisition</strong> : str, optional Acquisition function to use. Default is “y” (best value). Options: “EI” (Expected Improvement), “LCB” (Lower Confidence Bound), etc.</p>
-<p><strong>var_type</strong> : list of str, optional List specifying the type of each variable: - “float” (continuous, default) - “int” (integer) - “factor” (categorical)</p>
+<p><strong>var_type</strong> : list of str, optional List specifying the type of each variable:</p>
+<ul>
+<li>“float” (continuous, default)</li>
+<li>“int” (integer)</li>
+<li>“factor” (categorical)</li>
+</ul>
 <p><strong>var_name</strong> : list of str, optional List of names for each variable. Default is <code>["x0", "x1", ...]</code>.</p>
 </section>
 <section id="returns" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="returns"><span class="header-section-number">3.3</span> Returns</h2>
-<p><strong>res</strong> : OptimizeResult The optimization result represented as a <code>scipy.optimize.OptimizeResult</code> object. Important attributes are: - <code>x</code>: the solution array - <code>fun</code>: the value of the objective function at the solution - <code>success</code>: a boolean flag indicating if the optimizer exited successfully - <code>message</code>: a description of the cause of the termination - <code>nfev</code>: number of evaluations of the objective function - <code>nit</code>: number of iterations</p>
+<p><strong>res</strong> : OptimizeResult The optimization result represented as a <code>scipy.optimize.OptimizeResult</code> object. Important attributes are:</p>
+<ul>
+<li><code>x</code>: the solution array</li>
+<li><code>fun</code>: the value of the objective function at the solution</li>
+<li><code>success</code>: a boolean flag indicating if the optimizer exited successfully</li>
+<li><code>message</code>: a description of the cause of the termination</li>
+<li><code>nfev</code>: number of evaluations of the objective function</li>
+<li><code>nit</code>: number of iterations</li>
+</ul>
 </section>
 <section id="see-also" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="see-also"><span class="header-section-number">3.4</span> See Also</h2>
