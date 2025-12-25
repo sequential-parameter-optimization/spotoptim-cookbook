@@ -21,8 +21,9 @@ Minimization of scalar function of one or more variables using Surrogate-Model B
 
 **bounds** : sequence or `Bounds`
   Bounds for variables. There are two ways to specify the bounds:
+
   1. Instance of `scipy.optimize.Bounds` class.
-  2. Sequence of `(min, max)` pairs for each element in `x`. None is not supported.
+  2. Sequence of `(min, max)` pairs for each element in `x`. `None` is not supported.
 
 **max_iter** : int, optional
   Maximum number of iterations (function evaluations). Default is 20.
@@ -44,6 +45,7 @@ Minimization of scalar function of one or more variables using Surrogate-Model B
 
 **var_type** : list of str, optional
   List specifying the type of each variable:
+
   - "float" (continuous, default)
   - "int" (integer)
   - "factor" (categorical)
@@ -55,6 +57,7 @@ Minimization of scalar function of one or more variables using Surrogate-Model B
 
 **res** : OptimizeResult
   The optimization result represented as a `scipy.optimize.OptimizeResult` object. Important attributes are:
+
   - `x`: the solution array
   - `fun`: the value of the objective function at the solution
   - `success`: a boolean flag indicating if the optimizer exited successfully
@@ -76,3 +79,11 @@ This section describes the available solvers that can be selected by the 'method
 4. Updates the model and repeats.
 
 This method is particularly effective for expensive-to-evaluate black-box functions.
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/spotoptim_api.ipynb)
+
+:::

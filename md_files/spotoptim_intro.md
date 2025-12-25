@@ -8,19 +8,25 @@ eval: true
 
 Let us consider the problem of minimizing the Rosenbrock function. This function (and its respective derivatives) is implemented in `rosen` (and `rosen_der`, `rosen_hess`) in the `scipy.optimize` module.
 
+The function is usually evaluated on the hypercube $x_i \in [-5, 10]$, for all $i = 1, \ldots, d$, although it may be restricted to the hypercube $x_i \in [-2.048, 2.048], for all $i = 1, \ldots, d$, see [https://www.sfu.ca/~ssurjano/rosen.html](https://www.sfu.ca/~ssurjano/rosen.html).
+
+A simple application of the Nelder-Mead method is:
+
 ```{python}
-from scipy.optimize import rosen, rosen_der, rosen_hess
-X = [1.3, 0.7, 0.8, 1.9, 1.2]
-print(rosen(X))
+from scipy.optimize import minimize, rosen, rosen_der
+x0 = [1.3, 0.7, 0.8, 1.9, 1.2]
+res = minimize(rosen, x0, method='Nelder-Mead', tol=1e-6, 
+        bounds = [(-2.048, 2.048)] * 5)
+res.x
 ```
 
-A simple implementation of the Nelder-Mead method is:
+Now using the BFGS algorithm, using the first derivative and a few options:
 
 ```{python}
-from scipy.optimize import minimize
-x0 = [1.3, 0.7, 0.8, 1.9, 1.2]
-res = minimize(rosen, x0, method='Nelder-Mead', tol=1e-6)
-print(res.x)
+res = minimize(rosen, x0, method='BFGS', jac=rosen_der,
+               options={'gtol': 1e-6, 'disp': True})
+res.x
+print(res.message)
 ```
 
 Now, let's see how to solve the same problem using **SpotOptim**, which uses a Surrogate-Model Based Optimization (SMBO) approach. Unlike `minimize`, SpotOptim requires bounds as it samples the search space globally.
@@ -40,7 +46,7 @@ def rosen_batch(X):
 # Bounds are required for SpotOptim
 optimizer = SpotOptim(
     fun=rosen_batch,
-    bounds=[(0, 2), (0, 2), (0, 2), (0, 2), (0, 2)],
+    bounds = [(-2.048, 2.048)] * 5,
     max_iter=50,  # Total budget of function evaluations
     n_initial=10, # Initial random samples
     seed=42
@@ -48,7 +54,10 @@ optimizer = SpotOptim(
 
 # Run optimization
 res = optimizer.optimize()
+print(res.message)
+```
 
+```{python}
 print(f"Best solution found: {res.x}")
 print(f"Best objective value: {res.fun}")
 print(f"Total evaluations: {res.nfev}")
@@ -78,7 +87,8 @@ x0 = np.random.rand(10)
 print(f"Initial cost: {objective_scipy(x0):.4f}")
 
 # Run generic minimization (Nelder-Mead is default for gradient-free)
-res_scipy = minimize(objective_scipy, x0, method='Nelder-Mead', tol=1e-4)
+res_scipy = minimize(objective_scipy, x0, method='Nelder-Mead', tol=1e-4,
+            bounds = [(0.0, 1.0)] * 10)
 
 print(f"Scipy Best cost: {res_scipy.fun:.4f}")
 print(f"Scipy Success: {res_scipy.success}")
@@ -109,3 +119,11 @@ print(f"SpotOptim Best cost: {res_spot.fun:.4f}")
 ```
 
 SpotOptim's use of a surrogate model and global acquisition function allows it to better explore the landscape and often jump out of the local traps that catch the local optimizer, finding a significantly better configuration for the robot arm.
+
+## Jupyter Notebook
+
+:::{.callout-note}
+
+* The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/spotoptim_intro.ipynb)
+
+:::
