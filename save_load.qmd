@@ -15,7 +15,7 @@ SpotOptim distinguishes between two types of saved data:
 - **Experiment** (`*_exp.pkl`): Configuration only, excluding the objective function and results. Used to transfer optimization setup to remote machines.
 - **Result** (`*_res.pkl`): Complete optimization state including configuration, all evaluations, and results. Used to save and analyze completed optimizations.
 
-### What Gets Saved
+@tbl-what-gets-saved shows what gets saved in each file type.
 
 | Component | Experiment | Result |
 |-----------|------------|--------|
@@ -26,8 +26,16 @@ SpotOptim distinguishes between two types of saved data:
 | Surrogate model | Excluded* | ✓ |
 | TensorBoard writer | ✗ | ✗ |
 
-::: {.callout-note title="Robust Function Saving"}
-SpotOptim uses `dill` for serialization, which allows robust saving of objective functions, including lambda functions and locally defined functions. This means you do **not** need to manually re-attach the objective function after loading a result file.
+: Robust Function Saving {#tbl-what-gets-saved}
+
+
+:::{.callout-note}
+
+#### Robust Function Saving
+
+SpotOptim uses `dill` for serialization, which allows robust saving of objective functions, including lambda functions and locally defined functions. This means you do **not** need to manually re-attach the 
+objective function after loading a result file.
+
 :::
 
 

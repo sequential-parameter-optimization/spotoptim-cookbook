@@ -244,12 +244,12 @@ print(f"Mean initial value: {np.mean(y0):.6f}")
 
 ## Phase 5: Handling Failed Evaluations
 
-### Method: `_handle_NA_initial_design(X0,y0)`
+### Method: `_rm_NA_values(X0,y0)`
 
 Removes points that returned NaN or inf values.
 In contrasts to later phases, no penalties are applied here; invalid points of the initial design are simply removed.
 
-**What happens in `_handle_NA_initial_design()`:**
+**What happens in `_rm_NA_values()`:**
 
 1. Identify NaN/inf values in function evaluations
 2. Remove corresponding design points
@@ -258,7 +258,7 @@ In contrasts to later phases, no penalties are applied here; invalid points of t
 
 ```{python}
 n_before = len(y0)
-X0_clean, y0_clean, n_evaluated = opt._handle_NA_initial_design(X0_curated, y0)
+X0_clean, y0_clean, n_evaluated = opt._rm_NA_values(X0_curated, y0)
 
 print(f"Points before filtering: {n_before}")
 print(f"Points after filtering: {len(y0_clean)}")
@@ -970,7 +970,7 @@ print(f"  Note: Failed evaluations handled transparently")
 
 ## Failure Handling in Initial Design
 
-### Method: `_handle_NA_initial_design()`
+### Method: `_rm_NA_values()`
 
 ```{python}
 print("Initial design failure handling:")
@@ -1051,7 +1051,7 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 1. `get_initial_design()` - Generate/process initial sample points
 2. `_curate_initial_design()` - Remove duplicates, handle repeats
 3. `_evaluate_function()` - Evaluate objective function
-4. `_handle_NA_initial_design()` - Remove NaN/inf from initial design
+4. `_rm_NA_values()` - Remove NaN/inf from initial design
 5. `_check_size_initial_design()` - Validate sufficient points
 6. `_init_storage()` - Initialize storage (X_, y_, n_iter_)
 7. `update_stats()` - Compute mean/variance for noisy functions
@@ -1235,7 +1235,7 @@ INITIALIZATION PHASE
   ├─► _evaluate_function()
   │     └─► Evaluate objective function
   │
-  ├─► _handle_NA_initial_design()
+  ├─► _rm_NA_values()
   │     └─► Remove NaN/inf points
   │
   ├─► _check_size_initial_design()
