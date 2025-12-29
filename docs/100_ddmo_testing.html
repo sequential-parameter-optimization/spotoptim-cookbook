@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>41&nbsp; Hypothesis Testing – Sequential Parameter Optimization Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./100_ddmo_pca.html" rel="next">
+<link href="./100_ddmo_eda.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="41&nbsp; Hypothesis Testing – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./100_ddmo_eda.html">Data-Driven Modeling and Optimization</a></li><li class="breadcrumb-item"><a href="./100_ddmo_testing.html"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Sequential Parameter Optimization Cookbook</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/sequential-parameter-optimization/spotpython" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./Sequential-Parameter-Optimization-Cookbook.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Sequential Parameter Optimization Toolbox (SPOT)</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spotoptim_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spotoptim_api.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">SpotOptim API Reference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spotoptim_examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./awwe_optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Optimizing the Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./019_spotoptim_sk_matern.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./success_rate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Variables and Hyperparameters</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./factor_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable Transformations for Search Space Scaling</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plot_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Surrogate Model Visualization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tensorboard.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">TensorBoard Logging in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Saving and Loading Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./save_load.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Save and Load in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Reproducibility in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Surrogate Handling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./surrogate_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Surrogate Model Selection in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acquisition_failure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Acquisition Failure Handling in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./point_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Kriging</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Kriging Surrogate Models in SpotOptim</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_forrester.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Kriging in SpotOptim: The Forrester Implementation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kriging_nystroem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Nystroem Kernel Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Multiobjective Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multiobjective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multi-Objective Optimization Support in SpotOptim</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Hyperparameter Tuning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./torch_objective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">The TorchObjective Class for Hyperparameter Tuning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mlp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">The MLP Class</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pinns_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Physics-Informed Neural Networks (PINNs) Demo 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pinns_2_hyperparameter_tuning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning for Physics-Informed Neural Networks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./learning_rate_mapping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Sets</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Details About SPOT</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data-Driven Modeling and Optimization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./100_ddmo_eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Basic Statistics and Data Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./100_ddmo_testing.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./100_ddmo_pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./100_ddmo_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./100_ddmo_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./100_ddmo_clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendix</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a_04_gp_background.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#paired-sample-analysis" id="toc-paired-sample-analysis" class="nav-link active" data-scroll-target="#paired-sample-analysis"><span class="header-section-number">41.1</span> Paired-Sample Analysis</a>
+  <ul class="collapse">
+  <li><a href="#directional-hypotheses-for-a-paired-experiment" id="toc-directional-hypotheses-for-a-paired-experiment" class="nav-link" data-scroll-target="#directional-hypotheses-for-a-paired-experiment"><span class="header-section-number">41.1.1</span> Directional Hypotheses for a Paired Experiment</a></li>
+  <li><a href="#the-paired-samples-t-test-a-technical-examination" id="toc-the-paired-samples-t-test-a-technical-examination" class="nav-link" data-scroll-target="#the-paired-samples-t-test-a-technical-examination"><span class="header-section-number">41.1.2</span> The Paired Samples t-Test: A Technical Examination</a></li>
+  <li><a href="#a-priori-sample-size-determination-for-desired-power" id="toc-a-priori-sample-size-determination-for-desired-power" class="nav-link" data-scroll-target="#a-priori-sample-size-determination-for-desired-power"><span class="header-section-number">41.1.3</span> A Priori Sample Size Determination for Desired Power</a></li>
+  <li><a href="#effect-size-delta" id="toc-effect-size-delta" class="nav-link" data-scroll-target="#effect-size-delta"><span class="header-section-number">41.1.4</span> Effect Size (<span class="math inline">\(\Delta\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#non-inferiority-test" id="toc-non-inferiority-test" class="nav-link" data-scroll-target="#non-inferiority-test"><span class="header-section-number">41.2</span> Non-inferiority Test</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./100_ddmo_eda.html">Data-Driven Modeling and Optimization</a></li><li class="breadcrumb-item"><a href="./100_ddmo_testing.html"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="paired-sample-analysis" class="level2" data-number="41.1">
+<h2 data-number="41.1" class="anchored" data-anchor-id="paired-sample-analysis"><span class="header-section-number">41.1</span> Paired-Sample Analysis</h2>
+<p>The paired-sample experiment is characterized by a structure where each observation in one sample is uniquely and non-randomly coupled with an observation in another sample. This coupling is not a matter of convenience but a deliberate methodological choice intended to control for extraneous variability. Common applications include “before-and-after” studies, where the same subjects are measured prior to and following an intervention; studies involving naturally matched pairs, such as twins or spouses; or scenarios where two different measurement techniques are applied to the same set of specimens.</p>
+<p>The analytical elegance of the paired design lies in its transformation of a two-sample comparison into a more straightforward one-sample problem. Rather than analyzing the distributions of the two raw measurements, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, the procedure begins by calculating a single vector of difference scores for each pair, <span class="math inline">\(d_i = x_{1i} - x_{2i}\)</span>.</p>
+<p>The entire statistical inference is then conducted on this sample of differences, focusing on a single population parameter: the mean of the paired differences, denoted as <span class="math inline">\(\mu_d\)</span>.</p>
+<p>The research question is thus reframed from “Is the mean of <span class="math inline">\(x_1\)</span> different from the mean of <span class="math inline">\(x_2\)</span>?” to “Is the mean of the differences, <span class="math inline">\(\mu_d\)</span>, different from a specified value?” In the vast majority of cases, this specified value is zero, representing the null hypothesis of no difference between the paired measurements.</p>
+<p>The primary statistical advantage of this transformation is a significant enhancement in statistical power, which is the ability of a test to detect a true effect. This increase in power is a direct mathematical consequence of the design’s structure, because the variance of the difference between two random variables, <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>, is defined by the formula: <span class="math display">\[
+\operatorname{Var}(x_1 - x_2) = \operatorname{Var}(x_1) + \operatorname{Var}(x_2) - 2 \cdot \operatorname{Cov}(x_1, x_2).
+\]</span></p>
+<p>In a paired-sample design, the measurements <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> are derived from the same or closely matched subjects, which typically induces a positive correlation between them. This positive correlation results in a positive covariance term, <span class="math inline">\(\operatorname{Cov}(x_1, x_2)\)</span>. As this term is subtracted in the variance formula, the resulting variance of the difference scores, <span class="math inline">\(\operatorname{Var}(d)\)</span>, is smaller than the sum of the individual variances that would be relevant in an independent-samples design. A smaller variance leads to a smaller standard error of the mean difference, which in turn produces a larger test statistic for a given observed difference. This amplified “signal-to-noise” ratio makes it more likely that a true effect will be deemed statistically significant, thereby increasing the power of the test.</p>
+<p>The paired design should therefore be understood not merely as a data structure but as an active experimental control strategy. Much of the “noise” or unexplained variance in an experiment stems from stable, pre-existing differences between individual subjects (e.g., genetic predispositions, baseline health, cognitive ability). By using each subject as its own control, the paired design effectively isolates the effect of the intervention from this inter-subject variability.</p>
+<p>Paired designs are more powerful, they often require a smaller sample size to detect an effect of a given magnitude compared to an independent-groups design.</p>
+<section id="directional-hypotheses-for-a-paired-experiment" class="level3" data-number="41.1.1">
+<h3 data-number="41.1.1" class="anchored" data-anchor-id="directional-hypotheses-for-a-paired-experiment"><span class="header-section-number">41.1.1</span> Directional Hypotheses for a Paired Experiment</h3>
+<p>The formulation of statistical hypotheses is the formal process of translating a research question into a testable claim about a population parameter. This process is governed by a strict logical framework involving two competing statements: the null hypothesis (<span class="math inline">\(H_0\)</span>) and the alternative hypothesis (<span class="math inline">\(H_1\)</span>). The null hypothesis represents the claim of “no effect” or the status quo. It is the default position that is assumed to be true unless sufficient evidence is presented to refute it. In many experimental contexts, <span class="math inline">\(H_0\)</span> is the proposition that the researcher aims to reject. The alternative hypothesis, conversely, embodies the research hypothesis—it is the claim that an effect exists, for which the researcher is seeking evidence.</p>
+<p>A critical requirement of this framework is that <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span> must be mutually exclusive and exhaustive. This means that they cannot both be true simultaneously, and together they must cover all possible values of the population parameter under investigation.</p>
+<section id="defining-the-parameter-of-interest-and-the-alternative-hypothesis" class="level4" data-number="41.1.1.1">
+<h4 data-number="41.1.1.1" class="anchored" data-anchor-id="defining-the-parameter-of-interest-and-the-alternative-hypothesis"><span class="header-section-number">41.1.1.1</span> Defining the Parameter of Interest and the Alternative Hypothesis</h4>
+<p>For a paired-sample experiment, the statistical inference does not focus on the individual population means of the two measurements (<span class="math inline">\(\mu_{x_1}\)</span> and <span class="math inline">\(\mu_{x_2}\)</span>). Instead, the central parameter of interest is the population mean of the paired differences, <span class="math inline">\(\mu_d = \mu_{x_1} - \mu_{x_2}\)</span>. The user’s specific research question—that <span class="math inline">\(x_1\)</span> is better than <span class="math inline">\(x_2\)</span>, where “better” is defined as a smaller value—must be translated into a precise mathematical statement about this parameter. The claim <span class="math inline">\(x_1\)</span> is smaller than <span class="math inline">\(x_2\)</span> corresponds to the population-level statement <span class="math inline">\(\mu_{x_1} &lt; \mu_{x_2}\)</span>. By rearranging this inequality, we can express it in terms of the parameter <span class="math inline">\(\mu_d\)</span>: <span class="math inline">\(\mu_{x_1} - \mu_{x_2} &lt; 0\)</span>, which is equivalent to <span class="math inline">\(\mu_d &lt; 0\)</span>.</p>
+<p>This statement, <span class="math inline">\(\mu_d &lt; 0\)</span>, becomes the alternative hypothesis (<span class="math inline">\(H_1\)</span>). It is the specific, directional claim that the experiment is designed to support. The formulation is as follows:</p>
+<p>Alternative Hypothesis, <span class="math display">\[H_1: \mu_d &lt; 0\]</span></p>
+<p>This hypothesis dictates that the statistical test will be a one-tailed test, specifically a lower-tailed or left-tailed test. The term “one-tailed” signifies that the researcher is interested only in evidence indicating a difference in a particular direction (in this case, a negative difference). The entire region of rejection for the null hypothesis will be located in the extreme left tail of the test statistic’s sampling distribution.</p>
+</section>
+<section id="establishing-the-null-hypothesis" class="level4" data-number="41.1.1.2">
+<h4 data-number="41.1.1.2" class="anchored" data-anchor-id="establishing-the-null-hypothesis"><span class="header-section-number">41.1.1.2</span> Establishing the Null Hypothesis</h4>
+<p>Once the alternative hypothesis is defined, the null hypothesis is constructed as its logical complement.</p>
+<p>The composite null hypothesis includes the boundary case of zero difference as well as any possible difference in the direction opposite to the alternative hypothesis:</p>
+<p>Composite Null: <span class="math inline">\(H_0: \mu_d \ge 0\)</span></p>
+<p>This statement posits that the mean difference is either zero or positive (i.e., <span class="math inline">\(x_1\)</span> is not smaller than <span class="math inline">\(x_2\)</span>).</p>
+</section>
+<section id="the-critical-justification-for-a-one-tailed-test" class="level4" data-number="41.1.1.3">
+<h4 data-number="41.1.1.3" class="anchored" data-anchor-id="the-critical-justification-for-a-one-tailed-test"><span class="header-section-number">41.1.1.3</span> The Critical Justification for a One-Tailed Test</h4>
+<p>The choice to conduct a one-tailed test is a significant methodological decision that must be justified a priori—that is, before the data are collected or analyzed. A one-tailed test offers a distinct advantage in statistical power. By concentrating the entire significance level (alpha, <span class="math inline">\(\alpha\)</span>) in one tail of the distribution, the test is more sensitive to detecting an effect in the specified direction. However, this increased power comes at a substantial cost: the test is rendered completely incapable of detecting a statistically significant effect in the opposite direction, no matter how large that effect might be.</p>
+<p>Therefore, a one-tailed test is only appropriate when there is a strong theoretical foundation or overwhelming prior evidence suggesting that an effect in the opposite direction is either impossible or of no substantive interest.</p>
+</section>
+<section id="one-tailed-test-justification-example" class="level4 {exm-onetailed}" data-number="41.1.1.4">
+<h4 data-number="41.1.1.4" class="anchored" data-anchor-id="one-tailed-test-justification-example"><span class="header-section-number">41.1.1.4</span> One-tailed Test Justification Example</h4>
+<p>If a new manufacturing process is being tested that can only possibly improve efficiency or have no effect, but cannot logically make it worse, a one-tailed test might be justified. However, consider a scenario where a new drug is developed with the belief that it will be an improvement over an existing drug. Opting for a one-tailed test to maximize the chances of detecting this improvement would mean failing to test for the possibility that the new drug is actually less effective or even harmful. Such an oversight could have serious ethical and practical consequences.</p>
+</section>
+</section>
+<section id="the-paired-samples-t-test-a-technical-examination" class="level3" data-number="41.1.2">
+<h3 data-number="41.1.2" class="anchored" data-anchor-id="the-paired-samples-t-test-a-technical-examination"><span class="header-section-number">41.1.2</span> The Paired Samples t-Test: A Technical Examination</h3>
+<p>The paired samples t-test is the statistical procedure used to evaluate the hypotheses formulated for a paired experimental design. It is a parametric test, meaning its validity relies on certain assumptions about the underlying data. Crucially, these assumptions apply not to the raw scores of the two measurements, but to the calculated difference scores (<span class="math inline">\(d\)</span>) between the pairs.</p>
+<section id="core-assumptions-of-the-paired-t-test" class="level4" data-number="41.1.2.1">
+<h4 data-number="41.1.2.1" class="anchored" data-anchor-id="core-assumptions-of-the-paired-t-test"><span class="header-section-number">41.1.2.1</span> 3.1 Core Assumptions of the Paired t-Test</h4>
+<p>The validity of the conclusions drawn from a paired t-test is contingent upon the satisfaction of four primary assumptions.</p>
+<ul>
+<li>Continuous Data: The dependent variable, and therefore the calculated differences, must be measured on a continuous scale, which includes interval and ratio levels of measurement. Examples include variables like temperature, weight, blood pressure, or test scores.</li>
+<li>Independence of Pairs: The observations between pairs must be independent of one another. For instance, the outcome for one subject in a before-after study should not influence the outcome for any other subject. This assumption is typically met through the use of random sampling from the population of interest.</li>
+<li>Absence of Significant Outliers: The set of difference scores should not contain extreme outliers. Outliers are data points that deviate markedly from the overall pattern of the data. They can exert a disproportionate influence on the sample mean and standard deviation, potentially distorting the test statistic and leading to invalid results. The presence of outliers can be effectively diagnosed by examining a boxplot of the difference scores.</li>
+<li>Normality of Differences: The population of difference scores from which the sample is drawn is assumed to be approximately normally distributed. The t-test is known to be fairly “robust” to violations of this assumption, especially as the sample size increases. This means that even if the data deviate moderately from a perfect normal distribution, the test can still provide valid results. This assumption can be checked visually using tools like histograms or Q-Q plots of the differences, or more formally with statistical tests such as the Shapiro-Wilk test.</li>
+</ul>
+<p>The assumptions of the paired t-test are not arbitrary rules but are direct consequences of the test’s mathematical derivation. The test statistic, <span class="math display">\[t = \bar{d} / (s_d / \sqrt{n}),
+\]</span> is constructed under the premise that the sampling distribution of the mean difference (<span class="math inline">\(\bar{d}\)</span>) is normally distributed. The Central Limit Theorem ensures this will be approximately true for large samples, but for smaller samples, the normality of the underlying population of differences is a more critical condition. Furthermore, the formula relies on the sample standard deviation of the differences (<span class="math inline">\(s_d\)</span>) as an estimate of the population standard deviation (<span class="math inline">\(\sigma_d\)</span>). The presence of outliers can drastically inflate <span class="math inline">\(s_d\)</span>, which in turn increases the denominator of the t-statistic. This artificially reduces the magnitude of the test statistic, thereby decreasing the power of the test to detect a true effect. Therefore, satisfying these assumptions is essential for ensuring that the calculated t-statistic is a reliable measure of the evidence against the null hypothesis.</p>
+</section>
+<section id="a-nuanced-approach-to-assumption-checking" class="level4" data-number="41.1.2.2">
+<h4 data-number="41.1.2.2" class="anchored" data-anchor-id="a-nuanced-approach-to-assumption-checking"><span class="header-section-number">41.1.2.2</span> A Nuanced Approach to Assumption Checking</h4>
+<p>While formal statistical tests for assumptions like normality exist, a sophisticated and practical approach is warranted. Over-reliance on tests like the Shapiro-Wilk test can be misleading. The central issue is that no real-world dataset is perfectly normal. Consequently, with a large sample size, a normality test will have high power and will likely detect even trivial and inconsequential deviations from normality, leading to a rejection of the null hypothesis of normality. Conversely, with a small sample size, the test will have low power and may fail to detect substantial and problematic deviations from normality that could invalidate the t-test.</p>
+<p>A more informative approach focuses on assessing the impact of any non-normality. Visual inspection of the distribution of differences using histograms and Q-Q plots is often more valuable than a p-value from a formal test. The primary concerns are severe skewness or the presence of very heavy tails (i.e., a high propensity for outliers), as these can most seriously affect the validity of the t-test. The robustness of the t-test, particularly for sample sizes greater than 30, means that minor to moderate deviations from normality are generally not a cause for alarm.</p>
+</section>
+<section id="calculating-the-test-statistic" class="level4" data-number="41.1.2.3">
+<h4 data-number="41.1.2.3" class="anchored" data-anchor-id="calculating-the-test-statistic"><span class="header-section-number">41.1.2.3</span> Calculating the Test Statistic</h4>
+<p>The calculation of the paired t-test statistic is mathematically equivalent to performing a one-sample t-test on the vector of difference scores, testing whether their population mean is equal to zero. The procedure involves four steps:</p>
+<ul>
+<li><p>Calculate the mean of the differences (<span class="math inline">\(\bar{d}\)</span>): This is the sample average of all the calculated difference scores. <span class="math display">\[
+  \bar{d} = \frac{\sum_{i=1}^{n} d_i}{n}
+  \]</span> where <span class="math inline">\(d_i\)</span> is the difference for the i-th pair and <span class="math inline">\(n\)</span> is the number of pairs.</p></li>
+<li><p>Calculate the standard deviation of the differences (<span class="math inline">\(s_d\)</span>): This measures the variability of the difference scores around their mean. <span class="math display">\[
+  s_d = \sqrt{\frac{\sum_{i=1}^{n} (d_i - \bar{d})^2}{n-1}}
+  \]</span></p></li>
+<li><p>Calculate the standard error of the mean difference (<span class="math inline">\(SE_{\bar{d}}\)</span>): This is an estimate of the standard deviation of the sampling distribution of the mean difference. <span class="math display">\[
+  SE_{\bar{d}} = \frac{s_d}{\sqrt{n}}
+  \]</span></p></li>
+<li><p>Calculate the t-statistic (<span class="math inline">\(t\)</span>): This is the ratio of the observed mean difference to its standard error. It quantifies how many standard errors the observed mean difference is away from the null-hypothesized value of zero. <span class="math display">\[
+  t = \frac{\bar{d} - \mu_0}{SE_{\bar{d}}} = \frac{\bar{d}}{s_d / \sqrt{n}}
+  \]</span> where <span class="math inline">\(\mu_0\)</span> is the value from the null hypothesis, which is 0 in this case.</p></li>
+</ul>
+</section>
+<section id="the-decision-framework" class="level4" data-number="41.1.2.4">
+<h4 data-number="41.1.2.4" class="anchored" data-anchor-id="the-decision-framework"><span class="header-section-number">41.1.2.4</span> The Decision Framework</h4>
+<p>The calculated t-statistic is then compared to the theoretical Student’s t-distribution with <span class="math inline">\(n-1\)</span> degrees of freedom (df) to determine the statistical significance of the result. This comparison can be made using two complementary approaches.</p>
+<ul>
+<li><p><strong>The Critical Value Approach:</strong> A critical value is determined from a t-distribution table or calculator based on the chosen significance level (<span class="math inline">\(\alpha\)</span>) and the degrees of freedom (df). For the lower-tailed test (<span class="math inline">\(H_1: \mu_d &lt; 0\)</span>), this will be a negative value in the left tail of the distribution (e.g., <span class="math inline">\(t_{\text{critical}}\)</span> for <span class="math inline">\(\alpha=0.05\)</span> and df=29 is -1.699). The decision rule is: if the calculated t-statistic is less than or equal to the negative critical value (<span class="math inline">\(t_{\text{calculated}} \le t_{\text{critical}}\)</span>), the null hypothesis is rejected.</p></li>
+<li><p><strong>The p-value Approach:</strong> The p-value represents the probability of observing a sample mean difference as extreme as, or more extreme than, the one obtained in the study, assuming that the null hypothesis is true. For a lower-tailed test, the p-value is the area under the t-distribution curve to the left of the calculated t-statistic: <span class="math inline">\(p = P(T_{df} \le t_{\text{calculated}})\)</span>. The decision rule is: if the p-value is less than or equal to the significance level (<span class="math inline">\(p \le \alpha\)</span>), the null hypothesis is rejected. This approach is generally preferred in modern statistical practice as it provides a more nuanced measure of the strength of evidence against the null hypothesis.</p></li>
+</ul>
+</section>
+</section>
+<section id="a-priori-sample-size-determination-for-desired-power" class="level3" data-number="41.1.3">
+<h3 data-number="41.1.3" class="anchored" data-anchor-id="a-priori-sample-size-determination-for-desired-power"><span class="header-section-number">41.1.3</span> A Priori Sample Size Determination for Desired Power</h3>
+<p>One of the most critical steps in the design of a rigorous quantitative study is the a priori determination of the required sample size. Conducting a study with too few subjects runs a high risk of a Type II error—failing to detect a real effect that exists in the population. Conversely, a study with too many subjects wastes resources and may needlessly expose participants to experimental conditions. A formal power analysis allows researchers to calculate the minimum sample size needed to have a high probability of detecting an effect of a specified magnitude, thereby balancing statistical rigor with practical and ethical constraints.</p>
+<section id="the-four-pillars-of-power-analysis" class="level4" data-number="41.1.3.1">
+<h4 data-number="41.1.3.1" class="anchored" data-anchor-id="the-four-pillars-of-power-analysis"><span class="header-section-number">41.1.3.1</span> The Four Pillars of Power Analysis</h4>
+<p>The calculation of sample size for a paired t-test is a function of four interrelated parameters. A researcher must specify values for each of these to proceed.</p>
+<div id="def-significance-level" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 41.1 (Significance Level (<span class="math inline">\(\alpha\)</span>))</strong></span> The significant level is the probability of committing a Type I error, which is the error of rejecting the null hypothesis when it is actually true (a “false positive”). This value represents the threshold for statistical significance and is conventionally set at 0.05, corresponding to a 5% risk of a false positive conclusion.</p>
+</div>
+<div id="def-power" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 41.2 (Statistical Power (<span class="math inline">\(1 - \beta\)</span>))</strong></span> Power is the probability of correctly rejecting the null hypothesis when it is false. It is the probability that the test will detect a true effect of a specified magnitude. The desired power is typically set at 0.80 or 0.90, which means the researcher desires an 80% or 90% chance of finding a statistically significant result if the hypothesized effect truly exists in the population. The term <span class="math inline">\(\beta\)</span> represents the probability of a Type II error (a “false negative”).</p>
+</div>
+</section>
+</section>
+<section id="effect-size-delta" class="level3 {def-effect-size}" data-number="41.1.4">
+<h3 data-number="41.1.4" class="anchored" data-anchor-id="effect-size-delta"><span class="header-section-number">41.1.4</span> Effect Size (<span class="math inline">\(\Delta\)</span>)</h3>
+<p>The effect size (<span class="math inline">\(\Delta\)</span>) is the magnitude of the mean difference (<span class="math inline">\(\mu_d\)</span>) that the study is designed to detect. It should represent the smallest difference that is considered scientifically, clinically, or practically meaningful within the research domain. This is often the most challenging parameter to specify, as it requires substantive expertise rather than purely statistical knowledge.</p>
+</section>
+<div id="def-std-dev-differences" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 41.3 (Standard Deviation of Differences (<span class="math inline">\(\sigma_d\)</span>))</strong></span> The Standard Deviation of Differences (<span class="math inline">\(\sigma_d\)</span>) is an estimate of the population standard deviation of the paired differences. It quantifies the expected variability, or “noise,” in the difference scores.</p>
+</div>
+<div id="exm-sample-size" class="theorem example">
+<p><span class="theorem-title"><strong>Example 41.1 (Sample Size Calculation)</strong></span> For instructional purposes, the sample size formula can be presented using an approximation based on the standard normal (Z) distribution. This formula is generally accurate for larger sample sizes (e.g., <span class="math inline">\(n &gt; 30\)</span>). For a one-tailed test, the formula is: <span class="math display">\[
+n = \frac{(Z_{\alpha} + Z_{\beta})^2 \sigma_d^2}{\Delta^2}
+\]</span> Where:</p>
+<ul>
+<li><span class="math inline">\(n\)</span> is the required number of pairs.</li>
+<li><span class="math inline">\(Z_\alpha\)</span> is the critical Z-value corresponding to the one-tailed significance level <span class="math inline">\(\alpha\)</span>. For <span class="math inline">\(\alpha = 0.05\)</span>, <span class="math inline">\(Z_\alpha\)</span> is 1.645.</li>
+<li><span class="math inline">\(Z_\beta\)</span> is the critical Z-value corresponding to the desired power. For a power of 0.80 (<span class="math inline">\(\beta = 0.20\)</span>), <span class="math inline">\(Z_\beta\)</span> is 0.84.</li>
+<li><span class="math inline">\(\sigma_d\)</span> is the estimated standard deviation of the differences.</li>
+<li><span class="math inline">\(\Delta\)</span> is the target effect size or the mean difference to be detected.</li>
+</ul>
+</div>
+<p>While this formula provides a good estimate, more precise calculations, particularly for smaller sample sizes, are performed using the non-central t-distribution.</p>
+<section id="practical-challenges-estimating-sigma_d-and-delta" class="level4" data-number="41.1.4.1">
+<h4 data-number="41.1.4.1" class="anchored" data-anchor-id="practical-challenges-estimating-sigma_d-and-delta"><span class="header-section-number">41.1.4.1</span> Practical Challenges: Estimating <span class="math inline">\(\sigma_d\)</span> and <span class="math inline">\(\Delta\)</span></h4>
+<p>The primary practical hurdles in any sample size calculation are obtaining reasonable estimates for the effect size (<span class="math inline">\(\Delta\)</span>) and the variability (<span class="math inline">\(\sigma_d\)</span>).</p>
+<ul>
+<li><strong>Estimating <span class="math inline">\(\Delta\)</span>:</strong> The choice of <span class="math inline">\(\Delta\)</span> should be driven by subject-matter expertise. The question to ask is not “What effect do I expect to find?” but rather “What is the smallest effect that would be considered important and meaningful in my field?” This ensures the study is powered to detect a difference that matters.</li>
+<li><strong>Estimating <span class="math inline">\(\sigma_d\)</span>:</strong> Several strategies can be employed to estimate the standard deviation of the differences:
+<ul>
+<li><strong>Conduct a Pilot Study:</strong> A small-scale preliminary study can provide a direct sample estimate (<span class="math inline">\(s_d\)</span>) of the variability.</li>
+<li><strong>Use Data from Previous Research:</strong> Similar studies published in the literature may report the standard deviation of the differences, which can be used as an estimate.</li>
+<li><strong>Estimate from Individual Standard Deviations and Correlation:</strong> This is a particularly powerful technique. If previous research provides estimates for the standard deviations of the two individual measurements (<span class="math inline">\(\sigma_1\)</span> and <span class="math inline">\(\sigma_2\)</span>) and the correlation between them (<span class="math inline">\(\rho\)</span>), the standard deviation of the differences can be calculated using the formula: <span class="math display">\[
+\sigma_d = \sqrt{\sigma_1^2 + \sigma_2^2 - 2\rho\sigma_1\sigma_2}
+\]</span></li>
+</ul></li>
+</ul>
+<p>This last formula reveals a crucial design principle. The most effective way to design a more efficient experiment (i.e., one that requires a smaller sample size) is to reduce <span class="math inline">\(\sigma_d\)</span>. The formula shows that <span class="math inline">\(\sigma_d\)</span> decreases as the correlation <span class="math inline">\(\rho\)</span> increases. This provides a direct, actionable insight for experimental design: researchers should strive to maximize the correlation between the paired measurements. In a before-after study, this might mean minimizing the time between measurements to reduce the influence of other factors. In a matched-pairs study, it means matching subjects on variables that are known to be strongly related to the outcome measure. This transforms the abstract statistical concept of correlation into a practical tool for creating more powerful and efficient research.</p>
+<p>The following table serves as a practical checklist for researchers preparing to conduct a power analysis, ensuring all necessary components are considered.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Symbol</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Common Values / Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Significance Level</td>
+<td style="text-align: left;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">Probability of a Type I error (false positive).</td>
+<td style="text-align: left;">0.05, 0.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Statistical Power</td>
+<td style="text-align: left;"><span class="math inline">\(1 - \beta\)</span></td>
+<td style="text-align: left;">Probability of detecting a true effect.</td>
+<td style="text-align: left;">0.80, 0.90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Directionality</td>
+<td style="text-align: left;">Tails</td>
+<td style="text-align: left;">Number of tails in the hypothesis test.</td>
+<td style="text-align: left;">One-tailed (for directional <span class="math inline">\(H_1\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Effect Size</td>
+<td style="text-align: left;"><span class="math inline">\(\Delta\)</span></td>
+<td style="text-align: left;">Minimum meaningful mean difference (<span class="math inline">\(\mu_d\)</span>) to detect.</td>
+<td style="text-align: left;">Based on domain knowledge, clinical relevance.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Variability</td>
+<td style="text-align: left;"><span class="math inline">\(\sigma_d\)</span></td>
+<td style="text-align: left;">Standard deviation of the paired differences.</td>
+<td style="text-align: left;">Estimated from pilot data, literature, or correlation.</td>
+</tr>
+</tbody>
+</table>
+<div id="exm-worked-example" class="theorem example">
+<p><span class="theorem-title"><strong>Example 41.2 (Testing a New Fuel Additive)</strong></span> A team of automotive engineers has developed a new fuel additive (<span class="math inline">\(c_1\)</span>) that is hypothesized to reduce fuel consumption in passenger vehicles compared to the standard fuel (<span class="math inline">\(c_2\)</span>). In this context, a “better” outcome is a smaller value for fuel consumption, typically measured in liters per 100 kilometers (L/100km). To test this hypothesis, the team plans a paired-sample experiment. They will use a fleet of cars, and each car will be driven over a standardized test course twice: once with the standard fuel and once with the new additive. This design ensures that factors specific to each car (e.g., engine wear, tire type) are controlled for, as each car serves as its own control.</p>
+<section id="formulating-the-hypotheses" class="level4" data-number="41.1.4.2">
+<h4 data-number="41.1.4.2" class="anchored" data-anchor-id="formulating-the-hypotheses"><span class="header-section-number">41.1.4.2</span> Formulating the Hypotheses</h4>
+<ul>
+<li><strong>Research Question:</strong> Does the new fuel additive reduce fuel consumption?</li>
+<li><strong>Parameter of Interest:</strong> The population mean of the paired differences in fuel consumption, <span class="math inline">\(\mu_d = \mu_{\text{additive}} - \mu_{\text{standard}}\)</span>.</li>
+<li><strong>Hypotheses:</strong> The research question implies a directional prediction. A reduction in consumption means the value for the additive (<span class="math inline">\(\mu_{\text{additive}}\)</span>) should be less than the value for the standard fuel (<span class="math inline">\(\mu_{\text{standard}}\)</span>), resulting in a negative mean difference.
+<ul>
+<li><strong>Null Hypothesis (<span class="math inline">\(H_0\)</span>):</strong> <span class="math inline">\(\mu_d \ge 0\)</span>. (The new additive does not reduce fuel consumption or increases it.)</li>
+<li><strong>Alternative Hypothesis (<span class="math inline">\(H_1\)</span>):</strong> <span class="math inline">\(\mu_d &lt; 0\)</span>. (The new additive reduces fuel consumption.)</li>
+</ul></li>
+<li><strong>Type of Test:</strong> This setup requires a one-tailed (lower-tailed) paired t-test.</li>
+</ul>
+</section>
+<section id="a-priori-sample-size-calculation" class="level4" data-number="41.1.4.3">
+<h4 data-number="41.1.4.3" class="anchored" data-anchor-id="a-priori-sample-size-calculation"><span class="header-section-number">41.1.4.3</span> A Priori Sample Size Calculation</h4>
+<p>Before commencing the experiment, the engineers perform a power analysis to determine the number of cars required for the study.</p>
+<ul>
+<li><strong>Specification of Parameters:</strong>
+<ul>
+<li><strong>Significance Level (<span class="math inline">\(\alpha\)</span>):</strong> They choose a conventional <span class="math inline">\(\alpha\)</span> of 0.05. For a one-tailed test, the corresponding <span class="math inline">\(Z_\alpha\)</span> value is 1.645.</li>
+<li><strong>Statistical Power (<span class="math inline">\(1 - \beta\)</span>):</strong> They desire a power of 0.80, which is a standard choice in many fields. This corresponds to <span class="math inline">\(\beta = 0.20\)</span>, and the <span class="math inline">\(Z_\beta\)</span> value is 0.84.</li>
+<li><strong>Effect Size (<span class="math inline">\(\Delta\)</span>):</strong> After deliberation, the team decides that a reduction of 0.5 L/100km is the minimum effect size that would be commercially viable and practically meaningful. Thus, <span class="math inline">\(\Delta = -0.5\)</span>.</li>
+<li><strong>Standard Deviation of Differences (<span class="math inline">\(\sigma_d\)</span>):</strong> Based on a small pilot study with a few vehicles, they estimate the standard deviation of the differences to be <span class="math inline">\(\sigma_d = 1.2\)</span> L/100km.</li>
+</ul></li>
+<li><strong>Calculation (using the Z-approximation):</strong> <span class="math display">\[
+n = \frac{(Z_{\alpha} + Z_{\beta})^2 \sigma_d^2}{\Delta^2} = \frac{(1.645 + 0.84)^2 (1.2)^2}{(-0.5)^2} = \frac{(2.485)^2 (1.44)}{0.25} = \frac{(6.175)(1.44)}{0.25} \approx 35.58
+\]</span></li>
+<li><strong>Conclusion:</strong> Since the number of subjects must be an integer, the result is rounded up. The team concludes that a sample size of 36 cars is required to achieve 80% power to detect a mean reduction of 0.5 L/100km at a 0.05 significance level.</li>
+</ul>
+</section>
+<section id="data-collection-and-presentation-hypothetical" class="level4" data-number="41.1.4.4">
+<h4 data-number="41.1.4.4" class="anchored" data-anchor-id="data-collection-and-presentation-hypothetical"><span class="header-section-number">41.1.4.4</span> Data Collection and Presentation (Hypothetical)</h4>
+<p>The experiment is conducted with 36 cars. For each car, fuel consumption is measured with the standard fuel (<span class="math inline">\(c_2\)</span>) and the new additive (<span class="math inline">\(c_1\)</span>). The difference (<span class="math inline">\(d = c_1 - c_2\)</span>) is calculated for each car.</p>
+</section>
+<section id="checking-the-assumptions" class="level4" data-number="41.1.4.5">
+<h4 data-number="41.1.4.5" class="anchored" data-anchor-id="checking-the-assumptions"><span class="header-section-number">41.1.4.5</span> Checking the Assumptions</h4>
+<p>The engineers analyze the 36 difference scores. A boxplot reveals no extreme outliers. A histogram and a Q-Q plot of the differences show a distribution that is roughly symmetric and unimodal, suggesting that the assumption of normality is reasonably met, especially given the sample size of 36, which is large enough for the Central Limit Theorem to lend robustness to the t-test.</p>
+</section>
+<section id="calculating-the-test-statistic-1" class="level4" data-number="41.1.4.6">
+<h4 data-number="41.1.4.6" class="anchored" data-anchor-id="calculating-the-test-statistic-1"><span class="header-section-number">41.1.4.6</span> Calculating the Test Statistic</h4>
+<p>The analysis of the hypothetical data from the 36 cars yields the following summary statistics for the difference scores:</p>
+<ul>
+<li>Sample Mean of the Differences (<span class="math inline">\(\bar{d}\)</span>): -0.65 L/100km</li>
+<li>Sample Standard Deviation of the Differences (<span class="math inline">\(s_d\)</span>): 1.15 L/100km</li>
+</ul>
+<p>Using these values, the test statistic is calculated:</p>
+<ul>
+<li><strong>Standard Error of the Mean Difference (<span class="math inline">\(SE_{\bar{d}}\)</span>):</strong> <span class="math display">\[
+SE_{\bar{d}} = \frac{s_d}{\sqrt{n}} = \frac{1.15}{\sqrt{36}} = \frac{1.15}{6} \approx 0.1917
+\]</span></li>
+<li><strong>t-statistic (<span class="math inline">\(t\)</span>):</strong> <span class="math display">\[
+t = \frac{\bar{d}}{SE_{\bar{d}}} = \frac{-0.65}{0.1917} \approx -3.39
+\]</span></li>
+<li><strong>Degrees of Freedom (df):</strong> df = <span class="math inline">\(n - 1 = 36 - 1 = 35\)</span>.</li>
+</ul>
+</section>
+<section id="determining-the-p-value" class="level4" data-number="41.1.4.7">
+<h4 data-number="41.1.4.7" class="anchored" data-anchor-id="determining-the-p-value"><span class="header-section-number">41.1.4.7</span> Determining the p-value</h4>
+<p>The calculated t-statistic (<span class="math inline">\(t = -3.39\)</span>) with 35 degrees of freedom is used to find the p-value. Using statistical software or a t-distribution calculator for this lower-tailed test, the p-value is found to be approximately 0.0008.</p>
+</section>
+<section id="drawing-a-conclusion" class="level4" data-number="41.1.4.8">
+<h4 data-number="41.1.4.8" class="anchored" data-anchor-id="drawing-a-conclusion"><span class="header-section-number">41.1.4.8</span> Drawing a Conclusion</h4>
+<p>This final step involves making a statistical decision and interpreting it in the context of the original research question.</p>
+<ul>
+<li><strong>Statistical Decision:</strong> The calculated p-value (0.0008) is substantially smaller than the pre-specified significance level (<span class="math inline">\(\alpha = 0.05\)</span>). Therefore, the decision is to reject the null hypothesis (<span class="math inline">\(H_0\)</span>).</li>
+<li><strong>Interpretation in Context:</strong> There is strong, statistically significant evidence to conclude that the new fuel additive is effective in reducing fuel consumption. The observed average reduction in the sample was 0.65 L/100km.</li>
+<li><strong>Confidence Interval for the Mean Difference:</strong> To provide a more complete picture, a confidence interval for the true mean difference is calculated. Because a one-tailed test with <span class="math inline">\(\alpha = 0.05\)</span> was performed, a corresponding 90% two-sided confidence interval is appropriate (as it leaves 5% in each tail). The formula is <span class="math inline">\(\bar{d} \pm t^*_{\text{critical}} \cdot SE_{\bar{d}}\)</span>, where <span class="math inline">\(t^*_{\text{critical}}\)</span> for a 90% CI with 35 df is approximately 1.69. Interval = <span class="math inline">\(-0.65 \pm 1.69 \cdot 0.1917\)</span> Interval = <span class="math inline">\(-0.65 \pm 0.324\)</span> 90% Confidence Interval: [-0.974, -0.326]</li>
+<li><strong>Final Report Conclusion:</strong> The study provides statistically significant evidence (<span class="math inline">\(t(35) = -3.39, p = 0.0008\)</span>) that the new fuel additive reduces fuel consumption. The average reduction observed in the sample of 36 cars was 0.65 L/100km. We are 90% confident that the true mean reduction in fuel consumption for the entire population of similar vehicles lies between 0.326 and 0.974 L/100km. Since this interval does not contain zero and consists entirely of negative values (indicating a reduction), the result is consistent with the rejection of the null hypothesis and provides a range of plausible magnitudes for the additive’s true effect.</li>
+</ul>
+</section>
+</div>
+</section>
+</section>
+<section id="non-inferiority-test" class="level2" data-number="41.2">
+<h2 data-number="41.2" class="anchored" data-anchor-id="non-inferiority-test"><span class="header-section-number">41.2</span> Non-inferiority Test</h2>
+<ul>
+<li><strong>The Goal:</strong> To show that the performance of a model <code>c1</code> is not substantially worse than the performance of a model <code>c2</code>. “Worse” in this context means that the loss <code>c1</code> being larger than the loss <code>c2</code>. A specific, acceptable margin for this difference, which is <code>delta</code>, is defined. The goal is to prove that the true mean difference (<code>μ_d = μ_c1 - μ_c2</code>) is less than or equal to this margin.</li>
+<li><strong>Alternative Hypothesis (<span class="math inline">\(H_1\)</span>):</strong> This is the research claim. It can be stated as:
+<ul>
+<li><span class="math inline">\(H_1: \mu_d \le \text{delta}\)</span></li>
+</ul></li>
+<li><strong>Null Hypothesis (<span class="math inline">\(H_0\)</span>):</strong> This is the opposite of the claim, representing the scenario to find evidence against. It can be stated as:
+<ul>
+<li><span class="math inline">\(H_0: \mu_d &gt; \text{delta}\)</span></li>
+</ul></li>
+<li><strong>Type of Test:</strong> This is a <strong>one-tailed (left-tailed) test</strong>. The null will be rejected only if the sample data provides strong evidence that the mean difference is significantly <em>less than</em> delta.</li>
+</ul>
+<p>The key difference from a standard superiority test (where we test against zero) is that the comparison point is a non-zero value, <code>delta</code>. This is handled by modifying the t-statistic formula. The analysis still uses a paired t-test framework, but it compares the sample mean difference (<span class="math inline">\(\bar{d}\)</span>) to <code>delta</code> instead of 0. The formula for the test statistic becomes:</p>
+<p><span class="math display">\[
+t = \frac{\bar{d} - \text{delta}}{s_d / \sqrt{n}},
+\]</span> where:</p>
+<ul>
+<li><span class="math inline">\(\bar{d}\)</span> is the sample mean of the differences (<span class="math inline">\(c_1 - c_2\)</span>).</li>
+<li><strong>delta</strong> is the specified margin of non-inferiority.</li>
+<li><span class="math inline">\(s_d\)</span> is the sample standard deviation of the differences.</li>
+<li><span class="math inline">\(n\)</span> is the number of pairs.</li>
+</ul>
+<p>This calculated t-statistic is compared to a critical value from the t-distribution with <span class="math inline">\(n-1\)</span> degrees of freedom.</p>
+<div id="exm-noninferiority" class="theorem example">
+<p><span class="theorem-title"><strong>Example 41.3 (Non-Inferiority of a New Manufacturing Process)</strong></span> A factory wants to switch to a new, cheaper manufacturing process (<code>c1</code>) to produce a specific component. The old process is <code>c2</code>. A key quality metric is the number of micro-fractures per component; a lower number is better.</p>
+<p>The new process is only acceptable if it’s not substantially worse than the old one. Management defines “not substantially worse” as producing, on average, no more than 5 extra micro-fractures per component.</p>
+<p><strong>1. State the Goal and Hypotheses</strong></p>
+<ul>
+<li><strong>Goal:</strong> Show that the new process is non-inferior to the old one, within a margin of <code>delta = 5</code> micro-fractures.</li>
+<li><strong>Analysis Variable:</strong> <span class="math inline">\(d = c_1 - c_2\)</span> (Difference in micro-fractures).</li>
+<li><strong>Hypotheses:</strong>
+<ul>
+<li><span class="math inline">\(H_0: \mu_d &gt; 5\)</span> (The new process is unacceptably worse; it adds more than 5 micro-fractures on average).</li>
+<li><span class="math inline">\(H_1: \mu_d \le 5\)</span> (The new process is acceptable; it is non-inferior).</li>
+</ul></li>
+<li><strong>Significance Level:</strong> We’ll use <span class="math inline">\(\alpha = 0.05\)</span>.</li>
+</ul>
+<p><strong>2. Collect Sample Data (Hypothetical)</strong></p>
+<p>The factory runs a test on <span class="math inline">\(n=30\)</span> components, using both processes on each component and counting the micro-fractures.</p>
+<ul>
+<li><strong>Sample Mean Difference (<span class="math inline">\(\bar{d}\)</span>):</strong> 3.8 micro-fractures. (On average, the new process produced 3.8 more fractures than the old one).</li>
+<li><strong>Sample Standard Deviation of Differences (<span class="math inline">\(s_d\)</span>):</strong> 4.5 micro-fractures.</li>
+</ul>
+<p><strong>3. Calculate the Test Statistic</strong></p>
+<p>Using the modified formula with <code>delta = 5</code>:</p>
+<p><span class="math display">\[
+t = \frac{\bar{d} - \text{delta}}{s_d / \sqrt{n}}
+\]</span><br>
+<span class="math display">\[
+t = \frac{3.8 - 5}{4.5 / \sqrt{30}} \approx -1.46
+\]</span></p>
+<p><strong>4. Determine the Critical Value and Make a Decision</strong></p>
+<ul>
+<li><strong>Degrees of Freedom (<span class="math inline">\(df\)</span>):</strong> <span class="math inline">\(n - 1 = 30 - 1 = 29\)</span>.</li>
+<li><strong>Critical Value:</strong> We need the critical t-value for a <strong>one-tailed (left-tailed)</strong> test with <span class="math inline">\(\alpha = 0.05\)</span> and <span class="math inline">\(df = 29\)</span>. Looking this up in a t-distribution table, we find:
+<ul>
+<li><strong><span class="math inline">\(t_{critical} \approx -1.699\)</span></strong></li>
+</ul></li>
+<li><strong>Rejection Rule:</strong> We reject <span class="math inline">\(H_0\)</span> if our calculated t-statistic is <em>less than</em> (more negative than) the critical value.</li>
+<li><strong>Comparison:</strong> Is <span class="math inline">\(-1.46 &lt; -1.699\)</span>? No, it is not.</li>
+</ul>
+<p><strong>5. State the Conclusion</strong></p>
+<p>Since the calculated t-statistic (<span class="math inline">\(-1.46\)</span>) is not less than the critical value (<span class="math inline">\(-1.699\)</span>), it does not fall into the rejection region. Therefore, we fail to reject the null hypothesis (<span class="math inline">\(H_0\)</span>).</p>
+<p>In the context of the problem, this means: <strong>There is not enough statistical evidence to conclude that the new manufacturing process is non-inferior.</strong> Even though the sample average of 3.8 was within the acceptable margin of 5, the result was not statistically significant enough to rule out the possibility that the true average difference could be greater than 5. The factory should not adopt the new process based on these results.</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./100_ddmo_eda.html" class="pagination-link" aria-label="Basic Statistics and Data Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Basic Statistics and Data Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./100_ddmo_pca.html" class="pagination-link" aria-label="Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)">
+        <span class="nav-page-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2025, T. Bartz-Beielstein</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://sequential-parameter-optimization.github.io/Hyperparameter-Tuning-Cookbook/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://x.com/bartzbeielstein">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
