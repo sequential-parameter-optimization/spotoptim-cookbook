@@ -511,11 +511,11 @@ for i, (x, m, s) in enumerate(zip(X_test, mu, sigma)):
 
 ## Step: Next Point Suggestion
 
-### Method: `_suggest_next_point()`
+### Method: `suggest_next_infill_point()`
 
 Optimize acquisition function to find next evaluation point.
 
-**What happens in `_suggest_next_point()`:**
+**What happens in `suggest_next_infill_point()`:**
 
 1. Use `differential_evolution` to optimize acquisition function
 2. Find point that maximizes EI (or minimizes predicted value for 'y')
@@ -525,7 +525,7 @@ Optimize acquisition function to find next evaluation point.
 6. Return suggested point
 
 ```{python}
-x_next = opt._suggest_next_point()
+x_next = opt.suggest_next_infill_point()
 print(f"Next point suggested: {x_next}")
 ```
 Predict at suggested point:
@@ -1063,7 +1063,7 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
     - Internally calls `_transform_X()` - Transform to internal scale
     - Internally calls `_fit_surrogate()` - Fit Gaussian Process to data
 11. `_apply_ocba()` - OCBA allocation (if enabled)
-12. `_suggest_next_point()` - Optimize acquisition function
+12. `suggest_next_infill_point()` - Optimize acquisition function
     - Internally calls `_acquisition_function()`
     - Internally calls `_predict_with_uncertainty()`
 13. `_update_repeats_infill_points()` - Repeat suggested point for noisy functions
@@ -1263,7 +1263,7 @@ SEQUENTIAL OPTIMIZATION LOOP (until max_iter or max_time)
   ├─► _apply_ocba() [if enabled]
   │     └─► Allocate additional evaluations
   │
-  ├─► _suggest_next_point()
+  ├─► suggest_next_infill_point()
   │     ├─► _acquisition_function()
   │     │     └─► _predict_with_uncertainty()
   │     └─► Optimize to find next point

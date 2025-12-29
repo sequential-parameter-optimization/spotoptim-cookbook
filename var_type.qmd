@@ -50,7 +50,7 @@ The `var_type` parameter is properly propagated throughout the optimization proc
    - Applies type constraints via `_repair_non_numeric()`
    - Ensures initial points respect variable types
 
-3. **New Point Suggestion** (`_suggest_next_point`):
+3. **New Point Suggestion** (`suggest_next_infill_point`):
 
    - Applies type constraints to acquisition function optimization results
    - Ensures suggested points respect variable types

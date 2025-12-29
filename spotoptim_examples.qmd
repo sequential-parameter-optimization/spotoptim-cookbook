@@ -313,7 +313,7 @@ print(f"Uncertainties: {stds}")
 ### 3.3 `_acquisition_function()`
 
 **Purpose**: Compute acquisition function value  
-**Used by**: `_suggest_next_point()` for optimization  
+**Used by**: `suggest_next_infill_point()` for optimization  
 **Calls**: `_predict_with_uncertainty()`  
 **Supports**: Expected Improvement (EI), Probability of Improvement (PI), Mean prediction
 
@@ -341,7 +341,7 @@ print(f"Acquisition function value (EI): {acq_value:.6f}")
 print(f"(Lower is better for minimization)")
 ```
 
-### 3.4 `_suggest_next_point()`
+### 3.4 `suggest_next_infill_point()`
 
 **Purpose**: Suggest next point to evaluate using acquisition function optimization  
 **Used by**: `optimize()` in main loop  
@@ -365,7 +365,7 @@ opt.X_ = X_train
 opt.y_ = y_train
 
 # Suggest next point
-x_next = opt._suggest_next_point()
+x_next = opt.suggest_next_infill_point()
 
 print(f"Next point to evaluate: {x_next}")
 print(f"Expected to be between known points or in unexplored regions")
@@ -573,7 +573,7 @@ print(f"Message: {msg}")
 ### 8.1 `select_new()`
 
 **Purpose**: Select rows from A that are not in X (avoid duplicate evaluations)  
-**Used by**: `_suggest_next_point()` to ensure new points are different from evaluated points
+**Used by**: `suggest_next_infill_point()` to ensure new points are different from evaluated points
 
 ```{python}
 opt = SpotOptim(
@@ -772,7 +772,7 @@ optimize()
 │    │
 │    ├── _apply_ocba() [if noise=True and ocba_delta > 0]
 │    │
-│    ├── _suggest_next_point()
+│    ├── suggest_next_infill_point()
 │    │   ├── _acquisition_function()
 │    │   │   └── _predict_with_uncertainty()
 │    │   ├── _repair_non_numeric()

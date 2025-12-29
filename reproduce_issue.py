@@ -31,7 +31,7 @@ try:
     opt.y_ = y_train
 
     # Suggest next point
-    x_next = opt._suggest_next_point()
+    x_next = opt.suggest_next_infill_point()
 
     print(f"Next point to evaluate: {x_next}")
     print(f"Expected to be between known points or in unexplored regions")

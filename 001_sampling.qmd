@@ -14,22 +14,19 @@ execute:
 * This section is based on chapter 1 in @Forr08a.
 * The following Python packages are imported:
 ```{python}
-import numpy as np
 import pandas as pd
 import numpy as np
 from typing import Tuple, Optional
 import matplotlib.pyplot as plt
-from spotpython.utils.sampling import rlh
-from spotpython.utils.effects import screening_plot, screeningplan
-from spotpython.fun.objectivefunctions import Analytical
-from spotpython.utils.sampling import (fullfactorial, bestlh,
+
+from spotoptim.sampling.lhs import rlh
+from spotoptim.sampling.effects import screening_plot, screeningplan
+from spotoptim.function.so import wingwt
+
+from spotoptim.sampling.mm import (bestlh,
      jd, mm, mmphi, mmsort, perturb, mmlhs, phisort, mmphi_intensive)
-from spotpython.design.poor import Poor
-from spotpython.design.clustered import Clustered
-from spotpython.design.sobol import Sobol
-from spotpython.design.spacefilling import SpaceFilling
-from spotpython.design.random import Random
-from spotpython.design.grid import Grid
+
+from spotoptim.sampling.design import generate_clustered_design, generate_sobol_design, generate_qmc_lhs_design, generate_uniform_design, generate_grid_design, generate_collinear_design, fullfactorial
 ```
 :::
 
@@ -467,7 +464,6 @@ Let us consider the following analytical expression  used as a conceptual level 
 ```{python}
 #| label: fig-forre08a-1-2
 #| fig-cap: "Estimated means and standard deviations of the elementary effects for the 10 design variables of the wing weight function. Example based on @Forr08a."
-fun = Analytical()
 k = 10
 p = 10
 xi = 1
@@ -484,8 +480,8 @@ labels = [
 ]
 screening_plot(
     X=X,
-    fun=fun.fun_wingwt,
-    bounds=value_range,
+    fun=wingwt,
+    bounds=np.array([np.zeros(10), np.ones(10)]),
     xi=xi,
     p=p,
     labels=labels,
@@ -1532,26 +1528,22 @@ We generate various sampling designs and evaluate their space-filling properties
 
 ```{python}
 designs = {}
+bounds = [(0, 1)] * N_DIM
+
 if int(np.sqrt(N_POINTS))**2 == N_POINTS:
-    grid_design = Grid(k=N_DIM)
-    designs["Grid (4x4)"] = grid_design.generate_grid_design(points_per_dim=int(np.sqrt(N_POINTS)))
+    designs["Grid (4x4)"] = generate_grid_design(bounds, n_design=N_POINTS)
 else:
     print(f"Skipping grid design as N_POINTS={N_POINTS} is not a perfect square for a simple 2D grid.")
 
-lhs_design = SpaceFilling(k=N_DIM, seed=42)
-designs["LHS"] = lhs_design.generate_qms_lhs_design(n_points=N_POINTS)
+designs["LHS"] = generate_qmc_lhs_design(bounds, n_design=N_POINTS, seed=42)
 
-sobol_design = Sobol(k=N_DIM, seed=42)
-designs["Sobol"] = sobol_design.generate_sobol_design(n_points=N_POINTS)
+designs["Sobol"] = generate_sobol_design(bounds, n_design=N_POINTS, seed=42)
 
-random_design = Random(k=N_DIM)
-designs["Random"] = random_design.uniform(n_points=N_POINTS)
+designs["Random"] = generate_uniform_design(bounds, n_design=N_POINTS, seed=42)
 
-poor_design = Poor(k=N_DIM)
-designs["Collinear"] = poor_design.generate_collinear_design(n_points=N_POINTS)
+designs["Collinear"] = generate_collinear_design(bounds, n_design=N_POINTS, seed=42)
 
-clustered_design = Clustered(k=N_DIM)
-designs["Clustered (3 clusters)"] = clustered_design.generate_clustered_design(n_points=N_POINTS, n_clusters=3, seed=42)
+designs["Clustered (3 clusters)"] = generate_clustered_design(bounds, n_design=N_POINTS, n_clusters=3, seed=42)
 
 results = {}
 
@@ -1831,7 +1823,8 @@ def plot_mmphi_vs_n_lhs(k_dim: int,
         return
     mmphi_results = []
     mmphi_intensive_results = []
-    lhs_generator = SpaceFilling(k=k_dim, seed=seed)
+    # lhs_generator removed
+
     print(f"Calculating for n from {n_min} to {n_max} with step {n_step}...")
     for n_points in n_values:
         if n_points < 2 : # mmphi requires at least 2 points to calculate distances
@@ -1840,7 +1833,7 @@ def plot_mmphi_vs_n_lhs(k_dim: int,
             mmphi_intensive_results.append(np.nan)
             continue
         try:
-            X_design = lhs_generator.generate_qms_lhs_design(n_points=n_points)
+            X_design = generate_qmc_lhs_design([(0, 1)] * k_dim, n_design=n_points, seed=seed)
             phi = mmphi(X_design, q=q_phi, p=p_phi)
             phi_intensive, _, _ = mmphi_intensive(X_design, q=q_phi, p=p_phi)
             mmphi_results.append(phi)

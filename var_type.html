@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Thomas Bartz-Beielstein">
 
-<title>Sequential Parameter Optimization Cookbook</title>
+<title>7&nbsp; Variable Type (var_type) Implementation in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./spotoptim_intro.html" rel="next">
+<link href="./factor_variables.html" rel="next">
+<link href="./success_rate.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -72,10 +107,9 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta name="twitter:title" content="Sequential Parameter Optimization Cookbook">
-<meta name="twitter:description" content="A guide for scikit-learn and PyTorch">
-<meta name="twitter:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="7&nbsp; Variable Type (var_type) Implementation in SpotOptim – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -87,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./var_type.html">Variables and Hyperparameters</a></li><li class="breadcrumb-item"><a href="./var_type.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -135,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -197,7 +231,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./var_type.html" class="sidebar-item-text sidebar-link">
+  <a href="./var_type.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span></a>
   </div>
 </li>
@@ -585,46 +619,45 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">7.1</span> Overview</a></li>
+  <li><a href="#supported-variable-types" id="toc-supported-variable-types" class="nav-link" data-scroll-target="#supported-variable-types"><span class="header-section-number">7.2</span> Supported Variable Types</a>
+  <ul class="collapse">
+  <li><a href="#float" id="toc-float" class="nav-link" data-scroll-target="#float"><span class="header-section-number">7.2.1</span> 1. <strong>‘float’</strong></a></li>
+  <li><a href="#int" id="toc-int" class="nav-link" data-scroll-target="#int"><span class="header-section-number">7.2.2</span> 2. <strong>‘int’</strong></a></li>
+  <li><a href="#factor" id="toc-factor" class="nav-link" data-scroll-target="#factor"><span class="header-section-number">7.2.3</span> 3. <strong>‘factor’</strong></a></li>
+  </ul></li>
+  <li><a href="#implementation-details" id="toc-implementation-details" class="nav-link" data-scroll-target="#implementation-details"><span class="header-section-number">7.3</span> Implementation Details</a>
+  <ul class="collapse">
+  <li><a href="#where-var_type-is-used" id="toc-where-var_type-is-used" class="nav-link" data-scroll-target="#where-var_type-is-used"><span class="header-section-number">7.3.1</span> Where <code>var_type</code> is Used</a></li>
+  <li><a href="#core-method-_repair_non_numeric" id="toc-core-method-_repair_non_numeric" class="nav-link" data-scroll-target="#core-method-_repair_non_numeric"><span class="header-section-number">7.3.2</span> Core Method: <code>_repair_non_numeric()</code></a></li>
+  </ul></li>
+  <li><a href="#example-usage" id="toc-example-usage" class="nav-link" data-scroll-target="#example-usage"><span class="header-section-number">7.4</span> Example Usage</a>
+  <ul class="collapse">
+  <li><a href="#example-1-all-float-variables-default" id="toc-example-1-all-float-variables-default" class="nav-link" data-scroll-target="#example-1-all-float-variables-default"><span class="header-section-number">7.4.1</span> Example 1: All Float Variables (Default)</a></li>
+  <li><a href="#example-2-pure-integer-optimization" id="toc-example-2-pure-integer-optimization" class="nav-link" data-scroll-target="#example-2-pure-integer-optimization"><span class="header-section-number">7.4.2</span> Example 2: Pure Integer Optimization</a></li>
+  <li><a href="#example-3-categorical-factor-variables" id="toc-example-3-categorical-factor-variables" class="nav-link" data-scroll-target="#example-3-categorical-factor-variables"><span class="header-section-number">7.4.3</span> Example 3: Categorical (Factor) Variables</a></li>
+  <li><a href="#example-4-mixed-variable-types" id="toc-example-4-mixed-variable-types" class="nav-link" data-scroll-target="#example-4-mixed-variable-types"><span class="header-section-number">7.4.4</span> Example 4: Mixed Variable Types</a></li>
+  </ul></li>
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings"><span class="header-section-number">7.5</span> Key Findings</a></li>
+  <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations"><span class="header-section-number">7.6</span> Recommendations</a></li>
+  <li><a href="#future-enhancements-optional" id="toc-future-enhancements-optional" class="nav-link" data-scroll-target="#future-enhancements-optional"><span class="header-section-number">7.7</span> Future Enhancements (Optional)</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">7.8</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./var_type.html">Variables and Hyperparameters</a></li><li class="breadcrumb-item"><a href="./var_type.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Sequential Parameter Optimization Cookbook</h1>
-<p class="subtitle lead">A guide for scikit-learn and PyTorch</p>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></h1>
 </div>
 
 
-<div class="quarto-title-meta-author">
-  <div class="quarto-title-meta-heading">Author</div>
-  <div class="quarto-title-meta-heading">Affiliations</div>
-  
-    <div class="quarto-title-meta-contents">
-    <p class="author"><a href="https://www.spotseven.de">Thomas Bartz-Beielstein</a> <a href="mailto:bartzbeielstein@gmail.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-5938-5158" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
-  </div>
-  <div class="quarto-title-meta-contents">
-        <p class="affiliation">
-            Bartz &amp; Bartz GmbH and SpotSeven Lab
-          </p>
-        <p class="affiliation">
-            
-          </p>
-      </div>
-  </div>
 
 <div class="quarto-title-meta">
 
-      
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">Dec 29, 2025</p>
-    </div>
-  </div>
+    
   
     
   </div>
@@ -634,9 +667,271 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>This document provides a comprehensive guide to optimization and hyperparameter tuning using the Sequential Parameter Optimization Toolbox (SPOT) for Python.</p>
+<section id="overview" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">7.1</span> Overview</h2>
+<p>This document describes the <code>var_type</code> implementation in SpotOptim, which allows users to specify different data types for optimization variables.</p>
+</section>
+<section id="supported-variable-types" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="supported-variable-types"><span class="header-section-number">7.2</span> Supported Variable Types</h2>
+<p>SpotOptim supports three main data types:</p>
+<section id="float" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="float"><span class="header-section-number">7.2.1</span> 1. <strong>‘float’</strong></h3>
+<ul>
+<li><strong>Purpose</strong>: Continuous optimization with Python floats</li>
+<li><strong>Behavior</strong>: No rounding applied, values remain continuous</li>
+<li><strong>Use case</strong>: Standard continuous optimization variables</li>
+<li><strong>Example</strong>: Temperature (23.5°C), Distance (1.234m)</li>
+</ul>
+</section>
+<section id="int" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="int"><span class="header-section-number">7.2.2</span> 2. <strong>‘int’</strong></h3>
+<ul>
+<li><strong>Purpose</strong>: Discrete integer optimization</li>
+<li><strong>Behavior</strong>: Float values are automatically rounded to integers</li>
+<li><strong>Use case</strong>: Count variables, discrete parameters</li>
+<li><strong>Example</strong>: Number of layers (5), Population size (100)</li>
+</ul>
+</section>
+<section id="factor" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="factor"><span class="header-section-number">7.2.3</span> 3. <strong>‘factor’</strong></h3>
+<ul>
+<li><strong>Purpose</strong>: Unordered categorical data</li>
+<li><strong>Behavior</strong>: Internally mapped to integer values (0, 1, 2, …)</li>
+<li><strong>Use case</strong>: Categorical choices like colors, algorithms, modes</li>
+<li><strong>Example</strong>: Color (“red”→0, “green”→1, “blue”→2)</li>
+<li><strong>Note</strong>: The actual string-to-int mapping is external to SpotOptim; the optimizer works with the integer representation</li>
+</ul>
+</section>
+</section>
+<section id="implementation-details" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="implementation-details"><span class="header-section-number">7.3</span> Implementation Details</h2>
+<section id="where-var_type-is-used" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="where-var_type-is-used"><span class="header-section-number">7.3.1</span> Where <code>var_type</code> is Used</h3>
+<p>The <code>var_type</code> parameter is properly propagated throughout the optimization process:</p>
+<ol type="1">
+<li><p><strong>Initialization</strong> (<code>__init__</code>):</p>
+<ul>
+<li>Stored as <code>self.var_type</code></li>
+<li>Default: <code>["float"] * n_dim</code> if not specified</li>
+</ul></li>
+<li><p><strong>Initial Design Generation</strong> (<code>_generate_initial_design</code>):</p>
+<ul>
+<li>Applies type constraints via <code>_repair_non_numeric()</code></li>
+<li>Ensures initial points respect variable types</li>
+</ul></li>
+<li><p><strong>New Point Suggestion</strong> (<code>suggest_next_infill_point</code>):</p>
+<ul>
+<li>Applies type constraints to acquisition function optimization results</li>
+<li>Ensures suggested points respect variable types</li>
+</ul></li>
+<li><p><strong>User-Provided Initial Design</strong> (<code>optimize</code>):</p>
+<ul>
+<li>Applies type constraints to X0 if provided</li>
+<li>Ensures consistency regardless of input source</li>
+</ul></li>
+<li><p><strong>Mesh Grid Generation</strong> (<code>_generate_mesh_grid</code>):</p>
+<ul>
+<li>Used for plotting, respects variable types</li>
+<li>Ensures visualization shows correct discrete/continuous behavior</li>
+</ul></li>
+</ol>
+</section>
+<section id="core-method-_repair_non_numeric" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="core-method-_repair_non_numeric"><span class="header-section-number">7.3.2</span> Core Method: <code>_repair_non_numeric()</code></h3>
+<p>This method enforces variable type constraints:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _repair_non_numeric(<span class="va">self</span>, X: np.ndarray, var_type: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Round non-continuous values to integers."""</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> np.isin(var_type, [<span class="st">"float"</span>], invert<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    X[:, mask] <span class="op">=</span> np.around(X[:, mask])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Logic:</strong></p>
+<ul>
+<li>Variables with type <code>'float'</code>: No change (continuous)</li>
+<li>Variables with type <code>'int'</code> or <code>'factor'</code>: Rounded to integers</li>
+</ul>
+</section>
+</section>
+<section id="example-usage" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="example-usage"><span class="header-section-number">7.4</span> Example Usage</h2>
+<section id="example-1-all-float-variables-default" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="example-1-all-float-variables-default"><span class="header-section-number">7.4.1</span> Example 1: All Float Variables (Default)</h3>
+<div id="float-variables-example" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: All float variables (default)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>opt1 <span class="op">=</span> SpotOptim(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span><span class="kw">lambda</span> X: np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="dv">0</span>, <span class="dv">10</span>), (<span class="dv">0</span>, <span class="dv">10</span>), (<span class="dv">0</span>, <span class="dv">10</span>)],</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># var_type defaults to ["float", "float", "float"]</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>result1 <span class="op">=</span> opt1.optimize()</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result1<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best point (floats): </span><span class="sc">{</span>result1<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best value: 0.000000
+Best point (floats): [0. 0. 0.]</code></pre>
+</div>
+</div>
+</section>
+<section id="example-2-pure-integer-optimization" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="example-2-pure-integer-optimization"><span class="header-section-number">7.4.2</span> Example 2: Pure Integer Optimization</h3>
+<div id="integer-optimization-example" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> discrete_func(X):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>var_type <span class="op">=</span> [<span class="st">"int"</span>, <span class="st">"int"</span>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>discrete_func,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    var_type<span class="op">=</span>var_type,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> opt.optimize()</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best point (integers): </span><span class="sc">{</span>result<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Note: Values are rounded to integers"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best value: 0.000000
+Best point (integers): [-0. -0.]
+Note: Values are rounded to integers</code></pre>
+</div>
+</div>
+</section>
+<section id="example-3-categorical-factor-variables" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="example-3-categorical-factor-variables"><span class="header-section-number">7.4.3</span> Example 3: Categorical (Factor) Variables</h3>
+<div id="categorical-variables-example" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> categorical_func(X):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Assume X[:, 0] represents 3 categories: 0, 1, 2</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Category 0 is best</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (X[:, <span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> (X[:, <span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="dv">0</span>, <span class="dv">2</span>), (<span class="dv">0</span>, <span class="dv">3</span>)]  <span class="co"># 3 and 4 categories respectively</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>var_type <span class="op">=</span> [<span class="st">"factor"</span>, <span class="st">"factor"</span>]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>categorical_func,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    var_type<span class="op">=</span>var_type,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> opt.optimize()</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best point (categories): </span><span class="sc">{</span>result<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Note: Values are integers representing categories"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best value: 0.000000
+Best point (categories): [0. 0.]
+Note: Values are integers representing categories</code></pre>
+</div>
+</div>
+</section>
+<section id="example-4-mixed-variable-types" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="example-4-mixed-variable-types"><span class="header-section-number">7.4.4</span> Example 4: Mixed Variable Types</h3>
+<div id="mixed-variables-example" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mixed_func(X):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># X[:, 0]: continuous temperature</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># X[:, 1]: discrete number of iterations</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># X[:, 2]: categorical algorithm choice (0, 1, 2)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X[:, <span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> X[:, <span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> X[:, <span class="dv">2</span>]<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="dv">1</span>, <span class="dv">100</span>), (<span class="dv">0</span>, <span class="dv">2</span>)]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>var_type <span class="op">=</span> [<span class="st">"float"</span>, <span class="st">"int"</span>, <span class="st">"factor"</span>]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>var_name <span class="op">=</span> [<span class="st">"temperature"</span>, <span class="st">"iterations"</span>, <span class="st">"algorithm"</span>]</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>mixed_func,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    var_type<span class="op">=</span>var_type,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span>var_name,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> opt.optimize()</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best point: </span><span class="sc">{</span>result<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>var_name[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> (float): </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">0</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>var_name[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> (int): </span><span class="sc">{</span><span class="bu">int</span>(result.x[<span class="dv">1</span>])<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>var_name[<span class="dv">2</span>]<span class="sc">}</span><span class="ss"> (factor): </span><span class="sc">{</span><span class="bu">int</span>(result.x[<span class="dv">2</span>])<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best value: 1.000042
+Best point: [0.00644597 1.         0.        ]
+  temperature (float): 0.006446
+  iterations (int): 1
+  algorithm (factor): 0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="key-findings" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="key-findings"><span class="header-section-number">7.5</span> Key Findings</h2>
+<ol type="1">
+<li><p><strong>Type Persistence</strong>: Variable types are correctly maintained throughout the entire optimization process, from initial design through all iterations.</p></li>
+<li><p><strong>Automatic Enforcement</strong>: The <code>_repair_non_numeric()</code> method is called at all critical points, ensuring type constraints are never violated.</p></li>
+<li><p><strong>Three Explicit Types</strong>: Only <code>'float'</code>, <code>'int'</code>, and <code>'factor'</code> are supported. The legacy <code>'num'</code> type has been removed for clarity.</p></li>
+<li><p><strong>User-Provided Data</strong>: Type constraints are applied even to user-provided initial designs, ensuring consistency.</p></li>
+<li><p><strong>Plotting Compatibility</strong>: The plotting functionality respects variable types, ensuring correct visualization of discrete vs.&nbsp;continuous variables.</p></li>
+</ol>
+</section>
+<section id="recommendations" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="recommendations"><span class="header-section-number">7.6</span> Recommendations</h2>
+<ol type="1">
+<li><strong>Always specify var_type explicitly</strong> for clarity, especially in mixed-type problems</li>
+<li><strong>Use appropriate bounds</strong> for factor variables (e.g., <code>(0, n_categories-1)</code>)</li>
+<li><strong>External mapping</strong> for string categories: Maintain your own mapping dictionary outside SpotOptim (e.g., <code>{"red": 0, "green": 1, "blue": 2}</code>)</li>
+<li><strong>Validation</strong>: The current implementation doesn’t validate var_type length matches bounds length - users should ensure this manually</li>
+</ol>
+</section>
+<section id="future-enhancements-optional" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="future-enhancements-optional"><span class="header-section-number">7.7</span> Future Enhancements (Optional)</h2>
+<p>Potential improvements that could be added:</p>
+<ol type="1">
+<li><strong>Validation</strong>: Add validation in <code>__init__</code> to check <code>len(var_type) == len(bounds)</code></li>
+<li><strong>String Categories</strong>: Add built-in support for automatic string-to-int mapping</li>
+<li><strong>Ordered Categories</strong>: Support ordered categorical variables (ordinal data)</li>
+<li><strong>Type Checking</strong>: Validate that var_type values are one of the allowed strings</li>
+<li><strong>Bounds Checking</strong>: Warn if factor bounds are not integer ranges</li>
+</ol>
+</section>
+<section id="jupyter-notebook" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">7.8</span> Jupyter Notebook</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/var_type.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
+</ul>
+</div>
+</div>
 
 
 </section>
@@ -1044,10 +1339,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./success_rate.html" class="pagination-link" aria-label="Success Rate Tracking in SpotOptim">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Success Rate Tracking in SpotOptim</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./spotoptim_intro.html" class="pagination-link" aria-label="Introduction to SpotOptim">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./factor_variables.html" class="pagination-link" aria-label="Factor Variables for Categorical Hyperparameters">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Factor Variables for Categorical Hyperparameters</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
