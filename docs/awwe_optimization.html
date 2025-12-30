@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./spotoptim_examples.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-23a3edf7f3c1ed1fc827cae2f6dd4de5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -120,7 +119,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -703,7 +702,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Note
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -717,22 +716,22 @@ window.Quarto = {
 </ul></li>
 <li>The following Python packages are imported:</li>
 </ul>
-<div id="7ed3fc27" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="9973c519" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 <section id="the-awwe-objective-function" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="the-awwe-objective-function"><span class="header-section-number">4.1</span> The AWWE Objective Function</h2>
-<p>We use the same AWWE function from <a href="#sec-awwe" class="quarto-xref"><span class="quarto-unresolved-ref">sec-awwe</span></a>, which models the weight of an unpainted light aircraft wing. The function accepts inputs in the unit cube <span class="math inline">\([0,1]^9\)</span> and returns the wing weight.</p>
-<div id="d7aeb1a3" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> wingwt(x):</span>
+<p>We use the same AWWE function from <a href="002_awwe.html" class="quarto-xref"><span>Chapter 29</span></a>, which models the weight of an unpainted light aircraft wing. The function accepts inputs in the unit cube <span class="math inline">\([0,1]^9\)</span> and returns the wing weight.</p>
+<div id="e7d0555e" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> wingwt(x):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Aircraft Wing Weight function.</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
@@ -766,16 +765,16 @@ window.Quarto = {
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Wrapper for scipy.optimize (expects 1D input, returns scalar)</span></span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> wingwt_scipy(x):</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(wingwt(x.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">float</span>(wingwt(x.reshape(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="baseline-configuration" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="baseline-configuration"><span class="header-section-number">4.2</span> Baseline Configuration</h2>
 <p>The baseline Cessna C172 Skyhawk configuration (coded in unit cube):</p>
-<div id="88733f33" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>baseline_coded <span class="op">=</span> np.array([<span class="fl">0.48</span>, <span class="fl">0.4</span>, <span class="fl">0.38</span>, <span class="fl">0.5</span>, <span class="fl">0.62</span>, <span class="fl">0.344</span>, <span class="fl">0.4</span>, <span class="fl">0.37</span>, <span class="fl">0.38</span>])</span>
+<div id="4752a20d" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>baseline_coded <span class="op">=</span> np.array([<span class="fl">0.48</span>, <span class="fl">0.4</span>, <span class="fl">0.38</span>, <span class="fl">0.5</span>, <span class="fl">0.62</span>, <span class="fl">0.344</span>, <span class="fl">0.4</span>, <span class="fl">0.37</span>, <span class="fl">0.38</span>])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>baseline_weight <span class="op">=</span> wingwt(baseline_coded)[<span class="dv">0</span>]</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Baseline wing weight: </span><span class="sc">{</span>baseline_weight<span class="sc">:.2f}</span><span class="ss"> lb"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Baseline wing weight: </span><span class="sc">{</span>baseline_weight<span class="sc">:.2f}</span><span class="ss"> lb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Baseline wing weight: 233.91 lb</code></pre>
 </div>
@@ -789,8 +788,8 @@ window.Quarto = {
 <li><strong>Nelder-Mead</strong>: Derivative-free simplex method (robust but can be slow)</li>
 <li><strong>BFGS</strong>: Quasi-Newton method (fast but requires smooth functions)</li>
 </ol>
-<div id="6b70b2e2" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Starting point (baseline configuration)</span></span>
+<div id="f396dff0" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Starting point (baseline configuration)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> baseline_coded.copy()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Bounds for all methods (unit cube)</span></span>
@@ -800,7 +799,7 @@ window.Quarto = {
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>max_evals <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Starting point: </span><span class="sc">{</span>x0<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Starting weight: </span><span class="sc">{</span>baseline_weight<span class="sc">:.2f}</span><span class="ss"> lb"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Starting weight: </span><span class="sc">{</span>baseline_weight<span class="sc">:.2f}</span><span class="ss"> lb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Starting point: [0.48  0.4   0.38  0.5   0.62  0.344 0.4   0.37  0.38 ]
 Starting weight: 233.91 lb</code></pre>
@@ -809,8 +808,8 @@ Starting weight: 233.91 lb</code></pre>
 </section>
 <section id="method-1-spotoptim-surrogate-model-based-optimization" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="method-1-spotoptim-surrogate-model-based-optimization"><span class="header-section-number">4.4</span> Method 1: SpotOptim (Surrogate Model Based Optimization)</h2>
-<div id="d8ac9fff" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start timing</span></span>
+<div id="b5c9cdf4" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start timing</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure SpotOptim</span></span>
@@ -827,18 +826,18 @@ Starting weight: 233.91 lb</code></pre>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    tensorboard_log<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    tensorboard_clean<span class="op">=</span><span class="va">True</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Removed old TensorBoard logs: runs/spotoptim_20251229_152742
+<pre><code>Removed old TensorBoard logs: runs/spotoptim_20251230_182842
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20251229_174251</code></pre>
+TensorBoard logging enabled: runs/spotoptim_20251230_190814</code></pre>
 </div>
 </div>
 </section>
 <section id="design-table" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="design-table"><span class="header-section-number">4.5</span> Design Table</h2>
-<div id="255cb702" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pprint.pprint(optimizer_spot.print_design_table())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="74d726f1" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pprint.pprint(optimizer_spot.print_design_table())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>|   name |   type |   lower |   upper |   default |   transform |
 |--------|--------|---------|---------|-----------|-------------|
@@ -867,8 +866,8 @@ TensorBoard logging enabled: runs/spotoptim_20251229_174251</code></pre>
 </section>
 <section id="run-optimization" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="run-optimization"><span class="header-section-number">4.6</span> Run optimization</h2>
-<div id="8c536737" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>result_spot <span class="op">=</span> optimizer_spot.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="e4a6fb59" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>result_spot <span class="op">=</span> optimizer_spot.optimize()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Initial best: f(x) = 212.219714
 Iteration 1: New best f(x) = 142.977841
@@ -891,29 +890,29 @@ Iteration 17: f(x) = 119.503672
 Iteration 18: f(x) = 119.503696
 Iteration 19: f(x) = 119.503680
 Iteration 20: New best f(x) = 119.503672
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251229_174251</code></pre>
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20251230_190814</code></pre>
 </div>
 </div>
-<div id="30ebe46a" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># End timing</span></span>
+<div id="eaf63b4f" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># End timing</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>spot_time <span class="op">=</span> time.time() <span class="op">-</span> start_time</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">SpotOptim Results:"</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_spot<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_spot<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Time elapsed: </span><span class="sc">{</span>spot_time<span class="sc">:.2f}</span><span class="ss"> seconds"</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_spot<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_spot<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 SpotOptim Results:
   Best weight: 119.5037 lb
   Function evaluations: 30
-  Time elapsed: 15.42 seconds
+  Time elapsed: 17.28 seconds
   Success: True</code></pre>
 </div>
 </div>
-<div id="7898636e" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>optimizer_spot.print_best()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8c360461" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>optimizer_spot.print_best()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Best Solution Found:
@@ -934,8 +933,8 @@ Best Solution Found:
 </section>
 <section id="result-table" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="result-table"><span class="header-section-number">4.7</span> Result Table</h2>
-<div id="9d3606d1" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pprint.pprint(optimizer_spot.print_results_table(show_importance<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="336a5b33" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pprint.pprint(optimizer_spot.print_results_table(show_importance<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>|   name |   type |   default |   lower |   upper |   tuned |   transform |   importance |   stars |
 |--------|--------|-----------|---------|---------|---------|-------------|--------------|---------|
@@ -978,12 +977,12 @@ Interpretation: ***: &gt;99%, **: &gt;75%, *: &gt;50%, .: &gt;10%
 </section>
 <section id="progress-of-the-optimization" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="progress-of-the-optimization"><span class="header-section-number">4.8</span> Progress of the Optimization</h2>
-<div id="f82880c2" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>optimizer_spot.plot_progress(log_y<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="18f6c701" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>optimizer_spot.plot_progress(log_y<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="awwe_optimization_files/figure-html/cell-12-output-1.png" width="949" height="565" class="figure-img"></p>
+<p><img src="awwe_optimization_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -991,8 +990,8 @@ Interpretation: ***: &gt;99%, **: &gt;75%, *: &gt;50%, .: &gt;10%
 </section>
 <section id="contour-plots-of-most-important-hyperparameters" class="level2" data-number="4.9">
 <h2 data-number="4.9" class="anchored" data-anchor-id="contour-plots-of-most-important-hyperparameters"><span class="header-section-number">4.9</span> Contour Plots of Most Important Hyperparameters</h2>
-<div id="51e76d1d" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>optimizer_spot.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8dca2f2a" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>optimizer_spot.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
   Wdg: importance = 14.27% (type: float)
@@ -1005,7 +1004,7 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="awwe_optimization_files/figure-html/cell-13-output-2.png" width="1126" height="950" class="figure-img"></p>
+<p><img src="awwe_optimization_files/figure-html/cell-13-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1015,7 +1014,7 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="awwe_optimization_files/figure-html/cell-13-output-4.png" width="1117" height="950" class="figure-img"></p>
+<p><img src="awwe_optimization_files/figure-html/cell-13-output-4.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1025,7 +1024,7 @@ Generating 3 surrogate plots...
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="awwe_optimization_files/figure-html/cell-13-output-6.png" width="1126" height="950" class="figure-img"></p>
+<p><img src="awwe_optimization_files/figure-html/cell-13-output-6.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1033,8 +1032,8 @@ Generating 3 surrogate plots...
 </section>
 <section id="method-2-nelder-mead-simplex" class="level2" data-number="4.10">
 <h2 data-number="4.10" class="anchored" data-anchor-id="method-2-nelder-mead-simplex"><span class="header-section-number">4.10</span> Method 2: Nelder-Mead Simplex</h2>
-<div id="511db66b" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<div id="4fbf4db1" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Running Nelder-Mead Simplex..."</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1057,7 +1056,7 @@ Generating 3 surrogate plots...
 <span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_nm<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
 <span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_nm<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Time elapsed: </span><span class="sc">{</span>nm_time<span class="sc">:.2f}</span><span class="ss"> seconds"</span>)</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_nm<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_nm<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ============================================================
@@ -1074,8 +1073,8 @@ Nelder-Mead Results:
 </section>
 <section id="method-3-bfgs-quasi-newton" class="level2" data-number="4.11">
 <h2 data-number="4.11" class="anchored" data-anchor-id="method-3-bfgs-quasi-newton"><span class="header-section-number">4.11</span> Method 3: BFGS (Quasi-Newton)</h2>
-<div id="4e83193b" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<div id="dc4c841b" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Running BFGS (Quasi-Newton)..."</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">60</span>)</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1099,7 +1098,7 @@ Nelder-Mead Results:
 <span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_bfgs<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
 <span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_bfgs<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Time elapsed: </span><span class="sc">{</span>bfgs_time<span class="sc">:.2f}</span><span class="ss"> seconds"</span>)</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_bfgs<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_bfgs<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ============================================================
@@ -1116,8 +1115,8 @@ BFGS Results:
 </section>
 <section id="comparison-of-results" class="level2" data-number="4.12">
 <h2 data-number="4.12" class="anchored" data-anchor-id="comparison-of-results"><span class="header-section-number">4.12</span> Comparison of Results</h2>
-<div id="43d8f138" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create comparison DataFrame</span></span>
+<div id="2896c2a8" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create comparison DataFrame</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Method'</span>: [<span class="st">'Baseline'</span>, <span class="st">'SpotOptim'</span>, <span class="st">'Nelder-Mead'</span>, <span class="st">'BFGS'</span>],</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Best Weight (lb)'</span>: [</span>
@@ -1156,7 +1155,7 @@ BFGS Results:
 <span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"OPTIMIZATION COMPARISON"</span>)</span>
 <span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
 <span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(comparison.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ================================================================================
@@ -1164,9 +1163,9 @@ OPTIMIZATION COMPARISON
 ================================================================================
      Method  Best Weight (lb)  Improvement (%)  Function Evals  Time (s)  Success
    Baseline        233.908405         0.000000               1  0.000000     True
-  SpotOptim        119.503672        48.910057              30 15.415289     True
-Nelder-Mead        220.544928         5.713124              30  0.001042    False
-       BFGS        119.503672        48.910057              60  0.001522    False
+  SpotOptim        119.503672        48.910057              30 17.279140     True
+Nelder-Mead        220.544928         5.713124              30  0.001141    False
+       BFGS        119.503672        48.910057              60  0.001850    False
 ================================================================================</code></pre>
 </div>
 </div>
@@ -1175,8 +1174,8 @@ Nelder-Mead        220.544928         5.713124              30  0.001042    Fals
 <h2 data-number="4.13" class="anchored" data-anchor-id="visualization-convergence-plots"><span class="header-section-number">4.13</span> Visualization: Convergence Plots</h2>
 <section id="spotoptim-convergence" class="level3" data-number="4.13.1">
 <h3 data-number="4.13.1" class="anchored" data-anchor-id="spotoptim-convergence"><span class="header-section-number">4.13.1</span> SpotOptim Convergence</h3>
-<div id="5e2557f3" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
+<div id="108cc0f5" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 1: Best value over iterations</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>y_history <span class="op">=</span> optimizer_spot.y_</span>
@@ -1201,11 +1200,11 @@ Nelder-Mead        220.544928         5.713124              30  0.001042    Fals
 <span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>ax2.axhline(y<span class="op">=</span><span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, linestyle<span class="op">=</span><span class="st">'-'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
 <span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="awwe_optimization_files/figure-html/cell-17-output-1.png" width="1332" height="470" class="figure-img"></p>
+<p><img src="awwe_optimization_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1215,8 +1214,8 @@ Nelder-Mead        220.544928         5.713124              30  0.001042    Fals
 <section id="optimal-parameter-values" class="level2" data-number="4.14">
 <h2 data-number="4.14" class="anchored" data-anchor-id="optimal-parameter-values"><span class="header-section-number">4.14</span> Optimal Parameter Values</h2>
 <p>Let’s examine the optimal parameter values found by each method:</p>
-<div id="f8359aa5" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter names</span></span>
+<div id="ae9eace7" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter names</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>param_names <span class="op">=</span> [<span class="st">'Sw'</span>, <span class="st">'Wfw'</span>, <span class="st">'A'</span>, <span class="st">'L'</span>, <span class="st">'q'</span>, <span class="st">'l'</span>, <span class="st">'Rtc'</span>, <span class="st">'Nz'</span>, <span class="st">'Wdg'</span>]</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform from unit cube to natural scales</span></span>
@@ -1255,7 +1254,7 @@ Nelder-Mead        220.544928         5.713124              30  0.001042    Fals
 <span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"OPTIMAL PARAMETER VALUES (Natural Scale)"</span>)</span>
 <span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
 <span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(param_comparison.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ====================================================================================================
@@ -1277,8 +1276,8 @@ Parameter  Baseline   SpotOptim  Nelder-Mead    BFGS
 </section>
 <section id="analysis-of-optimal-solutions" class="level2" data-number="4.15">
 <h2 data-number="4.15" class="anchored" data-anchor-id="analysis-of-optimal-solutions"><span class="header-section-number">4.15</span> Analysis of Optimal Solutions</h2>
-<div id="92a7dcf5" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentage changes from baseline</span></span>
+<div id="fd6b90b4" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentage changes from baseline</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>changes_spot <span class="op">=</span> [(spot_decoded[i] <span class="op">-</span> baseline_decoded[i]) <span class="op">/</span> baseline_decoded[i] <span class="op">*</span> <span class="dv">100</span> </span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(param_names))]</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>changes_nm <span class="op">=</span> [(nm_decoded[i] <span class="op">-</span> baseline_decoded[i]) <span class="op">/</span> baseline_decoded[i] <span class="op">*</span> <span class="dv">100</span> </span>
@@ -1300,11 +1299,11 @@ Parameter  Baseline   SpotOptim  Nelder-Mead    BFGS
 <span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
 <span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="awwe_optimization_files/figure-html/cell-19-output-1.png" width="1718" height="470" class="figure-img"></p>
+<p><img src="awwe_optimization_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1312,8 +1311,8 @@ Parameter  Baseline   SpotOptim  Nelder-Mead    BFGS
 </section>
 <section id="key-insights-from-optimal-solutions" class="level2" data-number="4.16">
 <h2 data-number="4.16" class="anchored" data-anchor-id="key-insights-from-optimal-solutions"><span class="header-section-number">4.16</span> Key Insights from Optimal Solutions</h2>
-<div id="e4f4e5d3" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find parameters with largest changes for each method</span></span>
+<div id="4d916c8b" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find parameters with largest changes for each method</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_changes(decoded, baseline_decoded, method_name):</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    changes <span class="op">=</span> {param_names[i]: decoded[i] <span class="op">-</span> baseline_decoded[i] </span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(param_names))}</span>
@@ -1328,7 +1327,7 @@ Parameter  Baseline   SpotOptim  Nelder-Mead    BFGS
 <span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>analyze_changes(spot_decoded, baseline_decoded, <span class="st">"SpotOptim"</span>)</span>
 <span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>analyze_changes(nm_decoded, baseline_decoded, <span class="st">"Nelder-Mead"</span>)</span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>analyze_changes(bfgs_decoded, baseline_decoded, <span class="st">"BFGS"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>analyze_changes(bfgs_decoded, baseline_decoded, <span class="st">"BFGS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 SpotOptim - Top 5 Parameter Changes:
@@ -1359,8 +1358,8 @@ BFGS - Top 5 Parameter Changes:
 </section>
 <section id="method-efficiency-comparison" class="level2" data-number="4.17">
 <h2 data-number="4.17" class="anchored" data-anchor-id="method-efficiency-comparison"><span class="header-section-number">4.17</span> Method Efficiency Comparison</h2>
-<div id="60142517" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate efficiency metrics</span></span>
+<div id="249de6c4" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate efficiency metrics</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>efficiency <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Method'</span>: [<span class="st">'SpotOptim'</span>, <span class="st">'Nelder-Mead'</span>, <span class="st">'BFGS'</span>],</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Weight Reduction (lb)'</span>: [</span>
@@ -1384,16 +1383,16 @@ BFGS - Top 5 Parameter Changes:
 <span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"METHOD EFFICIENCY METRICS"</span>)</span>
 <span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
 <span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(efficiency.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ================================================================================
 METHOD EFFICIENCY METRICS
 ================================================================================
      Method  Weight Reduction (lb)  Evals to Best  Time per Eval (ms)
-  SpotOptim             114.404734             30          513.842972
-Nelder-Mead              13.363478             30            0.034730
-       BFGS             114.404734             60            0.025372
+  SpotOptim             114.404734             30          575.971341
+Nelder-Mead              13.363478             30            0.038028
+       BFGS             114.404734             60            0.030831
 ================================================================================</code></pre>
 </div>
 </div>
@@ -1401,8 +1400,8 @@ Nelder-Mead              13.363478             30            0.034730
 <section id="visualization-2d-slices-of-optimal-solutions" class="level2" data-number="4.18">
 <h2 data-number="4.18" class="anchored" data-anchor-id="visualization-2d-slices-of-optimal-solutions"><span class="header-section-number">4.18</span> Visualization: 2D Slices of Optimal Solutions</h2>
 <p>Let’s visualize how the optimal solutions compare in the most important 2D subspaces:</p>
-<div id="a4c7dc59" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create 2D slices showing optimal points</span></span>
+<div id="f2931443" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create 2D slices showing optimal points</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">12</span>))</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Important parameter pairs based on sensitivity analysis</span></span>
@@ -1452,11 +1451,11 @@ Nelder-Mead              13.363478             30            0.034730
 <span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a>    plt.colorbar(contour, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">'Wing Weight (lb)'</span>)</span>
 <span id="cb38-49"><a href="#cb38-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-50"><a href="#cb38-50" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="awwe_optimization_files/figure-html/cell-22-output-1.png" width="1320" height="1142" class="figure-img"></p>
+<p><img src="awwe_optimization_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1545,14 +1544,13 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

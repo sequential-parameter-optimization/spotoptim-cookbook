@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./awwe_optimization.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-23a3edf7f3c1ed1fc827cae2f6dd4de5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -681,36 +680,36 @@ Note
 <section id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">5.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</h2>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 6-dimensional Rosenbrock function. We use a maximum of 100 function evaluations.</p>
-<div id="6a63a156" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<div id="1f15b116" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> rosenbrock</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> rosenbrock</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="define-the-6d-rosenbrock-function" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="define-the-6d-rosenbrock-function"><span class="header-section-number">5.1.1</span> Define the 6D Rosenbrock Function</h3>
-<div id="2546512b" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">6</span></span>
+<div id="fe6654fc" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">6</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.full(dim, <span class="op">-</span><span class="fl">2.0</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.full(dim, <span class="fl">2.0</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(lower, upper))</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fun <span class="op">=</span> rosenbrock</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="set-up-spotoptim-parameters" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters"><span class="header-section-number">5.1.2</span> Set up SpotOptim Parameters</h3>
-<div id="eb0d8a5b" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a57d88bb" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sklearn-gaussian-process-regressor-as-surrogate" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="sklearn-gaussian-process-regressor-as-surrogate"><span class="header-section-number">5.1.3</span> Sklearn Gaussian Process Regressor as Surrogate</h3>
 <div id="kriging-matern-6d-rosen_run" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process <span class="im">import</span> GaussianProcessRegressor</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process <span class="im">import</span> GaussianProcessRegressor</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process.kernels <span class="im">import</span> Matern, ConstantKernel</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a Matern kernel instead of the standard RBF kernel</span></span>
@@ -733,7 +732,7 @@ Note
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Run optimization</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>result_rosen <span class="op">=</span> opt_rosen.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>result_rosen <span class="op">=</span> opt_rosen.optimize()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
 Initial best: f(x) = 321.834153
@@ -764,81 +763,83 @@ Iteration 24: New best f(x) = 45.062114
 Iteration 25: New best f(x) = 43.538121
 Iteration 26: New best f(x) = 43.468547
 Iteration 27: f(x) = 43.881459
-Iteration 28: New best f(x) = 39.675382
-Iteration 29: New best f(x) = 38.393633
-Iteration 30: New best f(x) = 35.523588
-Iteration 31: New best f(x) = 35.484382
-Iteration 32: f(x) = 35.825494
-Iteration 33: New best f(x) = 34.396823
-Iteration 34: New best f(x) = 34.023846
-Iteration 35: New best f(x) = 31.148824
-Iteration 36: New best f(x) = 27.483742
-Iteration 37: f(x) = 30.312244
-Iteration 38: New best f(x) = 25.628007
-Iteration 39: New best f(x) = 22.970574
-Iteration 40: f(x) = 23.633260
-Iteration 41: New best f(x) = 22.074924
-Iteration 42: New best f(x) = 21.621256
-Iteration 43: f(x) = 22.178193
-Iteration 44: f(x) = 21.696325
-Iteration 45: New best f(x) = 19.219823
-Iteration 46: New best f(x) = 14.774081
-Iteration 47: f(x) = 14.935796
-Iteration 48: New best f(x) = 14.735057
-Iteration 49: f(x) = 14.887048
-Iteration 50: New best f(x) = 14.570983
-Iteration 51: New best f(x) = 14.299982
-Iteration 52: New best f(x) = 11.894840
-Iteration 53: New best f(x) = 7.989747
-Iteration 54: New best f(x) = 6.748924
-Iteration 55: New best f(x) = 6.593840
-Iteration 56: New best f(x) = 5.990110
-Iteration 57: New best f(x) = 5.713477
-Iteration 58: New best f(x) = 5.471658
-Iteration 59: New best f(x) = 5.466964
-Iteration 60: f(x) = 5.496778
-Iteration 61: New best f(x) = 5.436363
-Iteration 62: New best f(x) = 5.380911
-Iteration 63: New best f(x) = 5.319051
-Iteration 64: New best f(x) = 5.261751
-Iteration 65: New best f(x) = 5.238434
-Iteration 66: New best f(x) = 5.122744
-Iteration 67: f(x) = 5.166099
-Iteration 68: New best f(x) = 5.107638
-Iteration 69: New best f(x) = 5.098379
-Iteration 70: f(x) = 5.118825
-Iteration 71: New best f(x) = 5.083977
-Iteration 72: f(x) = 5.099803
-Iteration 73: New best f(x) = 5.067823
-Iteration 74: New best f(x) = 5.055556
-Iteration 75: f(x) = 5.061091
-Iteration 76: New best f(x) = 5.052843
-Iteration 77: New best f(x) = 5.031295
-Iteration 78: New best f(x) = 5.016746
-Iteration 79: New best f(x) = 4.994297
-Iteration 80: New best f(x) = 4.906668
-Iteration 81: f(x) = 4.928198
-Iteration 82: New best f(x) = 4.880380
-Iteration 83: New best f(x) = 4.743828
-Iteration 84: New best f(x) = 4.701228
-Iteration 85: f(x) = 4.736901
-Iteration 86: f(x) = 4.727649
-Iteration 87: New best f(x) = 4.689752
-Iteration 88: f(x) = 4.701422
-Iteration 89: New best f(x) = 4.685291
-Iteration 90: f(x) = 4.771983
-Iteration 91: New best f(x) = 4.532723
-Iteration 92: New best f(x) = 4.501827
-Iteration 93: New best f(x) = 4.459025
-Iteration 94: New best f(x) = 4.442562</code></pre>
+Iteration 28: New best f(x) = 39.919635
+Iteration 29: New best f(x) = 39.496653
+Iteration 30: New best f(x) = 39.003451
+Iteration 31: f(x) = 39.521005
+Iteration 32: New best f(x) = 37.363045
+Iteration 33: New best f(x) = 29.875362
+Iteration 34: New best f(x) = 28.627645
+Iteration 35: New best f(x) = 26.549126
+Iteration 36: New best f(x) = 26.451449
+Iteration 37: New best f(x) = 26.352199
+Iteration 38: f(x) = 26.389132
+Iteration 39: New best f(x) = 22.726275
+Iteration 40: New best f(x) = 22.075592
+Iteration 41: New best f(x) = 17.693068
+Iteration 42: New best f(x) = 15.583451
+Iteration 43: f(x) = 16.376784
+Iteration 44: New best f(x) = 15.127598
+Iteration 45: New best f(x) = 14.524074
+Iteration 46: New best f(x) = 13.422546
+Iteration 47: New best f(x) = 13.018001
+Iteration 48: New best f(x) = 11.472323
+Iteration 49: New best f(x) = 6.578769
+Iteration 50: New best f(x) = 6.463796
+Iteration 51: New best f(x) = 6.330959
+Iteration 52: New best f(x) = 6.187917
+Iteration 53: f(x) = 6.205608
+Iteration 54: New best f(x) = 6.181832
+Iteration 55: New best f(x) = 6.040090
+Iteration 56: f(x) = 6.083338
+Iteration 57: f(x) = 6.270033
+Iteration 58: New best f(x) = 5.772204
+Optimizer candidate 1/3 was duplicate after rounding.
+Iteration 59: f(x) = 5.824228
+Iteration 60: New best f(x) = 5.772130
+Optimizer candidate 1/3 was duplicate after rounding.
+Iteration 61: f(x) = 5.801632
+Iteration 62: New best f(x) = 5.717541
+Iteration 63: f(x) = 5.726855
+Iteration 64: New best f(x) = 5.667174
+Iteration 65: New best f(x) = 5.650369
+Iteration 66: f(x) = 5.664224
+Iteration 67: New best f(x) = 5.622057
+Iteration 68: f(x) = 5.630103
+Iteration 69: f(x) = 5.625288
+Iteration 70: f(x) = 5.629096
+Iteration 71: New best f(x) = 5.603824
+Iteration 72: f(x) = 5.604449
+Iteration 73: New best f(x) = 5.593430
+Iteration 74: f(x) = 5.597883
+Iteration 75: f(x) = 5.599539
+Iteration 76: f(x) = 5.599424
+Iteration 77: New best f(x) = 5.592377
+Iteration 78: New best f(x) = 5.578576
+Iteration 79: New best f(x) = 5.578574
+Iteration 80: f(x) = 5.587330
+Iteration 81: f(x) = 5.579142
+Iteration 82: f(x) = 5.607202
+Iteration 83: New best f(x) = 5.572147
+Iteration 84: New best f(x) = 5.552515
+Iteration 85: New best f(x) = 5.551837
+Iteration 86: f(x) = 5.558809
+Iteration 87: New best f(x) = 5.550850
+Iteration 88: New best f(x) = 5.543202
+Iteration 89: New best f(x) = 5.534218
+Iteration 90: f(x) = 5.534858
+Iteration 91: New best f(x) = 5.519322
+Iteration 92: New best f(x) = 5.502103
+Iteration 93: New best f(x) = 5.501093
+Iteration 94: New best f(x) = 5.493653</code></pre>
 </div>
 </div>
-<div id="33e16527" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[6D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<div id="d227da5b" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[6D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[6D] Sklearn Kriging: min y = 4.4426 at x = [ 0.28207773  0.07110936  0.01142581 -0.0095834   0.03223602  0.0095451 ]
+<pre><code>[6D] Sklearn Kriging: min y = 5.4937 at x = [-0.32491769  0.11736549  0.02657586  0.0094131   0.00997254  0.00518315]
 Number of function evaluations: 100
 Number of iterations: 94</code></pre>
 </div>
@@ -846,8 +847,8 @@ Number of iterations: 94</code></pre>
 </section>
 <section id="visualize-optimization-progress" class="level3" data-number="5.1.4">
 <h3 data-number="5.1.4" class="anchored" data-anchor-id="visualize-optimization-progress"><span class="header-section-number">5.1.4</span> Visualize Optimization Progress</h3>
-<div id="2fda54d1" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div id="93cf8505" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
@@ -857,11 +858,11 @@ Number of iterations: 94</code></pre>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'6D Rosenbrock: Sklearn Kriging Progress'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="019_spotoptim_sk_matern_files/figure-html/cell-7-output-1.png" width="950" height="566" class="figure-img"></p>
+<p><img src="019_spotoptim_sk_matern_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -870,8 +871,8 @@ Number of iterations: 94</code></pre>
 <section id="evaluation-of-multiple-repeats" class="level3" data-number="5.1.5">
 <h3 data-number="5.1.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats"><span class="header-section-number">5.1.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="d0425ef0" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
+<div id="46b5ea6e" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -910,7 +911,7 @@ Number of iterations: 94</code></pre>
 <span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Mean of best values: </span><span class="sc">{</span>mean_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Std of best values:  </span><span class="sc">{</span>std_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Min of best values:  </span><span class="sc">{</span>min_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Max of best values:  </span><span class="sc">{</span>max_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Max of best values:  </span><span class="sc">{</span>max_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -919,28 +920,28 @@ Number of iterations: 94</code></pre>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 10-dimensional Michalewicz function. We use a maximum of 300 function evaluations.</p>
 <section id="define-the-10d-michalewicz-function" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="define-the-10d-michalewicz-function"><span class="header-section-number">5.2.1</span> Define the 10D Michalewicz Function</h3>
-<div id="5b582977" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> michalewicz</span>
+<div id="dbffa655" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> michalewicz</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.full(dim, <span class="fl">0.0</span>)</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.full(dim, np.pi)</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(lower, upper))</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>fun <span class="op">=</span> michalewicz</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">300</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>max_iter <span class="op">=</span> <span class="dv">300</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="set-up-spotoptim-parameters-1" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters-1"><span class="header-section-number">5.2.2</span> Set up SpotOptim Parameters</h3>
-<div id="7a5897ef" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c665a70c" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sklearn-gaussian-process-regressor-as-surrogate-1" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="sklearn-gaussian-process-regressor-as-surrogate-1"><span class="header-section-number">5.2.3</span> Sklearn Gaussian Process Regressor as Surrogate</h3>
 <div id="kriging-matern-10d-michalewicz_run" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process <span class="im">import</span> GaussianProcessRegressor</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process <span class="im">import</span> GaussianProcessRegressor</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.gaussian_process.kernels <span class="im">import</span> Matern, ConstantKernel</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a Matern kernel instead of the standard RBF kernel</span></span>
@@ -963,7 +964,7 @@ Number of iterations: 94</code></pre>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Run optimization</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>result_micha <span class="op">=</span> opt_micha.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>result_micha <span class="op">=</span> opt_micha.optimize()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
 Initial best: f(x) = -1.909129
@@ -995,281 +996,282 @@ Iteration 23: f(x) = -0.786191
 Iteration 24: New best f(x) = -3.645627
 Optimizer candidate 1/3 was duplicate after rounding.
 Iteration 25: f(x) = -0.913552
-Iteration 26: New best f(x) = -3.879507
-Iteration 27: New best f(x) = -4.718084
-Iteration 28: f(x) = -4.066472
-Iteration 29: New best f(x) = -4.756804
-Iteration 30: f(x) = -4.751526
-Iteration 31: New best f(x) = -4.760582
-Iteration 32: f(x) = -4.646373
-Iteration 33: New best f(x) = -4.898053
-Iteration 34: f(x) = -1.857547
-Iteration 35: New best f(x) = -4.940037
-Iteration 36: New best f(x) = -4.953219
-Iteration 37: f(x) = -1.925003
-Iteration 38: f(x) = -4.892561
-Iteration 39: New best f(x) = -4.987714
-Iteration 40: f(x) = -4.986228
-Iteration 41: New best f(x) = -4.992740
-Iteration 42: f(x) = -1.966305
-Iteration 43: f(x) = -1.989955
-Iteration 44: f(x) = -4.988447
-Iteration 45: New best f(x) = -5.055589
-Iteration 46: New best f(x) = -5.163321
-Iteration 47: New best f(x) = -5.330200
-Iteration 48: f(x) = -5.315522
-Iteration 49: New best f(x) = -5.423851
-Iteration 50: New best f(x) = -5.487307
-Iteration 51: New best f(x) = -5.514821
-Iteration 52: f(x) = -5.513204
-Iteration 53: New best f(x) = -5.544603
-Iteration 54: f(x) = -5.498218
-Iteration 55: f(x) = -2.013015
-Iteration 56: f(x) = -0.986604
-Iteration 57: New best f(x) = -5.710968
-Iteration 58: New best f(x) = -5.740085
-Iteration 59: f(x) = -5.731862
-Iteration 60: f(x) = -2.137932
-Iteration 61: New best f(x) = -5.749742
-Iteration 62: New best f(x) = -5.751414
-Iteration 63: f(x) = -5.723542
-Iteration 64: f(x) = -1.490073
-Iteration 65: f(x) = -2.196075
-Iteration 66: New best f(x) = -5.977776
-Iteration 67: New best f(x) = -5.990616
-Iteration 68: f(x) = -2.003978
-Iteration 69: New best f(x) = -5.991110
-Iteration 70: New best f(x) = -6.002744
-Iteration 71: New best f(x) = -6.048590
-Iteration 72: New best f(x) = -6.056870
-Iteration 73: New best f(x) = -6.057568
-Iteration 74: New best f(x) = -6.063140
-Iteration 75: f(x) = -1.112713
-Iteration 76: f(x) = -6.050027
-Iteration 77: New best f(x) = -6.164413
-Iteration 78: f(x) = -2.218945
-Iteration 79: f(x) = -6.164111
-Iteration 80: New best f(x) = -6.170468
-Iteration 81: f(x) = -2.224685
-Iteration 82: f(x) = -2.010742
-Iteration 83: f(x) = -2.015806
-Iteration 84: New best f(x) = -6.183718
-Iteration 85: f(x) = -6.182447
-Iteration 86: New best f(x) = -6.195052
-Iteration 87: f(x) = -2.029081
-Iteration 88: New best f(x) = -6.195426
-Iteration 89: New best f(x) = -6.200572
-Iteration 90: f(x) = -2.030962
-Iteration 91: f(x) = -1.124819
-Iteration 92: New best f(x) = -6.239740
-Iteration 93: f(x) = -6.237672
-Iteration 94: New best f(x) = -6.251388
-Iteration 95: f(x) = -2.225876
-Iteration 96: f(x) = -0.786240
-Iteration 97: f(x) = -2.224921
-Iteration 98: f(x) = -2.293240
-Iteration 99: f(x) = -2.303387
-Iteration 100: New best f(x) = -6.254509
-Iteration 101: f(x) = -2.304992
+Iteration 26: New best f(x) = -3.879398
+Iteration 27: New best f(x) = -4.717449
+Iteration 28: f(x) = -4.065064
+Iteration 29: New best f(x) = -4.755992
+Iteration 30: f(x) = -4.749787
 Optimizer candidate 1/3 was duplicate after rounding.
-Iteration 102: f(x) = -1.758762
-Iteration 103: f(x) = -2.362865
-Iteration 104: f(x) = -2.348322
-Iteration 105: f(x) = -2.027437
-Iteration 106: f(x) = -2.391746
-Iteration 107: f(x) = -6.253186
-Iteration 108: New best f(x) = -6.277164
-Iteration 109: New best f(x) = -6.277425
-Iteration 110: f(x) = -6.276328
-Iteration 111: New best f(x) = -6.288893
-Iteration 112: New best f(x) = -6.289784
-Iteration 113: New best f(x) = -6.291421
-Iteration 114: New best f(x) = -6.293083
-Iteration 115: f(x) = -6.292970
-Iteration 116: New best f(x) = -6.293643
-Iteration 117: New best f(x) = -6.293996
-Iteration 118: f(x) = -6.293948
-Iteration 119: f(x) = -1.490371
-Iteration 120: New best f(x) = -6.301918
-Iteration 121: f(x) = -0.775860
-Iteration 122: New best f(x) = -6.302789
-Iteration 123: f(x) = -6.302711
-Iteration 124: New best f(x) = -6.304016
-Iteration 125: New best f(x) = -6.308309
-Iteration 126: New best f(x) = -6.308369
-Iteration 127: f(x) = -2.408169
-Iteration 128: New best f(x) = -6.308537
-Iteration 129: f(x) = -2.433295
-Iteration 130: New best f(x) = -6.309349
-Iteration 131: New best f(x) = -6.309715
-Iteration 132: New best f(x) = -6.312788
-Iteration 133: New best f(x) = -6.319245
-Iteration 134: New best f(x) = -6.329490
-Iteration 135: f(x) = -6.328972
-Iteration 136: f(x) = -1.132906
-Iteration 137: f(x) = -2.032633
-Iteration 138: New best f(x) = -6.332480
-Iteration 139: f(x) = -2.452340
-Iteration 140: New best f(x) = -6.343582
-Iteration 141: New best f(x) = -6.346320
-Iteration 142: f(x) = -6.346154
-Iteration 143: New best f(x) = -6.347432
-Iteration 144: f(x) = -2.477130
-Iteration 145: f(x) = -2.080753
-Iteration 146: New best f(x) = -6.349563
-Iteration 147: New best f(x) = -6.350449
-Iteration 148: New best f(x) = -6.351700
-Iteration 149: New best f(x) = -6.352046
-Iteration 150: f(x) = -2.512516
-Iteration 151: New best f(x) = -6.352232
-Iteration 152: f(x) = -2.525852
-Iteration 153: New best f(x) = -6.352318
-Iteration 154: f(x) = -2.526499
-Iteration 155: f(x) = -2.527085
-Iteration 156: f(x) = -6.352275
-Iteration 157: f(x) = -0.793356
-Iteration 158: New best f(x) = -6.352633
-Iteration 159: f(x) = -6.352542
-Iteration 160: f(x) = -2.525323
-Iteration 161: New best f(x) = -6.352940
-Iteration 162: f(x) = -2.556321
-Iteration 163: New best f(x) = -6.361329
-Iteration 164: New best f(x) = -6.375884
-Iteration 165: New best f(x) = -6.378251
-Iteration 166: New best f(x) = -6.380502
-Iteration 167: f(x) = -6.380121
-Iteration 168: New best f(x) = -6.384125
-Iteration 169: f(x) = -2.598851
-Iteration 170: f(x) = -2.596444
-Iteration 171: f(x) = -0.865635
-Iteration 172: f(x) = -2.592670
-Iteration 173: New best f(x) = -6.385428
-Iteration 174: New best f(x) = -6.385464
-Iteration 175: New best f(x) = -6.385669
-Iteration 176: New best f(x) = -6.385710
-Iteration 177: New best f(x) = -6.385845
-Iteration 178: f(x) = -6.385072
-Iteration 179: f(x) = -6.383327
-Iteration 180: New best f(x) = -6.385956
-Iteration 181: New best f(x) = -6.387618
-Iteration 182: New best f(x) = -6.388747
-Iteration 183: f(x) = -6.387081
-Iteration 184: f(x) = -2.086196
-Iteration 185: New best f(x) = -6.390911
-Iteration 186: New best f(x) = -6.392838
-Iteration 187: New best f(x) = -6.393812
-Iteration 188: f(x) = -6.391312
-Iteration 189: New best f(x) = -6.394898
-Iteration 190: New best f(x) = -6.395340
-Iteration 191: New best f(x) = -6.396468
-Iteration 192: f(x) = -1.098505
-Iteration 193: f(x) = -2.604949
-Iteration 194: f(x) = -6.396463
-Iteration 195: f(x) = -2.606466
-Iteration 196: f(x) = -2.622660
-Iteration 197: New best f(x) = -6.396985
-Iteration 198: New best f(x) = -6.397630
-Iteration 199: f(x) = -2.621368
-Iteration 200: New best f(x) = -6.397903
-Iteration 201: f(x) = -2.628173
-Iteration 202: f(x) = -2.170577
-Iteration 203: New best f(x) = -6.397922
-Iteration 204: New best f(x) = -6.398445
-Iteration 205: f(x) = -2.638541
-Iteration 206: New best f(x) = -6.398719
-Iteration 207: f(x) = -1.711353
-Iteration 208: f(x) = -2.657427
-Iteration 209: f(x) = -6.398457
-Iteration 210: New best f(x) = -6.404110
-Iteration 211: f(x) = -2.166475
-Iteration 212: f(x) = -2.679683
-Iteration 213: New best f(x) = -6.413157
-Iteration 214: f(x) = -2.674059
-Iteration 215: New best f(x) = -6.424805
-Iteration 216: f(x) = -6.424191
-Iteration 217: New best f(x) = -6.441167
-Iteration 218: f(x) = -2.720631
-Iteration 219: New best f(x) = -6.446234
-Iteration 220: f(x) = -2.773480
-Iteration 221: f(x) = -2.776241
-Iteration 222: New best f(x) = -6.457461
-Iteration 223: New best f(x) = -6.466672
-Iteration 224: f(x) = -6.458645
-Iteration 225: f(x) = -2.231609
-Iteration 226: f(x) = -2.773635
-Iteration 227: f(x) = -2.802841
-Iteration 228: f(x) = -2.495180
-Iteration 229: New best f(x) = -6.493461
-Iteration 230: f(x) = -6.483192
-Iteration 231: New best f(x) = -6.536600
-Iteration 232: f(x) = -1.217899
-Iteration 233: f(x) = -6.526670
-Iteration 234: New best f(x) = -6.549792
-Iteration 235: f(x) = -2.565535
-Iteration 236: New best f(x) = -6.551282
-Iteration 237: f(x) = -2.612639
-Iteration 238: f(x) = -6.550871
-Iteration 239: f(x) = -2.764723
-Iteration 240: f(x) = -2.834517
-Iteration 241: New best f(x) = -6.556688
-Iteration 242: f(x) = -6.433503
-Iteration 243: f(x) = -6.554173
-Iteration 244: f(x) = -6.556254
-Iteration 245: New best f(x) = -6.609256
-Iteration 246: f(x) = -6.602122
-Iteration 247: New best f(x) = -6.629082
-Iteration 248: f(x) = -6.625742
-Iteration 249: f(x) = -2.769016
-Iteration 250: f(x) = -1.160445
-Iteration 251: f(x) = -6.593592
-Iteration 252: New best f(x) = -6.644865
-Iteration 253: f(x) = -2.848471
-Iteration 254: f(x) = -2.883951
-Iteration 255: New best f(x) = -6.656519
-Iteration 256: f(x) = -2.883172
-Iteration 257: f(x) = -6.650707
-Iteration 258: f(x) = -2.940141
-Iteration 259: f(x) = -2.957787
-Iteration 260: f(x) = -2.957092
-Iteration 261: New best f(x) = -6.681915
-Iteration 262: f(x) = -2.769716
-Iteration 263: f(x) = -2.769670
-Iteration 264: f(x) = -2.974068
-Iteration 265: f(x) = -1.776090
-Iteration 266: New best f(x) = -6.686838
-Iteration 267: f(x) = -2.848183
-Iteration 268: New best f(x) = -6.688091
-Iteration 269: New best f(x) = -6.690468
-Iteration 270: New best f(x) = -6.692634
-Iteration 271: New best f(x) = -6.696097
-Iteration 272: f(x) = -2.948536
-Iteration 273: New best f(x) = -6.702532
-Iteration 274: f(x) = -2.886005
-Iteration 275: f(x) = -2.869002
-Iteration 276: f(x) = -3.228620
-Iteration 277: New best f(x) = -6.712743
-Iteration 278: f(x) = -6.707572
-Iteration 279: New best f(x) = -6.727136
-Iteration 280: f(x) = -2.896340
-Iteration 281: New best f(x) = -6.734786
-Iteration 282: New best f(x) = -6.735457
-Iteration 283: f(x) = -3.366003
-Iteration 284: f(x) = -6.703459
-Iteration 285: f(x) = -6.733725
-Iteration 286: New best f(x) = -6.743722
-Iteration 287: f(x) = -2.895962
-Iteration 288: New best f(x) = -6.744144
-Iteration 289: New best f(x) = -6.745467
-Iteration 290: f(x) = -3.489173</code></pre>
+Iteration 31: f(x) = -0.884913
+Iteration 32: New best f(x) = -4.760523
+Iteration 33: f(x) = -4.601348
+Iteration 34: New best f(x) = -4.855653
+Iteration 35: New best f(x) = -4.909507
+Iteration 36: New best f(x) = -4.915291
+Iteration 37: f(x) = -4.854324
+Iteration 38: New best f(x) = -4.959107
+Iteration 39: f(x) = -1.855336
+Iteration 40: f(x) = -2.006735
+Iteration 41: New best f(x) = -4.959408
+Iteration 42: f(x) = -4.928736
+Iteration 43: New best f(x) = -4.989346
+Iteration 44: New best f(x) = -4.996114
+Iteration 45: New best f(x) = -5.008915
+Optimizer candidate 1/3 was duplicate after rounding.
+Iteration 46: f(x) = -1.825027
+Iteration 47: f(x) = -1.925606
+Iteration 48: New best f(x) = -5.136332
+Iteration 49: f(x) = -5.096829
+Iteration 50: New best f(x) = -5.383622
+Iteration 51: f(x) = -2.137949
+Iteration 52: f(x) = -2.196596
+Iteration 53: f(x) = -2.218551
+Iteration 54: New best f(x) = -5.783182
+Iteration 55: f(x) = -5.759380
+Iteration 56: New best f(x) = -5.796545
+Iteration 57: New best f(x) = -5.844832
+Iteration 58: New best f(x) = -5.891744
+Iteration 59: f(x) = -1.971752
+Iteration 60: New best f(x) = -5.953926
+Iteration 61: New best f(x) = -5.955009
+Iteration 62: f(x) = -2.224858
+Iteration 63: f(x) = -5.937006
+Iteration 64: f(x) = -0.786255
+Iteration 65: f(x) = -1.994321
+Iteration 66: New best f(x) = -6.038673
+Iteration 67: f(x) = -6.026439
+Iteration 68: New best f(x) = -6.046706
+Iteration 69: f(x) = -2.005717
+Iteration 70: New best f(x) = -6.068235
+Iteration 71: f(x) = -2.225876
+Iteration 72: f(x) = -1.490073
+Iteration 73: f(x) = -2.224797
+Iteration 74: New best f(x) = -6.099245
+Iteration 75: f(x) = -2.357208
+Iteration 76: f(x) = -2.011865
+Iteration 77: New best f(x) = -6.124203
+Iteration 78: f(x) = -1.491460
+Iteration 79: f(x) = -2.016601
+Iteration 80: New best f(x) = -6.190990
+Iteration 81: f(x) = -6.185022
+Iteration 82: f(x) = -2.042577
+Iteration 83: f(x) = -2.470602
+Iteration 84: f(x) = -2.542650
+Iteration 85: f(x) = -2.594426
+Iteration 86: f(x) = -6.092217
+Iteration 87: New best f(x) = -6.251958
+Iteration 88: New best f(x) = -6.273736
+Iteration 89: New best f(x) = -6.287337
+Iteration 90: f(x) = -6.284736
+Iteration 91: New best f(x) = -6.330215
+Iteration 92: f(x) = -2.637754
+Iteration 93: New best f(x) = -6.331209
+Iteration 94: f(x) = -6.328825
+Iteration 95: f(x) = -2.724277
+Iteration 96: f(x) = -2.773400
+Iteration 97: New best f(x) = -6.335988
+Iteration 98: f(x) = -6.335898
+Iteration 99: New best f(x) = -6.336793
+Iteration 100: f(x) = -2.774358
+Iteration 101: New best f(x) = -6.337921
+Iteration 102: f(x) = -2.776597
+Iteration 103: New best f(x) = -6.343548
+Iteration 104: f(x) = -6.341521
+Iteration 105: f(x) = -2.745697
+Iteration 106: f(x) = -1.300461
+Iteration 107: f(x) = -2.103768
+Iteration 108: New best f(x) = -6.350841
+Iteration 109: f(x) = -2.873668
+Iteration 110: f(x) = -2.041162
+Iteration 111: f(x) = -2.136904
+Iteration 112: New best f(x) = -6.351456
+Iteration 113: f(x) = -2.039020
+Iteration 114: f(x) = -2.048120
+Iteration 115: f(x) = -6.350352
+Iteration 116: New best f(x) = -6.353710
+Iteration 117: New best f(x) = -6.354459
+Iteration 118: f(x) = -6.354308
+Iteration 119: f(x) = -1.909659
+Iteration 120: f(x) = -2.905133
+Iteration 121: New best f(x) = -6.355847
+Iteration 122: f(x) = -6.355596
+Iteration 123: f(x) = -2.981794
+Iteration 124: f(x) = -3.035691
+Iteration 125: New best f(x) = -6.357480
+Iteration 126: f(x) = -3.106844
+Iteration 127: f(x) = -3.199932
+Iteration 128: f(x) = -6.357268
+Iteration 129: f(x) = -3.324438
+Iteration 130: f(x) = -3.374724
+Iteration 131: f(x) = -1.381203
+Iteration 132: f(x) = -3.364549
+Iteration 133: New best f(x) = -6.358265
+Iteration 134: f(x) = -3.577078
+Iteration 135: f(x) = -3.766619
+Iteration 136: New best f(x) = -6.359503
+Iteration 137: f(x) = -6.359448
+Iteration 138: f(x) = -0.940446
+Iteration 139: New best f(x) = -6.360561
+Iteration 140: f(x) = -6.360482
+Iteration 141: New best f(x) = -6.360893
+Iteration 142: New best f(x) = -6.361119
+Iteration 143: New best f(x) = -6.362299
+Iteration 144: New best f(x) = -6.365292
+Iteration 145: New best f(x) = -6.365946
+Iteration 146: New best f(x) = -6.366346
+Iteration 147: New best f(x) = -6.366940
+Iteration 148: New best f(x) = -6.366966
+Iteration 149: f(x) = -6.366961
+Iteration 150: New best f(x) = -6.367018
+Iteration 151: f(x) = -1.003756
+Iteration 152: New best f(x) = -6.367059
+Iteration 153: f(x) = -3.757475
+Iteration 154: f(x) = -6.367044
+Iteration 155: f(x) = -3.828930
+Iteration 156: New best f(x) = -6.367494
+Iteration 157: f(x) = -3.882238
+Iteration 158: New best f(x) = -6.368721
+Iteration 159: New best f(x) = -6.369109
+Iteration 160: New best f(x) = -6.369762
+Iteration 161: f(x) = -0.945671
+Iteration 162: f(x) = -3.894246
+Iteration 163: f(x) = -3.893286
+Iteration 164: New best f(x) = -6.373262
+Iteration 165: New best f(x) = -6.375507
+Iteration 166: f(x) = -3.911904
+Iteration 167: f(x) = -0.798231
+Iteration 168: New best f(x) = -6.375555
+Iteration 169: f(x) = -6.375547
+Iteration 170: f(x) = -3.928521
+Iteration 171: f(x) = -3.933044
+Iteration 172: f(x) = -1.122099
+Iteration 173: New best f(x) = -6.375606
+Iteration 174: New best f(x) = -6.375608
+Iteration 175: New best f(x) = -6.375638
+Iteration 176: f(x) = -2.179799
+Iteration 177: f(x) = -1.127972
+Iteration 178: New best f(x) = -6.376012
+Iteration 179: f(x) = -6.375901
+Iteration 180: New best f(x) = -6.376240
+Iteration 181: f(x) = -0.900616
+Iteration 182: f(x) = -3.950715
+Iteration 183: New best f(x) = -6.376416
+Iteration 184: New best f(x) = -6.377337
+Iteration 185: f(x) = -1.936687
+Iteration 186: f(x) = -4.011309
+Iteration 187: f(x) = -1.139891
+Iteration 188: New best f(x) = -6.383665
+Iteration 189: f(x) = -4.012475
+Iteration 190: f(x) = -6.383083
+Iteration 191: New best f(x) = -6.385287
+Iteration 192: f(x) = -1.203115
+Iteration 193: New best f(x) = -6.385304
+Iteration 194: f(x) = -4.017069
+Iteration 195: f(x) = -6.385180
+Iteration 196: New best f(x) = -6.385815
+Iteration 197: f(x) = -2.031896
+Iteration 198: f(x) = -4.226153
+Iteration 199: f(x) = -4.438746
+Iteration 200: New best f(x) = -6.386218
+Iteration 201: f(x) = -1.931454
+Iteration 202: f(x) = -2.064756
+Iteration 203: f(x) = -6.386215
+Iteration 204: New best f(x) = -6.386468
+Iteration 205: New best f(x) = -6.389603
+Iteration 206: f(x) = -2.615042
+Iteration 207: f(x) = -2.782571
+Iteration 208: New best f(x) = -6.389888
+Iteration 209: New best f(x) = -6.392872
+Iteration 210: New best f(x) = -6.393047
+Iteration 211: New best f(x) = -6.393375
+Iteration 212: New best f(x) = -6.394190
+Iteration 213: f(x) = -2.782694
+Iteration 214: New best f(x) = -6.394329
+Iteration 215: f(x) = -6.394230
+Iteration 216: New best f(x) = -6.395941
+Iteration 217: New best f(x) = -6.396210
+Iteration 218: f(x) = -6.396035
+Iteration 219: f(x) = -2.782933
+Iteration 220: New best f(x) = -6.399353
+Iteration 221: f(x) = -4.509186
+Iteration 222: New best f(x) = -6.401026
+Iteration 223: New best f(x) = -6.414407
+Iteration 224: f(x) = -4.535156
+Iteration 225: f(x) = -4.607264
+Iteration 226: New best f(x) = -6.416347
+Iteration 227: f(x) = -2.065394
+Iteration 228: New best f(x) = -6.416666
+Iteration 229: New best f(x) = -6.417777
+Iteration 230: New best f(x) = -6.421889
+Iteration 231: f(x) = -4.612137
+Iteration 232: f(x) = -6.421612
+Iteration 233: New best f(x) = -6.434206
+Iteration 234: f(x) = -2.785995
+Iteration 235: New best f(x) = -6.482081
+Iteration 236: f(x) = -1.182820
+Iteration 237: f(x) = -4.608961
+Iteration 238: New best f(x) = -6.484053
+Iteration 239: New best f(x) = -6.523761
+Iteration 240: f(x) = -4.615253
+Iteration 241: New best f(x) = -6.529748
+Iteration 242: f(x) = -2.829553
+Iteration 243: New best f(x) = -6.551410
+Iteration 244: New best f(x) = -6.580520
+Iteration 245: New best f(x) = -6.598342
+Iteration 246: f(x) = -4.621350
+Iteration 247: New best f(x) = -6.628209
+Iteration 248: f(x) = -2.959443
+Iteration 249: f(x) = -6.627545
+Iteration 250: f(x) = -6.574672
+Iteration 251: f(x) = -6.561423
+Iteration 252: f(x) = -4.621600
+Iteration 253: f(x) = -6.485204
+Iteration 254: f(x) = -3.000519
+Iteration 255: f(x) = -6.611332
+Iteration 256: New best f(x) = -6.651936
+Iteration 257: f(x) = -4.649780
+Iteration 258: New best f(x) = -6.656160
+Iteration 259: f(x) = -6.655473
+Iteration 260: New best f(x) = -6.667090
+Iteration 261: f(x) = -3.011055
+Iteration 262: New best f(x) = -6.668051
+Iteration 263: f(x) = -6.658942
+Iteration 264: f(x) = -3.021350
+Iteration 265: f(x) = -4.659807
+Iteration 266: f(x) = -4.662257
+Iteration 267: f(x) = -4.647051
+Iteration 268: New best f(x) = -6.670732
+Iteration 269: f(x) = -3.017649
+Iteration 270: f(x) = -6.668891
+Iteration 271: New best f(x) = -6.671932
+Iteration 272: f(x) = -4.689273
+Iteration 273: New best f(x) = -6.711839
+Iteration 274: f(x) = -4.791191
+Iteration 275: New best f(x) = -6.719041
+Iteration 276: f(x) = -4.796912
+Iteration 277: New best f(x) = -6.722577
+Iteration 278: New best f(x) = -6.751445
+Iteration 279: New best f(x) = -6.757288
+Iteration 280: f(x) = -4.829402
+Iteration 281: f(x) = -3.035638
+Iteration 282: New best f(x) = -6.758131
+Iteration 283: f(x) = -2.129318
+Iteration 284: New best f(x) = -6.988244
+Iteration 285: f(x) = -4.947644
+Iteration 286: New best f(x) = -7.124807
+Iteration 287: f(x) = -2.330577
+Iteration 288: f(x) = -3.032666
+Iteration 289: f(x) = -4.943381
+Iteration 290: f(x) = -4.939342</code></pre>
 </div>
 </div>
-<div id="233249b6" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[10D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_micha<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_micha<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<div id="3354743f" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[10D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_micha<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_micha<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[10D] Sklearn Kriging: min y = -6.7455 at x = [2.23602788 2.71699133 2.22531978 2.48054435 2.62573334 1.85333282
- 2.21989757 1.36205952 1.28722362 1.21556365]
+<pre><code>[10D] Sklearn Kriging: min y = -7.1248 at x = [2.27055957 2.70306483 2.21877068 2.49256454 2.63072868 2.04860716
+ 2.22926715 1.37335955 1.27832076 1.20332251]
 Number of function evaluations: 300
 Number of iterations: 290</code></pre>
 </div>
@@ -1277,8 +1279,8 @@ Number of iterations: 290</code></pre>
 </section>
 <section id="visualize-optimization-progress-1" class="level3" data-number="5.2.4">
 <h3 data-number="5.2.4" class="anchored" data-anchor-id="visualize-optimization-progress-1"><span class="header-section-number">5.2.4</span> Visualize Optimization Progress</h3>
-<div id="42d24d1a" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div id="81cdacb0" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
@@ -1288,11 +1290,11 @@ Number of iterations: 290</code></pre>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'10D Michalewicz: Sklearn Kriging Progress'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="019_spotoptim_sk_matern_files/figure-html/cell-13-output-1.png" width="951" height="566" class="figure-img"></p>
+<p><img src="019_spotoptim_sk_matern_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1301,8 +1303,8 @@ Number of iterations: 290</code></pre>
 <section id="evaluation-of-multiple-repeats-1" class="level3" data-number="5.2.5">
 <h3 data-number="5.2.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats-1"><span class="header-section-number">5.2.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="c5071ab2" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
+<div id="1b698b62" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1341,7 +1343,7 @@ Number of iterations: 290</code></pre>
 <span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Mean of best values: </span><span class="sc">{</span>mean_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Std of best values:  </span><span class="sc">{</span>std_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Min of best values:  </span><span class="sc">{</span>min_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
-<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Max of best values:  </span><span class="sc">{</span>max_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Max of best values:  </span><span class="sc">{</span>max_result<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1446,14 +1448,13 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

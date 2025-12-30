@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -89,15 +89,14 @@ div.csl-indent {
 <link href="./spot_step_by_step.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-23a3edf7f3c1ed1fc827cae2f6dd4de5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -140,7 +139,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -715,7 +714,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Note
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -723,11 +722,11 @@ window.Quarto = {
 <li>This section is based on chapter 1.3 “A ten-variable weight function” in <span class="citation" data-cites="Forr08a">Forrester, Sóbester, and Keane (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span>.</li>
 <li>The following Python packages are imported:</li>
 </ul>
-<div id="da774059" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<div id="70ab6fae" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axes_grid1 <span class="im">import</span> ImageGrid</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axes_grid1 <span class="im">import</span> ImageGrid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -857,8 +856,8 @@ y = f(x) = \frac{x - a}{b - a}.
 \tag{29.1}\]</span></span> To reverse this mapping and obtain the original values, the formula <span id="eq-reverse"><span class="math display">\[
 g(y) = a + (b - a) y
 \tag{29.2}\]</span></span> can be used. The function <code>wingwt()</code> expects inputs from the unit cube, which are then transformed back to their original scales using <a href="#eq-reverse" class="quarto-xref">Equation&nbsp;<span>29.2</span></a>. The function is defined as follows:</p>
-<div id="a491e3bb" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> wingwt(Sw<span class="op">=</span><span class="fl">0.48</span>, Wfw<span class="op">=</span><span class="fl">0.4</span>, A<span class="op">=</span><span class="fl">0.38</span>, L<span class="op">=</span><span class="fl">0.5</span>, q<span class="op">=</span><span class="fl">0.62</span>, l<span class="op">=</span><span class="fl">0.344</span>,  Rtc<span class="op">=</span><span class="fl">0.4</span>, Nz<span class="op">=</span><span class="fl">0.37</span>, Wdg<span class="op">=</span><span class="fl">0.38</span>):</span>
+<div id="3c8869cc" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> wingwt(Sw<span class="op">=</span><span class="fl">0.48</span>, Wfw<span class="op">=</span><span class="fl">0.4</span>, A<span class="op">=</span><span class="fl">0.38</span>, L<span class="op">=</span><span class="fl">0.5</span>, q<span class="op">=</span><span class="fl">0.62</span>, l<span class="op">=</span><span class="fl">0.344</span>,  Rtc<span class="op">=</span><span class="fl">0.4</span>, Nz<span class="op">=</span><span class="fl">0.37</span>, Wdg<span class="op">=</span><span class="fl">0.38</span>):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># put coded inputs back on natural scale</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    Sw <span class="op">=</span> Sw <span class="op">*</span> (<span class="dv">200</span> <span class="op">-</span> <span class="dv">150</span>) <span class="op">+</span> <span class="dv">150</span> </span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    Wfw <span class="op">=</span> Wfw <span class="op">*</span> (<span class="dv">300</span> <span class="op">-</span> <span class="dv">220</span>) <span class="op">+</span> <span class="dv">220</span> </span>
@@ -872,7 +871,7 @@ g(y) = a + (b - a) y
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculation on natural scale</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> <span class="fl">0.036</span> <span class="op">*</span> Sw<span class="op">**</span><span class="fl">0.758</span> <span class="op">*</span> Wfw<span class="op">**</span><span class="fl">0.0035</span> <span class="op">*</span> (A<span class="op">/</span>np.cos(L)<span class="op">**</span><span class="dv">2</span>)<span class="op">**</span><span class="fl">0.6</span> <span class="op">*</span> q<span class="op">**</span><span class="fl">0.006</span> </span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> W <span class="op">*</span> l<span class="op">**</span><span class="fl">0.04</span> <span class="op">*</span> (<span class="dv">100</span><span class="op">*</span>Rtc<span class="op">/</span>np.cos(L))<span class="op">**</span>(<span class="op">-</span><span class="fl">0.3</span>) <span class="op">*</span> (Nz<span class="op">*</span>Wdg)<span class="op">**</span>(<span class="fl">0.49</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(W)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(W)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="properties-of-the-python-solver" class="level2" data-number="29.4">
@@ -880,12 +879,12 @@ g(y) = a + (b - a) y
 <p>The compute time required by the “wingwt” solver is extremely short and can be considered trivial in terms of computational resources. The approximation error is exceptionally small, effectively approaching machine precision, which indicates the high accuracy of the solver’s results.</p>
 <p>To simulate time-consuming evaluations, a deliberate delay is introduced by incorporating a <code>sleep(3600)</code> command, which effectively synthesizes a one-hour execution time for a particular evaluation.</p>
 <p>Moving on to the AWWE visualization, plotting in two dimensions is considerably simpler than dealing with nine dimensions. To aid in creating visual representations, the code provided below establishes a grid within the unit square to facilitate the generation of sliced visuals. This involves generating a “meshgrid” as outlined in the code.</p>
-<div id="317cd243" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<div id="442a3493" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>zp <span class="op">=</span> <span class="bu">zip</span>(np.ravel(X), np.ravel(Y))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(zp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(zp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>[(np.float64(0.0), np.float64(0.0)),
  (np.float64(0.5), np.float64(0.0)),
@@ -899,48 +898,48 @@ g(y) = a + (b - a) y
 </div>
 </div>
 <p>The coding used to transform inputs from natural units is largely a matter of taste, so long as it’s easy to undo for reporting back on original scales</p>
-<div id="56dcc006" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<div id="05d38783" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.style.use('seaborn-white')</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plot-1-load-factor-n_z-and-aspect-ratio-a" class="level2" data-number="29.5">
 <h2 data-number="29.5" class="anchored" data-anchor-id="plot-1-load-factor-n_z-and-aspect-ratio-a"><span class="header-section-number">29.5</span> Plot 1: Load Factor (<span class="math inline">\(N_z\)</span>) and Aspect Ratio (<span class="math inline">\(A\)</span>)</h2>
 <p>We will vary <span class="math inline">\(N_z\)</span> and <span class="math inline">\(A\)</span>, with other inputs fixed at their baseline values.</p>
-<div id="b719778e" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> wingwt(A <span class="op">=</span> X, Nz <span class="op">=</span> Y)</span>
+<div id="a33f684d" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> wingwt(A <span class="op">=</span> X, Nz <span class="op">=</span> Y)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">7.</span>, <span class="fl">5.</span>))</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, z, <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"A"</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Nz"</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Load factor (Nz) vs. Aspect Ratio (A)"</span>)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-6-output-1.png" width="564" height="449" class="figure-img"></p>
+<p><img src="002_awwe_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Contour plots can be refined, e.g., by adding explicit contour lines as shown in the following figure.</p>
-<div id="2a256ac2" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> plt.contour(X, Y, z, <span class="dv">4</span>, colors<span class="op">=</span><span class="st">'black'</span>)</span>
+<div id="07ae6e91" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> plt.contour(X, Y, z, <span class="dv">4</span>, colors<span class="op">=</span><span class="st">'black'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.clabel(contours, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"A"</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Nz"</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.imshow(z, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], origin<span class="op">=</span><span class="st">'lower'</span>,</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'jet'</span>, alpha<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-7-output-1.png" width="517" height="434" class="figure-img"></p>
+<p><img src="002_awwe_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -960,8 +959,8 @@ g(y) = a + (b - a) y
 <ul>
 <li>The same experiment for two other inputs, e.g., taper ratio <span class="math inline">\(\lambda\)</span> and fuel weight <span class="math inline">\(W_{fw}\)</span></li>
 </ul>
-<div id="e4d3c3ee" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> wingwt(Wfw <span class="op">=</span> X,  Nz <span class="op">=</span> Y)</span>
+<div id="500f21f0" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> wingwt(Wfw <span class="op">=</span> X,  Nz <span class="op">=</span> Y)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> plt.contour(X, Y, z, <span class="dv">4</span>, colors<span class="op">=</span><span class="st">'black'</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.clabel(contours, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"WfW"</span>)</span>
@@ -969,11 +968,11 @@ g(y) = a + (b - a) y
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.imshow(z, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], origin<span class="op">=</span><span class="st">'lower'</span>,</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'jet'</span>, alpha<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.colorbar()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.colorbar()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-8-output-1.png" width="517" height="434" class="figure-img"></p>
+<p><img src="002_awwe_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -991,11 +990,11 @@ g(y) = a + (b - a) y
 </section>
 <section id="the-big-picture-combining-all-variables" class="level2" data-number="29.7">
 <h2 data-number="29.7" class="anchored" data-anchor-id="the-big-picture-combining-all-variables"><span class="header-section-number">29.7</span> The Big Picture: Combining all Variables</h2>
-<div id="d16acc58" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pl <span class="op">=</span> [<span class="st">"Sw"</span>, <span class="st">"Wfw"</span>, <span class="st">"A"</span>, <span class="st">"L"</span>, <span class="st">"q"</span>, <span class="st">"l"</span>,  <span class="st">"Rtc"</span>, <span class="st">"Nz"</span>, <span class="st">"Wdg"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="db59bea6" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pl <span class="op">=</span> [<span class="st">"Sw"</span>, <span class="st">"Wfw"</span>, <span class="st">"A"</span>, <span class="st">"L"</span>, <span class="st">"q"</span>, <span class="st">"l"</span>,  <span class="st">"Rtc"</span>, <span class="st">"Nz"</span>, <span class="st">"Wdg"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="38d18167" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> []</span>
+<div id="6718e7e0" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> []</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Zlab <span class="op">=</span> []</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="bu">len</span>(pl)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lc = math.comb(l,2)</span></span>
@@ -1005,26 +1004,26 @@ g(y) = a + (b - a) y
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(pl[i], pl[j])</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> {pl[i]: X, pl[j]: Y}</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        Z.append(wingwt(<span class="op">**</span>d))</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        Zlab.append([pl[i],pl[j]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        Zlab.append([pl[i],pl[j]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can generate all 36 combinations, e.g., our first example is combination <code>p = 19</code>.</p>
-<div id="ef671bcd" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">19</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Zlab[p]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="1b21721a" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">19</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Zlab[p]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>['A', 'Nz']</code></pre>
 </div>
 </div>
 <p>To help interpret outputs from experiments such as this one—to level the playing field when comparing outputs from other pairs of inputs—code below sets up a color palette that can be re-used from one experiment to the next. We use the arguments <code>vmin=180</code> and <code>vmax =360</code> to implement comparibility</p>
-<div id="7adb8d2a" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z[p], <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>, vmin<span class="op">=</span><span class="dv">180</span>, vmax<span class="op">=</span><span class="dv">360</span>)</span>
+<div id="59b87b52" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z[p], <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>, vmin<span class="op">=</span><span class="dv">180</span>, vmax<span class="op">=</span><span class="dv">360</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(Zlab[p][<span class="dv">0</span>])</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(Zlab[p][<span class="dv">1</span>])</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-12-output-1.png" width="564" height="434" class="figure-img"></p>
+<p><img src="002_awwe_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1033,22 +1032,22 @@ g(y) = a + (b - a) y
 <li>Let’s plot the second example, taper ratio <span class="math inline">\(\lambda\)</span> and fuel weight <span class="math inline">\(W_{fw}\)</span></li>
 <li>This is combination <code>11</code>:</li>
 </ul>
-<div id="9801761b" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">11</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Zlab[p]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4a7d288d" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Zlab[p]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>['Wfw', 'l']</code></pre>
 </div>
 </div>
-<div id="66c38ae6" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z[p], <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>, vmin<span class="op">=</span><span class="dv">180</span>, vmax<span class="op">=</span><span class="dv">360</span>)</span>
+<div id="07305b01" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z[p], <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>, vmin<span class="op">=</span><span class="dv">180</span>, vmax<span class="op">=</span><span class="dv">360</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(Zlab[p][<span class="dv">0</span>])</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(Zlab[p][<span class="dv">1</span>])</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-14-output-1.png" width="577" height="434" class="figure-img"></p>
+<p><img src="002_awwe_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1058,8 +1057,8 @@ g(y) = a + (b - a) y
 <li>Important factors can be detected by visual inspection</li>
 <li>Plotting the Big Picture: we can plot all 36 combinations in one figure.</li>
 </ul>
-<div id="47542303" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">20.</span>, <span class="fl">20.</span>))</span>
+<div id="585487a9" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">20.</span>, <span class="fl">20.</span>))</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> ImageGrid(fig, <span class="dv">111</span>,  <span class="co"># similar to subplot(111)</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                 nrows_ncols<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>),  <span class="co"># creates 2x2 grid of axes</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                 axes_pad<span class="op">=</span><span class="fl">0.5</span>,  <span class="co"># pad between axes in inch.</span></span>
@@ -1075,11 +1074,11 @@ g(y) = a + (b - a) y
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    ax.contourf(X, Y, im, <span class="dv">30</span>, cmap <span class="op">=</span> <span class="st">"jet"</span>,  vmin <span class="op">=</span> <span class="dv">180</span>, vmax <span class="op">=</span> <span class="dv">360</span>)</span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>       </span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-15-output-1.png" width="1557" height="1543" class="figure-img"></p>
+<p><img src="002_awwe_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1223,14 +1222,13 @@ Raymer, Daniel P. 2006. <em>Aircraft Design: A Conceptual Approach</em>. <span>A
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

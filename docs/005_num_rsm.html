@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./006_constructing_surrogate.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-23a3edf7f3c1ed1fc827cae2f6dd4de5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -120,7 +119,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+      if (mathElements[i].tagName == "SPAN") {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -733,7 +732,7 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Numerical methods: Goals
+Numerical methods: Goals
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -750,8 +749,8 @@ window.Quarto = {
 <p>RSM is related to various fields, including Design of Experiments (DoE), quality management, reliability, and productivity. Its applications are widespread in industry and manufacturing, focusing on designing, developing, and formulating new products and improving existing ones, as well as from laboratory research. RSM is commonly applied in domains such as materials science, manufacturing, applied chemistry, climate science, and many others.</p>
 <p>An example of RSM involves studying the relationship between a response variable, such as yield (<span class="math inline">\(y\)</span>) in a chemical process, and two process variables: reaction time (<span class="math inline">\(\xi_1\)</span>) and reaction temperature (<span class="math inline">\(\xi_2\)</span>). The provided code illustrates this scenario, following a variation of the so-called “banana function.”</p>
 <p>In the context of visualization, RSM offers the choice between 3D plots and contour plots. In a 3D plot, the independent variables <span class="math inline">\(\xi_1\)</span> and <span class="math inline">\(\xi_2\)</span> are represented, with <span class="math inline">\(y\)</span> as the dependent variable.</p>
-<div id="b6f6d6a5" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="8cec3453" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_rosen(x1, x2):</span>
@@ -772,11 +771,11 @@ window.Quarto = {
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'X2'</span>)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel(<span class="st">'Y'</span>)</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/cell-2-output-1.png" width="410" height="397" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -788,8 +787,8 @@ window.Quarto = {
 <li><span class="math inline">\(y\)</span> is the dependent variable</li>
 </ul></li>
 </ul>
-<div id="e2984bee" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="7475c580" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -801,14 +800,14 @@ window.Quarto = {
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>CS <span class="op">=</span> ax.contour(X1, X2, Y , <span class="dv">50</span>)</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>ax.clabel(CS, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Rosenbrock's Banana Function"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Rosenbrock's Banana Function"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>Text(0.5, 1.0, "Rosenbrock's Banana Function")</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/cell-3-output-2.png" width="582" height="431" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/cell-3-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -903,12 +902,12 @@ window.Quarto = {
 <li>Evaluate model on a grid in a double-unit square centered at the origin</li>
 <li>Coded units are chosen arbitrarily, although one can imagine deploying this approximating function nearby <span class="math inline">\(x^{(0)} = (0,0)\)</span></li>
 </ul>
-<div id="2a29ad4d" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_1(x1,x2):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">50</span> <span class="op">+</span> <span class="dv">8</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">3</span><span class="op">*</span>x2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="e9e51e56" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_1(x1,x2):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">50</span> <span class="op">+</span> <span class="dv">8</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">3</span><span class="op">*</span>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c31820c5" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="e6c12ccb" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -920,14 +919,14 @@ window.Quarto = {
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>CS <span class="op">=</span> ax.contour(X1, X2, Y)</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>ax.clabel(CS, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'First Order Model: $50 + 8x_1 + 3x_2$'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'First Order Model: $50 + 8x_1 + 3x_2$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Text(0.5, 1.0, 'First Order Model: $50 + 8x_1 + 3x_2$')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/cell-5-output-2.png" width="590" height="432" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -950,12 +949,12 @@ window.Quarto = {
 <li>Code below facilitates evaluations for pairs <span class="math inline">\((x_1, x_2)\)</span></li>
 <li>Responses may be observed over a mesh in the same double-unit square</li>
 </ul>
-<div id="0c6435ee" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_11(x1,x2):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">50</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">*</span> x1 <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> x2 <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> x1 <span class="op">*</span> x2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4f01e421" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_11(x1,x2):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">50</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">*</span> x1 <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> x2 <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> x1 <span class="op">*</span> x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="69227473" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="b796e505" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -967,14 +966,14 @@ window.Quarto = {
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>CS <span class="op">=</span> ax.contour(X1, X2, Y, <span class="dv">20</span>)</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>ax.clabel(CS, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'First Order Model with Interactions'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'First Order Model with Interactions'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>Text(0.5, 1.0, 'First Order Model with Interactions')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/cell-7-output-2.png" width="582" height="431" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -997,12 +996,12 @@ window.Quarto = {
 <li><p>For example <span class="math display">\[\eta = 50 + 8 x_1 + 3x_2 - 7x_1^2 - 3 x_2^2 - 4x_1x_2\]</span></p></li>
 <li><p>Implementation of the Second-Order Model as <code>fun_2()</code>.</p></li>
 </ul>
-<div id="f7e29fdf" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_2(x1,x2):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">50</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">*</span> x1 <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> x2 <span class="op">-</span> <span class="dv">7</span> <span class="op">*</span> x1<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> x1 <span class="op">*</span> x2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4a45f7e0" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_2(x1,x2):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">50</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">*</span> x1 <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> x2 <span class="op">-</span> <span class="dv">7</span> <span class="op">*</span> x1<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">4</span> <span class="op">*</span> x1 <span class="op">*</span> x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ab45ff83" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="87bac275" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1014,14 +1013,14 @@ window.Quarto = {
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>CS <span class="op">=</span> ax.contour(X1, X2, Y, <span class="dv">20</span>)</span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>ax.clabel(CS, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Second Order Model with Interactions. Maximum near about $(0.6,0.2)$'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Second Order Model with Interactions. Maximum near about $(0.6,0.2)$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>Text(0.5, 1.0, 'Second Order Model with Interactions. Maximum near about $(0.6,0.2)$')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/cell-9-output-2.png" width="601" height="432" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1043,12 +1042,12 @@ window.Quarto = {
 <ul>
 <li>Example set of coefficients describing what’s called a <strong>stationary ridge</strong> is provided by the code below</li>
 </ul>
-<div id="484c2018" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_ridge(x1, x2):</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">80</span> <span class="op">+</span> <span class="dv">4</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">8</span><span class="op">*</span>x2 <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x1<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x1<span class="op">*</span>x2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a3879be8" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_ridge(x1, x2):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">80</span> <span class="op">+</span> <span class="dv">4</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">8</span><span class="op">*</span>x2 <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x1<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x1<span class="op">*</span>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="bc297826" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="6f43fb5b" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1060,14 +1059,14 @@ window.Quarto = {
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>CS <span class="op">=</span> ax.contour(X1, X2, Y, <span class="dv">20</span>)</span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>ax.clabel(CS, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Example of a stationary ridge'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Example of a stationary ridge'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>Text(0.5, 1.0, 'Example of a stationary ridge')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/cell-11-output-2.png" width="582" height="431" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1088,12 +1087,12 @@ window.Quarto = {
 <ul>
 <li>An example of a rising ridge is implemented by the code below.</li>
 </ul>
-<div id="acf3f378" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_ridge_rise(x1, x2):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     <span class="cf">return</span> <span class="dv">80</span> <span class="op">-</span> <span class="dv">4</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">12</span><span class="op">*</span>x2 <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x1<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x1<span class="op">*</span>x2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="26f93692" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_ridge_rise(x1, x2):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     <span class="cf">return</span> <span class="dv">80</span> <span class="op">-</span> <span class="dv">4</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">12</span><span class="op">*</span>x2 <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x1<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x1<span class="op">*</span>x2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c9b65958" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="f70f3706" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1105,14 +1104,14 @@ window.Quarto = {
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>CS <span class="op">=</span> ax.contour(X1, X2, Y, <span class="dv">20</span>)</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>ax.clabel(CS, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Rising ridge: $</span><span class="ch">\\</span><span class="st">eta = 80 + 4x_1 + 8x_2 - 3x_1^2 - 12x_2^2 - 12x_1x_2$'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Rising ridge: $</span><span class="ch">\\</span><span class="st">eta = 80 + 4x_1 + 8x_2 - 3x_1^2 - 12x_2^2 - 12x_1x_2$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>Text(0.5, 1.0, 'Rising ridge: $\\eta = 80 + 4x_1 + 8x_2 - 3x_1^2 - 12x_2^2 - 12x_1x_2$')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/cell-13-output-2.png" width="582" height="434" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/cell-13-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1143,12 +1142,12 @@ window.Quarto = {
 <ul>
 <li>Finally, we can get what’s called a saddle or minimax system.</li>
 </ul>
-<div id="98c39cac" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_saddle(x1, x2):</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">80</span> <span class="op">+</span> <span class="dv">4</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">8</span><span class="op">*</span>x2 <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x1<span class="op">*</span>x2 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="829bdf40" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fun_saddle(x1, x2):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">80</span> <span class="op">+</span> <span class="dv">4</span><span class="op">*</span>x1 <span class="op">+</span> <span class="dv">8</span><span class="op">*</span>x2 <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>x2<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">12</span><span class="op">*</span>x1<span class="op">*</span>x2 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cedde626" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="e5088673" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1160,14 +1159,14 @@ window.Quarto = {
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>CS <span class="op">=</span> ax.contour(X1, X2, Y, <span class="dv">20</span>)</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>ax.clabel(CS, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Saddle Point: $</span><span class="ch">\\</span><span class="st">eta = 80 + 4x_1 + 8x_2 - 2x_2^2 - 12x_1x_2$'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Saddle Point: $</span><span class="ch">\\</span><span class="st">eta = 80 + 4x_1 + 8x_2 - 2x_2^2 - 12x_1x_2$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>Text(0.5, 1.0, 'Saddle Point: $\\eta = 80 + 4x_1 + 8x_2 - 2x_2^2 - 12x_1x_2$')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/cell-15-output-2.png" width="582" height="434" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1224,7 +1223,7 @@ b = (X'X)^{-1}X'Y.
 <div id="exm-ols" class="theorem example">
 <p><span class="theorem-title"><strong>Example 33.1 (Linear Regression)</strong></span> &nbsp;</p>
 <div id="cell-linreg-example" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">8</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, n, endpoint<span class="op">=</span><span class="va">False</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(X, <span class="dv">2</span>))</span>
@@ -1243,7 +1242,7 @@ b = (X'X)^{-1}X'Y.
 <span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y_pred, color<span class="op">=</span><span class="st">'blue'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co"># add the ground truth (sine function) in orange</span></span>
 <span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>plt.plot(x, np.sin(x), color<span class="op">=</span><span class="st">'orange'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[0.  ]
  [0.79]
@@ -1265,7 +1264,7 @@ b = (X'X)^{-1}X'Y.
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="005_num_rsm_files/figure-html/linreg-example-output-2.png" id="linreg-example" width="590" height="411" class="figure-img"></p>
+<p><img src="005_num_rsm_files/figure-html/linreg-example-output-2.png" id="linreg-example" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1512,14 +1511,13 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
