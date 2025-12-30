@@ -32,8 +32,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 import copy
-from spotpython.utils.stats import condition_index
-from spotpython.utils.pca import (get_pca, plot_pca_scree, plot_pca1vs2, get_pca_topk, get_loading_scores, plot_loading_scores)
+from spotoptim.utils.stats import condition_index
+from spotoptim.utils.pca import (get_pca, plot_pca_scree, plot_pca1vs2, get_pca_topk, get_loading_scores, plot_loading_scores)
 ```
 
 ## The Car-Sales Data Set {#sec-data-preprocessing}
@@ -155,10 +155,10 @@ Despite the positive model fit, many predictors show non-significant coefficient
 ## Collinearity Diagnostics {#sec-collinearity-diagnostics}
 
 ### The Coefficient Table
-The coefficient table provides further evidence of multicollinearity. The function `compute_coefficients_table()`  from the `spotpython` package is used here for comprehensive diagnostics.
+The coefficient table provides further evidence of multicollinearity. The function `compute_coefficients_table()`  from the `spotoptim` package is used here for comprehensive diagnostics.
 
 ```{python}
-from spotpython.utils.stats import compute_coefficients_table
+from spotoptim.utils.stats import compute_coefficients_table
 coeffs_table = compute_coefficients_table(
     model=model, X_encoded=X_encoded_with_const, y=y, vif_table=None
 )
@@ -193,7 +193,7 @@ Several eigenvalues are close to 0, indicating strong correlations among predict
 
 #### Condition Indices
 
-From `spotpython.utils.stats`, we can compute the condition index, which is a measure of multicollinearity. A condition index greater than 15 suggests potential multicollinearity issues, and values above 30 indicate severe problems.
+From `spotoptim.utils.stats`, we can compute the condition index, which is a measure of multicollinearity. A condition index greater than 15 suggests potential multicollinearity issues, and values above 30 indicate severe problems.
 
 Condition indices, calculated as the square roots of the ratios of the largest eigenvalue to each subsequent eigenvalue, also highlight the issue.
 
@@ -309,7 +309,7 @@ Loading scores are used in Principal Component Analysis (PCA).
 ### PCA for Car Sales Example
 
 #### Computing the Principal Components
-The Principal Component Analysis (PCA) is applied only to the features (`X_encoded`), not to the target variable. We will use functions from `spotpython.utils.pca`, which are based on `sklearn.decomposition.PCA` to perform PCA.
+The Principal Component Analysis (PCA) is applied only to the features (`X_encoded`), not to the target variable. We will use functions from `spotoptim.utils.pca`, which are based on `sklearn.decomposition.PCA` to perform PCA.
 
 Step 1: Perform PCA and scale the data
 
