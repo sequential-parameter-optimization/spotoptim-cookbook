@@ -1509,7 +1509,7 @@ A = \begin{pmatrix}
 $$
 
 ```{python}
-from spotpython.utils.stats import partial_correlation
+from spotoptim.utils.stats import partial_correlation
 import numpy as np
 import pandas as pd
 data = pd.DataFrame({
