@@ -129,7 +129,6 @@ We evaluate a random design point 30 times to estimate the standard deviation of
 import numpy as np
 import statistics
 from spotoptim.function.remote import objective_remote
-from statsmodels.stats.power import TTestIndPower
 
 # 1. Estimate Noise
 print("Estimating noise...")
