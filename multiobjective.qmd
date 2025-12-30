@@ -102,6 +102,7 @@ calls `_mo2so()` to convert multi-objective to single-objective. It also stores 
 #### Default Behavior (Use First Objective)
 
 ```{python}
+#| label: exm-default
 import numpy as np
 from spotoptim import SpotOptim
 
@@ -116,7 +117,8 @@ optimizer = SpotOptim(
     bounds=[(-5, 5), (-5, 5)],
     max_iter=30,
     n_initial=15,
-    seed=42
+    seed=42,
+    max_surrogate_points=30
 )
 
 result = optimizer.optimize()
@@ -132,6 +134,7 @@ print(f"MO values stored: {optimizer.y_mo.shape}")  # (30, 2)
 #### Weighted Sum Scalarization
 
 ```{python}
+#| label: exm-weighted
 def weighted_sum(y_mo):
     """Equal weighting of objectives."""
     return 0.5 * y_mo[:, 0] + 0.5 * y_mo[:, 1]
@@ -142,7 +145,8 @@ optimizer = SpotOptim(
     max_iter=30,
     n_initial=15,
     fun_mo2so=weighted_sum,  # Custom conversion
-    seed=42
+    seed=42,
+    max_surrogate_points=30
 )
 
 result = optimizer.optimize()
@@ -155,6 +159,7 @@ print(f"Compromise solution: {result.x}")  # Near [1, 1]
 ### Min-Max Scalarization
 
 ```{python}
+#| label: exm-minmax
 def min_max(y_mo):
     """Minimize the maximum objective."""
     return np.max(y_mo, axis=1)
@@ -165,7 +170,8 @@ optimizer = SpotOptim(
     max_iter=30,
     n_initial=15,
     fun_mo2so=min_max,
-    seed=42
+    seed=42,
+    max_surrogate_points=30
 )
 
 result = optimizer.optimize()
@@ -177,6 +183,7 @@ result = optimizer.optimize()
 ### Three or More Objectives
 
 ```{python}
+#| label: exm-three
 def three_objectives(X):
     """Three different norms."""
     obj1 = np.sum(X**2, axis=1)           # L2 norm
@@ -194,7 +201,8 @@ optimizer = SpotOptim(
     max_iter=35,
     n_initial=20,
     fun_mo2so=custom_scalarization,
-    seed=42
+    seed=42,
+    max_surrogate_points=30
 )
 
 result = optimizer.optimize()
@@ -206,6 +214,7 @@ result = optimizer.optimize()
 ### Noise Handling
 
 ```{python}
+#| label: exm-noise
 def noisy_bi_objective(X):
     """Noisy multi-objective function."""
     noise1 = np.random.normal(0, 0.05, X.shape[0])
@@ -219,10 +228,11 @@ optimizer = SpotOptim(
     fun=noisy_bi_objective,
     bounds=[(-5, 5), (-5, 5)],
     max_iter=40,
-    n_initial=20,
+    n_initial=10,
     repeats_initial=3,      # Handle noise
     repeats_surrogate=2,
-    seed=42
+    seed=42,
+    max_surrogate_points=30
 )
 
 result = optimizer.optimize()
@@ -338,22 +348,6 @@ For finding the complete Pareto front, consider specialized tools:
 - **NSGA-II, MOEA/D**: Dedicated multi-objective algorithms
 
 
-
-## Demo Script
-
-Run the comprehensive demo (the demos files are located in the `examples` folder):
-```bash
-python demo_multiobjective.py
-```
-
-This demonstrates:
-
-- Default behavior (first objective)
-- Weighted sum scalarization
-- Min-max scalarization
-- Noisy multi-objective optimization
-- Three-objective optimization
-
 ## Benchmark Multi-Objective Test Functions
 
 SpotOptim includes 12 multi-objective benchmark functions in `spotoptim.function.mo`. These functions are widely used to evaluate and compare multi-objective optimization algorithms.
@@ -382,6 +376,7 @@ mo_conv2_min is a smooth convex minimization pair with objectives $f_1(x, y) = x
 ZDT1 is a classical bi-objective test problem with a convex Pareto front, widely used for benchmarking.
 
 ```{python}
+#| label: setup-zdt1
 import numpy as np
 import matplotlib.pyplot as plt
 from spotoptim.function.mo import zdt1
@@ -398,8 +393,13 @@ y_pareto = zdt1(X_pareto)
 # Non-optimal points for comparison
 X_non_optimal = np.random.rand(200, 3)
 y_non_optimal = zdt1(X_non_optimal)
+```
 
-# Visualize Pareto front
+@fig-zdt1-plot visualizes the Pareto front:
+
+```{python}
+#| label: fig-zdt1-plot
+#| fig-cap: "ZDT1 Convex Pareto Front"
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
 # Plot objective space
@@ -426,7 +426,11 @@ ax2.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
+```
 
+
+```{python}
+#| label: print-zdt1-characteristics
 print("ZDT1 Characteristics:")
 print("- Convex Pareto front: f2 = 1 - √f1")
 print("- Optimal when x2, x3, ..., xn = 0")
@@ -436,6 +440,8 @@ print("- Easy to solve, good for testing basic functionality")
 Now optimize using SpotOptim with weighted sum:
 
 ```{python}
+#| label: eval-zdt1-weighted
+
 def weighted_sum_zdt1(y_mo):
     """Equal weighting for ZDT1."""
     return 0.5 * y_mo[:, 0] + 0.5 * y_mo[:, 1]
@@ -446,7 +452,8 @@ optimizer = SpotOptim(
     max_iter=50,
     n_initial=20,
     fun_mo2so=weighted_sum_zdt1,
-    seed=42
+    seed=42,
+    max_surrogate_points=30
 )
 
 result = optimizer.optimize()
@@ -473,8 +480,13 @@ y_pareto = zdt2(X_pareto)
 
 # Non-optimal points
 y_non_optimal = zdt2(X_non_optimal)
+```
 
-# Visualize
+@fig-zdt2-plot visualizes the Pareto front:
+
+```{python}
+#| label: fig-zdt2-plot
+#| fig-cap: "ZDT2 Non-Convex Pareto Front"
 fig, ax = plt.subplots(figsize=(8, 6))
 ax.scatter(y_non_optimal[:, 0], y_non_optimal[:, 1], 
           alpha=0.3, label='Non-optimal', s=20)
@@ -487,7 +499,9 @@ ax.legend()
 ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
+```
 
+```{python}
 print("ZDT2 Characteristics:")
 print("- Non-convex Pareto front: f2 = 1 - f1²")
 print("- Tests algorithm's ability to handle non-convexity")
@@ -507,8 +521,13 @@ y_pareto = zdt3(X_pareto)
 
 # Non-optimal points
 y_non_optimal = zdt3(X_non_optimal)
+```
 
-# Visualize
+@fig-zdt3-plot visualizes the Pareto front:
+
+```{python}
+#| label: fig-zdt3-plot
+#| fig-cap: "ZDT3 Disconnected Pareto Front"
 fig, ax = plt.subplots(figsize=(8, 6))
 ax.scatter(y_non_optimal[:, 0], y_non_optimal[:, 1], 
           alpha=0.3, label='Non-optimal', s=20)
@@ -521,7 +540,9 @@ ax.legend()
 ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
+```
 
+```{python}
 print("ZDT3 Characteristics:")
 print("- Disconnected Pareto front with 5 separate regions")
 print("- Tests diversity maintenance in algorithms")
@@ -544,8 +565,13 @@ X_non_optimal_zdt4 = np.random.rand(200, 10)
 X_non_optimal_zdt4[:, 0] = np.clip(X_non_optimal_zdt4[:, 0], 0, 1)  # x1 in [0,1]
 X_non_optimal_zdt4[:, 1:] = X_non_optimal_zdt4[:, 1:] * 10 - 5  # others in [-5,5]
 y_non_optimal = zdt4(X_non_optimal_zdt4)
+```
 
-# Visualize
+@fig-zdt4-plot visualizes the Pareto front:
+
+```{python}
+#| label: fig-zdt4-plot
+#| fig-cap: "ZDT4 Multimodal Objective Space"
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
 # Objective space
@@ -570,7 +596,9 @@ ax2.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
+```
 
+```{python}
 print("ZDT4 Characteristics:")
 print("- 21^9 local Pareto fronts")
 print("- Tests global search capability")
@@ -590,8 +618,13 @@ y_pareto = zdt6(X_pareto)
 
 # Non-optimal points
 y_non_optimal = zdt6(X_non_optimal)
+```
 
-# Visualize
+@fig-zdt6-plot visualizes the Pareto front:
+
+```{python}
+#| label: fig-zdt6-plot
+#| fig-cap: "ZDT6 Non-Uniform Density"  
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
 # Objective space
@@ -614,7 +647,9 @@ ax2.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
+```
 
+```{python}
 print("ZDT6 Characteristics:")
 print("- Non-uniform density of Pareto optimal solutions")
 print("- Low density near the Pareto front")
@@ -641,8 +676,13 @@ theta_grid, phi_grid = np.meshgrid(theta, phi)
 f1 = np.cos(theta_grid) * np.cos(phi_grid)
 f2 = np.cos(theta_grid) * np.sin(phi_grid)
 f3 = np.sin(theta_grid)
+```
 
-# 3D plot
+@fig-dtlz2-plot visualizes the Pareto front:
+
+```{python}
+#| label: fig-dtlz2-plot    
+#| fig-cap: "DTLZ2 Spherical Pareto Front (3 objectives)"
 fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
 
@@ -661,7 +701,9 @@ ax.set_title('DTLZ2: Spherical Pareto Front (3 objectives)')
 plt.colorbar(scatter, label='Distance from origin')
 plt.tight_layout()
 plt.show()
+```
 
+```{python}
 print("DTLZ2 Characteristics:")
 print("- Scalable number of objectives")
 print("- Pareto front is unit sphere: Σf_i² = 1")
@@ -672,6 +714,7 @@ print(f"- Sample: sum of squares = {np.sum(y_samples[0]**2):.4f}")
 Optimize DTLZ2 with 3 objectives:
 
 ```{python}
+#| label: eval-dtlz2-3obj
 def weighted_sum_3obj(y_mo):
     """Equal weighting for 3 objectives."""
     return np.mean(y_mo, axis=1)
@@ -682,7 +725,8 @@ optimizer = SpotOptim(
     max_iter=50,
     n_initial=25,
     fun_mo2so=weighted_sum_3obj,
-    seed=42
+    seed=42,
+    max_surrogate_points=30
 )
 
 result = optimizer.optimize()
@@ -708,8 +752,13 @@ y_schaffer = schaffer_n1(x_range)
 # Pareto optimal range [0, 2]
 x_pareto = np.linspace(0, 2, 100).reshape(-1, 1)
 y_pareto = schaffer_n1(x_pareto)
+```
 
-# Visualize
+@fig-schaffer-n1-plot visualizes the Pareto front:
+
+```{python}
+#| label: fig-schaffer-n1-plot
+#| fig-cap: "Schaffer N1 Objective Space"
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
 # Objective space
@@ -733,7 +782,9 @@ ax2.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
+```
 
+```{python}
 print("Schaffer N1 Characteristics:")
 print("- Simplest multi-objective function")
 print("- 1D decision variable")
@@ -772,8 +823,13 @@ y_grid = fonseca_fleming(X_grid)
 X_pareto_ff = np.linspace(-1/np.sqrt(2), 1/np.sqrt(2), 100)
 X_pareto_2d = np.column_stack([X_pareto_ff, X_pareto_ff])
 y_pareto_ff = fonseca_fleming(X_pareto_2d)
+```
 
-# Visualize
+@fig-fonseca-fleming-plot visualizes the Pareto front:
+
+```{python}
+#| label: fig-fonseca-fleming-plot
+#| fig-cap: "Fonseca-Fleming Concave Front"
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
 # Objective space
@@ -803,7 +859,9 @@ plt.colorbar(ax2.contourf(X1_grid, X2_grid, y_grid[:, 0].reshape(n_grid, n_grid)
 
 plt.tight_layout()
 plt.show()
+```
 
+```{python}
 print("Fonseca-Fleming Characteristics:")
 print("- Concave Pareto front (minimization)")
 print("- Symmetric problem")
@@ -815,6 +873,7 @@ print("- Scalable to higher dimensions")
 Optimize Kursawe with min-max scalarization:
 
 ```{python}
+#| label: eval-kursawe
 from spotoptim.function.mo import kursawe
 def min_max_kursawe(y_mo):
     """Minimize maximum objective (Chebyshev)."""
@@ -826,7 +885,8 @@ optimizer = SpotOptim(
     max_iter=50,
     n_initial=20,
     fun_mo2so=min_max_kursawe,
-    seed=42
+    seed=42,
+    max_surrogate_points=30
 )
 
 result = optimizer.optimize()
@@ -843,7 +903,7 @@ print(f"Max objective: {max(y_best[0]):.4f}")
 Let's compare how different scalarization strategies find different Pareto solutions:
 
 ```{python}
-# Define different scalarizations
+#| label: eval-zdt1-scalarization-diff
 scalarizations = {
     'First Objective': None,  # Default
     'Equal Weight': lambda y: 0.5 * y[:, 0] + 0.5 * y[:, 1],
@@ -861,13 +921,18 @@ for name, scalarization in scalarizations.items():
         n_initial=15,
         fun_mo2so=scalarization,
         seed=42,
-        verbose=0
+        verbose=0,
+        max_surrogate_points=30
     )
     res = opt.optimize()
     y_res = zdt1(res.x.reshape(1, -1))
     results[name] = (res.x, y_res[0])
+```
 
-# Visualize results
+@fig-zdt1-scalarization-diff visualizes the results:
+
+```{python}
+#| label: fig-zdt1-scalarization-diff   
 fig, ax = plt.subplots(figsize=(10, 6))
 
 # Plot Pareto front
@@ -942,8 +1007,8 @@ print(f"phi_base: {phi_base}, J_base: {J_base}, d_base: {d_base}")
 
 @fig-mo-xy-surface-plot shows the surfaces of the two objectives using the fitted models.
 ```{python}
-# | label: fig-mo-xy-surface-plot
-# | fig-cap: Surfaces of the two objectives of the mo_conv2_max function
+#| label: fig-mo-xy-surface-plot
+#| fig-cap: "Surfaces of the two objectives of the mo_conv2_max function"
 x_min = 0
 x_max = 1
 combinations = [(0,1)]
@@ -954,8 +1019,8 @@ mo_xy_surface(models, bounds=[(x_min, x_max), (x_min, x_max)], target_names=targ
 
 @fig-mo-xy-contour-plot shows the contours of the two objectives using the fitted models.
 ```{python}
-# | label: fig-mo-xy-contour-plot
-# | fig-cap: Contours of the two objectives of the mo_conv2_max function
+#| label: fig-mo-xy-contour-plot
+#| fig-cap: "Contours of the two objectives of the mo_conv2_max function"
 x_min = 0
 x_max = 1
 mo_xy_contour(models, bounds=[(x_min, x_max), (x_min, x_max)], target_names=target_names)
@@ -963,16 +1028,16 @@ mo_xy_contour(models, bounds=[(x_min, x_max), (x_min, x_max)], target_names=targ
 
 @fig-mo-pareto-front-orig-plot shows the Pareto front of the original data.
 ```{python}
-# | label: fig-mo-pareto-front-orig-plot
-# | fig-cap: Pareto front of the original data
+#| label: fig-mo-pareto-front-orig-plot
+#| fig-cap: Pareto front of the original data
 plot_mo(y_orig=y, target_names=target_names, combinations=combinations, pareto="max", pareto_front_orig=True, title="Original data. Pareto front (maximization)", pareto_label=True)
 ```
 
 @fig-mo-pareto-optx-plot visualizes the Pareto-optimal points, i.e., the points in the input space that correspond to the Pareto front:
 
 ```{python}
-# | label: fig-mo-pareto-optx-plot
-# | fig-cap: Pareto-optimal points in the input space
+#| label: fig-mo-pareto-optx-plot
+#| fig-cap: "Pareto-optimal points in the input space"
 mo_pareto_optx_plot(X=X_base, Y=y, minimize=False)
 ```
 
@@ -988,7 +1053,8 @@ for i in range(y.shape[1]):
 
 The desirability functions can be visualized as follows:
 ```{python}
-#| label: mo-desirability-function-plot
+#| label: fig-mo-desirability-function-plot
+#| fig-cap: Desirability functions of the mo_conv2_max function
 d_funcs[0].plot(xlabel=target_names[0], figsize=(6,4))
 d_funcs[1].plot(xlabel=target_names[1], figsize=(6,4))
 ```
@@ -1019,13 +1085,13 @@ print(f"Objectives: {objectives}")
 
 ```{python}
 # | label: mo-mm-desirability-function-plot
-# | fig-cap: Desirability function for multi-objective optimization
+# | fig-cap: "Desirability function for multi-objective optimization"
 mo_xy_desirability_plot(models, bounds=[(x_min, x_max), (x_min, x_max)], X_base=X_base, J_base=J_base, d_base=d_base, phi_base=phi_base, D_overall=D_overall, mm_objective=False)
 ```
 
 ## Jupyter Notebook
 
-:::{.callout-note}
+::: {.callout-note}
 
 * The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/multiobjective.ipynb)
 
