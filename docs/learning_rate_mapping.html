@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./pinns_2_hyperparameter_tuning.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-23a3edf7f3c1ed1fc827cae2f6dd4de5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -715,7 +714,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="basic-usage" class="level3" data-number="26.2.1">
 <h3 data-number="26.2.1" class="anchored" data-anchor-id="basic-usage"><span class="header-section-number">26.2.1</span> Basic Usage</h3>
 <div id="basic-usage" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get optimizer-specific learning rate from unified scale</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>lr_adam <span class="op">=</span> map_lr(<span class="fl">1.0</span>, <span class="st">"Adam"</span>)      <span class="co"># Returns 0.001 (Adam's default)</span></span>
@@ -725,7 +724,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unified lr=1.0:"</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Adam:    </span><span class="sc">{</span>lr_adam<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  SGD:     </span><span class="sc">{</span>lr_sgd<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  RMSprop: </span><span class="sc">{</span>lr_rmsprop<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  RMSprop: </span><span class="sc">{</span>lr_rmsprop<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unified lr=1.0:
   Adam:    0.001
@@ -737,7 +736,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scaling-learning-rates" class="level3" data-number="26.2.2">
 <h3 data-number="26.2.2" class="anchored" data-anchor-id="scaling-learning-rates"><span class="header-section-number">26.2.2</span> Scaling Learning Rates</h3>
 <div id="scaling-learning-rates" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale all learning rates by the same factor</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>unified_lr <span class="op">=</span> <span class="fl">0.5</span></span>
@@ -749,7 +748,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unified lr=</span><span class="sc">{</span>unified_lr<span class="sc">}</span><span class="ss">:"</span>)</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Adam:    </span><span class="sc">{</span>lr_adam<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  SGD:     </span><span class="sc">{</span>lr_sgd<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  RMSprop: </span><span class="sc">{</span>lr_rmsprop<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  RMSprop: </span><span class="sc">{</span>lr_rmsprop<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unified lr=0.5:
   Adam:    0.0005
@@ -761,7 +760,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="integration-with-linearregressor" class="level3" data-number="26.2.3">
 <h3 data-number="26.2.3" class="anchored" data-anchor-id="integration-with-linearregressor"><span class="header-section-number">26.2.3</span> Integration with LinearRegressor</h3>
 <div id="linear-regressor-integration" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create model with unified learning rate</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(</span>
@@ -778,7 +777,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify the actual learning rates</span></span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Adam actual lr: </span><span class="sc">{</span>optimizer_adam<span class="sc">.</span>param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SGD actual lr: </span><span class="sc">{</span>optimizer_sgd<span class="sc">.</span>param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SGD actual lr: </span><span class="sc">{</span>optimizer_sgd<span class="sc">.</span>param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Adam actual lr: 0.001
 SGD actual lr: 0.01</code></pre>
@@ -808,7 +807,7 @@ SGD actual lr: 0.01</code></pre>
 </ul>
 <p><strong>Example</strong>:</p>
 <div id="map-lr-example" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get default learning rates (unified lr = 1.0)</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">1.0</span>, <span class="st">"Adam"</span>)      <span class="co"># 0.001</span></span>
@@ -820,7 +819,7 @@ SGD actual lr: 0.01</code></pre>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">2.0</span>, <span class="st">"SGD"</span>)       <span class="co"># 0.02</span></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Without default scaling</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">0.01</span>, <span class="st">"Adam"</span>, use_default_scale<span class="op">=</span><span class="va">False</span>)  <span class="co"># 0.01 (direct)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">0.01</span>, <span class="st">"Adam"</span>, use_default_scale<span class="op">=</span><span class="va">False</span>)  <span class="co"># 0.01 (direct)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -923,7 +922,7 @@ SGD actual lr: 0.01</code></pre>
 <section id="comparing-different-optimizers" class="level3" data-number="26.5.1">
 <h3 data-number="26.5.1" class="anchored" data-anchor-id="comparing-different-optimizers"><span class="header-section-number">26.5.1</span> Comparing Different Optimizers</h3>
 <div id="optimizer-comparison" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
@@ -976,7 +975,7 @@ SGD actual lr: 0.01</code></pre>
 <span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Find best optimizer</span></span>
 <span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>best_opt <span class="op">=</span> <span class="bu">min</span>(results, key<span class="op">=</span>results.get)</span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Best optimizer: </span><span class="sc">{</span>best_opt<span class="sc">}</span><span class="ss"> with MSE = </span><span class="sc">{</span>results[best_opt]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Best optimizer: </span><span class="sc">{</span>best_opt<span class="sc">}</span><span class="ss"> with MSE = </span><span class="sc">{</span>results[best_opt]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Adam      : Test MSE = 3859.4478 (actual lr = 0.001000)
 SGD       : Test MSE = 5271.6840 (actual lr = 0.010000)
@@ -990,7 +989,7 @@ Best optimizer: RMSprop with MSE = 2769.5164</code></pre>
 <section id="hyperparameter-optimization" class="level3" data-number="26.5.2">
 <h3 data-number="26.5.2" class="anchored" data-anchor-id="hyperparameter-optimization"><span class="header-section-number">26.5.2</span> Hyperparameter Optimization</h3>
 <div id="hyperparameter-optimization-unified-learning-rate" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -1056,7 +1055,7 @@ Best optimizer: RMSprop with MSE = 2769.5164</code></pre>
 <span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Show actual learning rate used</span></span>
 <span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
 <span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>actual_lr <span class="op">=</span> map_lr(<span class="dv">10</span><span class="op">**</span>result.x[<span class="dv">0</span>], result.x[<span class="dv">1</span>])</span>
-<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> learning rate: </span><span class="sc">{</span>actual_lr<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> learning rate: </span><span class="sc">{</span>actual_lr<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Best unified lr: 0.003144
@@ -1070,7 +1069,7 @@ Actual SGD learning rate: 0.000031</code></pre>
 <h3 data-number="26.5.3" class="anchored" data-anchor-id="hyperparameter-optimization-with-spotoptim"><span class="header-section-number">26.5.3</span> Hyperparameter Optimization with SpotOptim</h3>
 <p>Note, <code>N_INITIAL</code> and <code>MAX_ITER</code> are kept small for demonstration; increase for real use.</p>
 <div id="hyperparameter-optimization" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
@@ -1164,7 +1163,7 @@ Actual SGD learning rate: 0.000031</code></pre>
 <span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Show actual learning rate used</span></span>
 <span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
 <span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>actual_lr <span class="op">=</span> map_lr(<span class="dv">10</span><span class="op">**</span>result.x[<span class="dv">0</span>], result.x[<span class="dv">1</span>])</span>
-<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> learning rate: </span><span class="sc">{</span>actual_lr<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> learning rate: </span><span class="sc">{</span>actual_lr<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Optimization Results:
@@ -1180,7 +1179,7 @@ Actual SGD learning rate: 0.000033</code></pre>
 <section id="log-scale-hyperparameter-search" class="level3" data-number="26.5.4">
 <h3 data-number="26.5.4" class="anchored" data-anchor-id="log-scale-hyperparameter-search"><span class="header-section-number">26.5.4</span> Log-Scale Hyperparameter Search</h3>
 <div id="log-scale-search" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Common pattern: sample unified lr from log scale</span></span>
@@ -1199,7 +1198,7 @@ Actual SGD learning rate: 0.000033</code></pre>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    lr_rmsprop <span class="op">=</span> map_lr(lr_unified, <span class="st">"RMSprop"</span>)</span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>log_lr<span class="sc">:&lt;10.2f}</span><span class="ss"> </span><span class="sc">{</span>lr_unified<span class="sc">:&lt;12.6f}</span><span class="ss"> </span><span class="sc">{</span>lr_adam<span class="sc">:&lt;12.8f}</span><span class="ss"> "</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"</span><span class="sc">{</span>lr_sgd<span class="sc">:&lt;12.8f}</span><span class="ss"> </span><span class="sc">{</span>lr_rmsprop<span class="sc">:&lt;12.8f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"</span><span class="sc">{</span>lr_sgd<span class="sc">:&lt;12.8f}</span><span class="ss"> </span><span class="sc">{</span>lr_rmsprop<span class="sc">:&lt;12.8f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Log-scale learning rate search:
 
@@ -1221,7 +1220,7 @@ log_lr     unified_lr   Adam         SGD          RMSprop
 <section id="custom-learning-rate-schedules" class="level3" data-number="26.5.5">
 <h3 data-number="26.5.5" class="anchored" data-anchor-id="custom-learning-rate-schedules"><span class="header-section-number">26.5.5</span> Custom Learning Rate Schedules</h3>
 <div id="custom-lr-schedules" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
@@ -1244,7 +1243,7 @@ log_lr     unified_lr   Adam         SGD          RMSprop
 <span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (epoch <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="dv">30</span> <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        current_lr <span class="op">=</span> optimizer.param_groups[<span class="dv">0</span>][<span class="st">'lr'</span>]</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: lr = </span><span class="sc">{</span>current_lr<span class="sc">:.8f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: lr = </span><span class="sc">{</span>current_lr<span class="sc">:.8f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Initial learning rate: 0.001
 Epoch 30: lr = 0.00010000
@@ -1256,7 +1255,7 @@ Epoch 90: lr = 0.00000100</code></pre>
 <section id="direct-usage-without-linearregressor" class="level3" data-number="26.5.6">
 <h3 data-number="26.5.6" class="anchored" data-anchor-id="direct-usage-without-linearregressor"><span class="header-section-number">26.5.6</span> Direct Usage Without LinearRegressor</h3>
 <div id="direct-usage-without-linearregressor" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1281,7 +1280,7 @@ Epoch 90: lr = 0.00000100</code></pre>
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span>actual_lr)</span>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unified lr: </span><span class="sc">{</span>unified_lr<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>optimizer_name<span class="sc">}</span><span class="ss"> lr: </span><span class="sc">{</span>actual_lr<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>optimizer_name<span class="sc">}</span><span class="ss"> lr: </span><span class="sc">{</span>actual_lr<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unified lr: 2.0
 Actual Adam lr: 0.002</code></pre>
@@ -1341,7 +1340,7 @@ Actual Adam lr: 0.002</code></pre>
 </section>
 <section id="common-patterns" class="level3" data-number="26.6.3">
 <h3 data-number="26.6.3" class="anchored" data-anchor-id="common-patterns"><span class="header-section-number">26.6.3</span> Common Patterns</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern 1: Quick optimizer comparison</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern 1: Quick optimizer comparison</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">1.0</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> opt <span class="kw">in</span> [<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>]:</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> model.get_optimizer(opt)</span>
@@ -1360,7 +1359,7 @@ Actual Adam lr: 0.002</code></pre>
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Pattern 4: Direct mapping</span></span>
 <span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
 <span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>lr_actual <span class="op">=</span> map_lr(unified_lr, optimizer_name)</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(params, lr<span class="op">=</span>lr_actual)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(params, lr<span class="op">=</span>lr_actual)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="troubleshooting" class="level2" data-number="26.7">
@@ -1368,30 +1367,30 @@ Actual Adam lr: 0.002</code></pre>
 <section id="issue-training-is-unstable-loss-explodes" class="level3" data-number="26.7.1">
 <h3 data-number="26.7.1" class="anchored" data-anchor-id="issue-training-is-unstable-loss-explodes"><span class="header-section-number">26.7.1</span> Issue: Training is unstable (loss explodes)</h3>
 <p><strong>Solution</strong>: Learning rate is too high. Try:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">0.1</span>)  <span class="co"># Reduce from 1.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">0.1</span>)  <span class="co"># Reduce from 1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="issue-training-is-too-slow-loss-decreases-very-slowly" class="level3" data-number="26.7.2">
 <h3 data-number="26.7.2" class="anchored" data-anchor-id="issue-training-is-too-slow-loss-decreases-very-slowly"><span class="header-section-number">26.7.2</span> Issue: Training is too slow (loss decreases very slowly)</h3>
 <p><strong>Solution</strong>: Learning rate is too low. Try:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">5.0</span>)  <span class="co"># Increase from 1.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(input_dim<span class="op">=</span><span class="dv">10</span>, output_dim<span class="op">=</span><span class="dv">1</span>, lr<span class="op">=</span><span class="fl">5.0</span>)  <span class="co"># Increase from 1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="issue-different-results-across-optimizer-runs" class="level3" data-number="26.7.3">
 <h3 data-number="26.7.3" class="anchored" data-anchor-id="issue-different-results-across-optimizer-runs"><span class="header-section-number">26.7.3</span> Issue: Different results across optimizer runs</h3>
 <p><strong>Solution</strong>: Set random seed for reproducibility:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="issue-want-to-use-raw-learning-rate-without-mapping" class="level3" data-number="26.7.4">
 <h3 data-number="26.7.4" class="anchored" data-anchor-id="issue-want-to-use-raw-learning-rate-without-mapping"><span class="header-section-number">26.7.4</span> Issue: Want to use raw learning rate without mapping</h3>
 <p><strong>Solution</strong>: Use <code>use_default_scale=False</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">0.001</span>, <span class="st">"Adam"</span>, use_default_scale<span class="op">=</span><span class="va">False</span>)  <span class="co"># Returns 0.001 directly</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> map_lr</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> map_lr(<span class="fl">0.001</span>, <span class="st">"Adam"</span>, use_default_scale<span class="op">=</span><span class="va">False</span>)  <span class="co"># Returns 0.001 directly</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="issue-optimizer-not-supported" class="level3" data-number="26.7.5">
 <h3 data-number="26.7.5" class="anchored" data-anchor-id="issue-optimizer-not-supported"><span class="header-section-number">26.7.5</span> Issue: Optimizer not supported</h3>
 <p><strong>Solution</strong>: Check supported optimizers:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> OPTIMIZER_DEFAULT_LR</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Supported optimizers:"</span>, <span class="bu">list</span>(OPTIMIZER_DEFAULT_LR.keys()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.mapping <span class="im">import</span> OPTIMIZER_DEFAULT_LR</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Supported optimizers:"</span>, <span class="bu">list</span>(OPTIMIZER_DEFAULT_LR.keys()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="technical-details" class="level2" data-number="26.8">
@@ -1431,7 +1430,7 @@ Actual Adam lr: 0.002</code></pre>
 <section id="default-learning-rates" class="level3" data-number="26.8.3">
 <h3 data-number="26.8.3" class="anchored" data-anchor-id="default-learning-rates"><span class="header-section-number">26.8.3</span> Default Learning Rates</h3>
 <p>All values verified against <a href="https://pytorch.org/docs/stable/optim.html">PyTorch documentation</a>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>OPTIMIZER_DEFAULT_LR <span class="op">=</span> {</span>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>OPTIMIZER_DEFAULT_LR <span class="op">=</span> {</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adadelta"</span>: <span class="fl">1.0</span>,</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adagrad"</span>: <span class="fl">0.01</span>,</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adam"</span>: <span class="fl">0.001</span>,</span>
@@ -1445,15 +1444,15 @@ Actual Adam lr: 0.002</code></pre>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RMSprop"</span>: <span class="fl">0.01</span>,</span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rprop"</span>: <span class="fl">0.01</span>,</span>
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SGD"</span>: <span class="fl">0.01</span>,</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="examples" class="level2" data-number="26.9">
 <h2 data-number="26.9" class="anchored" data-anchor-id="examples"><span class="header-section-number">26.9</span> Examples</h2>
 <section id="complete-example-optimizer-comparison-study" class="level3" data-number="26.9.1">
 <h3 data-number="26.9.1" class="anchored" data-anchor-id="complete-example-optimizer-comparison-study"><span class="header-section-number">26.9.1</span> Complete Example: Optimizer Comparison Study</h3>
-<div id="11366508" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<div id="54da720b" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">Complete example: Compare optimizers with unified learning rate interface.</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -1572,7 +1571,7 @@ Actual Adam lr: 0.002</code></pre>
 <span id="cb28-117"><a href="#cb28-117" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Overall best: unified_lr=</span><span class="sc">{</span>best_overall[<span class="dv">0</span>]<span class="sc">:.1f}</span><span class="ss">, "</span></span>
 <span id="cb28-118"><a href="#cb28-118" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"optimizer=</span><span class="sc">{</span>best_overall[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">, "</span></span>
 <span id="cb28-119"><a href="#cb28-119" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"test_MSE=</span><span class="sc">{</span>best_overall_loss<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb28-120"><a href="#cb28-120" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual learning rate used: </span><span class="sc">{</span>best_overall[<span class="dv">2</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-120"><a href="#cb28-120" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual learning rate used: </span><span class="sc">{</span>best_overall[<span class="dv">2</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Training models with different optimizers and learning rates...
 
@@ -1675,14 +1674,13 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
