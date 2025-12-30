@@ -353,10 +353,10 @@ This equivalence holds specifically for simple linear regression due to the dire
 
 Confounding is a bias introduced by the imbalanced distribution of extraneous risk
 factors among comparison groups [@wang07a]. 
-`spotpython` provides tools for assessing confounding effects in multiple regression models.
+`spotoptim` provides tools for assessing confounding effects in multiple regression models.
 
 ::: {#exm-confounding}
-### Assessing Confounding Effects in Multiple Regression with `spotpython`
+### Assessing Confounding Effects in Multiple Regression with `spotoptim`
 Consider the following data generation function `generate_data` and the `fit_ols_model` function to fit an ordinary least squares (OLS) regression model.
 
 ```{python}
@@ -437,7 +437,7 @@ The function `fit_all_lm()` simplifies this procedure.
 It can be used to fit all possible linear models with the given data and print the results in a systematic way for various combinations of variables.
 ```{python}
 #| label: fit_all_lm_example
-from spotpython.utils.stats import fit_all_lm, plot_coeff_vs_pvals, plot_coeff_vs_pvals_by_included
+from spotoptim.utils.stats import fit_all_lm, plot_coeff_vs_pvals, plot_coeff_vs_pvals_by_included
 res = fit_all_lm("y ~ x1", ["x2", "x3"], data)
 print(res["estimate"])
 ```

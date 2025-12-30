@@ -59,37 +59,47 @@ random_state=42
 
 ## Overview
 
-SpotOptim supports multi-objective optimization functions with automatic detection and flexible scalarization strategies. This implementation follows the same approach as the Spot class from spotPython.
+SpotOptim supports multi-objective optimization functions with automatic detection and flexible scalarization strategies.
+The parameter `fun_mo2so` can be used to convert multi-objective values to single-objective values.
+If the function `fun` returns several objective function values, say $f_1, f_2, \ldots, f_p$, these  values are stored in `y_mo` and can be be used by `fun_mo2so`.
+The `fun_mo2so` parameter is optional. If it is `None`, which is the default, only the first objective $f_1$ is used as single-objective and the remaining objectives $f_2, \ldots, f_p$ are stored in `y_mo`, but not further used in the optimization process.
 
-## What Was Implemented
+::: {.callout-note}
+#### `fun_mo2so`
 
-### 1. Core Functionality
-
-**Parameter:**
-
-- `fun_mo2so` (callable, optional): Function to convert multi-objective values to single-objective
+* `fun_mo2so` (callable, optional): Function to convert multi-objective values to single-objective
   - Takes array of shape `(n_samples, n_objectives)`
   - Returns array of shape `(n_samples,)`
   - If `None`, uses first objective (default behavior)
 
-**Attribute:**
+:::
+
+::: {.callout-note}
+
+#### Attributes
 
 - `y_mo` (ndarray or None): Stores all multi-objective function values
   - Shape: `(n_samples, n_objectives)` for multi-objective problems
   - `None` for single-objective problems
 
-**Methods:**
+:::
+
+::: {.callout-note}
+
+#### Methods
 
 - `_get_shape(y)`: Get shape of objective function output
 - `_store_mo(y_mo)`: Store multi-objective values with automatic appending
 - `_mo2so(y_mo)`: Convert multi-objective to single-objective values
 
-The method `_evaluate_function(X)` automatically detects multi-objective functions. It 
+:::
+
+`SpotOptim`'s method `_evaluate_function(X)` automatically detects multi-objective functions. It 
 calls `_mo2so()` to convert multi-objective to single-objective. It also stores the original multi-objective values in `y_mo`. And it returns single-objective values for optimization.
 
-## Usage Examples
 
-### Example 1: Default Behavior (Use First Objective)
+::: {#exm-default}
+#### Default Behavior (Use First Objective)
 
 ```{python}
 import numpy as np
@@ -116,7 +126,10 @@ print(f"Best f(x): {result.fun}")               # Minimizes obj1
 print(f"MO values stored: {optimizer.y_mo.shape}")  # (30, 2)
 ```
 
-### Example 2: Weighted Sum Scalarization
+:::
+
+::: {#exm-weighted}
+#### Weighted Sum Scalarization
 
 ```{python}
 def weighted_sum(y_mo):
@@ -136,7 +149,10 @@ result = optimizer.optimize()
 print(f"Compromise solution: {result.x}")  # Near [1, 1]
 ```
 
-### Example 3: Min-Max Scalarization
+:::
+
+::: {#exm-minmax}
+### Min-Max Scalarization
 
 ```{python}
 def min_max(y_mo):
@@ -155,8 +171,10 @@ optimizer = SpotOptim(
 result = optimizer.optimize()
 # Finds solution with balanced objective values
 ```
+:::
 
-### Example 4: Three or More Objectives
+::: {#exm-three}
+### Three or More Objectives
 
 ```{python}
 def three_objectives(X):
@@ -182,7 +200,10 @@ optimizer = SpotOptim(
 result = optimizer.optimize()
 ```
 
-### Example 5: With Noise Handling
+:::
+
+::: {#exm-noise}
+### Noise Handling
 
 ```{python}
 def noisy_bi_objective(X):
@@ -207,6 +228,8 @@ optimizer = SpotOptim(
 result = optimizer.optimize()
 # Works seamlessly with noise handling
 ```
+
+:::
 
 ## Common Scalarization Strategies
 
