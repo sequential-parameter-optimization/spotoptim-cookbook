@@ -680,7 +680,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Default choice for most problems</li>
 </ul>
 <p><strong>Example</strong>:</p>
-<div id="51495f94" class="cell" data-execution_count="1">
+<div id="98cb335a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -699,46 +699,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 3.699013
-Iteration 1: f(x) = 19.133199
-Iteration 2: New best f(x) = 3.531583
-Iteration 3: New best f(x) = 0.000955
-Iteration 4: New best f(x) = 0.000566
+Initial best: f(x) = 2.955700
+Iteration 1: New best f(x) = 0.092713
+Iteration 2: New best f(x) = 0.009572
+Iteration 3: New best f(x) = 0.000186
+Iteration 4: New best f(x) = 0.000007
 Iteration 5: New best f(x) = 0.000001
 Iteration 6: New best f(x) = 0.000000
 Iteration 7: New best f(x) = 0.000000
-Iteration 8: f(x) = 0.000000
+Iteration 8: New best f(x) = 0.000000
 Iteration 9: New best f(x) = 0.000000
 Iteration 10: f(x) = 0.000000
 Iteration 11: f(x) = 0.000000
 Iteration 12: f(x) = 0.000000
 Iteration 13: f(x) = 0.000000
-Iteration 14: f(x) = 0.000000
+Iteration 14: New best f(x) = 0.000000
 Iteration 15: f(x) = 0.000000
 Iteration 16: f(x) = 0.000000
 Iteration 17: f(x) = 0.000000
 Iteration 18: f(x) = 0.000000
 Iteration 19: f(x) = 0.000000
-Iteration 20: f(x) = 0.000000
+Iteration 20: New best f(x) = 0.000000
 Iteration 21: f(x) = 0.000000
-Iteration 22: New best f(x) = 0.000000
-Iteration 23: New best f(x) = 0.000000
+Iteration 22: f(x) = 0.000000
+Iteration 23: f(x) = 0.000000
 Iteration 24: f(x) = 0.000000
 Iteration 25: f(x) = 0.000000
 Iteration 26: f(x) = 0.000000
 Iteration 27: f(x) = 0.000000
-Iteration 28: New best f(x) = 0.000000
-Iteration 29: f(x) = 0.000006
+Iteration 28: f(x) = 0.000000
+Iteration 29: New best f(x) = 0.000000
 Iteration 30: f(x) = 0.000000
 Iteration 31: f(x) = 0.000000
 Iteration 32: f(x) = 0.000000
-Iteration 33: New best f(x) = 0.000000
+Iteration 33: f(x) = 0.000000
 Iteration 34: f(x) = 0.000000
 Iteration 35: f(x) = 0.000000
 Iteration 36: f(x) = 0.000000
 Iteration 37: f(x) = 0.000000
 Iteration 38: f(x) = 0.000000
-Iteration 39: f(x) = 0.000001
+Iteration 39: f(x) = 0.000000
 Iteration 40: f(x) = 0.000000</code></pre>
 </div>
 </div>
@@ -758,7 +758,7 @@ Iteration 40: f(x) = 0.000000</code></pre>
 <section id="advanced-usage-setting-tolerance" class="level2" data-number="15.4">
 <h2 data-number="15.4" class="anchored" data-anchor-id="advanced-usage-setting-tolerance"><span class="header-section-number">15.4</span> Advanced Usage: Setting Tolerance</h2>
 <p>The <code>tolerance_x</code> parameter controls when the fallback strategy is triggered. A larger tolerance means points need to be farther apart, triggering the fallback more often:</p>
-<div id="b52b20f8" class="cell" data-execution_count="2">
+<div id="78179ec1" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simple_objective(X):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Simple quadratic function for demonstration"""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -796,7 +796,7 @@ Relaxed tolerance setup complete</code></pre>
 <section id="monitor-fallback-activations" class="level3" data-number="15.5.1">
 <h3 data-number="15.5.1" class="anchored" data-anchor-id="monitor-fallback-activations"><span class="header-section-number">15.5.1</span> 1. Monitor Fallback Activations</h3>
 <p>Enable verbose mode to see when fallbacks are triggered:</p>
-<div id="86ed3358" class="cell" data-execution_count="3">
+<div id="890b4f5a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_objective(X):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -817,7 +817,7 @@ Optimizer with verbose mode created</code></pre>
 <section id="adjust-tolerance-based-on-problem-scale" class="level3" data-number="15.5.2">
 <h3 data-number="15.5.2" class="anchored" data-anchor-id="adjust-tolerance-based-on-problem-scale"><span class="header-section-number">15.5.2</span> 2. Adjust Tolerance Based on Problem Scale</h3>
 <p>For problems with small search spaces, use smaller tolerance:</p>
-<div id="b3dc36b5" class="cell" data-execution_count="4">
+<div id="6b843661" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scale_objective(X):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
