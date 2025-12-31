@@ -80,13 +80,11 @@ Generate the `remote_job_001_exp.pkl` file by running the following code:
 #| label: experiment-locally
 import numpy as np
 from spotoptim import SpotOptim
- 
-def expensive_function(X):
-    return np.sum(X**2, axis=1) + 0.1 * np.sum(np.sin(10 * X), axis=1)
+from spotoptim.function import rosenbrock
  
 optimizer = SpotOptim(
-    fun=expensive_function,
-    bounds=[(-10, 10), (-10, 10), (-10, 10)],
+    fun=rosenbrock,
+    bounds=[(-2, 2), (-2, 2)],
     max_iter=50,
     n_initial=10,
     seed=42,
@@ -95,9 +93,10 @@ optimizer = SpotOptim(
 optimizer.save_experiment(prefix="remote_job_001")
 ```
  
- ### Step 2: Execute on Remote Machine
+ 
+### Step 2: Execute on Remote Machine
 
- Generate the `remote_job_001_res.pkl` file by running the following code on the remote machine:
+Generate the `remote_job_001_res.pkl` file by running the following code on the remote machine:
  
 ```{python}
 #| label: execute-remote
@@ -412,12 +411,19 @@ import numpy as np
 from spotoptim import SpotOptim
 import os
 
+DIRNAME = "experiments_compare_de_tricands_bfgs"
+
 # Placeholder function for experiment setup
 def placeholder_func(X):
     return np.sum(X**2, axis=1)
 
+
+
 # Create experiments directory
-os.makedirs("experiments", exist_ok=True)
+os.makedirs(DIRNAME, exist_ok=True)
+# guarantee that the directory is empty
+for file in os.listdir(DIRNAME):
+    os.remove(os.path.join(DIRNAME, file))
 
 # Define multiple experiments
 experiments = [
@@ -439,12 +445,12 @@ for exp_config in experiments:
     
     optimizer.save_experiment(
         prefix=exp_config["prefix"],
-        path="experiments"
+        path=DIRNAME
     )
     
-    print(f"Created: experiments/{exp_config['prefix']}_exp.pkl")
+    print(f"Created: {DIRNAME}/{exp_config['prefix']}_exp.pkl")
 
-print("\nAll experiments created. Transfer 'experiments' folder to remote machine.")
+print("\nAll experiments created. Transfer '{DIRNAME}' folder to remote machine.")
 ```
 
 ### Remote Machine (Execution)
@@ -465,7 +471,7 @@ def complex_objective(X):
     return term1 - term2 + term3
 
 # Find all experiment files
-exp_files = glob.glob("experiments/*_exp.pkl")
+exp_files = glob.glob(f"{DIRNAME}/*_exp.pkl")
 print(f"Found {len(exp_files)} experiments to run")
 
 # Run each experiment
@@ -486,9 +492,9 @@ for exp_file in exp_files:
     prefix = os.path.basename(exp_file).replace("_exp.pkl", "")
     optimizer.save_result(
         prefix=prefix,
-        path="experiments"
+        path=DIRNAME
     )
-    print(f"  Saved: experiments/{prefix}_res.pkl")
+    print(f"  Saved: {DIRNAME}/{prefix}_res.pkl")
 
 print("\nAll experiments completed. Transfer results back to local machine.")
 ```
@@ -504,7 +510,7 @@ import glob
 import matplotlib.pyplot as plt
 
 # Find all result files
-result_files = glob.glob("experiments/*_res.pkl")
+result_files = glob.glob(f"{DIRNAME}/*_res.pkl")
 print(f"Found {len(result_files)} results to analyze")
 
 # Load and compare results
@@ -546,8 +552,8 @@ plt.title("Optimization Progress Comparison", fontsize=14)
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
-plt.savefig("experiments/convergence_comparison.png", dpi=150)
-print("\nConvergence plot saved to: experiments/convergence_comparison.png")
+plt.savefig(f"{DIRNAME}/convergence_comparison.png", dpi=150)
+print("\nConvergence plot saved to: {DIRNAME}/convergence_comparison.png")
 ```
 
 ## Technical Details
