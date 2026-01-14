@@ -3,11 +3,28 @@ title: "SpotOptim Execution Flow"
 format: html
 ---
 
-# SpotOptim Execution Flow
+# SpotOptim Execution Flow 
+
+## Example Without Restarts
 
 This document outlines the sequence of methods called when `SpotOptim.optimize()` is executed, explaining the input, processing, and output at each step.
+As an example, we will use the following code:
 
-## `SpotOptim.__init__`
+```python
+from spotoptim import SpotOptim
+from spotoptim.functions import sphere
+
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=5,
+    max_iter=20,
+    verbose=True
+)
+result = opt.optimize()
+```
+
+### `SpotOptim.__init__`
 
 *   **Input**: Configuration parameters (`fun`, `bounds`, `n_initial`, `max_iter`, `surrogate`, etc.).
 *   **Processing**: 
@@ -19,7 +36,7 @@ This document outlines the sequence of methods called when `SpotOptim.optimize()
     *   Sets up the Latin Hypercube Sampler (`lhs_sampler`).
 *   **Output**: An initialized `SpotOptim` instance ready for optimization.
 
-## `SpotOptim.optimize`
+### `SpotOptim.optimize`
 
 *   **Input**: Optional initial point `X0` (Natural Space).
 *   **Processing**: 
@@ -29,7 +46,7 @@ This document outlines the sequence of methods called when `SpotOptim.optimize()
     *   Manages restarts based on the return status of the single run.
 *   **Output**: `OptimizeResult` object containing the best parameters `x`, best value `fun`, and optimization history.
 
-## `SpotOptim._optimize_single_run`
+### `SpotOptim._optimize_single_run`
 
 *   **Input**: `timeout_start`, `X0` (initial points), `y0_known` (for injected restarts).
 *   **Processing**: 
@@ -37,7 +54,7 @@ This document outlines the sequence of methods called when `SpotOptim.optimize()
     *   Calls sub-methods for generating design, evaluating points, fitting models, and selecting candidates.
 *   **Output**: Tuple `(status, OptimizeResult)`, where status is "FINISHED" or "RESTART".
 
-## `SpotOptim.get_initial_design`
+### `SpotOptim.get_initial_design`
 
 *   **Input**: `X0` (from `optimize` call).
 *   **Processing**: 
@@ -46,7 +63,7 @@ This document outlines the sequence of methods called when `SpotOptim.optimize()
     *   Combines the generated design with any user-provided `X0`.
 *   **Output**: Array `X` of initial design points in Natural Space.
 
-## `SpotOptim._curate_initial_design`
+### `SpotOptim._curate_initial_design`
 
 *   **Input**: Raw initial design points `X`.
 *   **Processing**: 
@@ -54,7 +71,7 @@ This document outlines the sequence of methods called when `SpotOptim.optimize()
     *   Verification against existing points (relevant during restarts).
 *   **Output**: Unique array of initial design points `X` to be evaluated.
 
-## `SpotOptim._evaluate_function` (Initial Design)
+### `SpotOptim._evaluate_function` (Initial Design)
 
 *   **Input**: Batch of design points `X`.
 *   **Processing**: 
@@ -63,7 +80,7 @@ This document outlines the sequence of methods called when `SpotOptim.optimize()
     *   Converts multi-objective results to single-objective if needed (`fun_mo2so`).
 *   **Output**: Array of objective values `y`.
 
-## `SpotOptim._init_storage`
+### `SpotOptim._init_storage`
 
 *   **Input**: Initial `X` and `y`.
 *   **Processing**: 
@@ -71,11 +88,11 @@ This document outlines the sequence of methods called when `SpotOptim.optimize()
     *   Initializes statistics tracking (mean/variance) for noisy problems.
 *   **Output**: Updated internal state with initial data.
 
-## Optimization Loop Start
+### Optimization Loop Start
 
 The process enters a `while` loop that continues until `max_iter` evaluations are reached or time runs out.
 
-## `SpotOptim._fit_scheduler`
+### `SpotOptim._fit_scheduler`
 
 *   **Input**: Current history `X_`, `y_`.
 *   **Processing**: 
@@ -83,7 +100,7 @@ The process enters a `while` loop that continues until `max_iter` evaluations ar
     *   Calls `self.surrogate.fit(X, y)` using the current available data.
 *   **Output**: A trained surrogate model capable of predicting `y` for unseen `X`.
 
-## `SpotOptim.suggest_next_infill_point`
+### `SpotOptim.suggest_next_infill_point`
 
 *   **Input**: None (implicilty uses trained `surrogate`).
 *   **Processing**: 
@@ -91,7 +108,7 @@ The process enters a `while` loop that continues until `max_iter` evaluations ar
     *   Calls `_try_optimizer_candidates`.
 *   **Output**: New candidate point `x_next` (in Internal/Transformed Space).
 
-## `SpotOptim._try_optimizer_candidates`
+### `SpotOptim._try_optimizer_candidates`
 
 *   **Input**: None.
 *   **Processing**: 
@@ -100,28 +117,28 @@ The process enters a `while` loop that continues until `max_iter` evaluations ar
     *   Checks that `x_next` is not too close to existing points (`tolerance_x`).
 *   **Output**: Valid, unique candidate point(s).
 
-## `SpotOptim.optimize_acquisition_func`
+### `SpotOptim.optimize_acquisition_func`
 
 *   **Input**: Surrogate model, Acquisition function type (configured in `__init__`).
 *   **Processing**: 
     *   Uses a global optimizer (e.g., `differential_evolution`) to find inputs `x` that maximize the acquisition function derived from the surrogate's predictions.
 *   **Output**: The point(s) `x` that maximize potential improvement.
 
-## `SpotOptim._evaluate_function` (Loop)
+### `SpotOptim._evaluate_function` (Loop)
 
 *   **Input**: Candidate point `x_next`.
 *   **Processing**: 
     *   Evaluates the user's objective function at the new candidate point.
 *   **Output**: New objective value `y_next`.
 
-## `SpotOptim._update_storage`
+### `SpotOptim._update_storage`
 
 *   **Input**: New `x_next`, `y_next`.
 *   **Processing**: 
     *   Appends the new evaluation to the history `X_` and `y_`.
 *   **Output**: Updated dataset used for the next surrogate fit.
 
-## `SpotOptim._update_best_main_loop`
+### `SpotOptim._update_best_main_loop`
 
 *   **Input**: New `y_next`.
 *   **Processing**: 
@@ -129,10 +146,132 @@ The process enters a `while` loop that continues until `max_iter` evaluations ar
     *   Updates `best_x_` and `best_y_` if a better solution is found.
 *   **Output**: Updated best known solution.
 
-## Termination
+### Termination
 
 *   **Condition**: Validates if `len(y_) >= max_iter`.
 *   **Processing**: 
     *   Exits the loop.
     *   Prepares the final `OptimizeResult`.
 *   **Output**: Final optimization result returned to the user.
+
+
+## Example With Restarts
+
+Now we can look at an example with restarts.
+Since the argument `restart_after_n` is set to 10, the optimizer will restart if the success rate remains zero for 10 consecutive iterations.
+
+```python
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=5,
+    max_iter=100,
+    verbose=True,
+    restart_after_n=10
+)
+
+result = opt.optimize()
+```
+
+### `SpotOptim.optimize` (Global Loop)
+
+*   **Input**: Global configuration (`max_iter`, `restart_after_n`).
+*   **Processing**:
+    *   Initializes `restarts_results_` to store results from each run.
+    *   Enters a `while` loop that manages the global budget.
+    *   Checks if enough budget remains for a new run (must allow at least `n_initial` evaluations).
+*   **Output**: Orchestrates the sequence of optimization runs.
+
+### `SpotOptim._optimize_single_run` (First Run)
+
+*   **Input**: Initial random state.
+*   **Processing**:
+    *   Performs standard optimization (Initial Design -> Loop).
+    *   **Restart Check**: During the loop, monitors the `success_rate`.
+    *   If `success_rate` stays at 0.0 for `restart_after_n` (10) consecutive iterations, the run is terminated early with `status="RESTART"`.
+*   **Output**: Partial `OptimizeResult` and status `RESTART`.
+
+### Restart Injection (Between Runs)
+
+*   **Input**: Results from previous runs (`restarts_results_`).
+*   **Processing**:
+    *   Identifies the best solution (`x_best`, `y_best`) found so far.
+    *   **Injection**: If `restart_inject_best=True` (default), sets `self.x0 = x_best`. This ensures the next run starts with the best known solution.
+    *   Prepares `y0_known = y_best` to skip re-evaluating this expensive point.
+
+### `SpotOptim._optimize_single_run` (Subsequent Runs)
+
+*   **Input**: `y0_known` (Value of injected best point).
+*   **Processing**:
+    *   **Fresh Initial Design**:
+        *   Generates a *new* Latin Hypercube Design (continuing the sequence, providing fresh random points).
+        *   Injects the previous best point (`self.x0`) into this design, replacing one of the random points.
+    *   **Evaluation**:
+        *   Evaluates the new LHS points.
+        *   Skips evaluation for the injected point, using `y0_known`.
+    *   **Optimization Loop**:
+        *   Fits a new Surrogate Model on this fresh dataset.
+        *   Optimizes to refine the best solution or explore new regions.
+*   **Output**: New `OptimizeResult` for this specific run.
+
+### Termination
+
+*   **Condition**: The process repeats until the total number of evaluations (summing all runs) reaches `max_iter` (100).
+*   **Output**: The `OptimizeResult` with the best objective value found across all runs is returned. 
+
+
+## Description Based on Chunks
+
+Chunk 1: Configuration & Helpers
+_set_seed
+detect_var_type
+modify_bounds_based_on_var_type
+handle_default_var_trans
+process_factor_bounds
+transform_value
+ (Verify existing docstring meets criteria)
+Chunk 2: Dimension Reduction & Variable Transformation
+_setup_dimension_reduction
+to_red_dim
+from_red_dim
+transform_bounds
+_transform_X
+_inverse_transform_X
+_map_to_factor_values
+Chunk 3: Initial Design
+_validate_x0
+get_initial_design
+_generate_initial_design
+_curate_initial_design
+_check_size_initial_design
+_rm_NA_values
+_get_best_xy_initial_design
+Chunk 4: Surrogate & Acquisition
+_fit_surrogate
+_predict
+_acquisition_function
+acquisition
+ (property/method)
+optimize_acquisition_func
+_optimize_acquisition_scipy
+_optimize_acquisition_de
+Chunk 5: Optimization Loop & Evaluation
+_try_optimizer_candidates
+_handle_acquisition_failure
+_try_fallback_strategy
+suggest_next_infill_point
+_evaluate_function
+_apply_penalty_NA
+_remove_nan
+Chunk 6: Storage, Updates & Termination
+_handle_NA_new_points
+_update_repeats_infill_points
+_fit_scheduler
+_select_and_update_storage
+select_new
+_update_storage
+_update_best_main_loop
+_determine_termination
+get_best_hyperparameters
+_optimize_single_run
+optimize
