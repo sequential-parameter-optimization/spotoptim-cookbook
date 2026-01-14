@@ -5188,5 +5188,192 @@
     "crumbs": [
       "References"
     ]
+  },
+  {
+    "objectID": "spotoptim_explained.html",
+    "href": "spotoptim_explained.html",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "",
+    "text": "30 SpotOptim Execution Flow\nThis document outlines the sequence of methods called when SpotOptim.optimize() is executed, explaining the input, processing, and output at each step.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim.__init__",
+    "href": "spotoptim_explained.html#spotoptim.__init__",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.1 SpotOptim.__init__",
+    "text": "30.1 SpotOptim.__init__\n\nInput: Configuration parameters (fun, bounds, n_initial, max_iter, surrogate, etc.).\nProcessing:\n\nValidates arguments (e.g., checks max_iter &gt;= n_initial).\nInitializes SpotOptimConfig (configuration) and SpotOptimState (mutable state).\nSets random seeds via _set_seed.\nDetermines variable types and transformations.\nInitializes the default Gaussian Process surrogate if none is provided.\nSets up the Latin Hypercube Sampler (lhs_sampler).\n\nOutput: An initialized SpotOptim instance ready for optimization.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim.optimize",
+    "href": "spotoptim_explained.html#spotoptim.optimize",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.2 SpotOptim.optimize",
+    "text": "30.2 SpotOptim.optimize\n\nInput: Optional initial point X0 (Natural Space).\nProcessing:\n\nInitializes the restart results list.\nEnters the restart loop.\nCalls _optimize_single_run to perform the optimization.\nManages restarts based on the return status of the single run.\n\nOutput: OptimizeResult object containing the best parameters x, best value fun, and optimization history.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._optimize_single_run",
+    "href": "spotoptim_explained.html#spotoptim._optimize_single_run",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.3 SpotOptim._optimize_single_run",
+    "text": "30.3 SpotOptim._optimize_single_run\n\nInput: timeout_start, X0 (initial points), y0_known (for injected restarts).\nProcessing:\n\nOrchestrates the lifecycle of a single optimization run (initial design -&gt; loop -&gt; termination).\nCalls sub-methods for generating design, evaluating points, fitting models, and selecting candidates.\n\nOutput: Tuple (status, OptimizeResult), where status is “FINISHED” or “RESTART”.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim.get_initial_design",
+    "href": "spotoptim_explained.html#spotoptim.get_initial_design",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.4 SpotOptim.get_initial_design",
+    "text": "30.4 SpotOptim.get_initial_design\n\nInput: X0 (from optimize call).\nProcessing:\n\nGenerates a space-filling design using lhs_sampler.random().\nScales the design from \\([0, 1]\\) to the problem bounds.\nCombines the generated design with any user-provided X0.\n\nOutput: Array X of initial design points in Natural Space.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._curate_initial_design",
+    "href": "spotoptim_explained.html#spotoptim._curate_initial_design",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.5 SpotOptim._curate_initial_design",
+    "text": "30.5 SpotOptim._curate_initial_design\n\nInput: Raw initial design points X.\nProcessing:\n\nRemoves duplicate points to avoid redundant evaluations.\nVerification against existing points (relevant during restarts).\n\nOutput: Unique array of initial design points X to be evaluated.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._evaluate_function-initial-design",
+    "href": "spotoptim_explained.html#spotoptim._evaluate_function-initial-design",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.6 SpotOptim._evaluate_function (Initial Design)",
+    "text": "30.6 SpotOptim._evaluate_function (Initial Design)\n\nInput: Batch of design points X.\nProcessing:\n\nIterates through points and calls the user-provided objective function fun(x).\nHandles NaN/Inf results via penalty mechanism (if enabled).\nConverts multi-objective results to single-objective if needed (fun_mo2so).\n\nOutput: Array of objective values y.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._init_storage",
+    "href": "spotoptim_explained.html#spotoptim._init_storage",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.7 SpotOptim._init_storage",
+    "text": "30.7 SpotOptim._init_storage\n\nInput: Initial X and y.\nProcessing:\n\nPopulates self.state.X_ and self.state.y_ with the initial design data.\nInitializes statistics tracking (mean/variance) for noisy problems.\n\nOutput: Updated internal state with initial data.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#optimization-loop-start",
+    "href": "spotoptim_explained.html#optimization-loop-start",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.8 Optimization Loop Start",
+    "text": "30.8 Optimization Loop Start\nThe process enters a while loop that continues until max_iter evaluations are reached or time runs out.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._fit_scheduler",
+    "href": "spotoptim_explained.html#spotoptim._fit_scheduler",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.9 SpotOptim._fit_scheduler",
+    "text": "30.9 SpotOptim._fit_scheduler\n\nInput: Current history X_, y_.\nProcessing:\n\nDetermines if the surrogate model needs retraining (based on iteration intervals).\nCalls self.surrogate.fit(X, y) using the current available data.\n\nOutput: A trained surrogate model capable of predicting y for unseen X.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim.suggest_next_infill_point",
+    "href": "spotoptim_explained.html#spotoptim.suggest_next_infill_point",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.10 SpotOptim.suggest_next_infill_point",
+    "text": "30.10 SpotOptim.suggest_next_infill_point\n\nInput: None (implicilty uses trained surrogate).\nProcessing:\n\nDispatcher that determines how to find the next point.\nCalls _try_optimizer_candidates.\n\nOutput: New candidate point x_next (in Internal/Transformed Space).",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._try_optimizer_candidates",
+    "href": "spotoptim_explained.html#spotoptim._try_optimizer_candidates",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.11 SpotOptim._try_optimizer_candidates",
+    "text": "30.11 SpotOptim._try_optimizer_candidates\n\nInput: None.\nProcessing:\n\nCalls optimize_acquisition_func to maximize the acquisition function (e.g., Expected Improvement).\nRounds/repairs the candidate based on variable types (e.g., integers).\nChecks that x_next is not too close to existing points (tolerance_x).\n\nOutput: Valid, unique candidate point(s).",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim.optimize_acquisition_func",
+    "href": "spotoptim_explained.html#spotoptim.optimize_acquisition_func",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.12 SpotOptim.optimize_acquisition_func",
+    "text": "30.12 SpotOptim.optimize_acquisition_func\n\nInput: Surrogate model, Acquisition function type (configured in __init__).\nProcessing:\n\nUses a global optimizer (e.g., differential_evolution) to find inputs x that maximize the acquisition function derived from the surrogate’s predictions.\n\nOutput: The point(s) x that maximize potential improvement.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._evaluate_function-loop",
+    "href": "spotoptim_explained.html#spotoptim._evaluate_function-loop",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.13 SpotOptim._evaluate_function (Loop)",
+    "text": "30.13 SpotOptim._evaluate_function (Loop)\n\nInput: Candidate point x_next.\nProcessing:\n\nEvaluates the user’s objective function at the new candidate point.\n\nOutput: New objective value y_next.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._update_storage",
+    "href": "spotoptim_explained.html#spotoptim._update_storage",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.14 SpotOptim._update_storage",
+    "text": "30.14 SpotOptim._update_storage\n\nInput: New x_next, y_next.\nProcessing:\n\nAppends the new evaluation to the history X_ and y_.\n\nOutput: Updated dataset used for the next surrogate fit.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#spotoptim._update_best_main_loop",
+    "href": "spotoptim_explained.html#spotoptim._update_best_main_loop",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.15 SpotOptim._update_best_main_loop",
+    "text": "30.15 SpotOptim._update_best_main_loop\n\nInput: New y_next.\nProcessing:\n\nCompares new value against self.state.best_y_.\nUpdates best_x_ and best_y_ if a better solution is found.\n\nOutput: Updated best known solution.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
+  },
+  {
+    "objectID": "spotoptim_explained.html#termination",
+    "href": "spotoptim_explained.html#termination",
+    "title": "29  SpotOptim Execution Flow",
+    "section": "30.16 Termination",
+    "text": "30.16 Termination\n\nCondition: Validates if len(y_) &gt;= max_iter.\nProcessing:\n\nExits the loop.\nPrepares the final OptimizeResult.\n\nOutput: Final optimization result returned to the user.",
+    "crumbs": [
+      "Details About SPOT",
+      "<span class='chapter-number'>29</span>  <span class='chapter-title'>SpotOptim Execution Flow</span>"
+    ]
   }
 ]

@@ -1,0 +1,138 @@
+---
+title: "SpotOptim Execution Flow"
+format: html
+---
+
+# SpotOptim Execution Flow
+
+This document outlines the sequence of methods called when `SpotOptim.optimize()` is executed, explaining the input, processing, and output at each step.
+
+## `SpotOptim.__init__`
+
+*   **Input**: Configuration parameters (`fun`, `bounds`, `n_initial`, `max_iter`, `surrogate`, etc.).
+*   **Processing**: 
+    *   Validates arguments (e.g., checks `max_iter >= n_initial`).
+    *   Initializes `SpotOptimConfig` (configuration) and `SpotOptimState` (mutable state).
+    *   Sets random seeds via `_set_seed`.
+    *   Determines variable types and transformations.
+    *   Initializes the default Gaussian Process surrogate if none is provided.
+    *   Sets up the Latin Hypercube Sampler (`lhs_sampler`).
+*   **Output**: An initialized `SpotOptim` instance ready for optimization.
+
+## `SpotOptim.optimize`
+
+*   **Input**: Optional initial point `X0` (Natural Space).
+*   **Processing**: 
+    *   Initializes the restart results list.
+    *   Enters the restart loop.
+    *   Calls `_optimize_single_run` to perform the optimization.
+    *   Manages restarts based on the return status of the single run.
+*   **Output**: `OptimizeResult` object containing the best parameters `x`, best value `fun`, and optimization history.
+
+## `SpotOptim._optimize_single_run`
+
+*   **Input**: `timeout_start`, `X0` (initial points), `y0_known` (for injected restarts).
+*   **Processing**: 
+    *   Orchestrates the lifecycle of a single optimization run (initial design -> loop -> termination).
+    *   Calls sub-methods for generating design, evaluating points, fitting models, and selecting candidates.
+*   **Output**: Tuple `(status, OptimizeResult)`, where status is "FINISHED" or "RESTART".
+
+## `SpotOptim.get_initial_design`
+
+*   **Input**: `X0` (from `optimize` call).
+*   **Processing**: 
+    *   Generates a space-filling design using `lhs_sampler.random()`.
+    *   Scales the design from $[0, 1]$ to the problem bounds.
+    *   Combines the generated design with any user-provided `X0`.
+*   **Output**: Array `X` of initial design points in Natural Space.
+
+## `SpotOptim._curate_initial_design`
+
+*   **Input**: Raw initial design points `X`.
+*   **Processing**: 
+    *   Removes duplicate points to avoid redundant evaluations.
+    *   Verification against existing points (relevant during restarts).
+*   **Output**: Unique array of initial design points `X` to be evaluated.
+
+## `SpotOptim._evaluate_function` (Initial Design)
+
+*   **Input**: Batch of design points `X`.
+*   **Processing**: 
+    *   Iterates through points and calls the user-provided objective function `fun(x)`.
+    *   Handles `NaN`/`Inf` results via penalty mechanism (if enabled).
+    *   Converts multi-objective results to single-objective if needed (`fun_mo2so`).
+*   **Output**: Array of objective values `y`.
+
+## `SpotOptim._init_storage`
+
+*   **Input**: Initial `X` and `y`.
+*   **Processing**: 
+    *   Populates `self.state.X_` and `self.state.y_` with the initial design data.
+    *   Initializes statistics tracking (mean/variance) for noisy problems.
+*   **Output**: Updated internal state with initial data.
+
+## Optimization Loop Start
+
+The process enters a `while` loop that continues until `max_iter` evaluations are reached or time runs out.
+
+## `SpotOptim._fit_scheduler`
+
+*   **Input**: Current history `X_`, `y_`.
+*   **Processing**: 
+    *   Determines if the surrogate model needs retraining (based on iteration intervals).
+    *   Calls `self.surrogate.fit(X, y)` using the current available data.
+*   **Output**: A trained surrogate model capable of predicting `y` for unseen `X`.
+
+## `SpotOptim.suggest_next_infill_point`
+
+*   **Input**: None (implicilty uses trained `surrogate`).
+*   **Processing**: 
+    *   Dispatcher that determines how to find the next point.
+    *   Calls `_try_optimizer_candidates`.
+*   **Output**: New candidate point `x_next` (in Internal/Transformed Space).
+
+## `SpotOptim._try_optimizer_candidates`
+
+*   **Input**: None.
+*   **Processing**: 
+    *   Calls `optimize_acquisition_func` to maximize the acquisition function (e.g., Expected Improvement).
+    *   Rounds/repairs the candidate based on variable types (e.g., integers).
+    *   Checks that `x_next` is not too close to existing points (`tolerance_x`).
+*   **Output**: Valid, unique candidate point(s).
+
+## `SpotOptim.optimize_acquisition_func`
+
+*   **Input**: Surrogate model, Acquisition function type (configured in `__init__`).
+*   **Processing**: 
+    *   Uses a global optimizer (e.g., `differential_evolution`) to find inputs `x` that maximize the acquisition function derived from the surrogate's predictions.
+*   **Output**: The point(s) `x` that maximize potential improvement.
+
+## `SpotOptim._evaluate_function` (Loop)
+
+*   **Input**: Candidate point `x_next`.
+*   **Processing**: 
+    *   Evaluates the user's objective function at the new candidate point.
+*   **Output**: New objective value `y_next`.
+
+## `SpotOptim._update_storage`
+
+*   **Input**: New `x_next`, `y_next`.
+*   **Processing**: 
+    *   Appends the new evaluation to the history `X_` and `y_`.
+*   **Output**: Updated dataset used for the next surrogate fit.
+
+## `SpotOptim._update_best_main_loop`
+
+*   **Input**: New `y_next`.
+*   **Processing**: 
+    *   Compares new value against `self.state.best_y_`.
+    *   Updates `best_x_` and `best_y_` if a better solution is found.
+*   **Output**: Updated best known solution.
+
+## Termination
+
+*   **Condition**: Validates if `len(y_) >= max_iter`.
+*   **Processing**: 
+    *   Exits the loop.
+    *   Prepares the final `OptimizeResult`.
+*   **Output**: Final optimization result returned to the user.
