@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>46&nbsp; Gaussian Processes—Some Background Information – Sequential Parameter Optimization Cookbook</title>
+<title>48&nbsp; Gaussian Processes—Some Background Information – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./100_ddmo_clustering.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-23a3edf7f3c1ed1fc827cae2f6dd4de5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -119,7 +120,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -135,7 +136,7 @@ window.Quarto = {
 };
 </script>
 
-<meta name="twitter:title" content="46&nbsp; Gaussian Processes—Some Background Information – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="48&nbsp; Gaussian Processes—Some Background Information – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="a_04_gp_background_files/figure-html/fig-exp2euclid-output-1.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -150,7 +151,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./a_04_gp_background.html">Appendix</a></li><li class="breadcrumb-item"><a href="./a_04_gp_background.html"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./a_04_gp_background.html">Appendix</a></li><li class="breadcrumb-item"><a href="./a_04_gp_background.html"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -444,6 +445,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./020_scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">SpotOptim Scaling</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -458,7 +465,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
   </div>
 </li>
       </ul>
@@ -475,7 +482,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spotoptim_explained.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">SpotOptim Execution Flow</span></span></a>
   </div>
 </li>
       </ul>
@@ -492,7 +505,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
   </div>
 </li>
       </ul>
@@ -509,61 +522,61 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
   </div>
 </li>
       </ul>
@@ -580,37 +593,37 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_eda.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Basic Statistics and Data Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Basic Statistics and Data Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_clustering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -627,7 +640,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./a_04_gp_background.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></span></a>
   </div>
 </li>
       </ul>
@@ -648,29 +661,29 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#gaussian-process-prior" id="toc-gaussian-process-prior" class="nav-link active" data-scroll-target="#gaussian-process-prior"><span class="header-section-number">46.1</span> Gaussian Process Prior</a></li>
-  <li><a href="#covariance-function" id="toc-covariance-function" class="nav-link" data-scroll-target="#covariance-function"><span class="header-section-number">46.2</span> Covariance Function</a>
+  <li><a href="#gaussian-process-prior" id="toc-gaussian-process-prior" class="nav-link active" data-scroll-target="#gaussian-process-prior"><span class="header-section-number">48.1</span> Gaussian Process Prior</a></li>
+  <li><a href="#covariance-function" id="toc-covariance-function" class="nav-link" data-scroll-target="#covariance-function"><span class="header-section-number">48.2</span> Covariance Function</a>
   <ul class="collapse">
-  <li><a href="#positive-definiteness" id="toc-positive-definiteness" class="nav-link" data-scroll-target="#positive-definiteness"><span class="header-section-number">46.2.1</span> Positive Definiteness</a></li>
+  <li><a href="#positive-definiteness" id="toc-positive-definiteness" class="nav-link" data-scroll-target="#positive-definiteness"><span class="header-section-number">48.2.1</span> Positive Definiteness</a></li>
   </ul></li>
-  <li><a href="#construction-of-the-covariance-matrix" id="toc-construction-of-the-covariance-matrix" class="nav-link" data-scroll-target="#construction-of-the-covariance-matrix"><span class="header-section-number">46.3</span> Construction of the Covariance Matrix</a></li>
-  <li><a href="#sec-random-samples-gp" id="toc-sec-random-samples-gp" class="nav-link" data-scroll-target="#sec-random-samples-gp"><span class="header-section-number">46.4</span> Generation of Random Samples and Plotting the Realizations of the Random Function</a></li>
-  <li><a href="#properties-of-the-1d-example" id="toc-properties-of-the-1d-example" class="nav-link" data-scroll-target="#properties-of-the-1d-example"><span class="header-section-number">46.5</span> Properties of the 1d Example</a>
+  <li><a href="#construction-of-the-covariance-matrix" id="toc-construction-of-the-covariance-matrix" class="nav-link" data-scroll-target="#construction-of-the-covariance-matrix"><span class="header-section-number">48.3</span> Construction of the Covariance Matrix</a></li>
+  <li><a href="#sec-random-samples-gp" id="toc-sec-random-samples-gp" class="nav-link" data-scroll-target="#sec-random-samples-gp"><span class="header-section-number">48.4</span> Generation of Random Samples and Plotting the Realizations of the Random Function</a></li>
+  <li><a href="#properties-of-the-1d-example" id="toc-properties-of-the-1d-example" class="nav-link" data-scroll-target="#properties-of-the-1d-example"><span class="header-section-number">48.5</span> Properties of the 1d Example</a>
   <ul class="collapse">
-  <li><a href="#several-bumps" id="toc-several-bumps" class="nav-link" data-scroll-target="#several-bumps"><span class="header-section-number">46.5.1</span> Several Bumps:</a></li>
-  <li><a href="#smoothness" id="toc-smoothness" class="nav-link" data-scroll-target="#smoothness"><span class="header-section-number">46.5.2</span> Smoothness:</a></li>
-  <li><a href="#scale-of-two" id="toc-scale-of-two" class="nav-link" data-scroll-target="#scale-of-two"><span class="header-section-number">46.5.3</span> Scale of Two:</a></li>
+  <li><a href="#several-bumps" id="toc-several-bumps" class="nav-link" data-scroll-target="#several-bumps"><span class="header-section-number">48.5.1</span> Several Bumps:</a></li>
+  <li><a href="#smoothness" id="toc-smoothness" class="nav-link" data-scroll-target="#smoothness"><span class="header-section-number">48.5.2</span> Smoothness:</a></li>
+  <li><a href="#scale-of-two" id="toc-scale-of-two" class="nav-link" data-scroll-target="#scale-of-two"><span class="header-section-number">48.5.3</span> Scale of Two:</a></li>
   </ul></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">46.6</span> Jupyter Notebook</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">48.6</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./a_04_gp_background.html">Appendix</a></li><li class="breadcrumb-item"><a href="./a_04_gp_background.html"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./a_04_gp_background.html">Appendix</a></li><li class="breadcrumb-item"><a href="./a_04_gp_background.html"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></h1>
+<h1 class="title"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></h1>
 </div>
 
 
@@ -689,31 +702,31 @@ window.Quarto = {
 
 <p>The concept of GP (Gaussian Process) regression can be understood as a simple extension of linear modeling. It is worth noting that this approach goes by various names and acronyms, including “kriging,” a term derived from geostatistics, as introduced by Matheron in 1963. Additionally, it is referred to as Gaussian spatial modeling or a Gaussian stochastic process, and machine learning (ML) researchers often use the term Gaussian process regression (GPR). In all of these instances, the central focus is on regression. This involves training on both inputs and outputs, with the ultimate objective of making predictions and quantifying uncertainty (referred to as uncertainty quantification or UQ).</p>
 <p>However, it’s important to emphasize that GPs are not a universal solution for every problem. Specialized tools may outperform GPs in specific, non-generic contexts, and GPs have their own set of limitations that need to be considered.</p>
-<section id="gaussian-process-prior" class="level2" data-number="46.1">
-<h2 data-number="46.1" class="anchored" data-anchor-id="gaussian-process-prior"><span class="header-section-number">46.1</span> Gaussian Process Prior</h2>
+<section id="gaussian-process-prior" class="level2" data-number="48.1">
+<h2 data-number="48.1" class="anchored" data-anchor-id="gaussian-process-prior"><span class="header-section-number">48.1</span> Gaussian Process Prior</h2>
 <p>In the context of GP, any finite collection of realizations, which is represented by <span class="math inline">\(n\)</span> observations, is modeled as having a multivariate normal (MVN) distribution. The characteristics of these realizations can be fully described by two key parameters:</p>
 <ol type="1">
 <li>Their mean, denoted as an <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\mu\)</span>.</li>
 <li>The covariance matrix, denoted as an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\Sigma\)</span>. This covariance matrix encapsulates the relationships and variability between the individual realizations within the collection.</li>
 </ol>
 </section>
-<section id="covariance-function" class="level2" data-number="46.2">
-<h2 data-number="46.2" class="anchored" data-anchor-id="covariance-function"><span class="header-section-number">46.2</span> Covariance Function</h2>
+<section id="covariance-function" class="level2" data-number="48.2">
+<h2 data-number="48.2" class="anchored" data-anchor-id="covariance-function"><span class="header-section-number">48.2</span> Covariance Function</h2>
 <p>The covariance function is defined by inverse exponentiated squared Euclidean distance: <span class="math display">\[
 \Sigma(\vec{x}, \vec{x}') = \exp\{ - || \vec{x} - \vec{x}'||^2 \},
 \]</span> where <span class="math inline">\(\vec{x}\)</span> and <span class="math inline">\(\vec{x}'\)</span> are two points in the <span class="math inline">\(k\)</span>-dimensional input space and <span class="math inline">\(\| \cdot \|\)</span> denotes the Euclidean distance, i.e., <span class="math display">\[
 || \vec{x} - \vec{x}'||^2 = \sum_{i=1}^k (x_i - x_i')^2.
 \]</span></p>
-<p>An 1-d example is shown in <a href="#fig-exp2euclid" class="quarto-xref">Figure&nbsp;<span>46.1</span></a>.</p>
+<p>An 1-d example is shown in <a href="#fig-exp2euclid" class="quarto-xref">Figure&nbsp;<span>48.1</span></a>.</p>
 <div id="cell-fig-exp2euclid" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div id="fig-exp2euclid" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-exp2euclid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="a_04_gp_background_files/figure-html/fig-exp2euclid-output-1.png" class="img-fluid figure-img">
+<img src="a_04_gp_background_files/figure-html/fig-exp2euclid-output-1.png" width="571" height="411" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-exp2euclid-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;46.1: One-dim inverse exponentiated squared Euclidean distance
+Figure&nbsp;48.1: One-dim inverse exponentiated squared Euclidean distance
 </figcaption>
 </figure>
 </div>
@@ -722,7 +735,7 @@ Figure&nbsp;46.1: One-dim inverse exponentiated squared Euclidean distance
 <p>The covariance function is also referred to as the kernel function. The <em>Gaussian</em> kernel uses an additional parameter, <span class="math inline">\(\sigma^2\)</span>, to control the rate of decay. This parameter is referred to as the length scale or the characteristic length scale. The covariance function is then defined as</p>
 <p><span id="eq-Sigma"><span class="math display">\[
 \Sigma(\vec{x}, \vec{x}') = \exp\{ - || \vec{x} - \vec{x}'||^2 / (2 \sigma^2) \}.
-\tag{46.1}\]</span></span></p>
+\tag{48.1}\]</span></span></p>
 <p>The covariance decays exponentially fast as <span class="math inline">\(\vec{x}\)</span> and <span class="math inline">\(\vec{x}'\)</span> become farther apart. Observe that</p>
 <p><span class="math display">\[
 \Sigma(\vec{x},\vec{x}) = 1
@@ -731,9 +744,9 @@ Figure&nbsp;46.1: One-dim inverse exponentiated squared Euclidean distance
 \Sigma(\vec{x}, \vec{x}') &lt; 1
 \]</span> for <span class="math inline">\(\vec{x} \neq \vec{x}'\)</span>. The function <span class="math inline">\(\Sigma(\vec{x},\vec{x}')\)</span> must be positive definite.</p>
 <div id="rem-krigingbase-gauss" class="proof remark">
-<p><span class="proof-title"><em>Remark 46.1</em> (Kriging and Gaussian Basis Functions). </span>The Kriging basis function (<a href="006_num_gp.html#eq-krigingbase" class="quarto-xref">Equation&nbsp;<span>36.1</span></a>) is related to the 1-dim Gaussian basis function (<a href="#eq-Sigma" class="quarto-xref">Equation&nbsp;<span>46.1</span></a>), which is defined as <span id="eq-Sigma2"><span class="math display">\[
+<p><span class="proof-title"><em>Remark 48.1</em> (Kriging and Gaussian Basis Functions). </span>The Kriging basis function (<a href="006_num_gp.html#eq-krigingbase" class="quarto-xref">Equation&nbsp;<span>38.1</span></a>) is related to the 1-dim Gaussian basis function (<a href="#eq-Sigma" class="quarto-xref">Equation&nbsp;<span>48.1</span></a>), which is defined as <span id="eq-Sigma2"><span class="math display">\[
 \Sigma(\vec{x}^{(i)}, \vec{x}^{(j)}) = \exp\{ - || \vec{x}^{(i)} - \vec{x}^{(j)}||^2 / (2\sigma^2) \}.
-\tag{46.2}\]</span></span></p>
+\tag{48.2}\]</span></span></p>
 <p>There are some differences between Gaussian basis functions and Kriging basis functions:</p>
 <ul>
 <li>Where the Gaussian basis function has <span class="math inline">\(1/(2\sigma^2)\)</span>, the Kriging basis has a vector <span class="math inline">\(\theta = [\theta_1, \theta_2, \ldots, \theta_k]^T\)</span>.</li>
@@ -741,8 +754,8 @@ Figure&nbsp;46.1: One-dim inverse exponentiated squared Euclidean distance
 <li>In the Gaussian basis function, the exponent is fixed at 2, Kriging allows this exponent <span class="math inline">\(p_l\)</span> to vary (typically from 1 to 2).</li>
 </ul>
 </div>
-<section id="positive-definiteness" class="level3" data-number="46.2.1">
-<h3 data-number="46.2.1" class="anchored" data-anchor-id="positive-definiteness"><span class="header-section-number">46.2.1</span> Positive Definiteness</h3>
+<section id="positive-definiteness" class="level3" data-number="48.2.1">
+<h3 data-number="48.2.1" class="anchored" data-anchor-id="positive-definiteness"><span class="header-section-number">48.2.1</span> Positive Definiteness</h3>
 <p>Positive definiteness in the context of the covariance matrix <span class="math inline">\(\Sigma_n\)</span> is a fundamental requirement. It is determined by evaluating <span class="math inline">\(\Sigma(x_i, x_j)\)</span> at pairs of <span class="math inline">\(n\)</span> <span class="math inline">\(\vec{x}\)</span>-values, denoted as <span class="math inline">\(\vec{x}_1, \vec{x}_2, \ldots, \vec{x}_n\)</span>. The condition for positive definiteness is that for all <span class="math inline">\(\vec{x}\)</span> vectors that are not equal to zero, the expression <span class="math inline">\(\vec{x}^\top \Sigma_n \vec{x}\)</span> must be greater than zero. This property is essential when intending to use <span class="math inline">\(\Sigma_n\)</span> as a covariance matrix in multivariate normal (MVN) analysis. It is analogous to the requirement in univariate Gaussian distributions where the variance parameter, <span class="math inline">\(\sigma^2\)</span>, must be positive.</p>
 <p>Gaussian Processes (GPs) can be effectively utilized to generate random data that follows a smooth functional relationship. The process involves the following steps:</p>
 <ol type="1">
@@ -753,18 +766,18 @@ Figure&nbsp;46.1: One-dim inverse exponentiated squared Euclidean distance
 </ol>
 </section>
 </section>
-<section id="construction-of-the-covariance-matrix" class="level2" data-number="46.3">
-<h2 data-number="46.3" class="anchored" data-anchor-id="construction-of-the-covariance-matrix"><span class="header-section-number">46.3</span> Construction of the Covariance Matrix</h2>
+<section id="construction-of-the-covariance-matrix" class="level2" data-number="48.3">
+<h2 data-number="48.3" class="anchored" data-anchor-id="construction-of-the-covariance-matrix"><span class="header-section-number">48.3</span> Construction of the Covariance Matrix</h2>
 <p>Here is an one-dimensional example. The process begins by creating an input grid using <span class="math inline">\(\vec{x}\)</span>-values. This grid consists of 100 elements, providing the basis for further analysis and visualization.</p>
-<div id="5c85eb0a" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="27bc9f79" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, n, endpoint<span class="op">=</span><span class="va">False</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, n, endpoint<span class="op">=</span><span class="va">False</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>In the context of this discussion, the construction of the covariance matrix, denoted as <span class="math inline">\(\Sigma_n\)</span>, relies on the concept of inverse exponentiated squared Euclidean distances. However, it’s important to note that a modification is introduced later in the process. Specifically, the diagonal of the covariance matrix is augmented with a small value, represented as “eps” or <span class="math inline">\(\epsilon\)</span>.</p>
 <p>The reason for this augmentation is that while inverse exponentiated distances theoretically ensure the covariance matrix’s positive definiteness, in practical applications, the matrix can sometimes become numerically ill-conditioned. By adding a small value to the diagonal, such as <span class="math inline">\(\epsilon\)</span>, this ill-conditioning issue is mitigated. In this context, <span class="math inline">\(\epsilon\)</span> is often referred to as “jitter.”</p>
-<div id="aa30f8db" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="8287ca80" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> array, zeros, power, ones, exp, multiply, eye, linspace, spacing, sqrt, arange, append, ravel</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> cholesky, solve</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.random <span class="im">import</span> multivariate_normal</span>
@@ -778,12 +791,12 @@ Figure&nbsp;46.1: One-dim inverse exponentiated squared Euclidean distance
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                D[l, i, j] <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>sigma2[l])<span class="op">*</span>(X[i,l] <span class="op">-</span> X[j,l])<span class="op">**</span><span class="dv">2</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> <span class="bu">sum</span>(D)</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> D <span class="op">+</span> D.T</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> exp(<span class="op">-</span>D)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> exp(<span class="op">-</span>D)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7230918e" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="op">=</span> np.array([<span class="fl">1.0</span>])</span>
+<div id="5ddd1626" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="op">=</span> np.array([<span class="fl">1.0</span>])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Sigma <span class="op">=</span> build_Sigma(X, sigma2)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">round</span>(Sigma[:<span class="dv">3</span>,:], <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">round</span>(Sigma[:<span class="dv">3</span>,:], <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>array([[1.   , 0.995, 0.98 , 0.956, 0.923, 0.882, 0.835, 0.783, 0.726,
         0.667, 0.607, 0.546, 0.487, 0.43 , 0.375, 0.325, 0.278, 0.236,
@@ -823,76 +836,76 @@ Figure&nbsp;46.1: One-dim inverse exponentiated squared Euclidean distance
         0.   ]])</code></pre>
 </div>
 </div>
-<div id="f2196276" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div id="e0cfa0d3" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(Sigma, cmap<span class="op">=</span><span class="st">'hot'</span>, interpolation<span class="op">=</span><span class="st">'nearest'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="a_04_gp_background_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="a_04_gp_background_files/figure-html/cell-7-output-1.png" width="490" height="416" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="sec-random-samples-gp" class="level2" data-number="46.4">
-<h2 data-number="46.4" class="anchored" data-anchor-id="sec-random-samples-gp"><span class="header-section-number">46.4</span> Generation of Random Samples and Plotting the Realizations of the Random Function</h2>
+<section id="sec-random-samples-gp" class="level2" data-number="48.4">
+<h2 data-number="48.4" class="anchored" data-anchor-id="sec-random-samples-gp"><span class="header-section-number">48.4</span> Generation of Random Samples and Plotting the Realizations of the Random Function</h2>
 <p>In the context of the multivariate normal distribution, the next step is to utilize the previously constructed covariance matrix denoted as <code>Sigma</code>. It is used as an essential component in generating random samples from the multivariate normal distribution.</p>
 <p>The function <code>multivariate_normal</code> is employed for this purpose. It serves as a random number generator specifically designed for the multivariate normal distribution. In this case, the mean of the distribution is set equal to <code>mean</code>, and the covariance matrix is provided as <code>Psi</code>. The argument <code>size</code> specifies the number of realizations, which, in this specific scenario, is set to one.</p>
 <p>By default, the mean vector is initialized to zero. To match the number of samples, which is equivalent to the number of rows in the <code>X</code> and <code>Sigma</code> matrices, the argument <code>zeros(n)</code> is used, where <code>n</code> represents the number of samples (here taken from the size of the matrix, e.g.,: <code>Sigma.shape[0]</code>).</p>
-<div id="5d6cf523" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(seed<span class="op">=</span><span class="dv">12345</span>)</span>
+<div id="3bfbac4a" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(seed<span class="op">=</span><span class="dv">12345</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> rng.multivariate_normal(zeros(Sigma.shape[<span class="dv">0</span>]), Sigma, size <span class="op">=</span> <span class="dv">1</span>, check_valid<span class="op">=</span><span class="st">"raise"</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Y.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Y.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>(100, 1)</code></pre>
 </div>
 </div>
 <p>Now we can plot the results, i.e., a finite realization of the random function <span class="math inline">\(Y()\)</span> under a GP prior with a particular covariance structure. We will plot those <code>X</code> and <code>Y</code> pairs as connected points on an <span class="math inline">\(x\)</span>-<span class="math inline">\(y\)</span> plane.</p>
 <div id="cell-fig-mvn1-1" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.plot(X, Y)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Realization of Random Functions under a GP prior.</span><span class="ch">\n</span><span class="st"> sigma2: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(sigma2[<span class="dv">0</span>]))</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-mvn1-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mvn1-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="a_04_gp_background_files/figure-html/fig-mvn1-1-output-1.png" class="img-fluid figure-img">
+<img src="a_04_gp_background_files/figure-html/fig-mvn1-1-output-1.png" width="582" height="449" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mvn1-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;46.2: Realization of one random function under a GP prior. sigma2: 1.0
+Figure&nbsp;48.2: Realization of one random function under a GP prior. sigma2: 1.0
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div id="cell-fig-mvn1-3" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(seed<span class="op">=</span><span class="dv">12345</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(seed<span class="op">=</span><span class="dv">12345</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> rng.multivariate_normal(zeros(Sigma.shape[<span class="dv">0</span>]), Sigma, size <span class="op">=</span> <span class="dv">3</span>, check_valid<span class="op">=</span><span class="st">"raise"</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.plot(X, Y.T)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Realization of Three Random Functions under a GP prior.</span><span class="ch">\n</span><span class="st"> sigma2: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(sigma2[<span class="dv">0</span>]))</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-mvn1-3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mvn1-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="a_04_gp_background_files/figure-html/fig-mvn1-3-output-1.png" class="img-fluid figure-img">
+<img src="a_04_gp_background_files/figure-html/fig-mvn1-3-output-1.png" width="569" height="449" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mvn1-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;46.3: Realization of three random functions under a GP prior. sigma2: 1.0
+Figure&nbsp;48.3: Realization of three random functions under a GP prior. sigma2: 1.0
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="properties-of-the-1d-example" class="level2" data-number="46.5">
-<h2 data-number="46.5" class="anchored" data-anchor-id="properties-of-the-1d-example"><span class="header-section-number">46.5</span> Properties of the 1d Example</h2>
-<section id="several-bumps" class="level3" data-number="46.5.1">
-<h3 data-number="46.5.1" class="anchored" data-anchor-id="several-bumps"><span class="header-section-number">46.5.1</span> Several Bumps:</h3>
+<section id="properties-of-the-1d-example" class="level2" data-number="48.5">
+<h2 data-number="48.5" class="anchored" data-anchor-id="properties-of-the-1d-example"><span class="header-section-number">48.5</span> Properties of the 1d Example</h2>
+<section id="several-bumps" class="level3" data-number="48.5.1">
+<h3 data-number="48.5.1" class="anchored" data-anchor-id="several-bumps"><span class="header-section-number">48.5.1</span> Several Bumps:</h3>
 <p>In this analysis, we observe several bumps in the <span class="math inline">\(x\)</span>-range of <span class="math inline">\([0,10]\)</span>. These bumps in the function occur because shorter distances exhibit high correlation, while longer distances tend to be essentially uncorrelated. This leads to variations in the function’s behavior:</p>
 <ul>
 <li>When <span class="math inline">\(x\)</span> and <span class="math inline">\(x'\)</span> are one <span class="math inline">\(\sigma\)</span> unit apart, the correlation is <span class="math inline">\(\exp\left(-\sigma^2 / (2\sigma^2)\right) = \exp(-1/2) \approx 0.61\)</span>, i.e., a relative high correlation.</li>
@@ -900,15 +913,15 @@ Figure&nbsp;46.3: Realization of three random functions under a GP prior. sigma2
 <li><span class="math inline">\(4\sigma\)</span> apart means correlation <span class="math inline">\(\exp(− 4^2 /2) \approx 0.0003\)</span>, i.e., nearly no correlation—variables are considered independent for almost all practical application.</li>
 </ul>
 </section>
-<section id="smoothness" class="level3" data-number="46.5.2">
-<h3 data-number="46.5.2" class="anchored" data-anchor-id="smoothness"><span class="header-section-number">46.5.2</span> Smoothness:</h3>
-<p>The function plotted in <a href="#fig-mvn1-1" class="quarto-xref">Figure&nbsp;<span>46.2</span></a> represents only a finite realization, which means that we have data for a limited number of pairs, specifically 100 points. These points appear smooth in a tactile sense because they are closely spaced, and the plot function connects the dots with lines to create the appearance of smoothness. The complete surface, which can be conceptually extended to an infinite realization over a compact domain, is exceptionally smooth in a calculus sense due to the covariance function’s property of being infinitely differentiable.</p>
+<section id="smoothness" class="level3" data-number="48.5.2">
+<h3 data-number="48.5.2" class="anchored" data-anchor-id="smoothness"><span class="header-section-number">48.5.2</span> Smoothness:</h3>
+<p>The function plotted in <a href="#fig-mvn1-1" class="quarto-xref">Figure&nbsp;<span>48.2</span></a> represents only a finite realization, which means that we have data for a limited number of pairs, specifically 100 points. These points appear smooth in a tactile sense because they are closely spaced, and the plot function connects the dots with lines to create the appearance of smoothness. The complete surface, which can be conceptually extended to an infinite realization over a compact domain, is exceptionally smooth in a calculus sense due to the covariance function’s property of being infinitely differentiable.</p>
 </section>
-<section id="scale-of-two" class="level3" data-number="46.5.3">
-<h3 data-number="46.5.3" class="anchored" data-anchor-id="scale-of-two"><span class="header-section-number">46.5.3</span> Scale of Two:</h3>
+<section id="scale-of-two" class="level3" data-number="48.5.3">
+<h3 data-number="48.5.3" class="anchored" data-anchor-id="scale-of-two"><span class="header-section-number">48.5.3</span> Scale of Two:</h3>
 <p>Regarding the scale of the <span class="math inline">\(Y\)</span> values, they have a range of approximately <span class="math inline">\([-2,2]\)</span>, with a 95% probability of falling within this range. In standard statistical terms, 95% of the data points typically fall within two standard deviations of the mean, which is a common measure of the spread or range of data.</p>
-<div id="59743558" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="d67b5c67" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> array, zeros, power, ones, exp, multiply, eye, linspace, spacing, sqrt, arange, append, ravel</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.random <span class="im">import</span> multivariate_normal</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -933,33 +946,33 @@ Figure&nbsp;46.3: Realization of three random functions under a GP prior. sigma2
 <span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    plt.plot(X, Y.T)</span>
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Realization of Random Functions under a GP prior.</span><span class="ch">\n</span><span class="st"> sigma2: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(sigma2[<span class="dv">0</span>]))</span>
 <span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> show:</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-fig-mvn2" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plot_mvn(a<span class="op">=</span><span class="dv">0</span>, b<span class="op">=</span><span class="dv">10</span>, sigma2<span class="op">=</span><span class="fl">10.0</span>, size<span class="op">=</span><span class="dv">3</span>, n<span class="op">=</span><span class="dv">250</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plot_mvn(a<span class="op">=</span><span class="dv">0</span>, b<span class="op">=</span><span class="dv">10</span>, sigma2<span class="op">=</span><span class="fl">10.0</span>, size<span class="op">=</span><span class="dv">3</span>, n<span class="op">=</span><span class="dv">250</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-mvn2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mvn2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="a_04_gp_background_files/figure-html/fig-mvn2-output-1.png" class="img-fluid figure-img">
+<img src="a_04_gp_background_files/figure-html/fig-mvn2-output-1.png" width="569" height="449" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mvn2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;46.4: Realization of Random Functions under a GP prior. sigma2: 10
+Figure&nbsp;48.4: Realization of Random Functions under a GP prior. sigma2: 10
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div id="cell-fig-mvn5" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plot_mvn(a<span class="op">=</span><span class="dv">0</span>, b<span class="op">=</span><span class="dv">10</span>, sigma2<span class="op">=</span><span class="fl">0.1</span>, size<span class="op">=</span><span class="dv">3</span>, n<span class="op">=</span><span class="dv">250</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plot_mvn(a<span class="op">=</span><span class="dv">0</span>, b<span class="op">=</span><span class="dv">10</span>, sigma2<span class="op">=</span><span class="fl">0.1</span>, size<span class="op">=</span><span class="dv">3</span>, n<span class="op">=</span><span class="dv">250</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-mvn5" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mvn5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="a_04_gp_background_files/figure-html/fig-mvn5-output-1.png" class="img-fluid figure-img">
+<img src="a_04_gp_background_files/figure-html/fig-mvn5-output-1.png" width="569" height="449" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mvn5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;46.5: Realization of Random Functions under a GP prior. sigma2: 0.1
+Figure&nbsp;48.5: Realization of Random Functions under a GP prior. sigma2: 0.1
 </figcaption>
 </figure>
 </div>
@@ -967,8 +980,8 @@ Figure&nbsp;46.5: Realization of Random Functions under a GP prior. sigma2: 0.1
 </div>
 </section>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="46.6">
-<h2 data-number="46.6" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">46.6</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="48.6">
+<h2 data-number="48.6" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">48.6</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1040,13 +1053,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1391,7 +1405,7 @@ Note
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./100_ddmo_clustering.html" class="pagination-link" aria-label="Clustering">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Clustering</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Clustering</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

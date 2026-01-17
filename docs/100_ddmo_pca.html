@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>42&nbsp; Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA) – Sequential Parameter Optimization Cookbook</title>
+<title>44&nbsp; Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA) – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./100_ddmo_testing.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-23a3edf7f3c1ed1fc827cae2f6dd4de5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -104,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -122,7 +123,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -138,7 +139,7 @@ window.Quarto = {
 };
 </script>
 
-<meta name="twitter:title" content="42&nbsp; Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA) – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="44&nbsp; Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA) – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="100_ddmo_pca_files/figure-html/fig-scree_plot_pca-1-output-1.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -153,7 +154,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./100_ddmo_eda.html">Data-Driven Modeling and Optimization</a></li><li class="breadcrumb-item"><a href="./100_ddmo_pca.html"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./100_ddmo_eda.html">Data-Driven Modeling and Optimization</a></li><li class="breadcrumb-item"><a href="./100_ddmo_pca.html"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -447,6 +448,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Learning Rate Mapping for Unified Optimizer Interface</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./020_scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">SpotOptim Scaling</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -461,7 +468,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./diabetes_dataset.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Diabetes Dataset Utilities</span></span></a>
   </div>
 </li>
       </ul>
@@ -478,7 +485,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./spot_step_by_step.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">SpotOptim Step-by-Step Optimization Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spotoptim_explained.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">SpotOptim Execution Flow</span></span></a>
   </div>
 </li>
       </ul>
@@ -495,7 +508,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
   </div>
 </li>
       </ul>
@@ -512,61 +525,61 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./001_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./001_sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Sampling Plans</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_constructing_surrogate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Constructing a Surrogate</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./005_num_rsm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Response Surface Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_num_poly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Polynomial Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_num_rbf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Radial Basis Function Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_num_gp.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Kriging (Gaussian Process Regression)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_matrices.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./006_infill.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Infill Criteria</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./007_challenge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Remote Optimization Challenge: A Benchmarking Study</span></span></a>
   </div>
 </li>
       </ul>
@@ -583,37 +596,37 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_eda.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Basic Statistics and Data Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Basic Statistics and Data Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_testing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_pca.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./100_ddmo_clustering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -630,7 +643,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./a_04_gp_background.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Gaussian Processes—Some Background Information</span></span></a>
   </div>
 </li>
       </ul>
@@ -651,71 +664,71 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">42.1</span> Introduction</a></li>
-  <li><a href="#sec-data-preprocessing" id="toc-sec-data-preprocessing" class="nav-link" data-scroll-target="#sec-data-preprocessing"><span class="header-section-number">42.2</span> The Car-Sales Data Set</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">44.1</span> Introduction</a></li>
+  <li><a href="#sec-data-preprocessing" id="toc-sec-data-preprocessing" class="nav-link" data-scroll-target="#sec-data-preprocessing"><span class="header-section-number">44.2</span> The Car-Sales Data Set</a>
   <ul class="collapse">
-  <li><a href="#the-target-variable" id="toc-the-target-variable" class="nav-link" data-scroll-target="#the-target-variable"><span class="header-section-number">42.2.1</span> The Target Variable</a></li>
-  <li><a href="#the-features" id="toc-the-features" class="nav-link" data-scroll-target="#the-features"><span class="header-section-number">42.2.2</span> The Features</a></li>
-  <li><a href="#combining-non-categorical-and-categorical-encoded-data" id="toc-combining-non-categorical-and-categorical-encoded-data" class="nav-link" data-scroll-target="#combining-non-categorical-and-categorical-encoded-data"><span class="header-section-number">42.2.3</span> Combining Non-categorical and Categorical (encoded) Data</a></li>
+  <li><a href="#the-target-variable" id="toc-the-target-variable" class="nav-link" data-scroll-target="#the-target-variable"><span class="header-section-number">44.2.1</span> The Target Variable</a></li>
+  <li><a href="#the-features" id="toc-the-features" class="nav-link" data-scroll-target="#the-features"><span class="header-section-number">44.2.2</span> The Features</a></li>
+  <li><a href="#combining-non-categorical-and-categorical-encoded-data" id="toc-combining-non-categorical-and-categorical-encoded-data" class="nav-link" data-scroll-target="#combining-non-categorical-and-categorical-encoded-data"><span class="header-section-number">44.2.3</span> Combining Non-categorical and Categorical (encoded) Data</a></li>
   </ul></li>
-  <li><a href="#sec-fit-ols" id="toc-sec-fit-ols" class="nav-link" data-scroll-target="#sec-fit-ols"><span class="header-section-number">42.3</span> Fit the Linear Regression Model</a>
+  <li><a href="#sec-fit-ols" id="toc-sec-fit-ols" class="nav-link" data-scroll-target="#sec-fit-ols"><span class="header-section-number">44.3</span> Fit the Linear Regression Model</a>
   <ul class="collapse">
-  <li><a href="#model-summary-and-interpretation" id="toc-model-summary-and-interpretation" class="nav-link" data-scroll-target="#model-summary-and-interpretation"><span class="header-section-number">42.3.1</span> Model Summary and Interpretation</a></li>
+  <li><a href="#model-summary-and-interpretation" id="toc-model-summary-and-interpretation" class="nav-link" data-scroll-target="#model-summary-and-interpretation"><span class="header-section-number">44.3.1</span> Model Summary and Interpretation</a></li>
   </ul></li>
-  <li><a href="#sec-collinearity-diagnostics" id="toc-sec-collinearity-diagnostics" class="nav-link" data-scroll-target="#sec-collinearity-diagnostics"><span class="header-section-number">42.4</span> Collinearity Diagnostics</a>
+  <li><a href="#sec-collinearity-diagnostics" id="toc-sec-collinearity-diagnostics" class="nav-link" data-scroll-target="#sec-collinearity-diagnostics"><span class="header-section-number">44.4</span> Collinearity Diagnostics</a>
   <ul class="collapse">
-  <li><a href="#the-coefficient-table" id="toc-the-coefficient-table" class="nav-link" data-scroll-target="#the-coefficient-table"><span class="header-section-number">42.4.1</span> The Coefficient Table</a></li>
-  <li><a href="#eigenvalues-and-condition-indices" id="toc-eigenvalues-and-condition-indices" class="nav-link" data-scroll-target="#eigenvalues-and-condition-indices"><span class="header-section-number">42.4.2</span> Eigenvalues and Condition Indices</a></li>
-  <li><a href="#kayser-meyer-olkin-kmo-measure" id="toc-kayser-meyer-olkin-kmo-measure" class="nav-link" data-scroll-target="#kayser-meyer-olkin-kmo-measure"><span class="header-section-number">42.4.3</span> Kayser-Meyer-Olkin (KMO) Measure</a></li>
+  <li><a href="#the-coefficient-table" id="toc-the-coefficient-table" class="nav-link" data-scroll-target="#the-coefficient-table"><span class="header-section-number">44.4.1</span> The Coefficient Table</a></li>
+  <li><a href="#eigenvalues-and-condition-indices" id="toc-eigenvalues-and-condition-indices" class="nav-link" data-scroll-target="#eigenvalues-and-condition-indices"><span class="header-section-number">44.4.2</span> Eigenvalues and Condition Indices</a></li>
+  <li><a href="#kayser-meyer-olkin-kmo-measure" id="toc-kayser-meyer-olkin-kmo-measure" class="nav-link" data-scroll-target="#kayser-meyer-olkin-kmo-measure"><span class="header-section-number">44.4.3</span> Kayser-Meyer-Olkin (KMO) Measure</a></li>
   </ul></li>
-  <li><a href="#sec-pca" id="toc-sec-pca" class="nav-link" data-scroll-target="#sec-pca"><span class="header-section-number">42.5</span> Addressing Multicollinearity with Principal Component Analysis (PCA)</a>
+  <li><a href="#sec-pca" id="toc-sec-pca" class="nav-link" data-scroll-target="#sec-pca"><span class="header-section-number">44.5</span> Addressing Multicollinearity with Principal Component Analysis (PCA)</a>
   <ul class="collapse">
-  <li><a href="#introduction-to-pca" id="toc-introduction-to-pca" class="nav-link" data-scroll-target="#introduction-to-pca"><span class="header-section-number">42.5.1</span> Introduction to PCA</a></li>
-  <li><a href="#application-of-pca-in-regression-problems" id="toc-application-of-pca-in-regression-problems" class="nav-link" data-scroll-target="#application-of-pca-in-regression-problems"><span class="header-section-number">42.5.2</span> Application of PCA in Regression Problems:</a></li>
-  <li><a href="#scree-plot" id="toc-scree-plot" class="nav-link" data-scroll-target="#scree-plot"><span class="header-section-number">42.5.3</span> Scree Plot</a></li>
-  <li><a href="#loading-scores-for-pca" id="toc-loading-scores-for-pca" class="nav-link" data-scroll-target="#loading-scores-for-pca"><span class="header-section-number">42.5.4</span> Loading Scores (for PCA)</a></li>
-  <li><a href="#pca-for-car-sales-example" id="toc-pca-for-car-sales-example" class="nav-link" data-scroll-target="#pca-for-car-sales-example"><span class="header-section-number">42.5.5</span> PCA for Car Sales Example</a></li>
-  <li><a href="#creating-the-regression-model-with-principal-components" id="toc-creating-the-regression-model-with-principal-components" class="nav-link" data-scroll-target="#creating-the-regression-model-with-principal-components"><span class="header-section-number">42.5.6</span> Creating the Regression Model with Principal Components</a></li>
-  <li><a href="#collinearity-diagnostics-for-pca-regression-model" id="toc-collinearity-diagnostics-for-pca-regression-model" class="nav-link" data-scroll-target="#collinearity-diagnostics-for-pca-regression-model"><span class="header-section-number">42.5.7</span> Collinearity Diagnostics for PCA Regression Model</a></li>
-  <li><a href="#sec-pca-reduced" id="toc-sec-pca-reduced" class="nav-link" data-scroll-target="#sec-pca-reduced"><span class="header-section-number">42.5.8</span> PCA: Creating the Regression Model with three Principle Components only</a></li>
+  <li><a href="#introduction-to-pca" id="toc-introduction-to-pca" class="nav-link" data-scroll-target="#introduction-to-pca"><span class="header-section-number">44.5.1</span> Introduction to PCA</a></li>
+  <li><a href="#application-of-pca-in-regression-problems" id="toc-application-of-pca-in-regression-problems" class="nav-link" data-scroll-target="#application-of-pca-in-regression-problems"><span class="header-section-number">44.5.2</span> Application of PCA in Regression Problems:</a></li>
+  <li><a href="#scree-plot" id="toc-scree-plot" class="nav-link" data-scroll-target="#scree-plot"><span class="header-section-number">44.5.3</span> Scree Plot</a></li>
+  <li><a href="#loading-scores-for-pca" id="toc-loading-scores-for-pca" class="nav-link" data-scroll-target="#loading-scores-for-pca"><span class="header-section-number">44.5.4</span> Loading Scores (for PCA)</a></li>
+  <li><a href="#pca-for-car-sales-example" id="toc-pca-for-car-sales-example" class="nav-link" data-scroll-target="#pca-for-car-sales-example"><span class="header-section-number">44.5.5</span> PCA for Car Sales Example</a></li>
+  <li><a href="#creating-the-regression-model-with-principal-components" id="toc-creating-the-regression-model-with-principal-components" class="nav-link" data-scroll-target="#creating-the-regression-model-with-principal-components"><span class="header-section-number">44.5.6</span> Creating the Regression Model with Principal Components</a></li>
+  <li><a href="#collinearity-diagnostics-for-pca-regression-model" id="toc-collinearity-diagnostics-for-pca-regression-model" class="nav-link" data-scroll-target="#collinearity-diagnostics-for-pca-regression-model"><span class="header-section-number">44.5.7</span> Collinearity Diagnostics for PCA Regression Model</a></li>
+  <li><a href="#sec-pca-reduced" id="toc-sec-pca-reduced" class="nav-link" data-scroll-target="#sec-pca-reduced"><span class="header-section-number">44.5.8</span> PCA: Creating the Regression Model with three Principle Components only</a></li>
   </ul></li>
-  <li><a href="#sec-fa" id="toc-sec-fa" class="nav-link" data-scroll-target="#sec-fa"><span class="header-section-number">42.6</span> Addressing Multicollinearity and Latent Structure with Factor Analysis (FA)</a>
+  <li><a href="#sec-fa" id="toc-sec-fa" class="nav-link" data-scroll-target="#sec-fa"><span class="header-section-number">44.6</span> Addressing Multicollinearity and Latent Structure with Factor Analysis (FA)</a>
   <ul class="collapse">
-  <li><a href="#introduction-to-factor-analysis" id="toc-introduction-to-factor-analysis" class="nav-link" data-scroll-target="#introduction-to-factor-analysis"><span class="header-section-number">42.6.1</span> Introduction to Factor Analysis</a></li>
-  <li><a href="#determining-the-number-of-factors-for-factor-analysis" id="toc-determining-the-number-of-factors-for-factor-analysis" class="nav-link" data-scroll-target="#determining-the-number-of-factors-for-factor-analysis"><span class="header-section-number">42.6.2</span> Determining the Number of Factors for Factor Analysis</a></li>
-  <li><a href="#scree-plot-for-factor-analysis" id="toc-scree-plot-for-factor-analysis" class="nav-link" data-scroll-target="#scree-plot-for-factor-analysis"><span class="header-section-number">42.6.3</span> Scree Plot for Factor Analysis</a></li>
-  <li><a href="#factor-loadings" id="toc-factor-loadings" class="nav-link" data-scroll-target="#factor-loadings"><span class="header-section-number">42.6.4</span> Factor Loadings</a></li>
-  <li><a href="#factor-scores" id="toc-factor-scores" class="nav-link" data-scroll-target="#factor-scores"><span class="header-section-number">42.6.5</span> Factor Scores</a></li>
-  <li><a href="#creating-the-regression-model-with-extracted-factors-from-fa" id="toc-creating-the-regression-model-with-extracted-factors-from-fa" class="nav-link" data-scroll-target="#creating-the-regression-model-with-extracted-factors-from-fa"><span class="header-section-number">42.6.6</span> Creating the Regression Model with Extracted Factors (from FA)</a></li>
-  <li><a href="#factor-analysis-creating-the-regression-model-with-three-extracted-factors-only" id="toc-factor-analysis-creating-the-regression-model-with-three-extracted-factors-only" class="nav-link" data-scroll-target="#factor-analysis-creating-the-regression-model-with-three-extracted-factors-only"><span class="header-section-number">42.6.7</span> Factor Analysis: Creating the Regression Model with three Extracted Factors only</a></li>
+  <li><a href="#introduction-to-factor-analysis" id="toc-introduction-to-factor-analysis" class="nav-link" data-scroll-target="#introduction-to-factor-analysis"><span class="header-section-number">44.6.1</span> Introduction to Factor Analysis</a></li>
+  <li><a href="#determining-the-number-of-factors-for-factor-analysis" id="toc-determining-the-number-of-factors-for-factor-analysis" class="nav-link" data-scroll-target="#determining-the-number-of-factors-for-factor-analysis"><span class="header-section-number">44.6.2</span> Determining the Number of Factors for Factor Analysis</a></li>
+  <li><a href="#scree-plot-for-factor-analysis" id="toc-scree-plot-for-factor-analysis" class="nav-link" data-scroll-target="#scree-plot-for-factor-analysis"><span class="header-section-number">44.6.3</span> Scree Plot for Factor Analysis</a></li>
+  <li><a href="#factor-loadings" id="toc-factor-loadings" class="nav-link" data-scroll-target="#factor-loadings"><span class="header-section-number">44.6.4</span> Factor Loadings</a></li>
+  <li><a href="#factor-scores" id="toc-factor-scores" class="nav-link" data-scroll-target="#factor-scores"><span class="header-section-number">44.6.5</span> Factor Scores</a></li>
+  <li><a href="#creating-the-regression-model-with-extracted-factors-from-fa" id="toc-creating-the-regression-model-with-extracted-factors-from-fa" class="nav-link" data-scroll-target="#creating-the-regression-model-with-extracted-factors-from-fa"><span class="header-section-number">44.6.6</span> Creating the Regression Model with Extracted Factors (from FA)</a></li>
+  <li><a href="#factor-analysis-creating-the-regression-model-with-three-extracted-factors-only" id="toc-factor-analysis-creating-the-regression-model-with-three-extracted-factors-only" class="nav-link" data-scroll-target="#factor-analysis-creating-the-regression-model-with-three-extracted-factors-only"><span class="header-section-number">44.6.7</span> Factor Analysis: Creating the Regression Model with three Extracted Factors only</a></li>
   </ul></li>
-  <li><a href="#sec-summary-comparison" id="toc-sec-summary-comparison" class="nav-link" data-scroll-target="#sec-summary-comparison"><span class="header-section-number">42.7</span> Summary: Comparing OLS, PCA, and Factor Analysis Models</a>
+  <li><a href="#sec-summary-comparison" id="toc-sec-summary-comparison" class="nav-link" data-scroll-target="#sec-summary-comparison"><span class="header-section-number">44.7</span> Summary: Comparing OLS, PCA, and Factor Analysis Models</a>
   <ul class="collapse">
-  <li><a href="#interpretation-of-the-regression-models" id="toc-interpretation-of-the-regression-models" class="nav-link" data-scroll-target="#interpretation-of-the-regression-models"><span class="header-section-number">42.7.1</span> Interpretation of the Regression Models</a></li>
-  <li><a href="#differences-compared-to-the-standard-ols-model" id="toc-differences-compared-to-the-standard-ols-model" class="nav-link" data-scroll-target="#differences-compared-to-the-standard-ols-model"><span class="header-section-number">42.7.2</span> Differences Compared to the Standard OLS Model</a></li>
-  <li><a href="#sec-loading-scores-vs-factor-loadings" id="toc-sec-loading-scores-vs-factor-loadings" class="nav-link" data-scroll-target="#sec-loading-scores-vs-factor-loadings"><span class="header-section-number">42.7.3</span> Key Differences Between Loading Scores (PCA) and Factor Loadings (FA)</a></li>
-  <li><a href="#advantages-of-using-pca-and-fa" id="toc-advantages-of-using-pca-and-fa" class="nav-link" data-scroll-target="#advantages-of-using-pca-and-fa"><span class="header-section-number">42.7.4</span> Advantages of Using PCA and FA</a></li>
-  <li><a href="#disadvantages-of-using-pca-and-fa" id="toc-disadvantages-of-using-pca-and-fa" class="nav-link" data-scroll-target="#disadvantages-of-using-pca-and-fa"><span class="header-section-number">42.7.5</span> Disadvantages of Using PCA and FA</a></li>
-  <li><a href="#when-to-use-which-method" id="toc-when-to-use-which-method" class="nav-link" data-scroll-target="#when-to-use-which-method"><span class="header-section-number">42.7.6</span> When to Use Which Method</a></li>
+  <li><a href="#interpretation-of-the-regression-models" id="toc-interpretation-of-the-regression-models" class="nav-link" data-scroll-target="#interpretation-of-the-regression-models"><span class="header-section-number">44.7.1</span> Interpretation of the Regression Models</a></li>
+  <li><a href="#differences-compared-to-the-standard-ols-model" id="toc-differences-compared-to-the-standard-ols-model" class="nav-link" data-scroll-target="#differences-compared-to-the-standard-ols-model"><span class="header-section-number">44.7.2</span> Differences Compared to the Standard OLS Model</a></li>
+  <li><a href="#sec-loading-scores-vs-factor-loadings" id="toc-sec-loading-scores-vs-factor-loadings" class="nav-link" data-scroll-target="#sec-loading-scores-vs-factor-loadings"><span class="header-section-number">44.7.3</span> Key Differences Between Loading Scores (PCA) and Factor Loadings (FA)</a></li>
+  <li><a href="#advantages-of-using-pca-and-fa" id="toc-advantages-of-using-pca-and-fa" class="nav-link" data-scroll-target="#advantages-of-using-pca-and-fa"><span class="header-section-number">44.7.4</span> Advantages of Using PCA and FA</a></li>
+  <li><a href="#disadvantages-of-using-pca-and-fa" id="toc-disadvantages-of-using-pca-and-fa" class="nav-link" data-scroll-target="#disadvantages-of-using-pca-and-fa"><span class="header-section-number">44.7.5</span> Disadvantages of Using PCA and FA</a></li>
+  <li><a href="#when-to-use-which-method" id="toc-when-to-use-which-method" class="nav-link" data-scroll-target="#when-to-use-which-method"><span class="header-section-number">44.7.6</span> When to Use Which Method</a></li>
   </ul></li>
-  <li><a href="#sec-other-models" id="toc-sec-other-models" class="nav-link" data-scroll-target="#sec-other-models"><span class="header-section-number">42.8</span> Using Principal Components / Factors in Other Models</a>
+  <li><a href="#sec-other-models" id="toc-sec-other-models" class="nav-link" data-scroll-target="#sec-other-models"><span class="header-section-number">44.8</span> Using Principal Components / Factors in Other Models</a>
   <ul class="collapse">
-  <li><a href="#random-forest-regressor-with-the-full-dataset" id="toc-random-forest-regressor-with-the-full-dataset" class="nav-link" data-scroll-target="#random-forest-regressor-with-the-full-dataset"><span class="header-section-number">42.8.1</span> Random Forest Regressor with the Full Dataset</a></li>
-  <li><a href="#random-forest-regressor-with-pca-components" id="toc-random-forest-regressor-with-pca-components" class="nav-link" data-scroll-target="#random-forest-regressor-with-pca-components"><span class="header-section-number">42.8.2</span> Random Forest Regressor with PCA Components</a></li>
-  <li><a href="#random-forest-regressor-with-extracted-factors-from-fa" id="toc-random-forest-regressor-with-extracted-factors-from-fa" class="nav-link" data-scroll-target="#random-forest-regressor-with-extracted-factors-from-fa"><span class="header-section-number">42.8.3</span> Random Forest Regressor with Extracted Factors (from FA)</a></li>
-  <li><a href="#sec-rf-comparison" id="toc-sec-rf-comparison" class="nav-link" data-scroll-target="#sec-rf-comparison"><span class="header-section-number">42.8.4</span> Comparison of the Random Forest Models</a></li>
+  <li><a href="#random-forest-regressor-with-the-full-dataset" id="toc-random-forest-regressor-with-the-full-dataset" class="nav-link" data-scroll-target="#random-forest-regressor-with-the-full-dataset"><span class="header-section-number">44.8.1</span> Random Forest Regressor with the Full Dataset</a></li>
+  <li><a href="#random-forest-regressor-with-pca-components" id="toc-random-forest-regressor-with-pca-components" class="nav-link" data-scroll-target="#random-forest-regressor-with-pca-components"><span class="header-section-number">44.8.2</span> Random Forest Regressor with PCA Components</a></li>
+  <li><a href="#random-forest-regressor-with-extracted-factors-from-fa" id="toc-random-forest-regressor-with-extracted-factors-from-fa" class="nav-link" data-scroll-target="#random-forest-regressor-with-extracted-factors-from-fa"><span class="header-section-number">44.8.3</span> Random Forest Regressor with Extracted Factors (from FA)</a></li>
+  <li><a href="#sec-rf-comparison" id="toc-sec-rf-comparison" class="nav-link" data-scroll-target="#sec-rf-comparison"><span class="header-section-number">44.8.4</span> Comparison of the Random Forest Models</a></li>
   </ul></li>
-  <li><a href="#videos-principal-component-analysis-pca" id="toc-videos-principal-component-analysis-pca" class="nav-link" data-scroll-target="#videos-principal-component-analysis-pca"><span class="header-section-number">42.9</span> Videos: Principal Component Analysis (PCA)</a></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">42.10</span> Jupyter Notebook</a></li>
+  <li><a href="#videos-principal-component-analysis-pca" id="toc-videos-principal-component-analysis-pca" class="nav-link" data-scroll-target="#videos-principal-component-analysis-pca"><span class="header-section-number">44.9</span> Videos: Principal Component Analysis (PCA)</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">44.10</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./100_ddmo_eda.html">Data-Driven Modeling and Optimization</a></li><li class="breadcrumb-item"><a href="./100_ddmo_pca.html"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./100_ddmo_eda.html">Data-Driven Modeling and Optimization</a></li><li class="breadcrumb-item"><a href="./100_ddmo_pca.html"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></h1>
+<h1 class="title"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Addressing Multicollinearity: Principle Component Analysis (PCA) and Factor Analysis (FA)</span></h1>
 </div>
 
 
@@ -732,13 +745,13 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level2" data-number="42.1">
-<h2 data-number="42.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">42.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="44.1">
+<h2 data-number="44.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">44.1</span> Introduction</h2>
 <p>The concepts of Principal Component Analysis (PCA) and Factor Analysis (FA) are both dimensionality reduction techniques. They operate on different assumptions and serve distinct purposes. PCA aims to transform correlated variables into a smaller set of uncorrelated principal components that capture maximum variance, whereas Factor Analysis seeks to explain the correlations between observed variables in terms of a smaller number of unobserved, underlying factors.</p>
-<p>After loading and preprocessing the data in <a href="#sec-data-preprocessing" class="quarto-xref"><span>Section 42.2</span></a>, we will explore these methods to reduce dimensions and address multicollinearity. In <a href="#sec-fit-ols" class="quarto-xref"><span>Section 42.3</span></a> we will conduct linear regression on the extracted components or factors. <a href="#sec-collinearity-diagnostics" class="quarto-xref"><span>Section 42.4</span></a> provides diagnostics for multicollinearity, including the coefficient table, eigenvalues, condition indices, and the KMO measure. <a href="#sec-pca" class="quarto-xref"><span>Section 42.5</span></a> explains how PCA is applied to the data, while <a href="#sec-fa" class="quarto-xref"><span>Section 42.6</span></a> discusses Factor Analysis. Both methods are used to mitigate multicollinearity issues in regression models. <a href="#sec-other-models" class="quarto-xref"><span>Section 42.8</span></a> shows how the reduced dimensions can be used in other machine learning models, such as Random Forests.</p>
+<p>After loading and preprocessing the data in <a href="#sec-data-preprocessing" class="quarto-xref"><span>Section 44.2</span></a>, we will explore these methods to reduce dimensions and address multicollinearity. In <a href="#sec-fit-ols" class="quarto-xref"><span>Section 44.3</span></a> we will conduct linear regression on the extracted components or factors. <a href="#sec-collinearity-diagnostics" class="quarto-xref"><span>Section 44.4</span></a> provides diagnostics for multicollinearity, including the coefficient table, eigenvalues, condition indices, and the KMO measure. <a href="#sec-pca" class="quarto-xref"><span>Section 44.5</span></a> explains how PCA is applied to the data, while <a href="#sec-fa" class="quarto-xref"><span>Section 44.6</span></a> discusses Factor Analysis. Both methods are used to mitigate multicollinearity issues in regression models. <a href="#sec-other-models" class="quarto-xref"><span>Section 44.8</span></a> shows how the reduced dimensions can be used in other machine learning models, such as Random Forests.</p>
 <p>The following packages are used in this chapter:</p>
-<div id="b8c93912" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<div id="f203a315" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, OneHotEncoder</span>
@@ -751,16 +764,16 @@ window.Quarto = {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> copy</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.stats <span class="im">import</span> condition_index</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.pca <span class="im">import</span> (get_pca, plot_pca_scree, plot_pca1vs2, get_pca_topk, get_loading_scores, plot_loading_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.pca <span class="im">import</span> (get_pca, plot_pca_scree, plot_pca1vs2, get_pca_topk, get_loading_scores, plot_loading_scores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="sec-data-preprocessing" class="level2" data-number="42.2">
-<h2 data-number="42.2" class="anchored" data-anchor-id="sec-data-preprocessing"><span class="header-section-number">42.2</span> The Car-Sales Data Set</h2>
+<section id="sec-data-preprocessing" class="level2" data-number="44.2">
+<h2 data-number="44.2" class="anchored" data-anchor-id="sec-data-preprocessing"><span class="header-section-number">44.2</span> The Car-Sales Data Set</h2>
 <p>First, the data is preprocessed to ensure that it does not contain any NaN or infinite values. We load the data set, which contains information about car sales, including various features such as price, engine size, horsepower, and more. The initial shape of the DataFrame is <code>(157, 27)</code>.</p>
 <div id="cell-load_car_sales_data" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/car_sales.csv"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>, index_col<span class="op">=</span><span class="va">None</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/car_sales.csv"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>, index_col<span class="op">=</span><span class="va">None</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(157, 27)</code></pre>
 </div>
@@ -768,7 +781,7 @@ window.Quarto = {
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -797,7 +810,7 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>1</td>
 <td>Acura</td>
 <td>Integra</td>
@@ -821,7 +834,7 @@ window.Quarto = {
 <td>0.970527</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>2</td>
 <td>Acura</td>
 <td>TL</td>
@@ -845,7 +858,7 @@ window.Quarto = {
 <td>0.270037</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>3</td>
 <td>Acura</td>
 <td>CL</td>
@@ -869,7 +882,7 @@ window.Quarto = {
 <td>0.503534</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>4</td>
 <td>Acura</td>
 <td>RL</td>
@@ -893,7 +906,7 @@ window.Quarto = {
 <td>-0.430452</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>5</td>
 <td>Audi</td>
 <td>A4</td>
@@ -925,13 +938,13 @@ window.Quarto = {
 </div>
 <p>The first column is removed as it’s an index or non-informative column.</p>
 <div id="cell-drop_first_column" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(df.columns[<span class="dv">0</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(df.columns[<span class="dv">0</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="drop_first_column" class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -960,7 +973,7 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>Acura</td>
 <td>Integra</td>
 <td>16.919</td>
@@ -984,7 +997,7 @@ window.Quarto = {
 <td>0.970527</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>Acura</td>
 <td>TL</td>
 <td>39.384</td>
@@ -1008,7 +1021,7 @@ window.Quarto = {
 <td>0.270037</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>Acura</td>
 <td>CL</td>
 <td>14.114</td>
@@ -1032,7 +1045,7 @@ window.Quarto = {
 <td>0.503534</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>Acura</td>
 <td>RL</td>
 <td>8.588</td>
@@ -1056,7 +1069,7 @@ window.Quarto = {
 <td>-0.430452</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>Audi</td>
 <td>A4</td>
 <td>20.397</td>
@@ -1086,20 +1099,20 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="the-target-variable" class="level3" data-number="42.2.1">
-<h3 data-number="42.2.1" class="anchored" data-anchor-id="the-target-variable"><span class="header-section-number">42.2.1</span> The Target Variable</h3>
+<section id="the-target-variable" class="level3" data-number="44.2.1">
+<h3 data-number="44.2.1" class="anchored" data-anchor-id="the-target-variable"><span class="header-section-number">44.2.1</span> The Target Variable</h3>
 <p>The <code>sales</code> variable, which is our target, is transformed to a log scale. Missing or zero values are handled by replacing them with the median.</p>
 <div id="transform_sales_variable" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'ln_sales'</span>] <span class="op">=</span> np.log(df[<span class="st">'sales'</span>].replace(<span class="dv">0</span>, np.nan))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'ln_sales'</span>] <span class="op">=</span> np.log(df[<span class="st">'sales'</span>].replace(<span class="dv">0</span>, np.nan))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> df[<span class="st">'ln_sales'</span>].isnull().<span class="bu">any</span>() <span class="kw">or</span> np.isinf(df[<span class="st">'ln_sales'</span>]).<span class="bu">any</span>():</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'ln_sales'</span>] <span class="op">=</span> df[<span class="st">'ln_sales'</span>].fillna(df[<span class="st">'ln_sales'</span>].median()) <span class="co"># Or any other strategy</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'ln_sales'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'ln_sales'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="the-features" class="level3" data-number="42.2.2">
-<h3 data-number="42.2.2" class="anchored" data-anchor-id="the-features"><span class="header-section-number">42.2.2</span> The Features</h3>
-<section id="numerical-features" class="level4" data-number="42.2.2.1">
-<h4 data-number="42.2.2.1" class="anchored" data-anchor-id="numerical-features"><span class="header-section-number">42.2.2.1</span> Numerical Features</h4>
+<section id="the-features" class="level3" data-number="44.2.2">
+<h3 data-number="44.2.2" class="anchored" data-anchor-id="the-features"><span class="header-section-number">44.2.2</span> The Features</h3>
+<section id="numerical-features" class="level4" data-number="44.2.2.1">
+<h4 data-number="44.2.2.1" class="anchored" data-anchor-id="numerical-features"><span class="header-section-number">44.2.2.1</span> Numerical Features</h4>
 <p>The following steps are performed during data preprocessing for numerical features:</p>
 <ol type="1">
 <li>Check for NaN or infinite values in X.</li>
@@ -1108,8 +1121,8 @@ window.Quarto = {
 <li>Standardize the numerical predictors in X using StandardScaler.</li>
 <li>Verify that X_scaled does not contain any NaN or infinite values.</li>
 </ol>
-<div id="8995bcf5" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use columns from 'price' to 'mpg' as predictors</span></span>
+<div id="4cc69fea" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use columns from 'price' to 'mpg' as predictors</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>independent_var_columns <span class="op">=</span> [<span class="st">'price'</span>, <span class="st">'engine_s'</span>, <span class="st">'horsepow'</span>, <span class="st">'wheelbas'</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'width'</span>, <span class="st">'length'</span>, <span class="st">'curb_wgt'</span>, <span class="st">'fuel_cap'</span>, <span class="st">'mpg'</span>]</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select those columns, ensuring they are numeric</span></span>
@@ -1117,12 +1130,12 @@ window.Quarto = {
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Handle missing/nans in features by using an appropriate imputation strategy</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> X.fillna(X.median()) <span class="co"># Impute with median or any other appropriate strategy</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first few rows of the features</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>X.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>X.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1139,7 +1152,7 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>21.500</td>
 <td>1.8</td>
 <td>140.0</td>
@@ -1151,7 +1164,7 @@ window.Quarto = {
 <td>28.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>28.400</td>
 <td>3.2</td>
 <td>225.0</td>
@@ -1163,7 +1176,7 @@ window.Quarto = {
 <td>25.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>22.799</td>
 <td>3.2</td>
 <td>225.0</td>
@@ -1175,7 +1188,7 @@ window.Quarto = {
 <td>26.0</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>42.000</td>
 <td>3.5</td>
 <td>210.0</td>
@@ -1187,7 +1200,7 @@ window.Quarto = {
 <td>22.0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>23.990</td>
 <td>1.8</td>
 <td>150.0</td>
@@ -1204,8 +1217,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="a3a8a072" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> X.isnull().<span class="bu">any</span>().<span class="bu">any</span>():</span>
+<div id="48e94d89" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> X.isnull().<span class="bu">any</span>().<span class="bu">any</span>():</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"NaNs detected in X. Filling with column medians."</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> X.fillna(X.median())</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1216,12 +1229,12 @@ window.Quarto = {
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the scaled data back to a DataFrame</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> pd.DataFrame(X_scaled, columns<span class="op">=</span>X.columns)</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first few rows of the scaled features</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>X_scaled.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>X_scaled.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1238,7 +1251,7 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>-0.410053</td>
 <td>-1.214376</td>
 <td>-0.814577</td>
@@ -1250,7 +1263,7 @@ window.Quarto = {
 <td>0.982411</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>0.075070</td>
 <td>0.134385</td>
 <td>0.694066</td>
@@ -1262,7 +1275,7 @@ window.Quarto = {
 <td>0.272833</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>-0.318723</td>
 <td>0.134385</td>
 <td>0.694066</td>
@@ -1274,7 +1287,7 @@ window.Quarto = {
 <td>0.509359</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>1.031255</td>
 <td>0.423406</td>
 <td>0.427835</td>
@@ -1286,7 +1299,7 @@ window.Quarto = {
 <td>-0.436744</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>-0.234987</td>
 <td>-1.214376</td>
 <td>-0.637089</td>
@@ -1304,22 +1317,22 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="categorical-features" class="level4" data-number="42.2.2.2">
-<h4 data-number="42.2.2.2" class="anchored" data-anchor-id="categorical-features"><span class="header-section-number">42.2.2.2</span> Categorical Features</h4>
+<section id="categorical-features" class="level4" data-number="44.2.2.2">
+<h4 data-number="44.2.2.2" class="anchored" data-anchor-id="categorical-features"><span class="header-section-number">44.2.2.2</span> Categorical Features</h4>
 <p>Categorical features (like ‘type’) are one-hot encoded and then combined with the scaled numerical features.</p>
-<div id="7c1bb56d" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>categorical_cols <span class="op">=</span> [<span class="st">'type'</span>] <span class="co"># Replace if more categorical variables exist</span></span>
+<div id="e7a0d8c5" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>categorical_cols <span class="op">=</span> [<span class="st">'type'</span>] <span class="co"># Replace if more categorical variables exist</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> OneHotEncoder(drop<span class="op">=</span><span class="st">'first'</span>, sparse_output<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>X_categorical_encoded <span class="op">=</span> encoder.fit_transform(df[categorical_cols])</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert encoded data into a DataFrame</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>X_categorical_encoded_df <span class="op">=</span> pd.DataFrame(X_categorical_encoded,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                                        columns<span class="op">=</span>encoder.get_feature_names_out(categorical_cols))</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>X_categorical_encoded_df.describe(include<span class="op">=</span><span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>X_categorical_encoded_df.describe(include<span class="op">=</span><span class="st">'all'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1328,35 +1341,35 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">count</td>
+<th data-quarto-table-cell-role="th">count</th>
 <td>157.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">mean</td>
+<th data-quarto-table-cell-role="th">mean</th>
 <td>0.261146</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">std</td>
+<th data-quarto-table-cell-role="th">std</th>
 <td>0.440665</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">min</td>
+<th data-quarto-table-cell-role="th">min</th>
 <td>0.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">25%</td>
+<th data-quarto-table-cell-role="th">25%</th>
 <td>0.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">50%</td>
+<th data-quarto-table-cell-role="th">50%</th>
 <td>0.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">75%</td>
+<th data-quarto-table-cell-role="th">75%</th>
 <td>1.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">max</td>
+<th data-quarto-table-cell-role="th">max</th>
 <td>1.000000</td>
 </tr>
 </tbody>
@@ -1367,25 +1380,25 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="combining-non-categorical-and-categorical-encoded-data" class="level3" data-number="42.2.3">
-<h3 data-number="42.2.3" class="anchored" data-anchor-id="combining-non-categorical-and-categorical-encoded-data"><span class="header-section-number">42.2.3</span> Combining Non-categorical and Categorical (encoded) Data</h3>
+<section id="combining-non-categorical-and-categorical-encoded-data" class="level3" data-number="44.2.3">
+<h3 data-number="44.2.3" class="anchored" data-anchor-id="combining-non-categorical-and-categorical-encoded-data"><span class="header-section-number">44.2.3</span> Combining Non-categorical and Categorical (encoded) Data</h3>
 <p>The final feature set <code>X_encoded</code> is created by concatenating the scaled numerical features and the one-hot encoded categorical features. This combined DataFrame will be used for regression analysis.</p>
-<div id="23983a5a" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X_encoded <span class="op">=</span> pd.concat([X_scaled, X_categorical_encoded_df], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<div id="598a3bc6" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X_encoded <span class="op">=</span> pd.concat([X_scaled, X_categorical_encoded_df], axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dimension: </span><span class="sc">{</span>X_encoded<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(X_encoded.columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(X_encoded.columns))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Dimension: (157, 10)
 ['price', 'engine_s', 'horsepow', 'wheelbas', 'width', 'length', 'curb_wgt', 'fuel_cap', 'mpg', 'type_1']</code></pre>
 </div>
 </div>
-<div id="6a9cfba4" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>X_encoded.describe(include<span class="op">=</span><span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="426572a6" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>X_encoded.describe(include<span class="op">=</span><span class="st">'all'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1403,7 +1416,7 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">count</td>
+<th data-quarto-table-cell-role="th">count</th>
 <td>1.570000e+02</td>
 <td>1.570000e+02</td>
 <td>1.570000e+02</td>
@@ -1416,7 +1429,7 @@ window.Quarto = {
 <td>157.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">mean</td>
+<th data-quarto-table-cell-role="th">mean</th>
 <td>-5.091469e-16</td>
 <td>1.018294e-16</td>
 <td>1.584012e-16</td>
@@ -1429,7 +1442,7 @@ window.Quarto = {
 <td>0.261146</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">std</td>
+<th data-quarto-table-cell-role="th">std</th>
 <td>1.003200e+00</td>
 <td>1.003200e+00</td>
 <td>1.003200e+00</td>
@@ -1442,7 +1455,7 @@ window.Quarto = {
 <td>0.440665</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">min</td>
+<th data-quarto-table-cell-role="th">min</th>
 <td>-1.272376e+00</td>
 <td>-1.985097e+00</td>
 <td>-2.323220e+00</td>
@@ -1455,7 +1468,7 @@ window.Quarto = {
 <td>0.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">25%</td>
+<th data-quarto-table-cell-role="th">25%</th>
 <td>-6.459349e-01</td>
 <td>-7.326758e-01</td>
 <td>-6.370894e-01</td>
@@ -1468,7 +1481,7 @@ window.Quarto = {
 <td>0.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">50%</td>
+<th data-quarto-table-cell-role="th">50%</th>
 <td>-3.187230e-01</td>
 <td>-5.829498e-02</td>
 <td>-1.489990e-01</td>
@@ -1481,7 +1494,7 @@ window.Quarto = {
 <td>0.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">75%</td>
+<th data-quarto-table-cell-role="th">75%</th>
 <td>3.232563e-01</td>
 <td>4.234056e-01</td>
 <td>5.165788e-01</td>
@@ -1494,7 +1507,7 @@ window.Quarto = {
 <td>1.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">max</td>
+<th data-quarto-table-cell-role="th">max</th>
 <td>4.089638e+00</td>
 <td>4.758711e+00</td>
 <td>4.687533e+00</td>
@@ -1514,28 +1527,28 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="sec-fit-ols" class="level2" data-number="42.3">
-<h2 data-number="42.3" class="anchored" data-anchor-id="sec-fit-ols"><span class="header-section-number">42.3</span> Fit the Linear Regression Model</h2>
+<section id="sec-fit-ols" class="level2" data-number="44.3">
+<h2 data-number="44.3" class="anchored" data-anchor-id="sec-fit-ols"><span class="header-section-number">44.3</span> Fit the Linear Regression Model</h2>
 <p>An Ordinary Least Squares (OLS) regression model is fitted using the preprocessed and combined features (<code>X_encoded</code>).</p>
-<div id="43323640" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>X_encoded_with_const <span class="op">=</span> sm.add_constant(X_encoded) <span class="co"># Adds a constant term (intercept) to the model</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.OLS(df[<span class="st">'ln_sales'</span>], X_encoded_with_const).fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="51589e87" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>X_encoded_with_const <span class="op">=</span> sm.add_constant(X_encoded) <span class="co"># Adds a constant term (intercept) to the model</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> sm.OLS(df[<span class="st">'ln_sales'</span>], X_encoded_with_const).fit()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="model-summary-and-interpretation" class="level3" data-number="42.3.1">
-<h3 data-number="42.3.1" class="anchored" data-anchor-id="model-summary-and-interpretation"><span class="header-section-number">42.3.1</span> Model Summary and Interpretation</h3>
-<section id="model-summary-anova-table" class="level4" data-number="42.3.1.1">
-<h4 data-number="42.3.1.1" class="anchored" data-anchor-id="model-summary-anova-table"><span class="header-section-number">42.3.1.1</span> Model Summary (ANOVA Table)</h4>
+<section id="model-summary-and-interpretation" class="level3" data-number="44.3.1">
+<h3 data-number="44.3.1" class="anchored" data-anchor-id="model-summary-and-interpretation"><span class="header-section-number">44.3.1</span> Model Summary and Interpretation</h3>
+<section id="model-summary-anova-table" class="level4" data-number="44.3.1.1">
+<h4 data-number="44.3.1.1" class="anchored" data-anchor-id="model-summary-anova-table"><span class="header-section-number">44.3.1.1</span> Model Summary (ANOVA Table)</h4>
 <p>The ANOVA table shows a significant F-value (Prob (F-statistic) close to zero), indicating that the model is statistically significant and better than simply estimating the mean. The Adj. R-squared value, close to 0.40, suggests that nearly 40% of the variation in <code>ln_sales</code> is explained by the model.</p>
-<div id="fcf16167" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="247a7ec6" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:               ln_sales   R-squared:                       0.485
 Model:                            OLS   Adj. R-squared:                  0.449
 Method:                 Least Squares   F-statistic:                     13.73
-Date:                Wed, 31 Dec 2025   Prob (F-statistic):           7.69e-17
-Time:                        02:04:08   Log-Likelihood:                -213.62
+Date:                Thu, 15 Jan 2026   Prob (F-statistic):           7.69e-17
+Time:                        23:18:23   Log-Likelihood:                -213.62
 No. Observations:                 157   AIC:                             449.2
 Df Residuals:                     146   BIC:                             482.9
 Df Model:                          10                                         
@@ -1569,18 +1582,18 @@ Notes:
 </section>
 </section>
 </section>
-<section id="sec-collinearity-diagnostics" class="level2" data-number="42.4">
-<h2 data-number="42.4" class="anchored" data-anchor-id="sec-collinearity-diagnostics"><span class="header-section-number">42.4</span> Collinearity Diagnostics</h2>
-<section id="the-coefficient-table" class="level3" data-number="42.4.1">
-<h3 data-number="42.4.1" class="anchored" data-anchor-id="the-coefficient-table"><span class="header-section-number">42.4.1</span> The Coefficient Table</h3>
+<section id="sec-collinearity-diagnostics" class="level2" data-number="44.4">
+<h2 data-number="44.4" class="anchored" data-anchor-id="sec-collinearity-diagnostics"><span class="header-section-number">44.4</span> Collinearity Diagnostics</h2>
+<section id="the-coefficient-table" class="level3" data-number="44.4.1">
+<h3 data-number="44.4.1" class="anchored" data-anchor-id="the-coefficient-table"><span class="header-section-number">44.4.1</span> The Coefficient Table</h3>
 <p>The coefficient table provides further evidence of multicollinearity. The function <code>compute_coefficients_table()</code> from the <code>spotoptim</code> package is used here for comprehensive diagnostics.</p>
-<div id="d8fe3473" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.stats <span class="im">import</span> compute_coefficients_table</span>
+<div id="e5dbf2fe" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.utils.stats <span class="im">import</span> compute_coefficients_table</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>coeffs_table <span class="op">=</span> compute_coefficients_table(</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model, X_encoded<span class="op">=</span>X_encoded_with_const, y<span class="op">=</span>y, vif_table<span class="op">=</span><span class="va">None</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Coefficients Table:"</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(coeffs_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(coeffs_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Coefficients Table:
@@ -1599,14 +1612,14 @@ Coefficients Table:
 </div>
 <p>For most predictors, the partial correlations (Partial r) decrease significantly compared to the zero-order correlations (Zero-Order r), which suggests multicollinearity. Tolerance values (1 minus the proportion of variance explained by other predictors) are low, indicating that approximately 70%-90% of a given predictor’s variance can be explained by other predictors. Tolerances close to 0 signify high multicollinearity. A Variance Inflation Factor (VIF) greater than 2 is typically considered problematic, and in this table, the smallest VIF is already greater than 2, confirming serious multicollinearity.</p>
 </section>
-<section id="eigenvalues-and-condition-indices" class="level3" data-number="42.4.2">
-<h3 data-number="42.4.2" class="anchored" data-anchor-id="eigenvalues-and-condition-indices"><span class="header-section-number">42.4.2</span> Eigenvalues and Condition Indices</h3>
+<section id="eigenvalues-and-condition-indices" class="level3" data-number="44.4.2">
+<h3 data-number="44.4.2" class="anchored" data-anchor-id="eigenvalues-and-condition-indices"><span class="header-section-number">44.4.2</span> Eigenvalues and Condition Indices</h3>
 <p>Eigenvalues indicate how many factors or components can be meaningfully extracted. An eigenvalue greater than 1 suggests that the factor/component explains more variance than a single variable.</p>
-<section id="eigenvalues" class="level4" data-number="42.4.2.1">
-<h4 data-number="42.4.2.1" class="anchored" data-anchor-id="eigenvalues"><span class="header-section-number">42.4.2.1</span> Eigenvalues</h4>
+<section id="eigenvalues" class="level4" data-number="44.4.2.1">
+<h4 data-number="44.4.2.1" class="anchored" data-anchor-id="eigenvalues"><span class="header-section-number">44.4.2.1</span> Eigenvalues</h4>
 <p>We use the <code>FactorAnalyzer</code> function from the <code>factor_analyzer</code> package to compute eigenvalues.</p>
-<div id="8c3246fc" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fa_temp <span class="op">=</span> FactorAnalyzer(n_factors<span class="op">=</span>X_encoded.shape[<span class="dv">1</span>], method<span class="op">=</span><span class="st">"principal"</span>, rotation<span class="op">=</span><span class="va">None</span>)</span>
+<div id="34eb2bd1" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fa_temp <span class="op">=</span> FactorAnalyzer(n_factors<span class="op">=</span>X_encoded.shape[<span class="dv">1</span>], method<span class="op">=</span><span class="st">"principal"</span>, rotation<span class="op">=</span><span class="va">None</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    fa_temp.fit(X_encoded)</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    ev, _ <span class="op">=</span> fa_temp.get_eigenvalues()</span>
@@ -1614,7 +1627,7 @@ Coefficients Table:
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Eigenvalues for each component:</span><span class="ch">\n</span><span class="st">"</span>, ev)</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Error during factor analysis fitting: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Consider reducing multicollinearity or removing problematic features."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Consider reducing multicollinearity or removing problematic features."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Eigenvalues for each component:
  [0.06453844 0.09238346 0.13143422 0.15658714 0.20129034 0.25457714
@@ -1623,21 +1636,21 @@ Coefficients Table:
 </div>
 <p>The eigenvalue-based diagnostics confirm severe multicollinearity. Several eigenvalues are close to 0, indicating strong correlations among predictors.</p>
 </section>
-<section id="condition-indices" class="level4" data-number="42.4.2.2">
-<h4 data-number="42.4.2.2" class="anchored" data-anchor-id="condition-indices"><span class="header-section-number">42.4.2.2</span> Condition Indices</h4>
+<section id="condition-indices" class="level4" data-number="44.4.2.2">
+<h4 data-number="44.4.2.2" class="anchored" data-anchor-id="condition-indices"><span class="header-section-number">44.4.2.2</span> Condition Indices</h4>
 <p>From <code>spotoptim.utils.stats</code>, we can compute the condition index, which is a measure of multicollinearity. A condition index greater than 15 suggests potential multicollinearity issues, and values above 30 indicate severe problems.</p>
 <p>Condition indices, calculated as the square roots of the ratios of the largest eigenvalue to each subsequent eigenvalue, also highlight the issue.</p>
 <div id="def-condition_index" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 42.1 (Condition Index)</strong></span> The Condition Index (<span class="math inline">\(CI_i\)</span>) for the <span class="math inline">\(i\)</span>-th eigenvalue is defined as: <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 44.1 (Condition Index)</strong></span> The Condition Index (<span class="math inline">\(CI_i\)</span>) for the <span class="math inline">\(i\)</span>-th eigenvalue is defined as: <span class="math display">\[
 \text{CI}_i = \sqrt{\frac{\lambda{\max}}{\lambda_i}},
 \]</span> where <span class="math inline">\(\lambda_{\max}\)</span> is the largest eigenvalue of the scaled predictor correlation matrix, and <span class="math inline">\(\lambda_i\)</span> is the <span class="math inline">\(i\)</span>-th eigenvalue of the same matrix.</p>
 </div>
 <p><span class="math inline">\(CI_i\)</span>-values greater than 15 suggest a potential problem, and values over 30 indicate a severe problem.</p>
-<div id="dc934b25" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>X_cond <span class="op">=</span> copy.deepcopy(X_encoded)</span>
+<div id="34bc276e" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>X_cond <span class="op">=</span> copy.deepcopy(X_encoded)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>condition_index_df <span class="op">=</span> condition_index(X_cond)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Condition Index:"</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(condition_index_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(condition_index_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Condition Index:
@@ -1656,13 +1669,13 @@ Condition Index:
 </div>
 </section>
 </section>
-<section id="kayser-meyer-olkin-kmo-measure" class="level3" data-number="42.4.3">
-<h3 data-number="42.4.3" class="anchored" data-anchor-id="kayser-meyer-olkin-kmo-measure"><span class="header-section-number">42.4.3</span> Kayser-Meyer-Olkin (KMO) Measure</h3>
+<section id="kayser-meyer-olkin-kmo-measure" class="level3" data-number="44.4.3">
+<h3 data-number="44.4.3" class="anchored" data-anchor-id="kayser-meyer-olkin-kmo-measure"><span class="header-section-number">44.4.3</span> Kayser-Meyer-Olkin (KMO) Measure</h3>
 <p>The KMO (Kaiser-Meyer-Olkin) measure is a metric for assessing the suitability of data for Factor Analysis. A KMO value of 0.6 or higher is generally considered acceptable, while a value below 0.5 indicates that the data is not suitable for Factor Analysis.</p>
 <p>The KMO measure is based on the correlation and partial correlation between variables. It is calculated as the ratio of the squared sums of correlations to the squared sums of correlations plus the squared sums of partial correlations. KMO values range between 0 and 1, where values close to 1 suggest strong correlations and suitability for Factor Analysis, and values close to 0 indicate weak correlations and unsuitability.</p>
-<div id="f805af17" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kmo_all, kmo_model <span class="op">=</span> calculate_kmo(X_encoded)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">KMO measure: </span><span class="sc">{</span>kmo_model<span class="sc">:.3f}</span><span class="ss"> (0.6+ is often considered acceptable)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a2c9a877" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kmo_all, kmo_model <span class="op">=</span> calculate_kmo(X_encoded)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">KMO measure: </span><span class="sc">{</span>kmo_model<span class="sc">:.3f}</span><span class="ss"> (0.6+ is often considered acceptable)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 KMO measure: 0.835 (0.6+ is often considered acceptable)</code></pre>
@@ -1671,17 +1684,17 @@ KMO measure: 0.835 (0.6+ is often considered acceptable)</code></pre>
 <p>A KMO measure of 0.835 indicates that the data is well-suited for Factor Analysis.</p>
 </section>
 </section>
-<section id="sec-pca" class="level2" data-number="42.5">
-<h2 data-number="42.5" class="anchored" data-anchor-id="sec-pca"><span class="header-section-number">42.5</span> Addressing Multicollinearity with Principal Component Analysis (PCA)</h2>
+<section id="sec-pca" class="level2" data-number="44.5">
+<h2 data-number="44.5" class="anchored" data-anchor-id="sec-pca"><span class="header-section-number">44.5</span> Addressing Multicollinearity with Principal Component Analysis (PCA)</h2>
 <div id="def-multicoll" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 42.2 (Multicollinearity and Multicorrelation)</strong></span> Multicorrelation is a general term that describes correlation between multiple variables. Multicollinearity is a specific problem in regression models caused by strong correlations between independent variables, making model interpretation difficult.</p>
+<p><span class="theorem-title"><strong>Definition 44.2 (Multicollinearity and Multicorrelation)</strong></span> Multicorrelation is a general term that describes correlation between multiple variables. Multicollinearity is a specific problem in regression models caused by strong correlations between independent variables, making model interpretation difficult.</p>
 </div>
-<section id="introduction-to-pca" class="level3" data-number="42.5.1">
-<h3 data-number="42.5.1" class="anchored" data-anchor-id="introduction-to-pca"><span class="header-section-number">42.5.1</span> Introduction to PCA</h3>
+<section id="introduction-to-pca" class="level3" data-number="44.5.1">
+<h3 data-number="44.5.1" class="anchored" data-anchor-id="introduction-to-pca"><span class="header-section-number">44.5.1</span> Introduction to PCA</h3>
 <p>Principal Component Analysis (PCA) is a popular unsupervised dimensionality reduction technique. It transforms a set of possibly correlated variables into a set of linearly uncorrelated variables called principal components. The first principal component accounts for as much of the variability in the data as possible, and each succeeding component accounts for as much of the remaining variability as possible. PCA is primarily used for data compression and simplifying complex datasets.</p>
 </section>
-<section id="application-of-pca-in-regression-problems" class="level3" data-number="42.5.2">
-<h3 data-number="42.5.2" class="anchored" data-anchor-id="application-of-pca-in-regression-problems"><span class="header-section-number">42.5.2</span> Application of PCA in Regression Problems:</h3>
+<section id="application-of-pca-in-regression-problems" class="level3" data-number="44.5.2">
+<h3 data-number="44.5.2" class="anchored" data-anchor-id="application-of-pca-in-regression-problems"><span class="header-section-number">44.5.2</span> Application of PCA in Regression Problems:</h3>
 <ul>
 <li><strong>Dimensionality Reduction:</strong> PCA reduces the number of explanatory variables by transforming original variables into a smaller set of uncorrelated principal components, making regression algorithms less prone to overfitting, especially with many features.</li>
 <li><strong>Reducing Multicollinearity:</strong> PCA effectively eliminates multicollinearity in linear regression models because the resulting principal components are orthogonal (uncorrelated) to each other, leading to more stable coefficient estimates.</li>
@@ -1691,10 +1704,10 @@ KMO measure: 0.835 (0.6+ is often considered acceptable)</code></pre>
 <li><strong>Interpretation of Feature Importance:</strong> PCA provides insights into the importance of original features through the variance explained by each principal component, which can identify combinations of variables best representing the data.</li>
 </ul>
 </section>
-<section id="scree-plot" class="level3" data-number="42.5.3">
-<h3 data-number="42.5.3" class="anchored" data-anchor-id="scree-plot"><span class="header-section-number">42.5.3</span> Scree Plot</h3>
+<section id="scree-plot" class="level3" data-number="44.5.3">
+<h3 data-number="44.5.3" class="anchored" data-anchor-id="scree-plot"><span class="header-section-number">44.5.3</span> Scree Plot</h3>
 <div id="def-scree-plot" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 42.3 (Scree Plot)</strong></span> A scree plot is a graphical representation of the eigenvalues of a covariance or correlation matrix in descending order. It is used to determine the number of significant components or factors in dimensionality reduction techniques.</p>
+<p><span class="theorem-title"><strong>Definition 44.3 (Scree Plot)</strong></span> A scree plot is a graphical representation of the eigenvalues of a covariance or correlation matrix in descending order. It is used to determine the number of significant components or factors in dimensionality reduction techniques.</p>
 <p>Mathematically, the eigenvalues <span class="math inline">\(\lambda_1, \lambda_2, \dots, \lambda_p\)</span> are plotted against their corresponding component or factor indices <span class="math inline">\(i = 1, 2, \dots, p\)</span>, where <span class="math inline">\(p\)</span> is the total number of components or factors.</p>
 <p>The eigenvalues are defined as:</p>
 <p><span class="math display">\[
@@ -1704,11 +1717,11 @@ KMO measure: 0.835 (0.6+ is often considered acceptable)</code></pre>
 <p>The scree plot is constructed by plotting the points <span class="math inline">\((i, \lambda_i)\)</span> for <span class="math inline">\(i = 1, 2, \dots, p\)</span>. The “elbow” in the plot, where the eigenvalues start to level off, indicates the optimal number of components or factors to retain.</p>
 </div>
 </section>
-<section id="loading-scores-for-pca" class="level3" data-number="42.5.4">
-<h3 data-number="42.5.4" class="anchored" data-anchor-id="loading-scores-for-pca"><span class="header-section-number">42.5.4</span> Loading Scores (for PCA)</h3>
+<section id="loading-scores-for-pca" class="level3" data-number="44.5.4">
+<h3 data-number="44.5.4" class="anchored" data-anchor-id="loading-scores-for-pca"><span class="header-section-number">44.5.4</span> Loading Scores (for PCA)</h3>
 <p>Loading scores in the context of Principal Component Analysis (PCA) represent the correlation or relationship between the original variables and the principal components.</p>
 <div id="def-loading_scores" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 42.4 (Loading Scores)</strong></span> The loading score for the <span class="math inline">\(j\)</span>-th variable on the <span class="math inline">\(i\)</span>-th principal component is defined as:</p>
+<p><span class="theorem-title"><strong>Definition 44.4 (Loading Scores)</strong></span> The loading score for the <span class="math inline">\(j\)</span>-th variable on the <span class="math inline">\(i\)</span>-th principal component is defined as:</p>
 <p><span class="math display">\[
 L_{ij} = \mathbf{a}_i^\top \mathbf{x}_j,
 \]</span></p>
@@ -1722,7 +1735,7 @@ L_{ij} = \mathbf{a}_i^\top \mathbf{x}_j,
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Summary of Loading Scores
+<span class="screen-reader-only">Note</span>Summary of Loading Scores
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1735,28 +1748,28 @@ Summary of Loading Scores
 </ul>
 </div>
 </div>
-<p><a href="#sec-loading-scores-vs-factor-loadings" class="quarto-xref"><span>Section 42.7.3</span></a> explains the difference between loading scores in PCA and factor loadings in FA.</p>
+<p><a href="#sec-loading-scores-vs-factor-loadings" class="quarto-xref"><span>Section 44.7.3</span></a> explains the difference between loading scores in PCA and factor loadings in FA.</p>
 </section>
-<section id="pca-for-car-sales-example" class="level3" data-number="42.5.5">
-<h3 data-number="42.5.5" class="anchored" data-anchor-id="pca-for-car-sales-example"><span class="header-section-number">42.5.5</span> PCA for Car Sales Example</h3>
-<section id="computing-the-principal-components" class="level4" data-number="42.5.5.1">
-<h4 data-number="42.5.5.1" class="anchored" data-anchor-id="computing-the-principal-components"><span class="header-section-number">42.5.5.1</span> Computing the Principal Components</h4>
+<section id="pca-for-car-sales-example" class="level3" data-number="44.5.5">
+<h3 data-number="44.5.5" class="anchored" data-anchor-id="pca-for-car-sales-example"><span class="header-section-number">44.5.5</span> PCA for Car Sales Example</h3>
+<section id="computing-the-principal-components" class="level4" data-number="44.5.5.1">
+<h4 data-number="44.5.5.1" class="anchored" data-anchor-id="computing-the-principal-components"><span class="header-section-number">44.5.5.1</span> Computing the Principal Components</h4>
 <p>The Principal Component Analysis (PCA) is applied only to the features (<code>X_encoded</code>), not to the target variable. We will use functions from <code>spotoptim.utils.pca</code>, which are based on <code>sklearn.decomposition.PCA</code> to perform PCA.</p>
 <p>Step 1: Perform PCA and scale the data</p>
 <div id="pca_car_sales" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pca, scaled_data, feature_names, sample_names, df_pca_components <span class="op">=</span> get_pca(df<span class="op">=</span>X_encoded, n_components<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pca, scaled_data, feature_names, sample_names, df_pca_components <span class="op">=</span> get_pca(df<span class="op">=</span>X_encoded, n_components<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Step 2: Plot the scree plot</p>
 <div id="cell-fig-scree_plot_pca-1" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>plot_pca_scree(pca, df_name<span class="op">=</span><span class="st">"Car Sales Data"</span>, max_scree<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>plot_pca_scree(pca, df_name<span class="op">=</span><span class="st">"Car Sales Data"</span>, max_scree<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-scree_plot_pca-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scree_plot_pca-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="100_ddmo_pca_files/figure-html/fig-scree_plot_pca-1-output-1.png" class="img-fluid figure-img">
+<img src="100_ddmo_pca_files/figure-html/fig-scree_plot_pca-1-output-1.png" width="957" height="523" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scree_plot_pca-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;42.1: Scree plot for PCA showing the explained variance ratio for each principal component.
+Figure&nbsp;44.1: Scree plot for PCA showing the explained variance ratio for each principal component.
 </figcaption>
 </figure>
 </div>
@@ -1764,15 +1777,15 @@ Figure&nbsp;42.1: Scree plot for PCA showing the explained variance ratio for ea
 </div>
 <p>Step 3: Plot the first two principal components</p>
 <div id="cell-fig-pcvals2" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plot_pca1vs2(pca, df_pca_components, df_name<span class="op">=</span><span class="st">"Car Sales Data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plot_pca1vs2(pca, df_pca_components, df_name<span class="op">=</span><span class="st">"Car Sales Data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-pcvals2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pcvals2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="100_ddmo_pca_files/figure-html/fig-pcvals2-output-1.png" class="img-fluid figure-img">
+<img src="100_ddmo_pca_files/figure-html/fig-pcvals2-output-1.png" width="959" height="523" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pcvals2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;42.2: Scatter plot of the first two principal components (PC1 vs PC2) for the Car Sales Data.
+Figure&nbsp;44.2: Scatter plot of the first two principal components (PC1 vs PC2) for the Car Sales Data.
 </figcaption>
 </figure>
 </div>
@@ -1780,21 +1793,21 @@ Figure&nbsp;42.2: Scatter plot of the first two principal components (PC1 vs PC2
 </div>
 <p>Step 4: Get the top k features influencing PC1 and PC2</p>
 <div id="pca_top_k_features" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>top_k_features_pc1, top_k_features_pc2 <span class="op">=</span> get_pca_topk(pca, feature_names, k<span class="op">=</span><span class="dv">10</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>top_k_features_pc1, top_k_features_pc2 <span class="op">=</span> get_pca_topk(pca, feature_names, k<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top 10 features influencing PC1:"</span>, top_k_features_pc1)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top 10 features influencing PC2:"</span>, top_k_features_pc2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top 10 features influencing PC2:"</span>, top_k_features_pc2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Top 10 features influencing PC1: ['curb_wgt', 'engine_s', 'fuel_cap', 'mpg', 'width', 'horsepow', 'length', 'wheelbas', 'price', 'type_1']
 Top 10 features influencing PC2: ['price', 'wheelbas', 'horsepow', 'length', 'engine_s', 'width', 'fuel_cap', 'type_1', 'mpg', 'curb_wgt']</code></pre>
 </div>
 </div>
 </section>
-<section id="loading-scores-for-pca-10-components" class="level4" data-number="42.5.5.2">
-<h4 data-number="42.5.5.2" class="anchored" data-anchor-id="loading-scores-for-pca-10-components"><span class="header-section-number">42.5.5.2</span> Loading Scores for PCA (10 Components)</h4>
+<section id="loading-scores-for-pca-10-components" class="level4" data-number="44.5.5.2">
+<h4 data-number="44.5.5.2" class="anchored" data-anchor-id="loading-scores-for-pca-10-components"><span class="header-section-number">44.5.5.2</span> Loading Scores for PCA (10 Components)</h4>
 <div id="pca_loading_scores-10" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get and print loading scores</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get and print loading scores</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>loading_scores_df <span class="op">=</span> get_loading_scores(pca, X_encoded.columns)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PCA Loading Scores (10 Components):</span><span class="ch">\n</span><span class="st">"</span>, loading_scores_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PCA Loading Scores (10 Components):</span><span class="ch">\n</span><span class="st">"</span>, loading_scores_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>PCA Loading Scores (10 Components):
                 PC1       PC2       PC3       PC4       PC5       PC6  \
@@ -1822,17 +1835,17 @@ mpg       0.243304 -0.105455  0.148714  0.109367
 type_1    0.241967 -0.236377  0.200080  0.832423  </code></pre>
 </div>
 </div>
-<p><a href="#fig-pca_loading_scores-10" class="quarto-xref">Figure&nbsp;<span>42.3</span></a> shows the loading scores heatmap for the first 10 principal components. The heatmap visualizes how much each original feature contributes to each principal component, with darker colors indicating stronger contributions.</p>
+<p><a href="#fig-pca_loading_scores-10" class="quarto-xref">Figure&nbsp;<span>44.3</span></a> shows the loading scores heatmap for the first 10 principal components. The heatmap visualizes how much each original feature contributes to each principal component, with darker colors indicating stronger contributions.</p>
 <div id="cell-fig-pca_loading_scores-10" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plot_loading_scores(loading_scores_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plot_loading_scores(loading_scores_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-pca_loading_scores-10" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pca_loading_scores-10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="100_ddmo_pca_files/figure-html/fig-pca_loading_scores-10-output-1.png" class="img-fluid figure-img">
+<img src="100_ddmo_pca_files/figure-html/fig-pca_loading_scores-10-output-1.png" width="1081" height="758" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pca_loading_scores-10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;42.3: PCA Loading Scores Heatmap showing the influence of original features on the principal components.
+Figure&nbsp;44.3: PCA Loading Scores Heatmap showing the influence of original features on the principal components.
 </figcaption>
 </figure>
 </div>
@@ -1840,14 +1853,14 @@ Figure&nbsp;42.3: PCA Loading Scores Heatmap showing the influence of original f
 </div>
 </section>
 </section>
-<section id="creating-the-regression-model-with-principal-components" class="level3" data-number="42.5.6">
-<h3 data-number="42.5.6" class="anchored" data-anchor-id="creating-the-regression-model-with-principal-components"><span class="header-section-number">42.5.6</span> Creating the Regression Model with Principal Components</h3>
+<section id="creating-the-regression-model-with-principal-components" class="level3" data-number="44.5.6">
+<h3 data-number="44.5.6" class="anchored" data-anchor-id="creating-the-regression-model-with-principal-components"><span class="header-section-number">44.5.6</span> Creating the Regression Model with Principal Components</h3>
 <p>Now, a linear regression model is fitted using the principal components derived from PCA. These components are uncorrelated, which should eliminate multicollinearity issues.</p>
-<div id="0ba55c21" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>X_pca_model_with_const <span class="op">=</span> sm.add_constant(df_pca_components)</span>
+<div id="6010f9b2" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>X_pca_model_with_const <span class="op">=</span> sm.add_constant(df_pca_components)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>model_pca <span class="op">=</span> sm.OLS(y, X_pca_model_with_const).fit()</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Regression on PCA Components:"</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model_pca.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model_pca.summary())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Regression on PCA Components:
@@ -1856,8 +1869,8 @@ Regression on PCA Components:
 Dep. Variable:               ln_sales   R-squared:                       0.485
 Model:                            OLS   Adj. R-squared:                  0.449
 Method:                 Least Squares   F-statistic:                     13.73
-Date:                Wed, 31 Dec 2025   Prob (F-statistic):           7.69e-17
-Time:                        02:04:08   Log-Likelihood:                -213.62
+Date:                Thu, 15 Jan 2026   Prob (F-statistic):           7.69e-17
+Time:                        23:18:23   Log-Likelihood:                -213.62
 No. Observations:                 157   AIC:                             449.2
 Df Residuals:                     146   BIC:                             482.9
 Df Model:                          10                                         
@@ -1889,11 +1902,11 @@ Notes:
 </div>
 <p>When all principal components are retained, the PCA regression model performs identically to the original OLS model in terms of R-squared, Adjusted R-squared, MSE, and RMSE. This is because PCA merely rotates the data, preserving all variance if all components are used. Its benefit lies in handling multicollinearity and enabling dimensionality reduction if fewer components are chosen without significant loss of information.</p>
 </section>
-<section id="collinearity-diagnostics-for-pca-regression-model" class="level3" data-number="42.5.7">
-<h3 data-number="42.5.7" class="anchored" data-anchor-id="collinearity-diagnostics-for-pca-regression-model"><span class="header-section-number">42.5.7</span> Collinearity Diagnostics for PCA Regression Model</h3>
+<section id="collinearity-diagnostics-for-pca-regression-model" class="level3" data-number="44.5.7">
+<h3 data-number="44.5.7" class="anchored" data-anchor-id="collinearity-diagnostics-for-pca-regression-model"><span class="header-section-number">44.5.7</span> Collinearity Diagnostics for PCA Regression Model</h3>
 <p>Consider the eigenvalues of the PCA components to verify that they are uncorrelated. The eigenvalues should be close to 1, indicating that the components are orthogonal and do not exhibit multicollinearity.</p>
-<div id="b3e16a42" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fa_temp <span class="op">=</span> FactorAnalyzer(n_factors<span class="op">=</span>df_pca_components.shape[<span class="dv">1</span>], method<span class="op">=</span><span class="st">"principal"</span>, rotation<span class="op">=</span><span class="va">None</span>)</span>
+<div id="5008a473" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fa_temp <span class="op">=</span> FactorAnalyzer(n_factors<span class="op">=</span>df_pca_components.shape[<span class="dv">1</span>], method<span class="op">=</span><span class="st">"principal"</span>, rotation<span class="op">=</span><span class="va">None</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    fa_temp.fit(df_pca_components)</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    ev, _ <span class="op">=</span> fa_temp.get_eigenvalues()</span>
@@ -1901,19 +1914,19 @@ Notes:
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Eigenvalues for each component:</span><span class="ch">\n</span><span class="st">"</span>, ev)</span>
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Error during factor analysis fitting: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Consider reducing multicollinearity or removing problematic features."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Consider reducing multicollinearity or removing problematic features."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Eigenvalues for each component:
  [1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]</code></pre>
 </div>
 </div>
 <p>Next, we compute the condition indices for the PCA components to confirm that they are uncorrelated.</p>
-<div id="a55ca435" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>coeffs_table <span class="op">=</span> compute_coefficients_table(</span>
+<div id="9fb632c6" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>coeffs_table <span class="op">=</span> compute_coefficients_table(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model_pca, X_encoded<span class="op">=</span>X_pca_model_with_const, y<span class="op">=</span>y, vif_table<span class="op">=</span><span class="va">None</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Coefficients Table:"</span>)</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(coeffs_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(coeffs_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Coefficients Table:
@@ -1932,10 +1945,10 @@ Coefficients Table:
 </div>
 <p>As expected, results indicate that there is no multicollinearity among the principal components. This confirms that PCA successfully addresses the multicollinearity problem. The R-squared and Adjusted R-squared values remain the same as the original OLS model since PCA preserves the total variance when all components are retained.</p>
 </section>
-<section id="sec-pca-reduced" class="level3" data-number="42.5.8">
-<h3 data-number="42.5.8" class="anchored" data-anchor-id="sec-pca-reduced"><span class="header-section-number">42.5.8</span> PCA: Creating the Regression Model with three Principle Components only</h3>
-<div id="633f0ff6" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a regression model using only the first three principal components</span></span>
+<section id="sec-pca-reduced" class="level3" data-number="44.5.8">
+<h3 data-number="44.5.8" class="anchored" data-anchor-id="sec-pca-reduced"><span class="header-section-number">44.5.8</span> PCA: Creating the Regression Model with three Principle Components only</h3>
+<div id="b877c26f" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a regression model using only the first three principal components</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>df_pc_reduced <span class="op">=</span> df_pca_components.iloc[:, :<span class="dv">3</span>] <span class="co"># select the first three factors</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>X_model_pc_reduced <span class="op">=</span> sm.add_constant(df_pc_reduced)</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>model_pc_reduced <span class="op">=</span> sm.OLS(y, X_model_pc_reduced).fit()</span>
@@ -1953,7 +1966,7 @@ Coefficients Table:
 <span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>X_cond_pc_reduced <span class="op">=</span> copy.deepcopy(df_pc_reduced)</span>
 <span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>condition_index_df_pc_reduced <span class="op">=</span> condition_index(X_cond_pc_reduced)</span>
 <span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Condition Index (Reduced PC Analysis Model):"</span>)</span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(condition_index_df_pc_reduced)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(condition_index_df_pc_reduced)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Regression on PCs (three PCs only):
@@ -1962,8 +1975,8 @@ Regression on PCs (three PCs only):
 Dep. Variable:               ln_sales   R-squared:                       0.389
 Model:                            OLS   Adj. R-squared:                  0.377
 Method:                 Least Squares   F-statistic:                     32.48
-Date:                Wed, 31 Dec 2025   Prob (F-statistic):           2.66e-16
-Time:                        02:04:08   Log-Likelihood:                -226.97
+Date:                Thu, 15 Jan 2026   Prob (F-statistic):           2.66e-16
+Time:                        23:18:23   Log-Likelihood:                -226.97
 No. Observations:                 157   AIC:                             461.9
 Df Residuals:                     153   BIC:                             474.2
 Df Model:                           3                                         
@@ -2000,17 +2013,17 @@ Condition Index (Reduced PC Analysis Model):
 </div>
 </section>
 </section>
-<section id="sec-fa" class="level2" data-number="42.6">
-<h2 data-number="42.6" class="anchored" data-anchor-id="sec-fa"><span class="header-section-number">42.6</span> Addressing Multicollinearity and Latent Structure with Factor Analysis (FA)</h2>
-<section id="introduction-to-factor-analysis" class="level3" data-number="42.6.1">
-<h3 data-number="42.6.1" class="anchored" data-anchor-id="introduction-to-factor-analysis"><span class="header-section-number">42.6.1</span> Introduction to Factor Analysis</h3>
+<section id="sec-fa" class="level2" data-number="44.6">
+<h2 data-number="44.6" class="anchored" data-anchor-id="sec-fa"><span class="header-section-number">44.6</span> Addressing Multicollinearity and Latent Structure with Factor Analysis (FA)</h2>
+<section id="introduction-to-factor-analysis" class="level3" data-number="44.6.1">
+<h3 data-number="44.6.1" class="anchored" data-anchor-id="introduction-to-factor-analysis"><span class="header-section-number">44.6.1</span> Introduction to Factor Analysis</h3>
 <p>Factor Analysis (FA) is a statistical method used to describe variability among observed, correlated variables in terms of a potentially lower number of unobserved variables called factors or latent variables. Unlike PCA, which is primarily a data reduction technique focused on maximizing variance explained, FA assumes that the observed variables are linear combinations of these underlying factors plus an error term. FA’s main goal is to uncover the underlying structure that explains the correlations among observed variables.</p>
 </section>
-<section id="determining-the-number-of-factors-for-factor-analysis" class="level3" data-number="42.6.2">
-<h3 data-number="42.6.2" class="anchored" data-anchor-id="determining-the-number-of-factors-for-factor-analysis"><span class="header-section-number">42.6.2</span> Determining the Number of Factors for Factor Analysis</h3>
+<section id="determining-the-number-of-factors-for-factor-analysis" class="level3" data-number="44.6.2">
+<h3 data-number="44.6.2" class="anchored" data-anchor-id="determining-the-number-of-factors-for-factor-analysis"><span class="header-section-number">44.6.2</span> Determining the Number of Factors for Factor Analysis</h3>
 <p>For Factor Analysis, the number of factors to extract is a crucial decision. A common approach, consistent with the KMO measure, is to consider factors with eigenvalues greater than 1 (Kaiser’s criterion). Factor analysis is then performed, often with a rotation method like Varimax to improve factor interpretability.</p>
-<div id="00784914" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>anz_fak <span class="op">=</span> <span class="dv">10</span> <span class="co"># Number of factors to extract, similar to the components in PCA</span></span>
+<div id="6d45f5e9" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>anz_fak <span class="op">=</span> <span class="dv">10</span> <span class="co"># Number of factors to extract, similar to the components in PCA</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>n_factors <span class="op">=</span> <span class="bu">min</span>(anz_fak, X_encoded.shape[<span class="dv">1</span>])</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>fa <span class="op">=</span> FactorAnalyzer(n_factors<span class="op">=</span>n_factors, method<span class="op">=</span><span class="st">"principal"</span>, rotation<span class="op">=</span><span class="st">"varimax"</span>)</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>fa.fit(X_encoded) <span class="co"># Fit the Factor Analyzer</span></span>
@@ -2021,17 +2034,17 @@ Condition Index (Reduced PC Analysis Model):
 <span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="ch">\n</span><span class="ss">Warning: Only </span><span class="sc">{</span>actual_factors<span class="sc">}</span><span class="ss"> factors could be extracted "</span></span>
 <span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"(requested </span><span class="sc">{</span>n_factors<span class="sc">}</span><span class="ss">)."</span></span>
 <span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>factor_columns <span class="op">=</span> [<span class="ss">f"Factor</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(actual_factors)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>factor_columns <span class="op">=</span> [<span class="ss">f"Factor</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(actual_factors)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>actual_factors: 10</code></pre>
 </div>
 </div>
 </section>
-<section id="scree-plot-for-factor-analysis" class="level3" data-number="42.6.3">
-<h3 data-number="42.6.3" class="anchored" data-anchor-id="scree-plot-for-factor-analysis"><span class="header-section-number">42.6.3</span> Scree Plot for Factor Analysis</h3>
-<p><a href="#fig-scree_plot_fa" class="quarto-xref">Figure&nbsp;<span>42.4</span></a> shows the eigenvalues for each factor extracted from Factor Analysis. The scree plot helps in determining the number of factors to retain by identifying the “elbow” point where the eigenvalues start to level off, indicating diminishing returns in explained variance.</p>
+<section id="scree-plot-for-factor-analysis" class="level3" data-number="44.6.3">
+<h3 data-number="44.6.3" class="anchored" data-anchor-id="scree-plot-for-factor-analysis"><span class="header-section-number">44.6.3</span> Scree Plot for Factor Analysis</h3>
+<p><a href="#fig-scree_plot_fa" class="quarto-xref">Figure&nbsp;<span>44.4</span></a> shows the eigenvalues for each factor extracted from Factor Analysis. The scree plot helps in determining the number of factors to retain by identifying the “elbow” point where the eigenvalues start to level off, indicating diminishing returns in explained variance.</p>
 <div id="cell-fig-scree_plot_fa" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ev_fa, _ <span class="op">=</span> fa.get_eigenvalues()</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(ev_fa) <span class="op">+</span> <span class="dv">1</span>), ev_fa, marker<span class="op">=</span><span class="st">'o'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Scree Plot for Factor Analysis'</span>)</span>
@@ -2039,23 +2052,23 @@ Condition Index (Reduced PC Analysis Model):
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Eigenvalue'</span>)</span>
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
 <span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(ev_fa) <span class="op">+</span> <span class="dv">1</span>))</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-scree_plot_fa" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-scree_plot_fa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="100_ddmo_pca_files/figure-html/fig-scree_plot_fa-output-1.png" class="img-fluid figure-img">
+<img src="100_ddmo_pca_files/figure-html/fig-scree_plot_fa-output-1.png" width="799" height="523" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scree_plot_fa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;42.4: Scree plot for Factor Analysis showing the eigenvalues for each factor.
+Figure&nbsp;44.4: Scree plot for Factor Analysis showing the eigenvalues for each factor.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="factor-loadings" class="level3" data-number="42.6.4">
-<h3 data-number="42.6.4" class="anchored" data-anchor-id="factor-loadings"><span class="header-section-number">42.6.4</span> Factor Loadings</h3>
+<section id="factor-loadings" class="level3" data-number="44.6.4">
+<h3 data-number="44.6.4" class="anchored" data-anchor-id="factor-loadings"><span class="header-section-number">44.6.4</span> Factor Loadings</h3>
 <p>Factor Loadings indicate how strongly each original variable is correlated with the extracted factors. High absolute values suggest that the variable has a significant influence on, or is strongly associated with, that factor. Loadings help in interpreting the meaning of each underlying factor.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2063,16 +2076,16 @@ Figure&nbsp;42.4: Scree plot for Factor Analysis showing the eigenvalues for eac
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Summary of Factor Loadings
+<span class="screen-reader-only">Note</span>Summary of Factor Loadings
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Factor loadings are used in Factor Analysis (FA). * Definition: Factor loadings represent the correlation or relationship between the observed variables and the latent factors. * Purpose: They indicate how much each observed variable is explained by a given factor. * Mathematical Representation: In FA, factor loadings are derived from the factor model, where observed variables are expressed as linear combinations of latent factors plus error terms. * Interpretation: High absolute values of factor loadings suggest that the variable is strongly associated with the corresponding factor.</p>
 </div>
 </div>
-<p><a href="#sec-loading-scores-vs-factor-loadings" class="quarto-xref"><span>Section 42.7.3</span></a> explains the difference between loading scores in PCA and factor loadings in FA.</p>
-<div id="497cad94" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print factor loadings with 2 decimals</span></span>
+<p><a href="#sec-loading-scores-vs-factor-loadings" class="quarto-xref"><span>Section 44.7.3</span></a> explains the difference between loading scores in PCA and factor loadings in FA.</p>
+<div id="ce6c2c88" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print factor loadings with 2 decimals</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>factor_loadings <span class="op">=</span> fa.loadings_</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Factor Loadings (rounded to 2 decimals):</span><span class="ch">\n</span><span class="st">"</span>, np.<span class="bu">round</span>(factor_loadings, <span class="dv">2</span>))</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2094,7 +2107,7 @@ Summary of Factor Loadings
 <span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Factors"</span>)</span>
 <span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Features"</span>)</span>
 <span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Factor Loadings (rounded to 2 decimals):
  [[ 0.12  0.97 -0.01  0.06 -0.01  0.08  0.01  0.09  0.01 -0.15]
@@ -2111,17 +2124,17 @@ Summary of Factor Loadings
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="100_ddmo_pca_files/figure-html/cell-29-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="100_ddmo_pca_files/figure-html/cell-29-output-2.png" width="900" height="758" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="factor-scores" class="level3" data-number="42.6.5">
-<h3 data-number="42.6.5" class="anchored" data-anchor-id="factor-scores"><span class="header-section-number">42.6.5</span> Factor Scores</h3>
+<section id="factor-scores" class="level3" data-number="44.6.5">
+<h3 data-number="44.6.5" class="anchored" data-anchor-id="factor-scores"><span class="header-section-number">44.6.5</span> Factor Scores</h3>
 <p>The factor scores are the transformed values of the original variables based on the extracted factors. These scores represent the values of the latent factors for each observation and can be used as new features in regression models, similar to principal components in PCA.</p>
 <div id="def-factor_scores" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 42.5 (Factor Scores)</strong></span> A <strong>factor score</strong> represents the value of a latent factor for a given observation, calculated as a linear combination of the observed variables weighted by the factor score coefficients.</p>
+<p><span class="theorem-title"><strong>Definition 44.5 (Factor Scores)</strong></span> A <strong>factor score</strong> represents the value of a latent factor for a given observation, calculated as a linear combination of the observed variables weighted by the factor score coefficients.</p>
 <p>Mathematically, the factor score for the <span class="math inline">\(i\)</span>-th factor and the <span class="math inline">\(j\)</span>-th observation is defined as:</p>
 <p><span class="math display">\[
 F_{ji} = w_{i1} x_{j1} + w_{i2} x_{j2} + \cdots + w_{ip} x_{jp} = \sum_{k=1}^p w_{ik} x_{jk},
@@ -2136,15 +2149,15 @@ F_{ji} = w_{i1} x_{j1} + w_{i2} x_{j2} + \cdots + w_{ip} x_{jp} = \sum_{k=1}^p w
 <li><span class="math inline">\(p\)</span> is the number of observed variables.</li>
 </ul>
 </div>
-<div id="f2cf1964" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Factor scores for each row (shape: [n_samples, actual_factors])</span></span>
+<div id="60be5e6f" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Factor scores for each row (shape: [n_samples, actual_factors])</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>X_factor_scores <span class="op">=</span> fa.transform(X_encoded)</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"X_factor_scores shape: </span><span class="sc">{</span>X_factor_scores<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Adapt the factor column names to the actual factor count</span></span>
 <span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>df_factors <span class="op">=</span> pd.DataFrame(X_factor_scores, columns<span class="op">=</span>factor_columns)</span>
 <span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"df_factors shape: </span><span class="sc">{</span>df_factors<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"df_factors head:</span><span class="ch">\n</span><span class="sc">{</span>df_factors<span class="sc">.</span>head()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"df_factors head:</span><span class="ch">\n</span><span class="sc">{</span>df_factors<span class="sc">.</span>head()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>X_factor_scores shape: (157, 10)
 df_factors shape: (157, 10)
@@ -2165,11 +2178,11 @@ df_factors head:
 </div>
 </div>
 </section>
-<section id="creating-the-regression-model-with-extracted-factors-from-fa" class="level3" data-number="42.6.6">
-<h3 data-number="42.6.6" class="anchored" data-anchor-id="creating-the-regression-model-with-extracted-factors-from-fa"><span class="header-section-number">42.6.6</span> Creating the Regression Model with Extracted Factors (from FA)</h3>
+<section id="creating-the-regression-model-with-extracted-factors-from-fa" class="level3" data-number="44.6.6">
+<h3 data-number="44.6.6" class="anchored" data-anchor-id="creating-the-regression-model-with-extracted-factors-from-fa"><span class="header-section-number">44.6.6</span> Creating the Regression Model with Extracted Factors (from FA)</h3>
 <p>A linear regression model is built using all ten extracted factors from Factor Analysis. The expectation is that these factors are uncorrelated, addressing multicollinearity.</p>
-<div id="0d933a6e" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>X_model_fa <span class="op">=</span> sm.add_constant(df_factors)</span>
+<div id="1cb0d2af" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>X_model_fa <span class="op">=</span> sm.add_constant(df_factors)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>model_factors <span class="op">=</span> sm.OLS(y, X_model_fa).fit()</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Regression on Factor Scores (all 10 factors):"</span>)</span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model_factors.summary())</span>
@@ -2185,7 +2198,7 @@ df_factors head:
 <span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>X_cond_fa <span class="op">=</span> copy.deepcopy(df_factors)</span>
 <span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>condition_index_df_fa <span class="op">=</span> condition_index(X_cond_fa)</span>
 <span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Condition Index (Factor Analysis Model):"</span>)</span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(condition_index_df_fa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(condition_index_df_fa)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Regression on Factor Scores (all 10 factors):
@@ -2194,8 +2207,8 @@ Regression on Factor Scores (all 10 factors):
 Dep. Variable:               ln_sales   R-squared:                       0.485
 Model:                            OLS   Adj. R-squared:                  0.449
 Method:                 Least Squares   F-statistic:                     13.73
-Date:                Wed, 31 Dec 2025   Prob (F-statistic):           7.69e-17
-Time:                        02:04:08   Log-Likelihood:                -213.62
+Date:                Thu, 15 Jan 2026   Prob (F-statistic):           7.69e-17
+Time:                        23:18:24   Log-Likelihood:                -213.62
 No. Observations:                 157   AIC:                             449.2
 Df Residuals:                     146   BIC:                             482.9
 Df Model:                          10                                         
@@ -2254,13 +2267,13 @@ Condition Index (Factor Analysis Model):
 <p>As expected, the collinearity statistics (VIF and Tolerance) for the factor values show that they are uncorrelated (VIF=1, Tolerance=1). The condition indices are also all close to 1, confirming that Factor Analysis successfully mitigates multicollinearity. The coefficient estimates are larger relative to their standard errors compared to the original model, which can lead to more factors being identified as statistically significant.</p>
 <p>If the R-squared and Adjusted R-squared values for <code>model_factors</code> are close to those of the original <code>model</code>, it indicates that the regression model based on Factor Analysis performs similarly well, while successfully reducing multicollinearity. When all factors are used, the predictive performance metrics are identical to the original OLS model.</p>
 </section>
-<section id="factor-analysis-creating-the-regression-model-with-three-extracted-factors-only" class="level3" data-number="42.6.7">
-<h3 data-number="42.6.7" class="anchored" data-anchor-id="factor-analysis-creating-the-regression-model-with-three-extracted-factors-only"><span class="header-section-number">42.6.7</span> Factor Analysis: Creating the Regression Model with three Extracted Factors only</h3>
-<section id="setting-up-the-regression-model-with-reduced-factors" class="level4" data-number="42.6.7.1">
-<h4 data-number="42.6.7.1" class="anchored" data-anchor-id="setting-up-the-regression-model-with-reduced-factors"><span class="header-section-number">42.6.7.1</span> Setting Up the Regression Model with Reduced Factors</h4>
+<section id="factor-analysis-creating-the-regression-model-with-three-extracted-factors-only" class="level3" data-number="44.6.7">
+<h3 data-number="44.6.7" class="anchored" data-anchor-id="factor-analysis-creating-the-regression-model-with-three-extracted-factors-only"><span class="header-section-number">44.6.7</span> Factor Analysis: Creating the Regression Model with three Extracted Factors only</h3>
+<section id="setting-up-the-regression-model-with-reduced-factors" class="level4" data-number="44.6.7.1">
+<h4 data-number="44.6.7.1" class="anchored" data-anchor-id="setting-up-the-regression-model-with-reduced-factors"><span class="header-section-number">44.6.7.1</span> Setting Up the Regression Model with Reduced Factors</h4>
 <p>To demonstrate the effect of dimensionality reduction, a regression model is created using only the first three extracted factors from Factor Analysis.</p>
-<div id="c6806c03" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a regression model using only the first three factors</span></span>
+<div id="98878733" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a regression model using only the first three factors</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>df_factors_reduced <span class="op">=</span> df_factors.iloc[:, :<span class="dv">3</span>] <span class="co"># select the first three factors</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>X_model_fa_reduced <span class="op">=</span> sm.add_constant(df_factors_reduced)</span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>model_factors_reduced <span class="op">=</span> sm.OLS(y, X_model_fa_reduced).fit()</span>
@@ -2278,7 +2291,7 @@ Condition Index (Factor Analysis Model):
 <span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>X_cond_fa_reduced <span class="op">=</span> copy.deepcopy(df_factors_reduced)</span>
 <span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>condition_index_df_fa_reduced <span class="op">=</span> condition_index(X_cond_fa_reduced)</span>
 <span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Condition Index (Reduced Factor Analysis Model):"</span>)</span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(condition_index_df_fa_reduced)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(condition_index_df_fa_reduced)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Regression on Factor Scores (three factors only):
@@ -2287,8 +2300,8 @@ Regression on Factor Scores (three factors only):
 Dep. Variable:               ln_sales   R-squared:                       0.350
 Model:                            OLS   Adj. R-squared:                  0.337
 Method:                 Least Squares   F-statistic:                     27.43
-Date:                Wed, 31 Dec 2025   Prob (F-statistic):           2.99e-14
-Time:                        02:04:08   Log-Likelihood:                -231.87
+Date:                Thu, 15 Jan 2026   Prob (F-statistic):           2.99e-14
+Time:                        23:18:24   Log-Likelihood:                -231.87
 No. Observations:                 157   AIC:                             471.7
 Df Residuals:                     153   BIC:                             484.0
 Df Model:                           3                                         
@@ -2325,30 +2338,30 @@ Condition Index (Reduced Factor Analysis Model):
 </div>
 <p>The collinearity statistics for the reduced factor set continue to show that they are uncorrelated, with VIFs of 1.0 and condition indices close to 1.</p>
 </section>
-<section id="comparison-of-model-performance-of-the-reduced-fa-model-and-the-full-ols-model" class="level4" data-number="42.6.7.2">
-<h4 data-number="42.6.7.2" class="anchored" data-anchor-id="comparison-of-model-performance-of-the-reduced-fa-model-and-the-full-ols-model"><span class="header-section-number">42.6.7.2</span> Comparison of Model Performance of the Reduced FA Model and the Full OLS Model</h4>
+<section id="comparison-of-model-performance-of-the-reduced-fa-model-and-the-full-ols-model" class="level4" data-number="44.6.7.2">
+<h4 data-number="44.6.7.2" class="anchored" data-anchor-id="comparison-of-model-performance-of-the-reduced-fa-model-and-the-full-ols-model"><span class="header-section-number">44.6.7.2</span> Comparison of Model Performance of the Reduced FA Model and the Full OLS Model</h4>
 <p>When reducing the number of factors from 10 to 3, the R-squared and Adjusted R-squared values for the Factor Analysis model decrease significantly (from ~0.48 to ~0.35). This indicates a trade-off: while reducing dimensionality successfully addresses multicollinearity, retaining too few factors can lead to information loss and reduced predictive accuracy. Lower MSE and RMSE values still suggest better predictive performance for the full OLS model in this specific comparison, as it retains more information.</p>
 </section>
 </section>
 </section>
-<section id="sec-summary-comparison" class="level2" data-number="42.7">
-<h2 data-number="42.7" class="anchored" data-anchor-id="sec-summary-comparison"><span class="header-section-number">42.7</span> Summary: Comparing OLS, PCA, and Factor Analysis Models</h2>
+<section id="sec-summary-comparison" class="level2" data-number="44.7">
+<h2 data-number="44.7" class="anchored" data-anchor-id="sec-summary-comparison"><span class="header-section-number">44.7</span> Summary: Comparing OLS, PCA, and Factor Analysis Models</h2>
 <p>Multicollinearity is a common issue in regression models that can lead to unstable and difficult-to-interpret coefficients. Both Principal Component Analysis (PCA) and Factor Analysis (FA) are powerful techniques for addressing multicollinearity and reducing dimensionality.</p>
 <ul>
 <li><strong>PCA</strong> is a standard method for addressing multicollinearity by transforming correlated variables into uncorrelated principal components. These components can be effectively used in linear regression and other models like Random Forest. While PCA components are not always easy to interpret directly in terms of original variables, they excel at data compression and reducing model complexity.</li>
 <li><strong>Factor Analysis</strong> provides a way to simplify data by identifying underlying latent structures (factors) that explain correlations among variables. It also results in uncorrelated factors, making it suitable for regression problems affected by multicollinearity. Interpretation of factors relies on factor loadings.</li>
 </ul>
 <p>The choice between PCA and Factor Analysis depends on the specific goals: PCA for dimensionality reduction and variance explanation, FA for discovering latent constructs. Both are valuable tools in the data scientist’s toolkit for handling complex, highly correlated datasets.</p>
-<section id="interpretation-of-the-regression-models" class="level3" data-number="42.7.1">
-<h3 data-number="42.7.1" class="anchored" data-anchor-id="interpretation-of-the-regression-models"><span class="header-section-number">42.7.1</span> Interpretation of the Regression Models</h3>
+<section id="interpretation-of-the-regression-models" class="level3" data-number="44.7.1">
+<h3 data-number="44.7.1" class="anchored" data-anchor-id="interpretation-of-the-regression-models"><span class="header-section-number">44.7.1</span> Interpretation of the Regression Models</h3>
 <ul>
 <li><strong>OLS Model (<code>model</code>):</strong> This model uses the original variables directly. Coefficients indicate the direct relationship between each original variable and the target variable.</li>
 <li><strong>PCA Regression Model (<code>model_pca</code>):</strong> This model uses principal components, which are linear combinations of the original variables, as predictors. The coefficients show the relationship between the target variable and these abstract components.</li>
 <li><strong>Factor Analysis Model (<code>model_factors</code>):</strong> This model uses extracted factors, which are also linear combinations of original variables, designed to capture underlying latent structures. Coefficients indicate the relationship between the target variable and these latent factors.</li>
 </ul>
 </section>
-<section id="differences-compared-to-the-standard-ols-model" class="level3" data-number="42.7.2">
-<h3 data-number="42.7.2" class="anchored" data-anchor-id="differences-compared-to-the-standard-ols-model"><span class="header-section-number">42.7.2</span> Differences Compared to the Standard OLS Model</h3>
+<section id="differences-compared-to-the-standard-ols-model" class="level3" data-number="44.7.2">
+<h3 data-number="44.7.2" class="anchored" data-anchor-id="differences-compared-to-the-standard-ols-model"><span class="header-section-number">44.7.2</span> Differences Compared to the Standard OLS Model</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
@@ -2410,8 +2423,8 @@ Condition Index (Reduced Factor Analysis Model):
 </tbody>
 </table>
 </section>
-<section id="sec-loading-scores-vs-factor-loadings" class="level3" data-number="42.7.3">
-<h3 data-number="42.7.3" class="anchored" data-anchor-id="sec-loading-scores-vs-factor-loadings"><span class="header-section-number">42.7.3</span> Key Differences Between Loading Scores (PCA) and Factor Loadings (FA)</h3>
+<section id="sec-loading-scores-vs-factor-loadings" class="level3" data-number="44.7.3">
+<h3 data-number="44.7.3" class="anchored" data-anchor-id="sec-loading-scores-vs-factor-loadings"><span class="header-section-number">44.7.3</span> Key Differences Between Loading Scores (PCA) and Factor Loadings (FA)</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 17%">
@@ -2455,8 +2468,8 @@ Condition Index (Reduced Factor Analysis Model):
 </table>
 <p>While both loading scores and factor loadings describe relationships between variables and derived components or factors, <strong>loading scores</strong> are specific to PCA and focus on maximizing variance, while <strong>factor loadings</strong> are specific to FA and aim to uncover latent structures.</p>
 </section>
-<section id="advantages-of-using-pca-and-fa" class="level3" data-number="42.7.4">
-<h3 data-number="42.7.4" class="anchored" data-anchor-id="advantages-of-using-pca-and-fa"><span class="header-section-number">42.7.4</span> Advantages of Using PCA and FA</h3>
+<section id="advantages-of-using-pca-and-fa" class="level3" data-number="44.7.4">
+<h3 data-number="44.7.4" class="anchored" data-anchor-id="advantages-of-using-pca-and-fa"><span class="header-section-number">44.7.4</span> Advantages of Using PCA and FA</h3>
 <p><strong>Principal Component Analysis (PCA):</strong></p>
 <ul>
 <li><strong>Reduced Multicollinearity:</strong> By using uncorrelated principal components, the model avoids instability caused by multicollinearity.</li>
@@ -2470,8 +2483,8 @@ Condition Index (Reduced Factor Analysis Model):
 <li><strong>Focus on Underlying Structure:</strong> Factor analysis aims to capture the latent structure of the data, potentially providing better insights into the fundamental relationships between variables.</li>
 </ul>
 </section>
-<section id="disadvantages-of-using-pca-and-fa" class="level3" data-number="42.7.5">
-<h3 data-number="42.7.5" class="anchored" data-anchor-id="disadvantages-of-using-pca-and-fa"><span class="header-section-number">42.7.5</span> Disadvantages of Using PCA and FA</h3>
+<section id="disadvantages-of-using-pca-and-fa" class="level3" data-number="44.7.5">
+<h3 data-number="44.7.5" class="anchored" data-anchor-id="disadvantages-of-using-pca-and-fa"><span class="header-section-number">44.7.5</span> Disadvantages of Using PCA and FA</h3>
 <p><strong>Principal Component Analysis (PCA):</strong></p>
 <ul>
 <li><strong>Loss of Interpretability:</strong> Principal components are abstract combinations of the original variables, making it harder to directly interpret the coefficients. Understanding individual variable influence requires examining loading scores.</li>
@@ -2486,8 +2499,8 @@ Condition Index (Reduced Factor Analysis Model):
 <li><strong>Assumption of Latent Structure:</strong> Relies on the assumption that an underlying latent structure exists, which may not always be true for all datasets.</li>
 </ul>
 </section>
-<section id="when-to-use-which-method" class="level3" data-number="42.7.6">
-<h3 data-number="42.7.6" class="anchored" data-anchor-id="when-to-use-which-method"><span class="header-section-number">42.7.6</span> When to Use Which Method</h3>
+<section id="when-to-use-which-method" class="level3" data-number="44.7.6">
+<h3 data-number="44.7.6" class="anchored" data-anchor-id="when-to-use-which-method"><span class="header-section-number">44.7.6</span> When to Use Which Method</h3>
 <ul>
 <li>Use PCA when the primary goal is <strong>dimensionality reduction</strong>, <strong>data compression</strong>, and <strong>multicollinearity resolution</strong>, especially when interpretability of the new components is secondary to predictive performance.</li>
 <li>Use Factor Analysis when the goal is to <strong>uncover underlying latent constructs or factors</strong> that explain the relationships among variables, and when you seek to understand the conceptual meaning of these latent variables, even if it adds complexity.</li>
@@ -2495,14 +2508,14 @@ Condition Index (Reduced Factor Analysis Model):
 </ul>
 </section>
 </section>
-<section id="sec-other-models" class="level2" data-number="42.8">
-<h2 data-number="42.8" class="anchored" data-anchor-id="sec-other-models"><span class="header-section-number">42.8</span> Using Principal Components / Factors in Other Models</h2>
+<section id="sec-other-models" class="level2" data-number="44.8">
+<h2 data-number="44.8" class="anchored" data-anchor-id="sec-other-models"><span class="header-section-number">44.8</span> Using Principal Components / Factors in Other Models</h2>
 <p>The principal components from PCA or factors from Factor Analysis can also be effectively used as predictors in other machine learning models, not just linear regression.</p>
-<section id="random-forest-regressor-with-the-full-dataset" class="level3" data-number="42.8.1">
-<h3 data-number="42.8.1" class="anchored" data-anchor-id="random-forest-regressor-with-the-full-dataset"><span class="header-section-number">42.8.1</span> Random Forest Regressor with the Full Dataset</h3>
+<section id="random-forest-regressor-with-the-full-dataset" class="level3" data-number="44.8.1">
+<h3 data-number="44.8.1" class="anchored" data-anchor-id="random-forest-regressor-with-the-full-dataset"><span class="header-section-number">44.8.1</span> Random Forest Regressor with the Full Dataset</h3>
 <p>First, a Random Forest Regressor is trained using the original, full dataset (<code>X_encoded</code>).</p>
-<div id="6725eabe" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Prepare Data # </span></span>
+<div id="e3cb5acb" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Prepare Data # </span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the original input features (X_encoded) as predictors</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>X_original <span class="op">=</span> X_encoded</span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
@@ -2526,7 +2539,7 @@ Condition Index (Reduced Factor Analysis Model):
 <span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Random Forest Model (using original data):"</span>)</span>
 <span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_rf_orig<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MSE: </span><span class="sc">{</span>mse_rf_orig<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_rf_orig<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_rf_orig<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Random Forest Model (using original data):
@@ -2536,11 +2549,11 @@ RMSE: 1.1453</code></pre>
 </div>
 </div>
 </section>
-<section id="random-forest-regressor-with-pca-components" class="level3" data-number="42.8.2">
-<h3 data-number="42.8.2" class="anchored" data-anchor-id="random-forest-regressor-with-pca-components"><span class="header-section-number">42.8.2</span> Random Forest Regressor with PCA Components</h3>
+<section id="random-forest-regressor-with-pca-components" class="level3" data-number="44.8.2">
+<h3 data-number="44.8.2" class="anchored" data-anchor-id="random-forest-regressor-with-pca-components"><span class="header-section-number">44.8.2</span> Random Forest Regressor with PCA Components</h3>
 <p>Next, a Random Forest Regressor is trained using the principal components derived from PCA. This tests if the dimensionality reduction and multicollinearity resolution of PCA benefit non-linear models.</p>
-<div id="36d43692" class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Prepare Data </span></span>
+<div id="b56fc66e" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Prepare Data </span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the extracted PCA components as predictors (using the 10 components)</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>X_pca_rf <span class="op">=</span> df_pca_components</span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2565,7 +2578,7 @@ RMSE: 1.1453</code></pre>
 <span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Random Forest Model (using PCA components):"</span>)</span>
 <span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_rf_pca<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MSE: </span><span class="sc">{</span>mse_rf_pca<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_rf_pca<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_rf_pca<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Random Forest Model (using PCA components):
@@ -2575,11 +2588,11 @@ RMSE: 1.2518</code></pre>
 </div>
 </div>
 </section>
-<section id="random-forest-regressor-with-extracted-factors-from-fa" class="level3" data-number="42.8.3">
-<h3 data-number="42.8.3" class="anchored" data-anchor-id="random-forest-regressor-with-extracted-factors-from-fa"><span class="header-section-number">42.8.3</span> Random Forest Regressor with Extracted Factors (from FA)</h3>
+<section id="random-forest-regressor-with-extracted-factors-from-fa" class="level3" data-number="44.8.3">
+<h3 data-number="44.8.3" class="anchored" data-anchor-id="random-forest-regressor-with-extracted-factors-from-fa"><span class="header-section-number">44.8.3</span> Random Forest Regressor with Extracted Factors (from FA)</h3>
 <p>Finally, a Random Forest Regressor is trained using the extracted factors from Factor Analysis (using the 3 factors from the reduced model for this example to illustrate potential impact of reduction).</p>
-<div id="34e173eb" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Prepare Data </span></span>
+<div id="e93a8c6c" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Prepare Data </span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the extracted factors as predictors (using the 3 factors from the reduced FA model)</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>X_factors_rf <span class="op">=</span> df_factors_reduced</span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -2604,7 +2617,7 @@ RMSE: 1.2518</code></pre>
 <span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Random Forest Model (using extracted factors):"</span>)</span>
 <span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_rf_fa<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MSE: </span><span class="sc">{</span>mse_rf_fa<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_rf_fa<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_rf_fa<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Random Forest Model (using extracted factors):
@@ -2614,10 +2627,10 @@ RMSE: 1.2492</code></pre>
 </div>
 </div>
 </section>
-<section id="sec-rf-comparison" class="level3" data-number="42.8.4">
-<h3 data-number="42.8.4" class="anchored" data-anchor-id="sec-rf-comparison"><span class="header-section-number">42.8.4</span> Comparison of the Random Forest Models</h3>
-<div id="48a68787" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print comparison of Random Forest models</span></span>
+<section id="sec-rf-comparison" class="level3" data-number="44.8.4">
+<h3 data-number="44.8.4" class="anchored" data-anchor-id="sec-rf-comparison"><span class="header-section-number">44.8.4</span> Comparison of the Random Forest Models</h3>
+<div id="c0687a65" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print comparison of Random Forest models</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Comparison of Random Forest Models:"</span>)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Using Original Data:"</span>)</span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_rf_orig<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
@@ -2632,7 +2645,7 @@ RMSE: 1.2492</code></pre>
 <span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Using Extracted Factors (from FA):"</span>)</span>
 <span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"R-squared: </span><span class="sc">{</span>r2_rf_fa<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MSE: </span><span class="sc">{</span>mse_rf_fa<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_rf_fa<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"RMSE: </span><span class="sc">{</span>rmse_rf_fa<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Comparison of Random Forest Models:
@@ -2656,16 +2669,16 @@ RMSE: 1.2492</code></pre>
 <p>In this example, for Random Forest, using the reduced set of 3 factors from PCA and FA led to a decrease in R-squared and an increase in MSE/RMSE compared to using the original variables. This highlights that while dimensionality reduction can be beneficial, choosing too few components or factors can lead to information loss, negatively impacting predictive performance.</p>
 </section>
 </section>
-<section id="videos-principal-component-analysis-pca" class="level2" data-number="42.9">
-<h2 data-number="42.9" class="anchored" data-anchor-id="videos-principal-component-analysis-pca"><span class="header-section-number">42.9</span> Videos: Principal Component Analysis (PCA)</h2>
+<section id="videos-principal-component-analysis-pca" class="level2" data-number="44.9">
+<h2 data-number="44.9" class="anchored" data-anchor-id="videos-principal-component-analysis-pca"><span class="header-section-number">44.9</span> Videos: Principal Component Analysis (PCA)</h2>
 <ul>
 <li>Video: <a href="https://youtu.be/FgakZw6K1QQ?si=lmXhc-bpOqb7RmDP">Principal Component Analysis (PCA), Step-by-Step</a></li>
 <li>Video: <a href="https://youtu.be/oRvgq966yZg?si=TIUsxNItfyYOjTLt">PCA - Practical Tips</a></li>
 <li>Video: <a href="https://youtu.be/Lsue2gEM9D0?si=_fV_RzK8j1jwcb-e">PCA in Python</a></li>
 </ul>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="42.10">
-<h2 data-number="42.10" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">42.10</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="44.10">
+<h2 data-number="44.10" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">44.10</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2737,13 +2750,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -3088,12 +3102,12 @@ Note
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./100_ddmo_testing.html" class="pagination-link" aria-label="Hypothesis Testing">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./100_ddmo_regression.html" class="pagination-link" aria-label="Regression">
-        <span class="nav-page-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
