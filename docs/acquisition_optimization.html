@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; SpotOptim API Reference – Sequential Parameter Optimization Cookbook</title>
+<title>18&nbsp; Optimization on the Surrogate – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./spotoptim_examples.html" rel="next">
-<link href="./spotoptim_intro.html" rel="prev">
+<link href="./kriging.html" rel="next">
+<link href="./point_selection.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -72,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta name="twitter:title" content="2&nbsp; SpotOptim API Reference – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="18&nbsp; Optimization on the Surrogate – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
 <meta name="twitter:card" content="summary">
 </head>
@@ -86,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spotoptim_intro.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./spotoptim_api.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">SpotOptim API Reference</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./acquisition_optimization.html">Optimization on the Surrogate</a></li><li class="breadcrumb-item"><a href="./acquisition_optimization.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Optimization on the Surrogate</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -155,7 +190,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spotoptim_api.html" class="sidebar-item-text sidebar-link active">
+  <a href="./spotoptim_api.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">SpotOptim API Reference</span></span></a>
   </div>
 </li>
@@ -306,7 +341,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./acquisition_optimization.html" class="sidebar-item-text sidebar-link">
+  <a href="./acquisition_optimization.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Optimization on the Surrogate</span></span></a>
   </div>
 </li>
@@ -619,14 +654,14 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#spotoptim.minimize" id="toc-spotoptim.minimize" class="nav-link active" data-scroll-target="#spotoptim.minimize"><span class="header-section-number">3</span> SpotOptim.minimize</a>
+  <li><a href="#key-arguments" id="toc-key-arguments" class="nav-link active" data-scroll-target="#key-arguments"><span class="header-section-number">18.1</span> Key Arguments</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">18.2</span> Examples</a>
   <ul class="collapse">
-  <li><a href="#api" id="toc-api" class="nav-link" data-scroll-target="#api"><span class="header-section-number">3.1</span> API</a></li>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">3.2</span> Parameters</a></li>
-  <li><a href="#returns" id="toc-returns" class="nav-link" data-scroll-target="#returns"><span class="header-section-number">3.3</span> Returns</a></li>
-  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">3.4</span> See Also</a></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes"><span class="header-section-number">3.5</span> Notes</a></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">3.6</span> Jupyter Notebook</a></li>
+  <li><a href="#default-configuration-differential-evolution" id="toc-default-configuration-differential-evolution" class="nav-link" data-scroll-target="#default-configuration-differential-evolution"><span class="header-section-number">18.2.1</span> 1. Default Configuration (Differential Evolution)</a></li>
+  <li><a href="#customizing-differential-evolution" id="toc-customizing-differential-evolution" class="nav-link" data-scroll-target="#customizing-differential-evolution"><span class="header-section-number">18.2.2</span> 2. Customizing Differential Evolution</a></li>
+  <li><a href="#using-gradient-based-optimization-l-bfgs-b" id="toc-using-gradient-based-optimization-l-bfgs-b" class="nav-link" data-scroll-target="#using-gradient-based-optimization-l-bfgs-b"><span class="header-section-number">18.2.3</span> 3. Using Gradient-Based Optimization (L-BFGS-B)</a></li>
+  <li><a href="#using-gradient-free-optimization-nelder-mead" id="toc-using-gradient-free-optimization-nelder-mead" class="nav-link" data-scroll-target="#using-gradient-free-optimization-nelder-mead"><span class="header-section-number">18.2.4</span> 4. Using Gradient-Free Optimization (Nelder-Mead)</a></li>
+  <li><a href="#returning-multiple-candidates" id="toc-returning-multiple-candidates" class="nav-link" data-scroll-target="#returning-multiple-candidates"><span class="header-section-number">18.2.5</span> 5. Returning Multiple Candidates</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -634,9 +669,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spotoptim_intro.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./spotoptim_api.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">SpotOptim API Reference</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./acquisition_optimization.html">Optimization on the Surrogate</a></li><li class="breadcrumb-item"><a href="./acquisition_optimization.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Optimization on the Surrogate</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">SpotOptim API Reference</span></h1>
+<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Optimization on the Surrogate</span></h1>
 </div>
 
 
@@ -653,70 +688,190 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="spotoptim.minimize" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> SpotOptim.minimize</h1>
-<p>Minimization of scalar function of one or more variables using Surrogate-Model Based Optimization (SMBO).</p>
-<section id="api" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="api"><span class="header-section-number">3.1</span> API</h2>
-<p><code>spotoptim.SpotOptim(fun, bounds, max_iter=20, n_initial=10, ...).optimize()</code></p>
-</section>
-<section id="parameters" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="parameters"><span class="header-section-number">3.2</span> Parameters</h2>
-<p><strong>fun</strong> : callable The objective function to be minimized. <code>fun(x) -&gt; float</code> where <code>x</code> is an array with shape (n,) and <code>fun</code> returns a scalar float.</p>
-<p><strong>bounds</strong> : sequence or <code>Bounds</code> Bounds for variables. There are two ways to specify the bounds:</p>
-<ol type="1">
-<li>Instance of <code>scipy.optimize.Bounds</code> class.</li>
-<li>Sequence of <code>(min, max)</code> pairs for each element in <code>x</code>. <code>None</code> is not supported.</li>
-</ol>
-<p><strong>max_iter</strong> : int, optional Maximum number of iterations (function evaluations). Default is 20. Note: This includes the initial design points.</p>
-<p><strong>n_initial</strong> : int, optional Number of initial design points (Latin Hypercube Sampling). Default is 10. Must be less than <code>max_iter</code>.</p>
-<p><strong>seed</strong> : int, optional Random seed for reproducibility. Default is None.</p>
-<p><strong>surrogate</strong> : estimator object, optional Surrogate model to use. If None, a default Gaussian Process Regressor (Matern kernel) is used.</p>
-<p><strong>acquisition</strong> : str, optional Acquisition function to use. Default is “y” (best value). Options: “EI” (Expected Improvement), “LCB” (Lower Confidence Bound), etc.</p>
-<p><strong>var_type</strong> : list of str, optional List specifying the type of each variable:</p>
+<p>In Surrogate-Model-Based Optimization (SMBO), determining the next candidate point to evaluate involves solving an internal optimization problem. This problem aims to maximize an <strong>acquisition function</strong> (like Expected Improvement) based on the current surrogate model. This step is also known as “optimization on the surrogate” or “infill criterion optimization”.</p>
+<p><code>SpotOptim</code> provides extensive control over this process, allowing you to choose the acquisition function, the optimization algorithm used to maximize it, and fine-tune that optimizer’s parameters.</p>
+<section id="key-arguments" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="key-arguments"><span class="header-section-number">18.1</span> Key Arguments</h2>
+<p>The following arguments in <code>SpotOptim</code> control the optimization on the surrogate:</p>
 <ul>
-<li>“float” (continuous, default)</li>
-<li>“int” (integer)</li>
-<li>“factor” (categorical)</li>
-</ul>
-<p><strong>var_name</strong> : list of str, optional List of names for each variable. Default is <code>["x0", "x1", ...]</code>.</p>
-</section>
-<section id="returns" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="returns"><span class="header-section-number">3.3</span> Returns</h2>
-<p><strong>res</strong> : OptimizeResult The optimization result represented as a <code>scipy.optimize.OptimizeResult</code> object. Important attributes are:</p>
+<li><code>acquisition</code> (str): The acquisition function to use. Common choices are <code>"y"</code> (Surrogate Prediction, typically for minimization), <code>"EI"</code> (Expected Improvement), <code>"LCB"</code> (Lower Confidence Bound).</li>
+<li><code>acquisition_optimizer</code> (str or callable): The optimization algorithm used to maximize the acquisition function. Defaults to <code>"differential_evolution"</code>. You can also specify any method supported by <code>scipy.optimize.minimize</code> (e.g., <code>"L-BFGS-B"</code>, <code>"Nelder-Mead"</code>) or provide a custom callable.</li>
+<li><code>acquisition_optimizer_kwargs</code> (dict): A dictionary of keyword arguments passed to the <code>acquisition_optimizer</code>. This allows you to tune parameters like population size, max iterations, or tolerance. Defaults to <code>{'maxiter': 10000, 'gtol': 1e-9}</code> if not provided.
 <ul>
-<li><code>x</code>: the solution array</li>
-<li><code>fun</code>: the value of the objective function at the solution</li>
-<li><code>success</code>: a boolean flag indicating if the optimizer exited successfully</li>
-<li><code>message</code>: a description of the cause of the termination</li>
-<li><code>nfev</code>: number of evaluations of the objective function</li>
-<li><code>nit</code>: number of iterations</li>
+<li><strong>Note</strong>: These kwargs are <em>also</em> passed to the Surrogate Model’s internal optimizer (e.g., for hyperparameter tuning of the Gaussian Process) if applicable.</li>
+</ul></li>
+<li><code>acquisition_fun_return_size</code> (int): The number of candidate points to return from the acquisition optimization. Defaults to 3. This is useful for batch evaluation or providing multiple starting points.</li>
+<li><code>acquisition_failure_strategy</code> (str): Strategy to use if the acquisition optimization fails or yields poor results. Options include <code>"random"</code> (sample random points) or <code>"best"</code> (use best found so far).</li>
 </ul>
 </section>
-<section id="see-also" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="see-also"><span class="header-section-number">3.4</span> See Also</h2>
-<p><code>scipy.optimize.minimize</code> : Standard Scipy minimization. <code>sklearn.gaussian_process.GaussianProcessRegressor</code> : The default surrogate model.</p>
+<section id="examples" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="examples"><span class="header-section-number">18.2</span> Examples</h2>
+<p>The following examples demonstrate how to configure these parameters.</p>
+<section id="default-configuration-differential-evolution" class="level3" data-number="18.2.1">
+<h3 data-number="18.2.1" class="anchored" data-anchor-id="default-configuration-differential-evolution"><span class="header-section-number">18.2.1</span> 1. Default Configuration (Differential Evolution)</h3>
+<p>By default, <code>SpotOptim</code> uses Differential Evolution (<code>scipy.optimize.differential_evolution</code>).</p>
+<div id="df7f378f" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obj_fun(X):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Default behavior</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>spot <span class="op">=</span> SpotOptim(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>obj_fun,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">"EI"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Default: acquisition_optimizer="differential_evolution"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best y:"</span>, spot.best_y_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best y: 0.003278799440609995</code></pre>
+</div>
+</div>
 </section>
-<section id="notes" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="notes"><span class="header-section-number">3.5</span> Notes</h2>
-<p>This section describes the available solvers that can be selected by the ‘method’ parameter of the minimize function. However, <code>SpotOptim</code> uses a fixed SMBO method (Surrogate-Model Based Optimization) which iteratively: 1. Builds a surrogate model (e.g., Kriging/Gaussian Process) on available data. 2. Optimizes an acquisition function (e.g., Expected Improvement) to select the next point. 3. Evaluates the objective function at the new point. 4. Updates the model and repeats.</p>
-<p>This method is particularly effective for expensive-to-evaluate black-box functions.</p>
+<section id="customizing-differential-evolution" class="level3" data-number="18.2.2">
+<h3 data-number="18.2.2" class="anchored" data-anchor-id="customizing-differential-evolution"><span class="header-section-number">18.2.2</span> 2. Customizing Differential Evolution</h3>
+<p>You can use <code>acquisition_optimizer_kwargs</code> to adjust Differential Evolution parameters, such as increasing <code>maxiter</code> or changing the <code>popsize</code>.</p>
+<div id="a192b1e0" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obj_fun(X):</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure DE parameters</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>de_kwargs <span class="op">=</span> {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"maxiter"</span>: <span class="dv">200</span>,    <span class="co"># Increase max iterations</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"popsize"</span>: <span class="dv">30</span>,     <span class="co"># Increase population size</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mutation"</span>: (<span class="fl">0.6</span>, <span class="fl">1.1</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>spot <span class="op">=</span> SpotOptim(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>obj_fun,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">"EI"</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    acquisition_optimizer<span class="op">=</span><span class="st">"differential_evolution"</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    acquisition_optimizer_kwargs<span class="op">=</span>de_kwargs</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best y with Custom DE:"</span>, spot.best_y_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best y with Custom DE: 1.2009977684538307</code></pre>
+</div>
+</div>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">3.6</span> Jupyter Notebook</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="using-gradient-based-optimization-l-bfgs-b" class="level3" data-number="18.2.3">
+<h3 data-number="18.2.3" class="anchored" data-anchor-id="using-gradient-based-optimization-l-bfgs-b"><span class="header-section-number">18.2.3</span> 3. Using Gradient-Based Optimization (L-BFGS-B)</h3>
+<p>You can switch to a gradient-based optimizer like <code>L-BFGS-B</code> by specifying it in <code>acquisition_optimizer</code>. Note that for <code>minimize</code>-based methods, parameters are usually passed via an <code>options</code> dictionary within <code>acquisition_optimizer_kwargs</code>.</p>
+<div id="488250be" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obj_fun(X):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure L-BFGS-B parameters</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>lbfgs_kwargs <span class="op">=</span> {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"method"</span>: <span class="st">"L-BFGS-B"</span>,  <span class="co"># Explicitly state method (good practice)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"options"</span>: {</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"maxiter"</span>: <span class="dv">100</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ftol"</span>: <span class="fl">1e-9</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>spot <span class="op">=</span> SpotOptim(</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>obj_fun,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">"EI"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    acquisition_optimizer<span class="op">=</span><span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    acquisition_optimizer_kwargs<span class="op">=</span>lbfgs_kwargs</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best y with L-BFGS-B:"</span>, spot.best_y_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best y with L-BFGS-B: 0.3247384332367813</code></pre>
 </div>
-<div class="callout-title-container flex-fill">
-Note
+</div>
+</section>
+<section id="using-gradient-free-optimization-nelder-mead" class="level3" data-number="18.2.4">
+<h3 data-number="18.2.4" class="anchored" data-anchor-id="using-gradient-free-optimization-nelder-mead"><span class="header-section-number">18.2.4</span> 4. Using Gradient-Free Optimization (Nelder-Mead)</h3>
+<p>For non-smooth acquisition landscapes or when robustness is needed without gradients, <code>Nelder-Mead</code> is a good choice. <code>SpotOptim</code> automatically handles the interface to ensure compatibility.</p>
+<div id="e9cd14c9" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obj_fun(X):</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure Nelder-Mead</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>nm_kwargs <span class="op">=</span> {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"method"</span>: <span class="st">"Nelder-Mead"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"options"</span>: {</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"maxiter"</span>: <span class="dv">500</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"adaptive"</span>: <span class="va">True</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>spot <span class="op">=</span> SpotOptim(</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>obj_fun,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">"EI"</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    acquisition_optimizer<span class="op">=</span><span class="st">"Nelder-Mead"</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    acquisition_optimizer_kwargs<span class="op">=</span>nm_kwargs</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best y with Nelder-Mead:"</span>, spot.best_y_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best y with Nelder-Mead: 0.11262992624205477</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/spotoptim_api.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
-</ul>
+</section>
+<section id="returning-multiple-candidates" class="level3" data-number="18.2.5">
+<h3 data-number="18.2.5" class="anchored" data-anchor-id="returning-multiple-candidates"><span class="header-section-number">18.2.5</span> 5. Returning Multiple Candidates</h3>
+<p>Setting <code>acquisition_fun_return_size &gt; 1</code> forces the optimizer to return multiple candidate points (e.g., the top N from the final population).</p>
+<div id="72c0810d" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> obj_fun(X):</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>spot <span class="op">=</span> SpotOptim(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>obj_fun,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">5</span>, <span class="co"># Short run just to demo config</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">"EI"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    acquisition_fun_return_size<span class="op">=</span><span class="dv">5</span>  <span class="co"># Return top 5 candidates</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The internal optimization loop handles these candidates automatically</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code> message: Optimization terminated: maximum evaluations (5) reached
+                   Current function value: 22.482860
+                   Iterations: 3
+                   Function evaluations: 5
+ success: True
+     fun: 22.482859986041834
+       x: [-4.590e+00 -1.188e+00]
+       X: [[ 3.105e+00 -3.792e+00]
+           [-4.870e+00  2.859e+00]
+           [-3.915e+00 -2.988e+00]
+           [-4.866e+00 -4.380e-01]
+           [-4.590e+00 -1.188e+00]]
+     nit: 3
+    nfev: 5
+       y: [ 2.403e+01  3.189e+01  2.426e+01  2.387e+01  2.248e+01]</code></pre>
 </div>
 </div>
 
@@ -1127,13 +1282,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./spotoptim_intro.html" class="pagination-link" aria-label="Introduction to SpotOptim">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to SpotOptim</span></span>
+      <a href="./point_selection.html" class="pagination-link" aria-label="Point Selection Implementation in SpotOptim">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Point Selection Implementation in SpotOptim</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./spotoptim_examples.html" class="pagination-link" aria-label="SpotOptim Internal Methods Examples">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">SpotOptim Internal Methods Examples</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./kriging.html" class="pagination-link" aria-label="Kriging Surrogate Integration">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Kriging Surrogate Integration</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
