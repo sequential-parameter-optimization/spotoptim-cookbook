@@ -32,8 +32,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 import copy
-from spotpython.utils.stats import condition_index
-from spotpython.utils.pca import (get_pca, plot_pca_scree, plot_pca1vs2, get_pca_topk, get_loading_scores, plot_loading_scores)
+from spotoptim.utils.stats import condition_index
+from spotoptim.utils.pca import (get_pca, plot_pca_scree, plot_pca1vs2, get_pca_topk, get_loading_scores, plot_loading_scores)
 ```
 
 ## The Car-Sales Data Set {#sec-data-preprocessing}
@@ -155,10 +155,10 @@ Despite the positive model fit, many predictors show non-significant coefficient
 ## Collinearity Diagnostics {#sec-collinearity-diagnostics}
 
 ### The Coefficient Table
-The coefficient table provides further evidence of multicollinearity. The function `compute_coefficients_table()`  from the `spotpython` package is used here for comprehensive diagnostics.
+The coefficient table provides further evidence of multicollinearity. The function `compute_coefficients_table()`  from the `spotoptim` package is used here for comprehensive diagnostics.
 
 ```{python}
-from spotpython.utils.stats import compute_coefficients_table
+from spotoptim.utils.stats import compute_coefficients_table
 coeffs_table = compute_coefficients_table(
     model=model, X_encoded=X_encoded_with_const, y=y, vif_table=None
 )
@@ -193,7 +193,7 @@ Several eigenvalues are close to 0, indicating strong correlations among predict
 
 #### Condition Indices
 
-From `spotpython.utils.stats`, we can compute the condition index, which is a measure of multicollinearity. A condition index greater than 15 suggests potential multicollinearity issues, and values above 30 indicate severe problems.
+From `spotoptim.utils.stats`, we can compute the condition index, which is a measure of multicollinearity. A condition index greater than 15 suggests potential multicollinearity issues, and values above 30 indicate severe problems.
 
 Condition indices, calculated as the square roots of the ratios of the largest eigenvalue to each subsequent eigenvalue, also highlight the issue.
 
@@ -205,7 +205,7 @@ $$
 \text{CI}_i = \sqrt{\frac{\lambda{\max}}{\lambda_i}},
 $$
 where $\lambda_{\max}$ is the largest eigenvalue of the scaled predictor correlation matrix, and $\lambda_i$ is the $i$-th eigenvalue of the same matrix.
-::: 
+:::
 
 $CI_i$-values greater than 15 suggest a potential problem, and values over 30 indicate a severe problem.
 
@@ -268,7 +268,7 @@ $$
 where $\mathbf{z}_i$ is the $i$-th principal component or factor, and $\text{Var}(\mathbf{z}_i)$ is its variance.
 
 The scree plot is constructed by plotting the points $(i, \lambda_i)$ for $i = 1, 2, \dots, p$. The "elbow" in the plot, where the eigenvalues start to level off, indicates the optimal number of components or factors to retain.
-::: 
+:::
 
 
 ### Loading Scores (for PCA)
@@ -300,7 +300,7 @@ Loading scores are used in Principal Component Analysis (PCA).
 * Purpose: They indicate how much each original variable contributes to a given principal component.
 * Mathematical Representation: In PCA, the loading scores are the elements of the eigenvectors of the covariance (or correlation) matrix, scaled by the square root of the corresponding eigenvalues.
 * Interpretation: High absolute values of loading scores suggest that the variable strongly influences the corresponding principal component.
-::: 
+:::
 
 @sec-loading-scores-vs-factor-loadings explains the difference between loading scores in PCA and factor loadings in FA. 
 
@@ -309,7 +309,7 @@ Loading scores are used in Principal Component Analysis (PCA).
 ### PCA for Car Sales Example
 
 #### Computing the Principal Components
-The Principal Component Analysis (PCA) is applied only to the features (`X_encoded`), not to the target variable. We will use functions from `spotpython.utils.pca`, which are based on `sklearn.decomposition.PCA` to perform PCA.
+The Principal Component Analysis (PCA) is applied only to the features (`X_encoded`), not to the target variable. We will use functions from `spotoptim.utils.pca`, which are based on `sklearn.decomposition.PCA` to perform PCA.
 
 Step 1: Perform PCA and scale the data
 
@@ -529,7 +529,7 @@ where
 * $w_{ik}$ is the factor score coefficient for variable $k$ on factor $i$,  
 * $x_{jk}$ is the standardized value of variable $k$ for observation $j$, and 
 * $p$ is the number of observed variables.
-::: 
+:::
 
 
 ```{python}

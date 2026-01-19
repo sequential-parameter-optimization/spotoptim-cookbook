@@ -15,7 +15,7 @@ SpotOptim distinguishes between two types of saved data:
 - **Experiment** (`*_exp.pkl`): Configuration only, excluding the objective function and results. Used to transfer optimization setup to remote machines.
 - **Result** (`*_res.pkl`): Complete optimization state including configuration, all evaluations, and results. Used to save and analyze completed optimizations.
 
-### What Gets Saved
+@tbl-what-gets-saved shows what gets saved in each file type.
 
 | Component | Experiment | Result |
 |-----------|------------|--------|
@@ -26,14 +26,15 @@ SpotOptim distinguishes between two types of saved data:
 | Surrogate model | Excluded* | ✓ |
 | TensorBoard writer | ✗ | ✗ |
 
-::: {.callout-note title="Robust Function Saving"}
-SpotOptim uses `dill` for serialization, which allows robust saving of objective functions, including lambda functions and locally defined functions. This means you do **not** need to manually re-attach the objective function after loading a result file.
-:::
+: Robust Function Saving {#tbl-what-gets-saved}
+
+
+SpotOptim uses `dill` for serialization, which allows robust saving of objective functions, including lambda functions and locally defined functions. 
 
 
 ## Quick Start
 
-### Basic Save and Load
+
 
 ```{python}
 #| label: basic-save-load-example
@@ -73,85 +74,60 @@ The save/load functionality enables a powerful workflow for distributed optimiza
 
 ### Step 1: Define Experiment Locally
  
- ```{python}
- #| label: define-experiment-locally
- import numpy as np
- from spotoptim import SpotOptim
+Generate the `remote_job_001_exp.pkl` file by running the following code:
+
+```{python}
+#| label: experiment-locally
+import numpy as np
+from spotoptim import SpotOptim
+from spotoptim.function import rosenbrock
  
- # Define the actual function locally
- def expensive_function(X):
-     """Function to be optimized remotely"""
-     return np.sum(X**2, axis=1) + 0.1 * np.sum(np.sin(10 * X), axis=1)
+optimizer = SpotOptim(
+    fun=rosenbrock,
+    bounds=[(-2, 2), (-2, 2)],
+    max_iter=50,
+    n_initial=10,
+    seed=42,
+    verbose=True)
  
- # Define configuration locally
- optimizer = SpotOptim(
-     fun=expensive_function,  # Actual function is included!
-     bounds=[(-10, 10), (-10, 10), (-10, 10)],
-     max_iter=20,
-     n_initial=10,
-     seed=42,
-     verbose=True
- )
+optimizer.save_experiment(prefix="remote_job_001")
+```
  
- # Save experiment configuration
- optimizer.save_experiment(prefix="remote_job_001")
- # Creates: remote_job_001_exp.pkl
  
- print("Experiment saved. Transfer remote_job_001_exp.pkl to remote machine.")
- ```
+### Step 2: Execute on Remote Machine
+
+Generate the `remote_job_001_res.pkl` file by running the following code on the remote machine:
  
- ### Step 2: Execute on Remote Machine
- 
- ```{python}
- #| label: execute-remote
- from spotoptim import SpotOptim
- # No need to redefine function if it was serialized!
- 
- # Load experiment configuration (function is included via dill)
- optimizer = SpotOptim.load_experiment("remote_job_001_exp.pkl")
- print("Experiment loaded successfully with function included.")
- 
- # Run optimization
- result = optimizer.optimize()
- print(f"Optimization complete. Best value: {result.fun:.6f}")
- 
- # Save results
- optimizer.save_result(prefix="remote_job_001")
- # Creates: remote_job_001_res.pkl
- 
- print("Results saved. Transfer remote_job_001_res.pkl back to local machine.")
- ```
+```{python}
+#| label: execute-remote
+from spotoptim import SpotOptim
+optimizer = SpotOptim.load_experiment("remote_job_001_exp.pkl")
+result = optimizer.optimize()
+optimizer.save_result(prefix="remote_job_001")
+```
 
 ### Step 3: Analyze Results Locally
 
 ```{python}
 #| label: analyze-results-locally
 from spotoptim import SpotOptim
-import matplotlib.pyplot as plt
-
-# Load results from remote execution
 optimizer = SpotOptim.load_result("remote_job_001_res.pkl")
-
-# Access all optimization data
 print(f"Best value found: {optimizer.best_y_:.6f}")
 print(f"Best point: {optimizer.best_x_}")
 print(f"Total evaluations: {optimizer.counter}")
 print(f"Number of iterations: {optimizer.n_iter_}")
+```
 
-# Analyze convergence
-plt.figure(figsize=(10, 6))
-plt.plot(optimizer.y_, 'o-', alpha=0.6, label='Evaluations')
-plt.plot(range(len(optimizer.y_)), 
-         [optimizer.y_[:i+1].min() for i in range(len(optimizer.y_))],
-         'r-', linewidth=2, label='Best so far')
-plt.xlabel('Iteration')
-plt.ylabel('Objective Value')
-plt.title('Optimization Progress')
-plt.legend()
-plt.grid(True)
-plt.show()
 
-# Access all evaluated points
+```{python}
+#| label: fig-plot-progress-1
+#| fig-cap: "Optimization Progress"
+optimizer.plot_progress(log_y=True)
+```
+
+Access all evaluated points as follows:
+```{python}
+#| label: analyze-results-locally-2
 print(f"\nAll evaluated points shape: {optimizer.X_.shape}")
 print(f"All objective values shape: {optimizer.y_.shape}")
 ```
@@ -243,7 +219,7 @@ print(f"Initial optimization: {result1.nfev} evaluations, best={result1.fun:.6f}
 
 # Load and continue
 opt2 = SpotOptim.load_result("checkpoint_res.pkl")
-opt2.fun = objective  # Re-attach function
+# No need to re-attach function as it is loaded with dill
 opt2.max_iter = 25  # Increase budget
 
 # Continue optimization
@@ -337,9 +313,12 @@ print(loaded_opt.X_[:5, 1])  # Should be integers
 
 ## Best Practices
 
-### 1. Always Re-attach the Objective Function
+### 1. Re-attaching the Objective Function (Optional)
 
-After loading an experiment, you **must** re-attach the objective function:
+Since `dill` is used for serialization, the objective function is automatically loaded. You only need to re-attach the function if:
+
+1. You want to change the objective function (e.g., to a different implementation).
+2. The function relies on external resources that cannot be serialized.
 
 ```{python}
 #| label: reattach-function-example
@@ -347,10 +326,10 @@ After loading an experiment, you **must** re-attach the objective function:
 # Load experiment
 optimizer = SpotOptim.load_experiment("experiment_exp.pkl")
 
-# REQUIRED: Re-attach function
-optimizer.fun = your_objective_function
+# OPTIONAL: Replace the function if needed
+# optimizer.fun = new_objective_function
 
-# Now you can optimize
+# Run optimization
 result = optimizer.optimize()
 ```
 
@@ -432,18 +411,25 @@ import numpy as np
 from spotoptim import SpotOptim
 import os
 
+DIRNAME = "experiments_compare_de_tricands_bfgs"
+
 # Placeholder function for experiment setup
 def placeholder_func(X):
     return np.sum(X**2, axis=1)
 
+
+
 # Create experiments directory
-os.makedirs("experiments", exist_ok=True)
+os.makedirs(DIRNAME, exist_ok=True)
+# guarantee that the directory is empty
+for file in os.listdir(DIRNAME):
+    os.remove(os.path.join(DIRNAME, file))
 
 # Define multiple experiments
 experiments = [
-    {"seed": 42, "max_iter": 20, "prefix": "exp_seed42"},
-    {"seed": 123, "max_iter": 20, "prefix": "exp_seed123"},
-    {"seed": 999, "max_iter": 20, "prefix": "exp_seed999"},
+    {"acquisition_optimizer": "differential_evolution", "max_iter": 20, "prefix": "exp_de"},
+    {"acquisition_optimizer": "tricands", "max_iter": 20, "prefix": "exp_tricands"},
+    {"acquisition_optimizer": "L-BFGS-B", "max_iter": 20, "prefix": "exp_bfgs"},
 ]
 
 for exp_config in experiments:
@@ -452,18 +438,19 @@ for exp_config in experiments:
         bounds=[(-10, 10), (-10, 10), (-10, 10)],
         max_iter=exp_config["max_iter"],
         n_initial=10,
-        seed=exp_config["seed"],
-        verbose=False
+        seed=42,
+        acquisition_optimizer=exp_config["acquisition_optimizer"],
+        verbose=True
     )
     
     optimizer.save_experiment(
         prefix=exp_config["prefix"],
-        path="experiments"
+        path=DIRNAME
     )
     
-    print(f"Created: experiments/{exp_config['prefix']}_exp.pkl")
+    print(f"Created: {DIRNAME}/{exp_config['prefix']}_exp.pkl")
 
-print("\nAll experiments created. Transfer 'experiments' folder to remote machine.")
+print("\nAll experiments created. Transfer '{DIRNAME}' folder to remote machine.")
 ```
 
 ### Remote Machine (Execution)
@@ -484,7 +471,7 @@ def complex_objective(X):
     return term1 - term2 + term3
 
 # Find all experiment files
-exp_files = glob.glob("experiments/*_exp.pkl")
+exp_files = glob.glob(f"{DIRNAME}/*_exp.pkl")
 print(f"Found {len(exp_files)} experiments to run")
 
 # Run each experiment
@@ -505,9 +492,9 @@ for exp_file in exp_files:
     prefix = os.path.basename(exp_file).replace("_exp.pkl", "")
     optimizer.save_result(
         prefix=prefix,
-        path="experiments"
+        path=DIRNAME
     )
-    print(f"  Saved: experiments/{prefix}_res.pkl")
+    print(f"  Saved: {DIRNAME}/{prefix}_res.pkl")
 
 print("\nAll experiments completed. Transfer results back to local machine.")
 ```
@@ -523,7 +510,7 @@ import glob
 import matplotlib.pyplot as plt
 
 # Find all result files
-result_files = glob.glob("experiments/*_res.pkl")
+result_files = glob.glob(f"{DIRNAME}/*_res.pkl")
 print(f"Found {len(result_files)} results to analyze")
 
 # Load and compare results
@@ -535,7 +522,8 @@ for res_file in result_files:
         "best_value": opt.best_y_,
         "best_point": opt.best_x_,
         "n_evals": opt.counter,
-        "seed": opt.seed
+        "seed": opt.seed,
+        "acquisition_optimizer": opt.acquisition_optimizer,
     })
     print(f"{res_file}: best={opt.best_y_:.6f}, evals={opt.counter}")
 
@@ -546,6 +534,7 @@ print(f"  File: {best['file']}")
 print(f"  Value: {best['best_value']:.6f}")
 print(f"  Point: {best['best_point']}")
 print(f"  Seed: {best['seed']}")
+print(f"  Acquisition optimizer: {best['acquisition_optimizer']}")
 
 # Plot convergence comparison
 plt.figure(figsize=(12, 6))
@@ -553,8 +542,9 @@ plt.figure(figsize=(12, 6))
 for res_file in result_files:
     opt = SpotOptim.load_result(res_file)
     seed = opt.seed
+    acquisition_optimizer = opt.acquisition_optimizer
     cummin = [opt.y_[:i+1].min() for i in range(len(opt.y_))]
-    plt.plot(cummin, label=f"Seed {seed}", linewidth=2, alpha=0.7)
+    plt.plot(cummin, label=f"{acquisition_optimizer}", linewidth=2, alpha=0.7)
 
 plt.xlabel("Iteration", fontsize=12)
 plt.ylabel("Best Value Found", fontsize=12)
@@ -562,8 +552,8 @@ plt.title("Optimization Progress Comparison", fontsize=14)
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
-plt.savefig("experiments/convergence_comparison.png", dpi=150)
-print("\nConvergence plot saved to: experiments/convergence_comparison.png")
+plt.savefig(f"{DIRNAME}/convergence_comparison.png", dpi=150)
+print("\nConvergence plot saved to: {DIRNAME}/convergence_comparison.png")
 ```
 
 ## Technical Details
@@ -606,10 +596,14 @@ with open(filename, "wb") as handle:
 ## Troubleshooting
 
 ### Issue: "AttributeError: 'SpotOptim' object has no attribute 'fun'"
+This should not happen if `dill` is working correctly. If it does, your function might not be picklable.
+Try defining the function at the top level of your script or module.
+If all else fails, you can manually re-attach it:
+
 ```python
 #| eval: false
 opt = SpotOptim.load_experiment("exp.pkl")
-# opt.fun is already populated!
+opt.fun = my_objective_function # Manually re-attach
 result = opt.optimize()
 ```
 
@@ -658,12 +652,12 @@ optimizer = SpotOptim(..., seed=42)  # Use fixed seed
 
 # When loading and continuing
 loaded_opt = SpotOptim.load_result("result_res.pkl")
-loaded_opt.fun = same_objective_function  # Same function definition
+# loaded_opt.fun is already attached
 ```
 
 ## Jupyter Notebook
 
-:::{.callout-note}
+::: {.callout-note}
 
 * The Jupyter-Notebook of this chapter is available on GitHub in the [Sequential Parameter Optimization Cookbook Repository](https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/spot_step_by_step.ipynb)
 

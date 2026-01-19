@@ -764,7 +764,7 @@ def generate_rbf_data(n_samples=10, grid_points=41):
     Returns:
         tuple: (rbf_model, X, Y, Z, Z_0) - Model and grid data for plotting
     """
-    from spotpython.utils.sampling import bestlh as best_lh
+    from spotoptim.sampling.mm import bestlh as best_lh 
     # Generate sampling plan
     X_samples = best_lh(n_samples, 2, population=10, iterations=100)
     # Compute objective function values

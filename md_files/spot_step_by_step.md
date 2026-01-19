@@ -244,12 +244,12 @@ print(f"Mean initial value: {np.mean(y0):.6f}")
 
 ## Phase 5: Handling Failed Evaluations
 
-### Method: `_handle_NA_initial_design(X0,y0)`
+### Method: `_rm_NA_values(X0,y0)`
 
 Removes points that returned NaN or inf values.
 In contrasts to later phases, no penalties are applied here; invalid points of the initial design are simply removed.
 
-**What happens in `_handle_NA_initial_design()`:**
+**What happens in `_rm_NA_values()`:**
 
 1. Identify NaN/inf values in function evaluations
 2. Remove corresponding design points
@@ -258,7 +258,7 @@ In contrasts to later phases, no penalties are applied here; invalid points of t
 
 ```{python}
 n_before = len(y0)
-X0_clean, y0_clean, n_evaluated = opt._handle_NA_initial_design(X0_curated, y0)
+X0_clean, y0_clean, n_evaluated = opt._rm_NA_values(X0_curated, y0)
 
 print(f"Points before filtering: {n_before}")
 print(f"Points after filtering: {len(y0_clean)}")
@@ -511,11 +511,11 @@ for i, (x, m, s) in enumerate(zip(X_test, mu, sigma)):
 
 ## Step: Next Point Suggestion
 
-### Method: `_suggest_next_point()`
+### Method: `suggest_next_infill_point()`
 
 Optimize acquisition function to find next evaluation point.
 
-**What happens in `_suggest_next_point()`:**
+**What happens in `suggest_next_infill_point()`:**
 
 1. Use `differential_evolution` to optimize acquisition function
 2. Find point that maximizes EI (or minimizes predicted value for 'y')
@@ -525,7 +525,7 @@ Optimize acquisition function to find next evaluation point.
 6. Return suggested point
 
 ```{python}
-x_next = opt._suggest_next_point()
+x_next = opt.suggest_next_infill_point()
 print(f"Next point suggested: {x_next}")
 ```
 Predict at suggested point:
@@ -970,7 +970,7 @@ print(f"  Note: Failed evaluations handled transparently")
 
 ## Failure Handling in Initial Design
 
-### Method: `_handle_NA_initial_design()`
+### Method: `_rm_NA_values()`
 
 ```{python}
 print("Initial design failure handling:")
@@ -1051,7 +1051,7 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 1. `get_initial_design()` - Generate/process initial sample points
 2. `_curate_initial_design()` - Remove duplicates, handle repeats
 3. `_evaluate_function()` - Evaluate objective function
-4. `_handle_NA_initial_design()` - Remove NaN/inf from initial design
+4. `_rm_NA_values()` - Remove NaN/inf from initial design
 5. `_check_size_initial_design()` - Validate sufficient points
 6. `_init_storage()` - Initialize storage (X_, y_, n_iter_)
 7. `update_stats()` - Compute mean/variance for noisy functions
@@ -1063,7 +1063,7 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
     - Internally calls `_transform_X()` - Transform to internal scale
     - Internally calls `_fit_surrogate()` - Fit Gaussian Process to data
 11. `_apply_ocba()` - OCBA allocation (if enabled)
-12. `_suggest_next_point()` - Optimize acquisition function
+12. `suggest_next_infill_point()` - Optimize acquisition function
     - Internally calls `_acquisition_function()`
     - Internally calls `_predict_with_uncertainty()`
 13. `_update_repeats_infill_points()` - Repeat suggested point for noisy functions
@@ -1235,7 +1235,7 @@ INITIALIZATION PHASE
   ├─► _evaluate_function()
   │     └─► Evaluate objective function
   │
-  ├─► _handle_NA_initial_design()
+  ├─► _rm_NA_values()
   │     └─► Remove NaN/inf points
   │
   ├─► _check_size_initial_design()
@@ -1263,7 +1263,7 @@ SEQUENTIAL OPTIMIZATION LOOP (until max_iter or max_time)
   ├─► _apply_ocba() [if enabled]
   │     └─► Allocate additional evaluations
   │
-  ├─► _suggest_next_point()
+  ├─► suggest_next_infill_point()
   │     ├─► _acquisition_function()
   │     │     └─► _predict_with_uncertainty()
   │     └─► Optimize to find next point

@@ -32,7 +32,7 @@ print("All packages imported successfully!")
 
 The `optimize()` method is the main entry point for running the optimization process. It coordinates all other methods in the optimization workflow:
 
-1. **Initial Design Phase**: `get_initial_design()`, `_curate_initial_design()`, `_handle_NA_initial_design()`, `_check_size_initial_design()`, `_get_best_xy_initial_design()`
+1. **Initial Design Phase**: `get_initial_design()`, `_curate_initial_design()`, `_rm_NA_values()`, `_check_size_initial_design()`, `_get_best_xy_initial_design()`
 2. **Main Loop**: Surrogate fitting, OCBA application, point suggestion, evaluation
 3. **Termination**: `_determine_termination()`
 
@@ -64,6 +64,35 @@ print(f"Sequential iterations: {result.nit}")
 print(f"Success: {result.success}")
 print(f"Message: {result.message}")
 ```
+
+### Changing the Optimizer
+
+```{python}
+# Create optimizer
+opt = SpotOptim(
+    fun=sphere,
+    bounds=[(-5, 5), (-5, 5)],
+    n_initial=5,
+    max_iter=20,
+    verbose=True,
+    acquisition_optimizer='tricands',    
+)
+
+# Run optimization
+result = opt.optimize()
+
+print(f"\nBest point found: {result.x}")
+print(f"Best value: {result.fun:.6f}")
+print(f"Total evaluations: {result.nfev}")
+print(f"Sequential iterations: {result.nit}")
+print(f"Success: {result.success}")
+print(f"Message: {result.message}")
+```
+
+
+
+
+
 
 ## 2. Initial Design Methods
 
@@ -142,7 +171,7 @@ print(f"\nOriginal points: {len(X0)}")
 print(f"After repeating (3x): {len(X0_repeated)}")
 ```
 
-### 2.3 `_handle_NA_initial_design()`
+### 2.3 `_rm_NA_values()`
 
 **Purpose**: Remove NaN/inf values from initial design evaluations  
 **Used by**: `optimize()` after evaluating initial design  
@@ -160,7 +189,7 @@ opt = SpotOptim(
 X0 = np.array([[1, 2], [3, 4], [5, 6]])
 y0 = np.array([5.0, np.nan, np.inf])
 
-X0_clean, y0_clean, n_eval = opt._handle_NA_initial_design(X0, y0)
+X0_clean, y0_clean, n_eval = opt._rm_NA_values(X0, y0)
 
 print(f"Original evaluations: {n_eval}")
 print(f"Valid points remaining: {X0_clean.shape[0]}")
@@ -284,7 +313,7 @@ print(f"Uncertainties: {stds}")
 ### 3.3 `_acquisition_function()`
 
 **Purpose**: Compute acquisition function value  
-**Used by**: `_suggest_next_point()` for optimization  
+**Used by**: `suggest_next_infill_point()` for optimization  
 **Calls**: `_predict_with_uncertainty()`  
 **Supports**: Expected Improvement (EI), Probability of Improvement (PI), Mean prediction
 
@@ -312,7 +341,7 @@ print(f"Acquisition function value (EI): {acq_value:.6f}")
 print(f"(Lower is better for minimization)")
 ```
 
-### 3.4 `_suggest_next_point()`
+### 3.4 `suggest_next_infill_point()`
 
 **Purpose**: Suggest next point to evaluate using acquisition function optimization  
 **Used by**: `optimize()` in main loop  
@@ -336,7 +365,7 @@ opt.X_ = X_train
 opt.y_ = y_train
 
 # Suggest next point
-x_next = opt._suggest_next_point()
+x_next = opt.suggest_next_infill_point()
 
 print(f"Next point to evaluate: {x_next}")
 print(f"Expected to be between known points or in unexplored regions")
@@ -541,10 +570,10 @@ print(f"Message: {msg}")
 
 ## 8. Utility Methods
 
-### 8.1 `_select_new()`
+### 8.1 `select_new()`
 
 **Purpose**: Select rows from A that are not in X (avoid duplicate evaluations)  
-**Used by**: `_suggest_next_point()` to ensure new points are different from evaluated points
+**Used by**: `suggest_next_infill_point()` to ensure new points are different from evaluated points
 
 ```{python}
 opt = SpotOptim(
@@ -556,7 +585,7 @@ opt = SpotOptim(
 A = np.array([[1, 2], [3, 4], [5, 6]])
 X = np.array([[3, 4], [7, 8]])
 
-new_A, is_new = opt._select_new(A, X)
+new_A, is_new = opt.select_new(A, X)
 
 print(f"Candidate points A:\n{A}")
 print(f"\nKnown points X:\n{X}")
@@ -732,7 +761,7 @@ optimize()
 │    │   └── _generate_initial_design() [if X0 is None]
 │    ├── _curate_initial_design()
 │    ├── _evaluate_function()
-│    ├── _handle_NA_initial_design()
+│    ├── _rm_NA_values()
 │    ├── _check_size_initial_design()
 │    └── _get_best_xy_initial_design()
 │
@@ -743,11 +772,11 @@ optimize()
 │    │
 │    ├── _apply_ocba() [if noise=True and ocba_delta > 0]
 │    │
-│    ├── _suggest_next_point()
+│    ├── suggest_next_infill_point()
 │    │   ├── _acquisition_function()
 │    │   │   └── _predict_with_uncertainty()
 │    │   ├── _repair_non_numeric()
-│    │   ├── _select_new()
+│    │   ├── select_new()
 │    │   └── _handle_acquisition_failure() [if needed]
 │    │
 │    ├── _evaluate_function()
@@ -768,11 +797,13 @@ optimize()
 This notebook demonstrated all major methods in SpotOptim with executable examples:
 
 **Core Flow:**
+
 1. **Initial Design**: Generate/process → Curate → Evaluate → Handle NaN → Validate → Get best
 2. **Main Loop**: Fit surrogate → Apply OCBA → Suggest point → Evaluate → Handle NaN → Update best
 3. **Termination**: Determine reason → Prepare results
 
 **Key Features:**
+
 - Automatic handling of NaN/inf values with penalties
 - Support for noisy functions with OCBA re-evaluation
 - Integer and factor variable support

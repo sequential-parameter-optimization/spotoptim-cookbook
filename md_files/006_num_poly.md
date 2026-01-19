@@ -244,7 +244,7 @@ The original data is measured in natural units, i.e., from $-0.3$ untion to $0.1
 To obtain the best polynomial through this data, the following Python code can be used:
 
 ```{python}
-from spotpython.surrogate.functions.forr08a import aerofoilcd
+from spotoptim.function import aerofoilcd
 import numpy as np
 import matplotlib.pyplot as plt
 X = np.linspace(-0.3, 0.1, 101)
@@ -286,7 +286,7 @@ $$
 
 ```{python}
 import numpy as np
-from spotpython.surrogate.functions.forr08a import onevar
+from spotoptim.function import onevar
 X = np.linspace(0, 1, 51)
 y_true = onevar(X)
 # initialize random seed

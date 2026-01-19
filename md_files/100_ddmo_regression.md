@@ -170,9 +170,7 @@ $$
 $$
 is the **residual**.
 Even if we knew $f(x)$, we would still make errors in prediction,
-since at each $X=x$ there is typically a distribution of possible $Y$ values as
-is illustrated in @fig-0202a.
-
+since at each $X=x$ there is typically a distribution of possible $Y$ values.
 For any estimate $\hat{f}(x)$ of $f(x)$, we have
 $$
 E\left[ ( Y - \hat{f}(X))^2 | X = x\right] = \left[ f(x) - \hat{f}(x) \right]^2 + \text{var}(\epsilon),
@@ -230,14 +228,6 @@ $$
 \hat{f}_Q(X) = \hat{\beta}_0 + \hat{\beta}_1 X + \hat{\beta}_2 X^2
 $$
 gives a slightly improved fit.
-
-@fig-0203 shows a simulated example.
-Red points are simulated values for income from the model
-$$
-income = f(education, seniority) + \epsilon
-$$
-$f$ is the blue surface.
-
 The linear regression model 
 $$
 \hat{f}(education, seniority) = \hat{\beta}_0 + \hat{\beta}_1 \times education +
@@ -363,10 +353,10 @@ This equivalence holds specifically for simple linear regression due to the dire
 
 Confounding is a bias introduced by the imbalanced distribution of extraneous risk
 factors among comparison groups [@wang07a]. 
-`spotpython` provides tools for assessing confounding effects in multiple regression models.
+`spotoptim` provides tools for assessing confounding effects in multiple regression models.
 
 ::: {#exm-confounding}
-### Assessing Confounding Effects in Multiple Regression with `spotpython`
+### Assessing Confounding Effects in Multiple Regression with `spotoptim`
 Consider the following data generation function `generate_data` and the `fit_ols_model` function to fit an ordinary least squares (OLS) regression model.
 
 ```{python}
@@ -447,7 +437,7 @@ The function `fit_all_lm()` simplifies this procedure.
 It can be used to fit all possible linear models with the given data and print the results in a systematic way for various combinations of variables.
 ```{python}
 #| label: fit_all_lm_example
-from spotpython.utils.stats import fit_all_lm, plot_coeff_vs_pvals, plot_coeff_vs_pvals_by_included
+from spotoptim.utils.stats import fit_all_lm, plot_coeff_vs_pvals, plot_coeff_vs_pvals_by_included
 res = fit_all_lm("y ~ x1", ["x2", "x3"], data)
 print(res["estimate"])
 ```

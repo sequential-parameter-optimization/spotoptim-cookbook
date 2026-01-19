@@ -8,10 +8,8 @@ execute:
 
 # Surrogate Model Selection in SpotOptim {#sec-surrogate-selection}
 
-::: {.callout-note}
-### Note
-* This section demonstrates how to select and configure different surrogate models in SpotOptim
-* We compare various surrogate options:
+This section demonstrates how to select and configure different surrogate models in SpotOptim.
+We compare various surrogate options:
 
   - **Gaussian Process** with different kernels (Matern, RBF, Rational Quadratic)
   - **SpotOptim Kriging** model
@@ -19,13 +17,13 @@ execute:
   - **XGBoost** regressor
   - **Support Vector Regression** (SVR)
   - **Gradient Boosting** regressor
-* All methods are evaluated on the Aircraft Wing Weight Example (AWWE) function
-* We visualize the fitted surrogates and compare optimization performance
-:::
+
+All methods are evaluated on the Aircraft Wing Weight Example (AWWE) function.
+We visualize the fitted surrogates and compare optimization performance.
 
 ## Introduction
 
-Surrogate models are the heart of Bayesian optimization. SpotOptim supports any scikit-learn compatible regressor, allowing you to choose the surrogate that best fits your problem characteristics:
+SpotOptim supports any scikit-learn compatible regressor, allowing you to choose the surrogate that best fits your problem characteristics:
 
 - **Gaussian Processes**: Provide uncertainty estimates, smooth interpolation, good for continuous functions. Support Expected Improvement (EI) acquisition.
 - **Kriging**: Similar to GP but with customizable correlation functions. Supports EI acquisition.
@@ -34,12 +32,10 @@ Surrogate models are the heart of Bayesian optimization. SpotOptim supports any 
 - **SVR**: Good for high-dimensional problems with smooth structure. Use `acquisition='y'`.
 - **Gradient Boosting**: Strong performance on structured problems. Use `acquisition='y'`.
 
-::: {.callout-important}
 ### Acquisition Functions and Uncertainty
 Models that provide uncertainty estimates (Gaussian Process, Kriging) work with all acquisition functions: 'ei' (Expected Improvement), 'pi' (Probability of Improvement), and 'y' (greedy).
 
 Tree-based and other models (Random Forest, XGBoost, SVR, Gradient Boosting) don't provide uncertainty estimates by default, so they should use `acquisition='y'` for greedy optimization. SpotOptim automatically handles this gracefully.
-:::
 
 ## Setup and Imports
 
@@ -83,42 +79,13 @@ We use the Aircraft Wing Weight Example function, which models the weight of an 
 
 ```{python}
 #| label: awwe-function-surrogate-selection
-def wingwt(x):
-    """
-    Aircraft Wing Weight function.
-    
-    Args:
-        x: array-like of 9 values in [0,1]
-           [Sw, Wfw, A, L, q, l, Rtc, Nz, Wdg]
-    
-    Returns:
-        Wing weight (scalar)
-    """
-    # Ensure x is a 2D array for batch evaluation
-    x = np.atleast_2d(x)
-    
-    # Transform from unit cube to natural scales
-    Sw = x[:, 0] * (200 - 150) + 150      # Wing area (ft²)
-    Wfw = x[:, 1] * (300 - 220) + 220     # Fuel weight (lb)
-    A = x[:, 2] * (10 - 6) + 6            # Aspect ratio
-    L = (x[:, 3] * (10 - (-10)) - 10) * np.pi/180  # Sweep angle (rad)
-    q = x[:, 4] * (45 - 16) + 16          # Dynamic pressure (lb/ft²)
-    l = x[:, 5] * (1 - 0.5) + 0.5         # Taper ratio
-    Rtc = x[:, 6] * (0.18 - 0.08) + 0.08  # Root thickness/chord
-    Nz = x[:, 7] * (6 - 2.5) + 2.5        # Ultimate load factor
-    Wdg = x[:, 8] * (2500 - 1700) + 1700  # Design gross weight (lb)
-    
-    # Calculate weight on natural scale
-    W = 0.036 * Sw**0.758 * Wfw**0.0035 * (A/np.cos(L)**2)**0.6 * q**0.006 
-    W = W * l**0.04 * (100*Rtc/np.cos(L))**(-0.3) * (Nz*Wdg)**(0.49)
-    
-    return W.ravel()
+from spotoptim.function.so import wingwt
 
 # Problem setup
 bounds = [(0, 1)] * 9
 param_names = ['Sw', 'Wfw', 'A', 'L', 'q', 'l', 'Rtc', 'Nz', 'Wdg']
-max_iter = 30
-n_initial = 10
+max_iter = 20
+n_initial = 15
 seed = 42
 
 print(f"Problem dimension: {len(bounds)}")
@@ -131,10 +98,6 @@ SpotOptim's default surrogate is a Gaussian Process with a Matern kernel (ν=2.5
 
 ```{python}
 #| label: surrogate-selection-default
-print("=" * 80)
-print("1. DEFAULT: Gaussian Process with Matern ν=2.5 Kernel")
-print("=" * 80)
-
 start_time = time.time()
 
 # Default GP (no surrogate specified)
@@ -188,10 +151,6 @@ The RBF kernel (also called squared exponential) produces infinitely differentia
 
 ```{python}
 #| label: surrogate-selection-rbf
-print("=" * 80)
-print("2. Gaussian Process with RBF Kernel")
-print("=" * 80)
-
 start_time = time.time()
 
 # Configure GP with RBF kernel
@@ -255,10 +214,6 @@ The Matern ν=1.5 kernel produces once-differentiable sample paths, allowing for
 
 ```{python}
 #| label: surrogate-selection-matern15
-print("=" * 80)
-print("3. Gaussian Process with Matern ν=1.5 Kernel")
-print("=" * 80)
-
 start_time = time.time()
 
 # Configure GP with Matern nu=1.5
@@ -324,10 +279,6 @@ The Rational Quadratic kernel is a scale mixture of RBF kernels with different l
 
 ```{python}
 #| label: surrogate-selection-rq
-print("=" * 80)
-print("4. Gaussian Process with Rational Quadratic Kernel")
-print("=" * 80)
-
 start_time = time.time()
 
 # Configure GP with Rational Quadratic kernel
@@ -393,10 +344,6 @@ SpotOptim includes its own Kriging implementation optimized for sequential desig
 
 ```{python}
 #| label: surrogate-selection-kriging
-print("=" * 80)
-print("5. SpotOptim Kriging Model")
-print("=" * 80)
-
 start_time = time.time()
 
 # Configure Kriging model
@@ -457,10 +404,6 @@ Random Forests are ensemble methods that handle noise well and can model discont
 
 ```{python}
 #| label: surrogate-selection-rf
-print("=" * 80)
-print("6. Random Forest Regressor")
-print("=" * 80)
-
 start_time = time.time()
 
 # Configure Random Forest
@@ -470,7 +413,6 @@ rf_model = RandomForestRegressor(
     min_samples_split=2,
     min_samples_leaf=1,
     random_state=seed,
-    n_jobs=-1
 )
 
 optimizer_rf = SpotOptim(
@@ -524,10 +466,6 @@ XGBoost is a gradient boosting implementation known for excellent performance on
 ```{python}
 #| label: surrogate-selection-xgboost
 if XGBOOST_AVAILABLE:
-    print("=" * 80)
-    print("7. XGBoost Regressor")
-    print("=" * 80)
-    
     start_time = time.time()
     
     # Configure XGBoost
@@ -538,7 +476,6 @@ if XGBOOST_AVAILABLE:
         subsample=0.8,
         colsample_bytree=0.8,
         random_state=seed,
-        n_jobs=-1
     )
     
     optimizer_xgb = SpotOptim(
@@ -592,10 +529,6 @@ SVR with RBF kernel can model complex non-linear relationships. It's particularl
 
 ```{python}
 #| label: surrogate-selection-svr
-print("=" * 80)
-print("8. Support Vector Regression (SVR)")
-print("=" * 80)
-
 start_time = time.time()
 
 # Configure SVR
@@ -654,10 +587,6 @@ Gradient Boosting from scikit-learn is another ensemble method that builds trees
 
 ```{python}
 #| label: surrogate-selection-gb
-print("=" * 80)
-print("9. Gradient Boosting Regressor")
-print("=" * 80)
-
 start_time = time.time()
 
 # Configure Gradient Boosting
