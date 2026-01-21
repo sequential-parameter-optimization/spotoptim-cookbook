@@ -172,12 +172,13 @@ We perform $m$ independent optimization runs for each algorithm. For each run, w
 *   **Validation Size ($n$)**: `n_validate` (calculated above)
 
 ```{python}
+#| label: experimental-comparison-challenge
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from spotoptim import SpotOptim
 
 # --- Configuration ---
-M_RUNS = 5              # Number of independent optimization runs
+M_RUNS = 2              # Number of independent optimization runs, here only 2 for speed
 MAX_EVALS = 50          # Optimization budget
 DIM = 10
 BOUNDS = [(0.0, 1.0) for _ in range(DIM)]
@@ -367,17 +368,19 @@ We now statistically compare the validated performance of the two algorithms.
 ```{python}
 #| label: fig-comparison
 #| fig-cap: "Comparison of Validated True Means (Lower is Better)"
-
 import scipy.stats as stats
-
-# 1. Boxplot
 plt.figure(figsize=(8, 5))
 plt.boxplot([final_means_spot, final_means_scipy], labels=['SpotOptim', 'Scipy L-BFGS-B'], patch_artist=True)
 plt.ylabel('True Objective Value (Estimate)')
 plt.title(f'Comparison over {M_RUNS} Runs (Validation n={n_validate})')
 plt.grid(True, axis='y', linestyle='--', alpha=0.7)
 plt.show()
+```
 
+t-test:
+
+```{python}
+#| label: experimental-comparison-challenge-ttest
 # 2. T-Test
 t_stat, p_val = stats.ttest_ind(final_means_spot, final_means_scipy, equal_var=False)
 

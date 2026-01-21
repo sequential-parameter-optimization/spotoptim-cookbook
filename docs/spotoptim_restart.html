@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>34&nbsp; Aircraft Wing Weight Example – Sequential Parameter Optimization Cookbook</title>
+<title>8&nbsp; Restart Mechanism in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,27 +55,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -85,8 +65,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./001_surrogate.html" rel="next">
-<link href="./spotoptim_explained.html" rel="prev">
+<link href="./var_type.html" rel="next">
+<link href="./spotoptim_parallel.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -126,40 +106,10 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<meta name="twitter:title" content="34&nbsp; Aircraft Wing Weight Example – Sequential Parameter Optimization Cookbook">
+<meta name="twitter:title" content="8&nbsp; Restart Mechanism in SpotOptim – Sequential Parameter Optimization Cookbook">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="002_awwe_files/figure-html/cell-6-output-1.png">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -171,7 +121,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002_awwe.html">Optimization</a></li><li class="breadcrumb-item"><a href="./002_awwe.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spotoptim_intro.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./spotoptim_restart.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restart Mechanism in SpotOptim</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -276,7 +226,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./spotoptim_restart.html" class="sidebar-item-text sidebar-link">
+  <a href="./spotoptim_restart.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restart Mechanism in SpotOptim</span></span></a>
   </div>
 </li>
@@ -553,7 +503,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link active">
+  <a href="./002_awwe.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></a>
   </div>
 </li>
@@ -710,29 +660,26 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#awwe-equation" id="toc-awwe-equation" class="nav-link active" data-scroll-target="#awwe-equation"><span class="header-section-number">34.1</span> AWWE Equation</a></li>
-  <li><a href="#awwe-parameters-and-equations-part-1" id="toc-awwe-parameters-and-equations-part-1" class="nav-link" data-scroll-target="#awwe-parameters-and-equations-part-1"><span class="header-section-number">34.2</span> AWWE Parameters and Equations (Part 1)</a></li>
-  <li><a href="#goals-understanding-and-optimization" id="toc-goals-understanding-and-optimization" class="nav-link" data-scroll-target="#goals-understanding-and-optimization"><span class="header-section-number">34.3</span> Goals: Understanding and Optimization</a></li>
-  <li><a href="#properties-of-the-python-solver" id="toc-properties-of-the-python-solver" class="nav-link" data-scroll-target="#properties-of-the-python-solver"><span class="header-section-number">34.4</span> Properties of the Python “Solver”</a></li>
-  <li><a href="#plot-1-load-factor-n_z-and-aspect-ratio-a" id="toc-plot-1-load-factor-n_z-and-aspect-ratio-a" class="nav-link" data-scroll-target="#plot-1-load-factor-n_z-and-aspect-ratio-a"><span class="header-section-number">34.5</span> Plot 1: Load Factor (<span class="math inline">\(N_z\)</span>) and Aspect Ratio (<span class="math inline">\(A\)</span>)</a></li>
-  <li><a href="#plot-2-taper-ratio-and-fuel-weight" id="toc-plot-2-taper-ratio-and-fuel-weight" class="nav-link" data-scroll-target="#plot-2-taper-ratio-and-fuel-weight"><span class="header-section-number">34.6</span> Plot 2: Taper Ratio and Fuel Weight</a></li>
-  <li><a href="#the-big-picture-combining-all-variables" id="toc-the-big-picture-combining-all-variables" class="nav-link" data-scroll-target="#the-big-picture-combining-all-variables"><span class="header-section-number">34.7</span> The Big Picture: Combining all Variables</a></li>
-  <li><a href="#awwe-landscape" id="toc-awwe-landscape" class="nav-link" data-scroll-target="#awwe-landscape"><span class="header-section-number">34.8</span> AWWE Landscape</a></li>
-  <li><a href="#summary-of-the-first-experiments" id="toc-summary-of-the-first-experiments" class="nav-link" data-scroll-target="#summary-of-the-first-experiments"><span class="header-section-number">34.9</span> Summary of the First Experiments</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">34.10</span> Exercise</a>
+  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link active" data-scroll-target="#key-concepts"><span class="header-section-number">8.1</span> Key Concepts</a>
   <ul class="collapse">
-  <li><a href="#adding-paint-weight" id="toc-adding-paint-weight" class="nav-link" data-scroll-target="#adding-paint-weight"><span class="header-section-number">34.10.1</span> Adding Paint Weight</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">8.1.1</span> Parameters</a></li>
   </ul></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">34.11</span> Jupyter Notebook</a></li>
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">8.2</span> How it Works</a></li>
+  <li><a href="#example-triggering-restarts" id="toc-example-triggering-restarts" class="nav-link" data-scroll-target="#example-triggering-restarts"><span class="header-section-number">8.3</span> Example: Triggering Restarts</a>
+  <ul class="collapse">
+  <li><a href="#analyzing-restart-results" id="toc-analyzing-restart-results" class="nav-link" data-scroll-target="#analyzing-restart-results"><span class="header-section-number">8.3.1</span> Analyzing Restart Results</a></li>
+  </ul></li>
+  <li><a href="#example-effect-of-restart_inject_best" id="toc-example-effect-of-restart_inject_best" class="nav-link" data-scroll-target="#example-effect-of-restart_inject_best"><span class="header-section-number">8.4</span> Example: Effect of <code>restart_inject_best</code></a></li>
+  <li><a href="#when-to-use-restarts" id="toc-when-to-use-restarts" class="nav-link" data-scroll-target="#when-to-use-restarts"><span class="header-section-number">8.5</span> When to Use Restarts?</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./002_awwe.html">Optimization</a></li><li class="breadcrumb-item"><a href="./002_awwe.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./spotoptim_intro.html">Sequential Parameter Optimization Toolbox (SPOT)</a></li><li class="breadcrumb-item"><a href="./spotoptim_restart.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restart Mechanism in SpotOptim</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-awwe" class="quarto-section-identifier"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Aircraft Wing Weight Example</span></span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restart Mechanism in SpotOptim</span></h1>
 </div>
 
 
@@ -749,472 +696,230 @@ window.Quarto = {
 </header>
 
 
-<!-- bart21mSlides2022Lec04 -->
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<p>SpotOptim includes a built-in restart mechanism designed to help the optimizer escape local optima or recover from stagnation. This feature is particularly useful for difficult landscapes where the optimizer might get stuck in a suboptimal region.</p>
+<section id="key-concepts" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="key-concepts"><span class="header-section-number">8.1</span> Key Concepts</h2>
+<p>The restart mechanism monitors the optimization progress and triggers a complete reset (restart) of the optimization run if no improvement is observed for a specified number of iterations.</p>
+<section id="parameters" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="parameters"><span class="header-section-number">8.1.1</span> Parameters</h3>
+<p>Two key parameters control this behavior:</p>
 <ul>
-<li>This section is based on chapter 1.3 “A ten-variable weight function” in <span class="citation" data-cites="Forr08a">Forrester, Sóbester, and Keane (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span>.</li>
-<li>The following Python packages are imported:</li>
+<li><strong><code>restart_after_n</code></strong> (int, default=100): The number of consecutive iterations with a success rate of 0.0 (no improvement) required to trigger a restart.</li>
+<li><strong><code>restart_inject_best</code></strong> (bool, default=True): If <code>True</code>, the best solution found in all previous runs is injected into the initial design of the new restart run. This ensures that the global search does not lose the best-known solution while exploring new regions.</li>
 </ul>
-<div id="fa23b4f7" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axes_grid1 <span class="im">import</span> ImageGrid</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-<section id="awwe-equation" class="level2" data-number="34.1">
-<h2 data-number="34.1" class="anchored" data-anchor-id="awwe-equation"><span class="header-section-number">34.1</span> AWWE Equation</h2>
-<ul>
-<li>Example from <span class="citation" data-cites="Forr08a">Forrester, Sóbester, and Keane (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span></li>
-<li>Understand the <strong>weight</strong> of an unpainted light aircraft wing as a function of nine design and operational parameters:</li>
-</ul>
-<p><span class="math display">\[ W = 0.036 S_W^{0.758} \times W_{fw}^{0.0035} \left( \frac{A}{\cos^2 \Lambda} \right)^{0.6} \times  q^{0.006}  \times \lambda^{0.04} \]</span> <span class="math display">\[ \times \left( \frac{100 R_{tc}}{\cos \Lambda} \right)^{-0.3} \times (N_z W_{dg})^{0.49}\]</span></p>
 </section>
-<section id="awwe-parameters-and-equations-part-1" class="level2" data-number="34.2">
-<h2 data-number="34.2" class="anchored" data-anchor-id="awwe-parameters-and-equations-part-1"><span class="header-section-number">34.2</span> AWWE Parameters and Equations (Part 1)</h2>
-<div id="tbl-awwe" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-awwe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;34.1: Aircraft Wing Weight Parameters
-</figcaption>
-<div aria-describedby="tbl-awwe-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 13%">
-<col style="width: 50%">
-<col style="width: 12%">
-<col style="width: 11%">
-<col style="width: 11%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Symbol</th>
-<th>Parameter</th>
-<th>Baseline</th>
-<th>Minimum</th>
-<th>Maximum</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(S_W\)</span></td>
-<td>Wing area (<span class="math inline">\(ft^2\)</span>)</td>
-<td>174</td>
-<td>150</td>
-<td>200</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(W_{fw}\)</span></td>
-<td>Weight of fuel in wing (lb)</td>
-<td>252</td>
-<td>220</td>
-<td>300</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(A\)</span></td>
-<td>Aspect ratio</td>
-<td>7.52</td>
-<td>6</td>
-<td>10</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\Lambda\)</span></td>
-<td>Quarter-chord sweep (deg)</td>
-<td>0</td>
-<td>-10</td>
-<td>10</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(q\)</span></td>
-<td>Dynamic pressure at cruise (<span class="math inline">\(lb/ft^2\)</span>)</td>
-<td>34</td>
-<td>16</td>
-<td>45</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\lambda\)</span></td>
-<td>Taper ratio</td>
-<td>0.672</td>
-<td>0.5</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(R_{tc}\)</span></td>
-<td>Aerofoil thickness to chord ratio</td>
-<td>0.12</td>
-<td>0.08</td>
-<td>0.18</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(N_z\)</span></td>
-<td>Ultimate load factor</td>
-<td>3.8</td>
-<td>2.5</td>
-<td>6</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(W_{dg}\)</span></td>
-<td>Flight design gross weight (lb)</td>
-<td>2000</td>
-<td>1700</td>
-<td>2500</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(W_p\)</span></td>
-<td>paint weight (lb/ft^2)</td>
-<td>0.064</td>
-<td>0.025</td>
-<td>0.08</td>
-</tr>
-</tbody>
-</table>
-</div>
-</figure>
-</div>
-<p>The study begins with a baseline Cessna C172 Skyhawk Aircraft as its reference point. It aims to investigate the impact of wing area and fuel weight on the overall weight of the aircraft. Two crucial parameters in this analysis are the aspect ratio (<span class="math inline">\(A\)</span>), defined as the ratio of the wing’s length to the average chord (thickness of the airfoil), and the taper ratio (<span class="math inline">\(\lambda\)</span>), which represents the ratio of the maximum to the minimum thickness of the airfoil or the maximum to minimum chord.</p>
-<p>It’s important to note that the equation used in this context is not a computer simulation but will be treated as one for the purpose of illustration. This approach involves employing a true mathematical equation, even if it’s considered unknown, as a useful tool for generating realistic settings to test the methodology. The functional form of this equation was derived by “calibrating” known physical relationships to curves obtained from existing aircraft data, as referenced in <span class="citation" data-cites="raym06a">Raymer (<a href="references.html#ref-raym06a" role="doc-biblioref">2006</a>)</span>. Essentially, it acts as a surrogate for actual measurements of aircraft weight.</p>
-<p>Examining the mathematical properties of the AWWE (Aircraft Weight With Wing Area and Fuel Weight Equation), it is evident that the response is highly nonlinear concerning its inputs. While it’s common to apply the logarithm to simplify equations with complex exponents, even when modeling the logarithm, which transforms powers into slope coefficients and products into sums, the response remains nonlinear due to the presence of trigonometric terms. Given the combination of nonlinearity and high input dimension, simple linear and quadratic response surface approximations are likely to be inadequate for this analysis.</p>
 </section>
-<section id="goals-understanding-and-optimization" class="level2" data-number="34.3">
-<h2 data-number="34.3" class="anchored" data-anchor-id="goals-understanding-and-optimization"><span class="header-section-number">34.3</span> Goals: Understanding and Optimization</h2>
-<p>The primary goals of this study revolve around understanding and optimization:</p>
+<section id="how-it-works" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">8.2</span> How it Works</h2>
 <ol type="1">
-<li><p><strong>Understanding</strong>: One of the straightforward objectives is to gain a deep understanding of the input-output relationships in this context. Given the global perspective implied by this setting, it becomes evident that a more sophisticated model is almost necessary. At this stage, let’s focus on this specific scenario to establish a clear understanding.</p></li>
-<li><p><strong>Optimization</strong>: Another application of this analysis could be optimization. There may be an interest in minimizing the weight of the aircraft, but it’s likely that there will be constraints in place. For example, the presence of wings with a nonzero area is essential for the aircraft to be capable of flying. In situations involving (constrained) optimization, a global perspective and, consequently, the use of flexible modeling are vital.</p></li>
+<li><strong>Monitoring</strong>: During optimization, SpotOptim tracks the <code>success_rate</code> (percentage of valid and improved points in the current window).</li>
+<li><strong>Triggering</strong>: If the success rate drops to 0.0 and stays there for <code>restart_after_n</code> consecutive iterations, the current run is terminated.</li>
+<li><strong>Restarting</strong>: A new optimization run is initialized.
+<ul>
+<li>A new random seed is generated (if running sequentially) to ensure a different random start.</li>
+<li>A new initial design (LHS) is created.</li>
+</ul></li>
+<li><strong>Injection</strong>: If <code>restart_inject_best=True</code>, the overall best point found so far is added to this new initial design.</li>
+<li><strong>Aggregation</strong>: When the global <code>max_iter</code> or <code>max_time</code> is reached, results from all runs are aggregated. The final returned result corresponds to the best run found.</li>
 </ol>
-<p>The provided Python code serves as a genuine computer implementation that “solves” a mathematical model. It accepts arguments encoded in the unit cube, with defaults used to represent baseline settings, as detailed in the table labeled as <a href="#tbl-awwe" class="quarto-xref">Table&nbsp;<span>34.1</span></a>. To map values from the interval <span class="math inline">\([a, b]\)</span> to the interval <span class="math inline">\([0, 1]\)</span>, the following formula can be employed:</p>
-<p><span id="eq-mapping"><span class="math display">\[
-y = f(x) = \frac{x - a}{b - a}.
-\tag{34.1}\]</span></span> To reverse this mapping and obtain the original values, the formula <span id="eq-reverse"><span class="math display">\[
-g(y) = a + (b - a) y
-\tag{34.2}\]</span></span> can be used. The function <code>wingwt()</code> expects inputs from the unit cube, which are then transformed back to their original scales using <a href="#eq-reverse" class="quarto-xref">Equation&nbsp;<span>34.2</span></a>. The function is defined as follows:</p>
-<div id="a79aca93" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> wingwt(Sw<span class="op">=</span><span class="fl">0.48</span>, Wfw<span class="op">=</span><span class="fl">0.4</span>, A<span class="op">=</span><span class="fl">0.38</span>, L<span class="op">=</span><span class="fl">0.5</span>, q<span class="op">=</span><span class="fl">0.62</span>, l<span class="op">=</span><span class="fl">0.344</span>,  Rtc<span class="op">=</span><span class="fl">0.4</span>, Nz<span class="op">=</span><span class="fl">0.37</span>, Wdg<span class="op">=</span><span class="fl">0.38</span>):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># put coded inputs back on natural scale</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    Sw <span class="op">=</span> Sw <span class="op">*</span> (<span class="dv">200</span> <span class="op">-</span> <span class="dv">150</span>) <span class="op">+</span> <span class="dv">150</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    Wfw <span class="op">=</span> Wfw <span class="op">*</span> (<span class="dv">300</span> <span class="op">-</span> <span class="dv">220</span>) <span class="op">+</span> <span class="dv">220</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> A <span class="op">*</span> (<span class="dv">10</span> <span class="op">-</span> <span class="dv">6</span>) <span class="op">+</span> <span class="dv">6</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> (L <span class="op">*</span> (<span class="dv">10</span> <span class="op">-</span> (<span class="op">-</span><span class="dv">10</span>)) <span class="op">-</span> <span class="dv">10</span>) <span class="op">*</span> np.pi<span class="op">/</span><span class="dv">180</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> q <span class="op">*</span> (<span class="dv">45</span> <span class="op">-</span> <span class="dv">16</span>) <span class="op">+</span> <span class="dv">16</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    l <span class="op">=</span> l <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">+</span> <span class="fl">0.5</span>  </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    Rtc <span class="op">=</span> Rtc <span class="op">*</span> (<span class="fl">0.18</span> <span class="op">-</span> <span class="fl">0.08</span>) <span class="op">+</span> <span class="fl">0.08</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    Nz <span class="op">=</span> Nz <span class="op">*</span> (<span class="dv">6</span> <span class="op">-</span> <span class="fl">2.5</span>) <span class="op">+</span> <span class="fl">2.5</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    Wdg <span class="op">=</span> Wdg<span class="op">*</span>(<span class="dv">2500</span> <span class="op">-</span> <span class="dv">1700</span>) <span class="op">+</span> <span class="dv">1700</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculation on natural scale</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> <span class="fl">0.036</span> <span class="op">*</span> Sw<span class="op">**</span><span class="fl">0.758</span> <span class="op">*</span> Wfw<span class="op">**</span><span class="fl">0.0035</span> <span class="op">*</span> (A<span class="op">/</span>np.cos(L)<span class="op">**</span><span class="dv">2</span>)<span class="op">**</span><span class="fl">0.6</span> <span class="op">*</span> q<span class="op">**</span><span class="fl">0.006</span> </span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    W <span class="op">=</span> W <span class="op">*</span> l<span class="op">**</span><span class="fl">0.04</span> <span class="op">*</span> (<span class="dv">100</span><span class="op">*</span>Rtc<span class="op">/</span>np.cos(L))<span class="op">**</span>(<span class="op">-</span><span class="fl">0.3</span>) <span class="op">*</span> (Nz<span class="op">*</span>Wdg)<span class="op">**</span>(<span class="fl">0.49</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(W)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 </section>
-<section id="properties-of-the-python-solver" class="level2" data-number="34.4">
-<h2 data-number="34.4" class="anchored" data-anchor-id="properties-of-the-python-solver"><span class="header-section-number">34.4</span> Properties of the Python “Solver”</h2>
-<p>The compute time required by the “wingwt” solver is extremely short and can be considered trivial in terms of computational resources. The approximation error is exceptionally small, effectively approaching machine precision, which indicates the high accuracy of the solver’s results.</p>
-<p>To simulate time-consuming evaluations, a deliberate delay is introduced by incorporating a <code>sleep(3600)</code> command, which effectively synthesizes a one-hour execution time for a particular evaluation.</p>
-<p>Moving on to the AWWE visualization, plotting in two dimensions is considerably simpler than dealing with nine dimensions. To aid in creating visual representations, the code provided below establishes a grid within the unit square to facilitate the generation of sliced visuals. This involves generating a “meshgrid” as outlined in the code.</p>
-<div id="0ad3c149" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>zp <span class="op">=</span> <span class="bu">zip</span>(np.ravel(X), np.ravel(Y))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(zp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>[(np.float64(0.0), np.float64(0.0)),
- (np.float64(0.5), np.float64(0.0)),
- (np.float64(1.0), np.float64(0.0)),
- (np.float64(0.0), np.float64(0.5)),
- (np.float64(0.5), np.float64(0.5)),
- (np.float64(1.0), np.float64(0.5)),
- (np.float64(0.0), np.float64(1.0)),
- (np.float64(0.5), np.float64(1.0)),
- (np.float64(1.0), np.float64(1.0))]</code></pre>
+<section id="example-triggering-restarts" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="example-triggering-restarts"><span class="header-section-number">8.3</span> Example: Triggering Restarts</h2>
+<p>In this example, we set <code>restart_after_n</code> to a very small value (<code>5</code>) to intentionally force restarts and demonstrate the mechanism. We use a multimodal function where getting stuck is possible.</p>
+<div id="ad393630" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> multimodal_function(X):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""A simple 2D multimodal function (Ackley-like structure)"""</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.atleast_2d(X)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="dv">20</span> <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.2</span> <span class="op">*</span> np.sqrt(<span class="fl">0.5</span> <span class="op">*</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>))) <span class="op">-</span> <span class="op">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>           np.exp(<span class="fl">0.5</span> <span class="op">*</span> np.<span class="bu">sum</span>(np.cos(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> X), axis<span class="op">=</span><span class="dv">1</span>)) <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>           <span class="dv">20</span> <span class="op">+</span> np.exp(<span class="dv">1</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure optimizer with aggressive restart strategy</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>multimodal_function,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">50</span>,          <span class="co"># Total global budget</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    restart_after_n<span class="op">=</span><span class="dv">5</span>,    <span class="co"># Restart after only 5 iterations of no improvement</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    restart_inject_best<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>          <span class="co"># Verbose output shows restart messages</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorBoard logging disabled
+Initial best: f(x) = 6.344720
+Iter 1 | Best: 5.666775 | Rate: 1.00 | Evals: 12.0%
+Iter 2 | Best: 4.435415 | Rate: 1.00 | Evals: 14.0%
+Iter 3 | Best: 3.255984 | Rate: 1.00 | Evals: 16.0%
+Iter 4 | Best: 1.314889 | Rate: 1.00 | Evals: 18.0%
+Iter 6 | Best: 0.624721 | Rate: 0.80 | Evals: 22.0%
+Iter 8 | Best: 0.065870 | Rate: 0.60 | Evals: 26.0%
+Iter 12 | Best: 0.017807 | Rate: 0.40 | Evals: 34.0%
+Iter 13 | Best: 0.007839 | Rate: 0.40 | Evals: 36.0%
+Iter 16 | Best: 0.002594 | Rate: 0.60 | Evals: 42.0%
+Iter 23 | Best: 0.000775 | Rate: 0.20 | Evals: 56.0%
+Restarting optimization: success_rate 0 for 5 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.00012203 0.00024454]
+  Internal scale: [0.00012203 0.00024454]
+Restart injection: Using best found point so far as starting point (f(x)=0.000775).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 0.000775
+Restarting optimization: success_rate 0 for 5 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.00012203 0.00024454]
+  Internal scale: [0.00012203 0.00024454]
+Restart injection: Using best found point so far as starting point (f(x)=0.000775).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 0.000775</code></pre>
 </div>
 </div>
-<p>The coding used to transform inputs from natural units is largely a matter of taste, so long as it’s easy to undo for reporting back on original scales</p>
-<div id="d0833d7f" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.style.use('seaborn-white')</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="plot-1-load-factor-n_z-and-aspect-ratio-a" class="level2" data-number="34.5">
-<h2 data-number="34.5" class="anchored" data-anchor-id="plot-1-load-factor-n_z-and-aspect-ratio-a"><span class="header-section-number">34.5</span> Plot 1: Load Factor (<span class="math inline">\(N_z\)</span>) and Aspect Ratio (<span class="math inline">\(A\)</span>)</h2>
-<p>We will vary <span class="math inline">\(N_z\)</span> and <span class="math inline">\(A\)</span>, with other inputs fixed at their baseline values.</p>
-<div id="475c85d4" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> wingwt(A <span class="op">=</span> X, Nz <span class="op">=</span> Y)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">7.</span>, <span class="fl">5.</span>))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, z, <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"A"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Nz"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Load factor (Nz) vs. Aspect Ratio (A)"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-6-output-1.png" width="564" height="449" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Contour plots can be refined, e.g., by adding explicit contour lines as shown in the following figure.</p>
-<div id="febea2f5" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> plt.contour(X, Y, z, <span class="dv">4</span>, colors<span class="op">=</span><span class="st">'black'</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.clabel(contours, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"A"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Nz"</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.imshow(z, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], origin<span class="op">=</span><span class="st">'lower'</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'jet'</span>, alpha<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-7-output-1.png" width="517" height="434" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The interpretation of the AWWE plot can be summarized as follows:</p>
-<ul>
-<li>The figure displays the weight response as a function of two variables, <span class="math inline">\(N_z\)</span> and <span class="math inline">\(A\)</span>, using an image-contour plot.</li>
-<li>The slight curvature observed in the contours suggests an interaction between these two variables.</li>
-<li>Notably, the range of outputs depicted in the figure, spanning from approximately 160 to 320, nearly encompasses the entire range of outputs observed from various input settings within the full 9-dimensional input space.</li>
-<li>The plot indicates that aircraft wings tend to be heavier when the aspect ratios (<span class="math inline">\(A\)</span>) are high.</li>
-<li>This observation aligns with the idea that wings are designed to withstand and accommodate high gravitational forces (<span class="math inline">\(g\)</span>-forces, large <span class="math inline">\(N_z\)</span>), and there may be a compounding effect where larger values of <span class="math inline">\(N_z\)</span> contribute to increased wing weight.</li>
-<li>It’s plausible that this phenomenon is related to the design considerations of fighter jets, which cannot have the efficient and lightweight glider-like wings typically found in other types of aircraft.</li>
-</ul>
-</section>
-<section id="plot-2-taper-ratio-and-fuel-weight" class="level2" data-number="34.6">
-<h2 data-number="34.6" class="anchored" data-anchor-id="plot-2-taper-ratio-and-fuel-weight"><span class="header-section-number">34.6</span> Plot 2: Taper Ratio and Fuel Weight</h2>
-<ul>
-<li>The same experiment for two other inputs, e.g., taper ratio <span class="math inline">\(\lambda\)</span> and fuel weight <span class="math inline">\(W_{fw}\)</span></li>
-</ul>
-<div id="f695e367" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> wingwt(Wfw <span class="op">=</span> X,  Nz <span class="op">=</span> Y)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>contours <span class="op">=</span> plt.contour(X, Y, z, <span class="dv">4</span>, colors<span class="op">=</span><span class="st">'black'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.clabel(contours, inline<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"WfW"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"l"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>plt.imshow(z, extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], origin<span class="op">=</span><span class="st">'lower'</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'jet'</span>, alpha<span class="op">=</span><span class="fl">0.9</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.colorbar()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-8-output-1.png" width="517" height="434" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>Interpretation of Taper Ratio (<span class="math inline">\(l\)</span>) and Fuel Weight (<span class="math inline">\(W_{fw}\)</span>)
-<ul>
-<li>Apparently, neither input has much effect on wing weight:
-<ul>
-<li>with <span class="math inline">\(\lambda\)</span> having a marginally greater effect, covering less than 4 percent of the span of weights observed in the <span class="math inline">\(A \times N_z\)</span> plane</li>
-</ul></li>
-<li>There’s no interaction evident in <span class="math inline">\(\lambda \times W_{fw}\)</span></li>
-</ul></li>
-</ul>
-</section>
-<section id="the-big-picture-combining-all-variables" class="level2" data-number="34.7">
-<h2 data-number="34.7" class="anchored" data-anchor-id="the-big-picture-combining-all-variables"><span class="header-section-number">34.7</span> The Big Picture: Combining all Variables</h2>
-<div id="e9fdb022" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pl <span class="op">=</span> [<span class="st">"Sw"</span>, <span class="st">"Wfw"</span>, <span class="st">"A"</span>, <span class="st">"L"</span>, <span class="st">"q"</span>, <span class="st">"l"</span>,  <span class="st">"Rtc"</span>, <span class="st">"Nz"</span>, <span class="st">"Wdg"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="073e9ad8" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> []</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Zlab <span class="op">=</span> []</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="bu">len</span>(pl)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># lc = math.comb(l,2)</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(l):</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>, l):</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># for j in range(l):</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(pl[i], pl[j])</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> {pl[i]: X, pl[j]: Y}</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        Z.append(wingwt(<span class="op">**</span>d))</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        Zlab.append([pl[i],pl[j]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Now we can generate all 36 combinations, e.g., our first example is combination <code>p = 19</code>.</p>
-<div id="c20b3ac9" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">19</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Zlab[p]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>['A', 'Nz']</code></pre>
-</div>
-</div>
-<p>To help interpret outputs from experiments such as this one—to level the playing field when comparing outputs from other pairs of inputs—code below sets up a color palette that can be re-used from one experiment to the next. We use the arguments <code>vmin=180</code> and <code>vmax =360</code> to implement comparibility</p>
-<div id="edf93078" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z[p], <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>, vmin<span class="op">=</span><span class="dv">180</span>, vmax<span class="op">=</span><span class="dv">360</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(Zlab[p][<span class="dv">0</span>])</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(Zlab[p][<span class="dv">1</span>])</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-12-output-1.png" width="564" height="434" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>Let’s plot the second example, taper ratio <span class="math inline">\(\lambda\)</span> and fuel weight <span class="math inline">\(W_{fw}\)</span></li>
-<li>This is combination <code>11</code>:</li>
-</ul>
-<div id="2a832a4d" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">11</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Zlab[p]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>['Wfw', 'l']</code></pre>
-</div>
-</div>
-<div id="4ef664c3" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plt.contourf(X, Y, Z[p], <span class="dv">20</span>, cmap<span class="op">=</span><span class="st">'jet'</span>, vmin<span class="op">=</span><span class="dv">180</span>, vmax<span class="op">=</span><span class="dv">360</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(Zlab[p][<span class="dv">0</span>])</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(Zlab[p][<span class="dv">1</span>])</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="002_awwe_files/figure-html/cell-14-output-1.png" width="577" height="434" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>Using a global colormap indicates that these variables have minor effects on the wing weight.</li>
-<li>Important factors can be detected by visual inspection</li>
-<li>Plotting the Big Picture: we can plot all 36 combinations in one figure.</li>
-</ul>
-<div id="cell-fig-awwe-example" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">20.</span>, <span class="fl">20.</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> ImageGrid(fig, <span class="dv">111</span>,  <span class="co"># similar to subplot(111)</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                 nrows_ncols<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">6</span>),  <span class="co"># creates 2x2 grid of axes</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                 axes_pad<span class="op">=</span><span class="fl">0.5</span>,  <span class="co"># pad between axes in inch.</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                 share_all<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                 label_mode<span class="op">=</span><span class="st">"all"</span>,</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                 ) </span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, im <span class="kw">in</span> <span class="bu">zip</span>(grid, Z):</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterating over the grid returns the Axes.</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(Zlab[i][<span class="dv">0</span>])</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(Zlab[i][<span class="dv">1</span>])</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ax.set_title(Zlab[i][1] + " vs. " + Zlab[i][0])</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    ax.contourf(X, Y, im, <span class="dv">30</span>, cmap <span class="op">=</span> <span class="st">"jet"</span>,  vmin <span class="op">=</span> <span class="dv">180</span>, vmax <span class="op">=</span> <span class="dv">360</span>)</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>       </span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-awwe-example" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-awwe-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="002_awwe_files/figure-html/fig-awwe-example-output-1.png" width="1557" height="1543" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-awwe-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;34.1: AWWE Landscape
-</figcaption>
-</figure>
-</div>
+<section id="analyzing-restart-results" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="analyzing-restart-results"><span class="header-section-number">8.3.1</span> Analyzing Restart Results</h3>
+<p>You can access the results of each individual restart run via the <code>restarts_results_</code> attribute.</p>
+<div id="10fa3bb6" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total global evaluations: </span><span class="sc">{</span>result<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of restarts performed: </span><span class="sc">{</span><span class="bu">len</span>(optimizer.restarts_results_) <span class="op">-</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value found globally: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Breakdown by run:"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, res <span class="kw">in</span> <span class="bu">enumerate</span>(optimizer.restarts_results_):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Run </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>res<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss"> evals, Best: </span><span class="sc">{</span>res<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">, Status: </span><span class="sc">{</span>res<span class="sc">.</span>message<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total global evaluations: 36
+Number of restarts performed: 2
+Best value found globally: 0.000775
+
+Breakdown by run:
+  Run 1: 36 evals, Best: 0.000775, Status: Restart triggered due to lack of improvement.
+  Run 2: 9 evals, Best: 0.000775, Status: Restart triggered due to lack of improvement.
+  Run 3: 5 evals, Best: 0.000775, Status: Optimization finished successfully
+         Current function value: 0.000775
+         Iterations: 0
+         Function evaluations: 5</code></pre>
 </div>
 </div>
 </section>
-<section id="awwe-landscape" class="level2" data-number="34.8">
-<h2 data-number="34.8" class="anchored" data-anchor-id="awwe-landscape"><span class="header-section-number">34.8</span> AWWE Landscape</h2>
-<ul>
-<li>Our Observations
-<ol type="1">
-<li>The load factor <span class="math inline">\(N_z\)</span>, which determines the magnitude of the maximum aerodynamic load on the wing, is very active and involved in interactions with other variables.</li>
-</ol>
-<ul>
-<li>Classic example: the interaction of <span class="math inline">\(N_z\)</span> with the aspect ratio <span class="math inline">\(A\)</span> indicates a heavy wing for high aspect ratios and large <span class="math inline">\(g\)</span>-forces</li>
-<li>This is the reaon why highly manoeuvrable fighter jets cannot have very efficient, glider wings)</li>
-</ul>
-<ol start="2" type="1">
-<li>Aspect ratio <span class="math inline">\(A\)</span> and airfoil thickness to chord ratio <span class="math inline">\(R_{tc}\)</span> have nonlinear interactions.</li>
-<li>Most important variables:</li>
-</ol>
-<ul>
-<li>Ultimate load factor <span class="math inline">\(N_z\)</span>, wing area <span class="math inline">\(S_w\)</span>, and flight design gross weight<span class="math inline">\(W_{dg}\)</span>.</li>
-</ul>
-<ol start="4" type="1">
-<li>Little impact: dynamic pressure <span class="math inline">\(q\)</span>, taper ratio <span class="math inline">\(l\)</span>, and quarter-chord sweep <span class="math inline">\(L\)</span>.</li>
-</ol></li>
-<li>Expert Knowledge
-<ul>
-<li>Aircraft designers know that the overall weight of the aircraft and the wing area must be kept to a minimum</li>
-<li>the latter usually dictated by constraints such as required stall speed, landing distance, turn rate, etc.</li>
-</ul></li>
-</ul>
 </section>
-<section id="summary-of-the-first-experiments" class="level2" data-number="34.9">
-<h2 data-number="34.9" class="anchored" data-anchor-id="summary-of-the-first-experiments"><span class="header-section-number">34.9</span> Summary of the First Experiments</h2>
+<section id="example-effect-of-restart_inject_best" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="example-effect-of-restart_inject_best"><span class="header-section-number">8.4</span> Example: Effect of <code>restart_inject_best</code></h2>
+<p>The <code>restart_inject_best</code> parameter is crucial for efficiency. It ensures that “knowledge” is transferred between restarts.</p>
 <ul>
-<li>First, we considered two pairs of inputs, out of 36 total pairs</li>
-<li>Then, the “Big Picture”:
-<ul>
-<li>For each pair we evaluated <code>wingwt</code> 10,000 times</li>
-</ul></li>
-<li>Doing the same for all pairs would require 360K evaluations:
-<ul>
-<li>not a reasonable number with a real computer simulation that takes any non-trivial amount of time to evaluate</li>
-<li>Only 1s per evaluation: <span class="math inline">\(&gt;100\)</span> hours</li>
-</ul></li>
-<li>Many solvers take minutes/hours/days to execute a single run</li>
-<li>And: three-way interactions?</li>
-<li>Consequence: a different strategy is needed</li>
+<li><strong><code>True</code></strong>: The new run starts with the best point found so far included in its initial set. This allows the surrogate model to immediately be aware of the high-quality region, potentially refining it further or using it as a baseline to explore elsewhere.</li>
+<li><strong><code>False</code></strong>: Each restart is completely independent. This is equivalent to running the optimizer multiple times in parallel with different seeds and taking the best result.</li>
 </ul>
+<p>Run with injection DISABLED:</p>
+<div id="injection_disabled" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>opt_no_inject <span class="op">=</span> SpotOptim(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>multimodal_function,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">40</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    restart_after_n<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    restart_inject_best<span class="op">=</span><span class="va">False</span>, <span class="co"># Disable injection</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>res_no_inject <span class="op">=</span> opt_no_inject.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorBoard logging disabled
+Initial best: f(x) = 6.344720
+Iter 1 | Best: 5.666775 | Rate: 1.00 | Evals: 15.0%
+Iter 2 | Best: 4.435415 | Rate: 1.00 | Evals: 17.5%
+Iter 3 | Best: 3.255984 | Rate: 1.00 | Evals: 20.0%
+Iter 4 | Best: 1.314889 | Rate: 1.00 | Evals: 22.5%
+Iter 6 | Best: 0.624721 | Rate: 0.67 | Evals: 27.5%
+Iter 8 | Best: 0.065870 | Rate: 0.67 | Evals: 32.5%
+Iter 12 | Best: 0.017807 | Rate: 0.33 | Evals: 42.5%
+Iter 13 | Best: 0.007839 | Rate: 0.67 | Evals: 45.0%
+Iter 16 | Best: 0.002594 | Rate: 0.33 | Evals: 52.5%
+Restarting optimization: success_rate 0 for 3 iterations.
+Initial best: f(x) = 5.017297
+Iter 2 | Best: 3.810866 | Rate: 0.50 | Evals: 80.0%
+Iter 3 | Best: 3.248264 | Rate: 0.67 | Evals: 82.5%
+Iter 4 | Best: 3.103790 | Rate: 1.00 | Evals: 85.0%
+Iter 5 | Best: 2.616620 | Rate: 1.00 | Evals: 87.5%
+Iter 7 | Best: 0.921447 | Rate: 0.67 | Evals: 92.5%
+Iter 9 | Best: 0.347228 | Rate: 0.67 | Evals: 97.5%
+Iter 10 | Best: 0.291980 | Rate: 0.67 | Evals: 100.0%</code></pre>
+</div>
+</div>
+<p>Run with injection ENABLED:</p>
+<div id="injection_enabled" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>opt_inject <span class="op">=</span> SpotOptim(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>multimodal_function,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span><span class="dv">40</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    restart_after_n<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    restart_inject_best<span class="op">=</span><span class="va">True</span>, <span class="co"># Enable injection</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>res_inject <span class="op">=</span> opt_inject.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorBoard logging disabled
+Initial best: f(x) = 6.344720
+Iter 1 | Best: 5.666775 | Rate: 1.00 | Evals: 15.0%
+Iter 2 | Best: 4.435415 | Rate: 1.00 | Evals: 17.5%
+Iter 3 | Best: 3.255984 | Rate: 1.00 | Evals: 20.0%
+Iter 4 | Best: 1.314889 | Rate: 1.00 | Evals: 22.5%
+Iter 6 | Best: 0.624721 | Rate: 0.67 | Evals: 27.5%
+Iter 8 | Best: 0.065870 | Rate: 0.67 | Evals: 32.5%
+Iter 12 | Best: 0.017807 | Rate: 0.33 | Evals: 42.5%
+Iter 13 | Best: 0.007839 | Rate: 0.67 | Evals: 45.0%
+Iter 16 | Best: 0.002594 | Rate: 0.33 | Evals: 52.5%
+Restarting optimization: success_rate 0 for 3 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.0004105  0.00081136]
+  Internal scale: [0.0004105  0.00081136]
+Restart injection: Using best found point so far as starting point (f(x)=0.002594).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 0.002594
+Restarting optimization: success_rate 0 for 3 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.0004105  0.00081136]
+  Internal scale: [0.0004105  0.00081136]
+Restart injection: Using best found point so far as starting point (f(x)=0.002594).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 0.002594
+Optimizer candidate 1/3 was duplicate/invalid.
+Restarting optimization: success_rate 0 for 3 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.0004105  0.00081136]
+  Internal scale: [0.0004105  0.00081136]
+Restart injection: Using best found point so far as starting point (f(x)=0.002594).
+Global budget exhausted. Stopping restarts.</code></pre>
+</div>
+</div>
+<div id="print_best-injection" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best without injection: </span><span class="sc">{</span>res_no_inject<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best with injection:    </span><span class="sc">{</span>res_inject<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best without injection: 0.002594
+Best with injection:    0.002594</code></pre>
+</div>
+</div>
 </section>
-<section id="exercise" class="level2" data-number="34.10">
-<h2 data-number="34.10" class="anchored" data-anchor-id="exercise"><span class="header-section-number">34.10</span> Exercise</h2>
-<section id="adding-paint-weight" class="level3" data-number="34.10.1">
-<h3 data-number="34.10.1" class="anchored" data-anchor-id="adding-paint-weight"><span class="header-section-number">34.10.1</span> Adding Paint Weight</h3>
+<section id="when-to-use-restarts" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="when-to-use-restarts"><span class="header-section-number">8.5</span> When to Use Restarts?</h2>
 <ul>
-<li>Paint weight is not considered.</li>
-<li>Add Paint Weight <span class="math inline">\(W_p\)</span> to formula (the updated formula is shown below) and update the functions and plots in the notebook.</li>
+<li><strong>Complex Landscapes</strong>: When the objective function has many local optima.</li>
+<li><strong>Stagnation</strong>: When the optimizer tends to “flatline” early but max_iter is large.</li>
+<li><strong>exploration vs Exploitation</strong>: Restarts favor exploration (by jumping to a new random initial design) when exploitation (local improvement) has seemingly exhausted the current basin of attraction.</li>
 </ul>
-<p><span class="math display">\[ W = 0.036S_W^{0.758} \times W_{fw}^{0.0035} \times \left( \frac{A}{\cos^2 \Lambda} \right)^{0.6} \times q^{0.006} \times \lambda^{0.04} \]</span> <span class="math display">\[ \times \left( \frac{100 R_{tc}}{\cos \Lambda} \right)^{-0.3} \times (N_z W_{dg})^{0.49} + S_w W_p\]</span></p>
-</section>
-</section>
-<section id="jupyter-notebook" class="level2" data-number="34.11">
-<h2 data-number="34.11" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">34.11</span> Jupyter Notebook</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/002_awwe.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
-</ul>
-</div>
-</div>
+<p>Setting <code>restart_after_n</code> depends on your problem: - <strong>Low values (e.g., 10-20)</strong>: Aggressive restarts. Good if function evaluation is cheap and you want to explore many basins. - <strong>High values (e.g., 100+)</strong>: Conservative. Gives the optimizer plenty of time to refine the solution in the current basin before giving up.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-Forr08a" class="csl-entry" role="listitem">
-Forrester, Alexander, András Sóbester, and Andy Keane. 2008. <em><span class="nocase">Engineering Design via Surrogate Modelling</span></em>. Wiley.
-</div>
-<div id="ref-raym06a" class="csl-entry" role="listitem">
-Raymer, Daniel P. 2006. <em>Aircraft Design: A Conceptual Approach</em>. <span>AIAA</span>.
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -1620,13 +1325,13 @@ Raymer, Daniel P. 2006. <em>Aircraft Design: A Conceptual Approach</em>. <span>A
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./spotoptim_explained.html" class="pagination-link" aria-label="SpotOptim Execution Flow">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">SpotOptim Execution Flow</span></span>
+      <a href="./spotoptim_parallel.html" class="pagination-link" aria-label="Parallelization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallelization</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./001_surrogate.html" class="pagination-link" aria-label="Simulation and Surrogate Modeling">
-        <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Simulation and Surrogate Modeling</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./var_type.html" class="pagination-link" aria-label="Variable Type (var_type) Implementation in SpotOptim">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable Type (var_type) Implementation in SpotOptim</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
