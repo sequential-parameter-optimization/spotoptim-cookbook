@@ -236,6 +236,8 @@ plt.colorbar()
 * Plotting the Big Picture: we can plot all 36 combinations in one figure.
 
 ```{python}
+#| label: fig-awwe-example
+#| fig-cap: "AWWE Landscape"
 fig = plt.figure(figsize=(20., 20.))
 grid = ImageGrid(fig, 111,  # similar to subplot(111)
                  nrows_ncols=(6,6),  # creates 2x2 grid of axes

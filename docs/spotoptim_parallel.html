@@ -685,15 +685,14 @@ window.Quarto = {
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">7.1</span> Overview</a></li>
-  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works"><span class="header-section-number">7.2</span> How it Works</a></li>
-  <li><a href="#how-it-works-1" id="toc-how-it-works-1" class="nav-link" data-scroll-target="#how-it-works-1"><span class="header-section-number">7.3</span> How it Works</a></li>
-  <li><a href="#benchmark-example" id="toc-benchmark-example" class="nav-link" data-scroll-target="#benchmark-example"><span class="header-section-number">7.4</span> Benchmark Example</a>
+  <li><a href="#how-it-workstest" id="toc-how-it-workstest" class="nav-link" data-scroll-target="#how-it-workstest"><span class="header-section-number">7.2</span> How it Workstest/</a></li>
+  <li><a href="#benchmark-example" id="toc-benchmark-example" class="nav-link" data-scroll-target="#benchmark-example"><span class="header-section-number">7.3</span> Benchmark Example</a>
   <ul class="collapse">
-  <li><a href="#benchmark-script" id="toc-benchmark-script" class="nav-link" data-scroll-target="#benchmark-script"><span class="header-section-number">7.4.1</span> Benchmark Script</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">7.4.2</span> Results</a></li>
+  <li><a href="#benchmark-script" id="toc-benchmark-script" class="nav-link" data-scroll-target="#benchmark-script"><span class="header-section-number">7.3.1</span> Benchmark Script</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">7.3.2</span> Results</a></li>
   </ul></li>
-  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">7.5</span> Best Practices</a></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">7.6</span> Jupyter Notebook</a></li>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">7.4</span> Best Practices</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">7.5</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
@@ -724,11 +723,8 @@ window.Quarto = {
 <h2 data-number="7.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">7.1</span> Overview</h2>
 <p>SpotOptim utilizes a <strong>Steady-State Asynchronous Parallelization</strong> strategy when <code>n_jobs &gt; 1</code>. This approach is designed to maximize resource utilization by ensuring that as soon as a worker is free, a new task is assigned, without waiting for batches of tasks to complete.</p>
 </section>
-<section id="how-it-works" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">7.2</span> How it Works</h2>
-</section>
-<section id="how-it-works-1" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="how-it-works-1"><span class="header-section-number">7.3</span> How it Works</h2>
+<section id="how-it-workstest" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="how-it-workstest"><span class="header-section-number">7.2</span> How it Workstest/</h2>
 <p>When <code>n_jobs &gt; 1</code>, SpotOptim employs a <strong>Steady-State Asynchronous Parallelization</strong> strategy. The process flow is as follows:</p>
 <ol type="1">
 <li><strong>Parallel Initial Design</strong>:
@@ -756,11 +752,11 @@ window.Quarto = {
 </ul></li>
 </ol>
 </section>
-<section id="benchmark-example" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="benchmark-example"><span class="header-section-number">7.4</span> Benchmark Example</h2>
+<section id="benchmark-example" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="benchmark-example"><span class="header-section-number">7.3</span> Benchmark Example</h2>
 <p>The following example demonstrates the speedup achieved by using parallelization on a simulated expensive objective function.</p>
-<section id="benchmark-script" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="benchmark-script"><span class="header-section-number">7.4.1</span> Benchmark Script</h3>
+<section id="benchmark-script" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="benchmark-script"><span class="header-section-number">7.3.1</span> Benchmark Script</h3>
 <p>We compare sequential execution (<code>n_jobs=1</code>) against parallel execution (<code>n_jobs=4</code>) for a task simulating 4 independent optimization runs.</p>
 <div id="cell-benchmark_script" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -862,12 +858,12 @@ window.Quarto = {
   Iters per run: 10
 
 Starting Sequential Benchmark (n_jobs=1)...
-Sequential Total Time: 8.48s
+Sequential Total Time: 8.24s
 
 Starting Parallel Benchmark (n_jobs=4)...
-Parallel Total Time: 4.30s
+Parallel Total Time: 4.16s
 ------------------------------
-Speedup: 1.97x</code></pre>
+Speedup: 1.98x</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -878,8 +874,8 @@ Speedup: 1.97x</code></pre>
 </div>
 </div>
 </section>
-<section id="results" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="results"><span class="header-section-number">7.4.2</span> Results</h3>
+<section id="results" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="results"><span class="header-section-number">7.3.2</span> Results</h3>
 <p>Running the benchmark on a standard multi-core machine yields significant speedups. In our test case with a simulated delay of 0.05s per evaluation:</p>
 <ul>
 <li><strong>Sequential Time</strong>: ~7.56s</li>
@@ -889,16 +885,16 @@ Speedup: 1.97x</code></pre>
 <p><em>Note: Actual speedup depends on the overhead of process spawning and the nature of the objective function. For very fast objective functions, the overhead of parallelization might outweigh the benefits.</em></p>
 </section>
 </section>
-<section id="best-practices" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">7.5</span> Best Practices</h2>
+<section id="best-practices" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">7.4</span> Best Practices</h2>
 <ol type="1">
 <li><strong>Use for Expensive Functions</strong>: Parallelization is most effective when the function evaluation time dominates the overhead of <code>joblib</code> (pickling data, spawning processes).</li>
 <li><strong>Memory Usage</strong>: Each parallel worker consumes its own memory. Be mindful of total system memory when setting high <code>n_jobs</code> for memory-intensive problems.</li>
 <li><strong>Reproducibility</strong>: Setting a <code>seed</code> in <code>SpotOptim</code> ensures that the parallel runs are reproducible, as seeds are deterministically derived for each task.</li>
 </ol>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">7.6</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">7.5</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
