@@ -172,12 +172,13 @@ We perform $m$ independent optimization runs for each algorithm. For each run, w
 *   **Validation Size ($n$)**: `n_validate` (calculated above)
 
 ```{python}
+#| label: experimental-comparison-challenge
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from spotoptim import SpotOptim
 
 # --- Configuration ---
-M_RUNS = 5              # Number of independent optimization runs
+M_RUNS = 2              # Number of independent optimization runs, here only 2 for speed
 MAX_EVALS = 50          # Optimization budget
 DIM = 10
 BOUNDS = [(0.0, 1.0) for _ in range(DIM)]
@@ -367,17 +368,19 @@ We now statistically compare the validated performance of the two algorithms.
 ```{python}
 #| label: fig-comparison
 #| fig-cap: "Comparison of Validated True Means (Lower is Better)"
-
 import scipy.stats as stats
-
-# 1. Boxplot
 plt.figure(figsize=(8, 5))
 plt.boxplot([final_means_spot, final_means_scipy], labels=['SpotOptim', 'Scipy L-BFGS-B'], patch_artist=True)
 plt.ylabel('True Objective Value (Estimate)')
 plt.title(f'Comparison over {M_RUNS} Runs (Validation n={n_validate})')
 plt.grid(True, axis='y', linestyle='--', alpha=0.7)
 plt.show()
+```
 
+t-test:
+
+```{python}
+#| label: experimental-comparison-challenge-ttest
 # 2. T-Test
 t_stat, p_val = stats.ttest_ind(final_means_spot, final_means_scipy, equal_var=False)
 
@@ -401,6 +404,86 @@ This study followed a rigorous benchmarking protocol:
 3.  **Robust Evaluation**: Algorithms were compared based on the *validated mean* performance of their final solutions, not single noisy evaluations.
 
 The results indicate that [SpotOptim/Scipy] provides superior performance on this remote engineering problem given the fixed budget. This methodology ensures that the conclusions are not artifacts of random noise.
+
+## Landscape Analysis of `robot_arm_hard`
+
+To gain further insight into the difficulty of the `robot_arm_hard` problem, we visualize its landscape using 2D slices. Similar to the AWWE example, we vary pairs of variables while keeping the others fixed at the center of the domain ($0.5$). This reveals the complex constraint boundaries and "valleys" created by the obstacles.
+
+```{python}
+#| label: fig-robot-arm-hard
+#| fig-cap: "Robot Arm Hard Landscape (2D Slices). Blue regions are low cost (feasible/close to target), red regions are high cost (obstacles or far from target)."
+
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import ImageGrid
+from spotoptim.function.so import robot_arm_hard
+
+# 1. Setup Grid
+N_RES = 40
+x = np.linspace(0, 1, N_RES)
+X_mesh, Y_mesh = np.meshgrid(x, x)
+
+# 2. Compute Slices for all 45 pairs
+n_dim = 10
+default_val = 0.5
+Z_list = []
+Z_labels = []
+
+# Loop over pairs (i, j)
+for i in range(n_dim):
+    for j in range(i + 1, n_dim):
+        # Create batch input
+        inputs = np.full((N_RES * N_RES, n_dim), default_val)
+        inputs[:, i] = X_mesh.ravel()
+        inputs[:, j] = Y_mesh.ravel()
+        
+        # Evaluate
+        z = robot_arm_hard(inputs).reshape(X_mesh.shape)
+        Z_list.append(z)
+        Z_labels.append((f"x{i+1}", f"x{j+1}"))
+
+# Only keep the last 6 pairs
+Z_list = Z_list[-6:]
+Z_labels = Z_labels[-6:]
+
+# 3. Plotting
+fig = plt.figure(figsize=(12., 8.))
+grid = ImageGrid(fig, 111,
+                 nrows_ncols=(2, 3), # Last 6 pairs
+                 axes_pad=0.3,
+                 share_all=True,
+                 cbar_location="right",
+                 cbar_mode="single",
+                 cbar_size="5%",
+                 cbar_pad=0.1,
+                 label_mode="all"
+                 )
+
+# Set color limits to highlight the 'valleys' vs 'walls'
+# Unconstrained values are ~0-200. Obstacle penalties are >1000.
+# We saturate at 500 to show the structure of the feasible space.
+vmin, vmax = 225, 280
+
+counter = 0
+for ax in grid:
+    if counter < len(Z_list):
+        ax.set_xticks([])
+        ax.set_yticks([])
+        
+        im = ax.contourf(X_mesh, Y_mesh, Z_list[counter], 150, 
+                        cmap="jet", vmin=vmin, vmax=vmax)
+    else:
+        ax.set_visible(False)
+        
+    counter += 1
+
+# Add Colorbar
+cax = grid.cbar_axes[0]
+cax.colorbar(im)
+
+plt.suptitle("Robot Arm Hard: Selected Pairwise Landscape Slices", y=0.95, fontsize=16)
+plt.show()
+```
 
 ## References
 

@@ -7,25 +7,29 @@ eval: true
 This document describes how to use the parallelization features in `SpotOptim` to accelerate optimization runs, particularly for computationally expensive objective functions.
 
 ## Overview
+SpotOptim utilizes a **Steady-State Asynchronous Parallelization** strategy when `n_jobs > 1`. This approach is designed to maximize resource utilization by ensuring that as soon as a worker is free, a new task is assigned, without waiting for batches of tasks to complete.
 
-SpotOptim allows you to parallelize optimization tasks by leveraging the `n_jobs` parameter. This is particularly useful when:
+## How it Workstest/
+When `n_jobs > 1`, SpotOptim employs a **Steady-State Asynchronous Parallelization** strategy. The process flow is as follows:
 
-1.  **Expensive Objective Functions**: Your objective function takes a significant amount of time to evaluate (e.g., simulations, model training).
-2.  **Multiple Restarts**: You are performing multiple independent optimization runs (restarts) to find the global optimum.
+1.  **Parallel Initial Design**:
+    *   The `n_initial * repeats_initial` initial design evaluations are managed by the parallel executor.
+    *   The first `n_jobs` are sent to separate processors.
+    *   If the first job is ready, its result is returned and the next of the initial design runs is dispatched.
+    *   This continues until all initial design runs have returned their values.
 
-## The `n_jobs` Parameter
+2.  **First Surrogate Fit**:
+    *   Once all initial evaluations are complete, the first surrogate model is built (fitted) using the comprehensive initial dataset.
 
-The `SpotOptim` constructor accepts an `n_jobs` parameter:
+3.  **Parallel Search Initialization**:
+    *   `n_jobs` searches (optimizations) on this initial surrogate model are dispatched to run in parallel.
 
-- `n_jobs = 1` (default): Sequential execution. Optimization runs are performed one after another.
-- `n_jobs > 1`: Parallel execution. Up to `n_jobs` optimization tasks are run in parallel.
-- `n_jobs = -1`: Use all available CPU cores.
-
-## How it Works
-
-When `n_jobs > 1`, SpotOptim uses `joblib` to execute multiple optimization *runs* (restarts) in parallel. This effectively increases the throughput of your optimization process.
-
-For example, if you set `max_iter` to a value that allows for multiple restarts (or if `SpotOptim` triggers restarts based on `restart_after_n`), these restarts will be distributed across the specified number of workers.
+4.  **Steady-State Loop**:
+    *   **Dispatch & Collect**: The loop manages a continuous stream of tasks.
+    *   **Search**: If a Search task is ready (returns a candidate $x_{cand}$), this point is immediately sent to the evaluation function to compute $y_{new}$.
+    *   **Update & Refit**: As soon as $y_{new}$ is available, the global surrogate model is fitted again (including the new $x_{cand}, y_{new}$).
+    *   **New Search**: A new Search task is then dispatched using this continuously updated surrogate model.
+    *   This cycle repeats, ensuring the surrogate is always updated with the latest available information for every new search.
 
 ## Benchmark Example
 
@@ -50,6 +54,8 @@ warnings.filterwarnings("ignore")
 warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 def expensive_objective(X):
+    import time
+    import numpy as np
     # Simulate a computationally expensive function
     # Sleep for 0.05 seconds per point
     n_points = X.shape[0]

@@ -262,7 +262,8 @@ optimizer.save_result(prefix="noisy_opt")
 # Load and analyze noise statistics
 loaded_opt = SpotOptim.load_result("noisy_opt_res.pkl")
 
-print(f"Noise handling enabled: {loaded_opt.noise}")
+print(f"Repeats initial: {loaded_opt.repeats_initial}")
+print(f"Repeats surrogate: {loaded_opt.repeats_surrogate}")
 print(f"Best mean value: {loaded_opt.best_y_:.6f}")
 
 if loaded_opt.mean_y is not None:

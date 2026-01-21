@@ -782,7 +782,7 @@ window.Quarto = {
 <li>Lennard-Jones Potential (39D)</li>
 <li>Remote Objective (10D), SPOTSeven Optimization Challenge</li>
 </ol>
-<div id="889a7fa5" class="cell" data-execution_count="1">
+<div id="72903997" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -887,7 +887,7 @@ Figure&nbsp;44.1: 1D Slice through High-Dimensional Landscapes
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Estimated Noise (sigma): </span><span class="sc">{</span>sigma_est<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimating noise...
-Estimated Noise (sigma): 0.1099</code></pre>
+Estimated Noise (sigma): 0.1026</code></pre>
 </div>
 </div>
 </section>
@@ -905,7 +905,7 @@ Estimated Noise (sigma): 0.1099</code></pre>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>n_validate <span class="op">=</span> <span class="bu">int</span>(np.ceil(n_required))</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Required samples (n) for validation (delta=</span><span class="sc">{</span>delta<span class="sc">:.4f}</span><span class="ss">, sigma=</span><span class="sc">{</span>sigma_est<span class="sc">:.4f}</span><span class="ss">, power=</span><span class="sc">{</span><span class="dv">1</span><span class="op">-</span>beta<span class="sc">}</span><span class="ss">): </span><span class="sc">{</span>n_validate<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Required samples (n) for validation (delta=0.1099, sigma=0.1099, power=0.8): 16</code></pre>
+<pre><code>Required samples (n) for validation (delta=0.1026, sigma=0.1026, power=0.8): 16</code></pre>
 </div>
 </div>
 </section>
@@ -918,13 +918,13 @@ Estimated Noise (sigma): 0.1099</code></pre>
 <li><strong>Budget per Run</strong>: 50 evaluations</li>
 <li><strong>Validation Size (<span class="math inline">\(n\)</span>)</strong>: <code>n_validate</code> (calculated above)</li>
 </ul>
-<div id="d7ac8884" class="cell" data-execution_count="5">
+<div id="experimental-comparison-challenge" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Configuration ---</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>M_RUNS <span class="op">=</span> <span class="dv">5</span>              <span class="co"># Number of independent optimization runs</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>M_RUNS <span class="op">=</span> <span class="dv">2</span>              <span class="co"># Number of independent optimization runs, here only 2 for speed</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>MAX_EVALS <span class="op">=</span> <span class="dv">50</span>          <span class="co"># Optimization budget</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>DIM <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>BOUNDS <span class="op">=</span> [(<span class="fl">0.0</span>, <span class="fl">1.0</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(DIM)]</span>
@@ -1046,31 +1046,19 @@ Estimated Noise (sigma): 0.1099</code></pre>
 <span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Experiments completed."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Starting Benchmark: 5 runs, opt budget 50, validation n=16...
+<pre><code>Starting Benchmark: 2 runs, opt budget 50, validation n=16...
 
 --- SpotOptim ---
-Run 1/5
-  Best found: 26.9191 -&gt; Validated Mean: 27.0886
-Run 2/5
-  Best found: 29.5170 -&gt; Validated Mean: 29.3920
-Run 3/5
-  Best found: 16.9704 -&gt; Validated Mean: 16.9986
-Run 4/5
-  Best found: 14.4696 -&gt; Validated Mean: 14.5801
-Run 5/5
-  Best found: 18.1745 -&gt; Validated Mean: 18.2559
+Run 1/2
+  Best found: 13.9968 -&gt; Validated Mean: 13.9389
+Run 2/2
+  Best found: 32.1093 -&gt; Validated Mean: 32.3018
 
 --- Scipy L-BFGS-B ---
-Run 1/5
-  Error in Scipy run 0: '&gt;' not supported between instances of 'float' and 'NoneType'
-Run 2/5
+Run 1/2
+  Best found: 27.6366 -&gt; Validated Mean: 27.9223
+Run 2/2
   Error in Scipy run 1: '&gt;' not supported between instances of 'float' and 'NoneType'
-Run 3/5
-  Best found: 50.5984 -&gt; Validated Mean: 50.7957
-Run 4/5
-  Error in Scipy run 3: '&gt;' not supported between instances of 'float' and 'NoneType'
-Run 5/5
-  Error in Scipy run 4: '&gt;' not supported between instances of 'float' and 'NoneType'
 
 Experiments completed.</code></pre>
 </div>
@@ -1134,7 +1122,7 @@ Experiments completed.</code></pre>
 <div id="fig-convergence" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="007_challenge_files/figure-html/fig-convergence-output-1.png" width="827" height="523" class="figure-img">
+<img src="007_challenge_files/figure-html/fig-convergence-output-1.png" width="825" height="523" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;44.2: Convergence Plot: Mean Best-So-Far Objective Value (Noisy) vs.&nbsp;Evaluations
@@ -1149,33 +1137,17 @@ Figure&nbsp;44.2: Convergence Plot: Mean Best-So-Far Objective Value (Noisy) vs.
 <p>We now statistically compare the validated performance of the two algorithms.</p>
 <div id="cell-fig-comparison" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Boxplot</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.boxplot([final_means_spot, final_means_scipy], labels<span class="op">=</span>[<span class="st">'SpotOptim'</span>, <span class="st">'Scipy L-BFGS-B'</span>], patch_artist<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True Objective Value (Estimate)'</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'Comparison over </span><span class="sc">{</span>M_RUNS<span class="sc">}</span><span class="ss"> Runs (Validation n=</span><span class="sc">{</span>n_validate<span class="sc">}</span><span class="ss">)'</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. T-Test</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>t_stat, p_val <span class="op">=</span> stats.ttest_ind(final_means_spot, final_means_scipy, equal_var<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Statistical Comparison (Welch's t-test):"</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  SpotOptim Mean: </span><span class="sc">{</span>np<span class="sc">.</span>mean(final_means_spot)<span class="sc">:.4f}</span><span class="ss"> (std: </span><span class="sc">{</span>np<span class="sc">.</span>std(final_means_spot)<span class="sc">:.4f}</span><span class="ss">)"</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Scipy Mean:     </span><span class="sc">{</span>np<span class="sc">.</span>mean(final_means_scipy)<span class="sc">:.4f}</span><span class="ss"> (std: </span><span class="sc">{</span>np<span class="sc">.</span>std(final_means_scipy)<span class="sc">:.4f}</span><span class="ss">)"</span>)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  T-statistic: </span><span class="sc">{</span>t_stat<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P-value: </span><span class="sc">{</span>p_val<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> p_val <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  Result: Significant difference detected (p &lt; 0.05)."</span>)</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  Result: No significant difference detected (p &gt;= 0.05)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.boxplot([final_means_spot, final_means_scipy], labels<span class="op">=</span>[<span class="st">'SpotOptim'</span>, <span class="st">'Scipy L-BFGS-B'</span>], patch_artist<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True Objective Value (Estimate)'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'Comparison over </span><span class="sc">{</span>M_RUNS<span class="sc">}</span><span class="ss"> Runs (Validation n=</span><span class="sc">{</span>n_validate<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="007_challenge_files/figure-html/fig-comparison-output-1.png" width="659" height="431" class="figure-img">
+<img src="007_challenge_files/figure-html/fig-comparison-output-1.png" width="672" height="431" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;44.3: Comparison of Validated True Means (Lower is Better)
@@ -1183,10 +1155,26 @@ Figure&nbsp;44.3: Comparison of Validated True Means (Lower is Better)
 </figure>
 </div>
 </div>
+</div>
+<p>t-test:</p>
+<div id="experimental-comparison-challenge-ttest" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. T-Test</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>t_stat, p_val <span class="op">=</span> stats.ttest_ind(final_means_spot, final_means_scipy, equal_var<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Statistical Comparison (Welch's t-test):"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  SpotOptim Mean: </span><span class="sc">{</span>np<span class="sc">.</span>mean(final_means_spot)<span class="sc">:.4f}</span><span class="ss"> (std: </span><span class="sc">{</span>np<span class="sc">.</span>std(final_means_spot)<span class="sc">:.4f}</span><span class="ss">)"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Scipy Mean:     </span><span class="sc">{</span>np<span class="sc">.</span>mean(final_means_scipy)<span class="sc">:.4f}</span><span class="ss"> (std: </span><span class="sc">{</span>np<span class="sc">.</span>std(final_means_scipy)<span class="sc">:.4f}</span><span class="ss">)"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  T-statistic: </span><span class="sc">{</span>t_stat<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  P-value: </span><span class="sc">{</span>p_val<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> p_val <span class="op">&lt;</span> <span class="fl">0.05</span>:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  Result: Significant difference detected (p &lt; 0.05)."</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  Result: No significant difference detected (p &gt;= 0.05)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Statistical Comparison (Welch's t-test):
-  SpotOptim Mean: 21.2630 (std: 5.8636)
-  Scipy Mean:     50.7957 (std: 0.0000)
+  SpotOptim Mean: 23.1204 (std: 9.1815)
+  Scipy Mean:     27.9223 (std: 0.0000)
   T-statistic: nan
   P-value: nan
   Result: No significant difference detected (p &gt;= 0.05).</code></pre>
@@ -1201,77 +1189,77 @@ Figure&nbsp;44.3: Comparison of Validated True Means (Lower is Better)
 <section id="landscape-analysis-of-robot_arm_hard" class="level2" data-number="44.9">
 <h2 data-number="44.9" class="anchored" data-anchor-id="landscape-analysis-of-robot_arm_hard"><span class="header-section-number">44.9</span> Landscape Analysis of <code>robot_arm_hard</code></h2>
 <p>To gain further insight into the difficulty of the <code>robot_arm_hard</code> problem, we visualize its landscape using 2D slices. Similar to the AWWE example, we vary pairs of variables while keeping the others fixed at the center of the domain (<span class="math inline">\(0.5\)</span>). This reveals the complex constraint boundaries and “valleys” created by the obstacles.</p>
-<div id="cell-fig-robot-arm-hard" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axes_grid1 <span class="im">import</span> ImageGrid</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.so <span class="im">import</span> robot_arm_hard</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Setup Grid</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>N_RES <span class="op">=</span> <span class="dv">40</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, N_RES)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>X_mesh, Y_mesh <span class="op">=</span> np.meshgrid(x, x)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Compute Slices for all 45 pairs</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>n_dim <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>default_val <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>Z_list <span class="op">=</span> []</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>Z_labels <span class="op">=</span> []</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over pairs (i, j)</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_dim):</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n_dim):</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create batch input</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        inputs <span class="op">=</span> np.full((N_RES <span class="op">*</span> N_RES, n_dim), default_val)</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        inputs[:, i] <span class="op">=</span> X_mesh.ravel()</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        inputs[:, j] <span class="op">=</span> Y_mesh.ravel()</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Evaluate</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> robot_arm_hard(inputs).reshape(X_mesh.shape)</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        Z_list.append(z)</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        Z_labels.append((<span class="ss">f"x</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>, <span class="ss">f"x</span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>))</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Only keep the last 6 pairs</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>Z_list <span class="op">=</span> Z_list[<span class="op">-</span><span class="dv">6</span>:]</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>Z_labels <span class="op">=</span> Z_labels[<span class="op">-</span><span class="dv">6</span>:]</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Plotting</span></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">12.</span>, <span class="fl">8.</span>))</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> ImageGrid(fig, <span class="dv">111</span>,</span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>                 nrows_ncols<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="co"># Last 6 pairs</span></span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>                 axes_pad<span class="op">=</span><span class="fl">0.3</span>,</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>                 share_all<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>                 cbar_location<span class="op">=</span><span class="st">"right"</span>,</span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>                 cbar_mode<span class="op">=</span><span class="st">"single"</span>,</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>                 cbar_size<span class="op">=</span><span class="st">"5%"</span>,</span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>                 cbar_pad<span class="op">=</span><span class="fl">0.1</span>,</span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>                 label_mode<span class="op">=</span><span class="st">"all"</span></span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>                 )</span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Set color limits to highlight the 'valleys' vs 'walls'</span></span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconstrained values are ~0-200. Obstacle penalties are &gt;1000.</span></span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a><span class="co"># We saturate at 500 to show the structure of the feasible space.</span></span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>vmin, vmax <span class="op">=</span> <span class="dv">225</span>, <span class="dv">280</span></span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>counter <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> grid:</span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> counter <span class="op">&lt;</span> <span class="bu">len</span>(Z_list):</span>
-<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>        ax.set_xticks([])</span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>        ax.set_yticks([])</span>
-<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>        im <span class="op">=</span> ax.contourf(X_mesh, Y_mesh, Z_list[counter], <span class="dv">150</span>, </span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>                        cmap<span class="op">=</span><span class="st">"jet"</span>, vmin<span class="op">=</span>vmin, vmax<span class="op">=</span>vmax)</span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>        ax.set_visible(<span class="va">False</span>)</span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>    counter <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Colorbar</span></span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>cax <span class="op">=</span> grid.cbar_axes[<span class="dv">0</span>]</span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>cax.colorbar(im)</span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Robot Arm Hard: Selected Pairwise Landscape Slices"</span>, y<span class="op">=</span><span class="fl">0.95</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
-<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-fig-robot-arm-hard" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axes_grid1 <span class="im">import</span> ImageGrid</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.so <span class="im">import</span> robot_arm_hard</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Setup Grid</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>N_RES <span class="op">=</span> <span class="dv">40</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, N_RES)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>X_mesh, Y_mesh <span class="op">=</span> np.meshgrid(x, x)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Compute Slices for all 45 pairs</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>n_dim <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>default_val <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>Z_list <span class="op">=</span> []</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>Z_labels <span class="op">=</span> []</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over pairs (i, j)</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_dim):</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, n_dim):</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create batch input</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        inputs <span class="op">=</span> np.full((N_RES <span class="op">*</span> N_RES, n_dim), default_val)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        inputs[:, i] <span class="op">=</span> X_mesh.ravel()</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        inputs[:, j] <span class="op">=</span> Y_mesh.ravel()</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Evaluate</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> robot_arm_hard(inputs).reshape(X_mesh.shape)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        Z_list.append(z)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        Z_labels.append((<span class="ss">f"x</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>, <span class="ss">f"x</span><span class="sc">{</span>j<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>))</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Only keep the last 6 pairs</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>Z_list <span class="op">=</span> Z_list[<span class="op">-</span><span class="dv">6</span>:]</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>Z_labels <span class="op">=</span> Z_labels[<span class="op">-</span><span class="dv">6</span>:]</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Plotting</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">12.</span>, <span class="fl">8.</span>))</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> ImageGrid(fig, <span class="dv">111</span>,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>                 nrows_ncols<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="co"># Last 6 pairs</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>                 axes_pad<span class="op">=</span><span class="fl">0.3</span>,</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>                 share_all<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>                 cbar_location<span class="op">=</span><span class="st">"right"</span>,</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>                 cbar_mode<span class="op">=</span><span class="st">"single"</span>,</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>                 cbar_size<span class="op">=</span><span class="st">"5%"</span>,</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>                 cbar_pad<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>                 label_mode<span class="op">=</span><span class="st">"all"</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>                 )</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Set color limits to highlight the 'valleys' vs 'walls'</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconstrained values are ~0-200. Obstacle penalties are &gt;1000.</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="co"># We saturate at 500 to show the structure of the feasible space.</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>vmin, vmax <span class="op">=</span> <span class="dv">225</span>, <span class="dv">280</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>counter <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> grid:</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> counter <span class="op">&lt;</span> <span class="bu">len</span>(Z_list):</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>        ax.set_xticks([])</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>        ax.set_yticks([])</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>        im <span class="op">=</span> ax.contourf(X_mesh, Y_mesh, Z_list[counter], <span class="dv">150</span>, </span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>                        cmap<span class="op">=</span><span class="st">"jet"</span>, vmin<span class="op">=</span>vmin, vmax<span class="op">=</span>vmax)</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>        ax.set_visible(<span class="va">False</span>)</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>    counter <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Colorbar</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>cax <span class="op">=</span> grid.cbar_axes[<span class="dv">0</span>]</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>cax.colorbar(im)</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Robot Arm Hard: Selected Pairwise Landscape Slices"</span>, y<span class="op">=</span><span class="fl">0.95</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-robot-arm-hard" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">

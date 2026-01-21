@@ -332,7 +332,7 @@ Update statistics like means and variances for noisy evaluations.
 
 ```{python}
 print(f"\nStatistics updated:")
-if opt.noise:
+if opt.repeats_initial > 1 or opt.repeats_surrogate > 1:
     print(f"  - mean_X: {opt.mean_X.shape}")
     print(f"  - mean_y: {opt.mean_y.shape}")
     print(f"  - var_y: {opt.var_y.shape}")
@@ -716,7 +716,7 @@ print(f"  min_y: {opt.min_y:.6f}")
 print(f"  min_X: {opt.min_X}")
 print(f"  counter: {opt.counter}")
 
-if opt.noise:
+if opt.repeats_initial > 1 or opt.repeats_surrogate > 1:
     print(f"\nNoise statistics:")
     print(f"  mean_X shape: {opt.mean_X.shape}")
     print(f"  mean_y shape: {opt.mean_y.shape}")
@@ -818,7 +818,6 @@ opt_noisy = SpotOptim(
 print("Configuration for noisy optimization:")
 print(f"  repeats_initial: {opt_noisy.repeats_initial}")
 print(f"  repeats_surrogate: {opt_noisy.repeats_surrogate}")
-print(f"  noise: {opt_noisy.noise}")
 ```
 
 ## Noisy Optimization Workflow Differences
