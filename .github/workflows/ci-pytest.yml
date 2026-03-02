@@ -1,0 +1,46 @@
+name: CI Pytest
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-pytest-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Sync dependencies
+        run: uv sync --group dev --no-sources
+
+      - name: Run tests
+        run: |
+          set +e
+          uv run --no-sync pytest
+          exit_code=$?
+          set -e
+          if [ "$exit_code" -eq 5 ]; then
+            echo "No tests collected. Continuing."
+            exit 0
+          fi
+          exit "$exit_code"
