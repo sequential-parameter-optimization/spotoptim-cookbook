@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -1235,9 +1235,9 @@ Test results: [0.18875158 0.16901682]</code></pre>
 Factor variable at dimension 3:
   Levels: ['Adam', 'SGD', 'RMSprop', 'AdamW']
   Mapped to integers: 0 to 3
-Removed old TensorBoard logs: runs/spotoptim_20260121_123955
+Removed old TensorBoard logs: runs/spotoptim_20260302_192217
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260121_142228</code></pre>
+TensorBoard logging enabled: runs/spotoptim_20260302_211317</code></pre>
 </div>
 </div>
 <p>Display search space configuration. The <code>trans</code>column shows applied transformations. <code>lr_unified</code> and <code>alpha</code> use log10 transformation internally. This enables efficient exploration of log-scale parameters. All values shown are in original scale (not transformed).</p>
@@ -1325,35 +1325,41 @@ Configuration 1/1:
   l1=110, num_layers=4, activation=ReLU, 
   optimizer=AdamW, lr_unified=1.9189, alpha=0.4053
   Validation MSE: 0.167158
+Iter 1 | Best: 0.166404 | Curr: 0.167158 | Rate: 0.00 | Evals: 66.7%
 
 Configuration 1/1:
   l1=120, num_layers=3, activation=ReLU, 
   optimizer=AdamW, lr_unified=0.3330, alpha=0.0220
   Validation MSE: 0.185993
+Iter 2 | Best: 0.166404 | Curr: 0.185993 | Rate: 0.00 | Evals: 73.3%
 Optimizer candidate 1/3 was duplicate/invalid.
 
 Configuration 1/1:
   l1=124, num_layers=2, activation=ReLU, 
   optimizer=AdamW, lr_unified=3.2724, alpha=0.0123
   Validation MSE: 0.182834
+Iter 3 | Best: 0.166404 | Curr: 0.182834 | Rate: 0.00 | Evals: 80.0%
 Optimizer candidate 1/3 was duplicate/invalid.
 
 Configuration 1/1:
   l1=48, num_layers=1, activation=ReLU, 
   optimizer=RMSprop, lr_unified=1.6729, alpha=0.3743
   Validation MSE: 0.186122
+Iter 4 | Best: 0.166404 | Curr: 0.186122 | Rate: 0.00 | Evals: 86.7%
 Optimizer candidate 1/3 was duplicate/invalid.
 
 Configuration 1/1:
   l1=125, num_layers=4, activation=ReLU, 
   optimizer=AdamW, lr_unified=2.3839, alpha=0.3972
   Validation MSE: 0.169085
+Iter 5 | Best: 0.166404 | Curr: 0.169085 | Rate: 0.00 | Evals: 93.3%
 
 Configuration 1/1:
   l1=74, num_layers=3, activation=ReLU, 
   optimizer=RMSprop, lr_unified=2.1054, alpha=0.2510
   Validation MSE: 0.971009
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260121_142228</code></pre>
+Iter 6 | Best: 0.166404 | Curr: 0.971009 | Rate: 0.00 | Evals: 100.0%
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260302_211317</code></pre>
 </div>
 </div>
 </section>
@@ -1380,7 +1386,7 @@ Best Solution Found:
 </div>
 </div>
 <p>Store values for later use in visualizations. Values are already in original scale thanks to <code>var_trans</code>. Factor variables are returned as strings.</p>
-<div id="f765253c" class="cell" data-execution_count="17">
+<div id="97cbd9cb" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>best_l1 <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">0</span>])</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>best_num_layers <span class="op">=</span> <span class="bu">int</span>(result.x[<span class="dv">1</span>])</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>best_activation <span class="op">=</span> result.x[<span class="dv">2</span>]</span>
@@ -1830,7 +1836,7 @@ Validation MSE Comparison:
 </div>
 <section id="sensitivity-analysis-spearman-correlation" class="level2" data-number="40.1">
 <h2 data-number="40.1" class="anchored" data-anchor-id="sensitivity-analysis-spearman-correlation"><span class="header-section-number">40.1</span> Sensitivity Analysis (Spearman Correlation)</h2>
-<div id="f4cd934c" class="cell" data-execution_count="27">
+<div id="6e92abab" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the new sensitivity_spearman() method for tabular output</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>optimizer.sensitivity_spearman()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
