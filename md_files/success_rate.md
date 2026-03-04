@@ -116,7 +116,7 @@ current_rate = optimizer.success_rate
 print(f"Success rate: {current_rate:.2%}")
 
 # Also available via getter method
-rate = optimizer._get_success_rate()
+rate = optimizer.get_success_rate()
 print(f"Via getter method: {rate:.2%}")
 ```
 

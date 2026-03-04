@@ -490,7 +490,7 @@ This enables efficient exploration of log-scale parameters. All values shown are
 
 ```{python}
 #| label: pinn-display-search-space-pinn2
-design_table = optimizer.print_design_table(tablefmt="github")
+design_table = optimizer.get_design_table(tablefmt="github")
 print(design_table)
 ```
 
@@ -536,7 +536,7 @@ Display comprehensive results table with importance scores
 
 ```{python}
 #| label: pinn-results-table-pinn2
-table = optimizer.print_results_table(show_importance=True, tablefmt="github")
+table = optimizer.get_results_table(show_importance=True, tablefmt="github")
 print(table)
 ```
 
