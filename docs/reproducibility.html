@@ -731,7 +731,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="making-optimization-reproducible" class="level3" data-number="15.2.1">
 <h3 data-number="15.2.1" class="anchored" data-anchor-id="making-optimization-reproducible"><span class="header-section-number">15.2.1</span> Making Optimization Reproducible</h3>
 <p>To ensure reproducible results, simply specify the <code>seed</code> parameter when creating the optimizer:</p>
-<div id="66a0825e" class="cell" data-execution_count="1">
+<div id="6601c63e" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -779,7 +779,7 @@ Best value: 7.805825304638719e-06</code></pre>
 <section id="running-independent-experiments" class="level3" data-number="15.2.2">
 <h3 data-number="15.2.2" class="anchored" data-anchor-id="running-independent-experiments"><span class="header-section-number">15.2.2</span> Running Independent Experiments</h3>
 <p>If you don’t specify a seed, each optimization run will explore the search space differently:</p>
-<div id="ed075c4c" class="cell" data-execution_count="2">
+<div id="8dad0fd9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-reproducible: different results each time</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
@@ -800,7 +800,7 @@ Best value: 7.805825304638719e-06</code></pre>
 <section id="example-1-comparing-different-configurations" class="level3" data-number="15.3.1">
 <h3 data-number="15.3.1" class="anchored" data-anchor-id="example-1-comparing-different-configurations"><span class="header-section-number">15.3.1</span> Example 1: Comparing Different Configurations</h3>
 <p>When comparing different optimizer settings, use the same seed for fair comparison:</p>
-<div id="b42650f5" class="cell" data-execution_count="3">
+<div id="2ce2487d" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -834,14 +834,14 @@ Best value: 7.805825304638719e-06</code></pre>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Config 2 (fewer initial): </span><span class="sc">{</span>result2<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Config 1 (more initial): 0.001750
-Config 2 (fewer initial): 0.005165</code></pre>
+Config 2 (fewer initial): 0.005199</code></pre>
 </div>
 </div>
 </section>
 <section id="example-2-reproducible-research-experiment" class="level3" data-number="15.3.2">
 <h3 data-number="15.3.2" class="anchored" data-anchor-id="example-2-reproducible-research-experiment"><span class="header-section-number">15.3.2</span> Example 2: Reproducible Research Experiment</h3>
 <p>For scientific papers or reports, always use a fixed seed and document it:</p>
-<div id="b49a2307" class="cell" data-execution_count="4">
+<div id="a534dd59" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -878,78 +878,77 @@ Initial best: f(x) = 20.392774
 Iter 1 | Best: 20.392774 | Curr: 31.367718 | Rate: 0.00 | Evals: 31.0%
 Iter 2 | Best: 16.117880 | Rate: 0.50 | Evals: 32.0%
 Iter 3 | Best: 9.476452 | Rate: 0.67 | Evals: 33.0%
-Iter 4 | Best: 8.708107 | Rate: 0.75 | Evals: 34.0%
-Iter 5 | Best: 8.708107 | Curr: 22.384661 | Rate: 0.60 | Evals: 35.0%
-Iter 6 | Best: 8.654858 | Rate: 0.67 | Evals: 36.0%
-Iter 7 | Best: 8.654858 | Curr: 8.676130 | Rate: 0.57 | Evals: 37.0%
-Iter 8 | Best: 6.182059 | Rate: 0.62 | Evals: 38.0%
-Iter 9 | Best: 6.182059 | Curr: 27.675162 | Rate: 0.56 | Evals: 39.0%
-Iter 10 | Best: 3.579214 | Rate: 0.60 | Evals: 40.0%
-Iter 11 | Best: 3.579214 | Curr: 19.565380 | Rate: 0.55 | Evals: 41.0%
-Iter 12 | Best: 2.001850 | Rate: 0.58 | Evals: 42.0%
-Iter 13 | Best: 2.001850 | Curr: 27.754652 | Rate: 0.54 | Evals: 43.0%
-Iter 14 | Best: 2.001850 | Curr: 2.011567 | Rate: 0.50 | Evals: 44.0%
-Iter 15 | Best: 1.994746 | Rate: 0.53 | Evals: 45.0%
-Iter 16 | Best: 1.994746 | Curr: 2.008977 | Rate: 0.50 | Evals: 46.0%
-Iter 17 | Best: 1.994746 | Curr: 26.368885 | Rate: 0.47 | Evals: 47.0%
-Iter 18 | Best: 1.994746 | Curr: 1.995762 | Rate: 0.44 | Evals: 48.0%
-Iter 19 | Best: 1.994746 | Curr: 21.739751 | Rate: 0.42 | Evals: 49.0%
-Iter 20 | Best: 1.992141 | Rate: 0.45 | Evals: 50.0%
-Iter 21 | Best: 1.989949 | Rate: 0.48 | Evals: 51.0%
+Iter 4 | Best: 8.708105 | Rate: 0.75 | Evals: 34.0%
+Iter 5 | Best: 8.708105 | Curr: 22.384659 | Rate: 0.60 | Evals: 35.0%
+Iter 6 | Best: 8.654838 | Rate: 0.67 | Evals: 36.0%
+Iter 7 | Best: 8.654838 | Curr: 8.676107 | Rate: 0.57 | Evals: 37.0%
+Iter 8 | Best: 6.185409 | Rate: 0.62 | Evals: 38.0%
+Iter 9 | Best: 6.185409 | Curr: 27.674701 | Rate: 0.56 | Evals: 39.0%
+Iter 10 | Best: 3.578755 | Rate: 0.60 | Evals: 40.0%
+Iter 11 | Best: 3.578755 | Curr: 19.565495 | Rate: 0.55 | Evals: 41.0%
+Iter 12 | Best: 2.001837 | Rate: 0.58 | Evals: 42.0%
+Iter 13 | Best: 2.001837 | Curr: 27.754622 | Rate: 0.54 | Evals: 43.0%
+Iter 14 | Best: 2.001837 | Curr: 2.011560 | Rate: 0.50 | Evals: 44.0%
+Iter 15 | Best: 1.994741 | Rate: 0.53 | Evals: 45.0%
+Iter 16 | Best: 1.994741 | Curr: 2.009371 | Rate: 0.50 | Evals: 46.0%
+Iter 17 | Best: 1.994741 | Curr: 26.366700 | Rate: 0.47 | Evals: 47.0%
+Iter 18 | Best: 1.994741 | Curr: 1.995769 | Rate: 0.44 | Evals: 48.0%
+Iter 19 | Best: 1.994741 | Curr: 21.740202 | Rate: 0.42 | Evals: 49.0%
+Iter 20 | Best: 1.992193 | Rate: 0.45 | Evals: 50.0%
+Iter 21 | Best: 1.989948 | Rate: 0.48 | Evals: 51.0%
 Iter 22 | Best: 1.989944 | Rate: 0.50 | Evals: 52.0%
 Iter 23 | Best: 1.989944 | Curr: 1.989946 | Rate: 0.48 | Evals: 53.0%
-Iter 24 | Best: 1.989944 | Curr: 1.989950 | Rate: 0.46 | Evals: 54.0%
-Iter 25 | Best: 1.989944 | Curr: 1.989944 | Rate: 0.44 | Evals: 55.0%
+Iter 24 | Best: 1.989944 | Curr: 1.989946 | Rate: 0.46 | Evals: 54.0%
+Iter 25 | Best: 1.989944 | Curr: 1.989946 | Rate: 0.44 | Evals: 55.0%
 Iter 26 | Best: 1.989944 | Curr: 1.989944 | Rate: 0.42 | Evals: 56.0%
-Iter 27 | Best: 1.989944 | Curr: 40.066872 | Rate: 0.41 | Evals: 57.0%
-Iter 28 | Best: 1.989944 | Curr: 1.989945 | Rate: 0.39 | Evals: 58.0%
-Iter 29 | Best: 1.989944 | Curr: 18.107303 | Rate: 0.38 | Evals: 59.0%
-Iter 30 | Best: 1.989944 | Curr: 47.480527 | Rate: 0.37 | Evals: 60.0%
-Iter 31 | Best: 1.989944 | Curr: 1.989945 | Rate: 0.35 | Evals: 61.0%
-Iter 32 | Best: 1.989944 | Curr: 1.989946 | Rate: 0.34 | Evals: 62.0%
-Iter 33 | Best: 1.989944 | Curr: 1.989946 | Rate: 0.33 | Evals: 63.0%
-Iter 34 | Best: 1.989944 | Curr: 17.943709 | Rate: 0.32 | Evals: 64.0%
-Optimizer candidate 1/3 was duplicate/invalid.
-Iter 35 | Best: 1.989944 | Curr: 1.991406 | Rate: 0.31 | Evals: 65.0%
-Iter 36 | Best: 1.989944 | Curr: 86.774141 | Rate: 0.31 | Evals: 66.0%
-Iter 37 | Best: 1.989919 | Rate: 0.32 | Evals: 67.0%
-Iter 38 | Best: 1.989919 | Curr: 1.989919 | Rate: 0.32 | Evals: 68.0%
-Iter 39 | Best: 1.989919 | Curr: 20.660207 | Rate: 0.31 | Evals: 69.0%
-Iter 40 | Best: 1.989919 | Curr: 1.989921 | Rate: 0.30 | Evals: 70.0%
-Iter 41 | Best: 1.989919 | Curr: 69.756434 | Rate: 0.29 | Evals: 71.0%
-Iter 42 | Best: 1.989919 | Curr: 54.294546 | Rate: 0.29 | Evals: 72.0%
-Iter 43 | Best: 1.989919 | Curr: 76.824659 | Rate: 0.28 | Evals: 73.0%
-Iter 44 | Best: 1.989919 | Curr: 1.989920 | Rate: 0.27 | Evals: 74.0%
-Iter 45 | Best: 1.989919 | Rate: 0.29 | Evals: 75.0%
-Iter 46 | Best: 1.989919 | Curr: 76.691581 | Rate: 0.28 | Evals: 76.0%
-Iter 47 | Best: 1.989919 | Curr: 1.989920 | Rate: 0.28 | Evals: 77.0%
-Iter 48 | Best: 1.989919 | Curr: 1.989920 | Rate: 0.27 | Evals: 78.0%
-Iter 49 | Best: 1.989919 | Curr: 66.831557 | Rate: 0.27 | Evals: 79.0%
-Iter 50 | Best: 1.989919 | Curr: 62.616414 | Rate: 0.26 | Evals: 80.0%
-Iter 51 | Best: 1.989919 | Rate: 0.27 | Evals: 81.0%
-Iter 52 | Best: 1.989919 | Curr: 1.989919 | Rate: 0.27 | Evals: 82.0%
-Iter 53 | Best: 1.989919 | Curr: 86.774141 | Rate: 0.26 | Evals: 83.0%
-Iter 54 | Best: 1.989919 | Curr: 1.989920 | Rate: 0.26 | Evals: 84.0%
-Iter 55 | Best: 1.989919 | Curr: 1.989920 | Rate: 0.25 | Evals: 85.0%
-Iter 56 | Best: 1.989919 | Rate: 0.27 | Evals: 86.0%
-Iter 57 | Best: 1.989919 | Curr: 1.989920 | Rate: 0.26 | Evals: 87.0%
-Iter 58 | Best: 1.989919 | Curr: 1.989919 | Rate: 0.26 | Evals: 88.0%
-Iter 59 | Best: 1.989919 | Curr: 47.517112 | Rate: 0.25 | Evals: 89.0%
-Iter 60 | Best: 1.989919 | Curr: 63.074442 | Rate: 0.25 | Evals: 90.0%
-Iter 61 | Best: 1.989919 | Curr: 17.069312 | Rate: 0.25 | Evals: 91.0%
-Iter 62 | Best: 1.989919 | Curr: 22.389160 | Rate: 0.24 | Evals: 92.0%
-Iter 63 | Best: 1.989919 | Curr: 1.989919 | Rate: 0.24 | Evals: 93.0%
-Iter 64 | Best: 1.989919 | Curr: 1.989920 | Rate: 0.23 | Evals: 94.0%
-Iter 65 | Best: 1.989919 | Curr: 1.989920 | Rate: 0.23 | Evals: 95.0%
-Iter 66 | Best: 1.989919 | Curr: 17.338989 | Rate: 0.23 | Evals: 96.0%
-Iter 67 | Best: 1.989919 | Curr: 1.989921 | Rate: 0.22 | Evals: 97.0%
-Iter 68 | Best: 1.989919 | Curr: 1.989922 | Rate: 0.22 | Evals: 98.0%
-Iter 69 | Best: 1.989919 | Curr: 1.989919 | Rate: 0.22 | Evals: 99.0%
-Iter 70 | Best: 1.989919 | Curr: 17.931549 | Rate: 0.21 | Evals: 100.0%
+Iter 27 | Best: 1.989944 | Rate: 0.44 | Evals: 57.0%
+Iter 28 | Best: 1.989944 | Curr: 35.211367 | Rate: 0.43 | Evals: 58.0%
+Iter 29 | Best: 1.989944 | Curr: 18.106332 | Rate: 0.41 | Evals: 59.0%
+Iter 30 | Best: 1.989944 | Curr: 42.367183 | Rate: 0.40 | Evals: 60.0%
+Iter 31 | Best: 1.989944 | Curr: 1.989947 | Rate: 0.39 | Evals: 61.0%
+Iter 32 | Best: 1.989944 | Curr: 17.928448 | Rate: 0.38 | Evals: 62.0%
+Iter 33 | Best: 1.989944 | Curr: 1.989946 | Rate: 0.36 | Evals: 63.0%
+Iter 34 | Best: 1.989944 | Curr: 49.528979 | Rate: 0.35 | Evals: 64.0%
+Iter 35 | Best: 1.989944 | Curr: 1.989946 | Rate: 0.34 | Evals: 65.0%
+Iter 36 | Best: 1.989944 | Curr: 1.989945 | Rate: 0.33 | Evals: 66.0%
+Iter 37 | Best: 1.989944 | Curr: 20.597179 | Rate: 0.32 | Evals: 67.0%
+Iter 38 | Best: 1.989943 | Rate: 0.34 | Evals: 68.0%
+Iter 39 | Best: 1.989943 | Curr: 86.774141 | Rate: 0.33 | Evals: 69.0%
+Iter 40 | Best: 1.989943 | Curr: 1.989945 | Rate: 0.33 | Evals: 70.0%
+Iter 41 | Best: 1.989943 | Curr: 1.989944 | Rate: 0.32 | Evals: 71.0%
+Iter 42 | Best: 1.989943 | Curr: 69.791882 | Rate: 0.31 | Evals: 72.0%
+Iter 43 | Best: 1.989943 | Curr: 1.989945 | Rate: 0.30 | Evals: 73.0%
+Iter 44 | Best: 1.989943 | Curr: 79.093612 | Rate: 0.30 | Evals: 74.0%
+Iter 45 | Best: 1.989943 | Curr: 1.989945 | Rate: 0.29 | Evals: 75.0%
+Iter 46 | Best: 1.989943 | Curr: 1.989947 | Rate: 0.28 | Evals: 76.0%
+Iter 47 | Best: 1.989943 | Curr: 62.701382 | Rate: 0.28 | Evals: 77.0%
+Iter 48 | Best: 1.989943 | Curr: 1.989945 | Rate: 0.27 | Evals: 78.0%
+Iter 49 | Best: 1.989943 | Curr: 66.664051 | Rate: 0.27 | Evals: 79.0%
+Iter 50 | Best: 1.989943 | Curr: 17.033733 | Rate: 0.26 | Evals: 80.0%
+Iter 51 | Best: 1.989943 | Curr: 1.989943 | Rate: 0.25 | Evals: 81.0%
+Iter 52 | Best: 1.989943 | Rate: 0.27 | Evals: 82.0%
+Iter 53 | Best: 1.989943 | Curr: 1.989944 | Rate: 0.26 | Evals: 83.0%
+Iter 54 | Best: 1.989943 | Curr: 21.336704 | Rate: 0.26 | Evals: 84.0%
+Iter 55 | Best: 1.989943 | Curr: 86.774141 | Rate: 0.25 | Evals: 85.0%
+Iter 56 | Best: 1.989943 | Curr: 76.860965 | Rate: 0.25 | Evals: 86.0%
+Iter 57 | Best: 1.989943 | Curr: 1.989944 | Rate: 0.25 | Evals: 87.0%
+Iter 58 | Best: 1.989943 | Curr: 51.633541 | Rate: 0.24 | Evals: 88.0%
+Iter 59 | Best: 1.989943 | Curr: 1.991202 | Rate: 0.24 | Evals: 89.0%
+Iter 60 | Best: 1.989943 | Curr: 17.542609 | Rate: 0.23 | Evals: 90.0%
+Iter 61 | Best: 1.989935 | Rate: 0.25 | Evals: 91.0%
+Iter 62 | Best: 1.989935 | Curr: 17.345256 | Rate: 0.24 | Evals: 92.0%
+Iter 63 | Best: 1.989934 | Rate: 0.25 | Evals: 93.0%
+Iter 64 | Best: 1.989934 | Curr: 1.989935 | Rate: 0.25 | Evals: 94.0%
+Iter 65 | Best: 1.989933 | Rate: 0.26 | Evals: 95.0%
+Iter 66 | Best: 1.989930 | Rate: 0.27 | Evals: 96.0%
+Iter 67 | Best: 1.989930 | Curr: 1.989933 | Rate: 0.27 | Evals: 97.0%
+Iter 68 | Best: 1.989930 | Curr: 18.133553 | Rate: 0.26 | Evals: 98.0%
+Iter 69 | Best: 1.989930 | Curr: 1.989931 | Rate: 0.26 | Evals: 99.0%
+Iter 70 | Best: 1.989930 | Curr: 57.851031 | Rate: 0.26 | Evals: 100.0%
 
 Experiment Results (seed=12345):
-Best solution: [ 9.94999580e-01 -9.94968302e-01 -3.64231707e-05]
-Best value: 1.9899187283036426
+Best solution: [ 9.95120876e-01 -9.95106232e-01  1.17734697e-04]
+Best value: 1.9899304032563876
 Iterations: 70
 Function evaluations: 100</code></pre>
 </div>
@@ -958,7 +957,7 @@ Function evaluations: 100</code></pre>
 <section id="example-3-multiple-independent-runs" class="level3" data-number="15.3.3">
 <h3 data-number="15.3.3" class="anchored" data-anchor-id="example-3-multiple-independent-runs"><span class="header-section-number">15.3.3</span> Example 3: Multiple Independent Runs</h3>
 <p>To test robustness, run the same optimization with different seeds:</p>
-<div id="4f4f26e2" class="cell" data-execution_count="5">
+<div id="397fa982" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -998,14 +997,14 @@ Function evaluations: 100</code></pre>
 <span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Std dev: </span><span class="sc">{</span>np<span class="sc">.</span>std(results)<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Run with seed   42: f(x) = 0.000905
-Run with seed  123: f(x) = 0.001456
+Run with seed  123: f(x) = 0.001466
 Run with seed  456: f(x) = 0.003297
-Run with seed  789: f(x) = 0.000651
+Run with seed  789: f(x) = 0.000644
 Run with seed 1011: f(x) = 0.003043
 
-Best result: 0.000651
+Best result: 0.000644
 Worst result: 0.003297
-Mean: 0.001870
+Mean: 0.001871
 Std dev: 0.001096</code></pre>
 </div>
 </div>
@@ -1013,7 +1012,7 @@ Std dev: 0.001096</code></pre>
 <section id="example-4-reproducible-initial-design" class="level3" data-number="15.3.4">
 <h3 data-number="15.3.4" class="anchored" data-anchor-id="example-4-reproducible-initial-design"><span class="header-section-number">15.3.4</span> Example 4: Reproducible Initial Design</h3>
 <p>The seed ensures that even the initial design points are reproducible:</p>
-<div id="cf110cc6" class="cell" data-execution_count="6">
+<div id="7eebbec1" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1061,7 +1060,7 @@ Best solutions are identical: True</code></pre>
 <section id="example-5-custom-initial-design-with-seed" class="level3" data-number="15.3.5">
 <h3 data-number="15.3.5" class="anchored" data-anchor-id="example-5-custom-initial-design-with-seed"><span class="header-section-number">15.3.5</span> Example 5: Custom Initial Design with Seed</h3>
 <p>Even when providing a custom initial design, the seed ensures reproducible subsequent iterations:</p>
-<div id="c2683b80" class="cell" data-execution_count="7">
+<div id="f7134019" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1115,7 +1114,7 @@ Best value: 1.236328</code></pre>
 <section id="seed-and-noisy-functions" class="level3" data-number="15.4.1">
 <h3 data-number="15.4.1" class="anchored" data-anchor-id="seed-and-noisy-functions"><span class="header-section-number">15.4.1</span> Seed and Noisy Functions</h3>
 <p>When optimizing noisy functions with repeated evaluations, the seed ensures reproducible noise:</p>
-<div id="be55bbe5" class="cell" data-execution_count="8">
+<div id="ae31d674" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1148,7 +1147,7 @@ Variance at best: 0.009499</code></pre>
 <section id="different-seeds-for-different-exploration" class="level3" data-number="15.4.2">
 <h3 data-number="15.4.2" class="anchored" data-anchor-id="different-seeds-for-different-exploration"><span class="header-section-number">15.4.2</span> Different Seeds for Different Exploration</h3>
 <p>Use different seeds to explore different regions systematically:</p>
-<div id="f8bd1f94" class="cell" data-execution_count="9">
+<div id="7f6af4a4" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1180,18 +1179,18 @@ Variance at best: 0.009499</code></pre>
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Best result with seed </span><span class="sc">{</span>best_seed<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>best_overall<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Seed 10: f(x) = 7.953579
-Seed 11: f(x) = 0.828587
-Seed 12: f(x) = 2.252967
-Seed 13: f(x) = 0.243745
-Seed 14: f(x) = 0.092171
-Seed 15: f(x) = 0.383212
-Seed 16: f(x) = 9.048331
+<pre><code>Seed 10: f(x) = 7.715592
+Seed 11: f(x) = 2.153522
+Seed 12: f(x) = 4.420340
+Seed 13: f(x) = 0.314576
+Seed 14: f(x) = 1.143577
+Seed 15: f(x) = 0.491777
+Seed 16: f(x) = 9.282946
 Seed 17: f(x) = 0.548623
-Seed 18: f(x) = 2.079286
+Seed 18: f(x) = 2.079079
 Seed 19: f(x) = 0.246417
 
-Best result with seed 14: 0.092171</code></pre>
+Best result with seed 19: 0.246417</code></pre>
 </div>
 </div>
 </section>
@@ -1200,7 +1199,7 @@ Best result with seed 14: 0.092171</code></pre>
 <h2 data-number="15.5" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">15.5</span> Best Practices</h2>
 <section id="always-use-seeds-for-production-code" class="level3" data-number="15.5.1">
 <h3 data-number="15.5.1" class="anchored" data-anchor-id="always-use-seeds-for-production-code"><span class="header-section-number">15.5.1</span> 1. Always Use Seeds for Production Code</h3>
-<div id="cffd8b31" class="cell" data-execution_count="10">
+<div id="48328b49" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Reproducible</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(fun<span class="op">=</span>objective, bounds<span class="op">=</span>bounds, seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1210,7 +1209,7 @@ Best result with seed 14: 0.092171</code></pre>
 </section>
 <section id="document-your-seeds" class="level3" data-number="15.5.2">
 <h3 data-number="15.5.2" class="anchored" data-anchor-id="document-your-seeds"><span class="header-section-number">15.5.2</span> 2. Document Your Seeds</h3>
-<div id="ab6cd4f8" class="cell" data-execution_count="11">
+<div id="d3edad2b" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration for experiment reported in Section 4.2</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>EXPERIMENT_SEED <span class="op">=</span> <span class="dv">2024</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>MAX_ITERATIONS <span class="op">=</span> <span class="dv">100</span></span>
@@ -1225,7 +1224,7 @@ Best result with seed 14: 0.092171</code></pre>
 </section>
 <section id="use-different-seeds-for-different-experiments" class="level3" data-number="15.5.3">
 <h3 data-number="15.5.3" class="anchored" data-anchor-id="use-different-seeds-for-different-experiments"><span class="header-section-number">15.5.3</span> 3. Use Different Seeds for Different Experiments</h3>
-<div id="0cfd51c6" class="cell" data-execution_count="12">
+<div id="55f4e5a8" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Different experiments should use different seeds</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>BASELINE_SEED <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>EXPERIMENT_A_SEED <span class="op">=</span> <span class="dv">200</span></span>
@@ -1234,7 +1233,7 @@ Best result with seed 14: 0.092171</code></pre>
 </section>
 <section id="test-robustness-across-multiple-seeds" class="level3" data-number="15.5.4">
 <h3 data-number="15.5.4" class="anchored" data-anchor-id="test-robustness-across-multiple-seeds"><span class="header-section-number">15.5.4</span> 4. Test Robustness Across Multiple Seeds</h3>
-<div id="06f52e0f" class="cell" data-execution_count="13">
+<div id="9038b766" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run same optimization with multiple seeds</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> seed <span class="kw">in</span> [<span class="dv">42</span>, <span class="dv">123</span>, <span class="dv">456</span>, <span class="dv">789</span>, <span class="dv">1011</span>]:</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> SpotOptim(fun<span class="op">=</span>objective, bounds<span class="op">=</span>bounds, seed<span class="op">=</span>seed)</span>

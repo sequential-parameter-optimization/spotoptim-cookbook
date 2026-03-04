@@ -34,7 +34,7 @@ The `optimize()` method is the main entry point for running the optimization pro
 
 1. **Initial Design Phase**: `get_initial_design()`, `_curate_initial_design()`, `_rm_NA_values()`, `_check_size_initial_design()`, `_get_best_xy_initial_design()`
 2. **Main Loop**: Surrogate fitting, OCBA application, point suggestion, evaluation
-3. **Termination**: `_determine_termination()`
+3. **Termination**: `determine_termination()`
 
 Let's see a complete optimization example:
 
@@ -373,7 +373,7 @@ print(f"Expected to be between known points or in unexplored regions")
 
 ## 4. OCBA Method (Optimal Computing Budget Allocation)
 
-### 4.1 `_apply_ocba()`
+### 4.1 `apply_ocba()`
 
 **Purpose**: Apply OCBA for noisy functions to determine which points to re-evaluate  
 **Used by**: `optimize()` in main loop when noise=True and ocba_delta > 0  
@@ -395,7 +395,7 @@ opt.mean_X = np.array([[1, 2], [0, 0], [2, 1], [1, 1]])
 opt.mean_y = np.array([5.0, 0.1, 5.0, 2.0])
 opt.var_y = np.array([0.1, 0.05, 0.15, 0.08])
 
-X_ocba = opt._apply_ocba()
+X_ocba = opt.apply_ocba()
 
 if X_ocba is not None:
     print(f"\nOCBA returned {X_ocba.shape[0]} points for re-evaluation")
@@ -405,7 +405,7 @@ else:
 
 ## 5. NaN/Inf Handling Methods
 
-### 5.1 `_apply_penalty_NA()`
+### 5.1 `apply_penalty_NA()`
 
 **Purpose**: Replace NaN and infinite values with penalty plus random noise  
 **Used by**: `_handle_NA_new_points()` and indirectly by `optimize()`  
@@ -424,7 +424,7 @@ y_hist = np.array([1.0, 2.0, 3.0, 5.0])
 # New evaluations with NaN/inf
 y_new = np.array([4.0, np.nan, np.inf])
 
-y_clean = opt._apply_penalty_NA(y_new, y_history=y_hist)
+y_clean = opt.apply_penalty_NA(y_new, y_history=y_hist)
 
 print(f"Original: {y_new}")
 print(f"After penalty: {y_clean}")
@@ -460,7 +460,7 @@ print(f"Clean y: {y_clean}")
 
 **Purpose**: Handle NaN/inf values in new evaluation points during main loop  
 **Used by**: `optimize()` after evaluating new points  
-**Calls**: `_apply_penalty_NA()` and `_remove_nan()`  
+**Calls**: `apply_penalty_NA()` and `_remove_nan()`  
 **Returns**: None, None if all evaluations invalid (skip iteration)
 
 ```{python}
@@ -531,7 +531,7 @@ print(f"Best_y unchanged: {opt.best_y_}")
 
 ## 7. Termination Method
 
-### 7.1 `_determine_termination()`
+### 7.1 `determine_termination()`
 
 **Purpose**: Determine termination reason for optimization  
 **Used by**: `optimize()` at the end  
@@ -550,21 +550,21 @@ opt = SpotOptim(
 print("Case 1: Maximum evaluations reached")
 opt.y_ = np.zeros(20)
 start_time = time.time()
-msg = opt._determine_termination(start_time)
+msg = opt.determine_termination(start_time)
 print(f"Message: {msg}\n")
 
 # Case 2: Time limit exceeded (simulated)
 print("Case 2: Time limit exceeded")
 opt.y_ = np.zeros(10)
 start_time = time.time() - 700  # 11.67 minutes ago
-msg = opt._determine_termination(start_time)
+msg = opt.determine_termination(start_time)
 print(f"Message: {msg}\n")
 
 # Case 3: Successful completion
 print("Case 3: Successful completion")
 opt.y_ = np.zeros(10)
 start_time = time.time()
-msg = opt._determine_termination(start_time)
+msg = opt.determine_termination(start_time)
 print(f"Message: {msg}")
 ```
 
@@ -760,7 +760,7 @@ optimize()
 │    ├── get_initial_design()
 │    │   └── _generate_initial_design() [if X0 is None]
 │    ├── _curate_initial_design()
-│    ├── _evaluate_function()
+│    ├── evaluate_function()
 │    ├── _rm_NA_values()
 │    ├── _check_size_initial_design()
 │    └── _get_best_xy_initial_design()
@@ -770,7 +770,7 @@ optimize()
 │    ├── _fit_surrogate()
 │    │   └── _selection_dispatcher() [if max_surrogate_points exceeded]
 │    │
-│    ├── _apply_ocba() [if noise=True and ocba_delta > 0]
+│    ├── apply_ocba() [if noise=True and ocba_delta > 0]
 │    │
 │    ├── suggest_next_infill_point()
 │    │   ├── _acquisition_function()
@@ -779,16 +779,16 @@ optimize()
 │    │   ├── select_new()
 │    │   └── _handle_acquisition_failure() [if needed]
 │    │
-│    ├── _evaluate_function()
+│    ├── evaluate_function()
 │    │
 │    ├── _handle_NA_new_points()
-│    │   ├── _apply_penalty_NA()
+│    │   ├── apply_penalty_NA()
 │    │   └── _remove_nan()
 │    │
 │    └── _update_best_main_loop()
 │
 └─── Termination Phase
-     ├── _determine_termination()
+     ├── determine_termination()
      └── _map_to_factor_values() [for results]
 ```
 

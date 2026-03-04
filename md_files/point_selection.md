@@ -21,14 +21,14 @@ Added to `SpotOptim.__init__`:
 
 ### Methods
 
-1. **`_select_distant_points(X, y, k)`**
+1. **`select_distant_points(X, y, k)`**
 
    - Uses K-means clustering to find k clusters
    - Selects the point closest to each cluster center
    - Ensures space-filling properties for surrogate training
    - Mimics `spotpython.utils.aggregate.select_distant_points`
 
-2. **`_select_best_cluster(X, y, k)`**
+2. **`select_best_cluster(X, y, k)`**
 
    - Uses K-means clustering to find k clusters
    - Computes mean objective value for each cluster

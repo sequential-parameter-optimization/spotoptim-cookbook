@@ -359,7 +359,7 @@ optimizer = SpotOptim(
 )
 
 # Display design table
-print(optimizer.print_design_table())
+print(optimizer.get_design_table())
 ```
 
 Output:
@@ -378,7 +378,7 @@ Output:
 result = optimizer.optimize()
 
 # Display results with transformations
-print(optimizer.print_results_table())
+print(optimizer.get_results_table())
 ```
 
 Output shows the "trans" column with transformation types, helping you understand which parameters were optimized in which scale.

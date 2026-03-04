@@ -131,7 +131,7 @@ optimizer_spot = SpotOptim(
 
 ```{python}
 
-pprint.pprint(optimizer_spot.print_design_table())
+pprint.pprint(optimizer_spot.get_design_table())
 ```
 
 ## Run optimization
@@ -159,7 +159,7 @@ optimizer_spot.print_best()
 ## Result Table
 
 ```{python}
-pprint.pprint(optimizer_spot.print_results_table(show_importance=True))
+pprint.pprint(optimizer_spot.get_results_table(show_importance=True))
 ```
 
 ## Progress of the Optimization

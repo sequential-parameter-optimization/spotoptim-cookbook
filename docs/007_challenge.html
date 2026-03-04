@@ -740,10 +740,10 @@ window.Quarto = {
 <h2 data-number="44.1" class="anchored" data-anchor-id="benchmarking-best-practices"><span class="header-section-number">44.1</span> Benchmarking Best Practices</h2>
 <p>Benchmarking is a critical aspect of validating optimization algorithms. According to <em>Bartz-Beielstein et al.&nbsp;(2020)</em> in “Benchmarking in Optimization: Best Practice and Open Issues” (<a href="https://arxiv.org/abs/2007.03488">arXiv:2007.03488</a>), a sound benchmarking study should adhere to several key principles:</p>
 <ol type="1">
-<li><strong>Clearly Stated Goals</strong>: The objective of this study is to compare the convergence speed and final solution quality of two distinct optimization strategies given a constrained budget of function evaluations.</li>
-<li><strong>Well-Specified Problems</strong>: We employ the “Wing Weight” problem, hosted remotely, which represents a realistic, expensive black-box engineering problem. It is a 10-dimensional problem defined on the unit hypercube <span class="math inline">\([0, 1]^{10}\)</span>.</li>
-<li><strong>Adequate Performance Measures</strong>: We report the <em>best-so-far</em> objective value as a function of the number of evaluations (convergence) and the distribution of the final solutions found.</li>
-<li><strong>Repetitions</strong>: Since the remote function (and potentially the algorithms) may exhibit stochastic behavior (noise in the function or random initialization in the algorithms), we perform multiple independent repetitions to ensure statistical reliability.</li>
+<li>Clearly Stated Goals: The objective of this study is to compare the convergence speed and final solution quality of two distinct optimization strategies given a constrained budget of function evaluations.</li>
+<li>Well-Specified Problems: We employ the “Wing Weight” problem, hosted remotely, which represents a realistic, expensive black-box engineering problem. It is a 10-dimensional problem defined on the unit hypercube <span class="math inline">\([0, 1]^{10}\)</span>.</li>
+<li>Adequate Performance Measures: We report the <em>best-so-far</em> objective value as a function of the number of evaluations (convergence) and the distribution of the final solutions found.</li>
+<li>Repetitions: Since the remote function (and potentially the algorithms) may exhibit stochastic behavior (noise in the function or random initialization in the algorithms), we perform multiple independent repetitions to ensure statistical reliability.</li>
 </ol>
 </section>
 <section id="experimental-setup" class="level2" data-number="44.2">
@@ -752,25 +752,25 @@ window.Quarto = {
 <h3 data-number="44.2.1" class="anchored" data-anchor-id="the-remote-objective-function"><span class="header-section-number">44.2.1</span> The Remote Objective Function</h3>
 <p>The objective function is accessed via <code>robot_arm_hard</code>. It simulates the weight of a light aircraft wing.</p>
 <ul>
-<li><strong>Input</strong>: <span class="math inline">\(X \in [0, 1]^{10}\)</span></li>
-<li><strong>Output</strong>: <span class="math inline">\(y \in \mathbb{R}\)</span> (to be minimized)</li>
-<li><strong>Characteristics</strong>: Expensive to evaluate, potentially noisy.</li>
+<li>Input: <span class="math inline">\(X \in [0, 1]^{10}\)</span></li>
+<li>Output: <span class="math inline">\(y \in \mathbb{R}\)</span> (to be minimized)</li>
+<li>Characteristics: Expensive to evaluate, potentially noisy.</li>
 </ul>
 </section>
 <section id="algorithms" class="level3" data-number="44.2.2">
 <h3 data-number="44.2.2" class="anchored" data-anchor-id="algorithms"><span class="header-section-number">44.2.2</span> Algorithms</h3>
 <ol type="1">
-<li><strong>SpotOptim</strong>: A Sequential Parameter Optimization tool that uses surrogate models (e.g., Kriging/Gaussian Processes) to guide the search. It is designed to be sample-efficient.</li>
-<li><strong>Scipy L-BFGS-B</strong>: A standard quasi-Newton method. While efficient for smooth local optimization, it typically requires many function evaluations to estimate gradients and may get stuck in local optima. We use random restarts (via the repetitions) to explore different basins.</li>
+<li>SpotOptim: A Sequential Parameter Optimization tool that uses surrogate models (e.g., Kriging/Gaussian Processes) to guide the search. It is designed to be sample-efficient.</li>
+<li>Scipy L-BFGS-B: A standard quasi-Newton method. While efficient for smooth local optimization, it typically requires many function evaluations to estimate gradients and may get stuck in local optima. We use random restarts (via the repetitions) to explore different basins.</li>
 </ol>
 </section>
 <section id="budget-and-settings" class="level3" data-number="44.2.3">
 <h3 data-number="44.2.3" class="anchored" data-anchor-id="budget-and-settings"><span class="header-section-number">44.2.3</span> Budget and Settings</h3>
 <ul>
-<li><strong>Maximum Evaluations</strong>: 50 per run.</li>
-<li><strong>Repetitions</strong>: 5 independent runs (kept low for demonstration speed, usually 10-30 are recommended).</li>
-<li><strong>SpotOptim Settings</strong>: Initial design <span class="math inline">\(n=10\)</span>, surrogate-based optimization for the remaining budget.</li>
-<li><strong>Scipy Settings</strong>: L-BFGS-B with numeric differentiation.</li>
+<li>Maximum Evaluations: 50 per run.</li>
+<li>Repetitions: 5 independent runs (kept low for demonstration speed, usually 10-30 are recommended).</li>
+<li>SpotOptim Settings: Initial design <span class="math inline">\(n=10\)</span>, surrogate-based optimization for the remaining budget.</li>
+<li>Scipy Settings: L-BFGS-B with numeric differentiation.</li>
 </ul>
 </section>
 </section>
@@ -782,7 +782,7 @@ window.Quarto = {
 <li>Lennard-Jones Potential (39D)</li>
 <li>Remote Objective (10D), SPOTSeven Optimization Challenge</li>
 </ol>
-<div id="fec915ac" class="cell" data-execution_count="1">
+<div id="66053b4b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -911,9 +911,9 @@ Figure&nbsp;44.1: 1D Slice through High-Dimensional Landscapes
 <h2 data-number="44.5" class="anchored" data-anchor-id="experimental-comparison"><span class="header-section-number">44.5</span> Experimental Comparison</h2>
 <p>We perform <span class="math inline">\(m\)</span> independent optimization runs for each algorithm. For each run, we take the <em>best design vector</em> found (<span class="math inline">\(x^*\)</span>) and evaluate it <span class="math inline">\(n\)</span> times to obtain a robust estimate of its true quality.</p>
 <ul>
-<li><strong>Number of Optimization Runs (<span class="math inline">\(m\)</span>)</strong>: 5</li>
-<li><strong>Budget per Run</strong>: 50 evaluations</li>
-<li><strong>Validation Size (<span class="math inline">\(n\)</span>)</strong>: <code>n_validate</code> (calculated above)</li>
+<li>Number of Optimization Runs (<span class="math inline">\(m\)</span>): 5</li>
+<li>Budget per Run: 50 evaluations</li>
+<li>Validation Size (<span class="math inline">\(n\)</span>): <code>n_validate</code> (calculated above)</li>
 </ul>
 <div id="experimental-comparison-challenge" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1047,9 +1047,9 @@ Figure&nbsp;44.1: 1D Slice through High-Dimensional Landscapes
 
 --- SpotOptim ---
 Run 1/2
-  Best found: 20.1315 -&gt; Validated Mean: 20.1315
+  Best found: 16.9674 -&gt; Validated Mean: 16.9674
 Run 2/2
-  Best found: 17.0399 -&gt; Validated Mean: 17.0399
+  Best found: 20.8467 -&gt; Validated Mean: 20.8467
 
 --- Scipy L-BFGS-B ---
 Run 1/2
@@ -1170,17 +1170,17 @@ Figure&nbsp;44.3: Comparison of Validated True Means (Lower is Better)
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  Result: No significant difference detected (p &gt;= 0.05)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Statistical Comparison (Welch's t-test):
-  SpotOptim Mean: 18.5857 (std: 1.5458)
+  SpotOptim Mean: 18.9071 (std: 1.9396)
   Scipy Mean:     38.6596 (std: 11.8538)
-  T-statistic: -1.6792
-  P-value: 0.3359
+  T-statistic: -1.6445
+  P-value: 0.3385
   Result: No significant difference detected (p &gt;= 0.05).</code></pre>
 </div>
 </div>
 </section>
 <section id="conclusion" class="level2" data-number="44.8">
 <h2 data-number="44.8" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">44.8</span> Conclusion</h2>
-<p>This study followed a rigorous benchmarking protocol: 1. <strong>Noise Estimation</strong>: Objective function noise was characterized (<span class="math inline">\(\sigma \approx\)</span> <code>sigma_est</code>). 2. <strong>Power Analysis</strong>: Sample size <span class="math inline">\(n\)</span> was determined to ensure statistical power. 3. <strong>Robust Evaluation</strong>: Algorithms were compared based on the <em>validated mean</em> performance of their final solutions, not single noisy evaluations.</p>
+<p>This study followed a rigorous benchmarking protocol: 1. Noise Estimation: Objective function noise was characterized (<span class="math inline">\(\sigma \approx\)</span> <code>sigma_est</code>). 2. Power Analysis: Sample size <span class="math inline">\(n\)</span> was determined to ensure statistical power. 3. Robust Evaluation: Algorithms were compared based on the <em>validated mean</em> performance of their final solutions, not single noisy evaluations.</p>
 <p>The results indicate that [SpotOptim/Scipy] provides superior performance on this remote engineering problem given the fixed budget. This methodology ensures that the conclusions are not artifacts of random noise.</p>
 </section>
 <section id="landscape-analysis-of-robot_arm_hard" class="level2" data-number="44.9">

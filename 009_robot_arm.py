@@ -97,8 +97,8 @@ def main():
     try:
         if hasattr(opt, 'print_best'):
             opt.print_best()
-        if hasattr(opt, 'print_results_table'):
-            opt.print_results_table()
+        if hasattr(opt, 'get_results_table'):
+            print(opt.get_results_table())
             
         if hasattr(opt, 'plot_progress'):
             opt.plot_progress(log_y=False)

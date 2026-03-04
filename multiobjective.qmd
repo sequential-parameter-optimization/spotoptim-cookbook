@@ -88,14 +88,14 @@ The `fun_mo2so` parameter is optional. If it is `None`, which is the default, on
 
 #### Methods
 
-- `_get_shape(y)`: Get shape of objective function output
-- `_store_mo(y_mo)`: Store multi-objective values with automatic appending
-- `_mo2so(y_mo)`: Convert multi-objective to single-objective values
+- `get_shape(y)`: Get shape of objective function output
+- `store_mo(y_mo)`: Store multi-objective values with automatic appending
+- `mo2so(y_mo)`: Convert multi-objective to single-objective values
 
 :::
 
-`SpotOptim`'s method `_evaluate_function(X)` automatically detects multi-objective functions. It 
-calls `_mo2so()` to convert multi-objective to single-objective. It also stores the original multi-objective values in `y_mo`. And it returns single-objective values for optimization.
+`SpotOptim`'s method `evaluate_function(X)` automatically detects multi-objective functions. It 
+calls `mo2so()` to convert multi-objective to single-objective. It also stores the original multi-objective values in `y_mo`. And it returns single-objective values for optimization.
 
 
 ::: {#exm-default}
@@ -303,14 +303,14 @@ SpotOptim automatically detects multi-objective functions:
 ### Data Flow
 
 ```
-User Function → y_mo (raw) → _mo2so() → y_ (single-objective)
+User Function → y_mo (raw) → mo2so() → y_ (single-objective)
                     ↓
                y_mo (stored)
 ```
 
 1. Function returns multi-objective values
-2. `_store_mo()` saves them in `y_mo` attribute
-3. `_mo2so()` converts to single-objective using `fun_mo2so` or default
+2. `store_mo()` saves them in `y_mo` attribute
+3. `mo2so()` converts to single-objective using `fun_mo2so` or default
 4. Surrogate model optimizes the single-objective values
 5. All original multi-objective values remain accessible in `y_mo`
 

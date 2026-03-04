@@ -214,12 +214,12 @@ print(f"Total points (with repeats): {len(X0_curated)}")
 
 ## Phase 4: Initial Design Evaluation
 
-### Method: `_evaluate_function()`
+### Method: `evaluate_function()`
 
 Evaluates the objective function at all initial design points.
 The points are converted back to the original scale for evaluation.
 
-**What happens in `_evaluate_function()`:**
+**What happens in `evaluate_function()`:**
 
 1. Convert points from internal to original scale
 2. Call objective function with batch of points
@@ -228,7 +228,7 @@ The points are converted back to the original scale for evaluation.
 
 ```{python}
 X0_original = opt._inverse_transform_X(X0_curated)
-y0 = opt._evaluate_function(X0_curated)
+y0 = opt.evaluate_function(X0_curated)
 
 print(f"Evaluated {len(y0)} points")
 print(f"Function values shape: {y0.shape}")
@@ -297,20 +297,20 @@ except ValueError as e:
 
 ## Phase 7: Storage Initialization
 
-### Method:  `_init_storage()`
+### Method:  `init_storage()`
 
 Store evaluated points and initialize tracking variables.
 
 **What happens during storage initialization:**
 
-1. `_init_storage()`: Initialize statistics tracking variables. 
+1. `init_storage()`: Initialize statistics tracking variables. 
 
 
 * Initialize storage (as done in `optimize()`)
 
 ```{python}
-# Initialize storage and statistics using the new _init_storage() method
-opt._init_storage(X0_clean, y0_clean)
+# Initialize storage and statistics using the new init_storage() method
+opt.init_storage(X0_clean, y0_clean)
 
 print(f"X_ (evaluated points): shape {opt.X_.shape}")
 print(f"y_ (function values): shape {opt.y_.shape}")
@@ -466,16 +466,16 @@ opt.plot_surrogate()
 
 ### Step: Apply OCBA
 
-### Method: `_apply_ocba()`
+### Method: `apply_ocba()`
 
-**What happens in `_apply_ocba()`:**
+**What happens in `apply_ocba()`:**
 
 1. Compute the optimality criteria for each point in the design space.
 2. Select the most promising points based on the criteria.
 3. Update the surrogate model with the selected points.
 
 ```{python}
-X_ocba = opt._apply_ocba()
+X_ocba = opt.apply_ocba()
 if X_ocba is not None:
     print(f"OCBA selected {X_ocba.shape[0]} points for re-evaluation")
     print(f"OCBA points shape: {X_ocba.shape}")
@@ -616,13 +616,13 @@ if X_ocba is not None:
 
 ## Step: Evaluation of New Points
 
-### Method: `_evaluate_function()` (again)
+### Method: `evaluate_function()` (again)
 
 Evaluate the objective function at the suggested points.
 
 ```{python}
 x_next_2d = x_next.reshape(1, -1)
-y_next = opt._evaluate_function(x_next_2d)
+y_next = opt.evaluate_function(x_next_2d)
 
 print(f"Evaluated point: {x_next}")
 print(f"Function value: {y_next[0]:.6f}")
@@ -664,17 +664,17 @@ else:
 
 ## Step: Update Success Rate
 
-### Method: `_update_success_rate(y0)`
+### Method: `update_success_rate(y0)`
 
 Update success rate BEFORE updating storage (initial design - all should be successes since starting from scratch)
 
-**What happens in `_update_success_rate()`:**
+**What happens in `update_success_rate()`:**
 
 1. Calculate success rate as ratio of valid evaluations to total evaluated
 
 ```{python}
 
-opt._update_success_rate(y0_clean)
+opt.update_success_rate(y0_clean)
 print(f"\nSuccess rate updated: {opt.success_rate:.2%} (valid evaluations / total evaluations)")
 ```
 
@@ -687,7 +687,7 @@ print(f"\nSuccess rate updated: {opt.success_rate:.2%} (valid evaluations / tota
 Add new evaluations to storage.
 
 ```{python}
-opt._update_storage(x_next_repeated, y_next)
+opt.update_storage(x_next_repeated, y_next)
 ```
 
 
@@ -903,7 +903,7 @@ print(f"  Benefit: Better distinguish between similar solutions")
 
 ## OCBA Method
 
-### Method: `_apply_ocba()`
+### Method: `apply_ocba()`
 
 ```{python}
 result_ocba = opt_ocba.optimize()
@@ -1007,7 +1007,7 @@ print("  ✓ More robust convergence")
 
 ## Penalty Application
 
-### Method: `_apply_penalty_NA()`
+### Method: `apply_penalty_NA()`
 
 Let's demonstrate penalty calculation:
 
@@ -1020,7 +1020,7 @@ print("Historical values:", y_history_sim)
 print("New evaluations:", y_new_sim)
 
 # Apply penalty
-y_repaired = opt_failures._apply_penalty_NA(
+y_repaired = opt_failures.apply_penalty_NA(
     y_new_sim, 
     y_history=y_history_sim,
     penalty_value=None,  # Compute adaptively
@@ -1049,10 +1049,10 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 ### Preparation Phase
 1. `get_initial_design()` - Generate/process initial sample points
 2. `_curate_initial_design()` - Remove duplicates, handle repeats
-3. `_evaluate_function()` - Evaluate objective function
+3. `evaluate_function()` - Evaluate objective function
 4. `_rm_NA_values()` - Remove NaN/inf from initial design
 5. `_check_size_initial_design()` - Validate sufficient points
-6. `_init_storage()` - Initialize storage (X_, y_, n_iter_)
+6. `init_storage()` - Initialize storage (X_, y_, n_iter_)
 7. `update_stats()` - Compute mean/variance for noisy functions
 8. `_init_tensorboard()` - Log initial design to TensorBoard (if enabled)
 9. `_get_best_xy_initial_design()` - Identify initial best
@@ -1061,17 +1061,17 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 10. `_fit_scheduler()` - Select data and fit surrogate based on noise handling
     - Internally calls `_transform_X()` - Transform to internal scale
     - Internally calls `_fit_surrogate()` - Fit Gaussian Process to data
-11. `_apply_ocba()` - OCBA allocation (if enabled)
+11. `apply_ocba()` - OCBA allocation (if enabled)
 12. `suggest_next_infill_point()` - Optimize acquisition function
     - Internally calls `_acquisition_function()`
     - Internally calls `_predict_with_uncertainty()`
 13. `_update_repeats_infill_points()` - Repeat suggested point for noisy functions
-14. `_evaluate_function()` - Evaluate at suggested point(s)
+14. `evaluate_function()` - Evaluate at suggested point(s)
 15. `_handle_NA_new_points()` - Handle failures with penalties
-    - Internally calls `_apply_penalty_NA()`
+    - Internally calls `apply_penalty_NA()`
     - Internally calls `_remove_nan()`
-16. `_update_success_rate()` - Update success tracking
-17. `_update_storage()` - Append new evaluations to storage
+16. `update_success_rate()` - Update success tracking
+17. `update_storage()` - Append new evaluations to storage
     - Internally calls `_inverse_transform_X()` - Convert back to original scale
 18. `update_stats()` - Update mean/variance statistics
 19. `_write_tensorboard_hparams()` - Log hyperparameters (if enabled)
@@ -1080,7 +1080,7 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 
 ### Finalization
 22. `to_all_dim()` - Expand to full dimensions (if dimensionality reduction used)
-23. `_determine_termination()` - Determine termination reason
+23. `determine_termination()` - Determine termination reason
 24. `_close_tensorboard_writer()` - Close logging (if enabled)
 25. `_map_to_factor_values()` - Convert factors back to strings
 26. Return `OptimizeResult` object
@@ -1096,13 +1096,13 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 
 # Termination Conditions
 
-## Method: `_determine_termination()`
+## Method: `determine_termination()`
 
 ```{python}
 print("\n" + "="*70)
 print("TERMINATION CONDITIONS")
 print("="*70)
-print("\nMethod: _determine_termination()")
+print("\nMethod: determine_termination()")
 print("-" * 70)
 
 print("Optimization terminates when:")
@@ -1231,7 +1231,7 @@ INITIALIZATION PHASE
   ├─► _curate_initial_design()
   │     └─► Remove duplicates, add repeats
   │
-  ├─► _evaluate_function()
+  ├─► evaluate_function()
   │     └─► Evaluate objective function
   │
   ├─► _rm_NA_values()
@@ -1240,7 +1240,7 @@ INITIALIZATION PHASE
   ├─► _check_size_initial_design()
   │     └─► Validate sufficient points
   │
-  ├─► _init_storage()
+  ├─► init_storage()
   │     └─► Initialize X_, y_, n_iter_
   │
   ├─► update_stats()
@@ -1259,7 +1259,7 @@ SEQUENTIAL OPTIMIZATION LOOP (until max_iter or max_time)
   │     ├─► _transform_X() - Transform to internal scale
   │     └─► _fit_surrogate() - Fit GP to current data
   │
-  ├─► _apply_ocba() [if enabled]
+  ├─► apply_ocba() [if enabled]
   │     └─► Allocate additional evaluations
   │
   ├─► suggest_next_infill_point()
@@ -1270,17 +1270,17 @@ SEQUENTIAL OPTIMIZATION LOOP (until max_iter or max_time)
   ├─► _update_repeats_infill_points()
   │     └─► Repeat point if repeats_surrogate > 1
   │
-  ├─► _evaluate_function()
+  ├─► evaluate_function()
   │     └─► Evaluate at suggested point(s)
   │
   ├─► _handle_NA_new_points()
-  │     ├─► _apply_penalty_NA()
+  │     ├─► apply_penalty_NA()
   │     └─► _remove_nan()
   │
-  ├─► _update_success_rate()
+  ├─► update_success_rate()
   │     └─► Track evaluation success
   │
-  ├─► _update_storage()
+  ├─► update_storage()
   │     └─► Append new evaluations (with scale conversion)
   │
   ├─► update_stats()
@@ -1301,7 +1301,7 @@ FINALIZATION
   ├─► to_all_dim() [if dimensionality reduction used]
   │     └─► Expand to full dimensions
   │
-  ├─► _determine_termination()
+  ├─► determine_termination()
   │     └─► Set termination message
   │
   ├─► _close_tensorboard_writer() [if enabled]

@@ -30,7 +30,7 @@ result = opt.optimize()
 *   **Processing**: 
     *   Validates arguments (e.g., checks `max_iter >= n_initial`).
     *   Initializes `SpotOptimConfig` (configuration) and `SpotOptimState` (mutable state).
-    *   Sets random seeds via `_set_seed`.
+    *   Sets random seeds via `set_seed`.
     *   Determines variable types and transformations.
     *   Initializes the default Gaussian Process surrogate if none is provided.
     *   Sets up the Latin Hypercube Sampler (`lhs_sampler`).
@@ -71,7 +71,7 @@ result = opt.optimize()
     *   Verification against existing points (relevant during restarts).
 *   **Output**: Unique array of initial design points `X` to be evaluated.
 
-### `SpotOptim._evaluate_function` (Initial Design)
+### `SpotOptim.evaluate_function` (Initial Design)
 
 *   **Input**: Batch of design points `X`.
 *   **Processing**: 
@@ -80,7 +80,7 @@ result = opt.optimize()
     *   Converts multi-objective results to single-objective if needed (`fun_mo2so`).
 *   **Output**: Array of objective values `y`.
 
-### `SpotOptim._init_storage`
+### `SpotOptim.init_storage`
 
 *   **Input**: Initial `X` and `y`.
 *   **Processing**: 
@@ -124,14 +124,14 @@ The process enters a `while` loop that continues until `max_iter` evaluations ar
     *   Uses a global optimizer (e.g., `differential_evolution`) to find inputs `x` that maximize the acquisition function derived from the surrogate's predictions.
 *   **Output**: The point(s) `x` that maximize potential improvement.
 
-### `SpotOptim._evaluate_function` (Loop)
+### `SpotOptim.evaluate_function` (Loop)
 
 *   **Input**: Candidate point `x_next`.
 *   **Processing**: 
     *   Evaluates the user's objective function at the new candidate point.
 *   **Output**: New objective value `y_next`.
 
-### `SpotOptim._update_storage`
+### `SpotOptim.update_storage`
 
 *   **Input**: New `x_next`, `y_next`.
 *   **Processing**: 
@@ -228,13 +228,13 @@ The source code is split into chunks of functionality.
 
 Methods for initializing the optimizer, handling configuration, and processing variable types.
 
-#### `_set_seed`
+#### `set_seed`
 
 Sets global random seeds for reproducibility across `random`, `numpy`, and `torch`.
 
 ```python
 spot = SpotOptim(fun=lambda x: x, bounds=[(0, 1)], seed=42)
-spot._set_seed()
+spot.set_seed()
 ```
 
 #### `detect_var_type`
@@ -428,12 +428,12 @@ Saves or loads only the configuration (no results), useful for distributing expe
 spot.save_experiment(prefix="exp1")
 ```
 
-#### `print_results_table` / `get_results_table`
+#### `get_results_table`
 
 Displays relevant statistics about the tuned parameters, including importance if available.
 
 ```python
-spot.print_results_table()
+spot.get_results_table()
 ```
 
 ### Plotting
