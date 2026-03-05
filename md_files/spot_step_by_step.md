@@ -96,7 +96,7 @@ When you create a `SpotOptim` instance, several initialization steps occur durin
 7. Default variable names (`var_name`) are set if not provided.
 8. Default variable transformations (`var_transform`) are set if not provided.
 9. Transformations are applied to bounds based on `var_transform` settings. Natural bounds are stored in `_original_lower` and `_original_upper`.
-10. Dimension reduction by identifying fixed dimensions (if any) is performed via `_setup_dimension_reduction()`.
+10. Dimension reduction by identifying fixed dimensions (if any) is performed via `setup_dimension_reduction()`.
 11. The surrogate is initialized (default: Gaussian Process with Matérn kernel) as follows:
 ```python
 kernel = ConstantKernel(
@@ -1088,7 +1088,7 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 ## Helper Methods Used
 
 - `_generate_initial_design()` - LHS generation
-- `_repair_non_numeric()` - Round integer/factor variables
+- `repair_non_numeric()` - Round integer/factor variables
 - `_select_new()` - Check for duplicate points
 - `_handle_acquisition_failure()` - Fallback strategies
 - `to_red_dim()` - Dimension reduction (if enabled)

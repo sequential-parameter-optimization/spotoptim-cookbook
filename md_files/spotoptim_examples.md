@@ -593,7 +593,7 @@ print(f"\nNew points from A:\n{new_A}")
 print(f"\nIs new mask: {is_new}")
 ```
 
-### 8.2 `_repair_non_numeric()`
+### 8.2 `repair_non_numeric()`
 
 **Purpose**: Round non-numeric values (int, factor) to integers  
 **Used by**: Various methods to ensure integer/factor variables have valid values
@@ -607,7 +607,7 @@ opt = SpotOptim(
 )
 
 X = np.array([[1.2, 2.5], [3.7, 4.1], [5.9, 6.8]])
-X_repaired = opt._repair_non_numeric(X.copy(), opt.var_type)
+X_repaired = opt.repair_non_numeric(X.copy(), opt.var_type)
 
 print(f"Original X:\n{X}")
 print(f"\nRepaired X (first column rounded to int):\n{X_repaired}")
@@ -775,7 +775,7 @@ optimize()
 │    ├── suggest_next_infill_point()
 │    │   ├── _acquisition_function()
 │    │   │   └── _predict_with_uncertainty()
-│    │   ├── _repair_non_numeric()
+│    │   ├── repair_non_numeric()
 │    │   ├── select_new()
 │    │   └── _handle_acquisition_failure() [if needed]
 │    │

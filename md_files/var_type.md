@@ -47,7 +47,7 @@ The `var_type` parameter is properly propagated throughout the optimization proc
 
 2. **Initial Design Generation** (`_generate_initial_design`):
 
-   - Applies type constraints via `_repair_non_numeric()`
+   - Applies type constraints via `repair_non_numeric()`
    - Ensures initial points respect variable types
 
 3. **New Point Suggestion** (`suggest_next_infill_point`):
@@ -65,12 +65,12 @@ The `var_type` parameter is properly propagated throughout the optimization proc
    - Used for plotting, respects variable types
    - Ensures visualization shows correct discrete/continuous behavior
 
-### Core Method: `_repair_non_numeric()`
+### Core Method: `repair_non_numeric()`
 
 This method enforces variable type constraints:
 
 ```python
-def _repair_non_numeric(self, X: np.ndarray, var_type: List[str]) -> np.ndarray:
+def repair_non_numeric(self, X: np.ndarray, var_type: List[str]) -> np.ndarray:
     """Round non-continuous values to integers."""
     mask = np.isin(var_type, ["float"], invert=True)
     X[:, mask] = np.around(X[:, mask])
@@ -202,7 +202,7 @@ print(f"  {var_name[2]} (factor): {int(result.x[2])}")
 
 1. **Type Persistence**: Variable types are correctly maintained throughout the entire optimization process, from initial design through all iterations.
 
-2. **Automatic Enforcement**: The `_repair_non_numeric()` method is called at all critical points, ensuring type constraints are never violated.
+2. **Automatic Enforcement**: The `repair_non_numeric()` method is called at all critical points, ensuring type constraints are never violated.
 
 3. **Three Explicit Types**: Only `'float'`, `'int'`, and `'factor'` are supported. The legacy `'num'` type has been removed for clarity.
 

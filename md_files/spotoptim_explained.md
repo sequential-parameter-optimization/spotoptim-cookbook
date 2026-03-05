@@ -266,13 +266,13 @@ spot.process_factor_bounds()
 # Bounds become [(0, 1)] and mapping is stored
 ```
 
-#### `_repair_non_numeric`
+#### `repair_non_numeric`
 
 Rounds values for discrete variables (int, factor) to the nearest integer.
 
 ```python
 X = np.array([[1.2, 2.8]])
-X_repaired = spot._repair_non_numeric(X, var_type=['int', 'int'])
+X_repaired = spot.repair_non_numeric(X, var_type=['int', 'int'])
 # [[1.0, 3.0]]
 ```
 
@@ -280,13 +280,13 @@ X_repaired = spot._repair_non_numeric(X, var_type=['int', 'int'])
 
 Methods for handling fixed dimensions (where lower bound equals upper bound).
 
-#### `_setup_dimension_reduction`
+#### `setup_dimension_reduction`
 
 Identifies fixed dimensions and reduces the optimization search space to only active variables.
 
 ```python
 spot = SpotOptim(fun=lambda x: x, bounds=[(1, 1), (0, 10)])
-spot._setup_dimension_reduction()
+spot.setup_dimension_reduction()
 # Dimension 0 is fixed, optimization happens only on Dimension 1
 ```
 
@@ -513,7 +513,7 @@ The specific optimization strategy depends on `acquisition_optimizer`:
 
 Once a candidate is proposed (`_try_optimizer_candidates`), it undergoes rigorous validation:
 
-1.  **Rounding (`_repair_non_numeric`)**: If variables are integer or categorical, the candidate values are rounded to the nearest valid level.
+1.  **Rounding (`repair_non_numeric`)**: If variables are integer or categorical, the candidate values are rounded to the nearest valid level.
 2.  **Uniqueness Check (`select_new`)**: The candidate is compared against all previously evaluated points (`self.X_`) using a distance tolerance (`self.tolerance_x`).
     *   If the candidate is **unique** (distance > tolerance), it is accepted.
     *   If the candidate is **too close** to an existing point, it is rejected to avoid redundant evaluations.
