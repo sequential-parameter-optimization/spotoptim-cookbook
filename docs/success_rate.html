@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>6&nbsp; Success Rate Tracking in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./019_spotoptim_sk_matern.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -766,10 +768,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Optimization Results:
-Best value: 0.053917
+Best value: 0.090191
 Total evaluations: 20
-Final success rate: 10.00%
-→ Low success rate: Optimization has likely converged</code></pre>
+Final success rate: 50.00%
+→ Medium success rate: Approaching convergence</code></pre>
 </div>
 </div>
 </section>
@@ -800,18 +802,18 @@ Final success rate: 10.00%
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total evaluations: </span><span class="sc">{</span>optimizer<span class="sc">.</span>counter<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 8.161291
-Iter 1 | Best: 8.161290 | Rate: 1.00 | Evals: 55.0%
-Iter 2 | Best: 8.091409 | Rate: 1.00 | Evals: 60.0%
-Iter 3 | Best: 6.846149 | Rate: 1.00 | Evals: 65.0%
-Iter 4 | Best: 2.112301 | Rate: 1.00 | Evals: 70.0%
-Iter 5 | Best: 0.008378 | Rate: 1.00 | Evals: 75.0%
-Iter 6 | Best: 0.000738 | Rate: 1.00 | Evals: 80.0%
-Iter 7 | Best: 0.000738 | Curr: 0.000868 | Rate: 0.86 | Evals: 85.0%
-Iter 8 | Best: 0.000193 | Rate: 0.88 | Evals: 90.0%
-Iter 9 | Best: 0.000007 | Rate: 0.89 | Evals: 95.0%
-Iter 10 | Best: 0.000003 | Rate: 0.90 | Evals: 100.0%
-Final success rate: 90.00%
+Initial best: f(x) = 5.413318
+Iter 1 | Best: 1.533497 | Rate: 1.00 | Evals: 55.0%
+Iter 2 | Best: 0.586183 | Rate: 1.00 | Evals: 60.0%
+Iter 3 | Best: 0.138506 | Rate: 1.00 | Evals: 65.0%
+Iter 4 | Best: 0.066730 | Rate: 1.00 | Evals: 70.0%
+Iter 5 | Best: 0.018357 | Rate: 1.00 | Evals: 75.0%
+Iter 6 | Best: 0.004958 | Rate: 1.00 | Evals: 80.0%
+Iter 7 | Best: 0.000746 | Rate: 1.00 | Evals: 85.0%
+Iter 8 | Best: 0.000131 | Rate: 1.00 | Evals: 90.0%
+Iter 9 | Best: 0.000001 | Rate: 1.00 | Evals: 95.0%
+Iter 10 | Best: 0.000000 | Rate: 1.00 | Evals: 100.0%
+Final success rate: 100.00%
 Total evaluations: 20</code></pre>
 </div>
 </div>
@@ -938,18 +940,18 @@ Via getter method: 60.00%</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Small initial:
-  Best value: 0.012064
-  Success rate: 50.00%
+  Best value: 0.000894
+  Success rate: 40.00%
   Evaluations: 30
 
 Large initial:
-  Best value: 0.006594
-  Success rate: 30.00%
+  Best value: 0.035879
+  Success rate: 60.00%
   Evaluations: 30
 
-Best configuration: Large initial
-  Achieved: f(x) = 0.006594
-  Final success rate: 30.00%</code></pre>
+Best configuration: Small initial
+  Achieved: f(x) = 0.000894
+  Final success rate: 40.00%</code></pre>
 </div>
 </div>
 </section>
@@ -987,11 +989,11 @@ Best configuration: Large initial
 <span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Unique design points: </span><span class="sc">{</span>optimizer<span class="sc">.</span>mean_X<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 1.845310, mean best: f(x) = 2.156731
+Initial best: f(x) = 3.219569, mean best: f(x) = 3.783274
 
 Noisy Optimization Results:
-Best raw value: 1.845310
-Best mean value: 2.156731
+Best raw value: 3.219569
+Best mean value: 3.783274
 Success rate: 0.00%
 Total evaluations: 30
 Unique design points: 10</code></pre>

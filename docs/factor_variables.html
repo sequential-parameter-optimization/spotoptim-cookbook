@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>10&nbsp; Factor Variables for Categorical Hyperparameters – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./var_type.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -745,7 +747,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="10.2" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">10.2</span> Quick Start</h2>
 <section id="basic-factor-variable-usage" class="level3" data-number="10.2.1">
 <h3 data-number="10.2.1" class="anchored" data-anchor-id="basic-factor-variable-usage"><span class="header-section-number">10.2.1</span> Basic Factor Variable Usage</h3>
-<div id="6e2fc56e" class="cell" data-execution_count="1">
+<div id="28199375" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -786,30 +788,30 @@ Testing activation: Sigmoid
 Testing activation: Tanh
 Testing activation: LeakyReLU
 Testing activation: Tanh
-Testing activation: LeakyReLU
-Testing activation: Sigmoid
-Testing activation: Sigmoid
-Testing activation: LeakyReLU
-Testing activation: LeakyReLU
-Testing activation: LeakyReLU
-Testing activation: ReLU
+Testing activation: Tanh
 Testing activation: Sigmoid
 Testing activation: Tanh
+Testing activation: Tanh
+Testing activation: Tanh
+Testing activation: Sigmoid
+Testing activation: Sigmoid
 Testing activation: ReLU
+Testing activation: Tanh
+Testing activation: LeakyReLU
+Testing activation: LeakyReLU
+Testing activation: LeakyReLU
+Testing activation: Tanh
 Testing activation: Sigmoid
 Testing activation: LeakyReLU
-Testing activation: Sigmoid
-Testing activation: ReLU
-Testing activation: Sigmoid
 
-Best activation: ReLU
-Best score: 3327.5082</code></pre>
+Best activation: LeakyReLU
+Best score: 3427.5082</code></pre>
 </div>
 </div>
 </section>
 <section id="neural-network-activation-function-optimization" class="level3" data-number="10.2.2">
 <h3 data-number="10.2.2" class="anchored" data-anchor-id="neural-network-activation-function-optimization"><span class="header-section-number">10.2.2</span> Neural Network Activation Function Optimization</h3>
-<div id="e190d258" class="cell" data-execution_count="2">
+<div id="e75ce745" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -875,7 +877,7 @@ Best score: 3327.5082</code></pre>
 <span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best test MSE: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best activation function: Sigmoid
-Best test MSE: 26315.9648</code></pre>
+Best test MSE: 26416.9928</code></pre>
 </div>
 </div>
 </section>
@@ -884,7 +886,7 @@ Best test MSE: 26315.9648</code></pre>
 <h2 data-number="10.3" class="anchored" data-anchor-id="mixed-variable-types"><span class="header-section-number">10.3</span> Mixed Variable Types</h2>
 <section id="combining-factor-integer-and-continuous-variables" class="level3" data-number="10.3.1">
 <h3 data-number="10.3.1" class="anchored" data-anchor-id="combining-factor-integer-and-continuous-variables"><span class="header-section-number">10.3.1</span> Combining Factor, Integer, and Continuous Variables</h3>
-<div id="c5d48460" class="cell" data-execution_count="3">
+<div id="ce9f3064" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
@@ -969,63 +971,63 @@ Best test MSE: 26315.9648</code></pre>
 <span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best activation: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">3</span>]<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># String value!</span></span>
 <span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best test MSE: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lr=0.003377, l1=30, layers=3, activation=Sigmoid
-lr=0.000144, l1=75, layers=0, activation=ReLU
-lr=0.000166, l1=49, layers=0, activation=Sigmoid
-lr=0.000432, l1=124, layers=2, activation=Tanh
-lr=0.009182, l1=105, layers=4, activation=LeakyReLU
-lr=0.002046, l1=83, layers=2, activation=LeakyReLU
-lr=0.000826, l1=68, layers=3, activation=Sigmoid
-lr=0.001020, l1=21, layers=1, activation=ReLU
-lr=0.000277, l1=115, layers=3, activation=Tanh
-lr=0.004778, l1=52, layers=2, activation=Tanh
-lr=0.009182, l1=105, layers=4, activation=LeakyReLU
-lr=0.000487, l1=109, layers=2, activation=Sigmoid
-lr=0.000606, l1=30, layers=2, activation=ReLU
-lr=0.000388, l1=115, layers=0, activation=Sigmoid
-lr=0.000108, l1=83, layers=3, activation=Tanh
-lr=0.000122, l1=33, layers=3, activation=ReLU
-lr=0.000467, l1=27, layers=3, activation=Sigmoid
-lr=0.000911, l1=19, layers=3, activation=LeakyReLU
-lr=0.001641, l1=52, layers=2, activation=LeakyReLU
-lr=0.000213, l1=45, layers=3, activation=ReLU
-lr=0.004706, l1=73, layers=2, activation=Tanh
-lr=0.005811, l1=120, layers=4, activation=Tanh
-lr=0.006391, l1=105, layers=2, activation=Tanh
-lr=0.001641, l1=114, layers=2, activation=Tanh
-lr=0.001131, l1=28, layers=2, activation=Sigmoid
-lr=0.001028, l1=97, layers=3, activation=ReLU
-lr=0.007509, l1=21, layers=3, activation=ReLU
-lr=0.004693, l1=71, layers=2, activation=Sigmoid
-lr=0.001063, l1=101, layers=3, activation=LeakyReLU
-lr=0.000332, l1=20, layers=3, activation=Tanh
-lr=0.000725, l1=25, layers=3, activation=Sigmoid
-lr=0.001702, l1=113, layers=0, activation=Sigmoid
-lr=0.004168, l1=96, layers=3, activation=LeakyReLU
-lr=0.002149, l1=68, layers=0, activation=LeakyReLU
-lr=0.000565, l1=78, layers=1, activation=Tanh
-lr=0.006296, l1=28, layers=1, activation=LeakyReLU
-lr=0.000103, l1=86, layers=1, activation=Tanh
-lr=0.001388, l1=31, layers=1, activation=Tanh
-lr=0.002190, l1=62, layers=2, activation=LeakyReLU
-lr=0.000707, l1=125, layers=3, activation=Sigmoid
-lr=0.005827, l1=78, layers=1, activation=Sigmoid
-lr=0.003123, l1=28, layers=2, activation=ReLU
-lr=0.003842, l1=127, layers=3, activation=LeakyReLU
-lr=0.000564, l1=93, layers=2, activation=Sigmoid
-lr=0.000239, l1=82, layers=1, activation=Tanh
-lr=0.000946, l1=97, layers=1, activation=LeakyReLU
-lr=0.000177, l1=92, layers=1, activation=Tanh
-lr=0.008198, l1=57, layers=1, activation=LeakyReLU
-lr=0.008642, l1=46, layers=2, activation=ReLU
-lr=0.000473, l1=106, layers=1, activation=Tanh
+<pre><code>lr=0.005129, l1=71, layers=3, activation=Tanh
+lr=0.000132, l1=21, layers=4, activation=Sigmoid
+lr=0.000265, l1=38, layers=1, activation=ReLU
+lr=0.000559, l1=92, layers=1, activation=ReLU
+lr=0.001526, l1=73, layers=2, activation=LeakyReLU
+lr=0.003084, l1=114, layers=3, activation=Tanh
+lr=0.000799, l1=117, layers=0, activation=Tanh
+lr=0.002306, l1=60, layers=2, activation=Tanh
+lr=0.008739, l1=48, layers=3, activation=Sigmoid
+lr=0.000216, l1=104, layers=1, activation=Sigmoid
+lr=0.001523, l1=73, layers=2, activation=LeakyReLU
+lr=0.000392, l1=23, layers=3, activation=Tanh
+lr=0.001666, l1=93, layers=2, activation=Tanh
+lr=0.000307, l1=112, layers=1, activation=LeakyReLU
+lr=0.001870, l1=58, layers=1, activation=LeakyReLU
+lr=0.000453, l1=97, layers=2, activation=Tanh
+lr=0.000472, l1=61, layers=2, activation=LeakyReLU
+lr=0.000574, l1=37, layers=0, activation=LeakyReLU
+lr=0.002268, l1=88, layers=1, activation=Sigmoid
+lr=0.000317, l1=44, layers=2, activation=Tanh
+lr=0.000355, l1=109, layers=1, activation=Sigmoid
+lr=0.003503, l1=106, layers=4, activation=LeakyReLU
+lr=0.000215, l1=36, layers=2, activation=Tanh
+lr=0.000306, l1=83, layers=3, activation=Tanh
+lr=0.000117, l1=63, layers=0, activation=LeakyReLU
+lr=0.001144, l1=59, layers=3, activation=Sigmoid
+lr=0.007647, l1=106, layers=2, activation=Sigmoid
+lr=0.000788, l1=35, layers=1, activation=Sigmoid
+lr=0.001985, l1=86, layers=2, activation=ReLU
+lr=0.000901, l1=26, layers=1, activation=Sigmoid
+lr=0.003331, l1=122, layers=2, activation=ReLU
+lr=0.001602, l1=55, layers=2, activation=Sigmoid
+lr=0.000182, l1=85, layers=2, activation=LeakyReLU
+lr=0.001511, l1=101, layers=1, activation=Sigmoid
+lr=0.008170, l1=80, layers=0, activation=Tanh
+lr=0.002302, l1=58, layers=1, activation=Sigmoid
+lr=0.001137, l1=78, layers=2, activation=Tanh
+lr=0.000359, l1=87, layers=4, activation=LeakyReLU
+lr=0.002828, l1=57, layers=4, activation=Tanh
+lr=0.000599, l1=123, layers=1, activation=ReLU
+lr=0.002425, l1=69, layers=2, activation=Sigmoid
+lr=0.000530, l1=85, layers=4, activation=ReLU
+lr=0.002048, l1=85, layers=1, activation=Sigmoid
+lr=0.000296, l1=61, layers=1, activation=Tanh
+lr=0.000164, l1=117, layers=2, activation=Tanh
+lr=0.003905, l1=104, layers=2, activation=LeakyReLU
+lr=0.000530, l1=127, layers=2, activation=LeakyReLU
+lr=0.000111, l1=93, layers=2, activation=Sigmoid
+lr=0.000761, l1=105, layers=2, activation=Tanh
+lr=0.006470, l1=100, layers=1, activation=Tanh
 
 Optimization Results:
-Best learning rate: 0.004693
-Best layer size: 71
-Best num layers: 2
+Best learning rate: 0.000355
+Best layer size: 109
+Best num layers: 1
 Best activation: Sigmoid
-Best test MSE: 26438.9219</code></pre>
+Best test MSE: 26520.1276</code></pre>
 </div>
 </div>
 </section>
@@ -1034,7 +1036,7 @@ Best test MSE: 26438.9219</code></pre>
 <h2 data-number="10.4" class="anchored" data-anchor-id="multiple-factor-variables"><span class="header-section-number">10.4</span> Multiple Factor Variables</h2>
 <section id="optimizing-both-activation-and-optimizer" class="level3" data-number="10.4.1">
 <h3 data-number="10.4.1" class="anchored" data-anchor-id="optimizing-both-activation-and-optimizer"><span class="header-section-number">10.4.1</span> Optimizing Both Activation and Optimizer</h3>
-<div id="6bf569a8" class="cell" data-execution_count="4">
+<div id="ff5b57c9" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.data <span class="im">import</span> get_diabetes_dataloaders</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.linear_regressor <span class="im">import</span> LinearRegressor</span>
@@ -1105,7 +1107,7 @@ Best test MSE: 26438.9219</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best activation: ReLU
 Best optimizer: SGD
-Best learning rate: 0.006028</code></pre>
+Best learning rate: 0.003152</code></pre>
 </div>
 </div>
 </section>
@@ -1115,7 +1117,7 @@ Best learning rate: 0.006028</code></pre>
 <section id="custom-categorical-choices" class="level3" data-number="10.5.1">
 <h3 data-number="10.5.1" class="anchored" data-anchor-id="custom-categorical-choices"><span class="header-section-number">10.5.1</span> Custom Categorical Choices</h3>
 <p>Factor variables work with any string values, not just activation functions:</p>
-<div id="ff8158bf" class="cell" data-execution_count="5">
+<div id="0473bbb5" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1182,13 +1184,13 @@ Best learning rate: 0.006028</code></pre>
   Dropout: light
   Batch norm: before
   Weight init: xavier
-  Score: 2863.7541</code></pre>
+  Score: 2854.3360</code></pre>
 </div>
 </div>
 </section>
 <section id="viewing-all-evaluated-configurations" class="level3" data-number="10.5.2">
 <h3 data-number="10.5.2" class="anchored" data-anchor-id="viewing-all-evaluated-configurations"><span class="header-section-number">10.5.2</span> Viewing All Evaluated Configurations</h3>
-<div id="cbe9a302" class="cell" data-execution_count="6">
+<div id="19c1c396" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -1277,23 +1279,23 @@ Best learning rate: 0.006028</code></pre>
 All evaluated configurations:
 Layer Size | Activation | Test MSE
 ------------------------------------------
-        41 | Tanh       | 26641.4141
-       118 | Sigmoid    | 26307.1569
-        26 | Tanh       | 26664.7982
-       108 | Sigmoid    | 26354.6230
-        71 | LeakyReLU  | 26520.9492
-        34 | Tanh       | 26541.5020
-        87 | ReLU       | 26506.7585
-       101 | Tanh       | 26480.0638
-        55 | Sigmoid    | 26636.6940
-        74 | ReLU       | 26542.9134
+        95 | Tanh       | 26554.0299
+        73 | ReLU       | 26522.1647
+       106 | Tanh       | 26513.4258
+        61 | Tanh       | 26607.4414
+       126 | LeakyReLU  | 26389.1042
+        43 | Sigmoid    | 26641.9941
+        92 | Sigmoid    | 26559.3444
+        56 | Sigmoid    | 26421.8913
+        17 | LeakyReLU  | 26653.0911
+        30 | ReLU       | 26574.7884
 
 Top 5 configurations:
-l1=115, activation=Sigmoid   , MSE=26227.4974
-l1=118, activation=Sigmoid   , MSE=26307.1569
-l1=103, activation=Sigmoid   , MSE=26339.0430
-l1=108, activation=Sigmoid   , MSE=26354.6230
-l1= 99, activation=Sigmoid   , MSE=26367.6986</code></pre>
+l1=119, activation=Sigmoid   , MSE=26214.9948
+l1=125, activation=Sigmoid   , MSE=26293.1582
+l1=126, activation=Sigmoid   , MSE=26314.9245
+l1=126, activation=LeakyReLU , MSE=26389.1042
+l1=118, activation=ReLU      , MSE=26409.5560</code></pre>
 </div>
 </div>
 </section>
@@ -1305,57 +1307,57 @@ l1= 99, activation=Sigmoid   , MSE=26367.6986</code></pre>
 <p>SpotOptim handles factor variables through automatic conversion:</p>
 <ol type="1">
 <li><p><strong>Initialization</strong>: String tuples in bounds are detected</p>
-<div id="0c7605c7" class="cell" data-execution_count="7">
+<div id="bd5e6c2e" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [(<span class="st">"ReLU"</span>, <span class="st">"Sigmoid"</span>, <span class="st">"Tanh"</span>)]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Internally mapped to: {0: "ReLU", 1: "Sigmoid", 2: "Tanh"}</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bounds become: [(0, 2)]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></li>
 <li><p><strong>Sampling</strong>: Initial design samples from <code>[0, n_levels-1]</code> and rounds to integers</p>
-<div id="578692b6" class="cell" data-execution_count="8">
+<div id="3c67da2c" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Samples might be: [0.3, 1.8, 2.1]</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># After rounding: [0, 2, 2]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></li>
 <li><p><strong>Evaluation</strong>: Before calling objective function, integers → strings</p>
-<div id="a6a1648e" class="cell" data-execution_count="9">
+<div id="4488811c" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># [0, 2, 2] → ["ReLU", "Tanh", "Tanh"]</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Objective function receives strings</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></li>
 <li><p><strong>Optimization</strong>: Surrogate model works with integers <code>[0, n_levels-1]</code></p></li>
 <li><p><strong>Results</strong>: Final results mapped back to strings</p>
-<div id="14cea253" class="cell" data-execution_count="10">
+<div id="d69192bb" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>result.x[<span class="dv">0</span>]  <span class="co"># Returns "ReLU", not 0</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>result.X     <span class="co"># All rows contain strings for factor variables</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>array([[41.0, 'Tanh'],
-       [118.0, 'Sigmoid'],
-       [26.0, 'Tanh'],
-       [108.0, 'Sigmoid'],
-       [71.0, 'LeakyReLU'],
-       [34.0, 'Tanh'],
-       [87.0, 'ReLU'],
-       [101.0, 'Tanh'],
+<pre><code>array([[95.0, 'Tanh'],
+       [73.0, 'ReLU'],
+       [106.0, 'Tanh'],
+       [61.0, 'Tanh'],
+       [126.0, 'LeakyReLU'],
+       [43.0, 'Sigmoid'],
+       [92.0, 'Sigmoid'],
+       [56.0, 'Sigmoid'],
+       [17.0, 'LeakyReLU'],
+       [30.0, 'ReLU'],
+       [124.0, 'Tanh'],
+       [128.0, 'LeakyReLU'],
+       [125.0, 'LeakyReLU'],
+       [125.0, 'Sigmoid'],
+       [123.0, 'Tanh'],
+       [127.0, 'ReLU'],
        [55.0, 'Sigmoid'],
-       [74.0, 'ReLU'],
-       [115.0, 'Sigmoid'],
-       [114.0, 'Sigmoid'],
-       [52.0, 'Sigmoid'],
-       [45.0, 'Sigmoid'],
-       [35.0, 'Sigmoid'],
-       [26.0, 'Sigmoid'],
        [127.0, 'Tanh'],
-       [128.0, 'ReLU'],
-       [31.0, 'Sigmoid'],
-       [55.0, 'LeakyReLU'],
-       [99.0, 'Sigmoid'],
-       [123.0, 'Sigmoid'],
-       [24.0, 'ReLU'],
-       [103.0, 'Sigmoid'],
-       [95.0, 'Sigmoid'],
-       [53.0, 'ReLU'],
-       [110.0, 'Sigmoid'],
-       [36.0, 'Sigmoid'],
-       [28.0, 'ReLU'],
-       [17.0, 'ReLU']], dtype=object)</code></pre>
+       [119.0, 'Sigmoid'],
+       [126.0, 'Sigmoid'],
+       [126.0, 'ReLU'],
+       [118.0, 'Sigmoid'],
+       [118.0, 'ReLU'],
+       [125.0, 'Tanh'],
+       [120.0, 'Tanh'],
+       [124.0, 'ReLU'],
+       [127.0, 'Sigmoid'],
+       [56.0, 'ReLU'],
+       [52.0, 'LeakyReLU'],
+       [104.0, 'ReLU']], dtype=object)</code></pre>
 </div>
 </div></li>
 </ol>
@@ -1363,7 +1365,7 @@ l1= 99, activation=Sigmoid   , MSE=26367.6986</code></pre>
 <section id="variable-type-auto-detection" class="level3" data-number="10.6.2">
 <h3 data-number="10.6.2" class="anchored" data-anchor-id="variable-type-auto-detection"><span class="header-section-number">10.6.2</span> Variable Type Auto-Detection</h3>
 <p>If you don’t specify <code>var_type</code>, SpotOptim automatically detects factor variables:</p>
-<div id="8d973847" class="cell" data-execution_count="11">
+<div id="1341d83c" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: Explicit var_type (recommended)</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This shows the syntax - replace my_function with your actual function</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1405,14 +1407,14 @@ l1= 99, activation=Sigmoid   , MSE=26367.6986</code></pre>
 <span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best lr: </span><span class="sc">{</span><span class="dv">10</span><span class="op">**</span>result<span class="sc">.</span>x[<span class="dv">0</span>]<span class="sc">:.6f}</span><span class="ss">, Best activation: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best lr: 0.000489, Best activation: ReLU</code></pre>
+<pre><code>Best lr: 0.000305, Best activation: ReLU</code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="complete-example-full-workflow" class="level2" data-number="10.7">
 <h2 data-number="10.7" class="anchored" data-anchor-id="complete-example-full-workflow"><span class="header-section-number">10.7</span> Complete Example: Full Workflow</h2>
-<div id="e65c8e48" class="cell" data-execution_count="12">
+<div id="c2192f0b" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">Complete example: Neural network hyperparameter optimization with factor variables.</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
@@ -1605,140 +1607,140 @@ Neural Network Hyperparameter Optimization with Factor Variables
 ================================================================================
 
 Starting optimization...
-Testing: lr=0.007002, l1=101, layers=2, activation=ReLU
-  → Test MSE: 26595.1302
-Testing: lr=0.000604, l1=50, layers=2, activation=ReLU
-  → Test MSE: 26641.1608
-Testing: lr=0.000149, l1=67, layers=1, activation=Tanh
-  → Test MSE: 26616.5931
-Testing: lr=0.000296, l1=40, layers=0, activation=Tanh
-  → Test MSE: 26556.3835
-Testing: lr=0.004887, l1=116, layers=2, activation=Sigmoid
-  → Test MSE: 26603.4837
-Testing: lr=0.001772, l1=124, layers=3, activation=Sigmoid
-  → Test MSE: 26641.1367
-Testing: lr=0.001107, l1=36, layers=4, activation=Sigmoid
-  → Test MSE: 26626.1178
-Testing: lr=0.003708, l1=20, layers=1, activation=LeakyReLU
-  → Test MSE: 26663.0352
-Testing: lr=0.000861, l1=90, layers=1, activation=Tanh
-  → Test MSE: 26570.0729
-Testing: lr=0.000237, l1=78, layers=3, activation=Tanh
-  → Test MSE: 26644.3626
-Testing: lr=0.005015, l1=26, layers=0, activation=LeakyReLU
-  → Test MSE: 26595.7357
-Testing: lr=0.000298, l1=88, layers=1, activation=ReLU
-  → Test MSE: 26525.2005
-Testing: lr=0.000301, l1=88, layers=1, activation=ReLU
-  → Test MSE: 26616.7741
-Testing: lr=0.000860, l1=58, layers=1, activation=LeakyReLU
-  → Test MSE: 26680.8242
-Testing: lr=0.003960, l1=66, layers=1, activation=Tanh
-  → Test MSE: 26608.5612
-Testing: lr=0.000884, l1=58, layers=2, activation=Tanh
-  → Test MSE: 26600.1680
-Testing: lr=0.003688, l1=76, layers=1, activation=Tanh
-  → Test MSE: 26585.8685
-Testing: lr=0.003183, l1=108, layers=3, activation=Tanh
-  → Test MSE: 26602.7181
-Testing: lr=0.000471, l1=69, layers=2, activation=ReLU
-  → Test MSE: 26625.1087
-Testing: lr=0.008072, l1=82, layers=2, activation=Sigmoid
-  → Test MSE: 26504.7884
-Testing: lr=0.004529, l1=86, layers=0, activation=LeakyReLU
-  → Test MSE: 26550.3483
-Testing: lr=0.000117, l1=70, layers=0, activation=Sigmoid
-  → Test MSE: 26648.5879
-Testing: lr=0.002727, l1=86, layers=2, activation=Sigmoid
-  → Test MSE: 26687.7266
-Testing: lr=0.000347, l1=42, layers=2, activation=ReLU
-  → Test MSE: 26630.2812
-Testing: lr=0.000872, l1=109, layers=3, activation=Sigmoid
-  → Test MSE: 26698.2982
-Testing: lr=0.000243, l1=94, layers=1, activation=Tanh
-  → Test MSE: 26600.1732
-Testing: lr=0.000339, l1=125, layers=1, activation=Tanh
-  → Test MSE: 26642.8379
-Testing: lr=0.000565, l1=34, layers=3, activation=Sigmoid
-  → Test MSE: 26614.5781
-Testing: lr=0.000663, l1=58, layers=3, activation=Tanh
-  → Test MSE: 26635.9447
-Testing: lr=0.000304, l1=57, layers=2, activation=ReLU
-  → Test MSE: 26609.9961
-Testing: lr=0.000165, l1=54, layers=1, activation=Sigmoid
-  → Test MSE: 26580.0833
-Testing: lr=0.003692, l1=110, layers=3, activation=Tanh
-  → Test MSE: 26607.2572
-Testing: lr=0.001682, l1=64, layers=2, activation=Sigmoid
-  → Test MSE: 26665.3021
-Testing: lr=0.001871, l1=115, layers=3, activation=Sigmoid
-  → Test MSE: 26550.1654
-Testing: lr=0.000208, l1=40, layers=2, activation=Tanh
-  → Test MSE: 26659.4779
-Testing: lr=0.000191, l1=100, layers=2, activation=ReLU
-  → Test MSE: 26655.9225
-Testing: lr=0.002624, l1=45, layers=3, activation=Tanh
-  → Test MSE: 26578.6823
-Testing: lr=0.008604, l1=84, layers=2, activation=Tanh
-  → Test MSE: 26566.8008
-Testing: lr=0.000506, l1=74, layers=4, activation=LeakyReLU
-  → Test MSE: 26621.5280
-Testing: lr=0.006887, l1=90, layers=1, activation=ReLU
-  → Test MSE: 26648.8704
-Testing: lr=0.004136, l1=58, layers=2, activation=Tanh
-  → Test MSE: 26644.8333
-Testing: lr=0.000282, l1=70, layers=1, activation=LeakyReLU
-  → Test MSE: 26654.3620
-Testing: lr=0.002332, l1=105, layers=1, activation=Tanh
-  → Test MSE: 26644.0013
-Testing: lr=0.000769, l1=117, layers=4, activation=Tanh
-  → Test MSE: 26605.3704
-Testing: lr=0.000399, l1=116, layers=2, activation=Sigmoid
-  → Test MSE: 26696.8646
-Testing: lr=0.007122, l1=110, layers=2, activation=ReLU
-  → Test MSE: 26568.1309
-Testing: lr=0.002259, l1=46, layers=1, activation=Sigmoid
-  → Test MSE: 26663.3522
-Testing: lr=0.002115, l1=43, layers=3, activation=Sigmoid
-  → Test MSE: 26526.7422
-Testing: lr=0.001023, l1=42, layers=2, activation=Tanh
-  → Test MSE: 26585.4219
-Testing: lr=0.007406, l1=81, layers=0, activation=LeakyReLU
-  → Test MSE: 26570.9642
+Testing: lr=0.000414, l1=62, layers=1, activation=Tanh
+  → Test MSE: 26660.6276
+Testing: lr=0.000256, l1=81, layers=1, activation=Sigmoid
+  → Test MSE: 26721.7930
+Testing: lr=0.009331, l1=90, layers=4, activation=Tanh
+  → Test MSE: 26526.8822
+Testing: lr=0.001413, l1=106, layers=2, activation=Sigmoid
+  → Test MSE: 26668.0417
+Testing: lr=0.000652, l1=27, layers=3, activation=Tanh
+  → Test MSE: 26651.3522
+Testing: lr=0.003696, l1=45, layers=3, activation=Tanh
+  → Test MSE: 26621.2611
+Testing: lr=0.002433, l1=32, layers=2, activation=ReLU
+  → Test MSE: 26621.0866
+Testing: lr=0.000114, l1=52, layers=3, activation=ReLU
+  → Test MSE: 26598.5514
+Testing: lr=0.006093, l1=99, layers=0, activation=Sigmoid
+  → Test MSE: 26724.3027
+Testing: lr=0.000249, l1=118, layers=1, activation=LeakyReLU
+  → Test MSE: 26637.8073
+Testing: lr=0.009335, l1=90, layers=4, activation=Tanh
+  → Test MSE: 26554.9277
+Testing: lr=0.000265, l1=35, layers=3, activation=Sigmoid
+  → Test MSE: 26611.9941
+Testing: lr=0.000159, l1=79, layers=3, activation=LeakyReLU
+  → Test MSE: 26629.7676
+Testing: lr=0.005810, l1=77, layers=3, activation=ReLU
+  → Test MSE: 26565.9492
+Testing: lr=0.009330, l1=90, layers=4, activation=Tanh
+  → Test MSE: 26538.5618
+Testing: lr=0.002670, l1=62, layers=3, activation=Sigmoid
+  → Test MSE: 26507.8125
+Testing: lr=0.001138, l1=78, layers=3, activation=Sigmoid
+  → Test MSE: 26576.3301
+Testing: lr=0.000917, l1=48, layers=2, activation=Sigmoid
+  → Test MSE: 26571.5521
+Testing: lr=0.000317, l1=19, layers=2, activation=Sigmoid
+  → Test MSE: 26660.5202
+Testing: lr=0.007670, l1=32, layers=2, activation=Sigmoid
+  → Test MSE: 26596.0104
+Testing: lr=0.001611, l1=112, layers=3, activation=ReLU
+  → Test MSE: 26635.1263
+Testing: lr=0.000209, l1=69, layers=1, activation=LeakyReLU
+  → Test MSE: 26624.6940
+Testing: lr=0.001362, l1=67, layers=2, activation=ReLU
+  → Test MSE: 26623.6823
+Testing: lr=0.000628, l1=51, layers=2, activation=LeakyReLU
+  → Test MSE: 26596.9701
+Testing: lr=0.000465, l1=30, layers=3, activation=Sigmoid
+  → Test MSE: 26607.1113
+Testing: lr=0.001686, l1=66, layers=2, activation=Tanh
+  → Test MSE: 26610.1615
+Testing: lr=0.000454, l1=55, layers=3, activation=Tanh
+  → Test MSE: 26595.5046
+Testing: lr=0.000603, l1=115, layers=3, activation=Sigmoid
+  → Test MSE: 26403.9635
+Testing: lr=0.009157, l1=103, layers=3, activation=Tanh
+  → Test MSE: 26545.4720
+Testing: lr=0.001266, l1=41, layers=3, activation=Sigmoid
+  → Test MSE: 26594.5371
+Testing: lr=0.008903, l1=43, layers=1, activation=Sigmoid
+  → Test MSE: 26720.3561
+Testing: lr=0.002573, l1=117, layers=3, activation=LeakyReLU
+  → Test MSE: 26608.9674
+Testing: lr=0.003325, l1=20, layers=0, activation=Tanh
+  → Test MSE: 26618.4727
+Testing: lr=0.000176, l1=76, layers=4, activation=LeakyReLU
+  → Test MSE: 26604.9805
+Testing: lr=0.002366, l1=52, layers=2, activation=Tanh
+  → Test MSE: 26640.5104
+Testing: lr=0.001022, l1=60, layers=2, activation=LeakyReLU
+  → Test MSE: 26619.7891
+Testing: lr=0.000805, l1=50, layers=1, activation=LeakyReLU
+  → Test MSE: 26666.4902
+Testing: lr=0.001737, l1=38, layers=4, activation=Sigmoid
+  → Test MSE: 26717.5605
+Testing: lr=0.000209, l1=88, layers=2, activation=ReLU
+  → Test MSE: 26608.3913
+Testing: lr=0.000115, l1=79, layers=3, activation=Tanh
+  → Test MSE: 26611.1159
+Testing: lr=0.001429, l1=74, layers=0, activation=Tanh
+  → Test MSE: 26493.1680
+Testing: lr=0.000480, l1=42, layers=1, activation=Tanh
+  → Test MSE: 26672.6230
+Testing: lr=0.005419, l1=29, layers=3, activation=Sigmoid
+  → Test MSE: 26596.9805
+Testing: lr=0.001159, l1=62, layers=1, activation=Sigmoid
+  → Test MSE: 26695.5312
+Testing: lr=0.002008, l1=102, layers=3, activation=Sigmoid
+  → Test MSE: 26715.1042
+Testing: lr=0.001383, l1=80, layers=3, activation=Tanh
+  → Test MSE: 26622.8477
+Testing: lr=0.000977, l1=83, layers=4, activation=Sigmoid
+  → Test MSE: 26617.5130
+Testing: lr=0.005980, l1=82, layers=2, activation=LeakyReLU
+  → Test MSE: 26594.1654
+Testing: lr=0.004110, l1=110, layers=2, activation=Tanh
+  → Test MSE: 26629.9134
+Testing: lr=0.002603, l1=57, layers=2, activation=ReLU
+  → Test MSE: 26650.2799
 
 ================================================================================
 OPTIMIZATION RESULTS
 ================================================================================
-Best learning rate: 0.008072
-Best layer size (l1): 82
-Best num hidden layers: 2
+Best learning rate: 0.000603
+Best layer size (l1): 115
+Best num hidden layers: 3
 Best activation function: Sigmoid
-Best test MSE: 26504.7884
+Best test MSE: 26403.9635
 
 ================================================================================
 TOP 5 CONFIGURATIONS
 ================================================================================
 Rank   LR           L1     Layers   Activation   MSE       
 --------------------------------------------------------------------------------
-1      0.008072     82     2        Sigmoid      26504.7884
-2      0.000298     88     1        ReLU         26525.2005
-3      0.002115     43     3        Sigmoid      26526.7422
-4      0.001871     115    3        Sigmoid      26550.1654
-5      0.004529     86     0        LeakyReLU    26550.3483
+1      0.000603     115    3        Sigmoid      26403.9635
+2      0.001429     74     0        Tanh         26493.1680
+3      0.002670     62     3        Sigmoid      26507.8125
+4      0.009331     90     4        Tanh         26526.8822
+5      0.009330     90     4        Tanh         26538.5618
 
 ================================================================================
 TRAINING FINAL MODEL
 ================================================================================
-Configuration: lr=0.008072, l1=82, layers=2, activation=Sigmoid
+Configuration: lr=0.000603, l1=115, layers=3, activation=Sigmoid
 
 Training for 100 epochs...
-Epoch 20/100: Train MSE = 32429.5312
-Epoch 40/100: Train MSE = 32134.7218
-Epoch 60/100: Train MSE = 27624.7871
-Epoch 80/100: Train MSE = 28991.9951
-Epoch 100/100: Train MSE = 31000.9487
+Epoch 20/100: Train MSE = 27529.2773
+Epoch 40/100: Train MSE = 27848.2657
+Epoch 60/100: Train MSE = 27897.5425
+Epoch 80/100: Train MSE = 28427.8789
+Epoch 100/100: Train MSE = 28886.2425
 
-Final Test MSE: 26428.3424
+Final Test MSE: 26578.0579
 ================================================================================</code></pre>
 </div>
 </div>
@@ -1748,15 +1750,15 @@ Final Test MSE: 26428.3424
 <section id="dos" class="level3" data-number="10.8.1">
 <h3 data-number="10.8.1" class="anchored" data-anchor-id="dos"><span class="header-section-number">10.8.1</span> Do’s</h3>
 <p>✅ <strong>Use descriptive string values</strong></p>
-<div id="02f6cee9" class="cell" data-execution_count="13">
+<div id="1c1f1e61" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[(<span class="st">"xavier_uniform"</span>, <span class="st">"kaiming_normal"</span>, <span class="st">"orthogonal"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>✅ <strong>Explicitly specify var_type for clarity</strong></p>
-<div id="54884f6a" class="cell" data-execution_count="14">
+<div id="e21dcb81" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>var_type<span class="op">=</span>[<span class="st">"float"</span>, <span class="st">"int"</span>, <span class="st">"factor"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>✅ <strong>Access results as strings</strong></p>
-<div id="28912aef" class="cell" data-execution_count="15">
+<div id="fa875b42" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Accessing factor variable results as strings</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (This assumes you've run an optimization with activation as a factor variable)</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1797,7 +1799,7 @@ Final Test MSE: 26428.3424
 </div>
 </div>
 <p>✅ <strong>Mix factor variables with numeric/integer variables</strong></p>
-<div id="84be8dc1" class="cell" data-execution_count="16">
+<div id="15550c8c" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">2</span>), (<span class="dv">16</span>, <span class="dv">128</span>), (<span class="st">"ReLU"</span>, <span class="st">"Tanh"</span>)]</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>var_type<span class="op">=</span>[<span class="st">"float"</span>, <span class="st">"int"</span>, <span class="st">"factor"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1805,13 +1807,13 @@ Final Test MSE: 26428.3424
 <section id="donts" class="level3" data-number="10.8.2">
 <h3 data-number="10.8.2" class="anchored" data-anchor-id="donts"><span class="header-section-number">10.8.2</span> Don’ts</h3>
 <p>❌ <strong>Don’t use integers in factor bounds</strong></p>
-<div id="9b5225e6" class="cell" data-execution_count="17">
+<div id="213b5c8c" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wrong: Use strings, not integers</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>)]  <span class="co"># Wrong!</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[(<span class="st">"ReLU"</span>, <span class="st">"Sigmoid"</span>, <span class="st">"Tanh"</span>)]  <span class="co"># Correct!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>❌ <strong>Don’t expect integers in objective function</strong></p>
-<div id="87274209" class="cell" data-execution_count="18">
+<div id="6409f317" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> objective(X):</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    activation <span class="op">=</span> X[<span class="dv">0</span>][<span class="dv">2</span>]</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># activation is a string, not an integer!</span></span>
@@ -1819,12 +1821,12 @@ Final Test MSE: 26428.3424
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Do: if activation == "ReLU":   # Correct!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>❌ <strong>Don’t manually convert factor variables</strong></p>
-<div id="00a541c7" class="cell" data-execution_count="19">
+<div id="51274350" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SpotOptim handles conversion automatically</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Don't do manual mapping in your objective function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>❌ <strong>Don’t use empty tuples</strong></p>
-<div id="0c5751da" class="cell" data-execution_count="20">
+<div id="2d5eaf62" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wrong: Empty tuple</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>bounds<span class="op">=</span>[()]</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>

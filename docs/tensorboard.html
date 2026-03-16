@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>13&nbsp; TensorBoard Logging in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./plot_surrogate.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -741,23 +743,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Logs saved to: runs/</span><span class="sc">{</span>optimizer<span class="sc">.</span>tensorboard_path<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Removed old TensorBoard logs: runs/spotoptim_20260304_124052
+<pre><code>Removed old TensorBoard logs: runs/spotoptim_20260315_224408
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260304_125417
-Initial best: f(x) = 2.420807
-Iter 1 | Best: 2.390298 | Rate: 1.00 | Evals: 55.0%
-Iter 2 | Best: 1.813143 | Rate: 1.00 | Evals: 60.0%
-Iter 3 | Best: 0.004420 | Rate: 1.00 | Evals: 65.0%
-Iter 4 | Best: 0.000290 | Rate: 1.00 | Evals: 70.0%
-Iter 5 | Best: 0.000052 | Rate: 1.00 | Evals: 75.0%
-Iter 6 | Best: 0.000000 | Rate: 1.00 | Evals: 80.0%
-Iter 7 | Best: 0.000000 | Rate: 1.00 | Evals: 85.0%
-Iter 8 | Best: 0.000000 | Rate: 1.00 | Evals: 90.0%
-Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.89 | Evals: 95.0%
-Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.80 | Evals: 100.0%
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260304_125417
+TensorBoard logging enabled: runs/spotoptim_20260315_225249
+Initial best: f(x) = 3.925721
+Iter 1 | Best: 0.020506 | Rate: 1.00 | Evals: 55.0%
+Iter 2 | Best: 0.000751 | Rate: 1.00 | Evals: 60.0%
+Iter 3 | Best: 0.000024 | Rate: 1.00 | Evals: 65.0%
+Iter 4 | Best: 0.000000 | Rate: 1.00 | Evals: 70.0%
+Iter 5 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.80 | Evals: 75.0%
+Iter 6 | Best: 0.000000 | Rate: 0.83 | Evals: 80.0%
+Iter 7 | Best: 0.000000 | Rate: 0.86 | Evals: 85.0%
+Iter 8 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.75 | Evals: 90.0%
+Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.67 | Evals: 95.0%
+Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.60 | Evals: 100.0%
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260315_225249
 Best value: 0.000000
-Logs saved to: runs/runs/spotoptim_20260304_125417</code></pre>
+Logs saved to: runs/runs/spotoptim_20260315_225249</code></pre>
 </div>
 </div>
 </section>
@@ -863,21 +865,21 @@ Logs saved to: runs/runs/spotoptim_20260304_125417</code></pre>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Removed old TensorBoard logs: runs/spotoptim_20260304_125417
+<pre><code>Removed old TensorBoard logs: runs/spotoptim_20260315_225249
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260304_125428
-Initial best: f(x) = 2.420807
-Iter 1 | Best: 2.390298 | Rate: 1.00 | Evals: 55.0%
-Iter 2 | Best: 1.813143 | Rate: 1.00 | Evals: 60.0%
-Iter 3 | Best: 0.004420 | Rate: 1.00 | Evals: 65.0%
-Iter 4 | Best: 0.000290 | Rate: 1.00 | Evals: 70.0%
-Iter 5 | Best: 0.000052 | Rate: 1.00 | Evals: 75.0%
-Iter 6 | Best: 0.000000 | Rate: 1.00 | Evals: 80.0%
-Iter 7 | Best: 0.000000 | Rate: 1.00 | Evals: 85.0%
-Iter 8 | Best: 0.000000 | Rate: 1.00 | Evals: 90.0%
-Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.89 | Evals: 95.0%
-Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.80 | Evals: 100.0%
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260304_125428
+TensorBoard logging enabled: runs/spotoptim_20260315_225258
+Initial best: f(x) = 3.925721
+Iter 1 | Best: 0.020506 | Rate: 1.00 | Evals: 55.0%
+Iter 2 | Best: 0.000751 | Rate: 1.00 | Evals: 60.0%
+Iter 3 | Best: 0.000024 | Rate: 1.00 | Evals: 65.0%
+Iter 4 | Best: 0.000000 | Rate: 1.00 | Evals: 70.0%
+Iter 5 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.80 | Evals: 75.0%
+Iter 6 | Best: 0.000000 | Rate: 0.83 | Evals: 80.0%
+Iter 7 | Best: 0.000000 | Rate: 0.86 | Evals: 85.0%
+Iter 8 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.75 | Evals: 90.0%
+Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.67 | Evals: 95.0%
+Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.60 | Evals: 100.0%
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260315_225258
 Best value: 0.000000</code></pre>
 </div>
 </div>
@@ -908,7 +910,7 @@ Best value: 0.000000</code></pre>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best value: 2.305707</code></pre>
+<pre><code>Best value: 3.784490</code></pre>
 </div>
 </div>
 </div>
@@ -937,7 +939,7 @@ Best value: 0.000000</code></pre>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best value: 2.319523</code></pre>
+<pre><code>Best value: 3.734393</code></pre>
 </div>
 </div>
 </div>
@@ -1039,23 +1041,23 @@ Best value: 0.000000</code></pre>
 <span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Logs saved to: runs/</span><span class="sc">{</span>optimizer<span class="sc">.</span>tensorboard_path<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Removed old TensorBoard logs: runs/spotoptim_20260304_125440
+<pre><code>Removed old TensorBoard logs: runs/spotoptim_20260315_225306
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260304_125440
-Initial best: f(x) = 2.420807
-Iter 1 | Best: 2.390298 | Rate: 1.00 | Evals: 55.0%
-Iter 2 | Best: 1.813143 | Rate: 1.00 | Evals: 60.0%
-Iter 3 | Best: 0.004420 | Rate: 1.00 | Evals: 65.0%
-Iter 4 | Best: 0.000290 | Rate: 1.00 | Evals: 70.0%
-Iter 5 | Best: 0.000052 | Rate: 1.00 | Evals: 75.0%
-Iter 6 | Best: 0.000000 | Rate: 1.00 | Evals: 80.0%
-Iter 7 | Best: 0.000000 | Rate: 1.00 | Evals: 85.0%
-Iter 8 | Best: 0.000000 | Rate: 1.00 | Evals: 90.0%
-Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.89 | Evals: 95.0%
-Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.80 | Evals: 100.0%
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260304_125440
+TensorBoard logging enabled: runs/spotoptim_20260315_225306
+Initial best: f(x) = 3.925721
+Iter 1 | Best: 0.020506 | Rate: 1.00 | Evals: 55.0%
+Iter 2 | Best: 0.000751 | Rate: 1.00 | Evals: 60.0%
+Iter 3 | Best: 0.000024 | Rate: 1.00 | Evals: 65.0%
+Iter 4 | Best: 0.000000 | Rate: 1.00 | Evals: 70.0%
+Iter 5 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.80 | Evals: 75.0%
+Iter 6 | Best: 0.000000 | Rate: 0.83 | Evals: 80.0%
+Iter 7 | Best: 0.000000 | Rate: 0.86 | Evals: 85.0%
+Iter 8 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.75 | Evals: 90.0%
+Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.67 | Evals: 95.0%
+Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.60 | Evals: 100.0%
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260315_225306
 Best value: 0.000000
-Logs saved to: runs/runs/spotoptim_20260304_125440</code></pre>
+Logs saved to: runs/runs/spotoptim_20260315_225306</code></pre>
 </div>
 </div>
 </section>

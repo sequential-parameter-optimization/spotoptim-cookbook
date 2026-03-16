@@ -63,7 +63,7 @@ result = opt.optimize()
     *   Combines the generated design with any user-provided `X0`.
 *   **Output**: Array `X` of initial design points in Natural Space.
 
-### `SpotOptim._curate_initial_design`
+### `SpotOptim.curate_initial_design`
 
 *   **Input**: Raw initial design points `X`.
 *   **Processing**: 
@@ -321,14 +321,14 @@ val = spot.transform_value(100, "log10") # 2.0
 orig = spot.inverse_transform_value(2.0, "log10") # 100.0
 ```
 
-#### `_transform_X` / `_inverse_transform_X`
+#### `transform_X` / `inverse_transform_X`
 
 Applies or reverses transformations on valid X arrays (batch processing).
 
 ```python
 X = np.array([[10, 100]])
 # Assuming log10 transform for both
-X_trans = spot._transform_X(X) # [[1.0, 2.0]]
+X_trans = spot.transform_X(X) # [[1.0, 2.0]]
 ```
 
 ### Initial Design
@@ -343,20 +343,20 @@ Generates or retrieves the initial set of points to evaluate. Supports optional 
 X_init = spot.get_initial_design()
 ```
 
-#### `_generate_initial_design`
+#### `generate_initial_design`
 
 Internal method to generate Latin Hypercube Sampling (LHS) design.
 
 ```python
-X_lhs = spot._generate_initial_design()
+X_lhs = spot.generate_initial_design()
 ```
 
-#### `_curate_initial_design`
+#### `curate_initial_design`
 
 Combines generated design with user-provided `x0` and ensures valid bounds.
 
 ```python
-X_curated = spot._curate_initial_design(X_lhs)
+X_curated = spot.curate_initial_design(X_lhs)
 ```
 
 ### Surrogate & Acquisition

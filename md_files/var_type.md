@@ -45,7 +45,7 @@ The `var_type` parameter is properly propagated throughout the optimization proc
    - Stored as `self.var_type`
    - Default: `["float"] * n_dim` if not specified
 
-2. **Initial Design Generation** (`_generate_initial_design`):
+2. **Initial Design Generation** (`generate_initial_design`):
 
    - Applies type constraints via `repair_non_numeric()`
    - Ensures initial points respect variable types

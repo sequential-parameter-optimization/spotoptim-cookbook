@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>25&nbsp; The TorchObjective Class for Hyperparameter Tuning – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./multiobjective.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -732,7 +734,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="define-the-model" class="level3" data-number="25.3.1">
 <h3 data-number="25.3.1" class="anchored" data-anchor-id="define-the-model"><span class="header-section-number">25.3.1</span> 1. Define the Model</h3>
 <p>You can use any standard PyTorch model. For this example, we’ll use the built-in <code>MLP</code> class from <code>spotoptim.nn.mlp</code>, but you could define your own <code>nn.Module</code>.</p>
-<div id="e343c79c" class="cell" data-execution_count="1">
+<div id="02e21b43" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.mlp <span class="im">import</span> MLP</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -741,7 +743,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="prepare-the-data" class="level3" data-number="25.3.2">
 <h3 data-number="25.3.2" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">25.3.2</span> 2. Prepare the Data</h3>
 <p>Load your data (numpy arrays or tensors) and wrap it in <code>SpotDataFromArray</code>.</p>
-<div id="d22a5d07" class="cell" data-execution_count="2">
+<div id="01ab8ad1" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -771,7 +773,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="define-hyperparameters" class="level3" data-number="25.3.3">
 <h3 data-number="25.3.3" class="anchored" data-anchor-id="define-hyperparameters"><span class="header-section-number">25.3.3</span> 3. Define Hyperparameters</h3>
 <p>Use <code>ParameterSet</code> to define the search space. You can tune floats, integers, and categorical factors.</p>
-<div id="4fb62c7a" class="cell" data-execution_count="3">
+<div id="31de2fdd" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.hyperparameters <span class="im">import</span> ParameterSet</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> ParameterSet()</span>
@@ -844,7 +846,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="create-experiment-control" class="level3" data-number="25.3.4">
 <h3 data-number="25.3.4" class="anchored" data-anchor-id="create-experiment-control"><span class="header-section-number">25.3.4</span> 4. Create Experiment Control</h3>
 <p>Bundles the configuration together.</p>
-<div id="b5da8f45" class="cell" data-execution_count="4">
+<div id="3a3ee4a9" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.core.experiment <span class="im">import</span> ExperimentControl</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -864,7 +866,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="initialize-torchobjective" class="level3" data-number="25.3.5">
 <h3 data-number="25.3.5" class="anchored" data-anchor-id="initialize-torchobjective"><span class="header-section-number">25.3.5</span> 5. Initialize TorchObjective</h3>
 <p>This wraps the experiment into a callable function that <code>SpotOptim</code> can use.</p>
-<div id="3c5e240b" class="cell" data-execution_count="5">
+<div id="2c1b28ec" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.torch_objective <span class="im">import</span> TorchObjective</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>objective <span class="op">=</span> TorchObjective(experiment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -873,7 +875,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="run-optimization" class="level3" data-number="25.3.6">
 <h3 data-number="25.3.6" class="anchored" data-anchor-id="run-optimization"><span class="header-section-number">25.3.6</span> 6. Run Optimization</h3>
 <p>Now use <code>SpotOptim</code> to find the best hyperparameters.</p>
-<div id="807b147a" class="cell" data-execution_count="6">
+<div id="dc2cf6e3" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -899,22 +901,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Best Validation Loss: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.5f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 0.629256
-Iter 1 | Best: 0.625072 | Rate: 1.00 | Evals: 60.0%
-Iter 2 | Best: 0.589601 | Rate: 1.00 | Evals: 70.0%
-Iter 3 | Best: 0.582549 | Rate: 1.00 | Evals: 80.0%
-Iter 4 | Best: 0.582549 | Curr: 0.588082 | Rate: 0.75 | Evals: 90.0%
-Iter 5 | Best: 0.582549 | Curr: 0.585721 | Rate: 0.60 | Evals: 100.0%
+Initial best: f(x) = 0.451601
+Iter 1 | Best: 0.451601 | Curr: 0.566953 | Rate: 0.00 | Evals: 60.0%
+Optimizer candidate 1/3 was duplicate/invalid.
+Iter 2 | Best: 0.446584 | Rate: 0.50 | Evals: 70.0%
+Iter 3 | Best: 0.446584 | Curr: 1.018053 | Rate: 0.33 | Evals: 80.0%
+Iter 4 | Best: 0.446584 | Curr: 0.504953 | Rate: 0.25 | Evals: 90.0%
+Iter 5 | Best: 0.446584 | Curr: 0.504961 | Rate: 0.20 | Evals: 100.0%
 
 Best Configuration Found:
-lr: 0.1
+lr: 0.028975719181608448
 num_hidden_layers: 2
-l1: 77
-dropout: 0.5
-epochs: 23
-batch_size: 254
+l1: 35
+dropout: 0.07075743906046855
+epochs: 20
+batch_size: 128
 
-Best Validation Loss: 0.58255</code></pre>
+Best Validation Loss: 0.44658</code></pre>
 </div>
 </div>
 </section>
@@ -936,7 +939,7 @@ Best Validation Loss: 0.58255</code></pre>
 <li><strong>Optimization method</strong>: You can even tune the optimizer itself (e.g., “Adam” vs “SGD”) if you add it as a factor hyperparameter and your model class supports a <code>get_optimizer</code> method (like <code>MLP</code> does).</li>
 </ul>
 <p>Example adding optimizer tuning:</p>
-<div id="d866e454" class="cell" data-execution_count="7">
+<div id="2ca34303" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add optimizer choice</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>params.add_factor(<span class="st">"optimizer"</span>, [<span class="st">"Adam"</span>, <span class="st">"SGD"</span>, <span class="st">"RMSprop"</span>], default<span class="op">=</span><span class="st">"Adam"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">

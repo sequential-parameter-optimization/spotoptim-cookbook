@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>11&nbsp; Variable Transformations for Search Space Scaling – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./factor_variables.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -789,7 +791,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="11.3" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">11.3</span> Quick Start</h2>
 <section id="basic-log-scale-transformation" class="level3" data-number="11.3.1">
 <h3 data-number="11.3.1" class="anchored" data-anchor-id="basic-log-scale-transformation"><span class="header-section-number">11.3.1</span> Basic Log-Scale Transformation</h3>
-<div id="4066b1e3" class="cell" data-execution_count="1">
+<div id="23bffc02" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -826,9 +828,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best alpha: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)   <span class="co"># In original scale</span></span>
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best score: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best lr: 0.001802
-Best alpha: 0.142239
-Best score: -0.017281</code></pre>
+<pre><code>Best lr: 0.006994
+Best alpha: 0.125346
+Best score: -0.018481</code></pre>
 </div>
 </div>
 </section>
@@ -951,7 +953,7 @@ Best score: -0.017281</code></pre>
 <h2 data-number="11.5" class="anchored" data-anchor-id="detailed-examples"><span class="header-section-number">11.5</span> Detailed Examples</h2>
 <section id="example-1-neural-network-hyperparameter-tuning" class="level3" data-number="11.5.1">
 <h3 data-number="11.5.1" class="anchored" data-anchor-id="example-1-neural-network-hyperparameter-tuning"><span class="header-section-number">11.5.1</span> Example 1: Neural Network Hyperparameter Tuning</h3>
-<div id="73aaff57" class="cell" data-execution_count="2">
+<div id="8f13a8a3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -1046,49 +1048,49 @@ Best score: -0.017281</code></pre>
 <span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Weight Decay: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">3</span>]<span class="sc">:.8f}</span><span class="ss">"</span>)</span>
 <span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best Loss: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Training: hidden=225, layers=3, lr=0.001748, wd=0.000001
-Training: hidden=81, layers=2, lr=0.003730, wd=0.000003
-Training: hidden=25, layers=2, lr=0.000615, wd=0.001695
-Training: hidden=49, layers=2, lr=0.000147, wd=0.000204
-Training: hidden=196, layers=4, lr=0.007107, wd=0.000009
-Training: hidden=121, layers=4, lr=0.025632, wd=0.000017
-Training: hidden=100, layers=2, lr=0.072441, wd=0.000096
-Training: hidden=169, layers=1, lr=0.000238, wd=0.004102
-Training: hidden=100, layers=3, lr=0.001146, wd=0.001331
-Training: hidden=36, layers=3, lr=0.021475, wd=0.000340
-Training: hidden=81, layers=2, lr=0.004253, wd=0.000003
-Training: hidden=100, layers=3, lr=0.014076, wd=0.000046
-Training: hidden=25, layers=3, lr=0.054213, wd=0.000640
-Training: hidden=36, layers=3, lr=0.066365, wd=0.000443
-Training: hidden=25, layers=3, lr=0.010534, wd=0.000482
-Training: hidden=81, layers=2, lr=0.008130, wd=0.000001
-Training: hidden=100, layers=4, lr=0.003571, wd=0.001299
-Training: hidden=100, layers=2, lr=0.005130, wd=0.000003
-Training: hidden=36, layers=3, lr=0.017729, wd=0.000306
-Training: hidden=36, layers=3, lr=0.015201, wd=0.003179
-Training: hidden=16, layers=2, lr=0.006330, wd=0.004677
-Training: hidden=36, layers=3, lr=0.019835, wd=0.001002
-Training: hidden=25, layers=3, lr=0.009340, wd=0.010000
-Training: hidden=100, layers=3, lr=0.003792, wd=0.001357
-Training: hidden=100, layers=4, lr=0.001453, wd=0.001111
-Training: hidden=225, layers=4, lr=0.005374, wd=0.000001
-Training: hidden=36, layers=3, lr=0.029713, wd=0.000263
-Training: hidden=225, layers=4, lr=0.004695, wd=0.000001
-Training: hidden=100, layers=4, lr=0.009017, wd=0.001886
-Training: hidden=36, layers=3, lr=0.024416, wd=0.000453
+<pre><code>Training: hidden=64, layers=2, lr=0.000865, wd=0.000189
+Training: hidden=36, layers=3, lr=0.000399, wd=0.000008
+Training: hidden=256, layers=3, lr=0.067021, wd=0.001348
+Training: hidden=121, layers=3, lr=0.004622, wd=0.000093
+Training: hidden=81, layers=1, lr=0.015013, wd=0.000395
+Training: hidden=169, layers=2, lr=0.028644, wd=0.001817
+Training: hidden=144, layers=1, lr=0.002881, wd=0.000002
+Training: hidden=16, layers=2, lr=0.010144, wd=0.000004
+Training: hidden=225, layers=3, lr=0.000118, wd=0.000022
+Training: hidden=36, layers=4, lr=0.000249, wd=0.009479
+Training: hidden=100, layers=1, lr=0.078444, wd=0.000511
+Training: hidden=81, layers=1, lr=0.023917, wd=0.000397
+Training: hidden=169, layers=2, lr=0.028643, wd=0.001817
+Training: hidden=16, layers=2, lr=0.000102, wd=0.001086
+Training: hidden=64, layers=4, lr=0.000225, wd=0.000240
+Training: hidden=81, layers=4, lr=0.003784, wd=0.000055
+Training: hidden=169, layers=2, lr=0.027054, wd=0.000178
+Training: hidden=121, layers=2, lr=0.000160, wd=0.000013
+Training: hidden=144, layers=3, lr=0.002703, wd=0.000007
+Training: hidden=36, layers=3, lr=0.002135, wd=0.000011
+Training: hidden=169, layers=1, lr=0.001179, wd=0.000004
+Training: hidden=25, layers=2, lr=0.000623, wd=0.000003
+Training: hidden=225, layers=1, lr=0.001004, wd=0.000034
+Training: hidden=36, layers=2, lr=0.000801, wd=0.006857
+Training: hidden=144, layers=3, lr=0.019064, wd=0.000012
+Training: hidden=169, layers=2, lr=0.012557, wd=0.000008
+Training: hidden=196, layers=1, lr=0.000193, wd=0.000006
+Training: hidden=100, layers=2, lr=0.051442, wd=0.000001
+Training: hidden=81, layers=2, lr=0.004826, wd=0.000092
+Training: hidden=81, layers=3, lr=0.017191, wd=0.000467
 
 Best Configuration:
   Hidden Size: 100
-  Num Layers: 4
-  Learning Rate: 0.003571
-  Weight Decay: 0.00129949
-  Best Loss: 2544.152832</code></pre>
+  Num Layers: 2
+  Learning Rate: 0.051442
+  Weight Decay: 0.00000135
+  Best Loss: 2661.811523</code></pre>
 </div>
 </div>
 </section>
 <section id="example-2-physics-informed-neural-networks-pinns" class="level3" data-number="11.5.2">
 <h3 data-number="11.5.2" class="anchored" data-anchor-id="example-2-physics-informed-neural-networks-pinns"><span class="header-section-number">11.5.2</span> Example 2: Physics-Informed Neural Networks (PINNs)</h3>
-<div id="7a9276e2" class="cell" data-execution_count="3">
+<div id="ae765e17" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1131,18 +1133,18 @@ Best Configuration:
 <pre><code>
 Best Solution Found:
 --------------------------------------------------
-  neurons: 44
-  layers: 2
-  lr: 3.6299
-  alpha: 0.1073
-  Objective Value: 0.0138
+  neurons: 38
+  layers: 1
+  lr: 3.6651
+  alpha: 0.1074
+  Objective Value: 0.0154
   Total Evaluations: 20</code></pre>
 </div>
 </div>
 </section>
 <section id="example-3-mixing-transformations" class="level3" data-number="11.5.3">
 <h3 data-number="11.5.3" class="anchored" data-anchor-id="example-3-mixing-transformations"><span class="header-section-number">11.5.3</span> Example 3: Mixing Transformations</h3>
-<div id="7d9c308c" class="cell" data-execution_count="4">
+<div id="fa7a2941" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1191,7 +1193,7 @@ Best Solution Found:
 <p>The transformation type is displayed in the “trans” column of both design and results tables:</p>
 <section id="design-table-before-optimization" class="level3" data-number="11.6.1">
 <h3 data-number="11.6.1" class="anchored" data-anchor-id="design-table-before-optimization"><span class="header-section-number">11.6.1</span> Design Table (Before Optimization)</h3>
-<div id="1c149fdd" class="cell" data-execution_count="5">
+<div id="e1d774e6" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1229,7 +1231,7 @@ Best Solution Found:
 </section>
 <section id="results-table-after-optimization" class="level3" data-number="11.6.2">
 <h3 data-number="11.6.2" class="anchored" data-anchor-id="results-table-after-optimization"><span class="header-section-number">11.6.2</span> Results Table (After Optimization)</h3>
-<div id="ed758114" class="cell" data-execution_count="6">
+<div id="7a9317dc" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results with transformations</span></span>
@@ -1237,10 +1239,10 @@ Best Solution Found:
 <div class="cell-output cell-output-stdout">
 <pre><code>|    name |   type |   default |   lower |   upper |   tuned |   transform |
 |---------|--------|-----------|---------|---------|---------|-------------|
-|      lr |  float |    0.5005 |   0.001 |       1 |   0.002 |       log10 |
-|   alpha |  float |     5.005 |    0.01 |      10 |  4.7988 |         log |
-| neurons |  float |       505 |      10 |    1000 | 23.6349 |        sqrt |
-|    bias |  float |         0 |      -5 |       5 | -0.9533 |           - |</code></pre>
+|      lr |  float |    0.5005 |   0.001 |       1 |  0.0207 |       log10 |
+|   alpha |  float |     5.005 |    0.01 |      10 |  1.3041 |         log |
+| neurons |  float |       505 |      10 |    1000 | 25.9011 |        sqrt |
+|    bias |  float |         0 |      -5 |       5 |  0.7806 |           - |</code></pre>
 </div>
 </div>
 <p>Output shows the “trans” column with transformation types, helping you understand which parameters were optimized in which scale.</p>
@@ -1275,13 +1277,13 @@ Storage &amp; Results (Original Scale)</code></pre>
 <li>Transforms <code>_original_lower</code> and <code>_original_upper</code> → <code>lower</code> and <code>upper</code></li>
 <li>Updates <code>self.bounds</code> for internal use</li>
 </ul></li>
-<li><p><strong>Forward Transformation</strong> (<code>_transform_X()</code>):</p>
+<li><p><strong>Forward Transformation</strong> (<code>transform_X()</code>):</p>
 <ul>
 <li>Converts from original scale to transformed scale</li>
 <li>Used before surrogate fitting</li>
 <li>Used when comparing distances</li>
 </ul></li>
-<li><p><strong>Inverse Transformation</strong> (<code>_inverse_transform_X()</code>):</p>
+<li><p><strong>Inverse Transformation</strong> (<code>inverse_transform_X()</code>):</p>
 <ul>
 <li>Converts from transformed scale to original scale</li>
 <li>Used before function evaluation</li>

@@ -9,11 +9,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete contributor workflow (uv
 
 ## Workflow
 
-- Work on `develop` and open pull requests to `main` for publication.
-- CI (`ci-pytest.yml`) runs only `pytest` on pushes to `develop`, pushes to `main`, and pull requests.
-- Quarto rendering is performed locally on `develop`.
-- GitHub Pages deployment (`deploy-pages.yml`) runs only after successful CI on `main` and publishes the committed `docs/` folder.
-- No personal access token is required for this setup; the workflow uses GitHub’s built-in `GITHUB_TOKEN`.
+* Work on `develop` and open pull requests to `main` for publication.
+* CI (`ci-pytest.yml`) runs only `pytest` on pushes to `develop`, pushes to `main`, and pull requests.
+* Quarto rendering is performed locally on `develop`.
+* GitHub Pages deployment (`deploy-pages.yml`) runs only after successful CI on `main` and publishes the committed `docs/` folder.
+* GitHub Release publishing (`publish-release.yml`) runs after successful Pages deployment on `main` (or manually via workflow dispatch).
+* No personal access token is required for this setup; the workflow uses GitHub’s built-in `GITHUB_TOKEN`.
+
+Release tags use the `pages-<sha12>` format to keep each release directly traceable to the exact commit that was deployed to GitHub Pages.
 
 ### Publish flow (contributors)
 
@@ -22,6 +25,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete contributor workflow (uv
 3. Commit both source changes and updated `docs/` output.
 4. Open and merge a pull request into `main`.
 5. GitHub Actions runs `ci-pytest.yml` and then `deploy-pages.yml` publishes Pages from `docs/`.
+6. After Pages deployment succeeds, `publish-release.yml` creates or updates a GitHub Release for that published commit.
 
 ## Local development (uv)
 

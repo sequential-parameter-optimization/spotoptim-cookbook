@@ -1,0 +1,89 @@
+name: Publish Release
+
+# Uses pages-<sha12> tags so each release maps to the exact commit deployed to GitHub Pages.
+
+on:
+  workflow_run:
+    workflows:
+      - Deploy Pages
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Commit SHA, tag, or branch to release"
+        required: false
+        default: "main"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-release-${{ github.event.workflow_run.head_sha || github.event.inputs.target || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve release metadata
+        id: meta
+        env:
+          WORKFLOW_SHA: ${{ github.event.workflow_run.head_sha }}
+          WORKFLOW_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          DISPATCH_TARGET: ${{ github.event.inputs.target }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_run" ]; then
+            target="$WORKFLOW_SHA"
+            branch="$WORKFLOW_BRANCH"
+          else
+            target="${DISPATCH_TARGET:-main}"
+            branch="manual"
+          fi
+
+          short_target="$(printf '%s' "$target" | cut -c1-12)"
+          timestamp="$(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          tag="pages-${short_target}"
+          name="Pages release ${timestamp} (${short_target})"
+
+          {
+            echo "target=${target}"
+            echo "branch=${branch}"
+            echo "tag=${tag}"
+            echo "name=${name}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET: ${{ steps.meta.outputs.target }}
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          TAG: ${{ steps.meta.outputs.tag }}
+          NAME: ${{ steps.meta.outputs.name }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          notes=$(cat <<EOF
+          Automated release for ${REPOSITORY}
+
+          - Source: ${TARGET}
+          - Trigger branch: ${BRANCH}
+          - Triggered by: ${GITHUB_WORKFLOW}
+          EOF
+          )
+
+          if gh release view "$TAG" --repo "$REPOSITORY" >/dev/null 2>&1; then
+            gh release edit "$TAG" \
+              --repo "$REPOSITORY" \
+              --title "$NAME" \
+              --notes "$notes" \
+              --latest
+          else
+            gh release create "$TAG" \
+              --repo "$REPOSITORY" \
+              --target "$TARGET" \
+              --title "$NAME" \
+              --notes "$notes" \
+              --latest
+          fi
