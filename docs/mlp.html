@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>26&nbsp; The MLP Class – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./torch_objective.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -713,7 +715,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="initialization" class="level3" data-number="26.2.1">
 <h3 data-number="26.2.1" class="anchored" data-anchor-id="initialization"><span class="header-section-number">26.2.1</span> Initialization</h3>
 <p>You can initialize an MLP by describing its architecture explicitly.</p>
-<div id="703d746c" class="cell" data-execution_count="1">
+<div id="52a472d1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.nn.mlp <span class="im">import</span> MLP</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -745,7 +747,7 @@ Output shape: torch.Size([5, 1])</code></pre>
 <section id="implicit-architecture-width-depth" class="level3" data-number="26.2.2">
 <h3 data-number="26.2.2" class="anchored" data-anchor-id="implicit-architecture-width-depth"><span class="header-section-number">26.2.2</span> Implicit Architecture (Width &amp; Depth)</h3>
 <p>For hyperparameter tuning, it is often easier to control the network’s size with just two numbers: width and depth.</p>
-<div id="62633c45" class="cell" data-execution_count="2">
+<div id="c48946d9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a network with 3 hidden layers, each having 64 neurons</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model_compact <span class="op">=</span> MLP(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    in_channels<span class="op">=</span><span class="dv">10</span>,</span>
@@ -794,7 +796,7 @@ Note
 <li><strong><code>dropout</code></strong>: Dropout probability applied after each layer (default: 0.0).</li>
 <li><strong><code>bias</code></strong>: Whether to use bias in linear layers (default: <code>True</code>).</li>
 </ul>
-<div id="6c8ee8d7" class="cell" data-execution_count="3">
+<div id="ba6f4a5a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model_custom <span class="op">=</span> MLP(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    in_channels<span class="op">=</span><span class="dv">10</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    hidden_channels<span class="op">=</span>[<span class="dv">32</span>, <span class="dv">1</span>],</span>
@@ -816,7 +818,7 @@ Note
 <section id="optimizer-integration" class="level2" data-number="26.4">
 <h2 data-number="26.4" class="anchored" data-anchor-id="optimizer-integration"><span class="header-section-number">26.4</span> Optimizer Integration</h2>
 <p>The <code>MLP</code> class simplifies optimizer creation, specifically handling the “unified learning rate” concept used in SpotOptim (where different optimizers have their default learning rates mapped to a common scale).</p>
-<div id="de95255d" class="cell" data-execution_count="4">
+<div id="9c752880" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create model with a unified learning rate of 1.0 (default)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> MLP(in_channels<span class="op">=</span><span class="dv">10</span>, hidden_channels<span class="op">=</span>[<span class="dv">32</span>, <span class="dv">1</span>], lr<span class="op">=</span><span class="fl">1.0</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -833,7 +835,7 @@ SGD lr: 0.01</code></pre>
 </div>
 </div>
 <p>You can also pass extra arguments to the optimizer:</p>
-<div id="f7f0944f" class="cell" data-execution_count="5">
+<div id="7bfff626" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SGD with momentum</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>opt_sgd_mom <span class="op">=</span> model.get_optimizer(<span class="st">"SGD"</span>, momentum<span class="op">=</span><span class="fl">0.9</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(opt_sgd_mom)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -856,7 +858,7 @@ Parameter Group 0
 <section id="hyperparameter-tuning" class="level2" data-number="26.5">
 <h2 data-number="26.5" class="anchored" data-anchor-id="hyperparameter-tuning"><span class="header-section-number">26.5</span> Hyperparameter Tuning</h2>
 <p>One of the key features of the <code>MLP</code> class is its ability to suggest a default <code>ParameterSet</code> for tuning. This provides a great starting point for finding the best architecture.</p>
-<div id="150d082b" class="cell" data-execution_count="6">
+<div id="152805b3" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.hyperparameters <span class="im">import</span> ParameterSet</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get default search space</span></span>
@@ -869,7 +871,7 @@ Parameter Group 0
 <section id="example-tuning-with-spotoptim" class="level3" data-number="26.5.1">
 <h3 data-number="26.5.1" class="anchored" data-anchor-id="example-tuning-with-spotoptim"><span class="header-section-number">26.5.1</span> Example: Tuning with SpotOptim</h3>
 <p>Here is how you can use the <code>MLP</code> class in a full SpotOptim tuning loop using <code>TorchObjective</code>.</p>
-<div id="efae093d" class="cell" data-execution_count="7">
+<div id="a2d3b313" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.core.experiment <span class="im">import</span> ExperimentControl</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.core.data <span class="im">import</span> SpotDataFromArray</span>
@@ -920,7 +922,7 @@ Parameter Group 0
 <span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(objective._get_hyperparameters(res.x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best Parameters:
-{'l1': 64, 'num_hidden_layers': 1, 'activation': 'Sigmoid', 'lr': 28.28608490855804, 'optimizer': 'SGD', 'epochs': 10}</code></pre>
+{'l1': 64, 'num_hidden_layers': 2, 'activation': 'LeakyReLU', 'lr': 3.878308634750335, 'optimizer': 'Adam', 'epochs': 14}</code></pre>
 </div>
 </div>
 <p>This setup automatically tunes the architecture (<code>l1</code>, <code>num_hidden_layers</code>), usage of activation functions (<code>activation</code>), learning rate (<code>lr</code>), and optimization method (<code>optimizer</code>) if left in the parameter set.</p>
@@ -1346,7 +1348,7 @@ Parameter Group 0
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

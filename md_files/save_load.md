@@ -19,12 +19,12 @@ SpotOptim distinguishes between two types of saved data:
 
 | Component | Experiment | Result |
 |-----------|------------|--------|
-| Configuration (bounds, parameters) | ✓ | ✓ |
-| Objective function | ✓ | ✓ |
-| Evaluations (X, y) | ✗ | ✓ |
-| Best solution | ✗ | ✓ |
-| Surrogate model | Excluded* | ✓ |
-| TensorBoard writer | ✗ | ✗ |
+| Configuration (bounds, parameters) | x | x |
+| Objective function | x | x |
+| Evaluations (X, y) |  | x |
+| Best solution |  | x |
+| Surrogate model | Excluded* | x |
+| TensorBoard writer |  |  |
 
 : Robust Function Saving {#tbl-what-gets-saved}
 

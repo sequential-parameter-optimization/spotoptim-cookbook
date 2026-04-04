@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>8&nbsp; Restart Mechanism in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./spotoptim_parallel.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -726,7 +728,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-triggering-restarts" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="example-triggering-restarts"><span class="header-section-number">8.3</span> Example: Triggering Restarts</h2>
 <p>In this example, we set <code>restart_after_n</code> to a very small value (<code>5</code>) to intentionally force restarts and demonstrate the mechanism. We use a multimodal function where getting stuck is possible.</p>
-<div id="12cb30b5" class="cell" data-execution_count="1">
+<div id="23d50b18" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -752,64 +754,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 6.344720
-Iter 1 | Best: 5.666775 | Rate: 1.00 | Evals: 12.0%
-Iter 2 | Best: 4.435415 | Rate: 1.00 | Evals: 14.0%
-Iter 3 | Best: 3.255984 | Rate: 1.00 | Evals: 16.0%
-Iter 4 | Best: 1.314889 | Rate: 1.00 | Evals: 18.0%
-Iter 5 | Best: 1.314889 | Curr: 4.012669 | Rate: 0.80 | Evals: 20.0%
-Iter 6 | Best: 0.624721 | Rate: 0.80 | Evals: 22.0%
-Iter 7 | Best: 0.624721 | Curr: 2.574114 | Rate: 0.60 | Evals: 24.0%
-Iter 8 | Best: 0.065870 | Rate: 0.60 | Evals: 26.0%
-Iter 9 | Best: 0.065870 | Curr: 0.134478 | Rate: 0.40 | Evals: 28.0%
-Iter 10 | Best: 0.065870 | Curr: 0.223382 | Rate: 0.40 | Evals: 30.0%
-Iter 11 | Best: 0.065870 | Curr: 0.070814 | Rate: 0.20 | Evals: 32.0%
-Iter 12 | Best: 0.017807 | Rate: 0.40 | Evals: 34.0%
-Iter 13 | Best: 0.007839 | Rate: 0.40 | Evals: 36.0%
-Iter 14 | Best: 0.007839 | Curr: 0.016325 | Rate: 0.40 | Evals: 38.0%
-Iter 15 | Best: 0.007839 | Curr: 0.061267 | Rate: 0.40 | Evals: 40.0%
-Iter 16 | Best: 0.002594 | Rate: 0.60 | Evals: 42.0%
-Iter 17 | Best: 0.002594 | Curr: 13.235557 | Rate: 0.40 | Evals: 44.0%
-Iter 18 | Best: 0.002594 | Curr: 0.008438 | Rate: 0.20 | Evals: 46.0%
-Iter 19 | Best: 0.002594 | Curr: 5.154779 | Rate: 0.20 | Evals: 48.0%
-Iter 20 | Best: 0.002594 | Curr: 0.247292 | Rate: 0.20 | Evals: 50.0%
-Iter 21 | Best: 0.002594 | Curr: 0.002682 | Rate: 0.00 | Evals: 52.0%
-Iter 22 | Best: 0.002594 | Curr: 0.257035 | Rate: 0.00 | Evals: 54.0%
-Iter 23 | Best: 0.000775 | Rate: 0.20 | Evals: 56.0%
-Iter 24 | Best: 0.000775 | Curr: 4.463526 | Rate: 0.20 | Evals: 58.0%
-Iter 25 | Best: 0.000775 | Curr: 0.209147 | Rate: 0.20 | Evals: 60.0%
-Iter 26 | Best: 0.000775 | Curr: 12.044487 | Rate: 0.20 | Evals: 62.0%
-Iter 27 | Best: 0.000775 | Curr: 11.674073 | Rate: 0.20 | Evals: 64.0%
-Iter 28 | Best: 0.000775 | Curr: 8.419103 | Rate: 0.00 | Evals: 66.0%
-Iter 29 | Best: 0.000775 | Curr: 10.952484 | Rate: 0.00 | Evals: 68.0%
-Iter 30 | Best: 0.000775 | Curr: 0.064387 | Rate: 0.00 | Evals: 70.0%
-Iter 31 | Best: 0.000775 | Curr: 0.099192 | Rate: 0.00 | Evals: 72.0%
-Restarting optimization: success_rate 0 for 5 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.00012203 0.00024454]
-  Internal scale: [0.00012203 0.00024454]
-Restart injection: Using best found point so far as starting point (f(x)=0.000775).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 0.000775
-Iter 1 | Best: 0.000775 | Curr: 0.175968 | Rate: 0.00 | Evals: 84.0%
-Iter 2 | Best: 0.000775 | Curr: 1.515446 | Rate: 0.00 | Evals: 86.0%
-Iter 3 | Best: 0.000775 | Curr: 0.072560 | Rate: 0.00 | Evals: 88.0%
-Iter 4 | Best: 0.000775 | Curr: 1.118588 | Rate: 0.00 | Evals: 90.0%
-Restarting optimization: success_rate 0 for 5 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.00012203 0.00024454]
-  Internal scale: [0.00012203 0.00024454]
-Restart injection: Using best found point so far as starting point (f(x)=0.000775).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 0.000775</code></pre>
+Initial best: f(x) = 6.220297
+Iter 1 | Best: 6.219898 | Rate: 1.00 | Evals: 12.0%
+Iter 2 | Best: 6.073745 | Rate: 1.00 | Evals: 14.0%
+Iter 3 | Best: 4.573169 | Rate: 1.00 | Evals: 16.0%
+Iter 4 | Best: 3.122909 | Rate: 1.00 | Evals: 18.0%
+Iter 5 | Best: 2.198455 | Rate: 1.00 | Evals: 20.0%
+Iter 6 | Best: 2.198455 | Curr: 4.140366 | Rate: 0.80 | Evals: 22.0%
+Iter 7 | Best: 1.314004 | Rate: 0.80 | Evals: 24.0%
+Iter 8 | Best: 1.314004 | Curr: 3.943588 | Rate: 0.60 | Evals: 26.0%
+Iter 9 | Best: 1.314004 | Curr: 1.322184 | Rate: 0.40 | Evals: 28.0%
+Iter 10 | Best: 1.314004 | Curr: 1.456022 | Rate: 0.20 | Evals: 30.0%
+Iter 11 | Best: 0.051453 | Rate: 0.40 | Evals: 32.0%
+Iter 12 | Best: 0.051453 | Curr: 0.730353 | Rate: 0.20 | Evals: 34.0%
+Iter 13 | Best: 0.049606 | Rate: 0.40 | Evals: 36.0%
+Iter 14 | Best: 0.012631 | Rate: 0.60 | Evals: 38.0%
+Iter 15 | Best: 0.012631 | Curr: 0.108246 | Rate: 0.60 | Evals: 40.0%
+Iter 16 | Best: 0.009947 | Rate: 0.60 | Evals: 42.0%
+Iter 17 | Best: 0.002686 | Rate: 0.80 | Evals: 44.0%
+Iter 18 | Best: 0.002686 | Curr: 0.436242 | Rate: 0.60 | Evals: 46.0%
+Iter 19 | Best: 0.002686 | Curr: 0.458714 | Rate: 0.40 | Evals: 48.0%
+Iter 20 | Best: 0.002686 | Curr: 0.120530 | Rate: 0.40 | Evals: 50.0%
+Iter 21 | Best: 0.002686 | Curr: 0.028871 | Rate: 0.20 | Evals: 52.0%
+Iter 22 | Best: 0.002686 | Curr: 6.537854 | Rate: 0.00 | Evals: 54.0%
+Iter 23 | Best: 0.001674 | Rate: 0.20 | Evals: 56.0%
+Iter 24 | Best: 0.001674 | Curr: 0.325309 | Rate: 0.20 | Evals: 58.0%
+Iter 25 | Best: 0.001674 | Curr: 0.258793 | Rate: 0.20 | Evals: 60.0%
+Iter 26 | Best: 0.001674 | Curr: 12.737521 | Rate: 0.20 | Evals: 62.0%
+Iter 27 | Best: 0.001674 | Curr: 0.004981 | Rate: 0.20 | Evals: 64.0%
+Iter 28 | Best: 0.001674 | Curr: 0.006717 | Rate: 0.00 | Evals: 66.0%
+Iter 29 | Best: 0.001674 | Curr: 0.216296 | Rate: 0.00 | Evals: 68.0%
+Iter 30 | Best: 0.001674 | Curr: 10.404194 | Rate: 0.00 | Evals: 70.0%
+Iter 31 | Best: 0.000875 | Rate: 0.20 | Evals: 72.0%
+Iter 32 | Best: 0.000875 | Curr: 0.169536 | Rate: 0.20 | Evals: 74.0%
+Iter 33 | Best: 0.000875 | Curr: 0.000951 | Rate: 0.20 | Evals: 76.0%
+Iter 34 | Best: 0.000875 | Curr: 13.663256 | Rate: 0.20 | Evals: 78.0%
+Iter 35 | Best: 0.000875 | Curr: 0.001066 | Rate: 0.20 | Evals: 80.0%
+Iter 36 | Best: 0.000728 | Rate: 0.20 | Evals: 82.0%
+Iter 37 | Best: 0.000728 | Curr: 10.501517 | Rate: 0.20 | Evals: 84.0%
+Iter 38 | Best: 0.000728 | Curr: 0.033141 | Rate: 0.20 | Evals: 86.0%
+Iter 39 | Best: 0.000728 | Curr: 0.000917 | Rate: 0.20 | Evals: 88.0%
+Iter 40 | Best: 0.000728 | Curr: 0.000767 | Rate: 0.20 | Evals: 90.0%
+Iter 41 | Best: 0.000728 | Curr: 0.000818 | Rate: 0.00 | Evals: 92.0%
+Iter 42 | Best: 0.000725 | Rate: 0.20 | Evals: 94.0%
+Iter 43 | Best: 0.000725 | Curr: 11.095683 | Rate: 0.20 | Evals: 96.0%
+Iter 44 | Best: 0.000725 | Curr: 0.000927 | Rate: 0.20 | Evals: 98.0%
+Iter 45 | Best: 0.000725 | Curr: 0.000784 | Rate: 0.20 | Evals: 100.0%</code></pre>
 </div>
 </div>
 <section id="analyzing-restart-results" class="level3" data-number="8.3.1">
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="analyzing-restart-results"><span class="header-section-number">8.3.1</span> Analyzing Restart Results</h3>
 <p>You can access the results of each individual restart run via the <code>restarts_results_</code> attribute.</p>
-<div id="eecc854c" class="cell" data-execution_count="2">
+<div id="7c4c84f9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total global evaluations: </span><span class="sc">{</span>result<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of restarts performed: </span><span class="sc">{</span><span class="bu">len</span>(optimizer.restarts_results_) <span class="op">-</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value found globally: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
@@ -818,17 +814,15 @@ Initial best: f(x) = 0.000775</code></pre>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, res <span class="kw">in</span> <span class="bu">enumerate</span>(optimizer.restarts_results_):</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Run </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>res<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss"> evals, Best: </span><span class="sc">{</span>res<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">, Status: </span><span class="sc">{</span>res<span class="sc">.</span>message<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Total global evaluations: 36
-Number of restarts performed: 2
-Best value found globally: 0.000775
+<pre><code>Total global evaluations: 50
+Number of restarts performed: 0
+Best value found globally: 0.000725
 
 Breakdown by run:
-  Run 1: 36 evals, Best: 0.000775, Status: Restart triggered due to lack of improvement.
-  Run 2: 9 evals, Best: 0.000775, Status: Restart triggered due to lack of improvement.
-  Run 3: 5 evals, Best: 0.000775, Status: Optimization finished successfully
-         Current function value: 0.000775
-         Iterations: 0
-         Function evaluations: 5</code></pre>
+  Run 1: 50 evals, Best: 0.000725, Status: Optimization terminated: maximum evaluations (50) reached
+         Current function value: 0.000725
+         Iterations: 45
+         Function evaluations: 50</code></pre>
 </div>
 </div>
 </section>
@@ -855,39 +849,39 @@ Breakdown by run:
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>res_no_inject <span class="op">=</span> opt_no_inject.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 6.344720
-Iter 1 | Best: 5.666775 | Rate: 1.00 | Evals: 15.0%
-Iter 2 | Best: 4.435415 | Rate: 1.00 | Evals: 17.5%
-Iter 3 | Best: 3.255984 | Rate: 1.00 | Evals: 20.0%
-Iter 4 | Best: 1.314889 | Rate: 1.00 | Evals: 22.5%
-Iter 5 | Best: 1.314889 | Curr: 4.012669 | Rate: 0.67 | Evals: 25.0%
-Iter 6 | Best: 0.624721 | Rate: 0.67 | Evals: 27.5%
-Iter 7 | Best: 0.624721 | Curr: 2.574114 | Rate: 0.33 | Evals: 30.0%
-Iter 8 | Best: 0.065870 | Rate: 0.67 | Evals: 32.5%
-Iter 9 | Best: 0.065870 | Curr: 0.134478 | Rate: 0.33 | Evals: 35.0%
-Iter 10 | Best: 0.065870 | Curr: 0.223382 | Rate: 0.33 | Evals: 37.5%
-Iter 11 | Best: 0.065870 | Curr: 0.070814 | Rate: 0.00 | Evals: 40.0%
-Iter 12 | Best: 0.017807 | Rate: 0.33 | Evals: 42.5%
-Iter 13 | Best: 0.007839 | Rate: 0.67 | Evals: 45.0%
-Iter 14 | Best: 0.007839 | Curr: 0.016325 | Rate: 0.67 | Evals: 47.5%
-Iter 15 | Best: 0.007839 | Curr: 0.061267 | Rate: 0.33 | Evals: 50.0%
-Iter 16 | Best: 0.002594 | Rate: 0.33 | Evals: 52.5%
-Iter 17 | Best: 0.002594 | Curr: 13.235557 | Rate: 0.33 | Evals: 55.0%
-Iter 18 | Best: 0.002594 | Curr: 0.008438 | Rate: 0.33 | Evals: 57.5%
-Iter 19 | Best: 0.002594 | Curr: 5.154779 | Rate: 0.00 | Evals: 60.0%
-Iter 20 | Best: 0.002594 | Curr: 0.247292 | Rate: 0.00 | Evals: 62.5%
+Initial best: f(x) = 6.220297
+Iter 1 | Best: 6.219898 | Rate: 1.00 | Evals: 15.0%
+Iter 2 | Best: 6.073745 | Rate: 1.00 | Evals: 17.5%
+Iter 3 | Best: 4.573169 | Rate: 1.00 | Evals: 20.0%
+Iter 4 | Best: 3.122909 | Rate: 1.00 | Evals: 22.5%
+Iter 5 | Best: 2.198455 | Rate: 1.00 | Evals: 25.0%
+Iter 6 | Best: 2.198455 | Curr: 4.140366 | Rate: 0.67 | Evals: 27.5%
+Iter 7 | Best: 1.314004 | Rate: 0.67 | Evals: 30.0%
+Iter 8 | Best: 1.314004 | Curr: 3.943588 | Rate: 0.33 | Evals: 32.5%
+Iter 9 | Best: 1.314004 | Curr: 1.322184 | Rate: 0.33 | Evals: 35.0%
+Iter 10 | Best: 1.314004 | Curr: 1.456022 | Rate: 0.00 | Evals: 37.5%
+Iter 11 | Best: 0.051453 | Rate: 0.33 | Evals: 40.0%
+Iter 12 | Best: 0.051453 | Curr: 0.730353 | Rate: 0.33 | Evals: 42.5%
+Iter 13 | Best: 0.049606 | Rate: 0.67 | Evals: 45.0%
+Iter 14 | Best: 0.012631 | Rate: 0.67 | Evals: 47.5%
+Iter 15 | Best: 0.012631 | Curr: 0.108246 | Rate: 0.67 | Evals: 50.0%
+Iter 16 | Best: 0.009947 | Rate: 0.67 | Evals: 52.5%
+Iter 17 | Best: 0.002686 | Rate: 0.67 | Evals: 55.0%
+Iter 18 | Best: 0.002686 | Curr: 0.436242 | Rate: 0.67 | Evals: 57.5%
+Iter 19 | Best: 0.002686 | Curr: 0.458714 | Rate: 0.33 | Evals: 60.0%
+Iter 20 | Best: 0.002686 | Curr: 0.120530 | Rate: 0.00 | Evals: 62.5%
+Iter 21 | Best: 0.002686 | Curr: 0.028871 | Rate: 0.00 | Evals: 65.0%
 Restarting optimization: success_rate 0 for 3 iterations.
-Initial best: f(x) = 5.017297
-Iter 1 | Best: 5.017297 | Curr: 5.022083 | Rate: 0.00 | Evals: 77.5%
-Iter 2 | Best: 3.810866 | Rate: 0.50 | Evals: 80.0%
-Iter 3 | Best: 3.248264 | Rate: 0.67 | Evals: 82.5%
-Iter 4 | Best: 3.103790 | Rate: 1.00 | Evals: 85.0%
-Iter 5 | Best: 2.616620 | Rate: 1.00 | Evals: 87.5%
-Iter 6 | Best: 2.616620 | Curr: 3.867210 | Rate: 0.67 | Evals: 90.0%
-Iter 7 | Best: 0.921447 | Rate: 0.67 | Evals: 92.5%
-Iter 8 | Best: 0.921447 | Curr: 1.712803 | Rate: 0.33 | Evals: 95.0%
-Iter 9 | Best: 0.347228 | Rate: 0.67 | Evals: 97.5%
-Iter 10 | Best: 0.291980 | Rate: 0.67 | Evals: 100.0%</code></pre>
+Initial best: f(x) = 6.528733
+Iter 1 | Best: 6.528733 | Curr: 8.364141 | Rate: 0.00 | Evals: 80.0%
+Iter 2 | Best: 6.528733 | Curr: 11.508691 | Rate: 0.00 | Evals: 82.5%
+Iter 3 | Best: 6.519298 | Rate: 0.33 | Evals: 85.0%
+Iter 4 | Best: 6.049482 | Rate: 0.67 | Evals: 87.5%
+Iter 5 | Best: 6.049482 | Curr: 6.054160 | Rate: 0.67 | Evals: 90.0%
+Iter 6 | Best: 6.049482 | Curr: 6.143344 | Rate: 0.33 | Evals: 92.5%
+Iter 7 | Best: 6.049482 | Curr: 6.446290 | Rate: 0.00 | Evals: 95.0%
+Iter 8 | Best: 5.491161 | Rate: 0.33 | Evals: 97.5%
+Iter 9 | Best: 5.405562 | Rate: 0.67 | Evals: 100.0%</code></pre>
 </div>
 </div>
 <p>Run with injection ENABLED:</p>
@@ -905,62 +899,56 @@ Iter 10 | Best: 0.291980 | Rate: 0.67 | Evals: 100.0%</code></pre>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>res_inject <span class="op">=</span> opt_inject.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 6.344720
-Iter 1 | Best: 5.666775 | Rate: 1.00 | Evals: 15.0%
-Iter 2 | Best: 4.435415 | Rate: 1.00 | Evals: 17.5%
-Iter 3 | Best: 3.255984 | Rate: 1.00 | Evals: 20.0%
-Iter 4 | Best: 1.314889 | Rate: 1.00 | Evals: 22.5%
-Iter 5 | Best: 1.314889 | Curr: 4.012669 | Rate: 0.67 | Evals: 25.0%
-Iter 6 | Best: 0.624721 | Rate: 0.67 | Evals: 27.5%
-Iter 7 | Best: 0.624721 | Curr: 2.574114 | Rate: 0.33 | Evals: 30.0%
-Iter 8 | Best: 0.065870 | Rate: 0.67 | Evals: 32.5%
-Iter 9 | Best: 0.065870 | Curr: 0.134478 | Rate: 0.33 | Evals: 35.0%
-Iter 10 | Best: 0.065870 | Curr: 0.223382 | Rate: 0.33 | Evals: 37.5%
-Iter 11 | Best: 0.065870 | Curr: 0.070814 | Rate: 0.00 | Evals: 40.0%
-Iter 12 | Best: 0.017807 | Rate: 0.33 | Evals: 42.5%
-Iter 13 | Best: 0.007839 | Rate: 0.67 | Evals: 45.0%
-Iter 14 | Best: 0.007839 | Curr: 0.016325 | Rate: 0.67 | Evals: 47.5%
-Iter 15 | Best: 0.007839 | Curr: 0.061267 | Rate: 0.33 | Evals: 50.0%
-Iter 16 | Best: 0.002594 | Rate: 0.33 | Evals: 52.5%
-Iter 17 | Best: 0.002594 | Curr: 13.235557 | Rate: 0.33 | Evals: 55.0%
-Iter 18 | Best: 0.002594 | Curr: 0.008438 | Rate: 0.33 | Evals: 57.5%
-Iter 19 | Best: 0.002594 | Curr: 5.154779 | Rate: 0.00 | Evals: 60.0%
-Iter 20 | Best: 0.002594 | Curr: 0.247292 | Rate: 0.00 | Evals: 62.5%
+Initial best: f(x) = 6.220297
+Iter 1 | Best: 6.219898 | Rate: 1.00 | Evals: 15.0%
+Iter 2 | Best: 6.073745 | Rate: 1.00 | Evals: 17.5%
+Iter 3 | Best: 4.573169 | Rate: 1.00 | Evals: 20.0%
+Iter 4 | Best: 3.122909 | Rate: 1.00 | Evals: 22.5%
+Iter 5 | Best: 2.198455 | Rate: 1.00 | Evals: 25.0%
+Iter 6 | Best: 2.198455 | Curr: 4.140366 | Rate: 0.67 | Evals: 27.5%
+Iter 7 | Best: 1.314004 | Rate: 0.67 | Evals: 30.0%
+Iter 8 | Best: 1.314004 | Curr: 3.943588 | Rate: 0.33 | Evals: 32.5%
+Iter 9 | Best: 1.314004 | Curr: 1.322184 | Rate: 0.33 | Evals: 35.0%
+Iter 10 | Best: 1.314004 | Curr: 1.456022 | Rate: 0.00 | Evals: 37.5%
+Iter 11 | Best: 0.051453 | Rate: 0.33 | Evals: 40.0%
+Iter 12 | Best: 0.051453 | Curr: 0.730353 | Rate: 0.33 | Evals: 42.5%
+Iter 13 | Best: 0.049606 | Rate: 0.67 | Evals: 45.0%
+Iter 14 | Best: 0.012631 | Rate: 0.67 | Evals: 47.5%
+Iter 15 | Best: 0.012631 | Curr: 0.108246 | Rate: 0.67 | Evals: 50.0%
+Iter 16 | Best: 0.009947 | Rate: 0.67 | Evals: 52.5%
+Iter 17 | Best: 0.002686 | Rate: 0.67 | Evals: 55.0%
+Iter 18 | Best: 0.002686 | Curr: 0.436242 | Rate: 0.67 | Evals: 57.5%
+Iter 19 | Best: 0.002686 | Curr: 0.458714 | Rate: 0.33 | Evals: 60.0%
+Iter 20 | Best: 0.002686 | Curr: 0.120530 | Rate: 0.00 | Evals: 62.5%
+Iter 21 | Best: 0.002686 | Curr: 0.028871 | Rate: 0.00 | Evals: 65.0%
 Restarting optimization: success_rate 0 for 3 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.0004105  0.00081136]
-  Internal scale: [0.0004105  0.00081136]
-Restart injection: Using best found point so far as starting point (f(x)=0.002594).
+  Original scale: [-0.00083556  0.00043378]
+  Internal scale: [-0.00083556  0.00043378]
+Restart injection: Using best found point so far as starting point (f(x)=0.002686).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 0.002594
-Iter 1 | Best: 0.002594 | Curr: 0.178551 | Rate: 0.00 | Evals: 77.5%
-Iter 2 | Best: 0.002594 | Curr: 1.516292 | Rate: 0.00 | Evals: 80.0%
+Initial best: f(x) = 0.002686
+Iter 1 | Best: 0.002686 | Curr: 0.010840 | Rate: 0.00 | Evals: 80.0%
+Iter 2 | Best: 0.002686 | Curr: 2.949009 | Rate: 0.00 | Evals: 82.5%
 Restarting optimization: success_rate 0 for 3 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.0004105  0.00081136]
-  Internal scale: [0.0004105  0.00081136]
-Restart injection: Using best found point so far as starting point (f(x)=0.002594).
+  Original scale: [-0.00083556  0.00043378]
+  Internal scale: [-0.00083556  0.00043378]
+Restart injection: Using best found point so far as starting point (f(x)=0.002686).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 0.002594
-Optimizer candidate 1/3 was duplicate/invalid.
-Iter 1 | Best: 0.002594 | Curr: 3.586676 | Rate: 0.00 | Evals: 95.0%
-Iter 2 | Best: 0.002594 | Curr: 0.526351 | Rate: 0.00 | Evals: 97.5%
-Restarting optimization: success_rate 0 for 3 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.0004105  0.00081136]
-  Internal scale: [0.0004105  0.00081136]
-Restart injection: Using best found point so far as starting point (f(x)=0.002594).
-Global budget exhausted. Stopping restarts.</code></pre>
+Initial best: f(x) = 0.002686
+Iter 1 | Best: 0.002686 | Curr: 0.006207 | Rate: 0.00 | Evals: 97.5%
+Iter 2 | Best: 0.002686 | Curr: 2.246743 | Rate: 0.00 | Evals: 100.0%</code></pre>
 </div>
 </div>
 <div id="print_best-injection" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best without injection: </span><span class="sc">{</span>res_no_inject<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best with injection:    </span><span class="sc">{</span>res_inject<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best without injection: 0.002594
-Best with injection:    0.002594</code></pre>
+<pre><code>Best without injection: 0.002686
+Best with injection:    0.002686</code></pre>
 </div>
 </div>
 </section>
@@ -1397,7 +1385,7 @@ Best with injection:    0.002594</code></pre>
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

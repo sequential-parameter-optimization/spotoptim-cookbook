@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>14&nbsp; Save and Load in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./tensorboard.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -762,33 +764,33 @@ Table&nbsp;14.1: Robust Function Saving
 <tbody>
 <tr class="odd">
 <td>Configuration (bounds, parameters)</td>
-<td>✓</td>
-<td>✓</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="even">
 <td>Objective function</td>
-<td>✓</td>
-<td>✓</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="odd">
 <td>Evaluations (X, y)</td>
-<td>✗</td>
-<td>✓</td>
+<td></td>
+<td>x</td>
 </tr>
 <tr class="even">
 <td>Best solution</td>
-<td>✗</td>
-<td>✓</td>
+<td></td>
+<td>x</td>
 </tr>
 <tr class="odd">
 <td>Surrogate model</td>
 <td>Excluded*</td>
-<td>✓</td>
+<td>x</td>
 </tr>
 <tr class="even">
 <td>TensorBoard writer</td>
-<td>✗</td>
-<td>✗</td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -875,49 +877,47 @@ Experiment saved to remote_job_001_exp.pkl</code></pre>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>optimizer.save_result(prefix<span class="op">=</span><span class="st">"remote_job_001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded experiment from remote_job_001_exp.pkl
-Initial best: f(x) = 0.401500
-Iter 1 | Best: 0.401500 | Curr: 3.144045 | Rate: 0.00 | Evals: 22.0%
-Iter 2 | Best: 0.401500 | Curr: 3.090288 | Rate: 0.00 | Evals: 24.0%
-Iter 3 | Best: 0.401500 | Curr: 3.134246 | Rate: 0.00 | Evals: 26.0%
-Iter 4 | Best: 0.401500 | Curr: 4.923271 | Rate: 0.00 | Evals: 28.0%
-Iter 5 | Best: 0.401500 | Curr: 8.969293 | Rate: 0.00 | Evals: 30.0%
-Iter 6 | Best: 0.401500 | Curr: 2.900457 | Rate: 0.00 | Evals: 32.0%
-Iter 7 | Best: 0.401500 | Curr: 2.575128 | Rate: 0.00 | Evals: 34.0%
-Iter 8 | Best: 0.053917 | Rate: 0.12 | Evals: 36.0%
-Iter 9 | Best: 0.053917 | Curr: 4.109642 | Rate: 0.11 | Evals: 38.0%
-Iter 10 | Best: 0.053917 | Curr: 2.608862 | Rate: 0.10 | Evals: 40.0%
-Iter 11 | Best: 0.027850 | Rate: 0.18 | Evals: 42.0%
-Iter 12 | Best: 0.027850 | Curr: 0.036143 | Rate: 0.17 | Evals: 44.0%
-Iter 13 | Best: 0.007316 | Rate: 0.23 | Evals: 46.0%
-Iter 14 | Best: 0.007295 | Rate: 0.29 | Evals: 48.0%
-Iter 15 | Best: 0.005277 | Rate: 0.33 | Evals: 50.0%
-Iter 16 | Best: 0.005250 | Rate: 0.38 | Evals: 52.0%
-Optimizer candidate 1/3 was duplicate/invalid.
-Iter 17 | Best: 0.005237 | Rate: 0.41 | Evals: 54.0%
-Iter 18 | Best: 0.005233 | Rate: 0.44 | Evals: 56.0%
-Optimizer candidate 1/3 was duplicate/invalid.
-Iter 19 | Best: 0.005229 | Rate: 0.47 | Evals: 58.0%
-Iter 20 | Best: 0.005229 | Curr: 2.289402 | Rate: 0.45 | Evals: 60.0%
-Iter 21 | Best: 0.005229 | Curr: 2.145954 | Rate: 0.43 | Evals: 62.0%
-Iter 22 | Best: 0.005229 | Curr: 0.005249 | Rate: 0.41 | Evals: 64.0%
-Iter 23 | Best: 0.005229 | Curr: 2.119699 | Rate: 0.39 | Evals: 66.0%
-Iter 24 | Best: 0.005229 | Curr: 0.005251 | Rate: 0.38 | Evals: 68.0%
-Iter 25 | Best: 0.005229 | Curr: 2.047749 | Rate: 0.36 | Evals: 70.0%
-Iter 26 | Best: 0.005229 | Curr: 1.915910 | Rate: 0.35 | Evals: 72.0%
-Iter 27 | Best: 0.005229 | Curr: 0.005246 | Rate: 0.33 | Evals: 74.0%
-Iter 28 | Best: 0.005229 | Curr: 1.790990 | Rate: 0.32 | Evals: 76.0%
-Iter 29 | Best: 0.005218 | Rate: 0.34 | Evals: 78.0%
-Iter 30 | Best: 0.005218 | Curr: 0.005231 | Rate: 0.33 | Evals: 80.0%
-Iter 31 | Best: 0.005218 | Curr: 0.005219 | Rate: 0.32 | Evals: 82.0%
-Iter 32 | Best: 0.005218 | Curr: 1.682036 | Rate: 0.31 | Evals: 84.0%
-Iter 33 | Best: 0.005218 | Curr: 1.625492 | Rate: 0.30 | Evals: 86.0%
-Iter 34 | Best: 0.005205 | Rate: 0.32 | Evals: 88.0%
-Iter 35 | Best: 0.005205 | Curr: 1.529520 | Rate: 0.31 | Evals: 90.0%
-Iter 36 | Best: 0.005199 | Rate: 0.33 | Evals: 92.0%
-Iter 37 | Best: 0.005199 | Curr: 0.005206 | Rate: 0.32 | Evals: 94.0%
-Iter 38 | Best: 0.005199 | Curr: 1.492005 | Rate: 0.32 | Evals: 96.0%
-Iter 39 | Best: 0.005199 | Curr: 1.479335 | Rate: 0.31 | Evals: 98.0%
-Iter 40 | Best: 0.005199 | Curr: 1.212074 | Rate: 0.30 | Evals: 100.0%
+Initial best: f(x) = 6.724883
+Iter 1 | Best: 5.101220 | Rate: 1.00 | Evals: 22.0%
+Iter 2 | Best: 5.101220 | Curr: 5.993418 | Rate: 0.50 | Evals: 24.0%
+Iter 3 | Best: 5.101220 | Curr: 27.962855 | Rate: 0.33 | Evals: 26.0%
+Iter 4 | Best: 3.502881 | Rate: 0.50 | Evals: 28.0%
+Iter 5 | Best: 0.109105 | Rate: 0.60 | Evals: 30.0%
+Iter 6 | Best: 0.109105 | Curr: 1.546484 | Rate: 0.50 | Evals: 32.0%
+Iter 7 | Best: 0.109105 | Curr: 0.189299 | Rate: 0.43 | Evals: 34.0%
+Iter 8 | Best: 0.094800 | Rate: 0.50 | Evals: 36.0%
+Iter 9 | Best: 0.094800 | Curr: 0.104134 | Rate: 0.44 | Evals: 38.0%
+Iter 10 | Best: 0.090191 | Rate: 0.50 | Evals: 40.0%
+Iter 11 | Best: 0.090191 | Curr: 0.173564 | Rate: 0.45 | Evals: 42.0%
+Iter 12 | Best: 0.088743 | Rate: 0.50 | Evals: 44.0%
+Iter 13 | Best: 0.087323 | Rate: 0.54 | Evals: 46.0%
+Iter 14 | Best: 0.086664 | Rate: 0.57 | Evals: 48.0%
+Iter 15 | Best: 0.086326 | Rate: 0.60 | Evals: 50.0%
+Iter 16 | Best: 0.085972 | Rate: 0.62 | Evals: 52.0%
+Iter 17 | Best: 0.085745 | Rate: 0.65 | Evals: 54.0%
+Iter 18 | Best: 0.085327 | Rate: 0.67 | Evals: 56.0%
+Iter 19 | Best: 0.084739 | Rate: 0.68 | Evals: 58.0%
+Iter 20 | Best: 0.083735 | Rate: 0.70 | Evals: 60.0%
+Iter 21 | Best: 0.082218 | Rate: 0.71 | Evals: 62.0%
+Iter 22 | Best: 0.079632 | Rate: 0.73 | Evals: 64.0%
+Iter 23 | Best: 0.077030 | Rate: 0.74 | Evals: 66.0%
+Iter 24 | Best: 0.074785 | Rate: 0.75 | Evals: 68.0%
+Iter 25 | Best: 0.072569 | Rate: 0.76 | Evals: 70.0%
+Iter 26 | Best: 0.070410 | Rate: 0.77 | Evals: 72.0%
+Iter 27 | Best: 0.068688 | Rate: 0.78 | Evals: 74.0%
+Iter 28 | Best: 0.067604 | Rate: 0.79 | Evals: 76.0%
+Iter 29 | Best: 0.067120 | Rate: 0.79 | Evals: 78.0%
+Iter 30 | Best: 0.066638 | Rate: 0.80 | Evals: 80.0%
+Iter 31 | Best: 0.066318 | Rate: 0.81 | Evals: 82.0%
+Iter 32 | Best: 0.065954 | Rate: 0.81 | Evals: 84.0%
+Iter 33 | Best: 0.065563 | Rate: 0.82 | Evals: 86.0%
+Iter 34 | Best: 0.065012 | Rate: 0.82 | Evals: 88.0%
+Iter 35 | Best: 0.064591 | Rate: 0.83 | Evals: 90.0%
+Iter 36 | Best: 0.063851 | Rate: 0.83 | Evals: 92.0%
+Iter 37 | Best: 0.063801 | Rate: 0.84 | Evals: 94.0%
+Iter 38 | Best: 0.063801 | Curr: 0.064501 | Rate: 0.82 | Evals: 96.0%
+Iter 39 | Best: 0.062637 | Rate: 0.82 | Evals: 98.0%
+Iter 40 | Best: 0.060274 | Rate: 0.82 | Evals: 100.0%
 Experiment saved to remote_job_001_res.pkl
 Result saved to remote_job_001_res.pkl</code></pre>
 </div>
@@ -934,8 +934,8 @@ Result saved to remote_job_001_res.pkl</code></pre>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>optimizer<span class="sc">.</span>n_iter_<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded result from remote_job_001_res.pkl
-Best value found: 0.005199
-Best point: [1.07206232 1.14956698]
+Best value found: 0.060274
+Best point: [0.75486204 0.57116329]
 Total evaluations: 50
 Number of iterations: 40</code></pre>
 </div>
@@ -1075,7 +1075,7 @@ File overwritten successfully</code></pre>
 Result saved to checkpoint_res.pkl
 Initial optimization: 20 evaluations, best=0.000000
 Loaded result from checkpoint_res.pkl
-After continuation: 25 evaluations, best=0.000000</code></pre>
+After continuation: 25 evaluations, best=0.000001</code></pre>
 </div>
 </div>
 </section>
@@ -1122,13 +1122,13 @@ After continuation: 25 evaluations, best=0.000000</code></pre>
 <span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Variance values available: </span><span class="sc">{</span><span class="bu">len</span>(loaded_opt.var_y)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 2.305707, mean best: f(x) = 2.367991
+Initial best: f(x) = 3.784490, mean best: f(x) = 3.897231
 Experiment saved to noisy_opt_res.pkl
 Result saved to noisy_opt_res.pkl
 Loaded result from noisy_opt_res.pkl
 Repeats initial: 3
 Repeats surrogate: 2
-Best mean value: 2.305707
+Best mean value: 3.784490
 Mean values available: 10
 Variance values available: 10</code></pre>
 </div>
@@ -1180,7 +1180,7 @@ Variable types preserved:
   var_name: ['continuous', 'integer', 'categorical', 'another_cont']
 
 Integer variable (dim 1) values:
-[ 3. -2. -0. -3.  4.]</code></pre>
+[-1.  1.  2.  3. -4.]</code></pre>
 </div>
 </div>
 </section>
@@ -1207,7 +1207,7 @@ Integer variable (dim 1) values:
 <section id="use-meaningful-prefixes" class="level3" data-number="14.7.2">
 <h3 data-number="14.7.2" class="anchored" data-anchor-id="use-meaningful-prefixes"><span class="header-section-number">14.7.2</span> 2. Use Meaningful Prefixes</h3>
 <p>Organize your experiments with descriptive prefixes:</p>
-<div id="3a815533" class="cell" data-execution_count="13">
+<div id="a37e1609" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good practice: descriptive prefixes</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"sphere_d10_seed42"</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"rosenbrock_n100_lhs"</span>)</span>
@@ -1220,7 +1220,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="save-experiments-before-remote-execution" class="level3" data-number="14.7.3">
 <h3 data-number="14.7.3" class="anchored" data-anchor-id="save-experiments-before-remote-execution"><span class="header-section-number">14.7.3</span> 3. Save Experiments Before Remote Execution</h3>
-<div id="153210f9" class="cell" data-execution_count="14">
+<div id="629dc824" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define locally</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(bounds<span class="op">=</span>bounds, max_iter<span class="op">=</span><span class="dv">20</span>, seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"remote_job"</span>)</span>
@@ -1233,7 +1233,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="version-your-experiments" class="level3" data-number="14.7.4">
 <h3 data-number="14.7.4" class="anchored" data-anchor-id="version-your-experiments"><span class="header-section-number">14.7.4</span> 4. Version Your Experiments</h3>
-<div id="efbd8cb2" class="cell" data-execution_count="15">
+<div id="cd95d2e5" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add timestamp to prefix</span></span>
@@ -1246,7 +1246,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="handle-file-paths-robustly" class="level3" data-number="14.7.5">
 <h3 data-number="14.7.5" class="anchored" data-anchor-id="handle-file-paths-robustly"><span class="header-section-number">14.7.5</span> 5. Handle File Paths Robustly</h3>
-<div id="2c7bad05" class="cell" data-execution_count="16">
+<div id="85b9bcae" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create directory structure</span></span>
@@ -1379,54 +1379,55 @@ All experiments created. Transfer '{DIRNAME}' folder to remote machine.</code></
 
 Processing: experiments_compare_de_tricands_bfgs/exp_de_exp.pkl
 Loaded experiment from experiments_compare_de_tricands_bfgs/exp_de_exp.pkl
-Initial best: f(x) = 41.376730
-Iter 1 | Best: 38.767743 | Rate: 1.00 | Evals: 55.0%
-Iter 2 | Best: 38.767743 | Curr: 44.456374 | Rate: 0.50 | Evals: 60.0%
-Iter 3 | Best: 15.731378 | Rate: 0.67 | Evals: 65.0%
-Iter 4 | Best: 14.986110 | Rate: 0.75 | Evals: 70.0%
-Iter 5 | Best: 14.986110 | Curr: 17.176421 | Rate: 0.60 | Evals: 75.0%
-Iter 6 | Best: 14.986110 | Curr: 15.675905 | Rate: 0.50 | Evals: 80.0%
-Iter 7 | Best: 13.316286 | Rate: 0.57 | Evals: 85.0%
-Iter 8 | Best: 13.276228 | Rate: 0.62 | Evals: 90.0%
-Iter 9 | Best: 11.802608 | Rate: 0.67 | Evals: 95.0%
-Iter 10 | Best: 11.802608 | Curr: 12.395638 | Rate: 0.60 | Evals: 100.0%
-  Best value: 11.802608
+Initial best: f(x) = 24.447486
+Iter 1 | Best: 24.447486 | Curr: 46.009409 | Rate: 0.00 | Evals: 55.0%
+Optimizer candidate 1/3 was duplicate/invalid.
+Iter 2 | Best: 24.447486 | Curr: 86.823725 | Rate: 0.00 | Evals: 60.0%
+Iter 3 | Best: 24.447486 | Curr: 32.303505 | Rate: 0.00 | Evals: 65.0%
+Iter 4 | Best: 24.447486 | Curr: 32.699452 | Rate: 0.00 | Evals: 70.0%
+Iter 5 | Best: 24.447486 | Curr: 25.589758 | Rate: 0.00 | Evals: 75.0%
+Iter 6 | Best: 9.027906 | Rate: 0.17 | Evals: 80.0%
+Iter 7 | Best: 9.027906 | Curr: 25.533103 | Rate: 0.14 | Evals: 85.0%
+Iter 8 | Best: 9.027906 | Curr: 11.242131 | Rate: 0.12 | Evals: 90.0%
+Iter 9 | Best: 6.618070 | Rate: 0.22 | Evals: 95.0%
+Iter 10 | Best: 6.618070 | Curr: 16.080397 | Rate: 0.20 | Evals: 100.0%
+  Best value: 6.618070
 Experiment saved to experiments_compare_de_tricands_bfgs/exp_de_res.pkl
 Result saved to experiments_compare_de_tricands_bfgs/exp_de_res.pkl
   Saved: experiments_compare_de_tricands_bfgs/exp_de_res.pkl
 
 Processing: experiments_compare_de_tricands_bfgs/exp_bfgs_exp.pkl
 Loaded experiment from experiments_compare_de_tricands_bfgs/exp_bfgs_exp.pkl
-Initial best: f(x) = 41.376730
-Iter 1 | Best: 41.376730 | Curr: 68.943921 | Rate: 0.00 | Evals: 55.0%
-Iter 2 | Best: 41.376730 | Curr: 72.037967 | Rate: 0.00 | Evals: 60.0%
-Iter 3 | Best: 41.376730 | Curr: 79.347101 | Rate: 0.00 | Evals: 65.0%
-Iter 4 | Best: 41.376730 | Curr: 79.116644 | Rate: 0.00 | Evals: 70.0%
-Iter 5 | Best: 41.376730 | Curr: 78.586509 | Rate: 0.00 | Evals: 75.0%
-Iter 6 | Best: 41.376730 | Curr: 76.761514 | Rate: 0.00 | Evals: 80.0%
-Iter 7 | Best: 35.601753 | Rate: 0.14 | Evals: 85.0%
-Iter 8 | Best: 35.601753 | Curr: 52.437232 | Rate: 0.12 | Evals: 90.0%
-Iter 9 | Best: 35.601753 | Curr: 74.521903 | Rate: 0.11 | Evals: 95.0%
-Iter 10 | Best: 35.601753 | Curr: 73.103630 | Rate: 0.10 | Evals: 100.0%
-  Best value: 35.601753
+Initial best: f(x) = 24.447486
+Iter 1 | Best: 24.447486 | Curr: 115.305737 | Rate: 0.00 | Evals: 55.0%
+Iter 2 | Best: 24.447486 | Curr: 73.901317 | Rate: 0.00 | Evals: 60.0%
+Iter 3 | Best: 24.447486 | Curr: 25.511122 | Rate: 0.00 | Evals: 65.0%
+Iter 4 | Best: 24.447486 | Curr: 80.640869 | Rate: 0.00 | Evals: 70.0%
+Iter 5 | Best: 24.447486 | Curr: 42.258834 | Rate: 0.00 | Evals: 75.0%
+Iter 6 | Best: 24.447486 | Curr: 32.950005 | Rate: 0.00 | Evals: 80.0%
+Iter 7 | Best: 15.174371 | Rate: 0.14 | Evals: 85.0%
+Iter 8 | Best: 14.707984 | Rate: 0.25 | Evals: 90.0%
+Iter 9 | Best: 14.707984 | Curr: 65.102880 | Rate: 0.22 | Evals: 95.0%
+Iter 10 | Best: 14.707984 | Curr: 53.448199 | Rate: 0.20 | Evals: 100.0%
+  Best value: 14.707984
 Experiment saved to experiments_compare_de_tricands_bfgs/exp_bfgs_res.pkl
 Result saved to experiments_compare_de_tricands_bfgs/exp_bfgs_res.pkl
   Saved: experiments_compare_de_tricands_bfgs/exp_bfgs_res.pkl
 
 Processing: experiments_compare_de_tricands_bfgs/exp_tricands_exp.pkl
 Loaded experiment from experiments_compare_de_tricands_bfgs/exp_tricands_exp.pkl
-Initial best: f(x) = 41.376730
-Iter 1 | Best: 14.514498 | Rate: 1.00 | Evals: 55.0%
-Iter 2 | Best: 14.514498 | Curr: 26.247406 | Rate: 0.50 | Evals: 60.0%
-Iter 3 | Best: 14.514498 | Curr: 24.520997 | Rate: 0.33 | Evals: 65.0%
-Iter 4 | Best: 14.514498 | Curr: 31.092661 | Rate: 0.25 | Evals: 70.0%
-Iter 5 | Best: -4.704984 | Rate: 0.40 | Evals: 75.0%
-Iter 6 | Best: -4.704984 | Curr: 34.061204 | Rate: 0.33 | Evals: 80.0%
-Iter 7 | Best: -4.704984 | Curr: 28.330614 | Rate: 0.29 | Evals: 85.0%
-Iter 8 | Best: -4.704984 | Curr: 27.866062 | Rate: 0.25 | Evals: 90.0%
-Iter 9 | Best: -4.704984 | Curr: 11.701660 | Rate: 0.22 | Evals: 95.0%
-Iter 10 | Best: -4.704984 | Curr: 8.697120 | Rate: 0.20 | Evals: 100.0%
-  Best value: -4.704984
+Initial best: f(x) = 24.447486
+Iter 1 | Best: 24.447486 | Curr: 60.586280 | Rate: 0.00 | Evals: 55.0%
+Iter 2 | Best: 20.457316 | Rate: 0.50 | Evals: 60.0%
+Iter 3 | Best: 20.457316 | Curr: 44.287891 | Rate: 0.33 | Evals: 65.0%
+Iter 4 | Best: 20.457316 | Curr: 54.350759 | Rate: 0.25 | Evals: 70.0%
+Iter 5 | Best: 20.457316 | Curr: 29.059194 | Rate: 0.20 | Evals: 75.0%
+Iter 6 | Best: 20.457316 | Curr: 38.314818 | Rate: 0.17 | Evals: 80.0%
+Iter 7 | Best: 20.457316 | Curr: 22.880271 | Rate: 0.14 | Evals: 85.0%
+Iter 8 | Best: 20.457316 | Curr: 47.526104 | Rate: 0.12 | Evals: 90.0%
+Iter 9 | Best: 10.765448 | Rate: 0.22 | Evals: 95.0%
+Iter 10 | Best: 10.765448 | Curr: 16.195813 | Rate: 0.20 | Evals: 100.0%
+  Best value: 10.765448
 Experiment saved to experiments_compare_de_tricands_bfgs/exp_tricands_res.pkl
 Result saved to experiments_compare_de_tricands_bfgs/exp_tricands_res.pkl
   Saved: experiments_compare_de_tricands_bfgs/exp_tricands_res.pkl
@@ -1492,18 +1493,18 @@ All experiments completed. Transfer results back to local machine.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Found 3 results to analyze
 Loaded result from experiments_compare_de_tricands_bfgs/exp_bfgs_res.pkl
-experiments_compare_de_tricands_bfgs/exp_bfgs_res.pkl: best=35.601753, evals=20
+experiments_compare_de_tricands_bfgs/exp_bfgs_res.pkl: best=14.707984, evals=20
 Loaded result from experiments_compare_de_tricands_bfgs/exp_de_res.pkl
-experiments_compare_de_tricands_bfgs/exp_de_res.pkl: best=11.802608, evals=20
+experiments_compare_de_tricands_bfgs/exp_de_res.pkl: best=6.618070, evals=20
 Loaded result from experiments_compare_de_tricands_bfgs/exp_tricands_res.pkl
-experiments_compare_de_tricands_bfgs/exp_tricands_res.pkl: best=-4.704984, evals=20
+experiments_compare_de_tricands_bfgs/exp_tricands_res.pkl: best=10.765448, evals=20
 
 Best result:
-  File: experiments_compare_de_tricands_bfgs/exp_tricands_res.pkl
-  Value: -4.704984
-  Point: [ 0.98627463 -0.20745672  3.90603586]
+  File: experiments_compare_de_tricands_bfgs/exp_de_res.pkl
+  Value: 6.618070
+  Point: [-3.72184007 -1.94715892  1.8670751 ]
   Seed: 42
-  Acquisition optimizer: tricands
+  Acquisition optimizer: differential_evolution
 Loaded result from experiments_compare_de_tricands_bfgs/exp_bfgs_res.pkl
 Loaded result from experiments_compare_de_tricands_bfgs/exp_de_res.pkl
 Loaded result from experiments_compare_de_tricands_bfgs/exp_tricands_res.pkl
@@ -1552,7 +1553,7 @@ Convergence plot saved to: {DIRNAME}/convergence_comparison.png</code></pre>
 <section id="file-format" class="level3" data-number="14.9.4">
 <h3 data-number="14.9.4" class="anchored" data-anchor-id="file-format"><span class="header-section-number">14.9.4</span> File Format</h3>
 <p>Files are saved using pickle’s highest protocol:</p>
-<div id="6c797e9e" class="cell" data-execution_count="20">
+<div id="16ad4892" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">"wb"</span>) <span class="im">as</span> handle:</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    pickle.dump(optimizer_state, handle, protocol<span class="op">=</span>pickle.HIGHEST_PROTOCOL)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1572,7 +1573,7 @@ Convergence plot saved to: {DIRNAME}/convergence_comparison.png</code></pre>
 <h3 data-number="14.10.2" class="anchored" data-anchor-id="issue-filenotfounderror-experiment-file-not-found"><span class="header-section-number">14.10.2</span> Issue: “FileNotFoundError: Experiment file not found”</h3>
 <p><strong>Cause</strong>: Incorrect file path or file doesn’t exist.</p>
 <p><strong>Solution</strong>: Check file path and ensure file exists:</p>
-<div id="2d0825a9" class="cell" data-execution_count="21">
+<div id="e276a13f" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> <span class="st">"experiment_exp.pkl"</span></span>
@@ -1586,7 +1587,7 @@ Convergence plot saved to: {DIRNAME}/convergence_comparison.png</code></pre>
 <h3 data-number="14.10.3" class="anchored" data-anchor-id="issue-fileexistserror-file-already-exists"><span class="header-section-number">14.10.3</span> Issue: “FileExistsError: File already exists”</h3>
 <p><strong>Cause</strong>: Attempting to save over an existing file without <code>overwrite=True</code>.</p>
 <p><strong>Solution</strong>: Either use a different prefix or enable overwriting:</p>
-<div id="050ccc21" class="cell" data-execution_count="22">
+<div id="66dfb9a1" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: Use different prefix</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>optimizer.save_result(prefix<span class="op">=</span><span class="st">"my_result_v2"</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1598,7 +1599,7 @@ Convergence plot saved to: {DIRNAME}/convergence_comparison.png</code></pre>
 <h3 data-number="14.10.4" class="anchored" data-anchor-id="issue-results-differ-after-loading"><span class="header-section-number">14.10.4</span> Issue: Results differ after loading</h3>
 <p><strong>Cause</strong>: Random state not preserved or function behavior changed.</p>
 <p><strong>Solution</strong>: Ensure you’re using the same seed and function definition:</p>
-<div id="9a62a13e" class="cell" data-execution_count="23">
+<div id="42990368" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># When saving</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(..., seed<span class="op">=</span><span class="dv">42</span>)  <span class="co"># Use fixed seed</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2046,7 +2047,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

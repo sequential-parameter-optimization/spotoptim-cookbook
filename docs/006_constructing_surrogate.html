@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>37&nbsp; Constructing a Surrogate – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -24,7 +27,6 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -54,15 +56,14 @@ div.csl-indent {
 <link href="./001_sampling.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -92,7 +93,7 @@ div.csl-indent {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -713,7 +714,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This section is based on chapter 2 in <span class="citation" data-cites="Forr08a">Forrester, Sóbester, and Keane (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span>.</p>
+<p>This section is based on chapter 2 in <span class="citation" data-cites="Forr08a">Forrester et al. (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span>.</p>
 </div>
 </div>
 <div id="def-black-box" class="theorem definition">
@@ -811,11 +812,11 @@ CV = \frac{1}{n} \sum_{i=1}^{n} L(y^{(i)}, f^{(-\theta(i))}(\vec{x}^{(i)})) .
 <p><span id="eq-cv-sse"><span class="math display">\[
 CV = \frac{1}{n} \sum_{i=1}^{n} [y^{(i)} - f^{(-\theta(i))}(\vec{x}^{(i)})]^2 .
 \tag{37.4}\]</span></span></p>
-<p>The extent to which <a href="#eq-cv-sse" class="quarto-xref">Equation&nbsp;<span>37.4</span></a> is an unbiased estimator of true risk depends on <span class="math inline">\(q\)</span>. It is shown that if <span class="math inline">\(q = n\)</span>, the leave-one-out cross-validation (LOOCV) measure is almost unbiased. However, LOOCV can have high variance because subsets are very similar. <span class="citation" data-cites="Hast17a">Hastie, Tibshirani, and Friedman (<a href="references.html#ref-Hast17a" role="doc-biblioref">2017</a>)</span>) suggest using compromise values like <span class="math inline">\(q = 5\)</span> or <span class="math inline">\(q = 10\)</span>. Using fewer subsets also reduces the computational cost of the cross-validation process, see also <span class="citation" data-cites="arlot2010">Arlot, Celisse, et al. (<a href="references.html#ref-arlot2010" role="doc-biblioref">2010</a>)</span> and <span class="citation" data-cites="Koha95a">Kohavi (<a href="references.html#ref-Koha95a" role="doc-biblioref">1995</a>)</span>.</p>
+<p>The extent to which <a href="#eq-cv-sse" class="quarto-xref">Equation&nbsp;<span>37.4</span></a> is an unbiased estimator of true risk depends on <span class="math inline">\(q\)</span>. It is shown that if <span class="math inline">\(q = n\)</span>, the leave-one-out cross-validation (LOOCV) measure is almost unbiased. However, LOOCV can have high variance because subsets are very similar. <span class="citation" data-cites="Hast17a">Hastie et al. (<a href="references.html#ref-Hast17a" role="doc-biblioref">2017</a>)</span>) suggest using compromise values like <span class="math inline">\(q = 5\)</span> or <span class="math inline">\(q = 10\)</span>. Using fewer subsets also reduces the computational cost of the cross-validation process, see also <span class="citation" data-cites="arlot2010"><span class="nocase">Arlot et al.</span> (<a href="references.html#ref-arlot2010" role="doc-biblioref">2010</a>)</span> and <span class="citation" data-cites="Koha95a">Kohavi (<a href="references.html#ref-Koha95a" role="doc-biblioref">1995</a>)</span>.</p>
 </section>
 <section id="stage-three-model-testing" class="level2" data-number="37.3">
 <h2 data-number="37.3" class="anchored" data-anchor-id="stage-three-model-testing"><span class="header-section-number">37.3</span> Stage Three: Model Testing</h2>
-<p>If there is a sufficient amount of observational data, a random subset should be set aside initially for model testing. <span class="citation" data-cites="Hast17a">Hastie, Tibshirani, and Friedman (<a href="references.html#ref-Hast17a" role="doc-biblioref">2017</a>)</span> recommend setting aside approximately <span class="math inline">\(0.25n\)</span> of <span class="math inline">\(\vec{x} \rightarrow y\)</span> pairs for testing purposes. These observations must remain untouched during Stages One and Two, as their sole purpose is to evaluate the testing error—the difference between true and approximated function values at the test sites—once the model has been built. Interestingly, if the main goal is to construct an initial surrogate for seeding a global refinement criterion-based strategy (as discussed in Section 3.2 in <span class="citation" data-cites="Forr08a">Forrester, Sóbester, and Keane (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span>), the model testing phase might be skipped.</p>
+<p>If there is a sufficient amount of observational data, a random subset should be set aside initially for model testing. <span class="citation" data-cites="Hast17a">Hastie et al. (<a href="references.html#ref-Hast17a" role="doc-biblioref">2017</a>)</span> recommend setting aside approximately <span class="math inline">\(0.25n\)</span> of <span class="math inline">\(\vec{x} \rightarrow y\)</span> pairs for testing purposes. These observations must remain untouched during Stages One and Two, as their sole purpose is to evaluate the testing error—the difference between true and approximated function values at the test sites—once the model has been built. Interestingly, if the main goal is to construct an initial surrogate for seeding a global refinement criterion-based strategy (as discussed in Section 3.2 in <span class="citation" data-cites="Forr08a">Forrester et al. (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span>), the model testing phase might be skipped.</p>
 <p>It is noted that, ideally, parameter estimation (Stage Two) should also rely on a separate subset. However, observational data is rarely abundant enough to afford this luxury (if the function is cheap to evaluate and evaluation sites are selectable, a surrogate model might not be necessary).</p>
 <p>When data are available for model testing and the primary objective is a globally accurate model, using either a root mean square error (RMSE) metric or the correlation coefficient (<span class="math inline">\(r^2\)</span>) is recommended. To test the model, a test data set of size <span class="math inline">\(n_t\)</span> is used alongside predictions at the corresponding locations to calculate these metrics.</p>
 <p>The RMSE is defined as follows:</p>
@@ -838,32 +839,21 @@ r^2 =
 \]</span></p>
 <p>The correlation coefficient <span class="math inline">\(r^2\)</span> does not require scaling the data sets and only compares landscape shapes, not values. An <span class="math inline">\(r^2 &gt; 0.8\)</span> typically indicates a surrogate with good predictive capability.</p>
 <p>The methods outlined provide quantitative assessments of model accuracy, yet visual evaluations can also be insightful. In general, the RMSE will not reach zero but will stabilize around a low value. At this point, the surrogate model is saturated with data, and further additions do not enhance the model globally (though local improvements can occur at newly added points if using an interpolating model).</p>
-<div id="exm-tea-sugar" class="theorem example">
-<p><span class="theorem-title"><strong>Example 37.3 (The Tea and Sugar Analogy)</strong></span> <span class="citation" data-cites="Forr08a">Forrester, Sóbester, and Keane (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span> illustrates this saturation point using a comparison with a cup of tea and sugar. The tea represents the surrogate model, and sugar represents data. Initially, the tea is unsweetened, and adding sugar increases its sweetness. Eventually, a saturation point is reached where no more sugar dissolves, and the tea cannot get any sweeter. Similarly, a more flexible model, like one with additional parameters or employing interpolation rather than regression, can increase the saturation point—akin to making a hotter cup of tea for dissolving more sugar.</p>
-</div>
+<section id="the-tea-and-sugar-analogy" class="level4" data-number="37.3.0.1">
+<h4 data-number="37.3.0.1" class="anchored" data-anchor-id="the-tea-and-sugar-analogy"><span class="header-section-number">37.3.0.1</span> The Tea and Sugar Analogy</h4>
+<p><span class="citation" data-cites="Forr08a">Forrester et al. (<a href="references.html#ref-Forr08a" role="doc-biblioref">2008</a>)</span> illustrates this saturation point using a comparison with a cup of tea and sugar. The tea represents the surrogate model, and sugar represents data. Initially, the tea is unsweetened, and adding sugar increases its sweetness. Eventually, a saturation point is reached where no more sugar dissolves, and the tea cannot get any sweeter. Similarly, a more flexible model, like one with additional parameters or employing interpolation rather than regression, can increase the saturation point—akin to making a hotter cup of tea for dissolving more sugar.</p>
+</section>
 </section>
 <section id="jupyter-notebook" class="level2" data-number="37.4">
 <h2 data-number="37.4" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">37.4</span> Jupyter Notebook</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
 <ul>
 <li>The Jupyter-Notebook of this chapter is available on GitHub in the <a href="https://github.com/sequential-parameter-optimization/spotoptim-cookbook/blob/main/006_constructing_surrogate.ipynb">Sequential Parameter Optimization Cookbook Repository</a></li>
 </ul>
-</div>
-</div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-arlot2010" class="csl-entry" role="listitem">
-Arlot, Sylvain, Alain Celisse, et al. 2010. <span>“A Survey of Cross-Validation Procedures for Model Selection.”</span> <em>Statistics Surveys</em> 4: 40–79.
+<span class="nocase">Arlot, Sylvain, Alain Celisse, et al.</span> 2010. <span>“A Survey of Cross-Validation Procedures for Model Selection.”</span> <em>Statistics Surveys</em> 4: 40–79.
 </div>
 <div id="ref-Forr08a" class="csl-entry" role="listitem">
 Forrester, Alexander, András Sóbester, and Andy Keane. 2008. <em><span class="nocase">Engineering Design via Surrogate Modelling</span></em>. Wiley.
@@ -872,7 +862,7 @@ Forrester, Alexander, András Sóbester, and Andy Keane. 2008. <em><span class="
 Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2017. <em>The Elements of Statistical Learning</em>. Second. Springer.
 </div>
 <div id="ref-Koha95a" class="csl-entry" role="listitem">
-Kohavi, Ron. 1995. <span>“A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection.”</span> In <em>Proceedings of the 14th International Joint Conference on Artificial Intelligence - Volume 2</em>, 1137–43. IJCAI’95. San Francisco, CA, USA: Morgan Kaufmann Publishers Inc.
+Kohavi, Ron. 1995. <span>“A Study of Cross-Validation and Bootstrap for Accuracy Estimation and Model Selection.”</span> <em>Proceedings of the 14th International Joint Conference on Artificial Intelligence - Volume 2</em> (San Francisco, CA, USA), IJCAI’95, 1137–43.
 </div>
 </div>
 </section>
@@ -1294,7 +1284,7 @@ Kohavi, Ron. 1995. <span>“A Study of Cross-Validation and Bootstrap for Accura
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

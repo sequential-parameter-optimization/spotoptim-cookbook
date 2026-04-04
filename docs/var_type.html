@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>9&nbsp; Variable Type (var_type) Implementation in SpotOptim – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./spotoptim_restart.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -670,7 +672,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#implementation-details" id="toc-implementation-details" class="nav-link" data-scroll-target="#implementation-details"><span class="header-section-number">9.3</span> Implementation Details</a>
   <ul class="collapse">
   <li><a href="#where-var_type-is-used" id="toc-where-var_type-is-used" class="nav-link" data-scroll-target="#where-var_type-is-used"><span class="header-section-number">9.3.1</span> Where <code>var_type</code> is Used</a></li>
-  <li><a href="#core-method-_repair_non_numeric" id="toc-core-method-_repair_non_numeric" class="nav-link" data-scroll-target="#core-method-_repair_non_numeric"><span class="header-section-number">9.3.2</span> Core Method: <code>_repair_non_numeric()</code></a></li>
+  <li><a href="#core-method-repair_non_numeric" id="toc-core-method-repair_non_numeric" class="nav-link" data-scroll-target="#core-method-repair_non_numeric"><span class="header-section-number">9.3.2</span> Core Method: <code>repair_non_numeric()</code></a></li>
   </ul></li>
   <li><a href="#example-usage" id="toc-example-usage" class="nav-link" data-scroll-target="#example-usage"><span class="header-section-number">9.4</span> Example Usage</a>
   <ul class="collapse">
@@ -755,9 +757,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Stored as <code>self.var_type</code></li>
 <li>Default: <code>["float"] * n_dim</code> if not specified</li>
 </ul></li>
-<li><p><strong>Initial Design Generation</strong> (<code>_generate_initial_design</code>):</p>
+<li><p><strong>Initial Design Generation</strong> (<code>generate_initial_design</code>):</p>
 <ul>
-<li>Applies type constraints via <code>_repair_non_numeric()</code></li>
+<li>Applies type constraints via <code>repair_non_numeric()</code></li>
 <li>Ensures initial points respect variable types</li>
 </ul></li>
 <li><p><strong>New Point Suggestion</strong> (<code>suggest_next_infill_point</code>):</p>
@@ -777,10 +779,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ol>
 </section>
-<section id="core-method-_repair_non_numeric" class="level3" data-number="9.3.2">
-<h3 data-number="9.3.2" class="anchored" data-anchor-id="core-method-_repair_non_numeric"><span class="header-section-number">9.3.2</span> Core Method: <code>_repair_non_numeric()</code></h3>
+<section id="core-method-repair_non_numeric" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="core-method-repair_non_numeric"><span class="header-section-number">9.3.2</span> Core Method: <code>repair_non_numeric()</code></h3>
 <p>This method enforces variable type constraints:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _repair_non_numeric(<span class="va">self</span>, X: np.ndarray, var_type: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> np.ndarray:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> repair_non_numeric(<span class="va">self</span>, X: np.ndarray, var_type: List[<span class="bu">str</span>]) <span class="op">-&gt;</span> np.ndarray:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Round non-continuous values to integers."""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> np.isin(var_type, [<span class="st">"float"</span>], invert<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    X[:, mask] <span class="op">=</span> np.around(X[:, mask])</span>
@@ -845,7 +847,7 @@ Best point (floats): [0. 0. 0.]</code></pre>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Note: Values are rounded to integers"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best value: 0.000000
-Best point (integers): [-0. -0.]
+Best point (integers): [-0.  0.]
 Note: Values are rounded to integers</code></pre>
 </div>
 </div>
@@ -918,8 +920,8 @@ Note: Values are integers representing categories</code></pre>
 <span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>var_name[<span class="dv">2</span>]<span class="sc">}</span><span class="ss"> (factor): </span><span class="sc">{</span><span class="bu">int</span>(result.x[<span class="dv">2</span>])<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best value: 1.000001
-Best point: [-0.00103304  1.          0.        ]
-  temperature (float): -0.001033
+Best point: [0.00121886 1.         0.        ]
+  temperature (float): 0.001219
   iterations (int): 1
   algorithm (factor): 0</code></pre>
 </div>
@@ -930,7 +932,7 @@ Best point: [-0.00103304  1.          0.        ]
 <h2 data-number="9.5" class="anchored" data-anchor-id="key-findings"><span class="header-section-number">9.5</span> Key Findings</h2>
 <ol type="1">
 <li><p><strong>Type Persistence</strong>: Variable types are correctly maintained throughout the entire optimization process, from initial design through all iterations.</p></li>
-<li><p><strong>Automatic Enforcement</strong>: The <code>_repair_non_numeric()</code> method is called at all critical points, ensuring type constraints are never violated.</p></li>
+<li><p><strong>Automatic Enforcement</strong>: The <code>repair_non_numeric()</code> method is called at all critical points, ensuring type constraints are never violated.</p></li>
 <li><p><strong>Three Explicit Types</strong>: Only <code>'float'</code>, <code>'int'</code>, and <code>'factor'</code> are supported. The legacy <code>'num'</code> type has been removed for clarity.</p></li>
 <li><p><strong>User-Provided Data</strong>: Type constraints are applied even to user-provided initial designs, ensuring consistency.</p></li>
 <li><p><strong>Plotting Compatibility</strong>: The plotting functionality respects variable types, ensuring correct visualization of discrete vs.&nbsp;continuous variables.</p></li>
@@ -1394,7 +1396,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

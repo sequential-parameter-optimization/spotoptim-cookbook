@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>5&nbsp; Benchmarking SpotOptim with Sklearn Kriging (Matern Kernel) on 6D Rosenbrock and 10D Michalewicz Functions – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./awwe_optimization.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -722,7 +724,7 @@ Note
 <section id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">5.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</h2>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 6-dimensional Rosenbrock function. We use a maximum of 100 function evaluations.</p>
-<div id="0573e9e0" class="cell" data-execution_count="1">
+<div id="04ee95cb" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -732,7 +734,7 @@ Note
 </div>
 <section id="define-the-6d-rosenbrock-function" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="define-the-6d-rosenbrock-function"><span class="header-section-number">5.1.1</span> Define the 6D Rosenbrock Function</h3>
-<div id="e2d6b71f" class="cell" data-execution_count="2">
+<div id="f7c0a4a5" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">6</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.full(dim, <span class="op">-</span><span class="fl">2.0</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.full(dim, <span class="fl">2.0</span>)</span>
@@ -743,7 +745,7 @@ Note
 </section>
 <section id="set-up-spotoptim-parameters" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters"><span class="header-section-number">5.1.2</span> Set up SpotOptim Parameters</h3>
-<div id="47f88166" class="cell" data-execution_count="3">
+<div id="264f9503" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -777,109 +779,111 @@ Note
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>result_rosen <span class="op">=</span> opt_rosen.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 321.834153
-Iter 1 | Best: 321.834153 | Curr: 3523.030600 | Rate: 0.00 | Evals: 7.0%
-Iter 2 | Best: 321.834153 | Curr: 1535.228299 | Rate: 0.00 | Evals: 8.0%
-Iter 3 | Best: 321.834153 | Curr: 326.969698 | Rate: 0.00 | Evals: 9.0%
-Iter 4 | Best: 179.356120 | Rate: 0.25 | Evals: 10.0%
-Iter 5 | Best: 147.216512 | Rate: 0.40 | Evals: 11.0%
-Iter 6 | Best: 126.879058 | Rate: 0.50 | Evals: 12.0%
-Iter 7 | Best: 106.910445 | Rate: 0.57 | Evals: 13.0%
-Iter 8 | Best: 77.690090 | Rate: 0.62 | Evals: 14.0%
-Iter 9 | Best: 67.650765 | Rate: 0.67 | Evals: 15.0%
-Iter 10 | Best: 67.650765 | Curr: 70.996531 | Rate: 0.60 | Evals: 16.0%
-Iter 11 | Best: 66.959383 | Rate: 0.64 | Evals: 17.0%
-Iter 12 | Best: 66.886607 | Rate: 0.67 | Evals: 18.0%
-Iter 13 | Best: 63.396091 | Rate: 0.69 | Evals: 19.0%
-Iter 14 | Best: 53.830939 | Rate: 0.71 | Evals: 20.0%
-Iter 15 | Best: 53.480172 | Rate: 0.73 | Evals: 21.0%
-Iter 16 | Best: 52.741893 | Rate: 0.75 | Evals: 22.0%
-Iter 17 | Best: 51.637049 | Rate: 0.76 | Evals: 23.0%
-Iter 18 | Best: 48.385433 | Rate: 0.78 | Evals: 24.0%
-Iter 19 | Best: 48.385433 | Curr: 48.448189 | Rate: 0.74 | Evals: 25.0%
-Iter 20 | Best: 48.057586 | Rate: 0.75 | Evals: 26.0%
-Iter 21 | Best: 48.057586 | Curr: 48.216762 | Rate: 0.71 | Evals: 27.0%
-Iter 22 | Best: 47.104651 | Rate: 0.73 | Evals: 28.0%
-Iter 23 | Best: 45.850796 | Rate: 0.74 | Evals: 29.0%
-Iter 24 | Best: 45.062114 | Rate: 0.75 | Evals: 30.0%
-Iter 25 | Best: 43.538121 | Rate: 0.76 | Evals: 31.0%
-Iter 26 | Best: 43.468547 | Rate: 0.77 | Evals: 32.0%
-Iter 27 | Best: 43.468547 | Curr: 43.881459 | Rate: 0.74 | Evals: 33.0%
-Iter 28 | Best: 39.675382 | Rate: 0.75 | Evals: 34.0%
-Iter 29 | Best: 38.393633 | Rate: 0.76 | Evals: 35.0%
-Iter 30 | Best: 35.523588 | Rate: 0.77 | Evals: 36.0%
-Iter 31 | Best: 35.484382 | Rate: 0.77 | Evals: 37.0%
-Iter 32 | Best: 35.484382 | Curr: 35.825494 | Rate: 0.75 | Evals: 38.0%
-Iter 33 | Best: 34.396823 | Rate: 0.76 | Evals: 39.0%
-Iter 34 | Best: 34.023846 | Rate: 0.76 | Evals: 40.0%
-Iter 35 | Best: 31.148824 | Rate: 0.77 | Evals: 41.0%
-Iter 36 | Best: 27.483742 | Rate: 0.78 | Evals: 42.0%
-Iter 37 | Best: 27.483742 | Curr: 30.312244 | Rate: 0.76 | Evals: 43.0%
-Iter 38 | Best: 25.628007 | Rate: 0.76 | Evals: 44.0%
-Iter 39 | Best: 22.970574 | Rate: 0.77 | Evals: 45.0%
-Iter 40 | Best: 22.970574 | Curr: 23.633260 | Rate: 0.75 | Evals: 46.0%
-Iter 41 | Best: 22.074924 | Rate: 0.76 | Evals: 47.0%
-Iter 42 | Best: 21.621256 | Rate: 0.76 | Evals: 48.0%
-Iter 43 | Best: 21.621256 | Curr: 22.178193 | Rate: 0.74 | Evals: 49.0%
-Iter 44 | Best: 21.621256 | Curr: 21.696325 | Rate: 0.73 | Evals: 50.0%
-Iter 45 | Best: 19.219823 | Rate: 0.73 | Evals: 51.0%
-Iter 46 | Best: 14.774081 | Rate: 0.74 | Evals: 52.0%
-Iter 47 | Best: 14.774081 | Curr: 14.935796 | Rate: 0.72 | Evals: 53.0%
-Iter 48 | Best: 14.735057 | Rate: 0.73 | Evals: 54.0%
-Iter 49 | Best: 14.735057 | Curr: 14.887048 | Rate: 0.71 | Evals: 55.0%
-Iter 50 | Best: 14.570983 | Rate: 0.72 | Evals: 56.0%
-Iter 51 | Best: 14.299982 | Rate: 0.73 | Evals: 57.0%
-Iter 52 | Best: 11.894840 | Rate: 0.73 | Evals: 58.0%
-Iter 53 | Best: 7.989747 | Rate: 0.74 | Evals: 59.0%
-Iter 54 | Best: 6.748924 | Rate: 0.74 | Evals: 60.0%
-Iter 55 | Best: 6.593840 | Rate: 0.75 | Evals: 61.0%
-Iter 56 | Best: 5.990110 | Rate: 0.75 | Evals: 62.0%
-Iter 57 | Best: 5.713477 | Rate: 0.75 | Evals: 63.0%
-Iter 58 | Best: 5.471658 | Rate: 0.76 | Evals: 64.0%
-Iter 59 | Best: 5.466964 | Rate: 0.76 | Evals: 65.0%
-Iter 60 | Best: 5.466964 | Curr: 5.496778 | Rate: 0.75 | Evals: 66.0%
-Iter 61 | Best: 5.436363 | Rate: 0.75 | Evals: 67.0%
-Iter 62 | Best: 5.380911 | Rate: 0.76 | Evals: 68.0%
-Iter 63 | Best: 5.319051 | Rate: 0.76 | Evals: 69.0%
-Iter 64 | Best: 5.261751 | Rate: 0.77 | Evals: 70.0%
-Iter 65 | Best: 5.238434 | Rate: 0.77 | Evals: 71.0%
-Iter 66 | Best: 5.122744 | Rate: 0.77 | Evals: 72.0%
-Iter 67 | Best: 5.122744 | Curr: 5.166099 | Rate: 0.76 | Evals: 73.0%
-Iter 68 | Best: 5.107638 | Rate: 0.76 | Evals: 74.0%
-Iter 69 | Best: 5.098379 | Rate: 0.77 | Evals: 75.0%
-Iter 70 | Best: 5.098379 | Curr: 5.118825 | Rate: 0.76 | Evals: 76.0%
-Iter 71 | Best: 5.083977 | Rate: 0.76 | Evals: 77.0%
-Iter 72 | Best: 5.083977 | Curr: 5.099803 | Rate: 0.75 | Evals: 78.0%
-Iter 73 | Best: 5.067823 | Rate: 0.75 | Evals: 79.0%
-Iter 74 | Best: 5.055556 | Rate: 0.76 | Evals: 80.0%
-Iter 75 | Best: 5.055556 | Curr: 5.061091 | Rate: 0.75 | Evals: 81.0%
-Iter 76 | Best: 5.052843 | Rate: 0.75 | Evals: 82.0%
-Iter 77 | Best: 5.031295 | Rate: 0.75 | Evals: 83.0%
-Iter 78 | Best: 5.016746 | Rate: 0.76 | Evals: 84.0%
-Iter 79 | Best: 4.994297 | Rate: 0.76 | Evals: 85.0%
-Iter 80 | Best: 4.906668 | Rate: 0.76 | Evals: 86.0%
-Iter 81 | Best: 4.906668 | Curr: 4.928198 | Rate: 0.75 | Evals: 87.0%
-Iter 82 | Best: 4.880380 | Rate: 0.76 | Evals: 88.0%
-Iter 83 | Best: 4.743828 | Rate: 0.76 | Evals: 89.0%
-Iter 84 | Best: 4.701228 | Rate: 0.76 | Evals: 90.0%
-Iter 85 | Best: 4.701228 | Curr: 4.736901 | Rate: 0.75 | Evals: 91.0%
-Iter 86 | Best: 4.701228 | Curr: 4.727649 | Rate: 0.74 | Evals: 92.0%
-Iter 87 | Best: 4.689752 | Rate: 0.75 | Evals: 93.0%
-Iter 88 | Best: 4.689752 | Curr: 4.701422 | Rate: 0.74 | Evals: 94.0%
-Iter 89 | Best: 4.685291 | Rate: 0.74 | Evals: 95.0%
-Iter 90 | Best: 4.685291 | Curr: 4.771983 | Rate: 0.73 | Evals: 96.0%
-Iter 91 | Best: 4.532723 | Rate: 0.74 | Evals: 97.0%
-Iter 92 | Best: 4.501827 | Rate: 0.74 | Evals: 98.0%
-Iter 93 | Best: 4.459025 | Rate: 0.74 | Evals: 99.0%
-Iter 94 | Best: 4.442562 | Rate: 0.74 | Evals: 100.0%</code></pre>
+Initial best: f(x) = 783.489838
+Iter 1 | Best: 783.489838 | Curr: 2941.925095 | Rate: 0.00 | Evals: 7.0%
+Iter 2 | Best: 783.489838 | Curr: 8421.000000 | Rate: 0.00 | Evals: 8.0%
+Iter 3 | Best: 783.489838 | Curr: 1944.404282 | Rate: 0.00 | Evals: 9.0%
+Iter 4 | Best: 783.489838 | Curr: 1654.278660 | Rate: 0.00 | Evals: 10.0%
+Iter 5 | Best: 117.869372 | Rate: 0.20 | Evals: 11.0%
+Iter 6 | Best: 85.222811 | Rate: 0.33 | Evals: 12.0%
+Iter 7 | Best: 61.532628 | Rate: 0.43 | Evals: 13.0%
+Iter 8 | Best: 61.532628 | Curr: 63.503228 | Rate: 0.38 | Evals: 14.0%
+Iter 9 | Best: 52.554944 | Rate: 0.44 | Evals: 15.0%
+Iter 10 | Best: 46.041054 | Rate: 0.50 | Evals: 16.0%
+Iter 11 | Best: 42.432656 | Rate: 0.55 | Evals: 17.0%
+Iter 12 | Best: 42.432656 | Curr: 42.503647 | Rate: 0.50 | Evals: 18.0%
+Iter 13 | Best: 40.652764 | Rate: 0.54 | Evals: 19.0%
+Iter 14 | Best: 40.652764 | Curr: 40.705085 | Rate: 0.50 | Evals: 20.0%
+Iter 15 | Best: 37.545472 | Rate: 0.53 | Evals: 21.0%
+Iter 16 | Best: 37.545472 | Curr: 80.272874 | Rate: 0.50 | Evals: 22.0%
+Iter 17 | Best: 26.743212 | Rate: 0.53 | Evals: 23.0%
+Iter 18 | Best: 24.925829 | Rate: 0.56 | Evals: 24.0%
+Iter 19 | Best: 24.702730 | Rate: 0.58 | Evals: 25.0%
+Iter 20 | Best: 23.021409 | Rate: 0.60 | Evals: 26.0%
+Iter 21 | Best: 19.525446 | Rate: 0.62 | Evals: 27.0%
+Iter 22 | Best: 14.092053 | Rate: 0.64 | Evals: 28.0%
+Iter 23 | Best: 10.494962 | Rate: 0.65 | Evals: 29.0%
+Iter 24 | Best: 8.348193 | Rate: 0.67 | Evals: 30.0%
+Iter 25 | Best: 7.289878 | Rate: 0.68 | Evals: 31.0%
+Iter 26 | Best: 7.289878 | Curr: 7.886001 | Rate: 0.65 | Evals: 32.0%
+Iter 27 | Best: 6.579764 | Rate: 0.67 | Evals: 33.0%
+Iter 28 | Best: 6.271452 | Rate: 0.68 | Evals: 34.0%
+Iter 29 | Best: 6.107712 | Rate: 0.69 | Evals: 35.0%
+Iter 30 | Best: 6.107712 | Curr: 6.236745 | Rate: 0.67 | Evals: 36.0%
+Iter 31 | Best: 5.475621 | Rate: 0.68 | Evals: 37.0%
+Iter 32 | Best: 5.461673 | Rate: 0.69 | Evals: 38.0%
+Iter 33 | Best: 4.970246 | Rate: 0.70 | Evals: 39.0%
+Iter 34 | Best: 4.970246 | Curr: 5.027997 | Rate: 0.68 | Evals: 40.0%
+Iter 35 | Best: 4.970246 | Curr: 5.246944 | Rate: 0.66 | Evals: 41.0%
+Iter 36 | Best: 4.560675 | Rate: 0.67 | Evals: 42.0%
+Iter 37 | Best: 4.491414 | Rate: 0.68 | Evals: 43.0%
+Iter 38 | Best: 4.464047 | Rate: 0.68 | Evals: 44.0%
+Iter 39 | Best: 4.464047 | Curr: 4.464724 | Rate: 0.67 | Evals: 45.0%
+Iter 40 | Best: 4.460533 | Rate: 0.68 | Evals: 46.0%
+Optimizer candidate 1/3 was duplicate/invalid.
+Iter 41 | Best: 4.460533 | Curr: 4.479777 | Rate: 0.66 | Evals: 47.0%
+Iter 42 | Best: 4.424190 | Rate: 0.67 | Evals: 48.0%
+Iter 43 | Best: 4.403190 | Rate: 0.67 | Evals: 49.0%
+Iter 44 | Best: 4.403190 | Curr: 4.436464 | Rate: 0.66 | Evals: 50.0%
+Iter 45 | Best: 4.403190 | Curr: 4.410984 | Rate: 0.64 | Evals: 51.0%
+Iter 46 | Best: 4.392505 | Rate: 0.65 | Evals: 52.0%
+Iter 47 | Best: 4.392505 | Curr: 4.396732 | Rate: 0.64 | Evals: 53.0%
+Iter 48 | Best: 4.392505 | Curr: 4.392827 | Rate: 0.62 | Evals: 54.0%
+Iter 49 | Best: 4.392505 | Curr: 4.411365 | Rate: 0.61 | Evals: 55.0%
+Iter 50 | Best: 4.392505 | Curr: 4.393781 | Rate: 0.60 | Evals: 56.0%
+Iter 51 | Best: 4.392505 | Curr: 4.398814 | Rate: 0.59 | Evals: 57.0%
+Iter 52 | Best: 4.389942 | Rate: 0.60 | Evals: 58.0%
+Iter 53 | Best: 4.389942 | Curr: 4.390804 | Rate: 0.58 | Evals: 59.0%
+Iter 54 | Best: 4.383637 | Rate: 0.59 | Evals: 60.0%
+Iter 55 | Best: 4.370198 | Rate: 0.60 | Evals: 61.0%
+Iter 56 | Best: 4.360897 | Rate: 0.61 | Evals: 62.0%
+Iter 57 | Best: 4.295525 | Rate: 0.61 | Evals: 63.0%
+Iter 58 | Best: 4.217529 | Rate: 0.62 | Evals: 64.0%
+Iter 59 | Best: 4.217529 | Curr: 2199.272892 | Rate: 0.61 | Evals: 65.0%
+Iter 60 | Best: 4.217529 | Curr: 4.228908 | Rate: 0.60 | Evals: 66.0%
+Iter 61 | Best: 4.201141 | Rate: 0.61 | Evals: 67.0%
+Iter 62 | Best: 4.201141 | Curr: 4.213378 | Rate: 0.60 | Evals: 68.0%
+Iter 63 | Best: 4.124060 | Rate: 0.60 | Evals: 69.0%
+Iter 64 | Best: 4.114021 | Rate: 0.61 | Evals: 70.0%
+Iter 65 | Best: 4.088379 | Rate: 0.62 | Evals: 71.0%
+Iter 66 | Best: 4.088379 | Curr: 4.102347 | Rate: 0.61 | Evals: 72.0%
+Iter 67 | Best: 4.061808 | Rate: 0.61 | Evals: 73.0%
+Iter 68 | Best: 3.991231 | Rate: 0.62 | Evals: 74.0%
+Iter 69 | Best: 3.955106 | Rate: 0.62 | Evals: 75.0%
+Iter 70 | Best: 3.919681 | Rate: 0.63 | Evals: 76.0%
+Iter 71 | Best: 3.876394 | Rate: 0.63 | Evals: 77.0%
+Iter 72 | Best: 3.876394 | Curr: 16.442859 | Rate: 0.62 | Evals: 78.0%
+Iter 73 | Best: 3.792850 | Rate: 0.63 | Evals: 79.0%
+Iter 74 | Best: 3.726527 | Rate: 0.64 | Evals: 80.0%
+Iter 75 | Best: 3.724003 | Rate: 0.64 | Evals: 81.0%
+Iter 76 | Best: 3.679045 | Rate: 0.64 | Evals: 82.0%
+Iter 77 | Best: 3.679045 | Curr: 3.689129 | Rate: 0.64 | Evals: 83.0%
+Iter 78 | Best: 3.661571 | Rate: 0.64 | Evals: 84.0%
+Iter 79 | Best: 3.643433 | Rate: 0.65 | Evals: 85.0%
+Iter 80 | Best: 3.643433 | Curr: 3.657952 | Rate: 0.64 | Evals: 86.0%
+Iter 81 | Best: 3.635965 | Rate: 0.64 | Evals: 87.0%
+Iter 82 | Best: 3.588427 | Rate: 0.65 | Evals: 88.0%
+Iter 83 | Best: 3.532585 | Rate: 0.65 | Evals: 89.0%
+Iter 84 | Best: 3.499406 | Rate: 0.65 | Evals: 90.0%
+Iter 85 | Best: 3.490904 | Rate: 0.66 | Evals: 91.0%
+Iter 86 | Best: 3.443974 | Rate: 0.66 | Evals: 92.0%
+Iter 87 | Best: 3.351682 | Rate: 0.67 | Evals: 93.0%
+Iter 88 | Best: 3.291916 | Rate: 0.67 | Evals: 94.0%
+Iter 89 | Best: 3.226541 | Rate: 0.67 | Evals: 95.0%
+Iter 90 | Best: 3.202316 | Rate: 0.68 | Evals: 96.0%
+Optimizer candidate 1/3 was duplicate/invalid.
+Iter 91 | Best: 3.181563 | Rate: 0.68 | Evals: 97.0%
+Iter 92 | Best: 3.174817 | Rate: 0.68 | Evals: 98.0%
+Iter 93 | Best: 3.140410 | Rate: 0.69 | Evals: 99.0%
+Iter 94 | Best: 3.033875 | Rate: 0.69 | Evals: 100.0%</code></pre>
 </div>
 </div>
-<div id="4225b71b" class="cell" data-execution_count="5">
+<div id="4246c910" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[6D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[6D] Sklearn Kriging: min y = 4.4426 at x = [ 0.28207773  0.07110936  0.01142581 -0.0095834   0.03223602  0.0095451 ]
+<pre><code>[6D] Sklearn Kriging: min y = 3.0339 at x = [0.65576327 0.43018714 0.18631458 0.03668264 0.01139245 0.01137209]
 Number of function evaluations: 100
 Number of iterations: 94</code></pre>
 </div>
@@ -887,7 +891,7 @@ Number of iterations: 94</code></pre>
 </section>
 <section id="visualize-optimization-progress" class="level3" data-number="5.1.4">
 <h3 data-number="5.1.4" class="anchored" data-anchor-id="visualize-optimization-progress"><span class="header-section-number">5.1.4</span> Visualize Optimization Progress</h3>
-<div id="32470c62" class="cell" data-execution_count="6">
+<div id="00d2490d" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
@@ -911,7 +915,7 @@ Number of iterations: 94</code></pre>
 <section id="evaluation-of-multiple-repeats" class="level3" data-number="5.1.5">
 <h3 data-number="5.1.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats"><span class="header-section-number">5.1.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="7fcd8903" class="cell" data-execution_count="7">
+<div id="55d14569" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
@@ -960,7 +964,7 @@ Number of iterations: 94</code></pre>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 10-dimensional Michalewicz function. We use a maximum of 300 function evaluations.</p>
 <section id="define-the-10d-michalewicz-function" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="define-the-10d-michalewicz-function"><span class="header-section-number">5.2.1</span> Define the 10D Michalewicz Function</h3>
-<div id="b45a3fec" class="cell" data-execution_count="8">
+<div id="48c1c2eb" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> michalewicz</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">10</span></span>
@@ -973,7 +977,7 @@ Number of iterations: 94</code></pre>
 </section>
 <section id="set-up-spotoptim-parameters-1" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters-1"><span class="header-section-number">5.2.2</span> Set up SpotOptim Parameters</h3>
-<div id="a7296a40" class="cell" data-execution_count="9">
+<div id="05d74429" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1007,310 +1011,310 @@ Number of iterations: 94</code></pre>
 <span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>result_micha <span class="op">=</span> opt_micha.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = -1.909129
-Iter 1 | Best: -1.909129 | Curr: -0.467202 | Rate: 0.00 | Evals: 3.7%
-Iter 2 | Best: -2.778262 | Rate: 0.50 | Evals: 4.0%
-Iter 3 | Best: -2.778262 | Curr: -1.592337 | Rate: 0.33 | Evals: 4.3%
-Iter 4 | Best: -2.778262 | Curr: -1.662544 | Rate: 0.25 | Evals: 4.7%
-Iter 5 | Best: -3.211991 | Rate: 0.40 | Evals: 5.0%
-Iter 6 | Best: -3.211991 | Curr: -2.798917 | Rate: 0.33 | Evals: 5.3%
-Iter 7 | Best: -3.211991 | Curr: -2.988576 | Rate: 0.29 | Evals: 5.7%
-Iter 8 | Best: -3.350611 | Rate: 0.38 | Evals: 6.0%
-Iter 9 | Best: -3.350611 | Curr: -3.217390 | Rate: 0.33 | Evals: 6.3%
+Initial best: f(x) = -3.138441
+Iter 1 | Best: -3.251829 | Rate: 1.00 | Evals: 3.7%
+Iter 2 | Best: -3.760933 | Rate: 1.00 | Evals: 4.0%
+Iter 3 | Best: -3.760933 | Curr: -3.323847 | Rate: 0.67 | Evals: 4.3%
+Iter 4 | Best: -4.055550 | Rate: 0.75 | Evals: 4.7%
+Iter 5 | Best: -4.055550 | Curr: -2.924708 | Rate: 0.60 | Evals: 5.0%
+Iter 6 | Best: -4.055550 | Curr: -3.904574 | Rate: 0.50 | Evals: 5.3%
+Iter 7 | Best: -4.055550 | Curr: -4.030719 | Rate: 0.43 | Evals: 5.7%
+Iter 8 | Best: -4.055550 | Curr: -2.792606 | Rate: 0.38 | Evals: 6.0%
+Iter 9 | Best: -4.055550 | Curr: -3.738753 | Rate: 0.33 | Evals: 6.3%
+Iter 10 | Best: -4.094710 | Rate: 0.40 | Evals: 6.7%
+Iter 11 | Best: -4.094710 | Curr: -2.054993 | Rate: 0.36 | Evals: 7.0%
+Iter 12 | Best: -4.198002 | Rate: 0.42 | Evals: 7.3%
+Iter 13 | Best: -4.198002 | Curr: -4.138609 | Rate: 0.38 | Evals: 7.7%
+Iter 14 | Best: -4.198002 | Curr: -4.174578 | Rate: 0.36 | Evals: 8.0%
+Iter 15 | Best: -4.222509 | Rate: 0.40 | Evals: 8.3%
+Iter 16 | Best: -4.240241 | Rate: 0.44 | Evals: 8.7%
+Iter 17 | Best: -4.254497 | Rate: 0.47 | Evals: 9.0%
+Iter 18 | Best: -4.254497 | Curr: -2.264476 | Rate: 0.44 | Evals: 9.3%
+Iter 19 | Best: -4.254497 | Curr: -3.781572 | Rate: 0.42 | Evals: 9.7%
+Iter 20 | Best: -5.022285 | Rate: 0.45 | Evals: 10.0%
+Iter 21 | Best: -5.659846 | Rate: 0.48 | Evals: 10.3%
+Iter 22 | Best: -5.659846 | Curr: -4.606444 | Rate: 0.45 | Evals: 10.7%
+Iter 23 | Best: -5.659846 | Curr: -5.647518 | Rate: 0.43 | Evals: 11.0%
+Iter 24 | Best: -5.719554 | Rate: 0.46 | Evals: 11.3%
+Iter 25 | Best: -5.719554 | Curr: -5.691760 | Rate: 0.44 | Evals: 11.7%
+Iter 26 | Best: -5.719554 | Curr: -5.650367 | Rate: 0.42 | Evals: 12.0%
+Iter 27 | Best: -5.719554 | Curr: -5.591553 | Rate: 0.41 | Evals: 12.3%
+Iter 28 | Best: -5.719554 | Curr: -5.651496 | Rate: 0.39 | Evals: 12.7%
+Iter 29 | Best: -5.748302 | Rate: 0.41 | Evals: 13.0%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 10 | Best: -3.350611 | Curr: -1.168629 | Rate: 0.30 | Evals: 6.7%
-Iter 11 | Best: -3.420176 | Rate: 0.36 | Evals: 7.0%
-Iter 12 | Best: -3.477838 | Rate: 0.42 | Evals: 7.3%
+Iter 30 | Best: -5.748302 | Curr: -2.006934 | Rate: 0.40 | Evals: 13.3%
+Iter 31 | Best: -5.748302 | Curr: -2.231248 | Rate: 0.39 | Evals: 13.7%
+Iter 32 | Best: -5.748302 | Curr: -2.304038 | Rate: 0.38 | Evals: 14.0%
+Iter 33 | Best: -5.766786 | Rate: 0.39 | Evals: 14.3%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 13 | Best: -3.477838 | Curr: -1.449586 | Rate: 0.38 | Evals: 7.7%
-Iter 14 | Best: -3.477838 | Curr: -1.352781 | Rate: 0.36 | Evals: 8.0%
-Iter 15 | Best: -3.477838 | Curr: -3.471892 | Rate: 0.33 | Evals: 8.3%
-Iter 16 | Best: -3.541510 | Rate: 0.38 | Evals: 8.7%
-Iter 17 | Best: -3.541510 | Curr: -1.622355 | Rate: 0.35 | Evals: 9.0%
-Iter 18 | Best: -3.541510 | Curr: -3.502476 | Rate: 0.33 | Evals: 9.3%
-Iter 19 | Best: -3.541510 | Curr: -3.497143 | Rate: 0.32 | Evals: 9.7%
-Iter 20 | Best: -3.541510 | Curr: -1.760444 | Rate: 0.30 | Evals: 10.0%
-Iter 21 | Best: -3.541510 | Curr: -1.832617 | Rate: 0.29 | Evals: 10.3%
-Iter 22 | Best: -3.623121 | Rate: 0.32 | Evals: 10.7%
-Iter 23 | Best: -3.623121 | Curr: -0.786191 | Rate: 0.30 | Evals: 11.0%
-Iter 24 | Best: -3.645627 | Rate: 0.33 | Evals: 11.3%
+Iter 34 | Best: -5.766786 | Curr: -1.964419 | Rate: 0.38 | Evals: 14.7%
+Iter 35 | Best: -5.766786 | Curr: -5.761606 | Rate: 0.37 | Evals: 15.0%
+Iter 36 | Best: -5.766786 | Curr: -2.345197 | Rate: 0.36 | Evals: 15.3%
+Iter 37 | Best: -5.779066 | Rate: 0.38 | Evals: 15.7%
+Iter 38 | Best: -5.784258 | Rate: 0.39 | Evals: 16.0%
+Iter 39 | Best: -5.789819 | Rate: 0.41 | Evals: 16.3%
+Iter 40 | Best: -5.808350 | Rate: 0.42 | Evals: 16.7%
+Iter 41 | Best: -5.815764 | Rate: 0.44 | Evals: 17.0%
+Iter 42 | Best: -5.817622 | Rate: 0.45 | Evals: 17.3%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 25 | Best: -3.645627 | Curr: -0.913552 | Rate: 0.32 | Evals: 11.7%
-Iter 26 | Best: -3.879507 | Rate: 0.35 | Evals: 12.0%
-Iter 27 | Best: -4.718084 | Rate: 0.37 | Evals: 12.3%
-Iter 28 | Best: -4.718084 | Curr: -4.066472 | Rate: 0.36 | Evals: 12.7%
-Iter 29 | Best: -4.756804 | Rate: 0.38 | Evals: 13.0%
-Iter 30 | Best: -4.756804 | Curr: -4.751526 | Rate: 0.37 | Evals: 13.3%
-Iter 31 | Best: -4.760582 | Rate: 0.39 | Evals: 13.7%
-Iter 32 | Best: -4.760582 | Curr: -4.646373 | Rate: 0.38 | Evals: 14.0%
-Iter 33 | Best: -4.898053 | Rate: 0.39 | Evals: 14.3%
-Iter 34 | Best: -4.898053 | Curr: -1.857547 | Rate: 0.38 | Evals: 14.7%
-Iter 35 | Best: -4.940037 | Rate: 0.40 | Evals: 15.0%
-Iter 36 | Best: -4.953219 | Rate: 0.42 | Evals: 15.3%
-Iter 37 | Best: -4.953219 | Curr: -1.925003 | Rate: 0.41 | Evals: 15.7%
-Iter 38 | Best: -4.953219 | Curr: -4.892561 | Rate: 0.39 | Evals: 16.0%
-Iter 39 | Best: -4.987714 | Rate: 0.41 | Evals: 16.3%
-Iter 40 | Best: -4.987714 | Curr: -4.986228 | Rate: 0.40 | Evals: 16.7%
-Iter 41 | Best: -4.992740 | Rate: 0.41 | Evals: 17.0%
-Iter 42 | Best: -4.992740 | Curr: -1.966305 | Rate: 0.40 | Evals: 17.3%
-Iter 43 | Best: -4.992740 | Curr: -1.989955 | Rate: 0.40 | Evals: 17.7%
-Iter 44 | Best: -4.992740 | Curr: -4.988447 | Rate: 0.39 | Evals: 18.0%
-Iter 45 | Best: -5.055589 | Rate: 0.40 | Evals: 18.3%
-Iter 46 | Best: -5.163321 | Rate: 0.41 | Evals: 18.7%
-Iter 47 | Best: -5.330200 | Rate: 0.43 | Evals: 19.0%
-Iter 48 | Best: -5.330200 | Curr: -5.315522 | Rate: 0.42 | Evals: 19.3%
-Iter 49 | Best: -5.423851 | Rate: 0.43 | Evals: 19.7%
-Iter 50 | Best: -5.487307 | Rate: 0.44 | Evals: 20.0%
-Iter 51 | Best: -5.514821 | Rate: 0.45 | Evals: 20.3%
-Iter 52 | Best: -5.514821 | Curr: -5.513204 | Rate: 0.44 | Evals: 20.7%
-Iter 53 | Best: -5.544603 | Rate: 0.45 | Evals: 21.0%
-Iter 54 | Best: -5.544603 | Curr: -5.498218 | Rate: 0.44 | Evals: 21.3%
-Iter 55 | Best: -5.544603 | Curr: -2.013015 | Rate: 0.44 | Evals: 21.7%
-Iter 56 | Best: -5.544603 | Curr: -0.986604 | Rate: 0.43 | Evals: 22.0%
-Iter 57 | Best: -5.710968 | Rate: 0.44 | Evals: 22.3%
-Iter 58 | Best: -5.740085 | Rate: 0.45 | Evals: 22.7%
-Iter 59 | Best: -5.740085 | Curr: -5.731862 | Rate: 0.44 | Evals: 23.0%
-Iter 60 | Best: -5.740085 | Curr: -2.137932 | Rate: 0.43 | Evals: 23.3%
-Iter 61 | Best: -5.749742 | Rate: 0.44 | Evals: 23.7%
-Iter 62 | Best: -5.751414 | Rate: 0.45 | Evals: 24.0%
-Iter 63 | Best: -5.751414 | Curr: -5.723542 | Rate: 0.44 | Evals: 24.3%
-Iter 64 | Best: -5.751414 | Curr: -1.490073 | Rate: 0.44 | Evals: 24.7%
-Iter 65 | Best: -5.751414 | Curr: -2.196075 | Rate: 0.43 | Evals: 25.0%
-Iter 66 | Best: -5.977776 | Rate: 0.44 | Evals: 25.3%
-Iter 67 | Best: -5.990616 | Rate: 0.45 | Evals: 25.7%
-Iter 68 | Best: -5.990616 | Curr: -2.003978 | Rate: 0.44 | Evals: 26.0%
-Iter 69 | Best: -5.991110 | Rate: 0.45 | Evals: 26.3%
-Iter 70 | Best: -6.002744 | Rate: 0.46 | Evals: 26.7%
-Iter 71 | Best: -6.048590 | Rate: 0.46 | Evals: 27.0%
-Iter 72 | Best: -6.056870 | Rate: 0.47 | Evals: 27.3%
-Iter 73 | Best: -6.057568 | Rate: 0.48 | Evals: 27.7%
-Iter 74 | Best: -6.063140 | Rate: 0.49 | Evals: 28.0%
-Iter 75 | Best: -6.063140 | Curr: -1.112713 | Rate: 0.48 | Evals: 28.3%
-Iter 76 | Best: -6.063140 | Curr: -6.050027 | Rate: 0.47 | Evals: 28.7%
-Iter 77 | Best: -6.164413 | Rate: 0.48 | Evals: 29.0%
-Iter 78 | Best: -6.164413 | Curr: -2.218945 | Rate: 0.47 | Evals: 29.3%
-Iter 79 | Best: -6.164413 | Curr: -6.164111 | Rate: 0.47 | Evals: 29.7%
-Iter 80 | Best: -6.170468 | Rate: 0.47 | Evals: 30.0%
-Iter 81 | Best: -6.170468 | Curr: -2.224685 | Rate: 0.47 | Evals: 30.3%
-Iter 82 | Best: -6.170468 | Curr: -2.010742 | Rate: 0.46 | Evals: 30.7%
-Iter 83 | Best: -6.170468 | Curr: -2.015806 | Rate: 0.46 | Evals: 31.0%
-Iter 84 | Best: -6.183718 | Rate: 0.46 | Evals: 31.3%
-Iter 85 | Best: -6.183718 | Curr: -6.182447 | Rate: 0.46 | Evals: 31.7%
-Iter 86 | Best: -6.195052 | Rate: 0.47 | Evals: 32.0%
-Iter 87 | Best: -6.195052 | Curr: -2.029081 | Rate: 0.46 | Evals: 32.3%
-Iter 88 | Best: -6.195426 | Rate: 0.47 | Evals: 32.7%
-Iter 89 | Best: -6.200572 | Rate: 0.47 | Evals: 33.0%
-Iter 90 | Best: -6.200572 | Curr: -2.030962 | Rate: 0.47 | Evals: 33.3%
-Iter 91 | Best: -6.200572 | Curr: -1.124819 | Rate: 0.46 | Evals: 33.7%
-Iter 92 | Best: -6.239740 | Rate: 0.47 | Evals: 34.0%
-Iter 93 | Best: -6.239740 | Curr: -6.237672 | Rate: 0.46 | Evals: 34.3%
-Iter 94 | Best: -6.251388 | Rate: 0.47 | Evals: 34.7%
-Iter 95 | Best: -6.251388 | Curr: -2.225876 | Rate: 0.46 | Evals: 35.0%
-Iter 96 | Best: -6.251388 | Curr: -0.786240 | Rate: 0.46 | Evals: 35.3%
-Iter 97 | Best: -6.251388 | Curr: -2.224921 | Rate: 0.45 | Evals: 35.7%
-Iter 98 | Best: -6.251388 | Curr: -2.293240 | Rate: 0.45 | Evals: 36.0%
-Iter 99 | Best: -6.251388 | Curr: -2.303387 | Rate: 0.44 | Evals: 36.3%
-Iter 100 | Best: -6.254509 | Rate: 0.45 | Evals: 36.7%
-Iter 101 | Best: -6.254509 | Curr: -2.304992 | Rate: 0.45 | Evals: 37.0%
+Iter 43 | Best: -5.817622 | Curr: -0.613929 | Rate: 0.44 | Evals: 17.7%
+Iter 44 | Best: -5.817622 | Curr: -2.289639 | Rate: 0.43 | Evals: 18.0%
+Iter 45 | Best: -5.828445 | Rate: 0.44 | Evals: 18.3%
+Iter 46 | Best: -5.828445 | Curr: -2.377683 | Rate: 0.43 | Evals: 18.7%
+Iter 47 | Best: -5.828445 | Curr: -2.289038 | Rate: 0.43 | Evals: 19.0%
+Iter 48 | Best: -5.828445 | Curr: -5.809280 | Rate: 0.42 | Evals: 19.3%
+Iter 49 | Best: -5.828445 | Curr: -2.403012 | Rate: 0.41 | Evals: 19.7%
+Iter 50 | Best: -5.834591 | Rate: 0.42 | Evals: 20.0%
+Iter 51 | Best: -5.834591 | Curr: -2.288132 | Rate: 0.41 | Evals: 20.3%
+Iter 52 | Best: -5.844415 | Rate: 0.42 | Evals: 20.7%
+Iter 53 | Best: -5.869311 | Rate: 0.43 | Evals: 21.0%
+Iter 54 | Best: -5.877259 | Rate: 0.44 | Evals: 21.3%
+Iter 55 | Best: -5.880907 | Rate: 0.45 | Evals: 21.7%
+Iter 56 | Best: -5.880907 | Curr: -2.423649 | Rate: 0.45 | Evals: 22.0%
+Iter 57 | Best: -5.880907 | Curr: -2.435568 | Rate: 0.44 | Evals: 22.3%
+Iter 58 | Best: -5.880907 | Curr: -5.879279 | Rate: 0.43 | Evals: 22.7%
+Iter 59 | Best: -5.883058 | Rate: 0.44 | Evals: 23.0%
+Iter 60 | Best: -5.897049 | Rate: 0.45 | Evals: 23.3%
+Iter 61 | Best: -5.897049 | Curr: -5.891252 | Rate: 0.44 | Evals: 23.7%
+Iter 62 | Best: -5.897049 | Curr: -2.290008 | Rate: 0.44 | Evals: 24.0%
+Iter 63 | Best: -5.901421 | Rate: 0.44 | Evals: 24.3%
+Iter 64 | Best: -5.901421 | Curr: -5.900203 | Rate: 0.44 | Evals: 24.7%
+Iter 65 | Best: -5.901421 | Curr: -5.886783 | Rate: 0.43 | Evals: 25.0%
+Iter 66 | Best: -5.901421 | Curr: -5.884182 | Rate: 0.42 | Evals: 25.3%
+Iter 67 | Best: -5.920054 | Rate: 0.43 | Evals: 25.7%
+Iter 68 | Best: -5.920054 | Curr: -5.913229 | Rate: 0.43 | Evals: 26.0%
+Iter 69 | Best: -5.920054 | Curr: -5.917539 | Rate: 0.42 | Evals: 26.3%
+Iter 70 | Best: -5.920719 | Rate: 0.43 | Evals: 26.7%
+Iter 71 | Best: -5.920933 | Rate: 0.44 | Evals: 27.0%
+Iter 72 | Best: -5.920933 | Curr: -5.917546 | Rate: 0.43 | Evals: 27.3%
+Iter 73 | Best: -5.928007 | Rate: 0.44 | Evals: 27.7%
+Iter 74 | Best: -5.933317 | Rate: 0.45 | Evals: 28.0%
+Iter 75 | Best: -5.933767 | Rate: 0.45 | Evals: 28.3%
+Iter 76 | Best: -5.935855 | Rate: 0.46 | Evals: 28.7%
+Iter 77 | Best: -5.936932 | Rate: 0.47 | Evals: 29.0%
+Iter 78 | Best: -5.937037 | Rate: 0.47 | Evals: 29.3%
+Iter 79 | Best: -5.937037 | Curr: -5.937010 | Rate: 0.47 | Evals: 29.7%
+Iter 80 | Best: -5.939714 | Rate: 0.47 | Evals: 30.0%
+Iter 81 | Best: -5.939728 | Rate: 0.48 | Evals: 30.3%
+Iter 82 | Best: -5.939728 | Curr: -2.285603 | Rate: 0.48 | Evals: 30.7%
+Iter 83 | Best: -5.941654 | Rate: 0.48 | Evals: 31.0%
+Iter 84 | Best: -5.941654 | Curr: -2.292702 | Rate: 0.48 | Evals: 31.3%
+Iter 85 | Best: -5.941654 | Curr: -2.293435 | Rate: 0.47 | Evals: 31.7%
+Iter 86 | Best: -5.941938 | Rate: 0.48 | Evals: 32.0%
+Iter 87 | Best: -5.942147 | Rate: 0.48 | Evals: 32.3%
+Iter 88 | Best: -5.942147 | Curr: -2.431230 | Rate: 0.48 | Evals: 32.7%
+Iter 89 | Best: -5.942958 | Rate: 0.48 | Evals: 33.0%
+Iter 90 | Best: -5.942958 | Curr: -2.048202 | Rate: 0.48 | Evals: 33.3%
+Iter 91 | Best: -5.942958 | Curr: -5.942888 | Rate: 0.47 | Evals: 33.7%
+Iter 92 | Best: -5.944153 | Rate: 0.48 | Evals: 34.0%
+Iter 93 | Best: -5.944807 | Rate: 0.48 | Evals: 34.3%
+Iter 94 | Best: -5.944807 | Curr: -5.944675 | Rate: 0.48 | Evals: 34.7%
+Iter 95 | Best: -5.945414 | Rate: 0.48 | Evals: 35.0%
+Iter 96 | Best: -5.946418 | Rate: 0.49 | Evals: 35.3%
+Iter 97 | Best: -5.949213 | Rate: 0.49 | Evals: 35.7%
+Iter 98 | Best: -5.949213 | Curr: -2.620856 | Rate: 0.49 | Evals: 36.0%
+Iter 99 | Best: -5.949213 | Curr: -2.696282 | Rate: 0.48 | Evals: 36.3%
+Iter 100 | Best: -5.949213 | Curr: -2.487318 | Rate: 0.48 | Evals: 36.7%
+Iter 101 | Best: -5.949213 | Curr: -2.506793 | Rate: 0.47 | Evals: 37.0%
+Iter 102 | Best: -5.950531 | Rate: 0.47 | Evals: 37.3%
+Iter 103 | Best: -5.950736 | Rate: 0.48 | Evals: 37.7%
+Iter 104 | Best: -5.950736 | Curr: -5.949936 | Rate: 0.47 | Evals: 38.0%
+Iter 105 | Best: -5.951489 | Rate: 0.48 | Evals: 38.3%
+Iter 106 | Best: -5.951899 | Rate: 0.49 | Evals: 38.7%
+Iter 107 | Best: -5.951899 | Curr: -2.696540 | Rate: 0.49 | Evals: 39.0%
+Iter 108 | Best: -5.951899 | Curr: -2.497729 | Rate: 0.49 | Evals: 39.3%
+Iter 109 | Best: -5.951899 | Curr: -5.951896 | Rate: 0.49 | Evals: 39.7%
+Iter 110 | Best: -5.951899 | Curr: -5.951882 | Rate: 0.48 | Evals: 40.0%
+Iter 111 | Best: -5.951899 | Curr: -2.880723 | Rate: 0.48 | Evals: 40.3%
+Iter 112 | Best: -5.951899 | Curr: -5.951877 | Rate: 0.47 | Evals: 40.7%
+Iter 113 | Best: -5.952063 | Rate: 0.48 | Evals: 41.0%
+Iter 114 | Best: -5.952063 | Curr: -5.952000 | Rate: 0.48 | Evals: 41.3%
+Iter 115 | Best: -5.952749 | Rate: 0.48 | Evals: 41.7%
+Iter 116 | Best: -5.952749 | Curr: -5.952718 | Rate: 0.47 | Evals: 42.0%
+Iter 117 | Best: -5.954531 | Rate: 0.47 | Evals: 42.3%
+Iter 118 | Best: -5.955591 | Rate: 0.48 | Evals: 42.7%
+Iter 119 | Best: -5.956182 | Rate: 0.49 | Evals: 43.0%
+Iter 120 | Best: -5.956274 | Rate: 0.49 | Evals: 43.3%
+Iter 121 | Best: -5.956274 | Curr: -2.741409 | Rate: 0.48 | Evals: 43.7%
+Iter 122 | Best: -5.956274 | Curr: -5.956105 | Rate: 0.48 | Evals: 44.0%
+Iter 123 | Best: -5.956274 | Curr: -5.956247 | Rate: 0.48 | Evals: 44.3%
+Iter 124 | Best: -5.956303 | Rate: 0.48 | Evals: 44.7%
+Iter 125 | Best: -5.956371 | Rate: 0.49 | Evals: 45.0%
+Iter 126 | Best: -5.956371 | Curr: -2.505540 | Rate: 0.49 | Evals: 45.3%
+Iter 127 | Best: -5.956498 | Rate: 0.50 | Evals: 45.7%
+Iter 128 | Best: -5.956530 | Rate: 0.51 | Evals: 46.0%
+Iter 129 | Best: -5.956530 | Curr: -5.956465 | Rate: 0.50 | Evals: 46.3%
+Iter 130 | Best: -5.957405 | Rate: 0.51 | Evals: 46.7%
+Iter 131 | Best: -5.957405 | Curr: -5.957205 | Rate: 0.51 | Evals: 47.0%
+Iter 132 | Best: -5.957405 | Curr: -5.957313 | Rate: 0.51 | Evals: 47.3%
+Iter 133 | Best: -5.957449 | Rate: 0.51 | Evals: 47.7%
+Iter 134 | Best: -5.957449 | Curr: -5.957434 | Rate: 0.51 | Evals: 48.0%
+Iter 135 | Best: -5.957449 | Curr: -5.957332 | Rate: 0.51 | Evals: 48.3%
+Iter 136 | Best: -5.957449 | Curr: -5.956918 | Rate: 0.51 | Evals: 48.7%
+Iter 137 | Best: -5.957601 | Rate: 0.51 | Evals: 49.0%
+Iter 138 | Best: -5.957601 | Curr: -5.957600 | Rate: 0.50 | Evals: 49.3%
+Iter 139 | Best: -5.957601 | Curr: -5.957585 | Rate: 0.49 | Evals: 49.7%
+Iter 140 | Best: -5.957601 | Curr: -2.510696 | Rate: 0.48 | Evals: 50.0%
+Iter 141 | Best: -5.957613 | Rate: 0.48 | Evals: 50.3%
+Iter 142 | Best: -5.957616 | Rate: 0.48 | Evals: 50.7%
+Iter 143 | Best: -5.957616 | Curr: -5.957608 | Rate: 0.48 | Evals: 51.0%
+Iter 144 | Best: -5.957616 | Curr: -2.895942 | Rate: 0.48 | Evals: 51.3%
+Iter 145 | Best: -5.957623 | Rate: 0.48 | Evals: 51.7%
+Iter 146 | Best: -5.957631 | Rate: 0.49 | Evals: 52.0%
+Iter 147 | Best: -5.957631 | Curr: -2.503519 | Rate: 0.49 | Evals: 52.3%
+Iter 148 | Best: -5.957631 | Curr: -5.957623 | Rate: 0.49 | Evals: 52.7%
+Iter 149 | Best: -5.957631 | Curr: -2.741402 | Rate: 0.49 | Evals: 53.0%
+Iter 150 | Best: -5.957632 | Rate: 0.49 | Evals: 53.3%
+Iter 151 | Best: -5.957632 | Curr: -2.703788 | Rate: 0.49 | Evals: 53.7%
+Iter 152 | Best: -5.957635 | Rate: 0.49 | Evals: 54.0%
+Iter 153 | Best: -5.957635 | Curr: -5.957633 | Rate: 0.48 | Evals: 54.3%
+Iter 154 | Best: -5.957635 | Curr: -2.706538 | Rate: 0.47 | Evals: 54.7%
+Iter 155 | Best: -5.957636 | Rate: 0.47 | Evals: 55.0%
+Iter 156 | Best: -5.957636 | Curr: -5.957635 | Rate: 0.47 | Evals: 55.3%
+Iter 157 | Best: -5.957636 | Curr: -5.957624 | Rate: 0.47 | Evals: 55.7%
+Iter 158 | Best: -5.957636 | Curr: -2.713365 | Rate: 0.47 | Evals: 56.0%
+Iter 159 | Best: -5.957636 | Curr: -5.957635 | Rate: 0.46 | Evals: 56.3%
+Iter 160 | Best: -5.957636 | Curr: -5.957629 | Rate: 0.45 | Evals: 56.7%
+Iter 161 | Best: -5.957636 | Curr: -5.957633 | Rate: 0.45 | Evals: 57.0%
+Iter 162 | Best: -5.957640 | Rate: 0.46 | Evals: 57.3%
+Iter 163 | Best: -5.957644 | Rate: 0.46 | Evals: 57.7%
+Iter 164 | Best: -5.957652 | Rate: 0.47 | Evals: 58.0%
+Iter 165 | Best: -5.957652 | Curr: -2.793046 | Rate: 0.47 | Evals: 58.3%
+Iter 166 | Best: -5.957652 | Curr: -5.957650 | Rate: 0.47 | Evals: 58.7%
+Iter 167 | Best: -5.957652 | Curr: -5.957651 | Rate: 0.46 | Evals: 59.0%
+Iter 168 | Best: -5.957653 | Rate: 0.47 | Evals: 59.3%
+Iter 169 | Best: -5.957653 | Curr: -5.957647 | Rate: 0.47 | Evals: 59.7%
+Iter 170 | Best: -5.957653 | Curr: -2.874885 | Rate: 0.46 | Evals: 60.0%
+Iter 171 | Best: -5.957656 | Rate: 0.46 | Evals: 60.3%
+Iter 172 | Best: -5.957656 | Curr: -5.957655 | Rate: 0.46 | Evals: 60.7%
+Iter 173 | Best: -5.957661 | Rate: 0.46 | Evals: 61.0%
+Iter 174 | Best: -5.957661 | Curr: -5.957659 | Rate: 0.45 | Evals: 61.3%
+Iter 175 | Best: -5.957661 | Curr: -3.149914 | Rate: 0.44 | Evals: 61.7%
+Iter 176 | Best: -5.957661 | Curr: -2.896880 | Rate: 0.43 | Evals: 62.0%
+Iter 177 | Best: -5.957661 | Rate: 0.43 | Evals: 62.3%
+Iter 178 | Best: -5.957661 | Curr: -3.607684 | Rate: 0.42 | Evals: 62.7%
+Iter 179 | Best: -5.957661 | Curr: -2.896901 | Rate: 0.42 | Evals: 63.0%
+Iter 180 | Best: -5.957661 | Curr: -5.957659 | Rate: 0.41 | Evals: 63.3%
+Iter 181 | Best: -5.957661 | Curr: -2.896905 | Rate: 0.40 | Evals: 63.7%
+Iter 182 | Best: -5.957661 | Curr: -5.957661 | Rate: 0.40 | Evals: 64.0%
+Iter 183 | Best: -5.957661 | Curr: -5.957660 | Rate: 0.39 | Evals: 64.3%
+Iter 184 | Best: -5.957661 | Curr: -3.596829 | Rate: 0.39 | Evals: 64.7%
+Iter 185 | Best: -5.957663 | Rate: 0.40 | Evals: 65.0%
+Iter 186 | Best: -5.957663 | Curr: -5.957662 | Rate: 0.39 | Evals: 65.3%
+Iter 187 | Best: -5.957663 | Curr: -3.633637 | Rate: 0.38 | Evals: 65.7%
+Iter 188 | Best: -5.957663 | Curr: -5.957660 | Rate: 0.38 | Evals: 66.0%
+Iter 189 | Best: -5.957663 | Curr: -0.600268 | Rate: 0.37 | Evals: 66.3%
+Iter 190 | Best: -5.957663 | Curr: -5.957661 | Rate: 0.37 | Evals: 66.7%
+Iter 191 | Best: -5.957663 | Curr: -5.957663 | Rate: 0.37 | Evals: 67.0%
+Iter 192 | Best: -5.957663 | Curr: -5.957660 | Rate: 0.36 | Evals: 67.3%
+Iter 193 | Best: -5.957663 | Curr: -3.862032 | Rate: 0.35 | Evals: 67.7%
+Iter 194 | Best: -5.957663 | Curr: -5.957661 | Rate: 0.35 | Evals: 68.0%
+Iter 195 | Best: -5.957663 | Curr: -5.957662 | Rate: 0.34 | Evals: 68.3%
+Iter 196 | Best: -5.957663 | Curr: -3.130800 | Rate: 0.33 | Evals: 68.7%
+Iter 197 | Best: -5.957663 | Curr: -5.957662 | Rate: 0.32 | Evals: 69.0%
+Iter 198 | Best: -5.957663 | Curr: -5.957662 | Rate: 0.32 | Evals: 69.3%
+Iter 199 | Best: -5.957663 | Curr: -5.957660 | Rate: 0.32 | Evals: 69.7%
+Iter 200 | Best: -5.957663 | Rate: 0.33 | Evals: 70.0%
+Iter 201 | Best: -5.957663 | Curr: -5.957663 | Rate: 0.33 | Evals: 70.3%
+Iter 202 | Best: -5.957666 | Rate: 0.33 | Evals: 70.7%
+Iter 203 | Best: -5.957666 | Curr: -5.957662 | Rate: 0.32 | Evals: 71.0%
+Iter 204 | Best: -5.957666 | Curr: -2.629881 | Rate: 0.32 | Evals: 71.3%
+Iter 205 | Best: -5.957666 | Curr: -5.957663 | Rate: 0.31 | Evals: 71.7%
+Iter 206 | Best: -5.957666 | Curr: -5.957664 | Rate: 0.30 | Evals: 72.0%
+Iter 207 | Best: -5.957666 | Curr: -5.957662 | Rate: 0.30 | Evals: 72.3%
+Iter 208 | Best: -5.957666 | Curr: -2.896977 | Rate: 0.30 | Evals: 72.7%
+Iter 209 | Best: -5.957666 | Curr: -3.879514 | Rate: 0.30 | Evals: 73.0%
+Iter 210 | Best: -5.957666 | Curr: -5.957663 | Rate: 0.30 | Evals: 73.3%
+Iter 211 | Best: -5.957666 | Curr: -5.957662 | Rate: 0.30 | Evals: 73.7%
+Iter 212 | Best: -5.957666 | Curr: -5.957666 | Rate: 0.30 | Evals: 74.0%
+Iter 213 | Best: -5.957667 | Rate: 0.30 | Evals: 74.3%
+Iter 214 | Best: -5.957667 | Curr: -5.957664 | Rate: 0.30 | Evals: 74.7%
+Iter 215 | Best: -5.957667 | Curr: -5.957664 | Rate: 0.29 | Evals: 75.0%
+Iter 216 | Best: -5.957667 | Curr: -5.957666 | Rate: 0.29 | Evals: 75.3%
+Iter 217 | Best: -5.957667 | Curr: -5.957664 | Rate: 0.28 | Evals: 75.7%
+Iter 218 | Best: -5.957667 | Curr: -5.957665 | Rate: 0.27 | Evals: 76.0%
+Iter 219 | Best: -5.957667 | Curr: -5.957666 | Rate: 0.26 | Evals: 76.3%
+Iter 220 | Best: -5.957667 | Curr: -5.957667 | Rate: 0.25 | Evals: 76.7%
+Iter 221 | Best: -5.957667 | Curr: -5.957666 | Rate: 0.25 | Evals: 77.0%
+Iter 222 | Best: -5.957667 | Curr: -5.957658 | Rate: 0.25 | Evals: 77.3%
+Iter 223 | Best: -5.957667 | Rate: 0.26 | Evals: 77.7%
+Iter 224 | Best: -5.957668 | Rate: 0.26 | Evals: 78.0%
+Iter 225 | Best: -5.957668 | Curr: -5.957667 | Rate: 0.25 | Evals: 78.3%
+Iter 226 | Best: -5.957668 | Curr: -5.957666 | Rate: 0.25 | Evals: 78.7%
+Iter 227 | Best: -5.957669 | Rate: 0.25 | Evals: 79.0%
+Iter 228 | Best: -5.957669 | Curr: -5.957669 | Rate: 0.24 | Evals: 79.3%
+Iter 229 | Best: -5.957669 | Curr: -5.957668 | Rate: 0.24 | Evals: 79.7%
+Iter 230 | Best: -5.957669 | Curr: -5.957668 | Rate: 0.23 | Evals: 80.0%
+Iter 231 | Best: -5.957669 | Curr: -2.892932 | Rate: 0.23 | Evals: 80.3%
+Iter 232 | Best: -5.957670 | Rate: 0.24 | Evals: 80.7%
+Iter 233 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.23 | Evals: 81.0%
+Iter 234 | Best: -5.957670 | Curr: -4.002375 | Rate: 0.23 | Evals: 81.3%
+Iter 235 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.23 | Evals: 81.7%
+Iter 236 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.23 | Evals: 82.0%
+Iter 237 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.22 | Evals: 82.3%
+Iter 238 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.22 | Evals: 82.7%
+Iter 239 | Best: -5.957670 | Curr: -2.896448 | Rate: 0.22 | Evals: 83.0%
+Iter 240 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.22 | Evals: 83.3%
+Iter 241 | Best: -5.957670 | Curr: -2.797499 | Rate: 0.21 | Evals: 83.7%
+Iter 242 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.20 | Evals: 84.0%
+Iter 243 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.20 | Evals: 84.3%
+Iter 244 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.20 | Evals: 84.7%
+Iter 245 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.19 | Evals: 85.0%
+Iter 246 | Best: -5.957670 | Curr: -2.891513 | Rate: 0.18 | Evals: 85.3%
+Iter 247 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.18 | Evals: 85.7%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 102 | Best: -6.254509 | Curr: -1.758762 | Rate: 0.44 | Evals: 37.3%
-Iter 103 | Best: -6.254509 | Curr: -2.362865 | Rate: 0.44 | Evals: 37.7%
-Iter 104 | Best: -6.254509 | Curr: -2.348322 | Rate: 0.44 | Evals: 38.0%
-Iter 105 | Best: -6.254509 | Curr: -2.027437 | Rate: 0.43 | Evals: 38.3%
-Iter 106 | Best: -6.254509 | Curr: -2.391746 | Rate: 0.43 | Evals: 38.7%
-Iter 107 | Best: -6.254509 | Curr: -6.253186 | Rate: 0.43 | Evals: 39.0%
-Iter 108 | Best: -6.277164 | Rate: 0.43 | Evals: 39.3%
-Iter 109 | Best: -6.277425 | Rate: 0.44 | Evals: 39.7%
-Iter 110 | Best: -6.277425 | Curr: -6.276328 | Rate: 0.44 | Evals: 40.0%
-Iter 111 | Best: -6.288893 | Rate: 0.44 | Evals: 40.3%
-Iter 112 | Best: -6.289784 | Rate: 0.44 | Evals: 40.7%
-Iter 113 | Best: -6.291421 | Rate: 0.45 | Evals: 41.0%
-Iter 114 | Best: -6.293083 | Rate: 0.46 | Evals: 41.3%
-Iter 115 | Best: -6.293083 | Curr: -6.292970 | Rate: 0.46 | Evals: 41.7%
-Iter 116 | Best: -6.293643 | Rate: 0.46 | Evals: 42.0%
-Iter 117 | Best: -6.293996 | Rate: 0.47 | Evals: 42.3%
-Iter 118 | Best: -6.293996 | Curr: -6.293948 | Rate: 0.47 | Evals: 42.7%
-Iter 119 | Best: -6.293996 | Curr: -1.490371 | Rate: 0.47 | Evals: 43.0%
-Iter 120 | Best: -6.301918 | Rate: 0.48 | Evals: 43.3%
-Iter 121 | Best: -6.301918 | Curr: -0.775860 | Rate: 0.48 | Evals: 43.7%
-Iter 122 | Best: -6.302789 | Rate: 0.48 | Evals: 44.0%
-Iter 123 | Best: -6.302789 | Curr: -6.302711 | Rate: 0.48 | Evals: 44.3%
-Iter 124 | Best: -6.304016 | Rate: 0.48 | Evals: 44.7%
-Iter 125 | Best: -6.308309 | Rate: 0.49 | Evals: 45.0%
-Iter 126 | Best: -6.308369 | Rate: 0.49 | Evals: 45.3%
-Iter 127 | Best: -6.308369 | Curr: -2.408169 | Rate: 0.48 | Evals: 45.7%
-Iter 128 | Best: -6.308537 | Rate: 0.49 | Evals: 46.0%
-Iter 129 | Best: -6.308537 | Curr: -2.433295 | Rate: 0.48 | Evals: 46.3%
-Iter 130 | Best: -6.309349 | Rate: 0.49 | Evals: 46.7%
-Iter 131 | Best: -6.309715 | Rate: 0.49 | Evals: 47.0%
-Iter 132 | Best: -6.312788 | Rate: 0.50 | Evals: 47.3%
-Iter 133 | Best: -6.319245 | Rate: 0.50 | Evals: 47.7%
-Iter 134 | Best: -6.329490 | Rate: 0.51 | Evals: 48.0%
-Iter 135 | Best: -6.329490 | Curr: -6.328972 | Rate: 0.50 | Evals: 48.3%
-Iter 136 | Best: -6.329490 | Curr: -1.132906 | Rate: 0.49 | Evals: 48.7%
-Iter 137 | Best: -6.329490 | Curr: -2.032633 | Rate: 0.49 | Evals: 49.0%
-Iter 138 | Best: -6.332480 | Rate: 0.50 | Evals: 49.3%
-Iter 139 | Best: -6.332480 | Curr: -2.452340 | Rate: 0.49 | Evals: 49.7%
-Iter 140 | Best: -6.343582 | Rate: 0.50 | Evals: 50.0%
-Iter 141 | Best: -6.346320 | Rate: 0.50 | Evals: 50.3%
-Iter 142 | Best: -6.346320 | Curr: -6.346154 | Rate: 0.50 | Evals: 50.7%
-Iter 143 | Best: -6.347432 | Rate: 0.51 | Evals: 51.0%
-Iter 144 | Best: -6.347432 | Curr: -2.477130 | Rate: 0.51 | Evals: 51.3%
-Iter 145 | Best: -6.347432 | Curr: -2.080753 | Rate: 0.50 | Evals: 51.7%
-Iter 146 | Best: -6.349563 | Rate: 0.50 | Evals: 52.0%
-Iter 147 | Best: -6.350449 | Rate: 0.50 | Evals: 52.3%
-Iter 148 | Best: -6.351700 | Rate: 0.51 | Evals: 52.7%
-Iter 149 | Best: -6.352046 | Rate: 0.51 | Evals: 53.0%
-Iter 150 | Best: -6.352046 | Curr: -2.512516 | Rate: 0.50 | Evals: 53.3%
-Iter 151 | Best: -6.352232 | Rate: 0.50 | Evals: 53.7%
-Iter 152 | Best: -6.352232 | Curr: -2.525852 | Rate: 0.50 | Evals: 54.0%
-Iter 153 | Best: -6.352318 | Rate: 0.50 | Evals: 54.3%
-Iter 154 | Best: -6.352318 | Curr: -2.526499 | Rate: 0.50 | Evals: 54.7%
-Iter 155 | Best: -6.352318 | Curr: -2.527085 | Rate: 0.50 | Evals: 55.0%
-Iter 156 | Best: -6.352318 | Curr: -6.352275 | Rate: 0.50 | Evals: 55.3%
-Iter 157 | Best: -6.352318 | Curr: -0.793356 | Rate: 0.49 | Evals: 55.7%
-Iter 158 | Best: -6.352633 | Rate: 0.49 | Evals: 56.0%
-Iter 159 | Best: -6.352633 | Curr: -6.352542 | Rate: 0.49 | Evals: 56.3%
-Iter 160 | Best: -6.352633 | Curr: -2.525323 | Rate: 0.49 | Evals: 56.7%
-Iter 161 | Best: -6.352940 | Rate: 0.49 | Evals: 57.0%
-Iter 162 | Best: -6.352940 | Curr: -2.556321 | Rate: 0.48 | Evals: 57.3%
-Iter 163 | Best: -6.361329 | Rate: 0.49 | Evals: 57.7%
-Iter 164 | Best: -6.375884 | Rate: 0.50 | Evals: 58.0%
-Iter 165 | Best: -6.378251 | Rate: 0.51 | Evals: 58.3%
-Iter 166 | Best: -6.380502 | Rate: 0.51 | Evals: 58.7%
-Iter 167 | Best: -6.380502 | Curr: -6.380121 | Rate: 0.50 | Evals: 59.0%
-Iter 168 | Best: -6.384125 | Rate: 0.51 | Evals: 59.3%
-Iter 169 | Best: -6.384125 | Curr: -2.598851 | Rate: 0.50 | Evals: 59.7%
-Iter 170 | Best: -6.384125 | Curr: -2.596444 | Rate: 0.49 | Evals: 60.0%
-Iter 171 | Best: -6.384125 | Curr: -0.865635 | Rate: 0.48 | Evals: 60.3%
-Iter 172 | Best: -6.384125 | Curr: -2.592670 | Rate: 0.47 | Evals: 60.7%
-Iter 173 | Best: -6.385428 | Rate: 0.47 | Evals: 61.0%
-Iter 174 | Best: -6.385464 | Rate: 0.47 | Evals: 61.3%
-Iter 175 | Best: -6.385669 | Rate: 0.48 | Evals: 61.7%
-Iter 176 | Best: -6.385710 | Rate: 0.49 | Evals: 62.0%
-Iter 177 | Best: -6.385845 | Rate: 0.49 | Evals: 62.3%
-Iter 178 | Best: -6.385845 | Curr: -6.385072 | Rate: 0.49 | Evals: 62.7%
-Iter 179 | Best: -6.385845 | Curr: -6.383327 | Rate: 0.49 | Evals: 63.0%
-Iter 180 | Best: -6.385956 | Rate: 0.49 | Evals: 63.3%
-Iter 181 | Best: -6.387618 | Rate: 0.50 | Evals: 63.7%
-Iter 182 | Best: -6.388747 | Rate: 0.51 | Evals: 64.0%
-Iter 183 | Best: -6.388747 | Curr: -6.387081 | Rate: 0.51 | Evals: 64.3%
-Iter 184 | Best: -6.388747 | Curr: -2.086196 | Rate: 0.50 | Evals: 64.7%
-Iter 185 | Best: -6.390911 | Rate: 0.51 | Evals: 65.0%
-Iter 186 | Best: -6.392838 | Rate: 0.51 | Evals: 65.3%
-Iter 187 | Best: -6.393812 | Rate: 0.52 | Evals: 65.7%
-Iter 188 | Best: -6.393812 | Curr: -6.391312 | Rate: 0.51 | Evals: 66.0%
-Iter 189 | Best: -6.394898 | Rate: 0.51 | Evals: 66.3%
-Iter 190 | Best: -6.395340 | Rate: 0.52 | Evals: 66.7%
-Iter 191 | Best: -6.396468 | Rate: 0.53 | Evals: 67.0%
-Iter 192 | Best: -6.396468 | Curr: -1.098505 | Rate: 0.52 | Evals: 67.3%
-Iter 193 | Best: -6.396468 | Curr: -2.604949 | Rate: 0.52 | Evals: 67.7%
-Iter 194 | Best: -6.396468 | Curr: -6.396463 | Rate: 0.51 | Evals: 68.0%
-Iter 195 | Best: -6.396468 | Curr: -2.606466 | Rate: 0.51 | Evals: 68.3%
-Iter 196 | Best: -6.396468 | Curr: -2.622660 | Rate: 0.51 | Evals: 68.7%
-Iter 197 | Best: -6.396985 | Rate: 0.52 | Evals: 69.0%
-Iter 198 | Best: -6.397630 | Rate: 0.53 | Evals: 69.3%
-Iter 199 | Best: -6.397630 | Curr: -2.621368 | Rate: 0.53 | Evals: 69.7%
-Iter 200 | Best: -6.397903 | Rate: 0.53 | Evals: 70.0%
-Iter 201 | Best: -6.397903 | Curr: -2.628173 | Rate: 0.53 | Evals: 70.3%
-Iter 202 | Best: -6.397903 | Curr: -2.170577 | Rate: 0.53 | Evals: 70.7%
-Iter 203 | Best: -6.397922 | Rate: 0.54 | Evals: 71.0%
-Iter 204 | Best: -6.398445 | Rate: 0.55 | Evals: 71.3%
-Iter 205 | Best: -6.398445 | Curr: -2.638541 | Rate: 0.55 | Evals: 71.7%
-Iter 206 | Best: -6.398719 | Rate: 0.56 | Evals: 72.0%
-Iter 207 | Best: -6.398719 | Curr: -1.711353 | Rate: 0.56 | Evals: 72.3%
-Iter 208 | Best: -6.398719 | Curr: -2.657427 | Rate: 0.55 | Evals: 72.7%
-Iter 209 | Best: -6.398719 | Curr: -6.398457 | Rate: 0.54 | Evals: 73.0%
-Iter 210 | Best: -6.404110 | Rate: 0.55 | Evals: 73.3%
-Iter 211 | Best: -6.404110 | Curr: -2.166475 | Rate: 0.54 | Evals: 73.7%
-Iter 212 | Best: -6.404110 | Curr: -2.679683 | Rate: 0.53 | Evals: 74.0%
-Iter 213 | Best: -6.413157 | Rate: 0.53 | Evals: 74.3%
-Iter 214 | Best: -6.413157 | Curr: -2.674059 | Rate: 0.52 | Evals: 74.7%
-Iter 215 | Best: -6.424805 | Rate: 0.53 | Evals: 75.0%
-Iter 216 | Best: -6.424805 | Curr: -6.424191 | Rate: 0.52 | Evals: 75.3%
-Iter 217 | Best: -6.441167 | Rate: 0.52 | Evals: 75.7%
-Iter 218 | Best: -6.441167 | Curr: -2.720631 | Rate: 0.52 | Evals: 76.0%
-Iter 219 | Best: -6.446234 | Rate: 0.53 | Evals: 76.3%
-Iter 220 | Best: -6.446234 | Curr: -2.773480 | Rate: 0.52 | Evals: 76.7%
-Iter 221 | Best: -6.446234 | Curr: -2.776241 | Rate: 0.52 | Evals: 77.0%
-Iter 222 | Best: -6.457461 | Rate: 0.52 | Evals: 77.3%
-Iter 223 | Best: -6.466672 | Rate: 0.53 | Evals: 77.7%
-Iter 224 | Best: -6.466672 | Curr: -6.458645 | Rate: 0.52 | Evals: 78.0%
-Iter 225 | Best: -6.466672 | Curr: -2.231609 | Rate: 0.51 | Evals: 78.3%
-Iter 226 | Best: -6.466672 | Curr: -2.773635 | Rate: 0.50 | Evals: 78.7%
-Iter 227 | Best: -6.466672 | Curr: -2.802841 | Rate: 0.50 | Evals: 79.0%
-Iter 228 | Best: -6.466672 | Curr: -2.495180 | Rate: 0.49 | Evals: 79.3%
-Iter 229 | Best: -6.493461 | Rate: 0.50 | Evals: 79.7%
-Iter 230 | Best: -6.493461 | Curr: -6.483192 | Rate: 0.49 | Evals: 80.0%
-Iter 231 | Best: -6.536600 | Rate: 0.49 | Evals: 80.3%
-Iter 232 | Best: -6.536600 | Curr: -1.217899 | Rate: 0.48 | Evals: 80.7%
-Iter 233 | Best: -6.536600 | Curr: -6.526670 | Rate: 0.47 | Evals: 81.0%
-Iter 234 | Best: -6.549792 | Rate: 0.47 | Evals: 81.3%
-Iter 235 | Best: -6.549792 | Curr: -2.565535 | Rate: 0.47 | Evals: 81.7%
-Iter 236 | Best: -6.551282 | Rate: 0.48 | Evals: 82.0%
-Iter 237 | Best: -6.551282 | Curr: -2.612639 | Rate: 0.48 | Evals: 82.3%
-Iter 238 | Best: -6.551282 | Curr: -6.550871 | Rate: 0.47 | Evals: 82.7%
-Iter 239 | Best: -6.551282 | Curr: -2.764723 | Rate: 0.47 | Evals: 83.0%
-Iter 240 | Best: -6.551282 | Curr: -2.834517 | Rate: 0.46 | Evals: 83.3%
-Iter 241 | Best: -6.556688 | Rate: 0.46 | Evals: 83.7%
-Iter 242 | Best: -6.556688 | Curr: -6.433503 | Rate: 0.46 | Evals: 84.0%
-Iter 243 | Best: -6.556688 | Curr: -6.554173 | Rate: 0.45 | Evals: 84.3%
-Iter 244 | Best: -6.556688 | Curr: -6.556254 | Rate: 0.45 | Evals: 84.7%
-Iter 245 | Best: -6.609256 | Rate: 0.46 | Evals: 85.0%
-Iter 246 | Best: -6.609256 | Curr: -6.602122 | Rate: 0.45 | Evals: 85.3%
-Iter 247 | Best: -6.629082 | Rate: 0.45 | Evals: 85.7%
-Iter 248 | Best: -6.629082 | Curr: -6.625742 | Rate: 0.44 | Evals: 86.0%
-Iter 249 | Best: -6.629082 | Curr: -2.769016 | Rate: 0.43 | Evals: 86.3%
-Iter 250 | Best: -6.629082 | Curr: -1.160445 | Rate: 0.43 | Evals: 86.7%
-Iter 251 | Best: -6.629082 | Curr: -6.593592 | Rate: 0.42 | Evals: 87.0%
-Iter 252 | Best: -6.644865 | Rate: 0.43 | Evals: 87.3%
-Iter 253 | Best: -6.644865 | Curr: -2.848471 | Rate: 0.42 | Evals: 87.7%
-Iter 254 | Best: -6.644865 | Curr: -2.883951 | Rate: 0.42 | Evals: 88.0%
-Iter 255 | Best: -6.656519 | Rate: 0.43 | Evals: 88.3%
-Iter 256 | Best: -6.656519 | Curr: -2.883172 | Rate: 0.43 | Evals: 88.7%
-Iter 257 | Best: -6.656519 | Curr: -6.650707 | Rate: 0.43 | Evals: 89.0%
-Iter 258 | Best: -6.656519 | Curr: -2.940141 | Rate: 0.42 | Evals: 89.3%
-Iter 259 | Best: -6.656519 | Curr: -2.957787 | Rate: 0.42 | Evals: 89.7%
-Iter 260 | Best: -6.656519 | Curr: -2.957092 | Rate: 0.42 | Evals: 90.0%
-Iter 261 | Best: -6.681915 | Rate: 0.42 | Evals: 90.3%
-Iter 262 | Best: -6.681915 | Curr: -2.769716 | Rate: 0.42 | Evals: 90.7%
-Iter 263 | Best: -6.681915 | Curr: -2.769670 | Rate: 0.41 | Evals: 91.0%
-Iter 264 | Best: -6.681915 | Curr: -2.974068 | Rate: 0.40 | Evals: 91.3%
-Iter 265 | Best: -6.681915 | Curr: -1.776090 | Rate: 0.39 | Evals: 91.7%
-Iter 266 | Best: -6.686838 | Rate: 0.39 | Evals: 92.0%
-Iter 267 | Best: -6.686838 | Curr: -2.848183 | Rate: 0.39 | Evals: 92.3%
-Iter 268 | Best: -6.688091 | Rate: 0.39 | Evals: 92.7%
-Iter 269 | Best: -6.690468 | Rate: 0.40 | Evals: 93.0%
-Iter 270 | Best: -6.692634 | Rate: 0.41 | Evals: 93.3%
-Iter 271 | Best: -6.696097 | Rate: 0.42 | Evals: 93.7%
-Iter 272 | Best: -6.696097 | Curr: -2.948536 | Rate: 0.42 | Evals: 94.0%
-Iter 273 | Best: -6.702532 | Rate: 0.42 | Evals: 94.3%
-Iter 274 | Best: -6.702532 | Curr: -2.886005 | Rate: 0.41 | Evals: 94.7%
-Iter 275 | Best: -6.702532 | Curr: -2.869002 | Rate: 0.40 | Evals: 95.0%
-Iter 276 | Best: -6.702532 | Curr: -3.228620 | Rate: 0.39 | Evals: 95.3%
-Iter 277 | Best: -6.712743 | Rate: 0.39 | Evals: 95.7%
-Iter 278 | Best: -6.712743 | Curr: -6.707572 | Rate: 0.39 | Evals: 96.0%
-Iter 279 | Best: -6.727136 | Rate: 0.40 | Evals: 96.3%
-Iter 280 | Best: -6.727136 | Curr: -2.896340 | Rate: 0.39 | Evals: 96.7%
-Iter 281 | Best: -6.734786 | Rate: 0.39 | Evals: 97.0%
-Iter 282 | Best: -6.735457 | Rate: 0.39 | Evals: 97.3%
-Iter 283 | Best: -6.735457 | Curr: -3.366003 | Rate: 0.39 | Evals: 97.7%
-Iter 284 | Best: -6.735457 | Curr: -6.703459 | Rate: 0.39 | Evals: 98.0%
-Iter 285 | Best: -6.735457 | Curr: -6.733725 | Rate: 0.38 | Evals: 98.3%
-Iter 286 | Best: -6.743722 | Rate: 0.38 | Evals: 98.7%
-Iter 287 | Best: -6.743722 | Curr: -2.895962 | Rate: 0.37 | Evals: 99.0%
-Iter 288 | Best: -6.744144 | Rate: 0.38 | Evals: 99.3%
-Iter 289 | Best: -6.745467 | Rate: 0.38 | Evals: 99.7%
-Iter 290 | Best: -6.745467 | Curr: -3.489173 | Rate: 0.37 | Evals: 100.0%</code></pre>
+Iter 248 | Best: -5.957670 | Curr: -5.938053 | Rate: 0.18 | Evals: 86.0%
+Iter 249 | Best: -5.957670 | Rate: 0.19 | Evals: 86.3%
+Iter 250 | Best: -5.957670 | Curr: -3.946200 | Rate: 0.18 | Evals: 86.7%
+Iter 251 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.18 | Evals: 87.0%
+Iter 252 | Best: -5.957670 | Curr: -5.957666 | Rate: 0.17 | Evals: 87.3%
+Iter 253 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.17 | Evals: 87.7%
+Iter 254 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.17 | Evals: 88.0%
+Iter 255 | Best: -5.957670 | Curr: -5.957667 | Rate: 0.16 | Evals: 88.3%
+Iter 256 | Best: -5.957670 | Curr: -5.957666 | Rate: 0.16 | Evals: 88.7%
+Iter 257 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.16 | Evals: 89.0%
+Iter 258 | Best: -5.957670 | Curr: -5.957667 | Rate: 0.16 | Evals: 89.3%
+Iter 259 | Best: -5.957670 | Curr: -5.957665 | Rate: 0.16 | Evals: 89.7%
+Iter 260 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.16 | Evals: 90.0%
+Iter 261 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.16 | Evals: 90.3%
+Iter 262 | Best: -5.957670 | Curr: -2.856176 | Rate: 0.15 | Evals: 90.7%
+Iter 263 | Best: -5.957670 | Curr: -4.080483 | Rate: 0.14 | Evals: 91.0%
+Iter 264 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.13 | Evals: 91.3%
+Iter 265 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.13 | Evals: 91.7%
+Iter 266 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.13 | Evals: 92.0%
+Iter 267 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.13 | Evals: 92.3%
+Iter 268 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.12 | Evals: 92.7%
+Iter 269 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.12 | Evals: 93.0%
+Iter 270 | Best: -5.957670 | Rate: 0.13 | Evals: 93.3%
+Iter 271 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.12 | Evals: 93.7%
+Iter 272 | Best: -5.957670 | Curr: -5.957667 | Rate: 0.12 | Evals: 94.0%
+Iter 273 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.11 | Evals: 94.3%
+Iter 274 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.11 | Evals: 94.7%
+Iter 275 | Best: -5.957670 | Curr: -2.893902 | Rate: 0.11 | Evals: 95.0%
+Iter 276 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.11 | Evals: 95.3%
+Iter 277 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.10 | Evals: 95.7%
+Iter 278 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.10 | Evals: 96.0%
+Iter 279 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.10 | Evals: 96.3%
+Iter 280 | Best: -5.957670 | Curr: -5.957664 | Rate: 0.10 | Evals: 96.7%
+Iter 281 | Best: -5.957670 | Curr: -5.957667 | Rate: 0.10 | Evals: 97.0%
+Iter 282 | Best: -5.957670 | Curr: -2.878357 | Rate: 0.10 | Evals: 97.3%
+Iter 283 | Best: -5.957670 | Curr: -2.896847 | Rate: 0.10 | Evals: 97.7%
+Iter 284 | Best: -5.957670 | Curr: -5.957667 | Rate: 0.10 | Evals: 98.0%
+Iter 285 | Best: -5.957670 | Curr: -5.957667 | Rate: 0.09 | Evals: 98.3%
+Iter 286 | Best: -5.957670 | Curr: -5.957668 | Rate: 0.09 | Evals: 98.7%
+Iter 287 | Best: -5.957670 | Curr: -5.957669 | Rate: 0.09 | Evals: 99.0%
+Iter 288 | Best: -5.957670 | Curr: -5.957667 | Rate: 0.09 | Evals: 99.3%
+Iter 289 | Best: -5.957670 | Curr: -2.897487 | Rate: 0.09 | Evals: 99.7%
+Iter 290 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.09 | Evals: 100.0%</code></pre>
 </div>
 </div>
-<div id="07647c4c" class="cell" data-execution_count="11">
+<div id="6352d531" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[10D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_micha<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_micha<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[10D] Sklearn Kriging: min y = -6.7455 at x = [2.23602788 2.71699133 2.22531978 2.48054435 2.62573334 1.85333282
- 2.21989757 1.36205952 1.28722362 1.21556365]
+<pre><code>[10D] Sklearn Kriging: min y = -5.9577 at x = [2.20308136 1.57067977 2.21934768 1.92304278 2.83754405 2.39878888
+ 0.8428478  0.02142819 1.80934964 1.57080708]
 Number of function evaluations: 300
 Number of iterations: 290</code></pre>
 </div>
@@ -1318,7 +1322,7 @@ Number of iterations: 290</code></pre>
 </section>
 <section id="visualize-optimization-progress-1" class="level3" data-number="5.2.4">
 <h3 data-number="5.2.4" class="anchored" data-anchor-id="visualize-optimization-progress-1"><span class="header-section-number">5.2.4</span> Visualize Optimization Progress</h3>
-<div id="f5a68384" class="cell" data-execution_count="12">
+<div id="80005bff" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
@@ -1342,7 +1346,7 @@ Number of iterations: 290</code></pre>
 <section id="evaluation-of-multiple-repeats-1" class="level3" data-number="5.2.5">
 <h3 data-number="5.2.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats-1"><span class="header-section-number">5.2.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="55fc467d" class="cell" data-execution_count="13">
+<div id="cd24c77e" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
@@ -1852,7 +1856,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

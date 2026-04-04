@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>27&nbsp; Physics-Informed Neural Networks (PINNs) Demo 1 – Sequential Parameter Optimization Cookbook</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./mlp.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-58b8d76c6f3e5a567bac4a37e40b55a6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -107,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -768,7 +770,7 @@ y(0) = 0
 <section id="setup" class="level1" data-number="29">
 <h1 data-number="29"><span class="header-section-number">29</span> Setup</h1>
 <p>First, let’s import the necessary libraries:</p>
-<div id="f4b01c70" class="cell" data-execution_count="1">
+<div id="f3fbee8a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
@@ -779,7 +781,7 @@ y(0) = 0
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set random seed for reproducibility</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">123</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>&lt;torch._C.Generator at 0x1177d31d0&gt;</code></pre>
+<pre><code>&lt;torch._C.Generator at 0x118e3b5d0&gt;</code></pre>
 </div>
 </div>
 </section>
@@ -793,7 +795,7 @@ y(0) = 0
 <li>3 hidden layers</li>
 <li>Tanh activation function</li>
 </ul>
-<div id="deb423f5" class="cell" data-execution_count="2">
+<div id="ebccda02" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegressor(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    input_dim<span class="op">=</span><span class="dv">1</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    output_dim<span class="op">=</span><span class="dv">1</span>,</span>
@@ -828,7 +830,7 @@ LinearRegressor(
 <section id="generate-training-data" class="level1" data-number="31">
 <h1 data-number="31"><span class="header-section-number">31</span> Generate Training Data</h1>
 <p>We’ll generate exact solution data using a numerical solver (RK2 method):</p>
-<div id="914e49cf" class="cell" data-execution_count="3">
+<div id="4d70359a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> oscillator(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    n_steps: <span class="bu">int</span> <span class="op">=</span> <span class="dv">3000</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    t_min: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
@@ -876,7 +878,7 @@ LinearRegressor(
 <span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> t_tensor, y_tensor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Generate the exact solution and sample training data points:</p>
-<div id="cd3aebf5" class="cell" data-execution_count="4">
+<div id="3f0397f8" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate exact solution (3000 points)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> oscillator()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -892,7 +894,7 @@ Training data points: 26</code></pre>
 </div>
 </div>
 <p>Visualize the exact solution and training data:</p>
-<div id="83591f43" class="cell" data-execution_count="5">
+<div id="40719de7" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.plot(x.numpy(), y.numpy(), <span class="st">'b-'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Exact solution y(t)"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_data.numpy(), y_data.numpy(), color<span class="op">=</span><span class="st">"tab:orange"</span>, </span>
@@ -916,7 +918,7 @@ Training data points: 26</code></pre>
 <section id="collocation-points" class="level1" data-number="32">
 <h1 data-number="32"><span class="header-section-number">32</span> Collocation Points</h1>
 <p>Create collocation points where we’ll enforce the physics (ODE) constraints:</p>
-<div id="1630196a" class="cell" data-execution_count="6">
+<div id="ecd8a0cd" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 50 evenly spaced points in [0, 30]</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x_physics <span class="op">=</span> torch.linspace(<span class="dv">0</span>, <span class="dv">30</span>, <span class="dv">50</span>).view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>).requires_grad_(<span class="va">True</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -978,7 +980,7 @@ Range: [0.00, 30.00]</code></pre>
 </section>
 <section id="training-loop" class="level2" data-number="33.2">
 <h2 data-number="33.2" class="anchored" data-anchor-id="training-loop"><span class="header-section-number">33.2</span> Training Loop</h2>
-<div id="b42a0e52" class="cell" data-execution_count="7">
+<div id="949f374e" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>loss_history_pinn <span class="op">=</span> []</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>loss2_history_pinn <span class="op">=</span> []</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plot_data_points_pinn <span class="op">=</span> []</span>
@@ -1032,10 +1034,10 @@ Range: [0.00, 30.00]</code></pre>
 <pre><code>Training Physics-Informed Neural Network...
 Total epochs: 48000
 Physics loss weight (alpha): 0.06
-Epoch 10000/48000: Total Loss = 0.000119, Physics Loss = 0.001705
-Epoch 20000/48000: Total Loss = 0.000035, Physics Loss = 0.000473
-Epoch 30000/48000: Total Loss = 0.000014, Physics Loss = 0.000225
-Epoch 40000/48000: Total Loss = 0.000181, Physics Loss = 0.000391
+Epoch 10000/48000: Total Loss = 0.000321, Physics Loss = 0.002949
+Epoch 20000/48000: Total Loss = 0.000020, Physics Loss = 0.000309
+Epoch 30000/48000: Total Loss = 0.000095, Physics Loss = 0.000285
+Epoch 40000/48000: Total Loss = 0.000823, Physics Loss = 0.001919
 Training completed!</code></pre>
 </div>
 </div>
@@ -1045,7 +1047,7 @@ Training completed!</code></pre>
 <h1 data-number="34"><span class="header-section-number">34</span> Results Visualization</h1>
 <section id="training-progress" class="level2" data-number="34.1">
 <h2 data-number="34.1" class="anchored" data-anchor-id="training-progress"><span class="header-section-number">34.1</span> Training Progress</h2>
-<div id="fe99fc67" class="cell" data-execution_count="8">
+<div id="1c1d5393" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot total loss</span></span>
@@ -1078,7 +1080,7 @@ Training completed!</code></pre>
 <section id="solution-evolution-during-training" class="level2" data-number="34.2">
 <h2 data-number="34.2" class="anchored" data-anchor-id="solution-evolution-during-training"><span class="header-section-number">34.2</span> Solution Evolution During Training</h2>
 <p>Visualize how the neural network solution evolves during training:</p>
-<div id="bc33e8bc" class="cell" data-execution_count="9">
+<div id="81b4bb93" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>xp_plot <span class="op">=</span> x_physics.detach()</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> plot_info <span class="kw">in</span> plot_data_points_pinn:</span>
@@ -1141,7 +1143,7 @@ Training completed!</code></pre>
 </section>
 <section id="final-solution-comparison" class="level2" data-number="34.3">
 <h2 data-number="34.3" class="anchored" data-anchor-id="final-solution-comparison"><span class="header-section-number">34.3</span> Final Solution Comparison</h2>
-<div id="27d16f9c" class="cell" data-execution_count="10">
+<div id="129b33e3" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Final prediction</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
@@ -1185,7 +1187,7 @@ Training completed!</code></pre>
 </section>
 <section id="error-analysis" class="level2" data-number="34.4">
 <h2 data-number="34.4" class="anchored" data-anchor-id="error-analysis"><span class="header-section-number">34.4</span> Error Analysis</h2>
-<div id="3dce30b8" class="cell" data-execution_count="11">
+<div id="a8cac1bb" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute absolute error</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>error <span class="op">=</span> torch.<span class="bu">abs</span>(y_final <span class="op">-</span> y)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1212,9 +1214,9 @@ Training completed!</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Error Statistics:
-Maximum absolute error: 0.072458
-Mean absolute error: 0.008300
-Root mean squared error: 0.013641</code></pre>
+Maximum absolute error: 0.125975
+Mean absolute error: 0.010835
+Root mean squared error: 0.021054</code></pre>
 </div>
 </div>
 </section>
@@ -1715,7 +1717,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

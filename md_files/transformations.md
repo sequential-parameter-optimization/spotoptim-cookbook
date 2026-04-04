@@ -414,13 +414,13 @@ Storage & Results (Original Scale)
    - Transforms `_original_lower` and `_original_upper` → `lower` and `upper`
    - Updates `self.bounds` for internal use
 
-2. **Forward Transformation** (`_transform_X()`):
+2. **Forward Transformation** (`transform_X()`):
 
    - Converts from original scale to transformed scale
    - Used before surrogate fitting
    - Used when comparing distances
 
-3. **Inverse Transformation** (`_inverse_transform_X()`):
+3. **Inverse Transformation** (`inverse_transform_X()`):
 
    - Converts from transformed scale to original scale
    - Used before function evaluation

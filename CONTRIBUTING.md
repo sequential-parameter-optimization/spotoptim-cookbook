@@ -8,7 +8,7 @@ This repository uses a **local render + committed output** workflow:
 - Render Quarto **locally**
 - Commit both source and rendered `docs/`
 - Open PR to `main`
-- GitHub Actions runs `pytest` and then deploys GitHub Pages from committed `docs/`
+- GitHub Actions runs `pytest`, deploys GitHub Pages from committed `docs/`, and publishes a GitHub Release
 
 ## Branch and CI/CD model
 
@@ -16,8 +16,11 @@ This repository uses a **local render + committed output** workflow:
 - `main`: publication branch
 - CI workflow (`ci-pytest.yml`): runs `pytest` only
 - Deploy workflow (`deploy-pages.yml`): runs after successful CI on `main` and publishes `docs/`
+- Release workflow (`publish-release.yml`): runs after successful Pages deployment on `main` and creates/updates a GitHub Release
 
 Quarto rendering is intentionally **not** done in GitHub Actions.
+
+Release tags follow the `pages-<sha12>` format so each GitHub Release maps to the exact commit deployed to Pages.
 
 ## Prerequisites
 
@@ -109,7 +112,6 @@ If you use GitHub CLI for PR creation:
 ```bash
 gh pr create --base main --head develop --fill
 ```
-
 
 ## Pull request expectations
 

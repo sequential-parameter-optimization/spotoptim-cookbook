@@ -32,7 +32,7 @@ print("All packages imported successfully!")
 
 The `optimize()` method is the main entry point for running the optimization process. It coordinates all other methods in the optimization workflow:
 
-1. **Initial Design Phase**: `get_initial_design()`, `_curate_initial_design()`, `_rm_NA_values()`, `_check_size_initial_design()`, `_get_best_xy_initial_design()`
+1. **Initial Design Phase**: `get_initial_design()`, `curate_initial_design()`, `rm_initial_design_NA_values()`, `check_size_initial_design()`, `get_best_xy_initial_design()`
 2. **Main Loop**: Surrogate fitting, OCBA application, point suggestion, evaluation
 3. **Termination**: `determine_termination()`
 
@@ -102,7 +102,7 @@ These methods handle the creation and validation of the initial design of experi
 
 **Purpose**: Generate or process initial design points  
 **Used by**: `optimize()` method at the start  
-**Calls**: `_generate_initial_design()` if X0 is None
+**Calls**: `generate_initial_design()` if X0 is None
 
 This method handles three scenarios:
 1. Generate LHS design when X0=None
@@ -138,7 +138,7 @@ X0_processed = opt.get_initial_design(X0_custom)
 print(f"\nCustom design shape: {X0_processed.shape}")
 ```
 
-### 2.2 `_curate_initial_design()`
+### 2.2 `curate_initial_design()`
 
 **Purpose**: Remove duplicates and ensure sufficient unique points  
 **Used by**: `optimize()` after `get_initial_design()`  
@@ -153,7 +153,7 @@ opt = SpotOptim(
     seed=42
 )
 X0_with_dups = np.array([[1, 2], [1, 2], [3, 4], [3, 4], [5, 6]])
-X0_curated = opt._curate_initial_design(X0_with_dups)
+X0_curated = opt.curate_initial_design(X0_with_dups)
 print(f"Original points: {len(X0_with_dups)}")
 print(f"After removing duplicates: {len(X0_curated)}")
 
@@ -166,12 +166,12 @@ opt_repeat = SpotOptim(
     seed=42
 )
 X0 = np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]])
-X0_repeated = opt_repeat._curate_initial_design(X0)
+X0_repeated = opt_repeat.curate_initial_design(X0)
 print(f"\nOriginal points: {len(X0)}")
 print(f"After repeating (3x): {len(X0_repeated)}")
 ```
 
-### 2.3 `_rm_NA_values()`
+### 2.3 `rm_initial_design_NA_values()`
 
 **Purpose**: Remove NaN/inf values from initial design evaluations  
 **Used by**: `optimize()` after evaluating initial design  
@@ -189,7 +189,7 @@ opt = SpotOptim(
 X0 = np.array([[1, 2], [3, 4], [5, 6]])
 y0 = np.array([5.0, np.nan, np.inf])
 
-X0_clean, y0_clean, n_eval = opt._rm_NA_values(X0, y0)
+X0_clean, y0_clean, n_eval = opt.rm_initial_design_NA_values(X0, y0)
 
 print(f"Original evaluations: {n_eval}")
 print(f"Valid points remaining: {X0_clean.shape[0]}")
@@ -197,7 +197,7 @@ print(f"Clean X0:\n{X0_clean}")
 print(f"Clean y0: {y0_clean}")
 ```
 
-### 2.4 `_check_size_initial_design()`
+### 2.4 `check_size_initial_design()`
 
 **Purpose**: Validate sufficient points for surrogate fitting  
 **Used by**: `optimize()` after handling NaN values  
@@ -214,21 +214,21 @@ opt = SpotOptim(
 # Example 1: Sufficient points - no error
 y0_sufficient = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
 try:
-    opt._check_size_initial_design(y0_sufficient, n_evaluated=10)
-    print("✓ Sufficient points - validation passed")
+    opt.check_size_initial_design(y0_sufficient, n_evaluated=10)
+    print("x Sufficient points - validation passed")
 except ValueError as e:
-    print(f"✗ Error: {e}")
+    print(f" Error: {e}")
 
 # Example 2: Insufficient points - raises error
 y0_insufficient = np.array([1.0])  # Only 1 point, need at least 3 for 2D
 try:
-    opt._check_size_initial_design(y0_insufficient, n_evaluated=10)
-    print("✓ Validation passed")
+    opt.check_size_initial_design(y0_insufficient, n_evaluated=10)
+    print("x Validation passed")
 except ValueError as e:
-    print(f"✗ Expected error: {e}")
+    print(f" Expected error: {e}")
 ```
 
-### 2.5 `_get_best_xy_initial_design()`
+### 2.5 `get_best_xy_initial_design()`
 
 **Purpose**: Determine and store the best point from initial design  
 **Used by**: `optimize()` after initial design evaluation  
@@ -247,7 +247,7 @@ opt = SpotOptim(
 opt.X_ = np.array([[1, 2], [0, 0], [2, 1]])
 opt.y_ = np.array([5.0, 0.0, 5.0])
 
-opt._get_best_xy_initial_design()
+opt.get_best_xy_initial_design()
 
 print(f"\nBest x from initial design: {opt.best_x_}")
 print(f"Best y from initial design: {opt.best_y_}")
@@ -257,11 +257,11 @@ print(f"Best y from initial design: {opt.best_y_}")
 
 These methods handle surrogate model operations during the optimization loop.
 
-### 3.1 `_fit_surrogate()`
+### 3.1 `fit_surrogate()`
 
 **Purpose**: Fit surrogate model to data  
 **Used by**: `optimize()` in main loop  
-**Calls**: `_selection_dispatcher()` if max_surrogate_points exceeded
+**Calls**: `fit_selection_dispatcher()` if max_surrogate_points exceeded
 
 ```{python}
 opt = SpotOptim(
@@ -276,7 +276,7 @@ X = np.random.rand(50, 2) * 10 - 5  # 50 points in [-5, 5]
 y = np.sum(X**2, axis=1)
 
 # Fit surrogate (will select 10 best points)
-opt._fit_surrogate(X, y)
+opt.fit_surrogate(X, y)
 
 print(f"Surrogate fitted successfully!")
 print(f"Surrogate model: {type(opt.surrogate).__name__}")
@@ -299,7 +299,7 @@ opt = SpotOptim(
 # Train surrogate
 X_train = np.array([[0, 0], [1, 1], [2, 2]])
 y_train = np.array([0, 2, 8])
-opt._fit_surrogate(X_train, y_train)
+opt.fit_surrogate(X_train, y_train)
 
 # Predict on new points
 X_test = np.array([[1.5, 1.5], [3.0, 3.0]])
@@ -329,7 +329,7 @@ opt = SpotOptim(
 # Setup
 X_train = np.array([[0, 0], [1, 1], [2, 2]])
 y_train = np.array([0, 2, 8])
-opt._fit_surrogate(X_train, y_train)
+opt.fit_surrogate(X_train, y_train)
 opt.y_ = y_train  # Needed for acquisition function
 
 # Evaluate acquisition function
@@ -360,7 +360,7 @@ opt = SpotOptim(
 # Setup
 X_train = np.array([[0, 0], [1, 1], [2, 2]])
 y_train = np.array([0, 2, 8])
-opt._fit_surrogate(X_train, y_train)
+opt.fit_surrogate(X_train, y_train)
 opt.X_ = X_train
 opt.y_ = y_train
 
@@ -432,7 +432,7 @@ print(f"All finite: {np.all(np.isfinite(y_clean))}")
 print(f"Penalty values > max(hist): {y_clean[1] > np.max(y_hist)}")
 ```
 
-### 5.2 `_remove_nan()`
+### 5.2 `remove_nan()`
 
 **Purpose**: Remove rows where y contains NaN or inf values  
 **Used by**: `optimize()` after function evaluations  
@@ -448,7 +448,7 @@ opt = SpotOptim(
 X = np.array([[1, 2], [3, 4], [5, 6]])
 y = np.array([1.0, np.nan, np.inf])
 
-X_clean, y_clean = opt._remove_nan(X, y, stop_on_zero_return=False)
+X_clean, y_clean = opt.remove_nan(X, y, stop_on_zero_return=False)
 
 print(f"Original X shape: {X.shape}")
 print(f"Clean X shape: {X_clean.shape}")
@@ -460,7 +460,7 @@ print(f"Clean y: {y_clean}")
 
 **Purpose**: Handle NaN/inf values in new evaluation points during main loop  
 **Used by**: `optimize()` after evaluating new points  
-**Calls**: `apply_penalty_NA()` and `_remove_nan()`  
+**Calls**: `apply_penalty_NA()` and `remove_nan()`  
 **Returns**: None, None if all evaluations invalid (skip iteration)
 
 ```{python}
@@ -593,7 +593,7 @@ print(f"\nNew points from A:\n{new_A}")
 print(f"\nIs new mask: {is_new}")
 ```
 
-### 8.2 `_repair_non_numeric()`
+### 8.2 `repair_non_numeric()`
 
 **Purpose**: Round non-numeric values (int, factor) to integers  
 **Used by**: Various methods to ensure integer/factor variables have valid values
@@ -607,13 +607,13 @@ opt = SpotOptim(
 )
 
 X = np.array([[1.2, 2.5], [3.7, 4.1], [5.9, 6.8]])
-X_repaired = opt._repair_non_numeric(X.copy(), opt.var_type)
+X_repaired = opt.repair_non_numeric(X.copy(), opt.var_type)
 
 print(f"Original X:\n{X}")
 print(f"\nRepaired X (first column rounded to int):\n{X_repaired}")
 ```
 
-### 8.3 `_map_to_factor_values()`
+### 8.3 `map_to_factor_values()`
 
 **Purpose**: Map internal integer values to original factor strings  
 **Used by**: `optimize()` when preparing results for user  
@@ -629,7 +629,7 @@ opt = SpotOptim(
 
 # Internal representation (integers for factors)
 X_internal = np.array([[1.0, 0], [2.0, 1], [3.0, 2]])
-X_mapped = opt._map_to_factor_values(X_internal)
+X_mapped = opt.map_to_factor_values(X_internal)
 
 print(f"Internal representation:\n{X_internal}")
 print(f"\nMapped to factor values:\n{X_mapped}")
@@ -749,50 +749,7 @@ print(f"Best value: {result.fun:.6f}")
 print(f"Optimization succeeded despite NaN values: {result.success}")
 ```
 
-## 10. Method Relationship Diagram
-
-Here's how all the methods relate to each other in the optimization workflow:
-
-```
-optimize()
-│
-├─── Initial Design Phase
-│    ├── get_initial_design()
-│    │   └── _generate_initial_design() [if X0 is None]
-│    ├── _curate_initial_design()
-│    ├── evaluate_function()
-│    ├── _rm_NA_values()
-│    ├── _check_size_initial_design()
-│    └── _get_best_xy_initial_design()
-│
-├─── Main Optimization Loop (while not terminated)
-│    │
-│    ├── _fit_surrogate()
-│    │   └── _selection_dispatcher() [if max_surrogate_points exceeded]
-│    │
-│    ├── apply_ocba() [if noise=True and ocba_delta > 0]
-│    │
-│    ├── suggest_next_infill_point()
-│    │   ├── _acquisition_function()
-│    │   │   └── _predict_with_uncertainty()
-│    │   ├── _repair_non_numeric()
-│    │   ├── select_new()
-│    │   └── _handle_acquisition_failure() [if needed]
-│    │
-│    ├── evaluate_function()
-│    │
-│    ├── _handle_NA_new_points()
-│    │   ├── apply_penalty_NA()
-│    │   └── _remove_nan()
-│    │
-│    └── _update_best_main_loop()
-│
-└─── Termination Phase
-     ├── determine_termination()
-     └── _map_to_factor_values() [for results]
-```
-
-## 11. Summary
+## Summary
 
 This notebook demonstrated all major methods in SpotOptim with executable examples:
 
