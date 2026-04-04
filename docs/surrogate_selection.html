@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -706,9 +706,9 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#visualization-rbf-kernel" id="toc-visualization-rbf-kernel" class="nav-link" data-scroll-target="#visualization-rbf-kernel"><span class="header-section-number">16.5.1</span> Visualization: RBF Kernel</a></li>
   </ul></li>
-  <li><a href="#gaussian-process-with-matern-ν1.5-kernel" id="toc-gaussian-process-with-matern-ν1.5-kernel" class="nav-link" data-scroll-target="#gaussian-process-with-matern-ν1.5-kernel"><span class="header-section-number">16.6</span> 3. Gaussian Process with Matern ν=1.5 Kernel</a>
+  <li><a href="#gaussian-process-with-matern-nu1.5-kernel" id="toc-gaussian-process-with-matern-nu1.5-kernel" class="nav-link" data-scroll-target="#gaussian-process-with-matern-nu1.5-kernel"><span class="header-section-number">16.6</span> 3. Gaussian Process with Matern nu=1.5 Kernel</a>
   <ul class="collapse">
-  <li><a href="#visualization-matern-ν1.5-kernel" id="toc-visualization-matern-ν1.5-kernel" class="nav-link" data-scroll-target="#visualization-matern-ν1.5-kernel"><span class="header-section-number">16.6.1</span> Visualization: Matern ν=1.5 Kernel</a></li>
+  <li><a href="#visualization-matern-nu1.5-kernel" id="toc-visualization-matern-nu1.5-kernel" class="nav-link" data-scroll-target="#visualization-matern-nu1.5-kernel"><span class="header-section-number">16.6.1</span> Visualization: Matern nu=1.5 Kernel</a></li>
   </ul></li>
   <li><a href="#gaussian-process-with-rational-quadratic-kernel" id="toc-gaussian-process-with-rational-quadratic-kernel" class="nav-link" data-scroll-target="#gaussian-process-with-rational-quadratic-kernel"><span class="header-section-number">16.7</span> 4. Gaussian Process with Rational Quadratic Kernel</a>
   <ul class="collapse">
@@ -815,15 +815,18 @@ window.Quarto = {
 <ul>
 <li>XGBoost (if available)</li>
 </ul>
-<div id="021511c3" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> xgboost <span class="im">as</span> xgb</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    XGBOOST_AVAILABLE <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    XGBOOST_AVAILABLE <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"XGBoost not available. Install with: pip install xgboost"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="982c9d23" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"OMP_NUM_THREADS"</span>] <span class="op">=</span> <span class="st">"1"</span>  <span class="co"># Prevent OpenMP conflict on macOS</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> xgboost <span class="im">as</span> xgb</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    XGBOOST_AVAILABLE <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    XGBOOST_AVAILABLE <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"XGBoost not available. Install with: pip install xgboost"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Libraries imported successfully!</code></pre>
 </div>
@@ -852,7 +855,7 @@ Optimization budget: 20 evaluations</code></pre>
 </section>
 <section id="default-surrogate-gaussian-process-with-matern-kernel" class="level2" data-number="16.4">
 <h2 data-number="16.4" class="anchored" data-anchor-id="default-surrogate-gaussian-process-with-matern-kernel"><span class="header-section-number">16.4</span> 1. Default Surrogate: Gaussian Process with Matern Kernel</h2>
-<p>SpotOptim’s default surrogate is a Gaussian Process with a Matern kernel (ν=2.5), which provides twice-differentiable sample paths and good performance for most optimization problems.</p>
+<p>SpotOptim’s default surrogate is a Gaussian Process with a Matern kernel (<span class="math inline">\(\nu\)</span>=2.5), which provides twice-differentiable sample paths and good performance for most optimization problems.</p>
 <div id="surrogate-selection-default" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -879,7 +882,7 @@ Optimization budget: 20 evaluations</code></pre>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Store for comparison</span></span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>results_comparison <span class="op">=</span> [{</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Surrogate'</span>: <span class="st">'GP Matern ν=2.5 (Default)'</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Surrogate'</span>: <span class="st">'GP Matern nu=2.5 (Default)'</span>,</span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Best Weight'</span>: result_default.fun,</span>
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Evaluations'</span>: result_default.nfev,</span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Time (s)'</span>: time_default,</span>
@@ -890,7 +893,7 @@ Optimization budget: 20 evaluations</code></pre>
 Results:
   Best weight: 119.8664 lb
   Function evaluations: 20
-  Time: 1.57s
+  Time: 1.65s
   Success: True</code></pre>
 </div>
 </div>
@@ -907,10 +910,10 @@ Results:
 </div>
 </div>
 </div>
-<div id="73880158" class="cell" data-execution_count="6">
+<div id="5915b754" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot most important hyperparameters</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>optimizer_default.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Default GP Matern ν=2.5: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Default GP Matern nu=2.5: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
@@ -1006,7 +1009,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 120.1093 lb
   Function evaluations: 20
-  Time: 0.45s
+  Time: 0.47s
   Success: True</code></pre>
 </div>
 </div>
@@ -1022,7 +1025,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="a44b2adf" class="cell" data-execution_count="9">
+<div id="3159d21e" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>optimizer_rbf.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP RBF Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1068,9 +1071,9 @@ Generating 3 surrogate plots...
 </div>
 </section>
 </section>
-<section id="gaussian-process-with-matern-ν1.5-kernel" class="level2" data-number="16.6">
-<h2 data-number="16.6" class="anchored" data-anchor-id="gaussian-process-with-matern-ν1.5-kernel"><span class="header-section-number">16.6</span> 3. Gaussian Process with Matern ν=1.5 Kernel</h2>
-<p>The Matern ν=1.5 kernel produces once-differentiable sample paths, allowing for more flexible (less smooth) fits than ν=2.5.</p>
+<section id="gaussian-process-with-matern-nu1.5-kernel" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="gaussian-process-with-matern-nu1.5-kernel"><span class="header-section-number">16.6</span> 3. Gaussian Process with Matern nu=1.5 Kernel</h2>
+<p>The Matern nu=1.5 kernel produces once-differentiable sample paths, allowing for more flexible (less smooth) fits than nu=2.5.</p>
 <div id="surrogate-selection-matern15" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1110,7 +1113,7 @@ Generating 3 surrogate plots...
 <span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_matern15<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>results_comparison.append({</span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Surrogate'</span>: <span class="st">'GP Matern ν=1.5'</span>,</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Surrogate'</span>: <span class="st">'GP Matern nu=1.5'</span>,</span>
 <span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Best Weight'</span>: result_matern15.fun,</span>
 <span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Evaluations'</span>: result_matern15.nfev,</span>
 <span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Time (s)'</span>: time_matern15,</span>
@@ -1121,12 +1124,12 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 119.5465 lb
   Function evaluations: 20
-  Time: 0.43s
+  Time: 0.45s
   Success: True</code></pre>
 </div>
 </div>
-<section id="visualization-matern-ν1.5-kernel" class="level3" data-number="16.6.1">
-<h3 data-number="16.6.1" class="anchored" data-anchor-id="visualization-matern-ν1.5-kernel"><span class="header-section-number">16.6.1</span> Visualization: Matern ν=1.5 Kernel</h3>
+<section id="visualization-matern-nu1.5-kernel" class="level3" data-number="16.6.1">
+<h3 data-number="16.6.1" class="anchored" data-anchor-id="visualization-matern-nu1.5-kernel"><span class="header-section-number">16.6.1</span> Visualization: Matern nu=1.5 Kernel</h3>
 <div id="cell-surrogate-selection-matern15-viz" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>optimizer_matern15.plot_progress(log_y<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
@@ -1137,9 +1140,9 @@ Results:
 </div>
 </div>
 </div>
-<div id="df956233" class="cell" data-execution_count="12">
+<div id="32317523" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>optimizer_matern15.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP Matern ν=1.5 Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP Matern nu=1.5 Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
@@ -1237,7 +1240,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 120.1073 lb
   Function evaluations: 20
-  Time: 0.59s
+  Time: 0.62s
   Success: True</code></pre>
 </div>
 </div>
@@ -1253,7 +1256,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="791a6f4d" class="cell" data-execution_count="15">
+<div id="52817723" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>optimizer_rq.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP Rational Quadratic Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1348,7 +1351,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 121.2932 lb
   Function evaluations: 20
-  Time: 7.92s
+  Time: 8.08s
   Success: True</code></pre>
 </div>
 </div>
@@ -1364,7 +1367,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="3b67a20c" class="cell" data-execution_count="18">
+<div id="871b6b8d" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>optimizer_kriging.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'SpotOptim Kriging: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1459,7 +1462,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 145.9792 lb
   Function evaluations: 20
-  Time: 0.83s
+  Time: 0.87s
   Success: True
   Note: Using acquisition='y' (greedy) since RF doesn't provide uncertainty</code></pre>
 </div>
@@ -1476,7 +1479,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="b746aa50" class="cell" data-execution_count="21">
+<div id="7483c8c1" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>optimizer_rf.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Random Forest: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1537,57 +1540,59 @@ Generating 3 surrogate plots...
 <span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>        subsample<span class="op">=</span><span class="fl">0.8</span>,</span>
 <span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>        colsample_bytree<span class="op">=</span><span class="fl">0.8</span>,</span>
 <span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span>seed,</span>
-<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>    optimizer_xgb <span class="op">=</span> SpotOptim(</span>
-<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>        fun<span class="op">=</span>wingwt,</span>
-<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>        bounds<span class="op">=</span>bounds,</span>
-<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>        surrogate<span class="op">=</span>xgb_model,</span>
-<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>        max_iter<span class="op">=</span>max_iter,</span>
-<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>        n_initial<span class="op">=</span>n_initial,</span>
-<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span>param_names,</span>
-<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>        acquisition<span class="op">=</span><span class="st">'y'</span>,  <span class="co"># Use 'y' (greedy) since XGBoost doesn't provide std</span></span>
-<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>        seed<span class="op">=</span>seed,</span>
-<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>        verbose<span class="op">=</span><span class="va">False</span></span>
-<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>    result_xgb <span class="op">=</span> optimizer_xgb.optimize()</span>
-<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>    time_xgb <span class="op">=</span> time.time() <span class="op">-</span> start_time</span>
-<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Results:"</span>)</span>
-<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_xgb<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
-<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_xgb<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Time: </span><span class="sc">{</span>time_xgb<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
-<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_xgb<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Note: Using acquisition='y' (greedy) since XGBoost doesn't provide uncertainty"</span>)</span>
-<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a>    results_comparison.append({</span>
-<span id="cb54-37"><a href="#cb54-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Surrogate'</span>: <span class="st">'XGBoost'</span>,</span>
-<span id="cb54-38"><a href="#cb54-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Best Weight'</span>: result_xgb.fun,</span>
-<span id="cb54-39"><a href="#cb54-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Evaluations'</span>: result_xgb.nfev,</span>
-<span id="cb54-40"><a href="#cb54-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Time (s)'</span>: time_xgb,</span>
-<span id="cb54-41"><a href="#cb54-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Success'</span>: result_xgb.success</span>
-<span id="cb54-42"><a href="#cb54-42" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb54-43"><a href="#cb54-43" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb54-44"><a href="#cb54-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Visualization</span></span>
-<span id="cb54-45"><a href="#cb54-45" aria-hidden="true" tabindex="-1"></a>    optimizer_xgb.plot_progress(log_y<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
-<span id="cb54-46"><a href="#cb54-46" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'XGBoost: Convergence'</span>)</span>
-<span id="cb54-47"><a href="#cb54-47" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb54-48"><a href="#cb54-48" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb54-49"><a href="#cb54-49" aria-hidden="true" tabindex="-1"></a>    optimizer_xgb.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb54-50"><a href="#cb54-50" aria-hidden="true" tabindex="-1"></a>    plt.suptitle(<span class="st">'XGBoost: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
-<span id="cb54-51"><a href="#cb54-51" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb54-52"><a href="#cb54-52" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
-<span id="cb54-54"><a href="#cb54-54" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"7. XGBoost Regressor - SKIPPED (not installed)"</span>)</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>        nthread<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>        verbosity<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    optimizer_xgb <span class="op">=</span> SpotOptim(</span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>        fun<span class="op">=</span>wingwt,</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>        bounds<span class="op">=</span>bounds,</span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>        surrogate<span class="op">=</span>xgb_model,</span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>        max_iter<span class="op">=</span>max_iter,</span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>        n_initial<span class="op">=</span>n_initial,</span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span>param_names,</span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>        acquisition<span class="op">=</span><span class="st">'y'</span>,  <span class="co"># Use 'y' (greedy) since XGBoost doesn't provide std</span></span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>        seed<span class="op">=</span>seed,</span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>        verbose<span class="op">=</span><span class="va">False</span></span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>    result_xgb <span class="op">=</span> optimizer_xgb.optimize()</span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a>    time_xgb <span class="op">=</span> time.time() <span class="op">-</span> start_time</span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Results:"</span>)</span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_xgb<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_xgb<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Time: </span><span class="sc">{</span>time_xgb<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_xgb<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Note: Using acquisition='y' (greedy) since XGBoost doesn't provide uncertainty"</span>)</span>
+<span id="cb54-37"><a href="#cb54-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-38"><a href="#cb54-38" aria-hidden="true" tabindex="-1"></a>    results_comparison.append({</span>
+<span id="cb54-39"><a href="#cb54-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Surrogate'</span>: <span class="st">'XGBoost'</span>,</span>
+<span id="cb54-40"><a href="#cb54-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Best Weight'</span>: result_xgb.fun,</span>
+<span id="cb54-41"><a href="#cb54-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Evaluations'</span>: result_xgb.nfev,</span>
+<span id="cb54-42"><a href="#cb54-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Time (s)'</span>: time_xgb,</span>
+<span id="cb54-43"><a href="#cb54-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Success'</span>: result_xgb.success</span>
+<span id="cb54-44"><a href="#cb54-44" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb54-45"><a href="#cb54-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-46"><a href="#cb54-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Visualization</span></span>
+<span id="cb54-47"><a href="#cb54-47" aria-hidden="true" tabindex="-1"></a>    optimizer_xgb.plot_progress(log_y<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb54-48"><a href="#cb54-48" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'XGBoost: Convergence'</span>)</span>
+<span id="cb54-49"><a href="#cb54-49" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb54-50"><a href="#cb54-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-51"><a href="#cb54-51" aria-hidden="true" tabindex="-1"></a>    optimizer_xgb.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb54-52"><a href="#cb54-52" aria-hidden="true" tabindex="-1"></a>    plt.suptitle(<span class="st">'XGBoost: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb54-54"><a href="#cb54-54" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
 <span id="cb54-55"><a href="#cb54-55" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
-<span id="cb54-56"><a href="#cb54-56" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Install XGBoost with: pip install xgboost"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb54-56"><a href="#cb54-56" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"7. XGBoost Regressor - SKIPPED (not installed)"</span>)</span>
+<span id="cb54-57"><a href="#cb54-57" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
+<span id="cb54-58"><a href="#cb54-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Install XGBoost with: pip install xgboost"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Results:
   Best weight: 165.3064 lb
   Function evaluations: 20
-  Time: 0.68s
+  Time: 0.10s
   Success: True
   Note: Using acquisition='y' (greedy) since XGBoost doesn't provide uncertainty</code></pre>
 </div>
@@ -1709,7 +1714,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="2de3ae94" class="cell" data-execution_count="25">
+<div id="35bc5498" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>optimizer_svr.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Support Vector Regression: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1803,7 +1808,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 134.5150 lb
   Function evaluations: 20
-  Time: 0.17s
+  Time: 0.18s
   Success: True</code></pre>
 </div>
 </div>
@@ -1819,7 +1824,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="834a2707" class="cell" data-execution_count="28">
+<div id="df2b85ff" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>optimizer_gb.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Gradient Boosting: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1891,16 +1896,16 @@ Generating 3 surrogate plots...
 ====================================================================================================
 SURROGATE MODEL COMPARISON
 ====================================================================================================
-                Surrogate  Best Weight  Evaluations  Time (s)  Success  Gap to Best (%)
-          GP Matern ν=1.5   119.546454           20  0.431512     True         0.000000
-GP Matern ν=2.5 (Default)   119.866409           20  1.570868     True         0.267641
-    GP Rational Quadratic   120.107282           20  0.589384     True         0.469130
-                   GP RBF   120.109251           20  0.447875     True         0.470777
-        SpotOptim Kriging   121.293180           20  7.923577     True         1.461127
-        Gradient Boosting   134.515037           20  0.173640     True        12.521144
-            Random Forest   145.979231           20  0.830126     True        22.110883
-                SVR (RBF)   156.707097           20  0.067312     True        31.084689
-                  XGBoost   165.306404           20  0.678184     True        38.277965
+                 Surrogate  Best Weight  Evaluations  Time (s)  Success  Gap to Best (%)
+          GP Matern nu=1.5   119.546454           20  0.449904     True         0.000000
+GP Matern nu=2.5 (Default)   119.866409           20  1.646203     True         0.267641
+     GP Rational Quadratic   120.107282           20  0.615868     True         0.469130
+                    GP RBF   120.109251           20  0.467476     True         0.470777
+         SpotOptim Kriging   121.293180           20  8.080324     True         1.461127
+         Gradient Boosting   134.515037           20  0.184076     True        12.521144
+             Random Forest   145.979231           20  0.869794     True        22.110883
+                 SVR (RBF)   156.707097           20  0.071585     True        31.084689
+                   XGBoost   165.306404           20  0.096069     True        38.277965
 ====================================================================================================</code></pre>
 </div>
 </div>
@@ -1965,9 +1970,9 @@ GP Matern ν=2.5 (Default)   119.866409           20  1.570868     True         
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect convergence data from all optimizers</span></span>
 <span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>optimizers <span class="op">=</span> [</span>
-<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>    (optimizer_default, <span class="st">'GP Matern ν=2.5 (Default)'</span>, <span class="st">'blue'</span>),</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>    (optimizer_default, <span class="st">'GP Matern nu=2.5 (Default)'</span>, <span class="st">'blue'</span>),</span>
 <span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>    (optimizer_rbf, <span class="st">'GP RBF'</span>, <span class="st">'green'</span>),</span>
-<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>    (optimizer_matern15, <span class="st">'GP Matern ν=1.5'</span>, <span class="st">'red'</span>),</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>    (optimizer_matern15, <span class="st">'GP Matern nu=1.5'</span>, <span class="st">'red'</span>),</span>
 <span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>    (optimizer_rq, <span class="st">'GP Rational Quadratic'</span>, <span class="st">'purple'</span>),</span>
 <span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>    (optimizer_kriging, <span class="st">'SpotOptim Kriging'</span>, <span class="st">'orange'</span>),</span>
 <span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>    (optimizer_rf, <span class="st">'Random Forest'</span>, <span class="st">'brown'</span>),</span>
@@ -2037,7 +2042,7 @@ GP Matern ν=2.5 (Default)   119.866409           20  1.570868     True         
 <span id="cb80-31"><a href="#cb80-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Efficiency: </span><span class="sc">{</span>df_comparison<span class="sc">.</span>loc[most_efficient_idx, <span class="st">'Efficiency'</span>]<span class="sc">:.4f}</span><span class="ss"> lb/s"</span>)</span>
 <span id="cb80-32"><a href="#cb80-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb80-33"><a href="#cb80-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">4. RECOMMENDATIONS BY PROBLEM TYPE:"</span>)</span>
-<span id="cb80-34"><a href="#cb80-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Smooth, continuous functions: Gaussian Process with RBF or Matern ν=2.5"</span>)</span>
+<span id="cb80-34"><a href="#cb80-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Smooth, continuous functions: Gaussian Process with RBF or Matern nu=2.5"</span>)</span>
 <span id="cb80-35"><a href="#cb80-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Functions with noise: Random Forest or Gradient Boosting"</span>)</span>
 <span id="cb80-36"><a href="#cb80-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - High-dimensional problems (&gt;20D): XGBoost or Random Forest"</span>)</span>
 <span id="cb80-37"><a href="#cb80-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Limited budget (&lt;50 evals): Gaussian Process with Expected Improvement"</span>)</span>
@@ -2057,9 +2062,9 @@ KEY INSIGHTS AND RECOMMENDATIONS
 ====================================================================================================
 
 1. BEST OVERALL PERFORMANCE:
-   Surrogate: GP Matern ν=1.5
+   Surrogate: GP Matern nu=1.5
    Best Weight: 119.5465 lb
-   Computation Time: 0.43s
+   Computation Time: 0.45s
 
 2. FASTEST OPTIMIZATION:
    Surrogate: SVR (RBF)
@@ -2068,10 +2073,10 @@ KEY INSIGHTS AND RECOMMENDATIONS
 
 3. MOST EFFICIENT (weight reduction per second):
    Surrogate: SVR (RBF)
-   Efficiency: 1146.9174 lb/s
+   Efficiency: 1078.4574 lb/s
 
 4. RECOMMENDATIONS BY PROBLEM TYPE:
-   - Smooth, continuous functions: Gaussian Process with RBF or Matern ν=2.5
+   - Smooth, continuous functions: Gaussian Process with RBF or Matern nu=2.5
    - Functions with noise: Random Forest or Gradient Boosting
    - High-dimensional problems (&gt;20D): XGBoost or Random Forest
    - Limited budget (&lt;50 evals): Gaussian Process with Expected Improvement
@@ -2080,11 +2085,11 @@ KEY INSIGHTS AND RECOMMENDATIONS
    - Non-smooth/discontinuous: Random Forest or Gradient Boosting
 
 5. KERNEL COMPARISON (Gaussian Process):
-                Surrogate  Best Weight  Time (s)
-          GP Matern ν=1.5   119.546454  0.431512
-GP Matern ν=2.5 (Default)   119.866409  1.570868
-    GP Rational Quadratic   120.107282  0.589384
-                   GP RBF   120.109251  0.447875
+                 Surrogate  Best Weight  Time (s)
+          GP Matern nu=1.5   119.546454  0.449904
+GP Matern nu=2.5 (Default)   119.866409  1.646203
+     GP Rational Quadratic   120.107282  0.615868
+                    GP RBF   120.109251  0.467476
 
 ====================================================================================================</code></pre>
 </div>
@@ -2132,8 +2137,8 @@ Worst Weight Found 165.3064 lb
     Average Weight 133.7145 lb
     Std Dev Weight  18.0098 lb
       Fastest Time      0.07 s
-      Slowest Time      7.92 s
-      Average Time      1.41 s
+      Slowest Time      8.08 s
+      Average Time      1.39 s
 ====================================================================================================</code></pre>
 </div>
 </div>
@@ -2595,7 +2600,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

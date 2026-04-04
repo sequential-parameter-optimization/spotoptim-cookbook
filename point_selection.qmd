@@ -124,12 +124,12 @@ print(f"Max surrogate points: {optimizer3.max_surrogate_points}")
 
 | Feature | spotpython | SpotOptim |
 |---------|-----------|-----------|
-| Point selection via clustering | ✓ | ✓ |
-| 'distant' method | ✓ | ✓ |
-| 'best' method | ✓ | ✓ |
-| Selection dispatcher | ✓ | ✓ |
-| Nyström approximation | ✓ | ✗ |
-| Modular design | ✓ (utils.aggregate) | ✓ (class methods) |
+| Point selection via clustering | x | x |
+| 'distant' method | x | x |
+| 'best' method | x | x |
+| Selection dispatcher | x | x |
+| Nyström approximation | x |  |
+| Modular design | x (utils.aggregate) | x (class methods) |
 
 ## Jupyter Notebook
 

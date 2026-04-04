@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -746,7 +746,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Experiment</strong> (<code>*_exp.pkl</code>): Configuration only, excluding the objective function and results. Used to transfer optimization setup to remote machines.</li>
 <li><strong>Result</strong> (<code>*_res.pkl</code>): Complete optimization state including configuration, all evaluations, and results. Used to save and analyze completed optimizations.</li>
 </ul>
-<p><a href="#tbl-what-gets-saved" class="quarto-xref">Table&nbsp;<span class="quarto-unresolved-ref">tbl-what-gets-saved</span></a> shows what gets saved in each file type.</p>
+<p><a href="#tbl-what-gets-saved" class="quarto-xref">Table&nbsp;<span>14.1</span></a> shows what gets saved in each file type.</p>
 <div id="tbl-what-gets-saved" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-what-gets-saved-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -764,33 +764,33 @@ Table&nbsp;14.1: Robust Function Saving
 <tbody>
 <tr class="odd">
 <td>Configuration (bounds, parameters)</td>
-<td>✓</td>
-<td>✓</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="even">
 <td>Objective function</td>
-<td>✓</td>
-<td>✓</td>
+<td>x</td>
+<td>x</td>
 </tr>
 <tr class="odd">
 <td>Evaluations (X, y)</td>
-<td>✗</td>
-<td>✓</td>
+<td></td>
+<td>x</td>
 </tr>
 <tr class="even">
 <td>Best solution</td>
-<td>✗</td>
-<td>✓</td>
+<td></td>
+<td>x</td>
 </tr>
 <tr class="odd">
 <td>Surrogate model</td>
 <td>Excluded*</td>
-<td>✓</td>
+<td>x</td>
 </tr>
 <tr class="even">
 <td>TensorBoard writer</td>
-<td>✗</td>
-<td>✗</td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -1207,7 +1207,7 @@ Integer variable (dim 1) values:
 <section id="use-meaningful-prefixes" class="level3" data-number="14.7.2">
 <h3 data-number="14.7.2" class="anchored" data-anchor-id="use-meaningful-prefixes"><span class="header-section-number">14.7.2</span> 2. Use Meaningful Prefixes</h3>
 <p>Organize your experiments with descriptive prefixes:</p>
-<div id="facfd7b0" class="cell" data-execution_count="13">
+<div id="a37e1609" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good practice: descriptive prefixes</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"sphere_d10_seed42"</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"rosenbrock_n100_lhs"</span>)</span>
@@ -1220,7 +1220,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="save-experiments-before-remote-execution" class="level3" data-number="14.7.3">
 <h3 data-number="14.7.3" class="anchored" data-anchor-id="save-experiments-before-remote-execution"><span class="header-section-number">14.7.3</span> 3. Save Experiments Before Remote Execution</h3>
-<div id="e904e6b7" class="cell" data-execution_count="14">
+<div id="629dc824" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define locally</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(bounds<span class="op">=</span>bounds, max_iter<span class="op">=</span><span class="dv">20</span>, seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>optimizer.save_experiment(prefix<span class="op">=</span><span class="st">"remote_job"</span>)</span>
@@ -1233,7 +1233,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="version-your-experiments" class="level3" data-number="14.7.4">
 <h3 data-number="14.7.4" class="anchored" data-anchor-id="version-your-experiments"><span class="header-section-number">14.7.4</span> 4. Version Your Experiments</h3>
-<div id="f9625e2b" class="cell" data-execution_count="15">
+<div id="cd95d2e5" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add timestamp to prefix</span></span>
@@ -1246,7 +1246,7 @@ Integer variable (dim 1) values:
 </section>
 <section id="handle-file-paths-robustly" class="level3" data-number="14.7.5">
 <h3 data-number="14.7.5" class="anchored" data-anchor-id="handle-file-paths-robustly"><span class="header-section-number">14.7.5</span> 5. Handle File Paths Robustly</h3>
-<div id="1cf2a2d0" class="cell" data-execution_count="16">
+<div id="85b9bcae" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create directory structure</span></span>
@@ -1553,7 +1553,7 @@ Convergence plot saved to: {DIRNAME}/convergence_comparison.png</code></pre>
 <section id="file-format" class="level3" data-number="14.9.4">
 <h3 data-number="14.9.4" class="anchored" data-anchor-id="file-format"><span class="header-section-number">14.9.4</span> File Format</h3>
 <p>Files are saved using pickle’s highest protocol:</p>
-<div id="846ffea5" class="cell" data-execution_count="20">
+<div id="16ad4892" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">"wb"</span>) <span class="im">as</span> handle:</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    pickle.dump(optimizer_state, handle, protocol<span class="op">=</span>pickle.HIGHEST_PROTOCOL)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1573,7 +1573,7 @@ Convergence plot saved to: {DIRNAME}/convergence_comparison.png</code></pre>
 <h3 data-number="14.10.2" class="anchored" data-anchor-id="issue-filenotfounderror-experiment-file-not-found"><span class="header-section-number">14.10.2</span> Issue: “FileNotFoundError: Experiment file not found”</h3>
 <p><strong>Cause</strong>: Incorrect file path or file doesn’t exist.</p>
 <p><strong>Solution</strong>: Check file path and ensure file exists:</p>
-<div id="63c03c8b" class="cell" data-execution_count="21">
+<div id="e276a13f" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> <span class="st">"experiment_exp.pkl"</span></span>
@@ -1587,7 +1587,7 @@ Convergence plot saved to: {DIRNAME}/convergence_comparison.png</code></pre>
 <h3 data-number="14.10.3" class="anchored" data-anchor-id="issue-fileexistserror-file-already-exists"><span class="header-section-number">14.10.3</span> Issue: “FileExistsError: File already exists”</h3>
 <p><strong>Cause</strong>: Attempting to save over an existing file without <code>overwrite=True</code>.</p>
 <p><strong>Solution</strong>: Either use a different prefix or enable overwriting:</p>
-<div id="8a4862d2" class="cell" data-execution_count="22">
+<div id="66dfb9a1" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: Use different prefix</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>optimizer.save_result(prefix<span class="op">=</span><span class="st">"my_result_v2"</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1599,7 +1599,7 @@ Convergence plot saved to: {DIRNAME}/convergence_comparison.png</code></pre>
 <h3 data-number="14.10.4" class="anchored" data-anchor-id="issue-results-differ-after-loading"><span class="header-section-number">14.10.4</span> Issue: Results differ after loading</h3>
 <p><strong>Cause</strong>: Random state not preserved or function behavior changed.</p>
 <p><strong>Solution</strong>: Ensure you’re using the same seed and function definition:</p>
-<div id="25d42e60" class="cell" data-execution_count="23">
+<div id="42990368" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># When saving</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(..., seed<span class="op">=</span><span class="dv">42</span>)  <span class="co"># Use fixed seed</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2047,7 +2047,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

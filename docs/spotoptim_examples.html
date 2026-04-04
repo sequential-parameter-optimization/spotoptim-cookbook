@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -671,13 +671,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#get_initial_design" id="toc-get_initial_design" class="nav-link" data-scroll-target="#get_initial_design"><span class="header-section-number">3.3.1</span> 2.1 <code>get_initial_design()</code></a></li>
   <li><a href="#curate_initial_design" id="toc-curate_initial_design" class="nav-link" data-scroll-target="#curate_initial_design"><span class="header-section-number">3.3.2</span> 2.2 <code>curate_initial_design()</code></a></li>
-  <li><a href="#rm_na_values" id="toc-rm_na_values" class="nav-link" data-scroll-target="#rm_na_values"><span class="header-section-number">3.3.3</span> 2.3 <code>rm_NA_values()</code></a></li>
+  <li><a href="#rm_initial_design_na_values" id="toc-rm_initial_design_na_values" class="nav-link" data-scroll-target="#rm_initial_design_na_values"><span class="header-section-number">3.3.3</span> 2.3 <code>rm_initial_design_NA_values()</code></a></li>
   <li><a href="#check_size_initial_design" id="toc-check_size_initial_design" class="nav-link" data-scroll-target="#check_size_initial_design"><span class="header-section-number">3.3.4</span> 2.4 <code>check_size_initial_design()</code></a></li>
   <li><a href="#get_best_xy_initial_design" id="toc-get_best_xy_initial_design" class="nav-link" data-scroll-target="#get_best_xy_initial_design"><span class="header-section-number">3.3.5</span> 2.5 <code>get_best_xy_initial_design()</code></a></li>
   </ul></li>
   <li><a href="#surrogate-model-methods" id="toc-surrogate-model-methods" class="nav-link" data-scroll-target="#surrogate-model-methods"><span class="header-section-number">3.4</span> 3. Surrogate Model Methods</a>
   <ul class="collapse">
-  <li><a href="#fit_surrogate" id="toc-fit_surrogate" class="nav-link" data-scroll-target="#fit_surrogate"><span class="header-section-number">3.4.1</span> 3.1 <code>_fit_surrogate()</code></a></li>
+  <li><a href="#fit_surrogate" id="toc-fit_surrogate" class="nav-link" data-scroll-target="#fit_surrogate"><span class="header-section-number">3.4.1</span> 3.1 <code>fit_surrogate()</code></a></li>
   <li><a href="#predict_with_uncertainty" id="toc-predict_with_uncertainty" class="nav-link" data-scroll-target="#predict_with_uncertainty"><span class="header-section-number">3.4.2</span> 3.2 <code>_predict_with_uncertainty()</code></a></li>
   <li><a href="#acquisition_function" id="toc-acquisition_function" class="nav-link" data-scroll-target="#acquisition_function"><span class="header-section-number">3.4.3</span> 3.3 <code>_acquisition_function()</code></a></li>
   <li><a href="#suggest_next_infill_point" id="toc-suggest_next_infill_point" class="nav-link" data-scroll-target="#suggest_next_infill_point"><span class="header-section-number">3.4.4</span> 3.4 <code>suggest_next_infill_point()</code></a></li>
@@ -714,9 +714,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#noisy-function-optimization-with-ocba" id="toc-noisy-function-optimization-with-ocba" class="nav-link" data-scroll-target="#noisy-function-optimization-with-ocba"><span class="header-section-number">3.10.4</span> 9.4 Noisy Function Optimization with OCBA</a></li>
   <li><a href="#optimization-with-nan-handling" id="toc-optimization-with-nan-handling" class="nav-link" data-scroll-target="#optimization-with-nan-handling"><span class="header-section-number">3.10.5</span> 9.5 Optimization with NaN Handling</a></li>
   </ul></li>
-  <li><a href="#method-relationship-diagram" id="toc-method-relationship-diagram" class="nav-link" data-scroll-target="#method-relationship-diagram"><span class="header-section-number">3.11</span> 10. Method Relationship Diagram</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.12</span> 11. Summary</a></li>
-  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">3.13</span> Jupyter Notebook</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.11</span> Summary</a></li>
+  <li><a href="#jupyter-notebook" id="toc-jupyter-notebook" class="nav-link" data-scroll-target="#jupyter-notebook"><span class="header-section-number">3.12</span> Jupyter Notebook</a></li>
   </ul>
 </nav>
     </div>
@@ -745,7 +744,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setup-import-required-packages" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="setup-import-required-packages"><span class="header-section-number">3.1</span> Setup: Import Required Packages</h2>
 <p>First, we import all necessary packages for the examples.</p>
-<div id="216ca6f7" class="cell" data-execution_count="1">
+<div id="afadd2cc" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Core imports</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
@@ -771,12 +770,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3.2" class="anchored" data-anchor-id="main-optimization-method-optimize"><span class="header-section-number">3.2</span> 1. Main Optimization Method: <code>optimize()</code></h2>
 <p>The <code>optimize()</code> method is the main entry point for running the optimization process. It coordinates all other methods in the optimization workflow:</p>
 <ol type="1">
-<li><strong>Initial Design Phase</strong>: <code>get_initial_design()</code>, <code>curate_initial_design()</code>, <code>rm_NA_values()</code>, <code>check_size_initial_design()</code>, <code>get_best_xy_initial_design()</code></li>
+<li><strong>Initial Design Phase</strong>: <code>get_initial_design()</code>, <code>curate_initial_design()</code>, <code>rm_initial_design_NA_values()</code>, <code>check_size_initial_design()</code>, <code>get_best_xy_initial_design()</code></li>
 <li><strong>Main Loop</strong>: Surrogate fitting, OCBA application, point suggestion, evaluation</li>
 <li><strong>Termination</strong>: <code>determine_termination()</code></li>
 </ol>
 <p>Let’s see a complete optimization example:</p>
-<div id="8901aa57" class="cell" data-execution_count="2">
+<div id="bada464f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a simple quadratic function</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sphere(X):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Sphere function: f(x) = sum(x^2)"""</span></span>
@@ -803,37 +802,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Message: </span><span class="sc">{</span>result<span class="sc">.</span>message<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 3.701425
-Iter 1 | Best: 3.616084 | Rate: 1.00 | Evals: 30.0%
-Iter 2 | Best: 0.055586 | Rate: 1.00 | Evals: 35.0%
-Iter 3 | Best: 0.055586 | Curr: 0.063186 | Rate: 0.67 | Evals: 40.0%
-Iter 4 | Best: 0.055586 | Curr: 0.084359 | Rate: 0.50 | Evals: 45.0%
-Iter 5 | Best: 0.001198 | Rate: 0.60 | Evals: 50.0%
-Iter 6 | Best: 0.000065 | Rate: 0.67 | Evals: 55.0%
-Iter 7 | Best: 0.000030 | Rate: 0.71 | Evals: 60.0%
-Iter 8 | Best: 0.000009 | Rate: 0.75 | Evals: 65.0%
-Iter 9 | Best: 0.000002 | Rate: 0.78 | Evals: 70.0%
-Iter 10 | Best: 0.000000 | Rate: 0.80 | Evals: 75.0%
-Iter 11 | Best: 0.000000 | Rate: 0.82 | Evals: 80.0%
-Iter 12 | Best: 0.000000 | Rate: 0.83 | Evals: 85.0%
-Iter 13 | Best: 0.000000 | Rate: 0.85 | Evals: 90.0%
-Iter 14 | Best: 0.000000 | Rate: 0.86 | Evals: 95.0%
-Iter 15 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.80 | Evals: 100.0%
+Initial best: f(x) = 1.463558
+Iter 1 | Best: 1.092223 | Rate: 1.00 | Evals: 30.0%
+Iter 2 | Best: 0.222011 | Rate: 1.00 | Evals: 35.0%
+Iter 3 | Best: 0.015843 | Rate: 1.00 | Evals: 40.0%
+Iter 4 | Best: 0.003055 | Rate: 1.00 | Evals: 45.0%
+Iter 5 | Best: 0.000562 | Rate: 1.00 | Evals: 50.0%
+Iter 6 | Best: 0.000161 | Rate: 1.00 | Evals: 55.0%
+Iter 7 | Best: 0.000019 | Rate: 1.00 | Evals: 60.0%
+Iter 8 | Best: 0.000008 | Rate: 1.00 | Evals: 65.0%
+Iter 9 | Best: 0.000006 | Rate: 1.00 | Evals: 70.0%
+Iter 10 | Best: 0.000006 | Rate: 1.00 | Evals: 75.0%
+Iter 11 | Best: 0.000005 | Rate: 1.00 | Evals: 80.0%
+Iter 12 | Best: 0.000005 | Rate: 1.00 | Evals: 85.0%
+Iter 13 | Best: 0.000005 | Rate: 1.00 | Evals: 90.0%
+Iter 14 | Best: 0.000005 | Curr: 0.000005 | Rate: 0.93 | Evals: 95.0%
+Iter 15 | Best: 0.000005 | Rate: 0.93 | Evals: 100.0%
 
-Best point found: [ 1.18482174e-04 -8.81625558e-05]
-Best value: 0.000000
+Best point found: [ 0.00110384 -0.00190381]
+Best value: 0.000005
 Total evaluations: 20
 Sequential iterations: 15
 Success: True
 Message: Optimization terminated: maximum evaluations (20) reached
-         Current function value: 0.000000
+         Current function value: 0.000005
          Iterations: 15
          Function evaluations: 20</code></pre>
 </div>
 </div>
 <section id="changing-the-optimizer" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="changing-the-optimizer"><span class="header-section-number">3.2.1</span> Changing the Optimizer</h3>
-<div id="285bb11c" class="cell" data-execution_count="3">
+<div id="4394a671" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create optimizer</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
@@ -855,30 +854,30 @@ Message: Optimization terminated: maximum evaluations (20) reached
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Message: </span><span class="sc">{</span>result<span class="sc">.</span>message<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
-Initial best: f(x) = 7.045138
-Iter 1 | Best: 4.321957 | Rate: 1.00 | Evals: 30.0%
-Iter 2 | Best: 4.321957 | Curr: 9.426927 | Rate: 0.50 | Evals: 35.0%
-Iter 3 | Best: 4.321957 | Curr: 6.568250 | Rate: 0.33 | Evals: 40.0%
-Iter 4 | Best: 3.245160 | Rate: 0.50 | Evals: 45.0%
-Iter 5 | Best: 0.011731 | Rate: 0.60 | Evals: 50.0%
-Iter 6 | Best: 0.011731 | Curr: 1.481731 | Rate: 0.50 | Evals: 55.0%
-Iter 7 | Best: 0.011731 | Curr: 0.995179 | Rate: 0.43 | Evals: 60.0%
-Iter 8 | Best: 0.011731 | Curr: 0.568413 | Rate: 0.38 | Evals: 65.0%
-Iter 9 | Best: 0.011731 | Curr: 0.361163 | Rate: 0.33 | Evals: 70.0%
-Iter 10 | Best: 0.011731 | Curr: 0.223861 | Rate: 0.30 | Evals: 75.0%
-Iter 11 | Best: 0.011731 | Curr: 0.370890 | Rate: 0.27 | Evals: 80.0%
-Iter 12 | Best: 0.011731 | Curr: 0.314386 | Rate: 0.25 | Evals: 85.0%
-Iter 13 | Best: 0.011731 | Curr: 0.296589 | Rate: 0.23 | Evals: 90.0%
-Iter 14 | Best: 0.011731 | Curr: 0.276695 | Rate: 0.21 | Evals: 95.0%
-Iter 15 | Best: 0.011731 | Curr: 0.264693 | Rate: 0.20 | Evals: 100.0%
+Initial best: f(x) = 1.847955
+Iter 1 | Best: 1.847955 | Curr: 2.775960 | Rate: 0.00 | Evals: 30.0%
+Iter 2 | Best: 1.847955 | Curr: 3.161398 | Rate: 0.00 | Evals: 35.0%
+Iter 3 | Best: 0.720748 | Rate: 0.33 | Evals: 40.0%
+Iter 4 | Best: 0.300748 | Rate: 0.50 | Evals: 45.0%
+Iter 5 | Best: 0.198922 | Rate: 0.60 | Evals: 50.0%
+Iter 6 | Best: 0.066854 | Rate: 0.67 | Evals: 55.0%
+Iter 7 | Best: 0.004573 | Rate: 0.71 | Evals: 60.0%
+Iter 8 | Best: 0.004573 | Curr: 0.019856 | Rate: 0.62 | Evals: 65.0%
+Iter 9 | Best: 0.004573 | Curr: 0.013083 | Rate: 0.56 | Evals: 70.0%
+Iter 10 | Best: 0.004573 | Curr: 0.007611 | Rate: 0.50 | Evals: 75.0%
+Iter 11 | Best: 0.004573 | Curr: 0.007171 | Rate: 0.45 | Evals: 80.0%
+Iter 12 | Best: 0.004573 | Curr: 0.005684 | Rate: 0.42 | Evals: 85.0%
+Iter 13 | Best: 0.004573 | Curr: 0.005130 | Rate: 0.38 | Evals: 90.0%
+Iter 14 | Best: 0.004573 | Curr: 0.004954 | Rate: 0.36 | Evals: 95.0%
+Iter 15 | Best: 0.004573 | Curr: 0.005546 | Rate: 0.33 | Evals: 100.0%
 
-Best point found: [-0.10242688  0.03521092]
-Best value: 0.011731
+Best point found: [-0.06745712 -0.0046995 ]
+Best value: 0.004573
 Total evaluations: 20
 Sequential iterations: 15
 Success: True
 Message: Optimization terminated: maximum evaluations (20) reached
-         Current function value: 0.011731
+         Current function value: 0.004573
          Iterations: 15
          Function evaluations: 20</code></pre>
 </div>
@@ -894,7 +893,7 @@ Message: Optimization terminated: maximum evaluations (20) reached
 <strong>Used by</strong>: <code>optimize()</code> method at the start<br>
 <strong>Calls</strong>: <code>generate_initial_design()</code> if X0 is None</p>
 <p>This method handles three scenarios: 1. Generate LHS design when X0=None 2. Include starting point x0 if provided 3. Transform user-provided X0</p>
-<div id="83ef2429" class="cell" data-execution_count="4">
+<div id="22fa2d32" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: Generate default LHS design</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
@@ -939,7 +938,7 @@ Custom design shape: (3, 2)</code></pre>
 <p><strong>Purpose</strong>: Remove duplicates and ensure sufficient unique points<br>
 <strong>Used by</strong>: <code>optimize()</code> after <code>get_initial_design()</code><br>
 <strong>Handles</strong>: Duplicate removal, point generation, repetition for noisy functions</p>
-<div id="92377589" class="cell" data-execution_count="5">
+<div id="841e09b6" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: Remove duplicates</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
@@ -973,12 +972,12 @@ After repeating (3x): 15</code></pre>
 </div>
 </div>
 </section>
-<section id="rm_na_values" class="level3" data-number="3.3.3">
-<h3 data-number="3.3.3" class="anchored" data-anchor-id="rm_na_values"><span class="header-section-number">3.3.3</span> 2.3 <code>rm_NA_values()</code></h3>
+<section id="rm_initial_design_na_values" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="rm_initial_design_na_values"><span class="header-section-number">3.3.3</span> 2.3 <code>rm_initial_design_NA_values()</code></h3>
 <p><strong>Purpose</strong>: Remove NaN/inf values from initial design evaluations<br>
 <strong>Used by</strong>: <code>optimize()</code> after evaluating initial design<br>
 <strong>Returns</strong>: Cleaned arrays and original count</p>
-<div id="f852fe33" class="cell" data-execution_count="6">
+<div id="724154e2" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -990,7 +989,7 @@ After repeating (3x): 15</code></pre>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>X0 <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">5</span>, <span class="dv">6</span>]])</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> np.array([<span class="fl">5.0</span>, np.nan, np.inf])</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>X0_clean, y0_clean, n_eval <span class="op">=</span> opt.rm_NA_values(X0, y0)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>X0_clean, y0_clean, n_eval <span class="op">=</span> opt.rm_initial_design_NA_values(X0, y0)</span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Original evaluations: </span><span class="sc">{</span>n_eval<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valid points remaining: </span><span class="sc">{</span>X0_clean<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -1010,7 +1009,7 @@ Clean y0: [5.]</code></pre>
 <p><strong>Purpose</strong>: Validate sufficient points for surrogate fitting<br>
 <strong>Used by</strong>: <code>optimize()</code> after handling NaN values<br>
 <strong>Raises</strong>: ValueError if insufficient points</p>
-<div id="f8fcf7b0" class="cell" data-execution_count="7">
+<div id="5d1a7d82" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1022,20 +1021,20 @@ Clean y0: [5.]</code></pre>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>y0_sufficient <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>, <span class="fl">5.0</span>])</span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    opt.check_size_initial_design(y0_sufficient, n_evaluated<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"✓ Sufficient points - validation passed"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"x Sufficient points - validation passed"</span>)</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span> <span class="im">as</span> e:</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"✗ Error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f" Error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 2: Insufficient points - raises error</span></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>y0_insufficient <span class="op">=</span> np.array([<span class="fl">1.0</span>])  <span class="co"># Only 1 point, need at least 3 for 2D</span></span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    opt.check_size_initial_design(y0_insufficient, n_evaluated<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"✓ Validation passed"</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"x Validation passed"</span>)</span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span> <span class="im">as</span> e:</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"✗ Expected error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f" Expected error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>✓ Sufficient points - validation passed
-✗ Expected error: Insufficient valid initial design points: only 1 finite value(s) out of 10 evaluated. Need at least 3 points to fit surrogate model. Please check your objective function or increase n_initial.</code></pre>
+<pre><code>x Sufficient points - validation passed
+ Expected error: Insufficient valid initial design points: only 1 finite value(s) out of 10 evaluated. Need at least 3 points to fit surrogate model. Please check your objective function or increase n_initial.</code></pre>
 </div>
 </div>
 </section>
@@ -1044,7 +1043,7 @@ Clean y0: [5.]</code></pre>
 <p><strong>Purpose</strong>: Determine and store the best point from initial design<br>
 <strong>Used by</strong>: <code>optimize()</code> after initial design evaluation<br>
 <strong>Updates</strong>: <code>self.best_x_</code> and <code>self.best_y_</code> attributes</p>
-<div id="2965ba9e" class="cell" data-execution_count="8">
+<div id="28cfc89d" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1075,11 +1074,11 @@ Best y from initial design: 0.0</code></pre>
 <h2 data-number="3.4" class="anchored" data-anchor-id="surrogate-model-methods"><span class="header-section-number">3.4</span> 3. Surrogate Model Methods</h2>
 <p>These methods handle surrogate model operations during the optimization loop.</p>
 <section id="fit_surrogate" class="level3" data-number="3.4.1">
-<h3 data-number="3.4.1" class="anchored" data-anchor-id="fit_surrogate"><span class="header-section-number">3.4.1</span> 3.1 <code>_fit_surrogate()</code></h3>
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="fit_surrogate"><span class="header-section-number">3.4.1</span> 3.1 <code>fit_surrogate()</code></h3>
 <p><strong>Purpose</strong>: Fit surrogate model to data<br>
 <strong>Used by</strong>: <code>optimize()</code> in main loop<br>
-<strong>Calls</strong>: <code>_selection_dispatcher()</code> if max_surrogate_points exceeded</p>
-<div id="71b077a0" class="cell" data-execution_count="9">
+<strong>Calls</strong>: <code>fit_selection_dispatcher()</code> if max_surrogate_points exceeded</p>
+<div id="724e0759" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1092,7 +1091,7 @@ Best y from initial design: 0.0</code></pre>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.<span class="bu">sum</span>(X<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit surrogate (will select 10 best points)</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>opt._fit_surrogate(X, y)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>opt.fit_surrogate(X, y)</span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Surrogate fitted successfully!"</span>)</span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Surrogate model: </span><span class="sc">{</span><span class="bu">type</span>(opt.surrogate)<span class="sc">.</span><span class="va">__name__</span><span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1107,7 +1106,7 @@ Surrogate model: GaussianProcessRegressor</code></pre>
 <p><strong>Purpose</strong>: Predict with uncertainty estimates, handling surrogates without return_std<br>
 <strong>Used by</strong>: <code>_acquisition_function()</code> and <code>plot_surrogate()</code><br>
 <strong>Returns</strong>: Predictions and standard deviations</p>
-<div id="c261322c" class="cell" data-execution_count="10">
+<div id="cee094a5" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1118,7 +1117,7 @@ Surrogate model: GaussianProcessRegressor</code></pre>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Train surrogate</span></span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">2</span>]])</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">8</span>])</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>opt._fit_surrogate(X_train, y_train)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>opt.fit_surrogate(X_train, y_train)</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on new points</span></span>
 <span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> np.array([[<span class="fl">1.5</span>, <span class="fl">1.5</span>], [<span class="fl">3.0</span>, <span class="fl">3.0</span>]])</span>
@@ -1142,7 +1141,7 @@ Uncertainties: [0.31263595 0.92017596]</code></pre>
 <strong>Used by</strong>: <code>suggest_next_infill_point()</code> for optimization<br>
 <strong>Calls</strong>: <code>_predict_with_uncertainty()</code><br>
 <strong>Supports</strong>: Expected Improvement (EI), Probability of Improvement (PI), Mean prediction</p>
-<div id="08ae33dd" class="cell" data-execution_count="11">
+<div id="75dc4b1e" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1154,7 +1153,7 @@ Uncertainties: [0.31263595 0.92017596]</code></pre>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup</span></span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">2</span>]])</span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">8</span>])</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>opt._fit_surrogate(X_train, y_train)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>opt.fit_surrogate(X_train, y_train)</span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>opt.y_ <span class="op">=</span> y_train  <span class="co"># Needed for acquisition function</span></span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate acquisition function</span></span>
@@ -1177,7 +1176,7 @@ Acquisition function value (EI): -0.000000
 <strong>Used by</strong>: <code>optimize()</code> in main loop<br>
 <strong>Calls</strong>: <code>_acquisition_function()</code>, <code>_handle_acquisition_failure()</code> if needed<br>
 <strong>Handles</strong>: Integer/factor rounding, duplicate avoidance</p>
-<div id="2bcad3d5" class="cell" data-execution_count="12">
+<div id="ec03db3f" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1189,7 +1188,7 @@ Acquisition function value (EI): -0.000000
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup</span></span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">2</span>]])</span>
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">8</span>])</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>opt._fit_surrogate(X_train, y_train)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>opt.fit_surrogate(X_train, y_train)</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>opt.X_ <span class="op">=</span> X_train</span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>opt.y_ <span class="op">=</span> y_train</span>
 <span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
@@ -1212,7 +1211,7 @@ Expected to be between known points or in unexplored regions</code></pre>
 <p><strong>Purpose</strong>: Apply OCBA for noisy functions to determine which points to re-evaluate<br>
 <strong>Used by</strong>: <code>optimize()</code> in main loop when noise=True and ocba_delta &gt; 0<br>
 <strong>Returns</strong>: Points to re-evaluate or None</p>
-<div id="c59270e1" class="cell" data-execution_count="13">
+<div id="c081b828" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example with OCBA enabled</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
@@ -1258,7 +1257,7 @@ OCBA returned 5 points for re-evaluation</code></pre>
 <p><strong>Purpose</strong>: Replace NaN and infinite values with penalty plus random noise<br>
 <strong>Used by</strong>: <code>_handle_NA_new_points()</code> and indirectly by <code>optimize()</code><br>
 <strong>Algorithm</strong>: penalty = max(finite_y) + 3 * std(finite_y) + noise</p>
-<div id="477ba9a4" class="cell" data-execution_count="14">
+<div id="54e20091" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1290,7 +1289,7 @@ Penalty values &gt; max(hist): True</code></pre>
 <p><strong>Purpose</strong>: Remove rows where y contains NaN or inf values<br>
 <strong>Used by</strong>: <code>optimize()</code> after function evaluations<br>
 <strong>Returns</strong>: Cleaned arrays</p>
-<div id="bbb36fcd" class="cell" data-execution_count="15">
+<div id="7457dc80" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1321,7 +1320,7 @@ Clean y: [1.]</code></pre>
 <strong>Used by</strong>: <code>optimize()</code> after evaluating new points<br>
 <strong>Calls</strong>: <code>apply_penalty_NA()</code> and <code>remove_nan()</code><br>
 <strong>Returns</strong>: None, None if all evaluations invalid (skip iteration)</p>
-<div id="b7f96407" class="cell" data-execution_count="16">
+<div id="2b60d529" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1368,7 +1367,7 @@ Result: None (skip iteration)</code></pre>
 <p><strong>Purpose</strong>: Update best solution found during main optimization loop<br>
 <strong>Used by</strong>: <code>optimize()</code> after each iteration<br>
 <strong>Updates</strong>: <code>self.best_x_</code> and <code>self.best_y_</code> if improvement found</p>
-<div id="ba53c494" class="cell" data-execution_count="17">
+<div id="0ea576d0" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1416,7 +1415,7 @@ Best_y unchanged: 0.02</code></pre>
 <p><strong>Purpose</strong>: Determine termination reason for optimization<br>
 <strong>Used by</strong>: <code>optimize()</code> at the end<br>
 <strong>Checks</strong>: Max iterations, time limit, or successful completion</p>
-<div id="632c02b2" class="cell" data-execution_count="18">
+<div id="7ac0ee90" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1464,7 +1463,7 @@ Message: Optimization finished successfully</code></pre>
 <h3 data-number="3.9.1" class="anchored" data-anchor-id="select_new"><span class="header-section-number">3.9.1</span> 8.1 <code>select_new()</code></h3>
 <p><strong>Purpose</strong>: Select rows from A that are not in X (avoid duplicate evaluations)<br>
 <strong>Used by</strong>: <code>suggest_next_infill_point()</code> to ensure new points are different from evaluated points</p>
-<div id="5d801568" class="cell" data-execution_count="19">
+<div id="1244eefe" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1502,7 +1501,7 @@ Is new mask: [ True False  True]</code></pre>
 <h3 data-number="3.9.2" class="anchored" data-anchor-id="repair_non_numeric"><span class="header-section-number">3.9.2</span> 8.2 <code>repair_non_numeric()</code></h3>
 <p><strong>Purpose</strong>: Round non-numeric values (int, factor) to integers<br>
 <strong>Used by</strong>: Various methods to ensure integer/factor variables have valid values</p>
-<div id="5bb088da" class="cell" data-execution_count="20">
+<div id="2adff215" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1533,7 +1532,7 @@ Repaired X (first column rounded to int):
 <p><strong>Purpose</strong>: Map internal integer values to original factor strings<br>
 <strong>Used by</strong>: <code>optimize()</code> when preparing results for user<br>
 <strong>Handles</strong>: Factor (categorical) variables</p>
-<div id="3989519d" class="cell" data-execution_count="21">
+<div id="606e0ef4" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="st">'red'</span>, <span class="st">'green'</span>, <span class="st">'blue'</span>)],</span>
@@ -1565,7 +1564,7 @@ Mapped to factor values:
 <h2 data-number="3.10" class="anchored" data-anchor-id="integration-examples"><span class="header-section-number">3.10</span> 9. Integration Examples</h2>
 <section id="optimization-with-custom-initial-design" class="level3" data-number="3.10.1">
 <h3 data-number="3.10.1" class="anchored" data-anchor-id="optimization-with-custom-initial-design"><span class="header-section-number">3.10.1</span> 9.1 Optimization with Custom Initial Design</h3>
-<div id="6cc6a613" class="cell" data-execution_count="22">
+<div id="af570be6" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1604,7 +1603,7 @@ Best value: 0.000000</code></pre>
 </section>
 <section id="optimization-with-starting-point" class="level3" data-number="3.10.2">
 <h3 data-number="3.10.2" class="anchored" data-anchor-id="optimization-with-starting-point"><span class="header-section-number">3.10.2</span> 9.2 Optimization with Starting Point</h3>
-<div id="c715359d" class="cell" data-execution_count="23">
+<div id="f37c573d" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1644,7 +1643,7 @@ Best value: 0.000001</code></pre>
 </section>
 <section id="optimization-with-integer-variables" class="level3" data-number="3.10.3">
 <h3 data-number="3.10.3" class="anchored" data-anchor-id="optimization-with-integer-variables"><span class="header-section-number">3.10.3</span> 9.3 Optimization with Integer Variables</h3>
-<div id="87b48cfc" class="cell" data-execution_count="24">
+<div id="3ad812dc" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>[(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>), (<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)],</span>
@@ -1776,7 +1775,7 @@ Note: OCBA re-evaluated promising points to reduce uncertainty</code></pre>
 </section>
 <section id="optimization-with-nan-handling" class="level3" data-number="3.10.5">
 <h3 data-number="3.10.5" class="anchored" data-anchor-id="optimization-with-nan-handling"><span class="header-section-number">3.10.5</span> 9.5 Optimization with NaN Handling</h3>
-<div id="8ea1f26c" class="cell" data-execution_count="26">
+<div id="23a51dbd" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function that sometimes returns NaN</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sometimes_nan(X):</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.atleast_2d(X)</span>
@@ -1825,48 +1824,8 @@ Optimization succeeded despite NaN values: True</code></pre>
 </div>
 </section>
 </section>
-<section id="method-relationship-diagram" class="level2" data-number="3.11">
-<h2 data-number="3.11" class="anchored" data-anchor-id="method-relationship-diagram"><span class="header-section-number">3.11</span> 10. Method Relationship Diagram</h2>
-<p>Here’s how all the methods relate to each other in the optimization workflow:</p>
-<pre><code>optimize()
-│
-├─── Initial Design Phase
-│    ├── get_initial_design()
-│    │   └── generate_initial_design() [if X0 is None]
-│    ├── curate_initial_design()
-│    ├── evaluate_function()
-│    ├── rm_NA_values()
-│    ├── check_size_initial_design()
-│    └── get_best_xy_initial_design()
-│
-├─── Main Optimization Loop (while not terminated)
-│    │
-│    ├── _fit_surrogate()
-│    │   └── _selection_dispatcher() [if max_surrogate_points exceeded]
-│    │
-│    ├── apply_ocba() [if noise=True and ocba_delta &gt; 0]
-│    │
-│    ├── suggest_next_infill_point()
-│    │   ├── _acquisition_function()
-│    │   │   └── _predict_with_uncertainty()
-│    │   ├── repair_non_numeric()
-│    │   ├── select_new()
-│    │   └── _handle_acquisition_failure() [if needed]
-│    │
-│    ├── evaluate_function()
-│    │
-│    ├── _handle_NA_new_points()
-│    │   ├── apply_penalty_NA()
-│    │   └── remove_nan()
-│    │
-│    └── _update_best_main_loop()
-│
-└─── Termination Phase
-     ├── determine_termination()
-     └── map_to_factor_values() [for results]</code></pre>
-</section>
-<section id="summary" class="level2" data-number="3.12">
-<h2 data-number="3.12" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.12</span> 11. Summary</h2>
+<section id="summary" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.11</span> Summary</h2>
 <p>This notebook demonstrated all major methods in SpotOptim with executable examples:</p>
 <p><strong>Core Flow:</strong></p>
 <ol type="1">
@@ -1885,8 +1844,8 @@ Optimization succeeded despite NaN values: True</code></pre>
 </ul>
 <p>All examples can be run independently and demonstrate the modular design of SpotOptim!</p>
 </section>
-<section id="jupyter-notebook" class="level2" data-number="3.13">
-<h2 data-number="3.13" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">3.13</span> Jupyter Notebook</h2>
+<section id="jupyter-notebook" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="jupyter-notebook"><span class="header-section-number">3.12</span> Jupyter Notebook</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2323,7 +2282,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

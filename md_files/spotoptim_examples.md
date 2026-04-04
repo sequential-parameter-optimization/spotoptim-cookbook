@@ -215,17 +215,17 @@ opt = SpotOptim(
 y0_sufficient = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
 try:
     opt.check_size_initial_design(y0_sufficient, n_evaluated=10)
-    print("✓ Sufficient points - validation passed")
+    print("x Sufficient points - validation passed")
 except ValueError as e:
-    print(f"✗ Error: {e}")
+    print(f" Error: {e}")
 
 # Example 2: Insufficient points - raises error
 y0_insufficient = np.array([1.0])  # Only 1 point, need at least 3 for 2D
 try:
     opt.check_size_initial_design(y0_insufficient, n_evaluated=10)
-    print("✓ Validation passed")
+    print("x Validation passed")
 except ValueError as e:
-    print(f"✗ Expected error: {e}")
+    print(f" Expected error: {e}")
 ```
 
 ### 2.5 `get_best_xy_initial_design()`

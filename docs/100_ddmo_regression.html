@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -95,7 +95,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -923,7 +923,7 @@ E \left( y_0 - \hat{f}(x_0) \right)^2 = \text{var} (\hat{f}(x_0)) + [Bias(\hat{f
 <p>The expectation averages over the variability of <span class="math inline">\(y_0\)</span> as well as the variability in <span class="math inline">\(Tr\)</span>. Note that <span class="math display">\[
 Bias(\hat{f}(x_0)) = E[\hat{f}(x_0)] - f(x_0).
 \]</span> Typically as the flexibility of <span class="math inline">\(\hat{f}\)</span> increases, its variance increases (because the fits differ from training set to trainig set), and its bias decreases. So choosing the flexibility based on average test error amounts to a bias-variance trade-off.</p>
-<p>If we add the two components (reducible and irreducible error), we get the MSE in <a href="#eq-biasvariance" class="quarto-xref">Equation&nbsp;<span class="quarto-unresolved-ref">eq-biasvariance</span></a>.</p>
+<p>If we add the two components (reducible and irreducible error), we get the MSE in <a href="#eq-biasvariance" class="quarto-xref">Equation&nbsp;<span>48.1</span></a>.</p>
 <ul>
 <li>Video: <a href="https://youtu.be/EuBBz3bI-aA?si=7MVv_J1HbzMSQS4K">Machine Learning Fundamentals: Bias and Variance</a></li>
 </ul>
@@ -961,10 +961,10 @@ R^2 = r^2.
 </section>
 <section id="assessing-confounding-effects-in-multiple-regression" class="level2" data-number="48.5">
 <h2 data-number="48.5" class="anchored" data-anchor-id="assessing-confounding-effects-in-multiple-regression"><span class="header-section-number">48.5</span> Assessing Confounding Effects in Multiple Regression</h2>
-<p>Confounding is a bias introduced by the imbalanced distribution of extraneous risk factors among comparison groups <span class="citation" data-cites="wang07a">(<a href="#ref-wang07a" role="doc-biblioref">Wang 2007</a>)</span>. <code>spotoptim</code> provides tools for assessing confounding effects in multiple regression models.</p>
+<p>Confounding is a bias introduced by the imbalanced distribution of extraneous risk factors among comparison groups <span class="citation" data-cites="wang07a">(<a href="references.html#ref-wang07a" role="doc-biblioref">Wang 2007</a>)</span>. <code>spotoptim</code> provides tools for assessing confounding effects in multiple regression models.</p>
 <div id="exm-confounding" class="theorem example">
 <p><span class="theorem-title"><strong>Example 48.1 (Assessing Confounding Effects in Multiple Regression with <code>spotoptim</code>)</strong></span> Consider the following data generation function <code>generate_data</code> and the <code>fit_ols_model</code> function to fit an ordinary least squares (OLS) regression model.</p>
-<div id="d33254bd" class="cell" data-execution_count="1">
+<div id="904242df" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -1031,26 +1031,26 @@ y = f(x_1, x_2, x_3) + \epsilon =  x_1 + 10 x_3 + \epsilon.
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fit_ols_model(<span class="st">"y ~ x1 + x3"</span>, data)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fit_ols_model(<span class="st">"y ~ x1 + x2 + x3"</span>, data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>p-values: 0.34343741859526267
+<pre><code>p-values: 0.34343741859526244
 estimate: 1.025306391110114
 conf_int: 0   -1.111963
 1    3.162575
 Name: x1, dtype: float64
 aic: 517.6397392012537
-p-values: 0.3637511850778459
-estimate: 0.9810502049698089
+p-values: 0.36375118507784565
+estimate: 0.9810502049698092
 conf_int: 0   -1.152698
 1    3.114798
 Name: x1, dtype: float64
 aic: 518.1426513151566
-p-values: 4.9467606744218384e-05
-estimate: 1.4077923469421165
+p-values: 4.946760674421827e-05
+estimate: 1.407792346942117
 conf_int: 0    0.750106
 1    2.065479
 Name: x1, dtype: float64
 aic: 282.73524524532
-p-values: 4.849840959643536e-05
-estimate: 1.4159292625696247
+p-values: 4.849840959643549e-05
+estimate: 1.4159292625696243
 conf_int: 0    0.755494
 1    2.076364
 Name: x1, dtype: float64
@@ -1064,8 +1064,8 @@ aic: 284.34665447613634</code></pre>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res[<span class="st">"estimate"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The basic model is: y ~ x1
-The following features will be used for fitting the basic model: Index(['y', 'x3', 'x1', 'x2'], dtype='str')
-p-values: 0.34343741859526267
+The following features will be used for fitting the basic model: Index(['x3', 'x2', 'x1', 'y'], dtype='str')
+p-values: 0.34343741859526244
 estimate: 1.025306391110114
 conf_int: 0   -1.111963
 1    3.162575
@@ -1096,7 +1096,7 @@ Figure&nbsp;48.1: Coefficients vs.&nbsp;p-values for different models. The right
 </div>
 </div>
 </div>
-<p><a href="#fig-plot-coeff-vs-pvals" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-plot-coeff-vs-pvals</span></a> shows the coefficients and p-values for different models. Because <span class="math inline">\(y\)</span> depends on <span class="math inline">\(x1\)</span> and <span class="math inline">\(x3\)</span>, the p-value much smaller if <span class="math inline">\(x3\)</span> is included in the model as can be seen in the right plot in <a href="#fig-plot-coeff-vs-pvals" class="quarto-xref">Figure&nbsp;<span class="quarto-unresolved-ref">fig-plot-coeff-vs-pvals</span></a>. The left plot shows that including <span class="math inline">\(x2\)</span> in the model does not significantly improve the model fit.</p>
+<p><a href="#fig-plot-coeff-vs-pvals" class="quarto-xref">Figure&nbsp;<span>48.1</span></a> shows the coefficients and p-values for different models. Because <span class="math inline">\(y\)</span> depends on <span class="math inline">\(x1\)</span> and <span class="math inline">\(x3\)</span>, the p-value much smaller if <span class="math inline">\(x3\)</span> is included in the model as can be seen in the right plot in <a href="#fig-plot-coeff-vs-pvals" class="quarto-xref">Figure&nbsp;<span>48.1</span></a>. The left plot shows that including <span class="math inline">\(x2\)</span> in the model does not significantly improve the model fit.</p>
 </div>
 </section>
 <section id="cross-validation" class="level2" data-number="48.6">
@@ -1106,7 +1106,7 @@ Figure&nbsp;48.1: Coefficients vs.&nbsp;p-values for different models. The right
 </ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
 <div id="ref-wang07a" class="csl-entry" role="listitem">
 Wang, Zhiqiang. 2007. <span>“Two Postestimation Commands for Assessing Confounding Effects in Epidemiological Studies.”</span> <em>The Stata Journal</em> 7 (2): 183–96.
 </div>
@@ -1530,7 +1530,7 @@ Wang, Zhiqiang. 2007. <span>“Two Postestimation Commands for Assessing Confoun
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

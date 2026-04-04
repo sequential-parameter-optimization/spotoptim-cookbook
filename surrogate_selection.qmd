@@ -63,6 +63,9 @@ from sklearn.svm import SVR
 * XGBoost (if available)
 
 ```{python}
+import os
+os.environ["OMP_NUM_THREADS"] = "1"  # Prevent OpenMP conflict on macOS
+
 try:
     import xgboost as xgb
     XGBOOST_AVAILABLE = True
@@ -94,7 +97,7 @@ print(f"Optimization budget: {max_iter} evaluations")
 
 ## 1. Default Surrogate: Gaussian Process with Matern Kernel
 
-SpotOptim's default surrogate is a Gaussian Process with a Matern kernel (ν=2.5), which provides twice-differentiable sample paths and good performance for most optimization problems.
+SpotOptim's default surrogate is a Gaussian Process with a Matern kernel ($\nu$=2.5), which provides twice-differentiable sample paths and good performance for most optimization problems.
 
 ```{python}
 #| label: surrogate-selection-default
@@ -123,7 +126,7 @@ print(f"  Success: {result_default.success}")
 
 # Store for comparison
 results_comparison = [{
-    'Surrogate': 'GP Matern ν=2.5 (Default)',
+    'Surrogate': 'GP Matern nu=2.5 (Default)',
     'Best Weight': result_default.fun,
     'Evaluations': result_default.nfev,
     'Time (s)': time_default,
@@ -141,7 +144,7 @@ optimizer_default.plot_progress(log_y=False, figsize=(10, 5))
 ```{python}
 # Plot most important hyperparameters
 optimizer_default.plot_important_hyperparameter_contour(max_imp=3)
-plt.suptitle('Default GP Matern ν=2.5: Most Important Parameters', y=1.02)
+plt.suptitle('Default GP Matern nu=2.5: Most Important Parameters', y=1.02)
 plt.show()
 ```
 
@@ -208,9 +211,9 @@ plt.suptitle('GP RBF Kernel: Most Important Parameters', y=1.02)
 plt.show()
 ```
 
-## 3. Gaussian Process with Matern ν=1.5 Kernel
+## 3. Gaussian Process with Matern nu=1.5 Kernel
 
-The Matern ν=1.5 kernel produces once-differentiable sample paths, allowing for more flexible (less smooth) fits than ν=2.5.
+The Matern nu=1.5 kernel produces once-differentiable sample paths, allowing for more flexible (less smooth) fits than nu=2.5.
 
 ```{python}
 #| label: surrogate-selection-matern15
@@ -252,7 +255,7 @@ print(f"  Time: {time_matern15:.2f}s")
 print(f"  Success: {result_matern15.success}")
 
 results_comparison.append({
-    'Surrogate': 'GP Matern ν=1.5',
+    'Surrogate': 'GP Matern nu=1.5',
     'Best Weight': result_matern15.fun,
     'Evaluations': result_matern15.nfev,
     'Time (s)': time_matern15,
@@ -260,7 +263,7 @@ results_comparison.append({
 })
 ```
 
-### Visualization: Matern ν=1.5 Kernel
+### Visualization: Matern nu=1.5 Kernel
 
 ```{python}
 #| label: surrogate-selection-matern15-viz
@@ -269,7 +272,7 @@ optimizer_matern15.plot_progress(log_y=False, figsize=(10, 5))
 
 ```{python}
 optimizer_matern15.plot_important_hyperparameter_contour(max_imp=3)
-plt.suptitle('GP Matern ν=1.5 Kernel: Most Important Parameters', y=1.02)
+plt.suptitle('GP Matern nu=1.5 Kernel: Most Important Parameters', y=1.02)
 plt.show()
 ```
 
@@ -476,6 +479,8 @@ if XGBOOST_AVAILABLE:
         subsample=0.8,
         colsample_bytree=0.8,
         random_state=seed,
+        nthread=1,
+        verbosity=0,
     )
     
     optimizer_xgb = SpotOptim(
@@ -721,9 +726,9 @@ fig, ax = plt.subplots(figsize=(14, 8))
 
 # Collect convergence data from all optimizers
 optimizers = [
-    (optimizer_default, 'GP Matern ν=2.5 (Default)', 'blue'),
+    (optimizer_default, 'GP Matern nu=2.5 (Default)', 'blue'),
     (optimizer_rbf, 'GP RBF', 'green'),
-    (optimizer_matern15, 'GP Matern ν=1.5', 'red'),
+    (optimizer_matern15, 'GP Matern nu=1.5', 'red'),
     (optimizer_rq, 'GP Rational Quadratic', 'purple'),
     (optimizer_kriging, 'SpotOptim Kriging', 'orange'),
     (optimizer_rf, 'Random Forest', 'brown'),
@@ -787,7 +792,7 @@ print(f"   Surrogate: {most_efficient}")
 print(f"   Efficiency: {df_comparison.loc[most_efficient_idx, 'Efficiency']:.4f} lb/s")
 
 print(f"\n4. RECOMMENDATIONS BY PROBLEM TYPE:")
-print(f"   - Smooth, continuous functions: Gaussian Process with RBF or Matern ν=2.5")
+print(f"   - Smooth, continuous functions: Gaussian Process with RBF or Matern nu=2.5")
 print(f"   - Functions with noise: Random Forest or Gradient Boosting")
 print(f"   - High-dimensional problems (>20D): XGBoost or Random Forest")
 print(f"   - Limited budget (<50 evals): Gaussian Process with Expected Improvement")

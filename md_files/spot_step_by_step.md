@@ -287,11 +287,11 @@ The minimum required is the smaller of:
 ```{python}
 try:
     opt.check_size_initial_design(y0_clean, n_evaluated)
-    print(f"✓ Validation passed: {len(y0_clean)} valid points available")
+    print(f"x Validation passed: {len(y0_clean)} valid points available")
     print(f"  Minimum required: 1 point")
     print(f"  Original evaluated: {n_evaluated} points")
 except ValueError as e:
-    print(f"✗ Validation failed: {e}")
+    print(f" Validation failed: {e}")
 ```
 
 
@@ -647,10 +647,10 @@ Handle NaN/inf values in new evaluations with penalty approach.
 x_clean, y_clean = opt._handle_NA_new_points(x_next_2d, y_next)
 
 if x_clean is not None:
-    print(f"✓ Valid evaluations: {len(y_clean)}")
+    print(f"x Valid evaluations: {len(y_clean)}")
     print(f"  All values finite: {np.all(np.isfinite(y_clean))}")
 else:
-    print(f"✗ All evaluations failed - iteration would be skipped")
+    print(f" All evaluations failed - iteration would be skipped")
 ```
 
 
@@ -740,7 +740,7 @@ print(f"Best before: {best_before:.6f}")
 print(f"Best after: {opt.best_y_:.6f}")
 
 if opt.best_y_ < best_before:
-    print(f"\n✓ New best found!")
+    print(f"\nx New best found!")
     print(f"  Location: {opt.best_x_}")
     print(f"  Value: {opt.best_y_:.6f}")
 else:
@@ -999,10 +999,10 @@ print("  3. Skip iteration if all evaluations failed")
 print("  4. Continue if any valid evaluations")
 
 print("\nPenalty approach benefits:")
-print("  ✓ Preserves optimization history")
-print("  ✓ Surrogate learns to avoid bad regions")
-print("  ✓ Better exploration-exploitation balance")
-print("  ✓ More robust convergence")
+print("  x Preserves optimization history")
+print("  x Surrogate learns to avoid bad regions")
+print("  x Better exploration-exploitation balance")
+print("  x More robust convergence")
 ```
 
 ## Penalty Application
@@ -1366,13 +1366,13 @@ FINALIZATION
 
 SpotOptim provides a robust and flexible framework for surrogate-based optimization with:
 
-✓ Efficient space-filling initial designs (LHS)  
-✓ Powerful Gaussian Process surrogate models  
-✓ Smart acquisition functions (EI, PI, Mean)  
-✓ Automatic noise handling with statistics  
-✓ Intelligent budget allocation (OCBA)  
-✓ Robust failure handling  
-✓ Comprehensive progress tracking
+x Efficient space-filling initial designs (LHS)  
+x Powerful Gaussian Process surrogate models  
+x Smart acquisition functions (EI, PI, Mean)  
+x Automatic noise handling with statistics  
+x Intelligent budget allocation (OCBA)  
+x Robust failure handling  
+x Comprehensive progress tracking
 
 The modular design allows easy customization while maintaining robust defaults for most use cases.
 

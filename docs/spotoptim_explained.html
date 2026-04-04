@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -1389,7 +1389,7 @@ window.Quarto = {
 <section id="using-the-surrogate-model" class="level2" data-number="34.5">
 <h2 data-number="34.5" class="anchored" data-anchor-id="using-the-surrogate-model"><span class="header-section-number">34.5</span> Using the Surrogate Model</h2>
 <p>SpotOptim allows to use the surrogate model to predict the objective function values for new points. The default surrogate model is sklearn’s Gaussian Process Regressor. Here we compare the default surrogate model with a simple linear model, which is provided as <code>MLP_Surrogate</code> in the <code>spotoptim.surrogate</code> module.</p>
-<div id="18d70678" class="cell" data-execution_count="1">
+<div id="da33fa0a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging, MLPSurrogate</span>
@@ -1447,8 +1447,8 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>Function        | Dim   | N_Train  | RMSE Kriging    | RMSE MLP       
 ----------------------------------------------------------------------
-rosenbrock      | 2     | 50       | 168.1047        | 4868.6912      
-rosenbrock      | 20    | 200      | 42638.6846      | 80031.3891     
+rosenbrock      | 2     | 50       | 171.8553        | 4868.6868      
+rosenbrock      | 20    | 200      | 42638.6846      | 80009.5260     
 ackley          | 2     | 50       | 0.8096          | 0.9328         
 ackley          | 20    | 200      | 0.2448          | 0.6952         </code></pre>
 </div>
@@ -1457,7 +1457,7 @@ ackley          | 20    | 200      | 0.2448          | 0.6952         </code></p
 <section id="comparing-the-spotoptim-with-the-default-surrogate-model-and-mlp-surrogate" class="level2" data-number="34.6">
 <h2 data-number="34.6" class="anchored" data-anchor-id="comparing-the-spotoptim-with-the-default-surrogate-model-and-mlp-surrogate"><span class="header-section-number">34.6</span> Comparing the SpotOptim With the Default Surrogate Model and MLP Surrogate</h2>
 <p>Here we run <code>SpotOptim</code> using the default Kriging surrogate and the <code>MLPSurrogate</code> on standard test functions to compare their optimization performance.</p>
-<div id="7230c757" class="cell" data-execution_count="2">
+<div id="bbd5422c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> MLPSurrogate</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.so <span class="im">import</span> rosenbrock, ackley, robot_arm_hard</span>
@@ -1530,12 +1530,12 @@ Function        | Dim   | Best y (Default)     | Best y (MLP)
 --- optimizing rosenbrock (2D) ---
 Running with Default Surrogate (Kriging)...
 Running with MLPSurrogate...
-rosenbrock      | 2     | 9.158601e-01         | 7.906998e-01        
+rosenbrock      | 2     | 9.158601e-01         | 4.545263e-01        
 
 --- optimizing rosenbrock (10D) ---
 Running with Default Surrogate (Kriging)...
 Running with MLPSurrogate...
-rosenbrock      | 10    | 4.111677e+02         | 4.344269e+03        
+rosenbrock      | 10    | 4.111677e+02         | 7.808923e+03        
 
 --- optimizing ackley (2D) ---
 Running with Default Surrogate (Kriging)...
@@ -1545,7 +1545,7 @@ ackley          | 2     | 4.573032e-03         | 2.993562e+00
 --- optimizing ackley (10D) ---
 Running with Default Surrogate (Kriging)...
 Running with MLPSurrogate...
-ackley          | 10    | 1.648328e+01         | 8.899921e+00        
+ackley          | 10    | 1.648328e+01         | 8.888862e+00        
 
 --- optimizing robot_arm_hard (10D) ---
 Running with Default Surrogate (Kriging)...
@@ -1562,7 +1562,7 @@ robot_arm_hard  | 10    | 2.226474e+01         | 2.226474e+01        </code></pr
 <h3 data-number="34.7.1" class="anchored" data-anchor-id="comparison-default-gp-vs-multi-surrogate-gp-mlp-on-robot-arm"><span class="header-section-number">34.7.1</span> Comparison: Default (GP) vs Multi-Surrogate (GP + MLP) on Robot Arm</h3>
 <p>The following example demonstrates how to set up a hybrid optimization strategy combining: 1. <strong>GaussianProcessRegressor (default)</strong>: Good for valid uncertainty estimation and exploitation. 2. <strong>MLPSurrogate</strong>: Good for global trend modeling and scalability.</p>
 <p>We compare the performance on the <strong>10D Robot Arm</strong> problem.</p>
-<div id="c361974b" class="cell" data-execution_count="3">
+<div id="3a64ccc8" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> MLPSurrogate</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.so <span class="im">import</span> robot_arm_hard</span>
@@ -1671,11 +1671,11 @@ Iter 1 | Best: 23.358705 | Curr: 1450.330578 | Rate: 0.00 | Evals: 5.0%
 Iter 2 | Best: 23.358705 | Curr: 1613.658468 | Rate: 0.00 | Evals: 5.1%
 Iter 3 | Best: 23.358705 | Curr: 3003.378806 | Rate: 0.00 | Evals: 5.2%
 Iter 4 | Best: 23.358705 | Curr: 3273.379367 | Rate: 0.00 | Evals: 5.3%
-Iter 5 | Best: 23.358705 | Curr: 43.264851 | Rate: 0.00 | Evals: 5.4%
-Iter 6 | Best: 23.358705 | Curr: 65.007745 | Rate: 0.00 | Evals: 5.5%
-Iter 7 | Best: 23.358705 | Curr: 3137.366871 | Rate: 0.00 | Evals: 5.6%
-Iter 8 | Best: 23.358705 | Curr: 161.534400 | Rate: 0.00 | Evals: 5.7%
-Iter 9 | Best: 23.358705 | Curr: 3738.070169 | Rate: 0.00 | Evals: 5.8%
+Iter 5 | Best: 23.358705 | Curr: 43.128173 | Rate: 0.00 | Evals: 5.4%
+Iter 6 | Best: 23.358705 | Curr: 4009.929970 | Rate: 0.00 | Evals: 5.5%
+Iter 7 | Best: 23.358705 | Curr: 178.984918 | Rate: 0.00 | Evals: 5.6%
+Iter 8 | Best: 23.358705 | Curr: 208.038600 | Rate: 0.00 | Evals: 5.7%
+Iter 9 | Best: 23.358705 | Curr: 104.536775 | Rate: 0.00 | Evals: 5.8%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
   Original scale: [0.12897446 0.11253871 0.53861201 0.60847174 0.55760895 0.75440905
@@ -1763,52 +1763,81 @@ Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
 Initial best: f(x) = 22.480133
 Iter 1 | Best: 22.480133 | Curr: 4175.379221 | Rate: 0.00 | Evals: 19.5%
-Iter 2 | Best: 22.480133 | Curr: 62.436167 | Rate: 0.00 | Evals: 19.6%
-Iter 3 | Best: 22.480133 | Curr: 4650.057338 | Rate: 0.00 | Evals: 19.7%
-Iter 4 | Best: 22.480133 | Curr: 579.017675 | Rate: 0.00 | Evals: 19.8%
-Iter 5 | Best: 22.480133 | Curr: 39.720083 | Rate: 0.00 | Evals: 19.9%
-Iter 6 | Best: 22.480133 | Curr: 58.163652 | Rate: 0.00 | Evals: 20.0%
-Iter 7 | Best: 22.480133 | Curr: 63.064000 | Rate: 0.00 | Evals: 20.1%
-Iter 8 | Best: 22.480133 | Curr: 41.783061 | Rate: 0.00 | Evals: 20.2%
-Iter 9 | Best: 22.480133 | Curr: 2457.914199 | Rate: 0.00 | Evals: 20.3%
+Iter 2 | Best: 22.480133 | Curr: 62.430499 | Rate: 0.00 | Evals: 19.6%
+Iter 3 | Best: 22.480133 | Curr: 4664.342179 | Rate: 0.00 | Evals: 19.7%
+Iter 4 | Best: 22.480133 | Curr: 573.590071 | Rate: 0.00 | Evals: 19.8%
+Iter 5 | Best: 22.480133 | Curr: 39.752357 | Rate: 0.00 | Evals: 19.9%
+Iter 6 | Best: 22.480133 | Curr: 42.773202 | Rate: 0.00 | Evals: 20.0%
+Iter 7 | Best: 22.480133 | Curr: 31.829089 | Rate: 0.00 | Evals: 20.1%
+Iter 8 | Best: 21.578808 | Rate: 0.12 | Evals: 20.2%
+Iter 9 | Best: 21.578808 | Curr: 44.646063 | Rate: 0.11 | Evals: 20.3%
+Iter 10 | Best: 21.578808 | Curr: 3103.358681 | Rate: 0.10 | Evals: 20.4%
+Iter 11 | Best: 21.578808 | Curr: 43.589985 | Rate: 0.10 | Evals: 20.5%
+Iter 12 | Best: 21.578808 | Curr: 533.764224 | Rate: 0.10 | Evals: 20.6%
+Iter 13 | Best: 21.578808 | Curr: 83.694192 | Rate: 0.10 | Evals: 20.7%
+Iter 14 | Best: 21.578808 | Curr: 86.099939 | Rate: 0.10 | Evals: 20.8%
+Iter 15 | Best: 21.578808 | Curr: 78.222550 | Rate: 0.10 | Evals: 20.9%
+Iter 16 | Best: 21.578808 | Curr: 108.432080 | Rate: 0.10 | Evals: 21.0%
+Iter 17 | Best: 21.578808 | Curr: 33.734033 | Rate: 0.10 | Evals: 21.1%
+Iter 18 | Best: 21.578808 | Curr: 99.782757 | Rate: 0.00 | Evals: 21.2%
+Iter 19 | Best: 21.578808 | Curr: 59.657865 | Rate: 0.00 | Evals: 21.3%
+Iter 20 | Best: 19.108051 | Rate: 0.10 | Evals: 21.4%
+Iter 21 | Best: 19.108051 | Curr: 44.809311 | Rate: 0.10 | Evals: 21.5%
+Iter 22 | Best: 19.108051 | Curr: 40.222936 | Rate: 0.10 | Evals: 21.6%
+Iter 23 | Best: 19.108051 | Curr: 78.258148 | Rate: 0.10 | Evals: 21.7%
+Iter 24 | Best: 19.108051 | Curr: 41.368402 | Rate: 0.10 | Evals: 21.8%
+Iter 25 | Best: 19.108051 | Curr: 47.660263 | Rate: 0.10 | Evals: 21.9%
+Iter 26 | Best: 19.108051 | Curr: 54.471952 | Rate: 0.10 | Evals: 22.0%
+Iter 27 | Best: 19.108051 | Curr: 71.348053 | Rate: 0.10 | Evals: 22.1%
+Iter 28 | Best: 19.108051 | Curr: 86.371536 | Rate: 0.10 | Evals: 22.2%
+Iter 29 | Best: 19.108051 | Curr: 109.917884 | Rate: 0.10 | Evals: 22.3%
+Iter 30 | Best: 19.108051 | Curr: 126.015952 | Rate: 0.00 | Evals: 22.4%
+Iter 31 | Best: 19.108051 | Curr: 55.480825 | Rate: 0.00 | Evals: 22.5%
+Iter 32 | Best: 19.108051 | Curr: 67.133710 | Rate: 0.00 | Evals: 22.6%
+Iter 33 | Best: 19.108051 | Curr: 26.802925 | Rate: 0.00 | Evals: 22.7%
+Iter 34 | Best: 19.108051 | Curr: 3055.508484 | Rate: 0.00 | Evals: 22.8%
+Iter 35 | Best: 19.108051 | Curr: 480.069325 | Rate: 0.00 | Evals: 22.9%
+Iter 36 | Best: 19.108051 | Curr: 1712.384713 | Rate: 0.00 | Evals: 23.0%
+Iter 37 | Best: 19.108051 | Curr: 29.873473 | Rate: 0.00 | Evals: 23.1%
+Iter 38 | Best: 19.108051 | Curr: 48.480064 | Rate: 0.00 | Evals: 23.2%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.77583701 0.50025469 0.15778035 0.71883974 0.37284592 0.11704567
- 0.75120132 0.82059894 0.03724163 0.869633  ]
-  Internal scale: [0.77583701 0.50025469 0.15778035 0.71883974 0.37284592 0.11704567
- 0.75120132 0.82059894 0.03724163 0.869633  ]
-Restart injection: Using best found point so far as starting point (f(x)=22.480133).
+  Original scale: [0.50613526 0.23132681 0.40161636 0.34075494 0.41920951 0.25922529
+ 0.60687194 0.50047366 0.63037481 0.51311913]
+  Internal scale: [0.50613526 0.23132681 0.40161636 0.34075494 0.41920951 0.25922529
+ 0.60687194 0.50047366 0.63037481 0.51311913]
+Restart injection: Using best found point so far as starting point (f(x)=19.108051).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 19.382131
-Iter 1 | Best: 19.382131 | Curr: 2489.714100 | Rate: 0.00 | Evals: 22.4%
-Iter 2 | Best: 19.382131 | Curr: 377.280318 | Rate: 0.00 | Evals: 22.5%
-Iter 3 | Best: 19.382131 | Curr: 56.001724 | Rate: 0.00 | Evals: 22.6%
-Iter 4 | Best: 19.382131 | Curr: 66.691764 | Rate: 0.00 | Evals: 22.7%
-Iter 5 | Best: 19.382131 | Curr: 78.849885 | Rate: 0.00 | Evals: 22.8%
-Iter 6 | Best: 19.382131 | Curr: 110.571340 | Rate: 0.00 | Evals: 22.9%
-Iter 7 | Best: 19.382131 | Curr: 110.637334 | Rate: 0.00 | Evals: 23.0%
-Iter 8 | Best: 19.382131 | Curr: 117.093642 | Rate: 0.00 | Evals: 23.1%
-Iter 9 | Best: 19.382131 | Curr: 140.684629 | Rate: 0.00 | Evals: 23.2%
+Initial best: f(x) = 19.108051
+Iter 1 | Best: 19.108051 | Curr: 335.833460 | Rate: 0.00 | Evals: 25.3%
+Iter 2 | Best: 19.108051 | Curr: 210.941246 | Rate: 0.00 | Evals: 25.4%
+Iter 3 | Best: 19.108051 | Curr: 197.293894 | Rate: 0.00 | Evals: 25.5%
+Iter 4 | Best: 19.108051 | Curr: 129.776546 | Rate: 0.00 | Evals: 25.6%
+Iter 5 | Best: 19.108051 | Curr: 2664.932954 | Rate: 0.00 | Evals: 25.7%
+Iter 6 | Best: 19.108051 | Curr: 90.629203 | Rate: 0.00 | Evals: 25.8%
+Iter 7 | Best: 19.108051 | Curr: 77.874227 | Rate: 0.00 | Evals: 25.9%
+Iter 8 | Best: 19.108051 | Curr: 98.539003 | Rate: 0.00 | Evals: 26.0%
+Iter 9 | Best: 19.108051 | Curr: 147.845929 | Rate: 0.00 | Evals: 26.1%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.82762986 0.23097536 0.68598884 0.96544327 0.77713053 0.65822737
- 0.84033887 0.72758654 0.77639412 0.34639732]
-  Internal scale: [0.82762986 0.23097536 0.68598884 0.96544327 0.77713053 0.65822737
- 0.84033887 0.72758654 0.77639412 0.34639732]
-Restart injection: Using best found point so far as starting point (f(x)=19.382131).
+  Original scale: [0.50613526 0.23132681 0.40161636 0.34075494 0.41920951 0.25922529
+ 0.60687194 0.50047366 0.63037481 0.51311913]
+  Internal scale: [0.50613526 0.23132681 0.40161636 0.34075494 0.41920951 0.25922529
+ 0.60687194 0.50047366 0.63037481 0.51311913]
+Restart injection: Using best found point so far as starting point (f(x)=19.108051).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
 Initial best: f(x) = 18.171750
-Iter 1 | Best: 18.171750 | Curr: 3627.104143 | Rate: 0.00 | Evals: 25.3%
-Iter 2 | Best: 18.171750 | Curr: 2236.209789 | Rate: 0.00 | Evals: 25.4%
-Iter 3 | Best: 18.171750 | Curr: 4278.995535 | Rate: 0.00 | Evals: 25.5%
-Iter 4 | Best: 18.171750 | Curr: 721.853171 | Rate: 0.00 | Evals: 25.6%
-Iter 5 | Best: 18.171750 | Curr: 1048.444391 | Rate: 0.00 | Evals: 25.7%
-Iter 6 | Best: 18.171750 | Curr: 165.837036 | Rate: 0.00 | Evals: 25.8%
-Iter 7 | Best: 18.171750 | Curr: 237.310472 | Rate: 0.00 | Evals: 25.9%
-Iter 8 | Best: 18.171750 | Curr: 213.897197 | Rate: 0.00 | Evals: 26.0%
-Iter 9 | Best: 18.171750 | Curr: 189.487849 | Rate: 0.00 | Evals: 26.1%
+Iter 1 | Best: 18.171750 | Curr: 2494.698672 | Rate: 0.00 | Evals: 28.2%
+Iter 2 | Best: 18.171750 | Curr: 1412.024650 | Rate: 0.00 | Evals: 28.3%
+Iter 3 | Best: 18.171750 | Curr: 228.972542 | Rate: 0.00 | Evals: 28.4%
+Iter 4 | Best: 18.171750 | Curr: 215.478957 | Rate: 0.00 | Evals: 28.5%
+Iter 5 | Best: 18.171750 | Curr: 226.282011 | Rate: 0.00 | Evals: 28.6%
+Iter 6 | Best: 18.171750 | Curr: 145.058382 | Rate: 0.00 | Evals: 28.7%
+Iter 7 | Best: 18.171750 | Curr: 191.670462 | Rate: 0.00 | Evals: 28.8%
+Iter 8 | Best: 18.171750 | Curr: 240.576538 | Rate: 0.00 | Evals: 28.9%
+Iter 9 | Best: 18.171750 | Curr: 57.244058 | Rate: 0.00 | Evals: 29.0%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
   Original scale: [0.65238644 0.60930271 0.03433355 0.72954934 0.93074097 0.25509536
@@ -1819,15 +1848,15 @@ Restart injection: Using best found point so far as starting point (f(x)=18.1717
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
 Initial best: f(x) = 18.171750
-Iter 1 | Best: 18.171750 | Curr: 103.244355 | Rate: 0.00 | Evals: 28.2%
-Iter 2 | Best: 18.171750 | Curr: 931.499535 | Rate: 0.00 | Evals: 28.3%
-Iter 3 | Best: 18.171750 | Curr: 169.058184 | Rate: 0.00 | Evals: 28.4%
-Iter 4 | Best: 18.171750 | Curr: 853.923296 | Rate: 0.00 | Evals: 28.5%
-Iter 5 | Best: 18.171750 | Curr: 113.279624 | Rate: 0.00 | Evals: 28.6%
-Iter 6 | Best: 18.171750 | Curr: 184.449488 | Rate: 0.00 | Evals: 28.7%
-Iter 7 | Best: 18.171750 | Curr: 127.468130 | Rate: 0.00 | Evals: 28.8%
-Iter 8 | Best: 18.171750 | Curr: 1367.499683 | Rate: 0.00 | Evals: 28.9%
-Iter 9 | Best: 18.171750 | Curr: 140.811694 | Rate: 0.00 | Evals: 29.0%
+Iter 1 | Best: 18.171750 | Curr: 103.244355 | Rate: 0.00 | Evals: 31.1%
+Iter 2 | Best: 18.171750 | Curr: 1830.807743 | Rate: 0.00 | Evals: 31.2%
+Iter 3 | Best: 18.171750 | Curr: 172.172955 | Rate: 0.00 | Evals: 31.3%
+Iter 4 | Best: 18.171750 | Curr: 113.326626 | Rate: 0.00 | Evals: 31.4%
+Iter 5 | Best: 18.171750 | Curr: 144.158206 | Rate: 0.00 | Evals: 31.5%
+Iter 6 | Best: 18.171750 | Curr: 172.626343 | Rate: 0.00 | Evals: 31.6%
+Iter 7 | Best: 18.171750 | Curr: 116.603354 | Rate: 0.00 | Evals: 31.7%
+Iter 8 | Best: 18.171750 | Curr: 95.251654 | Rate: 0.00 | Evals: 31.8%
+Iter 9 | Best: 18.171750 | Curr: 139.828612 | Rate: 0.00 | Evals: 31.9%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
   Original scale: [0.65238644 0.60930271 0.03433355 0.72954934 0.93074097 0.25509536
@@ -1838,468 +1867,449 @@ Restart injection: Using best found point so far as starting point (f(x)=18.1717
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
 Initial best: f(x) = 18.171750
-Iter 1 | Best: 18.171750 | Curr: 3964.939819 | Rate: 0.00 | Evals: 31.1%
-Iter 2 | Best: 18.171750 | Curr: 102.861875 | Rate: 0.00 | Evals: 31.2%
-Iter 3 | Best: 18.171750 | Curr: 138.510266 | Rate: 0.00 | Evals: 31.3%
-Iter 4 | Best: 18.171750 | Curr: 100.573979 | Rate: 0.00 | Evals: 31.4%
-Iter 5 | Best: 18.171750 | Curr: 115.281604 | Rate: 0.00 | Evals: 31.5%
-Iter 6 | Best: 18.171750 | Curr: 82.636372 | Rate: 0.00 | Evals: 31.6%
-Iter 7 | Best: 18.171750 | Curr: 115.678200 | Rate: 0.00 | Evals: 31.7%
-Iter 8 | Best: 18.171750 | Curr: 107.052605 | Rate: 0.00 | Evals: 31.8%
-Iter 9 | Best: 18.171750 | Curr: 111.975495 | Rate: 0.00 | Evals: 31.9%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.65238644 0.60930271 0.03433355 0.72954934 0.93074097 0.25509536
- 0.98995351 0.84219394 0.52650099 0.3756625 ]
-  Internal scale: [0.65238644 0.60930271 0.03433355 0.72954934 0.93074097 0.25509536
- 0.98995351 0.84219394 0.52650099 0.3756625 ]
-Restart injection: Using best found point so far as starting point (f(x)=18.171750).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 17.988188
-Iter 1 | Best: 17.988188 | Curr: 8093.922072 | Rate: 0.00 | Evals: 34.0%
-Iter 2 | Best: 17.988188 | Curr: 3876.209795 | Rate: 0.00 | Evals: 34.1%
-Iter 3 | Best: 17.988188 | Curr: 2997.498870 | Rate: 0.00 | Evals: 34.2%
-Iter 4 | Best: 17.988188 | Curr: 5849.468166 | Rate: 0.00 | Evals: 34.3%
-Iter 5 | Best: 17.988188 | Curr: 2899.485786 | Rate: 0.00 | Evals: 34.4%
-Iter 6 | Best: 17.988188 | Curr: 2506.971376 | Rate: 0.00 | Evals: 34.5%
-Iter 7 | Best: 17.988188 | Curr: 47.214144 | Rate: 0.00 | Evals: 34.6%
-Iter 8 | Best: 17.988188 | Curr: 2306.228764 | Rate: 0.00 | Evals: 34.7%
-Iter 9 | Best: 17.988188 | Curr: 62.082827 | Rate: 0.00 | Evals: 34.8%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-  Internal scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-Restart injection: Using best found point so far as starting point (f(x)=17.988188).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 17.988188
-Iter 1 | Best: 17.988188 | Curr: 27.480679 | Rate: 0.00 | Evals: 36.9%
-Iter 2 | Best: 17.988188 | Curr: 36.877351 | Rate: 0.00 | Evals: 37.0%
-Iter 3 | Best: 17.988188 | Curr: 118.485861 | Rate: 0.00 | Evals: 37.1%
-Iter 4 | Best: 17.988188 | Curr: 1844.321005 | Rate: 0.00 | Evals: 37.2%
-Iter 5 | Best: 17.988188 | Curr: 776.637153 | Rate: 0.00 | Evals: 37.3%
-Iter 6 | Best: 17.988188 | Curr: 1573.280230 | Rate: 0.00 | Evals: 37.4%
-Iter 7 | Best: 17.988188 | Curr: 157.183913 | Rate: 0.00 | Evals: 37.5%
-Iter 8 | Best: 17.988188 | Curr: 211.950716 | Rate: 0.00 | Evals: 37.6%
-Iter 9 | Best: 17.988188 | Curr: 2481.513725 | Rate: 0.00 | Evals: 37.7%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-  Internal scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-Restart injection: Using best found point so far as starting point (f(x)=17.988188).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 17.988188
-Iter 1 | Best: 17.988188 | Curr: 1825.214975 | Rate: 0.00 | Evals: 39.8%
-Iter 2 | Best: 17.988188 | Curr: 2549.641122 | Rate: 0.00 | Evals: 39.9%
-Iter 3 | Best: 17.988188 | Curr: 61.564415 | Rate: 0.00 | Evals: 40.0%
-Iter 4 | Best: 17.988188 | Curr: 60.311286 | Rate: 0.00 | Evals: 40.1%
-Iter 5 | Best: 17.988188 | Curr: 367.670447 | Rate: 0.00 | Evals: 40.2%
-Iter 6 | Best: 17.988188 | Curr: 4115.474174 | Rate: 0.00 | Evals: 40.3%
-Iter 7 | Best: 17.988188 | Curr: 59.118099 | Rate: 0.00 | Evals: 40.4%
-Iter 8 | Best: 17.988188 | Curr: 36.635909 | Rate: 0.00 | Evals: 40.5%
-Iter 9 | Best: 17.988188 | Curr: 101.132945 | Rate: 0.00 | Evals: 40.6%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-  Internal scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-Restart injection: Using best found point so far as starting point (f(x)=17.988188).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 17.988188
-Iter 1 | Best: 17.988188 | Curr: 2773.745889 | Rate: 0.00 | Evals: 42.7%
-Iter 2 | Best: 17.988188 | Curr: 4463.572454 | Rate: 0.00 | Evals: 42.8%
-Iter 3 | Best: 17.988188 | Curr: 1303.492669 | Rate: 0.00 | Evals: 42.9%
-Iter 4 | Best: 17.988188 | Curr: 25.852038 | Rate: 0.00 | Evals: 43.0%
-Iter 5 | Best: 17.988188 | Curr: 37.438776 | Rate: 0.00 | Evals: 43.1%
-Iter 6 | Best: 17.988188 | Curr: 38.353998 | Rate: 0.00 | Evals: 43.2%
-Iter 7 | Best: 17.988188 | Curr: 5167.721043 | Rate: 0.00 | Evals: 43.3%
-Iter 8 | Best: 17.988188 | Curr: 193.221615 | Rate: 0.00 | Evals: 43.4%
-Iter 9 | Best: 17.988188 | Curr: 234.865394 | Rate: 0.00 | Evals: 43.5%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-  Internal scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-Restart injection: Using best found point so far as starting point (f(x)=17.988188).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 17.988188
-Iter 1 | Best: 17.988188 | Curr: 44.401228 | Rate: 0.00 | Evals: 45.6%
-Iter 2 | Best: 17.988188 | Curr: 64.725237 | Rate: 0.00 | Evals: 45.7%
-Iter 3 | Best: 17.988188 | Curr: 197.335126 | Rate: 0.00 | Evals: 45.8%
-Iter 4 | Best: 17.988188 | Curr: 190.279505 | Rate: 0.00 | Evals: 45.9%
-Iter 5 | Best: 17.988188 | Curr: 208.971483 | Rate: 0.00 | Evals: 46.0%
-Iter 6 | Best: 17.988188 | Curr: 195.529674 | Rate: 0.00 | Evals: 46.1%
-Iter 7 | Best: 17.988188 | Curr: 190.790798 | Rate: 0.00 | Evals: 46.2%
-Iter 8 | Best: 17.988188 | Curr: 225.113354 | Rate: 0.00 | Evals: 46.3%
-Iter 9 | Best: 17.988188 | Curr: 184.029411 | Rate: 0.00 | Evals: 46.4%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-  Internal scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-Restart injection: Using best found point so far as starting point (f(x)=17.988188).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 17.988188
-Iter 1 | Best: 17.988188 | Curr: 2341.120531 | Rate: 0.00 | Evals: 48.5%
-Iter 2 | Best: 17.988188 | Curr: 557.415939 | Rate: 0.00 | Evals: 48.6%
-Iter 3 | Best: 17.988188 | Curr: 183.685216 | Rate: 0.00 | Evals: 48.7%
-Iter 4 | Best: 17.988188 | Curr: 93.475665 | Rate: 0.00 | Evals: 48.8%
-Iter 5 | Best: 17.988188 | Curr: 172.567550 | Rate: 0.00 | Evals: 48.9%
-Iter 6 | Best: 17.988188 | Curr: 3189.333688 | Rate: 0.00 | Evals: 49.0%
-Iter 7 | Best: 17.988188 | Curr: 239.040103 | Rate: 0.00 | Evals: 49.1%
-Iter 8 | Best: 17.988188 | Curr: 197.863417 | Rate: 0.00 | Evals: 49.2%
-Iter 9 | Best: 17.988188 | Curr: 63.253323 | Rate: 0.00 | Evals: 49.3%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-  Internal scale: [0.84733651 0.01645646 0.0075814  0.06164297 0.86257478 0.74152856
- 0.34800416 0.3285074  0.40791185 0.64510118]
-Restart injection: Using best found point so far as starting point (f(x)=17.988188).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 17.988188
-Iter 1 | Best: 17.988188 | Curr: 193.243736 | Rate: 0.00 | Evals: 51.4%
-Iter 2 | Best: 17.988188 | Curr: 67.793930 | Rate: 0.00 | Evals: 51.5%
-Iter 3 | Best: 17.988188 | Curr: 172.659750 | Rate: 0.00 | Evals: 51.6%
-Iter 4 | Best: 17.988188 | Curr: 1810.250324 | Rate: 0.00 | Evals: 51.7%
-Iter 5 | Best: 17.988188 | Curr: 74.598242 | Rate: 0.00 | Evals: 51.8%
-Iter 6 | Best: 17.988188 | Curr: 28.733876 | Rate: 0.00 | Evals: 51.9%
-Iter 7 | Best: 17.988188 | Curr: 111.836448 | Rate: 0.00 | Evals: 52.0%
-Iter 8 | Best: 17.988188 | Curr: 157.067468 | Rate: 0.00 | Evals: 52.1%
-Iter 9 | Best: 17.988188 | Curr: 166.698535 | Rate: 0.00 | Evals: 52.2%
-Iter 10 | Best: 15.923113 | Rate: 0.10 | Evals: 52.3%
-Iter 11 | Best: 15.923113 | Curr: 76.214418 | Rate: 0.10 | Evals: 52.4%
-Iter 12 | Best: 15.923113 | Curr: 19.542712 | Rate: 0.10 | Evals: 52.5%
-Iter 13 | Best: 15.923113 | Curr: 53.662390 | Rate: 0.10 | Evals: 52.6%
-Iter 14 | Best: 15.923113 | Curr: 99.960057 | Rate: 0.10 | Evals: 52.7%
-Iter 15 | Best: 15.923113 | Curr: 41.097559 | Rate: 0.10 | Evals: 52.8%
-Iter 16 | Best: 15.923113 | Curr: 68.235540 | Rate: 0.10 | Evals: 52.9%
-Iter 17 | Best: 15.923113 | Curr: 40.594896 | Rate: 0.10 | Evals: 53.0%
-Iter 18 | Best: 15.923113 | Curr: 94.602876 | Rate: 0.10 | Evals: 53.1%
-Iter 19 | Best: 15.923113 | Curr: 1973.749473 | Rate: 0.10 | Evals: 53.2%
-Iter 20 | Best: 15.923113 | Curr: 136.357590 | Rate: 0.00 | Evals: 53.3%
-Iter 21 | Best: 15.923113 | Curr: 55.880897 | Rate: 0.00 | Evals: 53.4%
-Iter 22 | Best: 15.923113 | Curr: 84.934930 | Rate: 0.00 | Evals: 53.5%
-Iter 23 | Best: 15.923113 | Curr: 66.915903 | Rate: 0.00 | Evals: 53.6%
-Iter 24 | Best: 15.923113 | Curr: 51.607866 | Rate: 0.00 | Evals: 53.7%
-Iter 25 | Best: 15.923113 | Curr: 6263.514165 | Rate: 0.00 | Evals: 53.8%
-Iter 26 | Best: 15.923113 | Curr: 146.380567 | Rate: 0.00 | Evals: 53.9%
-Iter 27 | Best: 15.923113 | Curr: 88.618861 | Rate: 0.00 | Evals: 54.0%
-Iter 28 | Best: 15.923113 | Curr: 97.722370 | Rate: 0.00 | Evals: 54.1%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 32.379640 | Rate: 0.00 | Evals: 56.2%
-Iter 2 | Best: 15.923113 | Curr: 165.178695 | Rate: 0.00 | Evals: 56.3%
-Iter 3 | Best: 15.923113 | Curr: 269.803707 | Rate: 0.00 | Evals: 56.4%
-Iter 4 | Best: 15.923113 | Curr: 183.464376 | Rate: 0.00 | Evals: 56.5%
-Iter 5 | Best: 15.923113 | Curr: 43.678281 | Rate: 0.00 | Evals: 56.6%
-Iter 6 | Best: 15.923113 | Curr: 2718.297282 | Rate: 0.00 | Evals: 56.7%
-Iter 7 | Best: 15.923113 | Curr: 53.390766 | Rate: 0.00 | Evals: 56.8%
-Iter 8 | Best: 15.923113 | Curr: 93.395424 | Rate: 0.00 | Evals: 56.9%
-Iter 9 | Best: 15.923113 | Curr: 74.719013 | Rate: 0.00 | Evals: 57.0%
-Restarting optimization: success_rate 0 for 10 iterations.
-Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
-Including 1 starting points from x0 in initial design.
-Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 286.883345 | Rate: 0.00 | Evals: 59.1%
-Iter 2 | Best: 15.923113 | Curr: 2138.562345 | Rate: 0.00 | Evals: 59.2%
-Iter 3 | Best: 15.923113 | Curr: 2411.188973 | Rate: 0.00 | Evals: 59.3%
-Iter 4 | Best: 15.923113 | Curr: 261.747248 | Rate: 0.00 | Evals: 59.4%
-Iter 5 | Best: 15.923113 | Curr: 168.360689 | Rate: 0.00 | Evals: 59.5%
-Iter 6 | Best: 15.923113 | Curr: 167.273961 | Rate: 0.00 | Evals: 59.6%
-Iter 7 | Best: 15.923113 | Curr: 4442.550941 | Rate: 0.00 | Evals: 59.7%
+Iter 1 | Best: 18.171750 | Curr: 3964.939819 | Rate: 0.00 | Evals: 34.0%
+Iter 2 | Best: 18.171750 | Curr: 102.861875 | Rate: 0.00 | Evals: 34.1%
+Iter 3 | Best: 18.171750 | Curr: 138.510266 | Rate: 0.00 | Evals: 34.2%
+Iter 4 | Best: 18.171750 | Curr: 88.629403 | Rate: 0.00 | Evals: 34.3%
+Iter 5 | Best: 18.171750 | Curr: 4147.957863 | Rate: 0.00 | Evals: 34.4%
+Iter 6 | Best: 18.171750 | Curr: 130.603489 | Rate: 0.00 | Evals: 34.5%
+Iter 7 | Best: 18.171750 | Curr: 139.147290 | Rate: 0.00 | Evals: 34.6%
+Iter 8 | Best: 18.171750 | Curr: 77.272890 | Rate: 0.00 | Evals: 34.7%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 8 | Best: 15.923113 | Curr: 2994.870161 | Rate: 0.00 | Evals: 59.8%
-Iter 9 | Best: 15.923113 | Curr: 198.852921 | Rate: 0.00 | Evals: 59.9%
+Iter 9 | Best: 17.524655 | Rate: 0.11 | Evals: 34.8%
+Iter 10 | Best: 17.524655 | Curr: 87.532211 | Rate: 0.10 | Evals: 34.9%
+Iter 11 | Best: 17.524655 | Curr: 50.103593 | Rate: 0.10 | Evals: 35.0%
+Iter 12 | Best: 17.524655 | Curr: 153.384835 | Rate: 0.10 | Evals: 35.1%
+Iter 13 | Best: 17.524655 | Curr: 131.893115 | Rate: 0.10 | Evals: 35.2%
+Iter 14 | Best: 17.524655 | Curr: 2583.282311 | Rate: 0.10 | Evals: 35.3%
+Iter 15 | Best: 17.524655 | Curr: 90.750887 | Rate: 0.10 | Evals: 35.4%
+Iter 16 | Best: 17.524655 | Curr: 84.802566 | Rate: 0.10 | Evals: 35.5%
+Iter 17 | Best: 17.524655 | Curr: 114.330915 | Rate: 0.10 | Evals: 35.6%
+Iter 18 | Best: 17.524655 | Curr: 107.136596 | Rate: 0.10 | Evals: 35.7%
+Iter 19 | Best: 17.524655 | Curr: 5664.479260 | Rate: 0.00 | Evals: 35.8%
+Iter 20 | Best: 17.524655 | Curr: 74.487106 | Rate: 0.00 | Evals: 35.9%
+Iter 21 | Best: 17.524655 | Curr: 115.439110 | Rate: 0.00 | Evals: 36.0%
+Iter 22 | Best: 17.524655 | Curr: 2787.022338 | Rate: 0.00 | Evals: 36.1%
+Iter 23 | Best: 17.524655 | Curr: 121.922003 | Rate: 0.00 | Evals: 36.2%
+Iter 24 | Best: 17.524655 | Curr: 99.999049 | Rate: 0.00 | Evals: 36.3%
+Iter 25 | Best: 17.524655 | Curr: 162.647820 | Rate: 0.00 | Evals: 36.4%
+Iter 26 | Best: 17.524655 | Curr: 92.342658 | Rate: 0.00 | Evals: 36.5%
+Iter 27 | Best: 17.524655 | Curr: 156.561025 | Rate: 0.00 | Evals: 36.6%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 269.721759 | Rate: 0.00 | Evals: 62.0%
-Iter 2 | Best: 15.923113 | Curr: 162.586131 | Rate: 0.00 | Evals: 62.1%
-Iter 3 | Best: 15.923113 | Curr: 188.042637 | Rate: 0.00 | Evals: 62.2%
-Iter 4 | Best: 15.923113 | Curr: 116.469649 | Rate: 0.00 | Evals: 62.3%
-Iter 5 | Best: 15.923113 | Curr: 207.556569 | Rate: 0.00 | Evals: 62.4%
-Iter 6 | Best: 15.923113 | Curr: 996.302508 | Rate: 0.00 | Evals: 62.5%
-Iter 7 | Best: 15.923113 | Curr: 147.860992 | Rate: 0.00 | Evals: 62.6%
-Iter 8 | Best: 15.923113 | Curr: 2403.586713 | Rate: 0.00 | Evals: 62.7%
-Iter 9 | Best: 15.923113 | Curr: 239.639901 | Rate: 0.00 | Evals: 62.8%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 8093.922072 | Rate: 0.00 | Evals: 38.7%
+Iter 2 | Best: 17.524655 | Curr: 2562.858124 | Rate: 0.00 | Evals: 38.8%
+Iter 3 | Best: 17.524655 | Curr: 3660.173963 | Rate: 0.00 | Evals: 38.9%
+Iter 4 | Best: 17.524655 | Curr: 4990.529671 | Rate: 0.00 | Evals: 39.0%
+Iter 5 | Best: 17.524655 | Curr: 5851.496931 | Rate: 0.00 | Evals: 39.1%
+Iter 6 | Best: 17.524655 | Curr: 4628.946027 | Rate: 0.00 | Evals: 39.2%
+Iter 7 | Best: 17.524655 | Curr: 400.409840 | Rate: 0.00 | Evals: 39.3%
+Iter 8 | Best: 17.524655 | Curr: 124.984549 | Rate: 0.00 | Evals: 39.4%
+Iter 9 | Best: 17.524655 | Curr: 1786.268960 | Rate: 0.00 | Evals: 39.5%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 2646.766035 | Rate: 0.00 | Evals: 64.9%
-Iter 2 | Best: 15.923113 | Curr: 1375.102556 | Rate: 0.00 | Evals: 65.0%
-Iter 3 | Best: 15.923113 | Curr: 123.767863 | Rate: 0.00 | Evals: 65.1%
-Iter 4 | Best: 15.923113 | Curr: 175.224680 | Rate: 0.00 | Evals: 65.2%
-Iter 5 | Best: 15.923113 | Curr: 206.146162 | Rate: 0.00 | Evals: 65.3%
-Iter 6 | Best: 15.923113 | Curr: 127.905415 | Rate: 0.00 | Evals: 65.4%
-Iter 7 | Best: 15.923113 | Curr: 183.700615 | Rate: 0.00 | Evals: 65.5%
-Iter 8 | Best: 15.923113 | Curr: 99.333477 | Rate: 0.00 | Evals: 65.6%
-Iter 9 | Best: 15.923113 | Curr: 169.503833 | Rate: 0.00 | Evals: 65.7%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 25.253733 | Rate: 0.00 | Evals: 41.6%
+Iter 2 | Best: 17.524655 | Curr: 3782.878404 | Rate: 0.00 | Evals: 41.7%
+Iter 3 | Best: 17.524655 | Curr: 6403.842020 | Rate: 0.00 | Evals: 41.8%
+Iter 4 | Best: 17.524655 | Curr: 109.116292 | Rate: 0.00 | Evals: 41.9%
+Iter 5 | Best: 17.524655 | Curr: 671.044801 | Rate: 0.00 | Evals: 42.0%
+Iter 6 | Best: 17.524655 | Curr: 86.730905 | Rate: 0.00 | Evals: 42.1%
+Iter 7 | Best: 17.524655 | Curr: 212.632624 | Rate: 0.00 | Evals: 42.2%
+Iter 8 | Best: 17.524655 | Curr: 181.312056 | Rate: 0.00 | Evals: 42.3%
+Iter 9 | Best: 17.524655 | Curr: 177.461075 | Rate: 0.00 | Evals: 42.4%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 3291.933137 | Rate: 0.00 | Evals: 67.8%
-Iter 2 | Best: 15.923113 | Curr: 1902.302705 | Rate: 0.00 | Evals: 67.9%
-Iter 3 | Best: 15.923113 | Curr: 3803.760891 | Rate: 0.00 | Evals: 68.0%
-Iter 4 | Best: 15.923113 | Curr: 2500.034615 | Rate: 0.00 | Evals: 68.1%
-Iter 5 | Best: 15.923113 | Curr: 922.751981 | Rate: 0.00 | Evals: 68.2%
-Iter 6 | Best: 15.923113 | Curr: 108.325242 | Rate: 0.00 | Evals: 68.3%
-Iter 7 | Best: 15.923113 | Curr: 2488.671028 | Rate: 0.00 | Evals: 68.4%
-Iter 8 | Best: 15.923113 | Curr: 185.033877 | Rate: 0.00 | Evals: 68.5%
-Iter 9 | Best: 15.923113 | Curr: 175.567871 | Rate: 0.00 | Evals: 68.6%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 55.563721 | Rate: 0.00 | Evals: 44.5%
+Iter 2 | Best: 17.524655 | Curr: 41.682907 | Rate: 0.00 | Evals: 44.6%
+Iter 3 | Best: 17.524655 | Curr: 38.626154 | Rate: 0.00 | Evals: 44.7%
+Iter 4 | Best: 17.524655 | Curr: 22.477779 | Rate: 0.00 | Evals: 44.8%
+Iter 5 | Best: 17.524655 | Curr: 32.863813 | Rate: 0.00 | Evals: 44.9%
+Iter 6 | Best: 17.524655 | Curr: 26.178470 | Rate: 0.00 | Evals: 45.0%
+Iter 7 | Best: 17.524655 | Curr: 22.028484 | Rate: 0.00 | Evals: 45.1%
+Iter 8 | Best: 17.524655 | Curr: 34.769394 | Rate: 0.00 | Evals: 45.2%
+Iter 9 | Best: 17.524655 | Curr: 43.298672 | Rate: 0.00 | Evals: 45.3%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 135.509171 | Rate: 0.00 | Evals: 70.7%
-Iter 2 | Best: 15.923113 | Curr: 139.250216 | Rate: 0.00 | Evals: 70.8%
-Iter 3 | Best: 15.923113 | Curr: 237.657377 | Rate: 0.00 | Evals: 70.9%
-Iter 4 | Best: 15.923113 | Curr: 181.897533 | Rate: 0.00 | Evals: 71.0%
-Iter 5 | Best: 15.923113 | Curr: 92.772264 | Rate: 0.00 | Evals: 71.1%
-Iter 6 | Best: 15.923113 | Curr: 196.538111 | Rate: 0.00 | Evals: 71.2%
-Iter 7 | Best: 15.923113 | Curr: 29.262157 | Rate: 0.00 | Evals: 71.3%
-Iter 8 | Best: 15.923113 | Curr: 2546.628963 | Rate: 0.00 | Evals: 71.4%
-Iter 9 | Best: 15.923113 | Curr: 83.565250 | Rate: 0.00 | Evals: 71.5%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 198.493439 | Rate: 0.00 | Evals: 47.4%
+Iter 2 | Best: 17.524655 | Curr: 244.529544 | Rate: 0.00 | Evals: 47.5%
+Iter 3 | Best: 17.524655 | Curr: 61.053913 | Rate: 0.00 | Evals: 47.6%
+Iter 4 | Best: 17.524655 | Curr: 259.190424 | Rate: 0.00 | Evals: 47.7%
+Iter 5 | Best: 17.524655 | Curr: 2217.373753 | Rate: 0.00 | Evals: 47.8%
+Iter 6 | Best: 17.524655 | Curr: 2784.469544 | Rate: 0.00 | Evals: 47.9%
+Iter 7 | Best: 17.524655 | Curr: 49.510944 | Rate: 0.00 | Evals: 48.0%
+Iter 8 | Best: 17.524655 | Curr: 247.003660 | Rate: 0.00 | Evals: 48.1%
+Iter 9 | Best: 17.524655 | Curr: 248.628960 | Rate: 0.00 | Evals: 48.2%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 64.850712 | Rate: 0.00 | Evals: 73.6%
-Iter 2 | Best: 15.923113 | Curr: 157.864968 | Rate: 0.00 | Evals: 73.7%
-Iter 3 | Best: 15.923113 | Curr: 171.944788 | Rate: 0.00 | Evals: 73.8%
-Iter 4 | Best: 15.923113 | Curr: 159.286114 | Rate: 0.00 | Evals: 73.9%
-Iter 5 | Best: 15.923113 | Curr: 135.559359 | Rate: 0.00 | Evals: 74.0%
-Iter 6 | Best: 15.923113 | Curr: 90.082919 | Rate: 0.00 | Evals: 74.1%
-Iter 7 | Best: 15.923113 | Curr: 74.550227 | Rate: 0.00 | Evals: 74.2%
-Iter 8 | Best: 15.923113 | Curr: 92.258155 | Rate: 0.00 | Evals: 74.3%
-Iter 9 | Best: 15.923113 | Curr: 129.039636 | Rate: 0.00 | Evals: 74.4%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 2514.049262 | Rate: 0.00 | Evals: 50.3%
+Iter 2 | Best: 17.524655 | Curr: 3427.519038 | Rate: 0.00 | Evals: 50.4%
+Iter 3 | Best: 17.524655 | Curr: 51.591222 | Rate: 0.00 | Evals: 50.5%
+Iter 4 | Best: 17.524655 | Curr: 4681.328965 | Rate: 0.00 | Evals: 50.6%
+Iter 5 | Best: 17.524655 | Curr: 2684.724895 | Rate: 0.00 | Evals: 50.7%
+Iter 6 | Best: 17.524655 | Curr: 4422.458506 | Rate: 0.00 | Evals: 50.8%
+Iter 7 | Best: 17.524655 | Curr: 88.402833 | Rate: 0.00 | Evals: 50.9%
+Iter 8 | Best: 17.524655 | Curr: 99.297264 | Rate: 0.00 | Evals: 51.0%
+Iter 9 | Best: 17.524655 | Curr: 125.756811 | Rate: 0.00 | Evals: 51.1%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 170.986844 | Rate: 0.00 | Evals: 76.5%
-Iter 2 | Best: 15.923113 | Curr: 431.559354 | Rate: 0.00 | Evals: 76.6%
-Iter 3 | Best: 15.923113 | Curr: 1499.000619 | Rate: 0.00 | Evals: 76.7%
-Iter 4 | Best: 15.923113 | Curr: 71.972522 | Rate: 0.00 | Evals: 76.8%
-Iter 5 | Best: 15.923113 | Curr: 106.219269 | Rate: 0.00 | Evals: 76.9%
-Iter 6 | Best: 15.923113 | Curr: 5414.155913 | Rate: 0.00 | Evals: 77.0%
-Iter 7 | Best: 15.923113 | Curr: 205.294099 | Rate: 0.00 | Evals: 77.1%
-Iter 8 | Best: 15.923113 | Curr: 35.554306 | Rate: 0.00 | Evals: 77.2%
-Iter 9 | Best: 15.923113 | Curr: 198.955029 | Rate: 0.00 | Evals: 77.3%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 128.964287 | Rate: 0.00 | Evals: 53.2%
+Iter 2 | Best: 17.524655 | Curr: 60.001227 | Rate: 0.00 | Evals: 53.3%
+Iter 3 | Best: 17.524655 | Curr: 3078.295951 | Rate: 0.00 | Evals: 53.4%
+Iter 4 | Best: 17.524655 | Curr: 4760.479367 | Rate: 0.00 | Evals: 53.5%
+Iter 5 | Best: 17.524655 | Curr: 50.706717 | Rate: 0.00 | Evals: 53.6%
+Iter 6 | Best: 17.524655 | Curr: 131.281406 | Rate: 0.00 | Evals: 53.7%
+Iter 7 | Best: 17.524655 | Curr: 136.145449 | Rate: 0.00 | Evals: 53.8%
+Iter 8 | Best: 17.524655 | Curr: 125.823438 | Rate: 0.00 | Evals: 53.9%
+Iter 9 | Best: 17.524655 | Curr: 137.880622 | Rate: 0.00 | Evals: 54.0%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 154.493363 | Rate: 0.00 | Evals: 79.4%
-Iter 2 | Best: 15.923113 | Curr: 238.957157 | Rate: 0.00 | Evals: 79.5%
-Iter 3 | Best: 15.923113 | Curr: 213.439529 | Rate: 0.00 | Evals: 79.6%
-Iter 4 | Best: 15.923113 | Curr: 173.126321 | Rate: 0.00 | Evals: 79.7%
-Iter 5 | Best: 15.923113 | Curr: 43.691826 | Rate: 0.00 | Evals: 79.8%
-Iter 6 | Best: 15.923113 | Curr: 92.871331 | Rate: 0.00 | Evals: 79.9%
-Iter 7 | Best: 15.923113 | Curr: 155.052013 | Rate: 0.00 | Evals: 80.0%
-Iter 8 | Best: 15.923113 | Curr: 141.946546 | Rate: 0.00 | Evals: 80.1%
-Iter 9 | Best: 15.923113 | Curr: 216.047415 | Rate: 0.00 | Evals: 80.2%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 1256.670848 | Rate: 0.00 | Evals: 56.1%
+Iter 2 | Best: 17.524655 | Curr: 55.610686 | Rate: 0.00 | Evals: 56.2%
+Iter 3 | Best: 17.524655 | Curr: 383.366954 | Rate: 0.00 | Evals: 56.3%
+Iter 4 | Best: 17.524655 | Curr: 992.054598 | Rate: 0.00 | Evals: 56.4%
+Iter 5 | Best: 17.524655 | Curr: 2864.412495 | Rate: 0.00 | Evals: 56.5%
+Iter 6 | Best: 17.524655 | Curr: 114.371275 | Rate: 0.00 | Evals: 56.6%
+Iter 7 | Best: 17.524655 | Curr: 110.774178 | Rate: 0.00 | Evals: 56.7%
+Iter 8 | Best: 17.524655 | Curr: 93.753224 | Rate: 0.00 | Evals: 56.8%
+Iter 9 | Best: 17.524655 | Curr: 78.979753 | Rate: 0.00 | Evals: 56.9%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 4244.939523 | Rate: 0.00 | Evals: 82.3%
-Iter 2 | Best: 15.923113 | Curr: 51.145306 | Rate: 0.00 | Evals: 82.4%
-Iter 3 | Best: 15.923113 | Curr: 77.069423 | Rate: 0.00 | Evals: 82.5%
-Iter 4 | Best: 15.923113 | Curr: 2187.493742 | Rate: 0.00 | Evals: 82.6%
-Iter 5 | Best: 15.923113 | Curr: 5602.242391 | Rate: 0.00 | Evals: 82.7%
-Iter 6 | Best: 15.923113 | Curr: 2514.555711 | Rate: 0.00 | Evals: 82.8%
-Iter 7 | Best: 15.923113 | Curr: 48.525013 | Rate: 0.00 | Evals: 82.9%
-Iter 8 | Best: 15.923113 | Curr: 4707.975333 | Rate: 0.00 | Evals: 83.0%
-Iter 9 | Best: 15.923113 | Curr: 7046.470815 | Rate: 0.00 | Evals: 83.1%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 4736.946183 | Rate: 0.00 | Evals: 59.0%
+Iter 2 | Best: 17.524655 | Curr: 6021.453645 | Rate: 0.00 | Evals: 59.1%
+Iter 3 | Best: 17.524655 | Curr: 28.087317 | Rate: 0.00 | Evals: 59.2%
+Iter 4 | Best: 17.524655 | Curr: 282.574281 | Rate: 0.00 | Evals: 59.3%
+Iter 5 | Best: 17.524655 | Curr: 54.725493 | Rate: 0.00 | Evals: 59.4%
+Iter 6 | Best: 17.524655 | Curr: 492.530790 | Rate: 0.00 | Evals: 59.5%
+Iter 7 | Best: 17.524655 | Curr: 35.833661 | Rate: 0.00 | Evals: 59.6%
+Iter 8 | Best: 17.524655 | Curr: 53.993714 | Rate: 0.00 | Evals: 59.7%
+Iter 9 | Best: 17.524655 | Curr: 3625.686404 | Rate: 0.00 | Evals: 59.8%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 1693.583254 | Rate: 0.00 | Evals: 85.2%
-Iter 2 | Best: 15.923113 | Curr: 54.080652 | Rate: 0.00 | Evals: 85.3%
-Iter 3 | Best: 15.923113 | Curr: 61.832078 | Rate: 0.00 | Evals: 85.4%
-Iter 4 | Best: 15.923113 | Curr: 441.595627 | Rate: 0.00 | Evals: 85.5%
-Iter 5 | Best: 15.923113 | Curr: 45.182527 | Rate: 0.00 | Evals: 85.6%
-Iter 6 | Best: 15.923113 | Curr: 73.440003 | Rate: 0.00 | Evals: 85.7%
-Iter 7 | Best: 15.923113 | Curr: 1607.299129 | Rate: 0.00 | Evals: 85.8%
-Iter 8 | Best: 15.923113 | Curr: 28.583851 | Rate: 0.00 | Evals: 85.9%
-Iter 9 | Best: 15.923113 | Curr: 4230.479591 | Rate: 0.00 | Evals: 86.0%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 6273.111490 | Rate: 0.00 | Evals: 61.9%
+Iter 2 | Best: 17.524655 | Curr: 2466.381842 | Rate: 0.00 | Evals: 62.0%
+Iter 3 | Best: 17.524655 | Curr: 3713.888947 | Rate: 0.00 | Evals: 62.1%
+Iter 4 | Best: 17.524655 | Curr: 1963.931183 | Rate: 0.00 | Evals: 62.2%
+Iter 5 | Best: 17.524655 | Curr: 3851.645779 | Rate: 0.00 | Evals: 62.3%
+Iter 6 | Best: 17.524655 | Curr: 2100.130891 | Rate: 0.00 | Evals: 62.4%
+Iter 7 | Best: 17.524655 | Curr: 5852.682492 | Rate: 0.00 | Evals: 62.5%
+Iter 8 | Best: 17.524655 | Curr: 7418.201102 | Rate: 0.00 | Evals: 62.6%
+Iter 9 | Best: 17.524655 | Curr: 4092.629857 | Rate: 0.00 | Evals: 62.7%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 186.873941 | Rate: 0.00 | Evals: 88.1%
-Iter 2 | Best: 15.923113 | Curr: 224.109080 | Rate: 0.00 | Evals: 88.2%
-Iter 3 | Best: 15.923113 | Curr: 210.817129 | Rate: 0.00 | Evals: 88.3%
-Iter 4 | Best: 15.923113 | Curr: 132.617057 | Rate: 0.00 | Evals: 88.4%
-Iter 5 | Best: 15.923113 | Curr: 57.988770 | Rate: 0.00 | Evals: 88.5%
-Iter 6 | Best: 15.923113 | Curr: 37.887270 | Rate: 0.00 | Evals: 88.6%
-Iter 7 | Best: 15.923113 | Curr: 237.970876 | Rate: 0.00 | Evals: 88.7%
-Iter 8 | Best: 15.923113 | Curr: 28.999969 | Rate: 0.00 | Evals: 88.8%
-Iter 9 | Best: 15.923113 | Curr: 138.700358 | Rate: 0.00 | Evals: 88.9%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 58.061578 | Rate: 0.00 | Evals: 64.8%
+Iter 2 | Best: 17.524655 | Curr: 153.059892 | Rate: 0.00 | Evals: 64.9%
+Iter 3 | Best: 17.524655 | Curr: 48.570081 | Rate: 0.00 | Evals: 65.0%
+Iter 4 | Best: 17.524655 | Curr: 63.676519 | Rate: 0.00 | Evals: 65.1%
+Iter 5 | Best: 17.524655 | Curr: 73.883133 | Rate: 0.00 | Evals: 65.2%
+Iter 6 | Best: 17.524655 | Curr: 28.830999 | Rate: 0.00 | Evals: 65.3%
+Iter 7 | Best: 17.524655 | Curr: 46.382276 | Rate: 0.00 | Evals: 65.4%
+Iter 8 | Best: 17.524655 | Curr: 30.908683 | Rate: 0.00 | Evals: 65.5%
+Iter 9 | Best: 17.524655 | Curr: 45.219300 | Rate: 0.00 | Evals: 65.6%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 87.178077 | Rate: 0.00 | Evals: 91.0%
-Iter 2 | Best: 15.923113 | Curr: 52.181889 | Rate: 0.00 | Evals: 91.1%
-Iter 3 | Best: 15.923113 | Curr: 103.628790 | Rate: 0.00 | Evals: 91.2%
-Iter 4 | Best: 15.923113 | Curr: 180.356378 | Rate: 0.00 | Evals: 91.3%
-Iter 5 | Best: 15.923113 | Curr: 148.164975 | Rate: 0.00 | Evals: 91.4%
-Iter 6 | Best: 15.923113 | Curr: 173.432608 | Rate: 0.00 | Evals: 91.5%
-Iter 7 | Best: 15.923113 | Curr: 1028.909096 | Rate: 0.00 | Evals: 91.6%
-Iter 8 | Best: 15.923113 | Curr: 165.252632 | Rate: 0.00 | Evals: 91.7%
-Iter 9 | Best: 15.923113 | Curr: 153.988200 | Rate: 0.00 | Evals: 91.8%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 3841.775107 | Rate: 0.00 | Evals: 67.7%
+Iter 2 | Best: 17.524655 | Curr: 607.063438 | Rate: 0.00 | Evals: 67.8%
+Iter 3 | Best: 17.524655 | Curr: 110.265442 | Rate: 0.00 | Evals: 67.9%
+Iter 4 | Best: 17.524655 | Curr: 165.829108 | Rate: 0.00 | Evals: 68.0%
+Iter 5 | Best: 17.524655 | Curr: 127.218010 | Rate: 0.00 | Evals: 68.1%
+Iter 6 | Best: 17.524655 | Curr: 111.755451 | Rate: 0.00 | Evals: 68.2%
+Iter 7 | Best: 17.524655 | Curr: 99.836216 | Rate: 0.00 | Evals: 68.3%
+Iter 8 | Best: 17.524655 | Curr: 164.196519 | Rate: 0.00 | Evals: 68.4%
+Iter 9 | Best: 17.524655 | Curr: 99.479954 | Rate: 0.00 | Evals: 68.5%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 122.617937 | Rate: 0.00 | Evals: 93.9%
-Iter 2 | Best: 15.923113 | Curr: 131.541142 | Rate: 0.00 | Evals: 94.0%
-Iter 3 | Best: 15.923113 | Curr: 3114.880293 | Rate: 0.00 | Evals: 94.1%
-Iter 4 | Best: 15.923113 | Curr: 77.458383 | Rate: 0.00 | Evals: 94.2%
-Iter 5 | Best: 15.923113 | Curr: 69.550443 | Rate: 0.00 | Evals: 94.3%
-Iter 6 | Best: 15.923113 | Curr: 126.888601 | Rate: 0.00 | Evals: 94.4%
-Iter 7 | Best: 15.923113 | Curr: 38.948095 | Rate: 0.00 | Evals: 94.5%
-Iter 8 | Best: 15.923113 | Curr: 49.829728 | Rate: 0.00 | Evals: 94.6%
-Iter 9 | Best: 15.923113 | Curr: 67.690602 | Rate: 0.00 | Evals: 94.7%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 72.584558 | Rate: 0.00 | Evals: 70.6%
+Iter 2 | Best: 17.524655 | Curr: 5640.045867 | Rate: 0.00 | Evals: 70.7%
+Iter 3 | Best: 17.524655 | Curr: 1267.289475 | Rate: 0.00 | Evals: 70.8%
+Iter 4 | Best: 17.524655 | Curr: 2614.385097 | Rate: 0.00 | Evals: 70.9%
+Iter 5 | Best: 17.524655 | Curr: 2146.640166 | Rate: 0.00 | Evals: 71.0%
+Iter 6 | Best: 17.524655 | Curr: 3232.358661 | Rate: 0.00 | Evals: 71.1%
+Iter 7 | Best: 17.524655 | Curr: 135.488321 | Rate: 0.00 | Evals: 71.2%
+Iter 8 | Best: 17.524655 | Curr: 5021.911630 | Rate: 0.00 | Evals: 71.3%
+Iter 9 | Best: 17.524655 | Curr: 40.007952 | Rate: 0.00 | Evals: 71.4%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 4296.491714 | Rate: 0.00 | Evals: 96.8%
-Iter 2 | Best: 15.923113 | Curr: 1454.521973 | Rate: 0.00 | Evals: 96.9%
-Iter 3 | Best: 15.923113 | Curr: 59.298546 | Rate: 0.00 | Evals: 97.0%
-Iter 4 | Best: 15.923113 | Curr: 78.451175 | Rate: 0.00 | Evals: 97.1%
-Iter 5 | Best: 15.923113 | Curr: 156.073628 | Rate: 0.00 | Evals: 97.2%
-Iter 6 | Best: 15.923113 | Curr: 69.175187 | Rate: 0.00 | Evals: 97.3%
-Iter 7 | Best: 15.923113 | Curr: 119.051603 | Rate: 0.00 | Evals: 97.4%
-Iter 8 | Best: 15.923113 | Curr: 99.708004 | Rate: 0.00 | Evals: 97.5%
-Iter 9 | Best: 15.923113 | Curr: 143.400273 | Rate: 0.00 | Evals: 97.6%
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 44.206794 | Rate: 0.00 | Evals: 73.5%
+Iter 2 | Best: 17.524655 | Curr: 131.313391 | Rate: 0.00 | Evals: 73.6%
+Iter 3 | Best: 17.524655 | Curr: 573.641425 | Rate: 0.00 | Evals: 73.7%
+Iter 4 | Best: 17.524655 | Curr: 41.788770 | Rate: 0.00 | Evals: 73.8%
+Iter 5 | Best: 17.524655 | Curr: 62.807827 | Rate: 0.00 | Evals: 73.9%
+Iter 6 | Best: 17.524655 | Curr: 1542.881140 | Rate: 0.00 | Evals: 74.0%
+Iter 7 | Best: 17.524655 | Curr: 3002.422091 | Rate: 0.00 | Evals: 74.1%
+Iter 8 | Best: 17.524655 | Curr: 56.726454 | Rate: 0.00 | Evals: 74.2%
+Iter 9 | Best: 17.524655 | Curr: 155.130957 | Rate: 0.00 | Evals: 74.3%
 Restarting optimization: success_rate 0 for 10 iterations.
 Starting point x0 validated and processed successfully.
-  Original scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-  Internal scale: [0.26558177 0.35724948 0.23710186 0.38573951 0.52064973 0.43380147
- 0.69455063 0.47850335 0.45160716 0.6522706 ]
-Restart injection: Using best found point so far as starting point (f(x)=15.923113).
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
 Including 1 starting points from x0 in initial design.
 Skipping re-evaluation of injected best point.
-Initial best: f(x) = 15.923113
-Iter 1 | Best: 15.923113 | Curr: 2769.268876 | Rate: 0.00 | Evals: 99.7%
-Iter 2 | Best: 15.923113 | Curr: 1921.567182 | Rate: 0.00 | Evals: 99.8%
-Iter 3 | Best: 15.923113 | Curr: 3314.902558 | Rate: 0.00 | Evals: 99.9%
-Iter 4 | Best: 15.923113 | Curr: 1602.963419 | Rate: 0.00 | Evals: 100.0%
-   Best y (Multi-Surrogate): 15.923113
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 173.432880 | Rate: 0.00 | Evals: 76.4%
+Iter 2 | Best: 17.524655 | Curr: 223.363642 | Rate: 0.00 | Evals: 76.5%
+Iter 3 | Best: 17.524655 | Curr: 32.997875 | Rate: 0.00 | Evals: 76.6%
+Iter 4 | Best: 17.524655 | Curr: 4211.583624 | Rate: 0.00 | Evals: 76.7%
+Iter 5 | Best: 17.524655 | Curr: 235.969314 | Rate: 0.00 | Evals: 76.8%
+Iter 6 | Best: 17.524655 | Curr: 226.402133 | Rate: 0.00 | Evals: 76.9%
+Iter 7 | Best: 17.524655 | Curr: 76.038002 | Rate: 0.00 | Evals: 77.0%
+Iter 8 | Best: 17.524655 | Curr: 232.189771 | Rate: 0.00 | Evals: 77.1%
+Iter 9 | Best: 17.524655 | Curr: 94.508344 | Rate: 0.00 | Evals: 77.2%
+Restarting optimization: success_rate 0 for 10 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 2957.683023 | Rate: 0.00 | Evals: 79.3%
+Iter 2 | Best: 17.524655 | Curr: 46.008003 | Rate: 0.00 | Evals: 79.4%
+Iter 3 | Best: 17.524655 | Curr: 3922.619067 | Rate: 0.00 | Evals: 79.5%
+Iter 4 | Best: 17.524655 | Curr: 659.714669 | Rate: 0.00 | Evals: 79.6%
+Iter 5 | Best: 17.524655 | Curr: 35.683294 | Rate: 0.00 | Evals: 79.7%
+Iter 6 | Best: 17.524655 | Curr: 46.412673 | Rate: 0.00 | Evals: 79.8%
+Iter 7 | Best: 17.524655 | Curr: 1843.413417 | Rate: 0.00 | Evals: 79.9%
+Iter 8 | Best: 17.524655 | Curr: 1284.468862 | Rate: 0.00 | Evals: 80.0%
+Iter 9 | Best: 17.524655 | Curr: 5526.541730 | Rate: 0.00 | Evals: 80.1%
+Restarting optimization: success_rate 0 for 10 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 2662.925598 | Rate: 0.00 | Evals: 82.2%
+Iter 2 | Best: 17.524655 | Curr: 2902.895420 | Rate: 0.00 | Evals: 82.3%
+Iter 3 | Best: 17.524655 | Curr: 56.643615 | Rate: 0.00 | Evals: 82.4%
+Iter 4 | Best: 17.524655 | Curr: 1596.713823 | Rate: 0.00 | Evals: 82.5%
+Iter 5 | Best: 17.524655 | Curr: 19.651874 | Rate: 0.00 | Evals: 82.6%
+Iter 6 | Best: 17.524655 | Curr: 7011.914514 | Rate: 0.00 | Evals: 82.7%
+Iter 7 | Best: 17.524655 | Curr: 3041.251106 | Rate: 0.00 | Evals: 82.8%
+Iter 8 | Best: 17.524655 | Curr: 1850.915267 | Rate: 0.00 | Evals: 82.9%
+Iter 9 | Best: 17.524655 | Curr: 6729.254976 | Rate: 0.00 | Evals: 83.0%
+Restarting optimization: success_rate 0 for 10 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 67.665806 | Rate: 0.00 | Evals: 85.1%
+Iter 2 | Best: 17.524655 | Curr: 4622.828783 | Rate: 0.00 | Evals: 85.2%
+Iter 3 | Best: 17.524655 | Curr: 5658.775694 | Rate: 0.00 | Evals: 85.3%
+Iter 4 | Best: 17.524655 | Curr: 3871.334988 | Rate: 0.00 | Evals: 85.4%
+Iter 5 | Best: 17.524655 | Curr: 1706.293702 | Rate: 0.00 | Evals: 85.5%
+Iter 6 | Best: 17.524655 | Curr: 95.157072 | Rate: 0.00 | Evals: 85.6%
+Iter 7 | Best: 17.524655 | Curr: 204.492488 | Rate: 0.00 | Evals: 85.7%
+Iter 8 | Best: 17.524655 | Curr: 48.808747 | Rate: 0.00 | Evals: 85.8%
+Iter 9 | Best: 17.524655 | Curr: 92.442039 | Rate: 0.00 | Evals: 85.9%
+Restarting optimization: success_rate 0 for 10 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 75.782405 | Rate: 0.00 | Evals: 88.0%
+Iter 2 | Best: 17.524655 | Curr: 52.578830 | Rate: 0.00 | Evals: 88.1%
+Iter 3 | Best: 17.524655 | Curr: 50.284485 | Rate: 0.00 | Evals: 88.2%
+Iter 4 | Best: 17.524655 | Curr: 147.983574 | Rate: 0.00 | Evals: 88.3%
+Iter 5 | Best: 17.524655 | Curr: 31.693574 | Rate: 0.00 | Evals: 88.4%
+Iter 6 | Best: 17.524655 | Curr: 4080.404332 | Rate: 0.00 | Evals: 88.5%
+Iter 7 | Best: 17.524655 | Curr: 66.997646 | Rate: 0.00 | Evals: 88.6%
+Iter 8 | Best: 17.524655 | Curr: 67.327138 | Rate: 0.00 | Evals: 88.7%
+Iter 9 | Best: 17.524655 | Curr: 28.620987 | Rate: 0.00 | Evals: 88.8%
+Restarting optimization: success_rate 0 for 10 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 1852.788107 | Rate: 0.00 | Evals: 90.9%
+Iter 2 | Best: 17.524655 | Curr: 4630.560991 | Rate: 0.00 | Evals: 91.0%
+Iter 3 | Best: 17.524655 | Curr: 170.311905 | Rate: 0.00 | Evals: 91.1%
+Iter 4 | Best: 17.524655 | Curr: 239.090119 | Rate: 0.00 | Evals: 91.2%
+Iter 5 | Best: 17.524655 | Curr: 200.262420 | Rate: 0.00 | Evals: 91.3%
+Iter 6 | Best: 17.524655 | Curr: 205.337780 | Rate: 0.00 | Evals: 91.4%
+Iter 7 | Best: 17.524655 | Curr: 124.617341 | Rate: 0.00 | Evals: 91.5%
+Iter 8 | Best: 17.524655 | Curr: 260.063810 | Rate: 0.00 | Evals: 91.6%
+Iter 9 | Best: 17.524655 | Curr: 234.089446 | Rate: 0.00 | Evals: 91.7%
+Restarting optimization: success_rate 0 for 10 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 3136.926852 | Rate: 0.00 | Evals: 93.8%
+Iter 2 | Best: 17.524655 | Curr: 3878.992242 | Rate: 0.00 | Evals: 93.9%
+Iter 3 | Best: 17.524655 | Curr: 52.512625 | Rate: 0.00 | Evals: 94.0%
+Iter 4 | Best: 17.524655 | Curr: 59.802208 | Rate: 0.00 | Evals: 94.1%
+Iter 5 | Best: 17.524655 | Curr: 65.247723 | Rate: 0.00 | Evals: 94.2%
+Iter 6 | Best: 17.524655 | Curr: 56.881804 | Rate: 0.00 | Evals: 94.3%
+Iter 7 | Best: 17.524655 | Curr: 48.869474 | Rate: 0.00 | Evals: 94.4%
+Iter 8 | Best: 17.524655 | Curr: 1157.226434 | Rate: 0.00 | Evals: 94.5%
+Iter 9 | Best: 17.524655 | Curr: 82.781301 | Rate: 0.00 | Evals: 94.6%
+Restarting optimization: success_rate 0 for 10 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 1376.439113 | Rate: 0.00 | Evals: 96.7%
+Iter 2 | Best: 17.524655 | Curr: 403.353279 | Rate: 0.00 | Evals: 96.8%
+Iter 3 | Best: 17.524655 | Curr: 59.361144 | Rate: 0.00 | Evals: 96.9%
+Iter 4 | Best: 17.524655 | Curr: 82.846518 | Rate: 0.00 | Evals: 97.0%
+Iter 5 | Best: 17.524655 | Curr: 100.272711 | Rate: 0.00 | Evals: 97.1%
+Iter 6 | Best: 17.524655 | Curr: 100.433842 | Rate: 0.00 | Evals: 97.2%
+Iter 7 | Best: 17.524655 | Curr: 3356.568442 | Rate: 0.00 | Evals: 97.3%
+Iter 8 | Best: 17.524655 | Curr: 120.458624 | Rate: 0.00 | Evals: 97.4%
+Iter 9 | Best: 17.524655 | Curr: 86.345665 | Rate: 0.00 | Evals: 97.5%
+Restarting optimization: success_rate 0 for 10 iterations.
+Starting point x0 validated and processed successfully.
+  Original scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+  Internal scale: [0.6549495  0.36470321 0.18842231 0.63332954 0.91877645 0.41401838
+ 0.96665621 0.93887881 0.45219443 0.45765655]
+Restart injection: Using best found point so far as starting point (f(x)=17.524655).
+Including 1 starting points from x0 in initial design.
+Skipping re-evaluation of injected best point.
+Initial best: f(x) = 17.524655
+Iter 1 | Best: 17.524655 | Curr: 628.319267 | Rate: 0.00 | Evals: 99.6%
+Iter 2 | Best: 17.524655 | Curr: 5310.864694 | Rate: 0.00 | Evals: 99.7%
+Iter 3 | Best: 17.524655 | Curr: 2110.528637 | Rate: 0.00 | Evals: 99.8%
+Iter 4 | Best: 17.524655 | Curr: 1862.848484 | Rate: 0.00 | Evals: 99.9%
+Iter 5 | Best: 17.524655 | Curr: 2078.912765 | Rate: 0.00 | Evals: 100.0%
+   Best y (Multi-Surrogate): 17.524655
 2. Running Default SpotOptim (GP only)...
 TensorBoard logging disabled
 Initial best: f(x) = 23.358705
@@ -2953,7 +2963,7 @@ Global budget exhausted. Stopping restarts.
 Method                    | Best Objective 
 ----------------------------------------
 Default (GP Only)         | 17.988188      
-Multi-Surrogate (GP+MLP)  | 15.923113      </code></pre>
+Multi-Surrogate (GP+MLP)  | 17.524655      </code></pre>
 </div>
 </div>
 
@@ -3379,7 +3389,7 @@ Multi-Surrogate (GP+MLP)  | 15.923113      </code></pre>
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

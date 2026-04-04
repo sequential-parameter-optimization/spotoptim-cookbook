@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -813,7 +813,7 @@ R(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\sum_{k=1}^{d} \theta_k |x_{i,k} - x_
 <section id="creating-a-simple-kriging-model" class="level3" data-number="21.2.1">
 <h3 data-number="21.2.1" class="anchored" data-anchor-id="creating-a-simple-kriging-model"><span class="header-section-number">21.2.1</span> Creating a Simple Kriging Model</h3>
 <p>Let’s start with the most basic usage - creating a Kriging model with default settings:</p>
-<div id="259de080" class="cell" data-execution_count="1">
+<div id="5ae88269" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -843,26 +843,26 @@ R(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\sum_{k=1}^{d} \theta_k |x_{i,k} - x_
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
 Initial best: f(x) = 3.925721
-Iter 1 | Best: 0.000456 | Rate: 1.00 | Evals: 55.0%
-Iter 2 | Best: 0.000187 | Rate: 1.00 | Evals: 60.0%
-Iter 3 | Best: 0.000187 | Curr: 0.000188 | Rate: 0.67 | Evals: 65.0%
-Iter 4 | Best: 0.000187 | Curr: 0.001042 | Rate: 0.50 | Evals: 70.0%
-Iter 5 | Best: 0.000187 | Curr: 0.000209 | Rate: 0.40 | Evals: 75.0%
-Iter 6 | Best: 0.000126 | Rate: 0.50 | Evals: 80.0%
-Iter 7 | Best: 0.000119 | Rate: 0.57 | Evals: 85.0%
-Iter 8 | Best: 0.000099 | Rate: 0.62 | Evals: 90.0%
-Iter 9 | Best: 0.000071 | Rate: 0.67 | Evals: 95.0%
-Iter 10 | Best: 0.000039 | Rate: 0.70 | Evals: 100.0%
+Iter 1 | Best: 0.000460 | Rate: 1.00 | Evals: 55.0%
+Iter 2 | Best: 0.000155 | Rate: 1.00 | Evals: 60.0%
+Iter 3 | Best: 0.000017 | Rate: 1.00 | Evals: 65.0%
+Iter 4 | Best: 0.000017 | Curr: 0.000572 | Rate: 0.75 | Evals: 70.0%
+Iter 5 | Best: 0.000017 | Curr: 0.000244 | Rate: 0.60 | Evals: 75.0%
+Iter 6 | Best: 0.000017 | Curr: 0.000178 | Rate: 0.50 | Evals: 80.0%
+Iter 7 | Best: 0.000017 | Curr: 0.000139 | Rate: 0.43 | Evals: 85.0%
+Iter 8 | Best: 0.000017 | Curr: 0.000099 | Rate: 0.38 | Evals: 90.0%
+Iter 9 | Best: 0.000017 | Curr: 0.000081 | Rate: 0.33 | Evals: 95.0%
+Iter 10 | Best: 0.000017 | Curr: 0.000039 | Rate: 0.30 | Evals: 100.0%
 
-Best solution: [0.00035959 0.00619865]
-Best value: 0.000039</code></pre>
+Best solution: [-0.00259053  0.0031664 ]
+Best value: 0.000017</code></pre>
 </div>
 </div>
 </section>
 <section id="default-vs-custom-surrogate" class="level3" data-number="21.2.2">
 <h3 data-number="21.2.2" class="anchored" data-anchor-id="default-vs-custom-surrogate"><span class="header-section-number">21.2.2</span> Default vs Custom Surrogate</h3>
 <p>SpotOptim uses a Gaussian Process Regressor by default. Here’s how Kriging compares:</p>
-<div id="e7e84352" class="cell" data-execution_count="2">
+<div id="15f37145" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -919,7 +919,7 @@ Kriging:     f(x) = 0.091470</code></pre>
 <li><strong>“regression”</strong>: Allows smoothing, better for noisy data</li>
 <li><strong>“reinterpolation”</strong>: Hybrid approach</li>
 </ul>
-<div id="3cde7ca1" class="cell" data-execution_count="3">
+<div id="96271bd0" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -982,7 +982,7 @@ Kriging:     f(x) = 0.091470</code></pre>
 <section id="noise-parameter-and-regularization" class="level3" data-number="21.3.2">
 <h3 data-number="21.3.2" class="anchored" data-anchor-id="noise-parameter-and-regularization"><span class="header-section-number">21.3.2</span> Noise Parameter and Regularization</h3>
 <p>The <code>noise</code> parameter adds a small nugget effect for numerical stability:</p>
-<div id="0a1392fa" class="cell" data-execution_count="4">
+<div id="a724647a" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -1034,7 +1034,7 @@ Kriging:     f(x) = 0.091470</code></pre>
 <span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"      which automatically optimizes the Lambda (nugget) parameter."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Impact of noise parameter:
-Small noise (1e-10): f(x) = -0.196056
+Small noise (1e-10): f(x) = -0.196059
 Large noise (0.01):  f(x) = 2.312981
 
 Note: For noisy functions, use 'regression' method instead,
@@ -1051,7 +1051,7 @@ Note: For noisy functions, use 'regression' method instead,
 <li><strong>max_theta</strong>: Maximum log₁₀(θ) value (default: 2.0 → θ = 100)</li>
 </ul>
 <p>Smaller θ → smoother function, larger θ → more wiggly function.</p>
-<div id="573126b8" class="cell" data-execution_count="5">
+<div id="34f42061" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1087,7 +1087,7 @@ The optimizer automatically finds the best theta within the bounds.</code></pre>
 <li><strong>Isotropic</strong> (<code>isotropic=True</code>): Single θ for all dimensions (faster, fewer parameters)</li>
 <li><strong>Anisotropic</strong> (<code>isotropic=False</code>): Different θ per dimension (more flexible, default)</li>
 </ul>
-<div id="bfab1cd3" class="cell" data-execution_count="6">
+<div id="5cce9bfc" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1140,7 +1140,7 @@ Anisotropic: -1.0267</code></pre>
 <section id="mixed-variable-types" class="level3" data-number="21.4.1">
 <h3 data-number="21.4.1" class="anchored" data-anchor-id="mixed-variable-types"><span class="header-section-number">21.4.1</span> Mixed Variable Types</h3>
 <p>Kriging supports mixed variable types: continuous (<code>float</code>), integer (<code>int</code>), and categorical (<code>factor</code>):</p>
-<div id="b6bae838" class="cell" data-execution_count="7">
+<div id="8292523f" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -1217,26 +1217,22 @@ Iter 4 | Best: 0.000000 | Rate: 0.75 | Evals: 63.3%
 Optimizer candidate 1/3 was duplicate/invalid.
 Iter 5 | Best: 0.000000 | Curr: 0.000143 | Rate: 0.60 | Evals: 66.7%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 6 | Best: 0.000000 | Curr: 0.000010 | Rate: 0.50 | Evals: 70.0%
+Iter 6 | Best: 0.000000 | Curr: 0.000069 | Rate: 0.50 | Evals: 70.0%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 7 | Best: 0.000000 | Curr: 0.000034 | Rate: 0.43 | Evals: 73.3%
+Iter 7 | Best: 0.000000 | Curr: 0.000037 | Rate: 0.43 | Evals: 73.3%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 8 | Best: 0.000000 | Rate: 0.50 | Evals: 76.7%
+Iter 8 | Best: 0.000000 | Curr: 0.000021 | Rate: 0.38 | Evals: 76.7%
 Optimizer candidate 1/3 was duplicate/invalid.
-Optimizer candidate 2/3 was duplicate/invalid.
-Optimizer candidate 3/3 was duplicate/invalid.
-Fallback attempt 1/10: Using fallback strategy
-Acquisition failure: Using random space-filling design as fallback.
-Iter 9 | Best: 0.000000 | Curr: 0.500874 | Rate: 0.44 | Evals: 80.0%
-Iter 10 | Best: 0.000000 | Rate: 0.50 | Evals: 83.3%
-Iter 11 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.45 | Evals: 86.7%
-Iter 12 | Best: 0.000000 | Curr: 0.500000 | Rate: 0.42 | Evals: 90.0%
-Iter 13 | Best: 0.000000 | Curr: 0.500000 | Rate: 0.38 | Evals: 93.3%
-Iter 14 | Best: 0.000000 | Curr: 0.500000 | Rate: 0.36 | Evals: 96.7%
-Iter 15 | Best: 0.000000 | Curr: 0.500000 | Rate: 0.33 | Evals: 100.0%
+Iter 9 | Best: 0.000000 | Curr: 0.000020 | Rate: 0.33 | Evals: 80.0%
+Iter 10 | Best: 0.000000 | Rate: 0.40 | Evals: 83.3%
+Iter 11 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.36 | Evals: 86.7%
+Iter 12 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.33 | Evals: 90.0%
+Iter 13 | Best: 0.000000 | Curr: 0.500009 | Rate: 0.31 | Evals: 93.3%
+Iter 14 | Best: 0.000000 | Curr: 0.500000 | Rate: 0.29 | Evals: 96.7%
+Iter 15 | Best: 0.000000 | Curr: 0.500000 | Rate: 0.27 | Evals: 100.0%
 
 Optimal configuration:
-Learning rate: 0.0098
+Learning rate: 0.0102
 Num layers:    3
 Activation:    0 (0=ReLU, 1=Tanh, 2=Sigmoid)
 Loss:          0.000000</code></pre>
@@ -1252,7 +1248,7 @@ Loss:          0.000000</code></pre>
 <section id="customizing-the-distance-metric-for-factors" class="level3" data-number="21.4.2">
 <h3 data-number="21.4.2" class="anchored" data-anchor-id="customizing-the-distance-metric-for-factors"><span class="header-section-number">21.4.2</span> Customizing the Distance Metric for Factors</h3>
 <p>For categorical variables, you can choose different distance metrics.</p>
-<div id="eff35939" class="cell" data-execution_count="8">
+<div id="f24354b6" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1297,7 +1293,7 @@ Available metrics: 'canberra' (default), 'hamming', 'jaccard', etc.</code></pre>
 <section id="handling-high-dimensional-problems" class="level3" data-number="21.4.3">
 <h3 data-number="21.4.3" class="anchored" data-anchor-id="handling-high-dimensional-problems"><span class="header-section-number">21.4.3</span> Handling High-Dimensional Problems</h3>
 <p>For high-dimensional problems, Kriging can become computationally expensive. Here are strategies:</p>
-<div id="f53af30e" class="cell" data-execution_count="9">
+<div id="b9cb2dab" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -1348,8 +1344,8 @@ Available metrics: 'canberra' (default), 'hamming', 'jaccard', etc.</code></pre>
 <span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">For &gt;5 dimensions, consider isotropic=True or limit training set."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>High-dimensional optimization strategies:
-Isotropic Kriging:      f(x) = 0.009991
-Limited training set:   f(x) = 0.076677
+Isotropic Kriging:      f(x) = 0.002313
+Limited training set:   f(x) = 0.083729
 
 For &gt;5 dimensions, consider isotropic=True or limit training set.</code></pre>
 </div>
@@ -1358,7 +1354,7 @@ For &gt;5 dimensions, consider isotropic=True or limit training set.</code></pre
 <section id="uncertainty-quantification" class="level3" data-number="21.4.4">
 <h3 data-number="21.4.4" class="anchored" data-anchor-id="uncertainty-quantification"><span class="header-section-number">21.4.4</span> Uncertainty Quantification</h3>
 <p>Kriging provides uncertainty estimates, useful for exploration vs exploitation:</p>
-<div id="81e480c3" class="cell" data-execution_count="10">
+<div id="8c03321d" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1435,7 +1431,7 @@ For &gt;5 dimensions, consider isotropic=True or limit training set.</code></pre
 <section id="example-1-optimizing-the-rastrigin-function" class="level3" data-number="21.5.1">
 <h3 data-number="21.5.1" class="anchored" data-anchor-id="example-1-optimizing-the-rastrigin-function"><span class="header-section-number">21.5.1</span> Example 1: Optimizing the Rastrigin Function</h3>
 <p>The Rastrigin function is highly multimodal - a challenging test case:</p>
-<div id="52ed4d51" class="cell" data-execution_count="11">
+<div id="62010aa8" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -1498,20 +1494,20 @@ Iter 17 | Best: 6.176571 | Curr: 10.109510 | Rate: 0.24 | Evals: 78.3%
 Iter 18 | Best: 6.176571 | Curr: 27.148627 | Rate: 0.22 | Evals: 80.0%
 Iter 19 | Best: 2.554349 | Rate: 0.26 | Evals: 81.7%
 Iter 20 | Best: 1.223834 | Rate: 0.30 | Evals: 83.3%
-Iter 21 | Best: 1.016497 | Rate: 0.33 | Evals: 85.0%
-Iter 22 | Best: 1.016497 | Curr: 1.068914 | Rate: 0.32 | Evals: 86.7%
-Iter 23 | Best: 1.016497 | Curr: 10.193080 | Rate: 0.30 | Evals: 88.3%
-Iter 24 | Best: 1.016497 | Curr: 18.560350 | Rate: 0.29 | Evals: 90.0%
-Iter 25 | Best: 1.016497 | Curr: 22.109606 | Rate: 0.28 | Evals: 91.7%
-Iter 26 | Best: 1.016497 | Curr: 16.564195 | Rate: 0.27 | Evals: 93.3%
-Iter 27 | Best: 1.016497 | Curr: 2.346329 | Rate: 0.26 | Evals: 95.0%
-Iter 28 | Best: 1.016497 | Curr: 21.868406 | Rate: 0.25 | Evals: 96.7%
-Iter 29 | Best: 1.016497 | Curr: 9.862804 | Rate: 0.24 | Evals: 98.3%
-Iter 30 | Best: 1.016497 | Curr: 3.221777 | Rate: 0.23 | Evals: 100.0%
+Iter 21 | Best: 1.016496 | Rate: 0.33 | Evals: 85.0%
+Iter 22 | Best: 1.016496 | Curr: 1.068918 | Rate: 0.32 | Evals: 86.7%
+Iter 23 | Best: 1.016496 | Curr: 10.193493 | Rate: 0.30 | Evals: 88.3%
+Iter 24 | Best: 1.016496 | Curr: 18.559615 | Rate: 0.29 | Evals: 90.0%
+Iter 25 | Best: 1.016496 | Curr: 22.110057 | Rate: 0.28 | Evals: 91.7%
+Iter 26 | Best: 1.016496 | Curr: 16.563339 | Rate: 0.27 | Evals: 93.3%
+Iter 27 | Best: 1.016496 | Curr: 2.346268 | Rate: 0.26 | Evals: 95.0%
+Iter 28 | Best: 1.016496 | Curr: 21.868452 | Rate: 0.25 | Evals: 96.7%
+Iter 29 | Best: 1.016496 | Curr: 9.862757 | Rate: 0.24 | Evals: 98.3%
+Iter 30 | Best: 1.016496 | Curr: 3.221800 | Rate: 0.23 | Evals: 100.0%
 
 Rastrigin optimization:
-Best solution: [-0.00313567 -1.00489574]
-Best value:    1.016497 (global optimum: 0.0)
+Best solution: [-0.00313486 -1.00489573]
+Best value:    1.016496 (global optimum: 0.0)
 Distance to optimum: 1.004901</code></pre>
 </div>
 </div>
@@ -1519,7 +1515,7 @@ Distance to optimum: 1.004901</code></pre>
 <section id="example-2-robust-optimization-with-noise" class="level3" data-number="21.5.2">
 <h3 data-number="21.5.2" class="anchored" data-anchor-id="example-2-robust-optimization-with-noise"><span class="header-section-number">21.5.2</span> Example 2: Robust Optimization with Noise</h3>
 <p>When optimizing noisy functions, Kriging’s regression mode helps:</p>
-<div id="ea388024" class="cell" data-execution_count="12">
+<div id="95579fc0" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -1587,7 +1583,7 @@ Distance: 1.4900</code></pre>
 <section id="example-3-real-world-machine-learning-hyperparameter-tuning" class="level3" data-number="21.5.3">
 <h3 data-number="21.5.3" class="anchored" data-anchor-id="example-3-real-world-machine-learning-hyperparameter-tuning"><span class="header-section-number">21.5.3</span> Example 3: Real-World Machine Learning Hyperparameter Tuning</h3>
 <p>Optimize hyperparameters for a neural network:</p>
-<div id="8b2ef9ac" class="cell" data-execution_count="13">
+<div id="84b53d22" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -1662,40 +1658,40 @@ Distance: 1.4900</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>TensorBoard logging disabled
 Initial best: f(x) = 1.937667
-Iter 1 | Best: 1.937667 | Curr: 7.989558 | Rate: 0.00 | Evals: 52.5%
-Iter 2 | Best: 1.808086 | Rate: 0.50 | Evals: 55.0%
-Iter 3 | Best: 1.808086 | Curr: 5.759292 | Rate: 0.33 | Evals: 57.5%
-Iter 4 | Best: 1.223840 | Rate: 0.50 | Evals: 60.0%
-Iter 5 | Best: 1.223840 | Curr: 1.380718 | Rate: 0.40 | Evals: 62.5%
-Iter 6 | Best: 1.014576 | Rate: 0.50 | Evals: 65.0%
-Iter 7 | Best: 1.014576 | Curr: 1.030656 | Rate: 0.43 | Evals: 67.5%
-Iter 8 | Best: 1.014576 | Curr: 1.953195 | Rate: 0.38 | Evals: 70.0%
-Iter 9 | Best: 1.014576 | Curr: 1.340913 | Rate: 0.33 | Evals: 72.5%
-Iter 10 | Best: 1.014576 | Curr: 1.388930 | Rate: 0.30 | Evals: 75.0%
-Iter 11 | Best: 1.002372 | Rate: 0.36 | Evals: 77.5%
-Iter 12 | Best: 1.002372 | Curr: 1.222166 | Rate: 0.33 | Evals: 80.0%
-Iter 13 | Best: 1.002372 | Curr: 1.058897 | Rate: 0.31 | Evals: 82.5%
-Iter 14 | Best: 0.935451 | Rate: 0.36 | Evals: 85.0%
-Iter 15 | Best: 0.935451 | Curr: 1.126573 | Rate: 0.33 | Evals: 87.5%
-Iter 16 | Best: 0.908754 | Rate: 0.38 | Evals: 90.0%
-Iter 17 | Best: 0.908754 | Curr: 1.039885 | Rate: 0.35 | Evals: 92.5%
-Iter 18 | Best: 0.823926 | Rate: 0.39 | Evals: 95.0%
-Iter 19 | Best: 0.823926 | Curr: 0.877816 | Rate: 0.37 | Evals: 97.5%
-Iter 20 | Best: 0.823926 | Curr: 1.025475 | Rate: 0.35 | Evals: 100.0%
+Iter 1 | Best: 1.937667 | Curr: 7.989495 | Rate: 0.00 | Evals: 52.5%
+Iter 2 | Best: 1.937667 | Curr: 5.729961 | Rate: 0.00 | Evals: 55.0%
+Iter 3 | Best: 1.937667 | Curr: 5.701930 | Rate: 0.00 | Evals: 57.5%
+Iter 4 | Best: 1.398150 | Rate: 0.25 | Evals: 60.0%
+Iter 5 | Best: 1.357760 | Rate: 0.40 | Evals: 62.5%
+Iter 6 | Best: 1.357760 | Curr: 1.441755 | Rate: 0.33 | Evals: 65.0%
+Iter 7 | Best: 1.357760 | Curr: 1.382557 | Rate: 0.29 | Evals: 67.5%
+Iter 8 | Best: 1.357760 | Curr: 1.437570 | Rate: 0.25 | Evals: 70.0%
+Iter 9 | Best: 1.357760 | Curr: 2.161225 | Rate: 0.22 | Evals: 72.5%
+Iter 10 | Best: 1.357760 | Curr: 1.488995 | Rate: 0.20 | Evals: 75.0%
+Iter 11 | Best: 1.218966 | Rate: 0.27 | Evals: 77.5%
+Iter 12 | Best: 1.218966 | Curr: 2.182884 | Rate: 0.25 | Evals: 80.0%
+Iter 13 | Best: 1.164570 | Rate: 0.31 | Evals: 82.5%
+Iter 14 | Best: 0.955473 | Rate: 0.36 | Evals: 85.0%
+Iter 15 | Best: 0.955473 | Curr: 1.084837 | Rate: 0.33 | Evals: 87.5%
+Iter 16 | Best: 0.955473 | Curr: 1.241791 | Rate: 0.31 | Evals: 90.0%
+Iter 17 | Best: 0.955473 | Curr: 1.100661 | Rate: 0.29 | Evals: 92.5%
+Iter 18 | Best: 0.866924 | Rate: 0.33 | Evals: 95.0%
+Iter 19 | Best: 0.866924 | Curr: 0.930296 | Rate: 0.32 | Evals: 97.5%
+Iter 20 | Best: 0.866924 | Curr: 1.082988 | Rate: 0.30 | Evals: 100.0%
 
 Optimal hyperparameters:
 Learning rate: 0.000100
 Num layers:    3
-Hidden size:   61
-Dropout rate:  0.167
-Validation error: 0.823926</code></pre>
+Hidden size:   56
+Dropout rate:  0.206
+Validation error: 0.866924</code></pre>
 </div>
 </div>
 </section>
 <section id="example-4-comparing-kriging-methods" class="level3" data-number="21.5.4">
 <h3 data-number="21.5.4" class="anchored" data-anchor-id="example-4-comparing-kriging-methods"><span class="header-section-number">21.5.4</span> Example 4: Comparing Kriging Methods</h3>
 <p>Let’s compare all three Kriging methods on the same problem:</p>
-<div id="a0b26402" class="cell" data-execution_count="14">
+<div id="5c432431" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -1745,9 +1741,9 @@ Validation error: 0.823926</code></pre>
 <span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Global optimum: f(1, 1) = 0.0"</span>)</span>
 <span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">All methods find good solutions, but 'regression' is most robust."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>interpolation   | f(x) = 0.000482 | x = [0.97990039 0.97710159]
-regression      | f(x) = 0.000069 | x = [1.00234779 0.96825674]
-reinterpolation | f(x) = 0.000069 | x = [1.00234779 0.96825674]
+<pre><code>interpolation   | f(x) = 0.000481 | x = [0.97975967 0.98011761]
+regression      | f(x) = 0.000082 | x = [0.99254945 0.98221295]
+reinterpolation | f(x) = 0.000082 | x = [0.99254945 0.98221295]
 
 Global optimum: f(1, 1) = 0.0
 
@@ -1758,7 +1754,7 @@ All methods find good solutions, but 'regression' is most robust.</code></pre>
 <section id="example-5-sensitivity-to-theta-bounds" class="level3" data-number="21.5.5">
 <h3 data-number="21.5.5" class="anchored" data-anchor-id="example-5-sensitivity-to-theta-bounds"><span class="header-section-number">21.5.5</span> Example 5: Sensitivity to Theta Bounds</h3>
 <p>Theta bounds control the range of smoothness. Let’s see their impact:</p>
-<div id="4bf49e2b" class="cell" data-execution_count="15">
+<div id="51704aef" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
@@ -1814,7 +1810,7 @@ Default bounds work well for most problems.</code></pre>
 <section id="kriging-vs-gaussian-process-vs-random-forest" class="level3" data-number="21.6.1">
 <h3 data-number="21.6.1" class="anchored" data-anchor-id="kriging-vs-gaussian-process-vs-random-forest"><span class="header-section-number">21.6.1</span> Kriging vs Gaussian Process vs Random Forest</h3>
 <p>Let’s compare different surrogate models:</p>
-<div id="9fa227ff" class="cell" data-execution_count="16">
+<div id="27d32a7c" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging, SimpleKriging</span>
@@ -1867,7 +1863,7 @@ Default bounds work well for most problems.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Surrogate Model Comparison:
 Kriging (full):     f(x) =   163.48
-SimpleKriging:      f(x) =   118.49
+SimpleKriging:      f(x) =   118.55
 Gaussian Process:   f(x) =   118.44
 Random Forest:      f(x) =   183.47
 
@@ -1885,7 +1881,7 @@ Kriging offers:
 <h2 data-number="21.7" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">21.7</span> Best Practices</h2>
 <section id="choosing-the-right-method" class="level3" data-number="21.7.1">
 <h3 data-number="21.7.1" class="anchored" data-anchor-id="choosing-the-right-method"><span class="header-section-number">21.7.1</span> 1. Choosing the Right Method</h3>
-<div id="c68d44e7" class="cell" data-execution_count="17">
+<div id="fcf82c7a" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For smooth, deterministic functions</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>kriging <span class="op">=</span> Kriging(method<span class="op">=</span><span class="st">'interpolation'</span>, noise<span class="op">=</span><span class="fl">1e-10</span>, seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1899,7 +1895,7 @@ Kriging offers:
 </section>
 <section id="setting-model-complexity" class="level3" data-number="21.7.2">
 <h3 data-number="21.7.2" class="anchored" data-anchor-id="setting-model-complexity"><span class="header-section-number">21.7.2</span> 2. Setting Model Complexity</h3>
-<div id="35491cdd" class="cell" data-execution_count="18">
+<div id="58e88db1" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For low-dimensional problems (&lt;5D)</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>kriging <span class="op">=</span> Kriging(</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">'regression'</span>,</span>
@@ -1919,7 +1915,7 @@ Kriging offers:
 </section>
 <section id="handling-different-variable-types" class="level3" data-number="21.7.3">
 <h3 data-number="21.7.3" class="anchored" data-anchor-id="handling-different-variable-types"><span class="header-section-number">21.7.3</span> 3. Handling Different Variable Types</h3>
-<div id="9e2e915c" class="cell" data-execution_count="19">
+<div id="807ad734" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixed types example</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> [</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">0.0</span>, <span class="fl">10.0</span>),    <span class="co"># continuous</span></span>
@@ -1948,7 +1944,7 @@ Kriging offers:
 <section id="reproducibility" class="level3" data-number="21.7.4">
 <h3 data-number="21.7.4" class="anchored" data-anchor-id="reproducibility"><span class="header-section-number">21.7.4</span> 4. Reproducibility</h3>
 <p>Always set the seed for reproducible results:</p>
-<div id="d3095115" class="cell" data-execution_count="20">
+<div id="bf42a69d" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Both Kriging and SpotOptim should have seeds</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>kriging <span class="op">=</span> Kriging(method<span class="op">=</span><span class="st">'regression'</span>, seed<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1963,7 +1959,7 @@ Kriging offers:
 <section id="monitoring-surrogate-quality" class="level3" data-number="21.7.5">
 <h3 data-number="21.7.5" class="anchored" data-anchor-id="monitoring-surrogate-quality"><span class="header-section-number">21.7.5</span> 5. Monitoring Surrogate Quality</h3>
 <p>Check the negative log-likelihood after fitting:</p>
-<div id="a2ab5a6e" class="cell" data-execution_count="21">
+<div id="c36a0ca2" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1982,10 +1978,10 @@ Kriging offers:
 <span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Lower negLnLike = better fit"</span>)</span>
 <span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Check condition number for numerical stability"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Negative log-likelihood: -15.4723
-Optimized theta: [-2.99999999 -3.        ]
+<pre><code>Negative log-likelihood: -15.4700
+Optimized theta: [-2.99943411 -2.99998454]
 Optimized Lambda: -8.9984
-Condition number of Psi: 3.14e+14
+Condition number of Psi: 3.12e+14
 
 Lower negLnLike = better fit
 Check condition number for numerical stability</code></pre>
@@ -1999,7 +1995,7 @@ Check condition number for numerical stability</code></pre>
 <h3 data-number="21.8.1" class="anchored" data-anchor-id="issue-1-slow-fitting-for-large-datasets"><span class="header-section-number">21.8.1</span> Issue 1: Slow Fitting for Large Datasets</h3>
 <p><strong>Problem</strong>: Kriging becomes slow with many training points.</p>
 <p><strong>Solution</strong>: Limit surrogate training set size:</p>
-<div id="d856360e" class="cell" data-execution_count="22">
+<div id="9ab392e5" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use max_surrogate_points in SpotOptim</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> SpotOptim(</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>objective,</span>
@@ -2015,7 +2011,7 @@ Check condition number for numerical stability</code></pre>
 <h3 data-number="21.8.2" class="anchored" data-anchor-id="issue-2-poor-predictions-for-categorical-variables"><span class="header-section-number">21.8.2</span> Issue 2: Poor Predictions for Categorical Variables</h3>
 <p><strong>Problem</strong>: Kriging doesn’t handle factors well.</p>
 <p><strong>Solution</strong>: Try different distance metrics:</p>
-<div id="01ec61fd" class="cell" data-execution_count="23">
+<div id="5726f02c" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Try different metrics</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> metric <span class="kw">in</span> [<span class="st">'canberra'</span>, <span class="st">'hamming'</span>, <span class="st">'jaccard'</span>]:</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    kriging <span class="op">=</span> Kriging(</span>
@@ -2031,7 +2027,7 @@ Check condition number for numerical stability</code></pre>
 <h3 data-number="21.8.3" class="anchored" data-anchor-id="issue-3-numerical-instability"><span class="header-section-number">21.8.3</span> Issue 3: Numerical Instability</h3>
 <p><strong>Problem</strong>: Correlation matrix is nearly singular.</p>
 <p><strong>Solution</strong>: Increase regularization:</p>
-<div id="6ea417e2" class="cell" data-execution_count="24">
+<div id="1f4c68b0" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For interpolation method</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>kriging <span class="op">=</span> Kriging(</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">'interpolation'</span>,</span>
@@ -2051,7 +2047,7 @@ Check condition number for numerical stability</code></pre>
 <h3 data-number="21.8.4" class="anchored" data-anchor-id="issue-4-overfitting-to-noisy-data"><span class="header-section-number">21.8.4</span> Issue 4: Overfitting to Noisy Data</h3>
 <p><strong>Problem</strong>: Kriging fits noise instead of underlying function.</p>
 <p><strong>Solution</strong>: Use regression method with reasonable Lambda bounds:</p>
-<div id="c673af7f" class="cell" data-execution_count="25">
+<div id="40247991" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>kriging <span class="op">=</span> Kriging(</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">'regression'</span>,</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    min_Lambda<span class="op">=-</span><span class="fl">5.0</span>,  <span class="co"># Not too small</span></span>
@@ -2075,7 +2071,7 @@ Check condition number for numerical stability</code></pre>
 </section>
 <section id="quick-reference" class="level3" data-number="21.9.2">
 <h3 data-number="21.9.2" class="anchored" data-anchor-id="quick-reference"><span class="header-section-number">21.9.2</span> Quick Reference</h3>
-<div id="3cb966dd" class="cell" data-execution_count="26">
+<div id="ef9c6540" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2596,7 +2592,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

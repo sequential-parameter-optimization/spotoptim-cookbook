@@ -400,10 +400,10 @@ The success rate is updated after:
 - Available via `optimizer.success_rate` attribute after optimization
 
 Use success rate to:
-- ✓ Monitor optimization progress in real-time
-- ✓ Identify when to stop optimization
-- ✓ Compare different optimization strategies
-- ✓ Assess optimization difficulty for different problems
+- x Monitor optimization progress in real-time
+- x Identify when to stop optimization
+- x Compare different optimization strategies
+- x Assess optimization difficulty for different problems
 
 ## Jupyter Notebook
 

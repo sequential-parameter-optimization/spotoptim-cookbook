@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -1023,10 +1023,10 @@ SGD actual lr: 0.01</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Adam      : Test MSE = 3859.4478 (actual lr = 0.001000)
 SGD       : Test MSE = 5271.6840 (actual lr = 0.010000)
-RMSprop   : Test MSE = 2769.5164 (actual lr = 0.010000)
-AdamW     : Test MSE = 3866.1197 (actual lr = 0.001000)
+RMSprop   : Test MSE = 2769.5163 (actual lr = 0.010000)
+AdamW     : Test MSE = 3866.1199 (actual lr = 0.001000)
 
-Best optimizer: RMSprop with MSE = 2769.5164</code></pre>
+Best optimizer: RMSprop with MSE = 2769.5163</code></pre>
 </div>
 </div>
 </section>
@@ -1102,10 +1102,10 @@ Best optimizer: RMSprop with MSE = 2769.5164</code></pre>
 <span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Actual </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> learning rate: </span><span class="sc">{</span>actual_lr<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Best unified lr: 0.025185
+Best unified lr: 0.024883
 Best optimizer: SGD
-Best test MSE: 13966.3197
-Actual SGD learning rate: 0.000252</code></pre>
+Best test MSE: 12830.5124
+Actual SGD learning rate: 0.000249</code></pre>
 </div>
 </div>
 </section>
@@ -1211,12 +1211,12 @@ Actual SGD learning rate: 0.000252</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Optimization Results:
-Best unified lr: 0.000415
-Best optimizer: SGD
-Best layer size: 44
-Best num layers: 3
-Best test MSE: 2570.9602
-Actual SGD learning rate: 0.000004</code></pre>
+Best unified lr: 1.000000
+Best optimizer: RMSprop
+Best layer size: 63
+Best num layers: 2
+Best test MSE: 2692.1453
+Actual RMSprop learning rate: 0.010000</code></pre>
 </div>
 </div>
 </section>
@@ -1495,7 +1495,7 @@ Actual Adam lr: 0.002</code></pre>
 <h2 data-number="29.9" class="anchored" data-anchor-id="examples"><span class="header-section-number">29.9</span> Examples</h2>
 <section id="complete-example-optimizer-comparison-study" class="level3" data-number="29.9.1">
 <h3 data-number="29.9.1" class="anchored" data-anchor-id="complete-example-optimizer-comparison-study"><span class="header-section-number">29.9.1</span> Complete Example: Optimizer Comparison Study</h3>
-<div id="e4ad2454" class="cell" data-execution_count="11">
+<div id="6dd5a609" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">Complete example: Compare optimizers with unified learning rate interface.</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
@@ -1619,27 +1619,27 @@ Actual Adam lr: 0.002</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Training models with different optimizers and learning rates...
 
-Unified lr=0.5, Adam      : actual_lr=0.000500, test_MSE=5095.8747
+Unified lr=0.5, Adam      : actual_lr=0.000500, test_MSE=5095.8745
 Unified lr=0.5, SGD       : actual_lr=0.005000, test_MSE=5291.3903
-Unified lr=0.5, RMSprop   : actual_lr=0.005000, test_MSE=2828.7084
-Unified lr=0.5, AdamW     : actual_lr=0.000500, test_MSE=5107.9592
+Unified lr=0.5, RMSprop   : actual_lr=0.005000, test_MSE=2828.7086
+Unified lr=0.5, AdamW     : actual_lr=0.000500, test_MSE=5107.9596
 Unified lr=1.0, Adam      : actual_lr=0.001000, test_MSE=3859.4478
 Unified lr=1.0, SGD       : actual_lr=0.010000, test_MSE=5271.6840
-Unified lr=1.0, RMSprop   : actual_lr=0.010000, test_MSE=2769.5164
-Unified lr=1.0, AdamW     : actual_lr=0.001000, test_MSE=3866.1197
+Unified lr=1.0, RMSprop   : actual_lr=0.010000, test_MSE=2769.5163
+Unified lr=1.0, AdamW     : actual_lr=0.001000, test_MSE=3866.1199
 Unified lr=2.0, Adam      : actual_lr=0.002000, test_MSE=3160.6882
 Unified lr=2.0, SGD       : actual_lr=0.020000, test_MSE=nan
-Unified lr=2.0, RMSprop   : actual_lr=0.020000, test_MSE=2883.3345
-Unified lr=2.0, AdamW     : actual_lr=0.002000, test_MSE=3162.8034
+Unified lr=2.0, RMSprop   : actual_lr=0.020000, test_MSE=2883.3341
+Unified lr=2.0, AdamW     : actual_lr=0.002000, test_MSE=3162.8033
 
 ======================================================================
 Summary: Best configurations
 ======================================================================
-Unified lr=0.5: RMSprop    (test MSE=2828.7084, actual lr=0.005000)
-Unified lr=1.0: RMSprop    (test MSE=2769.5164, actual lr=0.010000)
-Unified lr=2.0: RMSprop    (test MSE=2883.3345, actual lr=0.020000)
+Unified lr=0.5: RMSprop    (test MSE=2828.7086, actual lr=0.005000)
+Unified lr=1.0: RMSprop    (test MSE=2769.5163, actual lr=0.010000)
+Unified lr=2.0: RMSprop    (test MSE=2883.3341, actual lr=0.020000)
 
-Overall best: unified_lr=1.0, optimizer=RMSprop, test_MSE=2769.5164
+Overall best: unified_lr=1.0, optimizer=RMSprop, test_MSE=2769.5163
 Actual learning rate used: 0.010000</code></pre>
 </div>
 </div>
@@ -2083,7 +2083,7 @@ Note
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025, T. Bartz-Beielstein</p>
+<p>Copyright 2026, T. Bartz-Beielstein</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

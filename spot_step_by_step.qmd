@@ -1,7 +1,7 @@
 ---
 title: "SpotOptim Step-by-Step Optimization Process"
 author: Bartz-Beielstein, Thomas
-date: "November 19, 2025"
+date: "April 3, 2026"
 format:
   html:
     toc: true
@@ -37,6 +37,7 @@ The documentation can be found here: [DOC](https://sequential-parameter-optimiza
 
 ```{python}
 import numpy as np
+import time
 from spotoptim import SpotOptim
 from spotoptim.function import rosenbrock
 import warnings
@@ -244,12 +245,12 @@ print(f"Mean initial value: {np.mean(y0):.6f}")
 
 ## Phase 5: Handling Failed Evaluations
 
-### Method: `rm_NA_values(X0,y0)`
+### Method: `rm_initial_design_NA_values(X0,y0)`
 
 Removes points that returned NaN or inf values.
 In contrasts to later phases, no penalties are applied here; invalid points of the initial design are simply removed.
 
-**What happens in `rm_NA_values()`:**
+**What happens in `rm_initial_design_NA_values()`:**
 
 1. Identify NaN/inf values in function evaluations
 2. Remove corresponding design points
@@ -258,7 +259,7 @@ In contrasts to later phases, no penalties are applied here; invalid points of t
 
 ```{python}
 n_before = len(y0)
-X0_clean, y0_clean, n_evaluated = opt.rm_NA_values(X0_curated, y0)
+X0_clean, y0_clean, n_evaluated = opt.rm_initial_design_NA_values(X0_curated, y0)
 
 print(f"Points before filtering: {n_before}")
 print(f"Points after filtering: {len(y0_clean)}")
@@ -287,11 +288,11 @@ The minimum required is the smaller of:
 ```{python}
 try:
     opt.check_size_initial_design(y0_clean, n_evaluated)
-    print(f"✓ Validation passed: {len(y0_clean)} valid points available")
+    print(f"x Validation passed: {len(y0_clean)} valid points available")
     print(f"  Minimum required: 1 point")
     print(f"  Original evaluated: {n_evaluated} points")
 except ValueError as e:
-    print(f"✗ Validation failed: {e}")
+    print(f" Validation failed: {e}")
 ```
 
 
@@ -409,11 +410,11 @@ After initialization, the main optimization loop begins. Each iteration follows 
 
 ## Step: Surrogate Model Fitting
 
-### Method: `_fit_scheduler()`
+### Method: `fit_scheduler()`
 
 Fit surrogate model using appropriate data based on noise handling.
 
-*** What happens in `_fit_scheduler()`:***
+*** What happens in `fit_scheduler()`:***
 
 First, the method transforms the input data `X` to the internal scale used by the optimizer. Then, it decides which data to use for fitting the surrogate model based on whether noise handling is enabled:
 
@@ -422,30 +423,29 @@ First, the method transforms the input data `X` to the internal scale used by th
 2. Else:
     - Fit surrogate using all evaluated points (`X_`, `y_`)
 
-`_fit_scheduler()` then calls `_fit_surrogate()` with the selected data.
+`fit_scheduler()` then calls `fit_surrogate()` with the selected data.
 
-### Method: `_fit_surrogate()`
+### Method: `fit_surrogate()`
 
 Fit a surrogate model (Gaussian Process) to current data.
 
-**What happens in `_fit_surrogate()`:**
+**What happens in `fit_surrogate()`:**
 
-1. If `max_surrogate_points` set and exceeded: Select subset of points using the `_selection_dispatcher()` method.
+1. If `max_surrogate_points` set and exceeded: Select subset of points using the `fit_selection_dispatcher()` method.
 2. Fit surrogate model using `surrogate.fit(X, y)`
 3. Surrogate learns the function landscape and uncertainty
 
 ```{python}
-X_for_surrogate = opt.transform_X(opt.X_)
-opt._fit_surrogate(X_for_surrogate, opt.y_)
+opt.fit_scheduler()
 
 print(f"Surrogate fitted with {len(opt.y_)} points")
 print(f"Surrogate type: {type(opt.surrogate).__name__}")
 print(f"Kernel: {opt.surrogate.kernel_}")
 ```
 
-### Method: `_selection_dispatcher()`
+### Method: `fit_selection_dispatcher()`
 
-**What happens in `_selection_dispatcher()`:**
+**What happens in `fit_selection_dispatcher()`:**
 
 1. If `max_surrogate_points` is set and exceeded:
    - Select a subset of points from `X_` and `y_` for fitting the surrogate model.
@@ -647,10 +647,10 @@ Handle NaN/inf values in new evaluations with penalty approach.
 x_clean, y_clean = opt._handle_NA_new_points(x_next_2d, y_next)
 
 if x_clean is not None:
-    print(f"✓ Valid evaluations: {len(y_clean)}")
+    print(f"x Valid evaluations: {len(y_clean)}")
     print(f"  All values finite: {np.all(np.isfinite(y_clean))}")
 else:
-    print(f"✗ All evaluations failed - iteration would be skipped")
+    print(f" All evaluations failed - iteration would be skipped")
 ```
 
 
@@ -734,13 +734,13 @@ Update the best solution if improvement found.
 
 ```{python}
 best_before = opt.best_y_
-opt._update_best_main_loop(x_clean, y_clean)
+opt._update_best_main_loop(x_clean, y_clean, start_time=time.time())
 
 print(f"Best before: {best_before:.6f}")
 print(f"Best after: {opt.best_y_:.6f}")
 
 if opt.best_y_ < best_before:
-    print(f"\n✓ New best found!")
+    print(f"\nx New best found!")
     print(f"  Location: {opt.best_x_}")
     print(f"  Value: {opt.best_y_:.6f}")
 else:
@@ -969,7 +969,7 @@ print(f"  Note: Failed evaluations handled transparently")
 
 ## Failure Handling in Initial Design
 
-### Method: `rm_NA_values()`
+### Method: `rm_initial_design_NA_values()`
 
 ```{python}
 print("Initial design failure handling:")
@@ -999,10 +999,10 @@ print("  3. Skip iteration if all evaluations failed")
 print("  4. Continue if any valid evaluations")
 
 print("\nPenalty approach benefits:")
-print("  ✓ Preserves optimization history")
-print("  ✓ Surrogate learns to avoid bad regions")
-print("  ✓ Better exploration-exploitation balance")
-print("  ✓ More robust convergence")
+print("  x Preserves optimization history")
+print("  x Surrogate learns to avoid bad regions")
+print("  x Better exploration-exploitation balance")
+print("  x More robust convergence")
 ```
 
 ## Penalty Application
@@ -1046,44 +1046,50 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 
 ## Methods Called During `optimize()`
 
-### Preparation Phase
-1. `get_initial_design()` - Generate/process initial sample points
-2. `curate_initial_design()` - Remove duplicates, handle repeats
-3. `evaluate_function()` - Evaluate objective function
-4. `rm_NA_values()` - Remove NaN/inf from initial design
-5. `check_size_initial_design()` - Validate sufficient points
-6. `init_storage()` - Initialize storage (X_, y_, n_iter_)
-7. `update_stats()` - Compute mean/variance for noisy functions
-8. `_init_tensorboard()` - Log initial design to TensorBoard (if enabled)
-9. `get_best_xy_initial_design()` - Identify initial best
+The `optimize()` method orchestrates the full optimization process with restart support.
+It delegates to `execute_optimization_run()`, which dispatches to `optimize_sequential_run()` (for `n_jobs=1`) or `optimize_steady_state()` (for `n_jobs > 1`).
 
-### Sequential Optimization Loop (each iteration)
-10. `_fit_scheduler()` - Select data and fit surrogate based on noise handling
+### Preparation Phase (inside `optimize_sequential_run()` via `_initialize_run()`)
+1. `set_seed()` - Set random seed for reproducibility
+2. `get_initial_design()` - Generate/process initial sample points
+3. `curate_initial_design()` - Remove duplicates, handle repeats
+4. `evaluate_function()` - Evaluate objective function
+5. `rm_initial_design_NA_values()` - Remove NaN/inf from initial design
+6. `check_size_initial_design()` - Validate sufficient points
+7. `init_storage()` - Initialize storage (X_, y_, n_iter_)
+8. `update_stats()` - Compute mean/variance for noisy functions
+9. `_init_tensorboard()` - Log initial design to TensorBoard (if enabled)
+10. `get_best_xy_initial_design()` - Identify initial best
+
+### Sequential Optimization Loop (each iteration inside `_run_sequential_loop()`)
+11. `fit_scheduler()` - Select data and fit surrogate based on noise handling
     - Internally calls `transform_X()` - Transform to internal scale
-    - Internally calls `_fit_surrogate()` - Fit Gaussian Process to data
-11. `apply_ocba()` - OCBA allocation (if enabled)
-12. `suggest_next_infill_point()` - Optimize acquisition function
+    - Internally calls `fit_surrogate()` - Fit Gaussian Process to data
+    - Internally calls `fit_selection_dispatcher()` - Subset selection for large datasets
+12. `apply_ocba()` - OCBA allocation (if enabled)
+13. `suggest_next_infill_point()` - Optimize acquisition function
     - Internally calls `_acquisition_function()`
     - Internally calls `_predict_with_uncertainty()`
-13. `update_repeats_infill_points()` - Repeat suggested point for noisy functions
-14. `evaluate_function()` - Evaluate at suggested point(s)
-15. `_handle_NA_new_points()` - Handle failures with penalties
+14. `update_repeats_infill_points()` - Repeat suggested point for noisy functions
+15. `evaluate_function()` - Evaluate at suggested point(s)
+16. `_handle_NA_new_points()` - Handle failures with penalties
     - Internally calls `apply_penalty_NA()`
     - Internally calls `remove_nan()`
-16. `update_success_rate()` - Update success tracking
-17. `update_storage()` - Append new evaluations to storage
+17. `update_success_rate()` - Update success tracking
+18. Check for restart (if `success_rate == 0` for `restart_after_n` consecutive iterations)
+19. `update_storage()` - Append new evaluations to storage
     - Internally calls `inverse_transform_X()` - Convert back to original scale
-18. `update_stats()` - Update mean/variance statistics
-19. `_write_tensorboard_hparams()` - Log hyperparameters (if enabled)
-20. `_write_tensorboard_scalars()` - Log scalar metrics (if enabled)
-21. `_update_best_main_loop()` - Update best solution
+20. `update_stats()` - Update mean/variance statistics
+21. `_write_tensorboard_hparams()` - Log hyperparameters (if enabled)
+22. `_write_tensorboard_scalars()` - Log scalar metrics (if enabled)
+23. `_update_best_main_loop()` - Update best solution
 
 ### Finalization
-22. `to_all_dim()` - Expand to full dimensions (if dimensionality reduction used)
-23. `determine_termination()` - Determine termination reason
-24. `_close_tensorboard_writer()` - Close logging (if enabled)
-25. `map_to_factor_values()` - Convert factors back to strings
-26. Return `OptimizeResult` object
+24. `to_all_dim()` - Expand to full dimensions (if dimensionality reduction used)
+25. `determine_termination()` - Determine termination reason
+26. `_close_tensorboard_writer()` - Close logging (if enabled)
+27. `map_to_factor_values()` - Convert factors back to strings
+28. Return `OptimizeResult` object
 
 ## Helper Methods Used
 
@@ -1092,7 +1098,9 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 - `_select_new()` - Check for duplicate points
 - `_handle_acquisition_failure()` - Fallback strategies
 - `to_red_dim()` - Dimension reduction (if enabled)
-- `_selection_dispatcher()` - Subset selection for large datasets
+- `fit_selection_dispatcher()` - Subset selection for large datasets
+- `fit_select_distant_points()` - K-means based distant point selection
+- `fit_select_best_cluster()` - Cluster-based best point selection
 
 # Termination Conditions
 
@@ -1221,9 +1229,14 @@ print("  • More evaluations generally lead to better TRUE performance")
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                     SPOTOPTIM WORKFLOW                          │
+│  optimize() → execute_optimization_run()                       │
+│    → optimize_sequential_run() → _run_sequential_loop()        │
 └─────────────────────────────────────────────────────────────────┘
 
-INITIALIZATION PHASE
+INITIALIZATION PHASE (optimize_sequential_run via _initialize_run)
+  │
+  ├─► set_seed()
+  │     └─► Set random seed for reproducibility
   │
   ├─► get_initial_design()
   │     └─► Generate LHS or process user design
@@ -1234,7 +1247,7 @@ INITIALIZATION PHASE
   ├─► evaluate_function()
   │     └─► Evaluate objective function
   │
-  ├─► rm_NA_values()
+  ├─► rm_initial_design_NA_values()
   │     └─► Remove NaN/inf points
   │
   ├─► check_size_initial_design()
@@ -1253,11 +1266,12 @@ INITIALIZATION PHASE
         └─► Identify initial best
 
 
-SEQUENTIAL OPTIMIZATION LOOP (until max_iter or max_time)
+SEQUENTIAL OPTIMIZATION LOOP (_run_sequential_loop, until max_iter or max_time)
   │
-  ├─► _fit_scheduler()
+  ├─► fit_scheduler()
   │     ├─► transform_X() - Transform to internal scale
-  │     └─► _fit_surrogate() - Fit GP to current data
+  │     └─► fit_surrogate() - Fit GP to current data
+  │           └─► fit_selection_dispatcher() - Subset selection if needed
   │
   ├─► apply_ocba() [if enabled]
   │     └─► Allocate additional evaluations
@@ -1279,6 +1293,9 @@ SEQUENTIAL OPTIMIZATION LOOP (until max_iter or max_time)
   │
   ├─► update_success_rate()
   │     └─► Track evaluation success
+  │
+  ├─► [Check for restart if success_rate == 0]
+  │     └─► Return "RESTART" if threshold reached
   │
   ├─► update_storage()
   │     └─► Append new evaluations (with scale conversion)
@@ -1366,13 +1383,13 @@ FINALIZATION
 
 SpotOptim provides a robust and flexible framework for surrogate-based optimization with:
 
-✓ Efficient space-filling initial designs (LHS)  
-✓ Powerful Gaussian Process surrogate models  
-✓ Smart acquisition functions (EI, PI, Mean)  
-✓ Automatic noise handling with statistics  
-✓ Intelligent budget allocation (OCBA)  
-✓ Robust failure handling  
-✓ Comprehensive progress tracking
+x Efficient space-filling initial designs (LHS)  
+x Powerful Gaussian Process surrogate models  
+x Smart acquisition functions (EI, PI, Mean)  
+x Automatic noise handling with statistics  
+x Intelligent budget allocation (OCBA)  
+x Robust failure handling  
+x Comprehensive progress tracking
 
 The modular design allows easy customization while maintaining robust defaults for most use cases.
 
