@@ -718,7 +718,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="default-configuration-differential-evolution" class="level3" data-number="19.2.1">
 <h3 data-number="19.2.1" class="anchored" data-anchor-id="default-configuration-differential-evolution"><span class="header-section-number">19.2.1</span> 1. Default Configuration (Differential Evolution)</h3>
 <p>By default, <code>SpotOptim</code> uses Differential Evolution (<code>scipy.optimize.differential_evolution</code>).</p>
-<div id="2f93c52a" class="cell" data-execution_count="1">
+<div id="761df350" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -737,14 +737,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best y:"</span>, spot.best_y_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best y: 0.011893909296361216</code></pre>
+<pre><code>Best y: 0.020703279400656156</code></pre>
 </div>
 </div>
 </section>
 <section id="customizing-differential-evolution" class="level3" data-number="19.2.2">
 <h3 data-number="19.2.2" class="anchored" data-anchor-id="customizing-differential-evolution"><span class="header-section-number">19.2.2</span> 2. Customizing Differential Evolution</h3>
 <p>You can use <code>acquisition_optimizer_kwargs</code> to adjust Differential Evolution parameters, such as increasing <code>maxiter</code> or changing the <code>popsize</code>.</p>
-<div id="5420b111" class="cell" data-execution_count="2">
+<div id="53c5ccd4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -770,14 +770,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best y with Custom DE:"</span>, spot.best_y_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best y with Custom DE: 0.05032941308851764</code></pre>
+<pre><code>Best y with Custom DE: 0.0014445206408396619</code></pre>
 </div>
 </div>
 </section>
 <section id="using-gradient-based-optimization-l-bfgs-b" class="level3" data-number="19.2.3">
 <h3 data-number="19.2.3" class="anchored" data-anchor-id="using-gradient-based-optimization-l-bfgs-b"><span class="header-section-number">19.2.3</span> 3. Using Gradient-Based Optimization (L-BFGS-B)</h3>
 <p>You can switch to a gradient-based optimizer like <code>L-BFGS-B</code> by specifying it in <code>acquisition_optimizer</code>. Note that for <code>minimize</code>-based methods, parameters are usually passed via an <code>options</code> dictionary within <code>acquisition_optimizer_kwargs</code>.</p>
-<div id="ab704b3d" class="cell" data-execution_count="3">
+<div id="9e7f0358" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -805,14 +805,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best y with L-BFGS-B:"</span>, spot.best_y_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best y with L-BFGS-B: 0.2641559097007588</code></pre>
+<pre><code>Best y with L-BFGS-B: 0.013698181964238821</code></pre>
 </div>
 </div>
 </section>
 <section id="using-gradient-free-optimization-nelder-mead" class="level3" data-number="19.2.4">
 <h3 data-number="19.2.4" class="anchored" data-anchor-id="using-gradient-free-optimization-nelder-mead"><span class="header-section-number">19.2.4</span> 4. Using Gradient-Free Optimization (Nelder-Mead)</h3>
 <p>For non-smooth acquisition landscapes or when robustness is needed without gradients, <code>Nelder-Mead</code> is a good choice. <code>SpotOptim</code> automatically handles the interface to ensure compatibility.</p>
-<div id="474f1f48" class="cell" data-execution_count="4">
+<div id="7d09583e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -840,14 +840,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best y with Nelder-Mead:"</span>, spot.best_y_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best y with Nelder-Mead: 0.5883781258898368</code></pre>
+<pre><code>Best y with Nelder-Mead: 0.03305715511489834</code></pre>
 </div>
 </div>
 </section>
 <section id="returning-multiple-candidates" class="level3" data-number="19.2.5">
 <h3 data-number="19.2.5" class="anchored" data-anchor-id="returning-multiple-candidates"><span class="header-section-number">19.2.5</span> 5. Returning Multiple Candidates</h3>
 <p>Setting <code>acquisition_fun_return_size &gt; 1</code> forces the optimizer to return multiple candidate points (e.g., the top N from the final population).</p>
-<div id="1ae7ba87" class="cell" data-execution_count="5">
+<div id="3b689b26" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -866,20 +866,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>spot.optimize()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code> message: Optimization terminated: maximum evaluations (5) reached
-                   Current function value: 7.568267
+                   Current function value: 5.221754
                    Iterations: 3
                    Function evaluations: 5
  success: True
-     fun: 7.568266507987052
-       x: [ 1.437e+00  2.346e+00]
-       X: [[ 1.437e+00  2.346e+00]
-           [-1.993e+00 -2.151e+00]
-           [ 1.387e+00  2.696e+00]
-           [-2.391e+00 -1.403e+00]
-           [-2.399e+00 -1.405e+00]]
+     fun: 5.221754123644815
+       x: [ 1.770e+00  1.446e+00]
+       X: [[-4.921e+00 -4.794e+00]
+           [ 2.306e+00  4.720e+00]
+           [ 2.209e+00  4.434e+00]
+           [ 1.893e+00  3.502e+00]
+           [ 1.770e+00  1.446e+00]]
      nit: 3
     nfev: 5
-       y: [ 7.568e+00  8.600e+00  9.193e+00  7.687e+00  7.728e+00]</code></pre>
+       y: [ 4.720e+01  2.760e+01  2.454e+01  1.585e+01  5.222e+00]</code></pre>
 </div>
 </div>
 

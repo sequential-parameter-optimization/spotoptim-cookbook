@@ -728,7 +728,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-triggering-restarts" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="example-triggering-restarts"><span class="header-section-number">8.3</span> Example: Triggering Restarts</h2>
 <p>In this example, we set <code>restart_after_n</code> to a very small value (<code>5</code>) to intentionally force restarts and demonstrate the mechanism. We use a multimodal function where getting stuck is possible.</p>
-<div id="23d50b18" class="cell" data-execution_count="1">
+<div id="6099820a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -805,7 +805,7 @@ Iter 45 | Best: 0.000725 | Curr: 0.000784 | Rate: 0.20 | Evals: 100.0%</code></p
 <section id="analyzing-restart-results" class="level3" data-number="8.3.1">
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="analyzing-restart-results"><span class="header-section-number">8.3.1</span> Analyzing Restart Results</h3>
 <p>You can access the results of each individual restart run via the <code>restarts_results_</code> attribute.</p>
-<div id="7c4c84f9" class="cell" data-execution_count="2">
+<div id="bae20fd4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total global evaluations: </span><span class="sc">{</span>result<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of restarts performed: </span><span class="sc">{</span><span class="bu">len</span>(optimizer.restarts_results_) <span class="op">-</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best value found globally: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span>
