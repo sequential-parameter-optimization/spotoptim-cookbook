@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -253,7 +253,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./spotoptim_parallel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallelization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallel Evaluation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -815,7 +815,7 @@ window.Quarto = {
 <ul>
 <li>XGBoost (if available)</li>
 </ul>
-<div id="171fed0f" class="cell" data-execution_count="2">
+<div id="5a3cbe5c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"OMP_NUM_THREADS"</span>] <span class="op">=</span> <span class="st">"1"</span>  <span class="co"># Prevent OpenMP conflict on macOS</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -828,7 +828,8 @@ window.Quarto = {
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Libraries imported successfully!</code></pre>
+<pre><code>XGBoost not available. Install with: pip install xgboost
+Libraries imported successfully!</code></pre>
 </div>
 </div>
 </section>
@@ -893,7 +894,7 @@ Optimization budget: 20 evaluations</code></pre>
 Results:
   Best weight: 119.8664 lb
   Function evaluations: 20
-  Time: 1.71s
+  Time: 1.28s
   Success: True</code></pre>
 </div>
 </div>
@@ -910,7 +911,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="94c047cf" class="cell" data-execution_count="6">
+<div id="7520a72c" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot most important hyperparameters</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>optimizer_default.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Default GP Matern nu=2.5: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
@@ -1009,7 +1010,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 120.1093 lb
   Function evaluations: 20
-  Time: 0.47s
+  Time: 0.38s
   Success: True</code></pre>
 </div>
 </div>
@@ -1025,7 +1026,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="505ac477" class="cell" data-execution_count="9">
+<div id="01f635bd" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>optimizer_rbf.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP RBF Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1124,7 +1125,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 119.5465 lb
   Function evaluations: 20
-  Time: 0.45s
+  Time: 0.37s
   Success: True</code></pre>
 </div>
 </div>
@@ -1140,7 +1141,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="9f1d9ba1" class="cell" data-execution_count="12">
+<div id="e416f914" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>optimizer_matern15.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP Matern nu=1.5 Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1240,7 +1241,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 120.1073 lb
   Function evaluations: 20
-  Time: 0.62s
+  Time: 0.50s
   Success: True</code></pre>
 </div>
 </div>
@@ -1256,7 +1257,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="4f805b06" class="cell" data-execution_count="15">
+<div id="9177fba6" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>optimizer_rq.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'GP Rational Quadratic Kernel: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1351,7 +1352,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 121.2932 lb
   Function evaluations: 20
-  Time: 8.06s
+  Time: 6.56s
   Success: True</code></pre>
 </div>
 </div>
@@ -1367,7 +1368,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="eca1798b" class="cell" data-execution_count="18">
+<div id="1ec8b69a" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>optimizer_kriging.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'SpotOptim Kriging: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1462,7 +1463,7 @@ Generating 3 surrogate plots...
 Results:
   Best weight: 145.9792 lb
   Function evaluations: 20
-  Time: 0.87s
+  Time: 0.49s
   Success: True
   Note: Using acquisition='y' (greedy) since RF doesn't provide uncertainty</code></pre>
 </div>
@@ -1479,7 +1480,7 @@ Results:
 </div>
 </div>
 </div>
-<div id="0c975f2a" class="cell" data-execution_count="21">
+<div id="1595aa74" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>optimizer_rf.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Random Forest: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1588,66 +1589,10 @@ Generating 3 surrogate plots...
 <span id="cb54-57"><a href="#cb54-57" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">80</span>)</span>
 <span id="cb54-58"><a href="#cb54-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Install XGBoost with: pip install xgboost"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Results:
-  Best weight: 165.3064 lb
-  Function evaluations: 20
-  Time: 0.11s
-  Success: True
-  Note: Using acquisition='y' (greedy) since XGBoost doesn't provide uncertainty</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="surrogate_selection_files/figure-html/surrogate-selection-xgboost-output-2.png" id="surrogate-selection-xgboost-1" width="949" height="469" class="figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="surrogate_selection_files/figure-html/surrogate-selection-xgboost-output-3.png" id="surrogate-selection-xgboost-2" width="581" height="431" class="figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Plotting surrogate contours for top 3 most important parameters:
-  Nz: importance = 20.61% (type: float)
-  A: importance = 18.24% (type: float)
-  Rtc: importance = 14.07% (type: float)
-
-Generating 3 surrogate plots...
-  Plotting Nz vs A</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="surrogate_selection_files/figure-html/surrogate-selection-xgboost-output-5.png" id="surrogate-selection-xgboost-3" width="1117" height="950" class="figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Plotting Nz vs Rtc</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="surrogate_selection_files/figure-html/surrogate-selection-xgboost-output-7.png" id="surrogate-selection-xgboost-4" width="1117" height="950" class="figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Plotting A vs Rtc</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="surrogate_selection_files/figure-html/surrogate-selection-xgboost-output-9.png" id="surrogate-selection-xgboost-5" width="1120" height="950" class="figure-img"></p>
-</figure>
-</div>
-</div>
-<div id="surrogate-selection-xgboost-6" class="cell-output cell-output-display">
-<pre><code>&lt;Figure size 672x480 with 0 Axes&gt;</code></pre>
+<pre><code>================================================================================
+7. XGBoost Regressor - SKIPPED (not installed)
+================================================================================
+Install XGBoost with: pip install xgboost</code></pre>
 </div>
 </div>
 </section>
@@ -1655,57 +1600,57 @@ Generating 3 surrogate plots...
 <h2 data-number="16.11" class="anchored" data-anchor-id="support-vector-regression-svr"><span class="header-section-number">16.11</span> 8. Support Vector Regression (SVR)</h2>
 <p>SVR with RBF kernel can model complex non-linear relationships. It’s particularly good for high-dimensional problems with smooth structure.</p>
 <div id="surrogate-selection-svr" class="cell" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure SVR</span></span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>svr_model <span class="op">=</span> SVR(</span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>    kernel<span class="op">=</span><span class="st">'rbf'</span>,</span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    C<span class="op">=</span><span class="fl">100.0</span>,</span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    epsilon<span class="op">=</span><span class="fl">0.1</span>,</span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>    gamma<span class="op">=</span><span class="st">'scale'</span></span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>optimizer_svr <span class="op">=</span> SpotOptim(</span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>wingwt,</span>
-<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
-<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>    surrogate<span class="op">=</span>svr_model,</span>
-<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span>max_iter,</span>
-<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span>n_initial,</span>
-<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span>param_names,</span>
-<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">'y'</span>,  <span class="co"># Use 'y' (greedy) since SVR doesn't provide std by default</span></span>
-<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span>seed,</span>
-<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">False</span></span>
-<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>result_svr <span class="op">=</span> optimizer_svr.optimize()</span>
-<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>time_svr <span class="op">=</span> time.time() <span class="op">-</span> start_time</span>
-<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Results:"</span>)</span>
-<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_svr<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
-<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_svr<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Time: </span><span class="sc">{</span>time_svr<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
-<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_svr<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>results_comparison.append({</span>
-<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Surrogate'</span>: <span class="st">'SVR (RBF)'</span>,</span>
-<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Best Weight'</span>: result_svr.fun,</span>
-<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Evaluations'</span>: result_svr.nfev,</span>
-<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Time (s)'</span>: time_svr,</span>
-<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Success'</span>: result_svr.success</span>
-<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure SVR</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>svr_model <span class="op">=</span> SVR(</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    kernel<span class="op">=</span><span class="st">'rbf'</span>,</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    C<span class="op">=</span><span class="fl">100.0</span>,</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    epsilon<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>    gamma<span class="op">=</span><span class="st">'scale'</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>optimizer_svr <span class="op">=</span> SpotOptim(</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>wingwt,</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>    surrogate<span class="op">=</span>svr_model,</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span>max_iter,</span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span>n_initial,</span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span>param_names,</span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">'y'</span>,  <span class="co"># Use 'y' (greedy) since SVR doesn't provide std by default</span></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span>seed,</span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">False</span></span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a>result_svr <span class="op">=</span> optimizer_svr.optimize()</span>
+<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a>time_svr <span class="op">=</span> time.time() <span class="op">-</span> start_time</span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Results:"</span>)</span>
+<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_svr<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
+<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_svr<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Time: </span><span class="sc">{</span>time_svr<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
+<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_svr<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-32"><a href="#cb56-32" aria-hidden="true" tabindex="-1"></a>results_comparison.append({</span>
+<span id="cb56-33"><a href="#cb56-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Surrogate'</span>: <span class="st">'SVR (RBF)'</span>,</span>
+<span id="cb56-34"><a href="#cb56-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Best Weight'</span>: result_svr.fun,</span>
+<span id="cb56-35"><a href="#cb56-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Evaluations'</span>: result_svr.nfev,</span>
+<span id="cb56-36"><a href="#cb56-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Time (s)'</span>: time_svr,</span>
+<span id="cb56-37"><a href="#cb56-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Success'</span>: result_svr.success</span>
+<span id="cb56-38"><a href="#cb56-38" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Results:
   Best weight: 156.7071 lb
   Function evaluations: 20
-  Time: 0.07s
+  Time: 0.06s
   Success: True</code></pre>
 </div>
 </div>
 <section id="visualization-svr" class="level3" data-number="16.11.1">
 <h3 data-number="16.11.1" class="anchored" data-anchor-id="visualization-svr"><span class="header-section-number">16.11.1</span> Visualization: SVR</h3>
 <div id="cell-surrogate-selection-svr-viz" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>optimizer_svr.plot_progress(log_y<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>optimizer_svr.plot_progress(log_y<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1714,10 +1659,10 @@ Results:
 </div>
 </div>
 </div>
-<div id="fb56b999" class="cell" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>optimizer_svr.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Support Vector Regression: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="0d1f27f7" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>optimizer_svr.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Support Vector Regression: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
   Nz: importance = 25.67% (type: float)
@@ -1764,58 +1709,58 @@ Generating 3 surrogate plots...
 <h2 data-number="16.12" class="anchored" data-anchor-id="gradient-boosting-regressor"><span class="header-section-number">16.12</span> 9. Gradient Boosting Regressor</h2>
 <p>Gradient Boosting from scikit-learn is another ensemble method that builds trees sequentially, with each tree correcting errors of the previous ones.</p>
 <div id="surrogate-selection-gb" class="cell" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure Gradient Boosting</span></span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>gb_model <span class="op">=</span> GradientBoostingRegressor(</span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">0.1</span>,</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>    subsample<span class="op">=</span><span class="fl">0.8</span>,</span>
-<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span>seed</span>
-<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>optimizer_gb <span class="op">=</span> SpotOptim(</span>
-<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>wingwt,</span>
-<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
-<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>    surrogate<span class="op">=</span>gb_model,</span>
-<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span>max_iter,</span>
-<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span>n_initial,</span>
-<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span>param_names,</span>
-<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">'y'</span>,  <span class="co"># Use 'y' (greedy) since GB doesn't provide std</span></span>
-<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span>seed,</span>
-<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">False</span></span>
-<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a>result_gb <span class="op">=</span> optimizer_gb.optimize()</span>
-<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a>time_gb <span class="op">=</span> time.time() <span class="op">-</span> start_time</span>
-<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Results:"</span>)</span>
-<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_gb<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
-<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_gb<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Time: </span><span class="sc">{</span>time_gb<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
-<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_gb<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a>results_comparison.append({</span>
-<span id="cb68-34"><a href="#cb68-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Surrogate'</span>: <span class="st">'Gradient Boosting'</span>,</span>
-<span id="cb68-35"><a href="#cb68-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Best Weight'</span>: result_gb.fun,</span>
-<span id="cb68-36"><a href="#cb68-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Evaluations'</span>: result_gb.nfev,</span>
-<span id="cb68-37"><a href="#cb68-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Time (s)'</span>: time_gb,</span>
-<span id="cb68-38"><a href="#cb68-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Success'</span>: result_gb.success</span>
-<span id="cb68-39"><a href="#cb68-39" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure Gradient Boosting</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>gb_model <span class="op">=</span> GradientBoostingRegressor(</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>    subsample<span class="op">=</span><span class="fl">0.8</span>,</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span>seed</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>optimizer_gb <span class="op">=</span> SpotOptim(</span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>wingwt,</span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a>    bounds<span class="op">=</span>bounds,</span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>    surrogate<span class="op">=</span>gb_model,</span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a>    max_iter<span class="op">=</span>max_iter,</span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a>    n_initial<span class="op">=</span>n_initial,</span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span>param_names,</span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a>    acquisition<span class="op">=</span><span class="st">'y'</span>,  <span class="co"># Use 'y' (greedy) since GB doesn't provide std</span></span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span>seed,</span>
+<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">False</span></span>
+<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a>result_gb <span class="op">=</span> optimizer_gb.optimize()</span>
+<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>time_gb <span class="op">=</span> time.time() <span class="op">-</span> start_time</span>
+<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Results:"</span>)</span>
+<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best weight: </span><span class="sc">{</span>result_gb<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
+<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Function evaluations: </span><span class="sc">{</span>result_gb<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb64-30"><a href="#cb64-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Time: </span><span class="sc">{</span>time_gb<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
+<span id="cb64-31"><a href="#cb64-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Success: </span><span class="sc">{</span>result_gb<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb64-32"><a href="#cb64-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-33"><a href="#cb64-33" aria-hidden="true" tabindex="-1"></a>results_comparison.append({</span>
+<span id="cb64-34"><a href="#cb64-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Surrogate'</span>: <span class="st">'Gradient Boosting'</span>,</span>
+<span id="cb64-35"><a href="#cb64-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Best Weight'</span>: result_gb.fun,</span>
+<span id="cb64-36"><a href="#cb64-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Evaluations'</span>: result_gb.nfev,</span>
+<span id="cb64-37"><a href="#cb64-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Time (s)'</span>: time_gb,</span>
+<span id="cb64-38"><a href="#cb64-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Success'</span>: result_gb.success</span>
+<span id="cb64-39"><a href="#cb64-39" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Results:
   Best weight: 134.5150 lb
   Function evaluations: 20
-  Time: 0.18s
+  Time: 0.15s
   Success: True</code></pre>
 </div>
 </div>
 <section id="visualization-gradient-boosting" class="level3" data-number="16.12.1">
 <h3 data-number="16.12.1" class="anchored" data-anchor-id="visualization-gradient-boosting"><span class="header-section-number">16.12.1</span> Visualization: Gradient Boosting</h3>
 <div id="cell-surrogate-selection-gb-viz" class="cell" data-execution_count="27">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>optimizer_gb.plot_progress(log_y<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>optimizer_gb.plot_progress(log_y<span class="op">=</span><span class="va">False</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1824,10 +1769,10 @@ Results:
 </div>
 </div>
 </div>
-<div id="52b270ff" class="cell" data-execution_count="28">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>optimizer_gb.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Gradient Boosting: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6e17096e" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>optimizer_gb.plot_important_hyperparameter_contour(max_imp<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">'Gradient Boosting: Most Important Parameters'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Plotting surrogate contours for top 3 most important parameters:
   Nz: importance = 19.99% (type: float)
@@ -1874,84 +1819,83 @@ Generating 3 surrogate plots...
 <h2 data-number="16.13" class="anchored" data-anchor-id="comprehensive-comparison"><span class="header-section-number">16.13</span> Comprehensive Comparison</h2>
 <p>Now let’s compare all surrogate models side-by-side.</p>
 <div id="surrogate-selection-comparison" class="cell" data-execution_count="29">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create comparison DataFrame</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>df_comparison <span class="op">=</span> pd.DataFrame(results_comparison)</span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate improvement from best</span></span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>best_weight <span class="op">=</span> df_comparison[<span class="st">'Best Weight'</span>].<span class="bu">min</span>()</span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">'Gap to Best (%)'</span>] <span class="op">=</span> (</span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>    (df_comparison[<span class="st">'Best Weight'</span>] <span class="op">-</span> best_weight) <span class="op">/</span> best_weight <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by best weight</span></span>
-<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>df_comparison <span class="op">=</span> df_comparison.sort_values(<span class="st">'Best Weight'</span>)</span>
-<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
-<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"SURROGATE MODEL COMPARISON"</span>)</span>
-<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
-<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_comparison.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create comparison DataFrame</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>df_comparison <span class="op">=</span> pd.DataFrame(results_comparison)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate improvement from best</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>best_weight <span class="op">=</span> df_comparison[<span class="st">'Best Weight'</span>].<span class="bu">min</span>()</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">'Gap to Best (%)'</span>] <span class="op">=</span> (</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>    (df_comparison[<span class="st">'Best Weight'</span>] <span class="op">-</span> best_weight) <span class="op">/</span> best_weight <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by best weight</span></span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>df_comparison <span class="op">=</span> df_comparison.sort_values(<span class="st">'Best Weight'</span>)</span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"SURROGATE MODEL COMPARISON"</span>)</span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_comparison.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb72-17"><a href="#cb72-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ====================================================================================================
 SURROGATE MODEL COMPARISON
 ====================================================================================================
                  Surrogate  Best Weight  Evaluations  Time (s)  Success  Gap to Best (%)
-          GP Matern nu=1.5   119.546454           20  0.452622     True         0.000000
-GP Matern nu=2.5 (Default)   119.866409           20  1.705245     True         0.267641
-     GP Rational Quadratic   120.107282           20  0.615395     True         0.469130
-                    GP RBF   120.109251           20  0.471836     True         0.470777
-         SpotOptim Kriging   121.293180           20  8.057606     True         1.461127
-         Gradient Boosting   134.515037           20  0.184088     True        12.521144
-             Random Forest   145.979231           20  0.865507     True        22.110883
-                 SVR (RBF)   156.707097           20  0.071420     True        31.084689
-                   XGBoost   165.306404           20  0.109269     True        38.277965
+          GP Matern nu=1.5   119.546454           20  0.368967     True         0.000000
+GP Matern nu=2.5 (Default)   119.866409           20  1.282982     True         0.267641
+     GP Rational Quadratic   120.107282           20  0.495392     True         0.469130
+                    GP RBF   120.109251           20  0.377106     True         0.470777
+         SpotOptim Kriging   121.293180           20  6.557913     True         1.461127
+         Gradient Boosting   134.515037           20  0.151662     True        12.521144
+             Random Forest   145.979231           20  0.489612     True        22.110883
+                 SVR (RBF)   156.707097           20  0.057018     True        31.084689
 ====================================================================================================</code></pre>
 </div>
 </div>
 <section id="visualization-performance-comparison" class="level3" data-number="16.13.1">
 <h3 data-number="16.13.1" class="anchored" data-anchor-id="visualization-performance-comparison"><span class="header-section-number">16.13.1</span> Visualization: Performance Comparison</h3>
 <div id="cell-surrogate-selection-comparison-viz" class="cell" data-execution_count="30">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">12</span>))</span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 1: Best weight comparison</span></span>
-<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> axes[<span class="dv">0</span>, <span class="dv">0</span>]</span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'green'</span> <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'steelblue'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(df_comparison))]</span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>ax1.barh(df_comparison[<span class="st">'Surrogate'</span>], df_comparison[<span class="st">'Best Weight'</span>], color<span class="op">=</span>colors)</span>
-<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Best Weight (lb)'</span>)</span>
-<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'Best Weight Found by Each Surrogate'</span>)</span>
-<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>ax1.axvline(x<span class="op">=</span>best_weight, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'Best Overall'</span>)</span>
-<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>ax1.legend()</span>
-<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>ax1.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 2: Computational time</span></span>
-<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> axes[<span class="dv">0</span>, <span class="dv">1</span>]</span>
-<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a>ax2.barh(df_comparison[<span class="st">'Surrogate'</span>], df_comparison[<span class="st">'Time (s)'</span>], color<span class="op">=</span><span class="st">'coral'</span>)</span>
-<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Time (seconds)'</span>)</span>
-<span id="cb78-17"><a href="#cb78-17" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Computational Time'</span>)</span>
-<span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a>ax2.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-20"><a href="#cb78-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 3: Gap to best</span></span>
-<span id="cb78-21"><a href="#cb78-21" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> axes[<span class="dv">1</span>, <span class="dv">0</span>]</span>
-<span id="cb78-22"><a href="#cb78-22" aria-hidden="true" tabindex="-1"></a>colors_gap <span class="op">=</span> [<span class="st">'green'</span> <span class="cf">if</span> gap <span class="op">&lt;</span> <span class="fl">0.1</span> <span class="cf">else</span> <span class="st">'orange'</span> <span class="cf">if</span> gap <span class="op">&lt;</span> <span class="fl">1.0</span> <span class="cf">else</span> <span class="st">'red'</span> </span>
-<span id="cb78-23"><a href="#cb78-23" aria-hidden="true" tabindex="-1"></a>              <span class="cf">for</span> gap <span class="kw">in</span> df_comparison[<span class="st">'Gap to Best (%)'</span>]]</span>
-<span id="cb78-24"><a href="#cb78-24" aria-hidden="true" tabindex="-1"></a>ax3.barh(df_comparison[<span class="st">'Surrogate'</span>], df_comparison[<span class="st">'Gap to Best (%)'</span>], color<span class="op">=</span>colors_gap)</span>
-<span id="cb78-25"><a href="#cb78-25" aria-hidden="true" tabindex="-1"></a>ax3.set_xlabel(<span class="st">'Gap to Best Solution (%)'</span>)</span>
-<span id="cb78-26"><a href="#cb78-26" aria-hidden="true" tabindex="-1"></a>ax3.set_title(<span class="st">'Solution Quality (Lower is Better)'</span>)</span>
-<span id="cb78-27"><a href="#cb78-27" aria-hidden="true" tabindex="-1"></a>ax3.axvline(x<span class="op">=</span><span class="fl">1.0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb78-28"><a href="#cb78-28" aria-hidden="true" tabindex="-1"></a>ax3.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb78-29"><a href="#cb78-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-30"><a href="#cb78-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 4: Efficiency (weight reduction per second)</span></span>
-<span id="cb78-31"><a href="#cb78-31" aria-hidden="true" tabindex="-1"></a>ax4 <span class="op">=</span> axes[<span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb78-32"><a href="#cb78-32" aria-hidden="true" tabindex="-1"></a>baseline_weight <span class="op">=</span> wingwt(np.array([[<span class="fl">0.48</span>, <span class="fl">0.4</span>, <span class="fl">0.38</span>, <span class="fl">0.5</span>, <span class="fl">0.62</span>, <span class="fl">0.344</span>, <span class="fl">0.4</span>, <span class="fl">0.37</span>, <span class="fl">0.38</span>]]))[<span class="dv">0</span>]</span>
-<span id="cb78-33"><a href="#cb78-33" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">'Efficiency'</span>] <span class="op">=</span> (baseline_weight <span class="op">-</span> df_comparison[<span class="st">'Best Weight'</span>]) <span class="op">/</span> df_comparison[<span class="st">'Time (s)'</span>]</span>
-<span id="cb78-34"><a href="#cb78-34" aria-hidden="true" tabindex="-1"></a>ax4.barh(df_comparison[<span class="st">'Surrogate'</span>], df_comparison[<span class="st">'Efficiency'</span>], color<span class="op">=</span><span class="st">'mediumseagreen'</span>)</span>
-<span id="cb78-35"><a href="#cb78-35" aria-hidden="true" tabindex="-1"></a>ax4.set_xlabel(<span class="st">'Weight Reduction per Second (lb/s)'</span>)</span>
-<span id="cb78-36"><a href="#cb78-36" aria-hidden="true" tabindex="-1"></a>ax4.set_title(<span class="st">'Optimization Efficiency'</span>)</span>
-<span id="cb78-37"><a href="#cb78-37" aria-hidden="true" tabindex="-1"></a>ax4.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb78-38"><a href="#cb78-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-39"><a href="#cb78-39" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb78-40"><a href="#cb78-40" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">12</span>))</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 1: Best weight comparison</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> axes[<span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'green'</span> <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'steelblue'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(df_comparison))]</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>ax1.barh(df_comparison[<span class="st">'Surrogate'</span>], df_comparison[<span class="st">'Best Weight'</span>], color<span class="op">=</span>colors)</span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Best Weight (lb)'</span>)</span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'Best Weight Found by Each Surrogate'</span>)</span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>ax1.axvline(x<span class="op">=</span>best_weight, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">'Best Overall'</span>)</span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>ax1.legend()</span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>ax1.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 2: Computational time</span></span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> axes[<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>ax2.barh(df_comparison[<span class="st">'Surrogate'</span>], df_comparison[<span class="st">'Time (s)'</span>], color<span class="op">=</span><span class="st">'coral'</span>)</span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Time (seconds)'</span>)</span>
+<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Computational Time'</span>)</span>
+<span id="cb74-18"><a href="#cb74-18" aria-hidden="true" tabindex="-1"></a>ax2.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb74-19"><a href="#cb74-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-20"><a href="#cb74-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 3: Gap to best</span></span>
+<span id="cb74-21"><a href="#cb74-21" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> axes[<span class="dv">1</span>, <span class="dv">0</span>]</span>
+<span id="cb74-22"><a href="#cb74-22" aria-hidden="true" tabindex="-1"></a>colors_gap <span class="op">=</span> [<span class="st">'green'</span> <span class="cf">if</span> gap <span class="op">&lt;</span> <span class="fl">0.1</span> <span class="cf">else</span> <span class="st">'orange'</span> <span class="cf">if</span> gap <span class="op">&lt;</span> <span class="fl">1.0</span> <span class="cf">else</span> <span class="st">'red'</span> </span>
+<span id="cb74-23"><a href="#cb74-23" aria-hidden="true" tabindex="-1"></a>              <span class="cf">for</span> gap <span class="kw">in</span> df_comparison[<span class="st">'Gap to Best (%)'</span>]]</span>
+<span id="cb74-24"><a href="#cb74-24" aria-hidden="true" tabindex="-1"></a>ax3.barh(df_comparison[<span class="st">'Surrogate'</span>], df_comparison[<span class="st">'Gap to Best (%)'</span>], color<span class="op">=</span>colors_gap)</span>
+<span id="cb74-25"><a href="#cb74-25" aria-hidden="true" tabindex="-1"></a>ax3.set_xlabel(<span class="st">'Gap to Best Solution (%)'</span>)</span>
+<span id="cb74-26"><a href="#cb74-26" aria-hidden="true" tabindex="-1"></a>ax3.set_title(<span class="st">'Solution Quality (Lower is Better)'</span>)</span>
+<span id="cb74-27"><a href="#cb74-27" aria-hidden="true" tabindex="-1"></a>ax3.axvline(x<span class="op">=</span><span class="fl">1.0</span>, color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb74-28"><a href="#cb74-28" aria-hidden="true" tabindex="-1"></a>ax3.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb74-29"><a href="#cb74-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-30"><a href="#cb74-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 4: Efficiency (weight reduction per second)</span></span>
+<span id="cb74-31"><a href="#cb74-31" aria-hidden="true" tabindex="-1"></a>ax4 <span class="op">=</span> axes[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb74-32"><a href="#cb74-32" aria-hidden="true" tabindex="-1"></a>baseline_weight <span class="op">=</span> wingwt(np.array([[<span class="fl">0.48</span>, <span class="fl">0.4</span>, <span class="fl">0.38</span>, <span class="fl">0.5</span>, <span class="fl">0.62</span>, <span class="fl">0.344</span>, <span class="fl">0.4</span>, <span class="fl">0.37</span>, <span class="fl">0.38</span>]]))[<span class="dv">0</span>]</span>
+<span id="cb74-33"><a href="#cb74-33" aria-hidden="true" tabindex="-1"></a>df_comparison[<span class="st">'Efficiency'</span>] <span class="op">=</span> (baseline_weight <span class="op">-</span> df_comparison[<span class="st">'Best Weight'</span>]) <span class="op">/</span> df_comparison[<span class="st">'Time (s)'</span>]</span>
+<span id="cb74-34"><a href="#cb74-34" aria-hidden="true" tabindex="-1"></a>ax4.barh(df_comparison[<span class="st">'Surrogate'</span>], df_comparison[<span class="st">'Efficiency'</span>], color<span class="op">=</span><span class="st">'mediumseagreen'</span>)</span>
+<span id="cb74-35"><a href="#cb74-35" aria-hidden="true" tabindex="-1"></a>ax4.set_xlabel(<span class="st">'Weight Reduction per Second (lb/s)'</span>)</span>
+<span id="cb74-36"><a href="#cb74-36" aria-hidden="true" tabindex="-1"></a>ax4.set_title(<span class="st">'Optimization Efficiency'</span>)</span>
+<span id="cb74-37"><a href="#cb74-37" aria-hidden="true" tabindex="-1"></a>ax4.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, axis<span class="op">=</span><span class="st">'x'</span>)</span>
+<span id="cb74-38"><a href="#cb74-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-39"><a href="#cb74-39" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb74-40"><a href="#cb74-40" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1966,37 +1910,37 @@ GP Matern nu=2.5 (Default)   119.866409           20  1.705245     True         
 <h2 data-number="16.14" class="anchored" data-anchor-id="convergence-comparison"><span class="header-section-number">16.14</span> Convergence Comparison</h2>
 <p>Let’s compare how different surrogates converge over iterations.</p>
 <div id="cell-surrogate-selection-convergence" class="cell" data-execution_count="31">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">8</span>))</span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect convergence data from all optimizers</span></span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>optimizers <span class="op">=</span> [</span>
-<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>    (optimizer_default, <span class="st">'GP Matern nu=2.5 (Default)'</span>, <span class="st">'blue'</span>),</span>
-<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>    (optimizer_rbf, <span class="st">'GP RBF'</span>, <span class="st">'green'</span>),</span>
-<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>    (optimizer_matern15, <span class="st">'GP Matern nu=1.5'</span>, <span class="st">'red'</span>),</span>
-<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>    (optimizer_rq, <span class="st">'GP Rational Quadratic'</span>, <span class="st">'purple'</span>),</span>
-<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>    (optimizer_kriging, <span class="st">'SpotOptim Kriging'</span>, <span class="st">'orange'</span>),</span>
-<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>    (optimizer_rf, <span class="st">'Random Forest'</span>, <span class="st">'brown'</span>),</span>
-<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>    (optimizer_svr, <span class="st">'SVR'</span>, <span class="st">'pink'</span>),</span>
-<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a>    (optimizer_gb, <span class="st">'Gradient Boosting'</span>, <span class="st">'gray'</span>)</span>
-<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> XGBOOST_AVAILABLE:</span>
-<span id="cb79-16"><a href="#cb79-16" aria-hidden="true" tabindex="-1"></a>    optimizers.append((optimizer_xgb, <span class="st">'XGBoost'</span>, <span class="st">'cyan'</span>))</span>
-<span id="cb79-17"><a href="#cb79-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-18"><a href="#cb79-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> opt, label, color <span class="kw">in</span> optimizers:</span>
-<span id="cb79-19"><a href="#cb79-19" aria-hidden="true" tabindex="-1"></a>    y_history <span class="op">=</span> opt.y_</span>
-<span id="cb79-20"><a href="#cb79-20" aria-hidden="true" tabindex="-1"></a>    best_so_far <span class="op">=</span> np.minimum.accumulate(y_history)</span>
-<span id="cb79-21"><a href="#cb79-21" aria-hidden="true" tabindex="-1"></a>    ax.plot(<span class="bu">range</span>(<span class="bu">len</span>(best_so_far)), best_so_far, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span>label, color<span class="op">=</span>color)</span>
-<span id="cb79-22"><a href="#cb79-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-23"><a href="#cb79-23" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Function Evaluation'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb79-24"><a href="#cb79-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Best Wing Weight Found (lb)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb79-25"><a href="#cb79-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Convergence Comparison: All Surrogates'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb79-26"><a href="#cb79-26" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb79-27"><a href="#cb79-27" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb79-28"><a href="#cb79-28" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, max_iter)</span>
-<span id="cb79-29"><a href="#cb79-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-30"><a href="#cb79-30" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb79-31"><a href="#cb79-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">8</span>))</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect convergence data from all optimizers</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>optimizers <span class="op">=</span> [</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>    (optimizer_default, <span class="st">'GP Matern nu=2.5 (Default)'</span>, <span class="st">'blue'</span>),</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>    (optimizer_rbf, <span class="st">'GP RBF'</span>, <span class="st">'green'</span>),</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>    (optimizer_matern15, <span class="st">'GP Matern nu=1.5'</span>, <span class="st">'red'</span>),</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>    (optimizer_rq, <span class="st">'GP Rational Quadratic'</span>, <span class="st">'purple'</span>),</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>    (optimizer_kriging, <span class="st">'SpotOptim Kriging'</span>, <span class="st">'orange'</span>),</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>    (optimizer_rf, <span class="st">'Random Forest'</span>, <span class="st">'brown'</span>),</span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>    (optimizer_svr, <span class="st">'SVR'</span>, <span class="st">'pink'</span>),</span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>    (optimizer_gb, <span class="st">'Gradient Boosting'</span>, <span class="st">'gray'</span>)</span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> XGBOOST_AVAILABLE:</span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a>    optimizers.append((optimizer_xgb, <span class="st">'XGBoost'</span>, <span class="st">'cyan'</span>))</span>
+<span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-18"><a href="#cb75-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> opt, label, color <span class="kw">in</span> optimizers:</span>
+<span id="cb75-19"><a href="#cb75-19" aria-hidden="true" tabindex="-1"></a>    y_history <span class="op">=</span> opt.y_</span>
+<span id="cb75-20"><a href="#cb75-20" aria-hidden="true" tabindex="-1"></a>    best_so_far <span class="op">=</span> np.minimum.accumulate(y_history)</span>
+<span id="cb75-21"><a href="#cb75-21" aria-hidden="true" tabindex="-1"></a>    ax.plot(<span class="bu">range</span>(<span class="bu">len</span>(best_so_far)), best_so_far, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span>label, color<span class="op">=</span>color)</span>
+<span id="cb75-22"><a href="#cb75-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-23"><a href="#cb75-23" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Function Evaluation'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb75-24"><a href="#cb75-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Best Wing Weight Found (lb)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb75-25"><a href="#cb75-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Convergence Comparison: All Surrogates'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb75-26"><a href="#cb75-26" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">'upper right'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb75-27"><a href="#cb75-27" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb75-28"><a href="#cb75-28" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, max_iter)</span>
+<span id="cb75-29"><a href="#cb75-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-30"><a href="#cb75-30" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb75-31"><a href="#cb75-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2009,52 +1953,52 @@ GP Matern nu=2.5 (Default)   119.866409           20  1.705245     True         
 <section id="key-insights-and-recommendations" class="level2" data-number="16.15">
 <h2 data-number="16.15" class="anchored" data-anchor-id="key-insights-and-recommendations"><span class="header-section-number">16.15</span> Key Insights and Recommendations</h2>
 <div id="surrogate-selection-insights" class="cell" data-execution_count="32">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"KEY INSIGHTS AND RECOMMENDATIONS"</span>)</span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
-<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Find best surrogate</span></span>
-<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>best_surrogate <span class="op">=</span> df_comparison.iloc[<span class="dv">0</span>][<span class="st">'Surrogate'</span>]</span>
-<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>best_value <span class="op">=</span> df_comparison.iloc[<span class="dv">0</span>][<span class="st">'Best Weight'</span>]</span>
-<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>best_time <span class="op">=</span> df_comparison.iloc[<span class="dv">0</span>][<span class="st">'Time (s)'</span>]</span>
-<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">1. BEST OVERALL PERFORMANCE:"</span>)</span>
-<span id="cb80-11"><a href="#cb80-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Surrogate: </span><span class="sc">{</span>best_surrogate<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb80-12"><a href="#cb80-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Best Weight: </span><span class="sc">{</span>best_value<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
-<span id="cb80-13"><a href="#cb80-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Computation Time: </span><span class="sc">{</span>best_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
-<span id="cb80-14"><a href="#cb80-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-15"><a href="#cb80-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Find fastest</span></span>
-<span id="cb80-16"><a href="#cb80-16" aria-hidden="true" tabindex="-1"></a>fastest_idx <span class="op">=</span> df_comparison[<span class="st">'Time (s)'</span>].idxmin()</span>
-<span id="cb80-17"><a href="#cb80-17" aria-hidden="true" tabindex="-1"></a>fastest_surrogate <span class="op">=</span> df_comparison.loc[fastest_idx, <span class="st">'Surrogate'</span>]</span>
-<span id="cb80-18"><a href="#cb80-18" aria-hidden="true" tabindex="-1"></a>fastest_time <span class="op">=</span> df_comparison.loc[fastest_idx, <span class="st">'Time (s)'</span>]</span>
-<span id="cb80-19"><a href="#cb80-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-20"><a href="#cb80-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">2. FASTEST OPTIMIZATION:"</span>)</span>
-<span id="cb80-21"><a href="#cb80-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Surrogate: </span><span class="sc">{</span>fastest_surrogate<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb80-22"><a href="#cb80-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Time: </span><span class="sc">{</span>fastest_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
-<span id="cb80-23"><a href="#cb80-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Best Weight: </span><span class="sc">{</span>df_comparison<span class="sc">.</span>loc[fastest_idx, <span class="st">'Best Weight'</span>]<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
-<span id="cb80-24"><a href="#cb80-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-25"><a href="#cb80-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Find most efficient</span></span>
-<span id="cb80-26"><a href="#cb80-26" aria-hidden="true" tabindex="-1"></a>most_efficient_idx <span class="op">=</span> df_comparison[<span class="st">'Efficiency'</span>].idxmax()</span>
-<span id="cb80-27"><a href="#cb80-27" aria-hidden="true" tabindex="-1"></a>most_efficient <span class="op">=</span> df_comparison.loc[most_efficient_idx, <span class="st">'Surrogate'</span>]</span>
-<span id="cb80-28"><a href="#cb80-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-29"><a href="#cb80-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">3. MOST EFFICIENT (weight reduction per second):"</span>)</span>
-<span id="cb80-30"><a href="#cb80-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Surrogate: </span><span class="sc">{</span>most_efficient<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb80-31"><a href="#cb80-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Efficiency: </span><span class="sc">{</span>df_comparison<span class="sc">.</span>loc[most_efficient_idx, <span class="st">'Efficiency'</span>]<span class="sc">:.4f}</span><span class="ss"> lb/s"</span>)</span>
-<span id="cb80-32"><a href="#cb80-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-33"><a href="#cb80-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">4. RECOMMENDATIONS BY PROBLEM TYPE:"</span>)</span>
-<span id="cb80-34"><a href="#cb80-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Smooth, continuous functions: Gaussian Process with RBF or Matern nu=2.5"</span>)</span>
-<span id="cb80-35"><a href="#cb80-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Functions with noise: Random Forest or Gradient Boosting"</span>)</span>
-<span id="cb80-36"><a href="#cb80-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - High-dimensional problems (&gt;20D): XGBoost or Random Forest"</span>)</span>
-<span id="cb80-37"><a href="#cb80-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Limited budget (&lt;50 evals): Gaussian Process with Expected Improvement"</span>)</span>
-<span id="cb80-38"><a href="#cb80-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Fast evaluation needed: XGBoost or Random Forest"</span>)</span>
-<span id="cb80-39"><a href="#cb80-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Need uncertainty estimates: Gaussian Process or Kriging"</span>)</span>
-<span id="cb80-40"><a href="#cb80-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Non-smooth/discontinuous: Random Forest or Gradient Boosting"</span>)</span>
-<span id="cb80-41"><a href="#cb80-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-42"><a href="#cb80-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">5. KERNEL COMPARISON (Gaussian Process):"</span>)</span>
-<span id="cb80-43"><a href="#cb80-43" aria-hidden="true" tabindex="-1"></a>gp_results <span class="op">=</span> df_comparison[df_comparison[<span class="st">'Surrogate'</span>].<span class="bu">str</span>.contains(<span class="st">'GP'</span>)]</span>
-<span id="cb80-44"><a href="#cb80-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gp_results[[<span class="st">'Surrogate'</span>, <span class="st">'Best Weight'</span>, <span class="st">'Time (s)'</span>]].to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb80-45"><a href="#cb80-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-46"><a href="#cb80-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"KEY INSIGHTS AND RECOMMENDATIONS"</span>)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Find best surrogate</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>best_surrogate <span class="op">=</span> df_comparison.iloc[<span class="dv">0</span>][<span class="st">'Surrogate'</span>]</span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>best_value <span class="op">=</span> df_comparison.iloc[<span class="dv">0</span>][<span class="st">'Best Weight'</span>]</span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>best_time <span class="op">=</span> df_comparison.iloc[<span class="dv">0</span>][<span class="st">'Time (s)'</span>]</span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">1. BEST OVERALL PERFORMANCE:"</span>)</span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Surrogate: </span><span class="sc">{</span>best_surrogate<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Best Weight: </span><span class="sc">{</span>best_value<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Computation Time: </span><span class="sc">{</span>best_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Find fastest</span></span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>fastest_idx <span class="op">=</span> df_comparison[<span class="st">'Time (s)'</span>].idxmin()</span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>fastest_surrogate <span class="op">=</span> df_comparison.loc[fastest_idx, <span class="st">'Surrogate'</span>]</span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>fastest_time <span class="op">=</span> df_comparison.loc[fastest_idx, <span class="st">'Time (s)'</span>]</span>
+<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">2. FASTEST OPTIMIZATION:"</span>)</span>
+<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Surrogate: </span><span class="sc">{</span>fastest_surrogate<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Time: </span><span class="sc">{</span>fastest_time<span class="sc">:.2f}</span><span class="ss">s"</span>)</span>
+<span id="cb76-23"><a href="#cb76-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Best Weight: </span><span class="sc">{</span>df_comparison<span class="sc">.</span>loc[fastest_idx, <span class="st">'Best Weight'</span>]<span class="sc">:.4f}</span><span class="ss"> lb"</span>)</span>
+<span id="cb76-24"><a href="#cb76-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-25"><a href="#cb76-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Find most efficient</span></span>
+<span id="cb76-26"><a href="#cb76-26" aria-hidden="true" tabindex="-1"></a>most_efficient_idx <span class="op">=</span> df_comparison[<span class="st">'Efficiency'</span>].idxmax()</span>
+<span id="cb76-27"><a href="#cb76-27" aria-hidden="true" tabindex="-1"></a>most_efficient <span class="op">=</span> df_comparison.loc[most_efficient_idx, <span class="st">'Surrogate'</span>]</span>
+<span id="cb76-28"><a href="#cb76-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-29"><a href="#cb76-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">3. MOST EFFICIENT (weight reduction per second):"</span>)</span>
+<span id="cb76-30"><a href="#cb76-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Surrogate: </span><span class="sc">{</span>most_efficient<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb76-31"><a href="#cb76-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Efficiency: </span><span class="sc">{</span>df_comparison<span class="sc">.</span>loc[most_efficient_idx, <span class="st">'Efficiency'</span>]<span class="sc">:.4f}</span><span class="ss"> lb/s"</span>)</span>
+<span id="cb76-32"><a href="#cb76-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-33"><a href="#cb76-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">4. RECOMMENDATIONS BY PROBLEM TYPE:"</span>)</span>
+<span id="cb76-34"><a href="#cb76-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Smooth, continuous functions: Gaussian Process with RBF or Matern nu=2.5"</span>)</span>
+<span id="cb76-35"><a href="#cb76-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Functions with noise: Random Forest or Gradient Boosting"</span>)</span>
+<span id="cb76-36"><a href="#cb76-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - High-dimensional problems (&gt;20D): XGBoost or Random Forest"</span>)</span>
+<span id="cb76-37"><a href="#cb76-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Limited budget (&lt;50 evals): Gaussian Process with Expected Improvement"</span>)</span>
+<span id="cb76-38"><a href="#cb76-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Fast evaluation needed: XGBoost or Random Forest"</span>)</span>
+<span id="cb76-39"><a href="#cb76-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Need uncertainty estimates: Gaussian Process or Kriging"</span>)</span>
+<span id="cb76-40"><a href="#cb76-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   - Non-smooth/discontinuous: Random Forest or Gradient Boosting"</span>)</span>
+<span id="cb76-41"><a href="#cb76-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-42"><a href="#cb76-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">5. KERNEL COMPARISON (Gaussian Process):"</span>)</span>
+<span id="cb76-43"><a href="#cb76-43" aria-hidden="true" tabindex="-1"></a>gp_results <span class="op">=</span> df_comparison[df_comparison[<span class="st">'Surrogate'</span>].<span class="bu">str</span>.contains(<span class="st">'GP'</span>)]</span>
+<span id="cb76-44"><a href="#cb76-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gp_results[[<span class="st">'Surrogate'</span>, <span class="st">'Best Weight'</span>, <span class="st">'Time (s)'</span>]].to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb76-45"><a href="#cb76-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-46"><a href="#cb76-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ====================================================================================================
@@ -2064,16 +2008,16 @@ KEY INSIGHTS AND RECOMMENDATIONS
 1. BEST OVERALL PERFORMANCE:
    Surrogate: GP Matern nu=1.5
    Best Weight: 119.5465 lb
-   Computation Time: 0.45s
+   Computation Time: 0.37s
 
 2. FASTEST OPTIMIZATION:
    Surrogate: SVR (RBF)
-   Time: 0.07s
+   Time: 0.06s
    Best Weight: 156.7071 lb
 
 3. MOST EFFICIENT (weight reduction per second):
    Surrogate: SVR (RBF)
-   Efficiency: 1080.9451 lb/s
+   Efficiency: 1353.9747 lb/s
 
 4. RECOMMENDATIONS BY PROBLEM TYPE:
    - Smooth, continuous functions: Gaussian Process with RBF or Matern nu=2.5
@@ -2086,10 +2030,10 @@ KEY INSIGHTS AND RECOMMENDATIONS
 
 5. KERNEL COMPARISON (Gaussian Process):
                  Surrogate  Best Weight  Time (s)
-          GP Matern nu=1.5   119.546454  0.452622
-GP Matern nu=2.5 (Default)   119.866409  1.705245
-     GP Rational Quadratic   120.107282  0.615395
-                    GP RBF   120.109251  0.471836
+          GP Matern nu=1.5   119.546454  0.368967
+GP Matern nu=2.5 (Default)   119.866409  1.282982
+     GP Rational Quadratic   120.107282  0.495392
+                    GP RBF   120.109251  0.377106
 
 ====================================================================================================</code></pre>
 </div>
@@ -2098,34 +2042,34 @@ GP Matern nu=2.5 (Default)   119.866409  1.705245
 <section id="summary-statistics" class="level2" data-number="16.16">
 <h2 data-number="16.16" class="anchored" data-anchor-id="summary-statistics"><span class="header-section-number">16.16</span> Summary Statistics</h2>
 <div id="surrogate-selection-summary-stats" class="cell" data-execution_count="33">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"SUMMARY STATISTICS"</span>)</span>
-<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
-<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Metric'</span>: [</span>
-<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Best Weight Found'</span>,</span>
-<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Worst Weight Found'</span>,</span>
-<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Average Weight'</span>,</span>
-<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Std Dev Weight'</span>,</span>
-<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Fastest Time'</span>,</span>
-<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Slowest Time'</span>,</span>
-<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Average Time'</span>,</span>
-<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Value'</span>: [</span>
-<span id="cb82-17"><a href="#cb82-17" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Best Weight'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.4f}</span><span class="ss"> lb"</span>,</span>
-<span id="cb82-18"><a href="#cb82-18" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Best Weight'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.4f}</span><span class="ss"> lb"</span>,</span>
-<span id="cb82-19"><a href="#cb82-19" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Best Weight'</span>]<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss"> lb"</span>,</span>
-<span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Best Weight'</span>]<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss"> lb"</span>,</span>
-<span id="cb82-21"><a href="#cb82-21" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Time (s)'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.2f}</span><span class="ss"> s"</span>,</span>
-<span id="cb82-22"><a href="#cb82-22" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Time (s)'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.2f}</span><span class="ss"> s"</span>,</span>
-<span id="cb82-23"><a href="#cb82-23" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Time (s)'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss"> s"</span>,</span>
-<span id="cb82-24"><a href="#cb82-24" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb82-25"><a href="#cb82-25" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb82-26"><a href="#cb82-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-27"><a href="#cb82-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary_stats.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb82-28"><a href="#cb82-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"SUMMARY STATISTICS"</span>)</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Metric'</span>: [</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Best Weight Found'</span>,</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Worst Weight Found'</span>,</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Average Weight'</span>,</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Std Dev Weight'</span>,</span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Fastest Time'</span>,</span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Slowest Time'</span>,</span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Average Time'</span>,</span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Value'</span>: [</span>
+<span id="cb78-17"><a href="#cb78-17" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Best Weight'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.4f}</span><span class="ss"> lb"</span>,</span>
+<span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Best Weight'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.4f}</span><span class="ss"> lb"</span>,</span>
+<span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Best Weight'</span>]<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss"> lb"</span>,</span>
+<span id="cb78-20"><a href="#cb78-20" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Best Weight'</span>]<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss"> lb"</span>,</span>
+<span id="cb78-21"><a href="#cb78-21" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Time (s)'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.2f}</span><span class="ss"> s"</span>,</span>
+<span id="cb78-22"><a href="#cb78-22" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Time (s)'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.2f}</span><span class="ss"> s"</span>,</span>
+<span id="cb78-23"><a href="#cb78-23" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df_comparison[<span class="st">'Time (s)'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss"> s"</span>,</span>
+<span id="cb78-24"><a href="#cb78-24" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb78-25"><a href="#cb78-25" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb78-26"><a href="#cb78-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-27"><a href="#cb78-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary_stats.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb78-28"><a href="#cb78-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ====================================================================================================
@@ -2133,12 +2077,12 @@ SUMMARY STATISTICS
 ====================================================================================================
             Metric       Value
  Best Weight Found 119.5465 lb
-Worst Weight Found 165.3064 lb
-    Average Weight 133.7145 lb
-    Std Dev Weight  18.0098 lb
-      Fastest Time      0.07 s
-      Slowest Time      8.06 s
-      Average Time      1.39 s
+Worst Weight Found 156.7071 lb
+    Average Weight 129.7655 lb
+    Std Dev Weight  14.5013 lb
+      Fastest Time      0.06 s
+      Slowest Time      6.56 s
+      Average Time      1.22 s
 ====================================================================================================</code></pre>
 </div>
 </div>

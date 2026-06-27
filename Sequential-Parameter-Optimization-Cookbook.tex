@@ -237,14 +237,14 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
-\theoremstyle{definition}
-\newtheorem{exercise}{Exercise}[chapter]
 \theoremstyle{plain}
 \newtheorem{lemma}{Lemma}[chapter]
 \theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
 \newtheorem{definition}{Definition}[chapter]
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}[chapter]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -270,7 +270,7 @@
 
 \title{Sequential Parameter Optimization Cookbook}
 \author{Thomas Bartz-Beielstein}
-\date{Apr 4, 2026}
+\date{Jun 26, 2026}
 \begin{document}
 \frontmatter
 \maketitle
@@ -712,24 +712,24 @@ Let's see a complete optimization example:
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 0.118645
-Iter 1 | Best: 0.118645 | Curr: 7.148656 | Rate: 0.00 | Evals: 30.0%
-Iter 2 | Best: 0.118645 | Curr: 0.184535 | Rate: 0.00 | Evals: 35.0%
-Iter 3 | Best: 0.083203 | Rate: 0.33 | Evals: 40.0%
-Iter 4 | Best: 0.038982 | Rate: 0.50 | Evals: 45.0%
-Iter 5 | Best: 0.000644 | Rate: 0.60 | Evals: 50.0%
-Iter 6 | Best: 0.000124 | Rate: 0.67 | Evals: 55.0%
-Iter 7 | Best: 0.000076 | Rate: 0.71 | Evals: 60.0%
-Iter 8 | Best: 0.000007 | Rate: 0.75 | Evals: 65.0%
-Iter 9 | Best: 0.000000 | Rate: 0.78 | Evals: 70.0%
-Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.70 | Evals: 75.0%
-Iter 11 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.64 | Evals: 80.0%
-Iter 12 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.58 | Evals: 85.0%
-Iter 13 | Best: 0.000000 | Rate: 0.62 | Evals: 90.0%
-Iter 14 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.57 | Evals: 95.0%
-Iter 15 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.53 | Evals: 100.0%
+Initial best: f(x) = 0.369743
+Iter 1 | Best: 0.054920 | Rate: 1.00 | Evals: 30.0%
+Iter 2 | Best: 0.054920 | Curr: 0.066174 | Rate: 0.50 | Evals: 35.0%
+Iter 3 | Best: 0.000806 | Rate: 0.67 | Evals: 40.0%
+Iter 4 | Best: 0.000806 | Curr: 0.001956 | Rate: 0.50 | Evals: 45.0%
+Iter 5 | Best: 0.000806 | Curr: 0.001778 | Rate: 0.40 | Evals: 50.0%
+Iter 6 | Best: 0.000000 | Rate: 0.50 | Evals: 55.0%
+Iter 7 | Best: 0.000000 | Rate: 0.57 | Evals: 60.0%
+Iter 8 | Best: 0.000000 | Rate: 0.62 | Evals: 65.0%
+Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.56 | Evals: 70.0%
+Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.50 | Evals: 75.0%
+Iter 11 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.45 | Evals: 80.0%
+Iter 12 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.42 | Evals: 85.0%
+Iter 13 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.38 | Evals: 90.0%
+Iter 14 | Best: 0.000000 | Rate: 0.43 | Evals: 95.0%
+Iter 15 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.40 | Evals: 100.0%
 
-Best point found: [-1.92657282e-05 -1.50558623e-04]
+Best point found: [1.00571419e-05 2.13159710e-04]
 Best value: 0.000000
 Total evaluations: 20
 Sequential iterations: 15
@@ -768,30 +768,30 @@ Message: Optimization terminated: maximum evaluations (20) reached
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 12.545847
-Iter 1 | Best: 1.216945 | Rate: 1.00 | Evals: 30.0%
-Iter 2 | Best: 1.216945 | Curr: 1.647816 | Rate: 0.50 | Evals: 35.0%
-Iter 3 | Best: 1.216945 | Curr: 2.561889 | Rate: 0.33 | Evals: 40.0%
-Iter 4 | Best: 1.216945 | Curr: 2.952185 | Rate: 0.25 | Evals: 45.0%
-Iter 5 | Best: 0.909420 | Rate: 0.40 | Evals: 50.0%
-Iter 6 | Best: 0.464324 | Rate: 0.50 | Evals: 55.0%
-Iter 7 | Best: 0.232200 | Rate: 0.57 | Evals: 60.0%
-Iter 8 | Best: 0.232200 | Curr: 0.315588 | Rate: 0.50 | Evals: 65.0%
-Iter 9 | Best: 0.232200 | Curr: 0.306943 | Rate: 0.44 | Evals: 70.0%
-Iter 10 | Best: 0.232200 | Curr: 0.266283 | Rate: 0.40 | Evals: 75.0%
-Iter 11 | Best: 0.232200 | Curr: 0.254042 | Rate: 0.36 | Evals: 80.0%
-Iter 12 | Best: 0.232200 | Curr: 0.245736 | Rate: 0.33 | Evals: 85.0%
-Iter 13 | Best: 0.232200 | Curr: 0.239848 | Rate: 0.31 | Evals: 90.0%
-Iter 14 | Best: 0.232200 | Curr: 0.245629 | Rate: 0.29 | Evals: 95.0%
-Iter 15 | Best: 0.232200 | Curr: 0.243600 | Rate: 0.27 | Evals: 100.0%
+Initial best: f(x) = 1.060610
+Iter 1 | Best: 1.060610 | Curr: 1.253002 | Rate: 0.00 | Evals: 30.0%
+Iter 2 | Best: 0.783307 | Rate: 0.50 | Evals: 35.0%
+Iter 3 | Best: 0.783307 | Curr: 0.886703 | Rate: 0.33 | Evals: 40.0%
+Iter 4 | Best: 0.778686 | Rate: 0.50 | Evals: 45.0%
+Iter 5 | Best: 0.744245 | Rate: 0.60 | Evals: 50.0%
+Iter 6 | Best: 0.724371 | Rate: 0.67 | Evals: 55.0%
+Iter 7 | Best: 0.716537 | Rate: 0.71 | Evals: 60.0%
+Iter 8 | Best: 0.716537 | Curr: 0.721425 | Rate: 0.62 | Evals: 65.0%
+Iter 9 | Best: 0.716537 | Curr: 0.719624 | Rate: 0.56 | Evals: 70.0%
+Iter 10 | Best: 0.716537 | Curr: 0.718062 | Rate: 0.50 | Evals: 75.0%
+Iter 11 | Best: 0.716537 | Curr: 0.717544 | Rate: 0.45 | Evals: 80.0%
+Iter 12 | Best: 0.716537 | Curr: 0.716991 | Rate: 0.42 | Evals: 85.0%
+Iter 13 | Best: 0.716537 | Curr: 0.716725 | Rate: 0.38 | Evals: 90.0%
+Iter 14 | Best: 0.716537 | Curr: 0.717026 | Rate: 0.36 | Evals: 95.0%
+Iter 15 | Best: 0.716537 | Curr: 0.716904 | Rate: 0.33 | Evals: 100.0%
 
-Best point found: [ 0.35250723 -0.32853986]
-Best value: 0.232200
+Best point found: [-0.52717354 -0.66228799]
+Best value: 0.716537
 Total evaluations: 20
 Sequential iterations: 15
 Success: True
 Message: Optimization terminated: maximum evaluations (20) reached
-         Current function value: 0.232200
+         Current function value: 0.716537
          Iterations: 15
          Function evaluations: 20
 \end{verbatim}
@@ -1588,6 +1588,11 @@ Mapped to factor values:
  [3.0 'blue']]
 \end{verbatim}
 
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_22915/1870456492.py:1: UserWarning: Factor variables detected (original bounds dimensions: [1]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  opt = SpotOptim(
+\end{verbatim}
+
 \section{9. Integration Examples}\label{integration-examples}
 
 \subsection{9.1 Optimization with Custom Initial
@@ -1629,7 +1634,7 @@ Iter 8 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.00 | Evals: 86.7%
 Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.00 | Evals: 93.3%
 Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.00 | Evals: 100.0%
 
-Best point: [0 0]
+Best point: [0. 0.]
 Best value: 0.000000
 \end{verbatim}
 
@@ -2098,9 +2103,9 @@ Optimization)}\label{method-1-spotoptim-surrogate-model-based-optimization}
 \end{Shaded}
 
 \begin{verbatim}
-Removed old TensorBoard logs: runs/spotoptim_20260411_210457
+Removed old TensorBoard logs: runs/spotoptim_20260627_114648
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260411_210514
+TensorBoard logging enabled: runs/spotoptim_20260627_120216
 \end{verbatim}
 
 \section{Design Table}\label{design-table}
@@ -2156,7 +2161,7 @@ Iter 17 | Best: 119.503672 | Curr: 119.504084 | Rate: 0.65 | Evals: 90.0%
 Iter 18 | Best: 119.503672 | Curr: 119.511109 | Rate: 0.61 | Evals: 93.3%
 Iter 19 | Best: 119.503672 | Rate: 0.63 | Evals: 96.7%
 Iter 20 | Best: 119.503672 | Curr: 119.522520 | Rate: 0.60 | Evals: 100.0%
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260411_210514
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260627_120216
 \end{verbatim}
 
 \begin{Shaded}
@@ -2177,7 +2182,7 @@ TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_2
 SpotOptim Results:
   Best weight: 119.5037 lb
   Function evaluations: 30
-  Time elapsed: 10.68 seconds
+  Time elapsed: 8.51 seconds
   Success: True
 \end{verbatim}
 
@@ -2427,9 +2432,9 @@ OPTIMIZATION COMPARISON
 ================================================================================
      Method  Best Weight (lb)  Improvement (%)  Function Evals  Time (s)  Success
    Baseline        233.908405         0.000000               1  0.000000     True
-  SpotOptim        119.503672        48.910057              30 10.675841     True
-Nelder-Mead        220.544928         5.713124              30  0.000783    False
-       BFGS        119.503672        48.910057              60  0.001448    False
+  SpotOptim        119.503672        48.910057              30  8.511814     True
+Nelder-Mead        220.544928         5.713124              30  0.000699    False
+       BFGS        119.503672        48.910057              60  0.001290    False
 ================================================================================
 \end{verbatim}
 
@@ -2661,9 +2666,9 @@ Comparison}\label{method-efficiency-comparison}
 METHOD EFFICIENCY METRICS
 ================================================================================
      Method  Weight Reduction (lb)  Evals to Best  Time per Eval (ms)
-  SpotOptim             114.404734             29          355.861362
-Nelder-Mead              13.363478             30            0.026107
-       BFGS             114.404734             60            0.024132
+  SpotOptim             114.404734             29          283.727137
+Nelder-Mead              13.363478             30            0.023301
+       BFGS             114.404734             60            0.021497
 ================================================================================
 \end{verbatim}
 
@@ -3694,18 +3699,18 @@ Final success rate: 50.00%
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 6.573621
-Iter 1 | Best: 6.573621 | Curr: 9.817400 | Rate: 0.00 | Evals: 55.0%
-Iter 2 | Best: 5.184105 | Rate: 0.50 | Evals: 60.0%
-Iter 3 | Best: 1.579794 | Rate: 0.67 | Evals: 65.0%
-Iter 4 | Best: 0.076975 | Rate: 0.75 | Evals: 70.0%
-Iter 5 | Best: 0.076975 | Curr: 0.313812 | Rate: 0.60 | Evals: 75.0%
-Iter 6 | Best: 0.013770 | Rate: 0.67 | Evals: 80.0%
-Iter 7 | Best: 0.005335 | Rate: 0.71 | Evals: 85.0%
-Iter 8 | Best: 0.000539 | Rate: 0.75 | Evals: 90.0%
-Iter 9 | Best: 0.000003 | Rate: 0.78 | Evals: 95.0%
-Iter 10 | Best: 0.000002 | Rate: 0.80 | Evals: 100.0%
-Final success rate: 80.00%
+Initial best: f(x) = 5.862721
+Iter 1 | Best: 0.048085 | Rate: 1.00 | Evals: 55.0%
+Iter 2 | Best: 0.037563 | Rate: 1.00 | Evals: 60.0%
+Iter 3 | Best: 0.008827 | Rate: 1.00 | Evals: 65.0%
+Iter 4 | Best: 0.001704 | Rate: 1.00 | Evals: 70.0%
+Iter 5 | Best: 0.001704 | Curr: 0.002651 | Rate: 0.80 | Evals: 75.0%
+Iter 6 | Best: 0.000102 | Rate: 0.83 | Evals: 80.0%
+Iter 7 | Best: 0.000059 | Rate: 0.86 | Evals: 85.0%
+Iter 8 | Best: 0.000054 | Rate: 0.88 | Evals: 90.0%
+Iter 9 | Best: 0.000053 | Rate: 0.89 | Evals: 95.0%
+Iter 10 | Best: 0.000050 | Rate: 0.90 | Evals: 100.0%
+Final success rate: 90.00%
 Total evaluations: 20
 \end{verbatim}
 
@@ -3736,8 +3741,8 @@ The success rate is stored in the \texttt{success\_rate} attribute:
 \end{Shaded}
 
 \begin{verbatim}
-Success rate: 90.00%
-Via getter method: 90.00%
+Success rate: 60.00%
+Via getter method: 60.00%
 \end{verbatim}
 
 \section{Interpreting Success Rate}\label{interpreting-success-rate}
@@ -4127,252 +4132,134 @@ strategies - x Assess optimization difficulty for different problems
 
 \end{tcolorbox}
 
-\chapter{Parallelization}\label{parallelization}
+\chapter{Parallel Evaluation}\label{parallel-evaluation}
 
-This document describes how to use the parallelization features in
-\texttt{SpotOptim} to accelerate optimization runs, particularly for
-computationally expensive objective functions.
+This chapter explains how \texttt{SpotOptim} evaluates the objective
+function and how a user can still exploit several processor cores even
+though the optimizer itself runs sequentially.
 
-\section{Overview}\label{overview}
+\section{Sequential evaluation}\label{sequential-evaluation}
 
-SpotOptim utilizes a \textbf{Steady-State Asynchronous Parallelization}
-strategy when \texttt{n\_jobs\ \textgreater{}\ 1}. This approach is
-designed to maximize resource utilization by ensuring that as soon as a
-worker is free, a new task is assigned, without waiting for batches of
-tasks to complete.
+As of version 1.0.0, \texttt{SpotOptim} evaluates the objective function
+sequentially. The earlier steady-state asynchronous scheme, controlled
+by an \texttt{n\_jobs} argument, was removed when the core was reduced
+to a lean sequential implementation. The constructor therefore no longer
+accepts \texttt{n\_jobs} or \texttt{eval\_batch\_size}, and the public
+entry point is the single \texttt{optimize()} call shown throughout this
+book.
 
-\section{How it Workstest/}\label{how-it-workstest}
+The motivation for the sequential design is reproducibility and a
+smaller dependency surface. With a fixed \texttt{seed}, a sequential run
+reproduces the same sequence of infill points on every machine, which
+matters for the benchmark and leaderboard results that depend on this
+library. Removing the parallel executor also dropped the heavy
+process-management dependencies from the core install.
 
-When \texttt{n\_jobs\ \textgreater{}\ 1}, SpotOptim employs a
-\textbf{Steady-State Asynchronous Parallelization} strategy. The process
-flow is as follows:
+Sequential evaluation does not prevent the use of multiple cores. Two
+complementary strategies remain available, and they cover the cases that
+the old \texttt{n\_jobs} option addressed.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  \textbf{Parallel Initial Design}:
+\section{Parallelism inside the objective
+function}\label{parallelism-inside-the-objective-function}
 
-  \begin{itemize}
-  \tightlist
-  \item
-    The \texttt{n\_initial\ *\ repeats\_initial} initial design
-    evaluations are managed by the parallel executor.
-  \item
-    The first \texttt{n\_jobs} are sent to separate processors.
-  \item
-    If the first job is ready, its result is returned and the next of
-    the initial design runs is dispatched.
-  \item
-    This continues until all initial design runs have returned their
-    values.
-  \end{itemize}
-\item
-  \textbf{First Surrogate Fit}:
+\texttt{SpotOptim} passes the candidate points to the objective function
+as a two-dimensional array whose rows are individual points. A
+vectorized objective that operates on the whole array uses the optimized
+linear-algebra backend, which is already multi-threaded, so a single
+call evaluates the batch efficiently without any explicit parallel code.
 
-  \begin{itemize}
-  \tightlist
-  \item
-    Once all initial evaluations are complete, the first surrogate model
-    is built (fitted) using the comprehensive initial dataset.
-  \end{itemize}
-\item
-  \textbf{Parallel Search Initialization}:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{n\_jobs} searches (optimizations) on this initial surrogate
-    model are dispatched to run in parallel.
-  \end{itemize}
-\item
-  \textbf{Steady-State Loop}:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \textbf{Dispatch \& Collect}: The loop manages a continuous stream
-    of tasks.
-  \item
-    \textbf{Search}: If a Search task is ready (returns a candidate
-    \(x_{cand}\)), this point is immediately sent to the evaluation
-    function to compute \(y_{new}\).
-  \item
-    \textbf{Update \& Refit}: As soon as \(y_{new}\) is available, the
-    global surrogate model is fitted again (including the new
-    \(x_{cand}, y_{new}\)).
-  \item
-    \textbf{New Search}: A new Search task is then dispatched using this
-    continuously updated surrogate model.
-  \item
-    This cycle repeats, ensuring the surrogate is always updated with
-    the latest available information for every new search.
-  \end{itemize}
-\end{enumerate}
-
-\section{Benchmark Example}\label{benchmark-example}
-
-The following example demonstrates the speedup achieved by using
-parallelization on a simulated expensive objective function.
-
-\subsection{Benchmark Script}\label{benchmark-script}
-
-We compare sequential execution (\texttt{n\_jobs=1}) against parallel
-execution (\texttt{n\_jobs=4}) for a task simulating 4 independent
-optimization runs.
-
+\protect\phantomsection\label{vectorized-objective}
 \begin{Shaded}
 \begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ os}
-\ImportTok{import}\NormalTok{ time}
 \ImportTok{import}\NormalTok{ warnings}
 \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
-\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
-\ImportTok{from}\NormalTok{ sklearn.exceptions }\ImportTok{import}\NormalTok{ ConvergenceWarning}
 
-\NormalTok{os.environ[}\StringTok{"PYTHONWARNINGS"}\NormalTok{] }\OperatorTok{=} \StringTok{"ignore"}
 \NormalTok{warnings.filterwarnings(}\StringTok{"ignore"}\NormalTok{)}
-\NormalTok{warnings.filterwarnings(}\StringTok{"ignore"}\NormalTok{, category}\OperatorTok{=}\NormalTok{ConvergenceWarning)}
 
-\KeywordTok{def}\NormalTok{ expensive\_objective(X):}
-    \ImportTok{import}\NormalTok{ time}
-    \ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
-    \CommentTok{\# Simulate a computationally expensive function}
-    \CommentTok{\# Sleep for 0.05 seconds per point}
-\NormalTok{    n\_points }\OperatorTok{=}\NormalTok{ X.shape[}\DecValTok{0}\NormalTok{]}
-\NormalTok{    time.sleep(}\FloatTok{0.05} \OperatorTok{*}\NormalTok{ n\_points)}
-    \CommentTok{\# Simple sphere function}
+
+\KeywordTok{def}\NormalTok{ sphere\_batch(X):}
+    \CommentTok{\# X has shape (n\_points, n\_dim); evaluate all rows at once.}
     \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
 
-\KeywordTok{def}\NormalTok{ run\_benchmark():}
-\NormalTok{    n\_runs }\OperatorTok{=} \DecValTok{4}
-\NormalTok{    n\_iter\_per\_run }\OperatorTok{=} \DecValTok{10}
-    
-    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Benchmark Configuration:"}\NormalTok{)}
-    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  Objective cost: 0.05s per evaluation"}\NormalTok{)}
-    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  Runs: }\SpecialCharTok{\{}\NormalTok{n\_runs}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
-    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  Iters per run: }\SpecialCharTok{\{}\NormalTok{n\_iter\_per\_run}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 
-    \CommentTok{\# {-}{-}{-} Sequential Execution (n\_jobs=1) {-}{-}{-}}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{Starting Sequential Benchmark (n\_jobs=1)..."}\NormalTok{)}
-\NormalTok{    start\_seq }\OperatorTok{=}\NormalTok{ time.time()}
-    \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(n\_runs):}
-\NormalTok{        optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{            fun}\OperatorTok{=}\NormalTok{expensive\_objective,}
-\NormalTok{            bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)] }\OperatorTok{*} \DecValTok{2}\NormalTok{,}
-\NormalTok{            max\_iter}\OperatorTok{=}\NormalTok{n\_iter\_per\_run,}
-\NormalTok{            n\_initial}\OperatorTok{=}\DecValTok{5}\NormalTok{,}
-\NormalTok{            n\_jobs}\OperatorTok{=}\DecValTok{1}\NormalTok{,}
-\NormalTok{            seed}\OperatorTok{=}\DecValTok{42} \OperatorTok{+}\NormalTok{ i,}
-\NormalTok{            verbose}\OperatorTok{=}\VariableTok{False}
-\NormalTok{        )}
-\NormalTok{        optimizer.optimize()}
-\NormalTok{    end\_seq }\OperatorTok{=}\NormalTok{ time.time()}
-\NormalTok{    time\_seq }\OperatorTok{=}\NormalTok{ end\_seq }\OperatorTok{{-}}\NormalTok{ start\_seq}
-    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Sequential Total Time: }\SpecialCharTok{\{}\NormalTok{time\_seq}\SpecialCharTok{:.2f\}}\SpecialStringTok{s"}\NormalTok{)}
-    
-    \CommentTok{\# {-}{-}{-} Parallel Execution (n\_jobs=4) {-}{-}{-}}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{Starting Parallel Benchmark (n\_jobs=4)..."}\NormalTok{)}
-\NormalTok{    start\_par }\OperatorTok{=}\NormalTok{ time.time()}
-\NormalTok{    optimizer\_par }\OperatorTok{=}\NormalTok{ SpotOptim(}
-\NormalTok{        fun}\OperatorTok{=}\NormalTok{expensive\_objective,}
-\NormalTok{        bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)] }\OperatorTok{*} \DecValTok{2}\NormalTok{,}
-\NormalTok{        max\_iter}\OperatorTok{=}\NormalTok{n\_iter\_per\_run, }
-\NormalTok{        n\_initial}\OperatorTok{=}\DecValTok{5}\NormalTok{,}
-\NormalTok{        n\_jobs}\OperatorTok{=}\NormalTok{n\_runs,   }\CommentTok{\# 4 parallel tasks}
-\NormalTok{        seed}\OperatorTok{=}\DecValTok{42}\NormalTok{,}
-\NormalTok{        verbose}\OperatorTok{=}\VariableTok{False}
-\NormalTok{    )}
-\NormalTok{    optimizer\_par.optimize()}
-\NormalTok{    end\_par }\OperatorTok{=}\NormalTok{ time.time()}
-\NormalTok{    time\_par }\OperatorTok{=}\NormalTok{ end\_par }\OperatorTok{{-}}\NormalTok{ start\_par}
-    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Parallel Total Time: }\SpecialCharTok{\{}\NormalTok{time\_par}\SpecialCharTok{:.2f\}}\SpecialStringTok{s"}\NormalTok{)}
-    
-    \CommentTok{\# {-}{-}{-} Results {-}{-}{-}}
-\NormalTok{    speedup }\OperatorTok{=}\NormalTok{ time\_seq }\OperatorTok{/}\NormalTok{ time\_par}
-    \BuiltInTok{print}\NormalTok{(}\StringTok{"{-}"} \OperatorTok{*} \DecValTok{30}\NormalTok{)}
-    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Speedup: }\SpecialCharTok{\{}\NormalTok{speedup}\SpecialCharTok{:.2f\}}\SpecialStringTok{x"}\NormalTok{)}
+\NormalTok{optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
+\NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere\_batch,}
+\NormalTok{    bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)] }\OperatorTok{*} \DecValTok{2}\NormalTok{,}
+\NormalTok{    n\_initial}\OperatorTok{=}\DecValTok{5}\NormalTok{,}
+\NormalTok{    max\_iter}\OperatorTok{=}\DecValTok{15}\NormalTok{,}
+\NormalTok{    seed}\OperatorTok{=}\DecValTok{42}\NormalTok{,}
+\NormalTok{    verbose}\OperatorTok{=}\VariableTok{False}\NormalTok{,}
+\NormalTok{)}
+\NormalTok{result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
 
-    \CommentTok{\# {-}{-}{-} Plotting {-}{-}{-}}
-\NormalTok{    labels }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}Sequential\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Parallel (n\_jobs=4)\textquotesingle{}}\NormalTok{]}
-\NormalTok{    times }\OperatorTok{=}\NormalTok{ [time\_seq, time\_par]}
-
-\NormalTok{    plt.figure(figsize}\OperatorTok{=}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{6}\NormalTok{))}
-\NormalTok{    bars }\OperatorTok{=}\NormalTok{ plt.bar(labels, times, color}\OperatorTok{=}\NormalTok{[}\StringTok{\textquotesingle{}skyblue\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}salmon\textquotesingle{}}\NormalTok{])}
-\NormalTok{    plt.ylabel(}\StringTok{\textquotesingle{}Total Time (s)\textquotesingle{}}\NormalTok{)}
-\NormalTok{    plt.title(}\SpecialStringTok{f\textquotesingle{}Optimization Time Comparison}\CharTok{\textbackslash{}n}\SpecialStringTok{(Speedup: }\SpecialCharTok{\{}\NormalTok{speedup}\SpecialCharTok{:.2f\}}\SpecialStringTok{x)\textquotesingle{}}\NormalTok{)}
-\NormalTok{    plt.grid(axis}\OperatorTok{=}\StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{, linestyle}\OperatorTok{=}\StringTok{\textquotesingle{}{-}{-}\textquotesingle{}}\NormalTok{, alpha}\OperatorTok{=}\FloatTok{0.7}\NormalTok{)}
-    
-    \CommentTok{\# Add text labels on bars}
-    \ControlFlowTok{for}\NormalTok{ bar }\KeywordTok{in}\NormalTok{ bars:}
-\NormalTok{        height }\OperatorTok{=}\NormalTok{ bar.get\_height()}
-\NormalTok{        plt.text(bar.get\_x() }\OperatorTok{+}\NormalTok{ bar.get\_width()}\OperatorTok{/}\FloatTok{2.}\NormalTok{, height,}
-                \SpecialStringTok{f\textquotesingle{}}\SpecialCharTok{\{}\NormalTok{height}\SpecialCharTok{:.2f\}}\SpecialStringTok{s\textquotesingle{}}\NormalTok{,}
-\NormalTok{                ha}\OperatorTok{=}\StringTok{\textquotesingle{}center\textquotesingle{}}\NormalTok{, va}\OperatorTok{=}\StringTok{\textquotesingle{}bottom\textquotesingle{}}\NormalTok{)}
-                
-\NormalTok{    plt.show()}
-
-\ControlFlowTok{if} \VariableTok{\_\_name\_\_} \OperatorTok{==} \StringTok{"\_\_main\_\_"}\NormalTok{:}
-\NormalTok{    run\_benchmark()}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"best x   : }\SpecialCharTok{\{}\NormalTok{np}\SpecialCharTok{.}\BuiltInTok{round}\NormalTok{(result.x, }\DecValTok{4}\NormalTok{)}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"best f(x): }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"n eval   : }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{nfev}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-Benchmark Configuration:
-  Objective cost: 0.05s per evaluation
-  Runs: 4
-  Iters per run: 10
-
-Starting Sequential Benchmark (n_jobs=1)...
-Sequential Total Time: 8.72s
-
-Starting Parallel Benchmark (n_jobs=4)...
-Parallel Total Time: 5.44s
-------------------------------
-Speedup: 1.60x
+best x   : [-0.0004  0.0003]
+best f(x): 0.000000
+n eval   : 15
 \end{verbatim}
 
-\pandocbounded{\includegraphics[keepaspectratio]{spotoptim_parallel_files/figure-pdf/benchmark_script-output-2.pdf}}
+When the per-point cost is dominated by a routine that releases the
+global interpreter lock, such as a NumPy or PyTorch operation, the
+objective can also spread the rows across a thread pool inside the
+function body. The optimizer sees a single call and remains
+deterministic, while the heavy work runs concurrently.
 
-\subsection{Results}\label{results}
+\section{Independent optimizations across
+processes}\label{independent-optimizations-across-processes}
 
-Running the benchmark on a standard multi-core machine yields
-significant speedups. In our test case with a simulated delay of 0.05s
-per evaluation:
+The second strategy parallelizes at the level of whole optimization runs
+rather than single evaluations. Independent runs, for example repeated
+restarts from different seeds or the same tuning problem applied to
+several data splits, are embarrassingly parallel and can be dispatched
+to separate processes with the standard library. Each process executes
+one self-contained sequential \texttt{optimize()} call.
 
-\begin{itemize}
-\tightlist
-\item
-  \textbf{Sequential Time}: \textasciitilde7.56s
-\item
-  \textbf{Parallel Time}: \textasciitilde4.13s
-\item
-  \textbf{Speedup}: \textbf{1.83x}
-\end{itemize}
+The following pattern illustrates the approach. It is shown for
+reference and is not executed during the rendering of this page, because
+process pools require a script entry point rather than a notebook cell.
 
-\emph{Note: Actual speedup depends on the overhead of process spawning
-and the nature of the objective function. For very fast objective
-functions, the overhead of parallelization might outweigh the benefits.}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ concurrent.futures }\ImportTok{import}\NormalTok{ ProcessPoolExecutor}
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
 
-\section{Best Practices}\label{best-practices-1}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  \textbf{Use for Expensive Functions}: Parallelization is most
-  effective when the function evaluation time dominates the overhead of
-  \texttt{joblib} (pickling data, spawning processes).
-\item
-  \textbf{Memory Usage}: Each parallel worker consumes its own memory.
-  Be mindful of total system memory when setting high \texttt{n\_jobs}
-  for memory-intensive problems.
-\item
-  \textbf{Reproducibility}: Setting a \texttt{seed} in
-  \texttt{SpotOptim} ensures that the parallel runs are reproducible, as
-  seeds are deterministically derived for each task.
-\end{enumerate}
+\KeywordTok{def}\NormalTok{ sphere\_batch(X):}
+    \ControlFlowTok{return}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{(X}\OperatorTok{**}\DecValTok{2}\NormalTok{, axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
+
+\KeywordTok{def}\NormalTok{ run\_once(seed):}
+\NormalTok{    optimizer }\OperatorTok{=}\NormalTok{ SpotOptim(}
+\NormalTok{        fun}\OperatorTok{=}\NormalTok{sphere\_batch,}
+\NormalTok{        bounds}\OperatorTok{=}\NormalTok{[(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{)] }\OperatorTok{*} \DecValTok{2}\NormalTok{,}
+\NormalTok{        n\_initial}\OperatorTok{=}\DecValTok{5}\NormalTok{,}
+\NormalTok{        max\_iter}\OperatorTok{=}\DecValTok{15}\NormalTok{,}
+\NormalTok{        seed}\OperatorTok{=}\NormalTok{seed,}
+\NormalTok{        verbose}\OperatorTok{=}\VariableTok{False}\NormalTok{,}
+\NormalTok{    )}
+\NormalTok{    result }\OperatorTok{=}\NormalTok{ optimizer.optimize()}
+    \ControlFlowTok{return}\NormalTok{ seed, }\BuiltInTok{float}\NormalTok{(result.fun)}
+
+
+\ControlFlowTok{if} \VariableTok{\_\_name\_\_} \OperatorTok{==} \StringTok{"\_\_main\_\_"}\NormalTok{:}
+\NormalTok{    seeds }\OperatorTok{=}\NormalTok{ [}\DecValTok{42}\NormalTok{, }\DecValTok{43}\NormalTok{, }\DecValTok{44}\NormalTok{, }\DecValTok{45}\NormalTok{]}
+    \ControlFlowTok{with}\NormalTok{ ProcessPoolExecutor() }\ImportTok{as}\NormalTok{ pool:}
+        \ControlFlowTok{for}\NormalTok{ seed, best }\KeywordTok{in}\NormalTok{ pool.}\BuiltInTok{map}\NormalTok{(run\_once, seeds):}
+            \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"seed }\SpecialCharTok{\{}\NormalTok{seed}\SpecialCharTok{\}}\SpecialStringTok{: best f(x) = }\SpecialCharTok{\{}\NormalTok{best}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+This keeps each optimization reproducible, since the seed is fixed per
+run, while the wall-clock time scales with the number of available cores
+rather than with the number of runs.
 
 \section{Jupyter Notebook}\label{jupyter-notebook-6}
 
@@ -4754,7 +4641,7 @@ Setting \texttt{restart\_after\_n} depends on your problem:
 \chapter{Variable Type (var\_type) Implementation in
 SpotOptim}\label{variable-type-var_type-implementation-in-spotoptim}
 
-\section{Overview}\label{overview-1}
+\section{Overview}\label{overview}
 
 This document describes the \texttt{var\_type} implementation in
 SpotOptim, which allows users to specify different data types for
@@ -5154,7 +5041,7 @@ discrete string-based choices. Factor variables are automatically
 converted between string values (external interface) and integers
 (internal optimization), making categorical optimization seamless.
 
-\section{Overview}\label{overview-2}
+\section{Overview}\label{overview-1}
 
 \textbf{What are Factor Variables?}
 
@@ -5236,6 +5123,11 @@ Usage}\label{basic-factor-variable-usage}
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Best score: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/3329959676.py:24: UserWarning: Factor variables detected (original bounds dimensions: [0]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
+\end{verbatim}
 
 \begin{verbatim}
 Testing activation: ReLU
@@ -5335,8 +5227,13 @@ Optimization}\label{neural-network-activation-function-optimization}
 \end{Shaded}
 
 \begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/1439913637.py:54: UserWarning: Factor variables detected (original bounds dimensions: [0]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
+\end{verbatim}
+
+\begin{verbatim}
 Best activation function: Sigmoid
-Best test MSE: 26512.0501
+Best test MSE: 26464.8470
 \end{verbatim}
 
 \section{Mixed Variable Types}\label{mixed-variable-types}
@@ -5433,63 +5330,71 @@ Variables}\label{combining-factor-integer-and-continuous-variables}
 \end{Shaded}
 
 \begin{verbatim}
-lr=0.001244, l1=55, layers=4, activation=Sigmoid
-lr=0.000319, l1=110, layers=2, activation=LeakyReLU
-lr=0.004348, l1=47, layers=3, activation=ReLU
-lr=0.001615, l1=62, layers=2, activation=Sigmoid
-lr=0.007619, l1=118, layers=1, activation=Sigmoid
-lr=0.000731, l1=91, layers=3, activation=LeakyReLU
-lr=0.000104, l1=34, layers=0, activation=Tanh
-lr=0.000183, l1=78, layers=1, activation=Tanh
-lr=0.002909, l1=20, layers=2, activation=Tanh
-lr=0.000411, l1=97, layers=2, activation=Sigmoid
-lr=0.000820, l1=110, layers=1, activation=Tanh
-lr=0.000104, l1=34, layers=0, activation=Tanh
-lr=0.005292, l1=64, layers=1, activation=Sigmoid
-lr=0.002111, l1=89, layers=3, activation=Tanh
-lr=0.001275, l1=101, layers=3, activation=LeakyReLU
-lr=0.004821, l1=44, layers=3, activation=Tanh
-lr=0.000177, l1=76, layers=2, activation=Tanh
-lr=0.001381, l1=115, layers=1, activation=Sigmoid
-lr=0.000421, l1=48, layers=1, activation=Sigmoid
-lr=0.008880, l1=93, layers=3, activation=Sigmoid
-lr=0.003566, l1=114, layers=0, activation=Sigmoid
-lr=0.008129, l1=89, layers=2, activation=Sigmoid
-lr=0.001085, l1=103, layers=3, activation=Tanh
-lr=0.001265, l1=120, layers=1, activation=Sigmoid
-lr=0.003381, l1=99, layers=3, activation=Tanh
-lr=0.006645, l1=27, layers=2, activation=Sigmoid
-lr=0.001329, l1=87, layers=0, activation=Tanh
-lr=0.004093, l1=50, layers=2, activation=Tanh
-lr=0.001930, l1=91, layers=2, activation=Tanh
-lr=0.000223, l1=94, layers=2, activation=ReLU
-lr=0.001175, l1=61, layers=0, activation=LeakyReLU
-lr=0.001837, l1=92, layers=2, activation=LeakyReLU
-lr=0.002186, l1=63, layers=3, activation=Sigmoid
-lr=0.000575, l1=106, layers=1, activation=Sigmoid
-lr=0.004582, l1=126, layers=2, activation=LeakyReLU
-lr=0.000811, l1=93, layers=2, activation=Sigmoid
-lr=0.003384, l1=24, layers=1, activation=Tanh
-lr=0.002273, l1=118, layers=4, activation=Tanh
-lr=0.006885, l1=76, layers=1, activation=ReLU
-lr=0.008604, l1=59, layers=1, activation=Sigmoid
-lr=0.000315, l1=61, layers=0, activation=Sigmoid
-lr=0.001200, l1=92, layers=4, activation=Tanh
-lr=0.001664, l1=62, layers=4, activation=LeakyReLU
-lr=0.004207, l1=39, layers=2, activation=Tanh
-lr=0.000263, l1=108, layers=1, activation=Tanh
-lr=0.004217, l1=39, layers=2, activation=Tanh
-lr=0.000492, l1=126, layers=2, activation=Sigmoid
-lr=0.000953, l1=62, layers=1, activation=Sigmoid
-lr=0.001287, l1=104, layers=2, activation=LeakyReLU
-lr=0.000185, l1=40, layers=0, activation=Sigmoid
+lr=0.000224, l1=103, layers=2, activation=Tanh
+lr=0.000630, l1=45, layers=1, activation=Sigmoid
+lr=0.000315, l1=56, layers=1, activation=Sigmoid
+lr=0.000850, l1=36, layers=4, activation=ReLU
+\end{verbatim}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/2535631531.py:63: UserWarning: Factor variables detected (original bounds dimensions: [3]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
+\end{verbatim}
+
+\begin{verbatim}
+lr=0.009768, l1=119, layers=1, activation=Tanh
+lr=0.001327, l1=90, layers=2, activation=Sigmoid
+lr=0.002593, l1=62, layers=0, activation=Tanh
+lr=0.005263, l1=22, layers=3, activation=LeakyReLU
+lr=0.000149, l1=107, layers=3, activation=LeakyReLU
+lr=0.002261, l1=73, layers=3, activation=ReLU
+lr=0.002602, l1=62, layers=0, activation=Tanh
+lr=0.002180, l1=95, layers=0, activation=ReLU
+lr=0.004550, l1=34, layers=1, activation=Tanh
+lr=0.000210, l1=66, layers=3, activation=ReLU
+lr=0.007367, l1=107, layers=2, activation=Sigmoid
+lr=0.001188, l1=128, layers=2, activation=Tanh
+lr=0.005193, l1=112, layers=2, activation=Sigmoid
+lr=0.001237, l1=86, layers=1, activation=Sigmoid
+lr=0.004650, l1=126, layers=4, activation=Sigmoid
+lr=0.000953, l1=115, layers=1, activation=LeakyReLU
+lr=0.000608, l1=110, layers=4, activation=Sigmoid
+lr=0.000874, l1=122, layers=2, activation=LeakyReLU
+lr=0.000144, l1=108, layers=0, activation=Tanh
+lr=0.005234, l1=128, layers=1, activation=Tanh
+lr=0.000867, l1=30, layers=3, activation=ReLU
+lr=0.000489, l1=39, layers=3, activation=ReLU
+lr=0.001731, l1=86, layers=3, activation=Tanh
+lr=0.007997, l1=83, layers=2, activation=Sigmoid
+lr=0.004277, l1=117, layers=0, activation=Tanh
+lr=0.001124, l1=18, layers=3, activation=Tanh
+lr=0.006286, l1=105, layers=3, activation=ReLU
+lr=0.000101, l1=65, layers=3, activation=LeakyReLU
+lr=0.000725, l1=66, layers=1, activation=Sigmoid
+lr=0.000490, l1=32, layers=2, activation=ReLU
+lr=0.005183, l1=73, layers=1, activation=Tanh
+lr=0.003291, l1=46, layers=2, activation=Tanh
+lr=0.000337, l1=22, layers=0, activation=Sigmoid
+lr=0.000236, l1=83, layers=0, activation=Sigmoid
+lr=0.001787, l1=116, layers=1, activation=Tanh
+lr=0.000169, l1=22, layers=4, activation=Sigmoid
+lr=0.002136, l1=28, layers=2, activation=Sigmoid
+lr=0.003964, l1=43, layers=1, activation=LeakyReLU
+lr=0.000116, l1=75, layers=3, activation=Sigmoid
+lr=0.001084, l1=49, layers=1, activation=Tanh
+lr=0.000433, l1=101, layers=4, activation=LeakyReLU
+lr=0.000753, l1=109, layers=1, activation=ReLU
+lr=0.003830, l1=83, layers=0, activation=LeakyReLU
+lr=0.003819, l1=72, layers=2, activation=Sigmoid
+lr=0.000696, l1=37, layers=0, activation=Tanh
+lr=0.002977, l1=127, layers=3, activation=Tanh
 
 Optimization Results:
-Best learning rate: 0.008880
-Best layer size: 93
-Best num layers: 3
+Best learning rate: 0.004650
+Best layer size: 126
+Best num layers: 4
 Best activation: Sigmoid
-Best test MSE: 26343.3835
+Best test MSE: 26403.3307
 \end{verbatim}
 
 \section{Multiple Factor Variables}\label{multiple-factor-variables}
@@ -5570,9 +5475,14 @@ Optimizer}\label{optimizing-both-activation-and-optimizer}
 \end{Shaded}
 
 \begin{verbatim}
-Best activation: Tanh
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/2475134545.py:53: UserWarning: Factor variables detected (original bounds dimensions: [0, 1]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  opt = SpotOptim(
+\end{verbatim}
+
+\begin{verbatim}
+Best activation: LeakyReLU
 Best optimizer: SGD
-Best learning rate: 0.009850
+Best learning rate: 0.002865
 \end{verbatim}
 
 \section{Advanced Usage}\label{advanced-usage}
@@ -5648,6 +5558,11 @@ functions:
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"  Score: }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{fun}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/2135006710.py:44: UserWarning: Factor variables detected (original bounds dimensions: [0, 1, 2]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
+\end{verbatim}
 
 \begin{verbatim}
 Best configuration:
@@ -5747,6 +5662,11 @@ Configurations}\label{viewing-all-evaluated-configurations}
           \SpecialStringTok{f"MSE=}\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{y[idx]}\SpecialCharTok{:.4f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/2283186313.py:54: UserWarning: Factor variables detected (original bounds dimensions: [1]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
+\end{verbatim}
 
 \begin{verbatim}
 
@@ -5910,6 +5830,11 @@ factor variables:
 
 \begin{verbatim}
 Best lr: 0.000305, Best activation: ReLU
+\end{verbatim}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/3134039290.py:31: UserWarning: Factor variables detected (original bounds dimensions: [1]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
 \end{verbatim}
 
 \section{Complete Example: Full
@@ -6117,6 +6042,14 @@ Testing: lr=0.000414, l1=62, layers=1, activation=Tanh
 Testing: lr=0.000256, l1=81, layers=1, activation=Sigmoid
   → Test MSE: 26721.7930
 Testing: lr=0.009331, l1=90, layers=4, activation=Tanh
+\end{verbatim}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/156832938.py:80: UserWarning: Factor variables detected (original bounds dimensions: [3]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
+\end{verbatim}
+
+\begin{verbatim}
   → Test MSE: 26526.8822
 Testing: lr=0.001413, l1=106, layers=2, activation=Sigmoid
   → Test MSE: 26668.0417
@@ -6249,7 +6182,7 @@ Final Test MSE: 26578.0579
 ================================================================================
 \end{verbatim}
 
-\section{Best Practices}\label{best-practices-2}
+\section{Best Practices}\label{best-practices-1}
 
 \subsection{Do's}\label{dos}
 
@@ -6310,6 +6243,11 @@ Final Test MSE: 26578.0579
 \CommentTok{\# model = LinearRegressor(activation=best\_activation)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_27385/48594712.py:21: UserWarning: Factor variables detected (original bounds dimensions: [0]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  opt = SpotOptim(
+\end{verbatim}
 
 \begin{verbatim}
 Best activation: ReLU (type: str)
@@ -6458,7 +6396,7 @@ transformations (e.g., log-scale for learning rates), you can specify
 transformations via the \texttt{var\_trans} parameter, and SpotOptim
 handles everything internally.
 
-\section{Overview}\label{overview-3}
+\section{Overview}\label{overview-2}
 
 \textbf{What are Variable Transformations?}
 
@@ -6808,43 +6746,43 @@ Tuning}\label{example-1-neural-network-hyperparameter-tuning}
 \end{Shaded}
 
 \begin{verbatim}
-Training: hidden=64, layers=2, lr=0.000865, wd=0.000189
-Training: hidden=36, layers=3, lr=0.000399, wd=0.000008
-Training: hidden=256, layers=3, lr=0.067021, wd=0.001348
-Training: hidden=121, layers=3, lr=0.004622, wd=0.000093
-Training: hidden=81, layers=1, lr=0.015013, wd=0.000395
-Training: hidden=169, layers=2, lr=0.028644, wd=0.001817
-Training: hidden=144, layers=1, lr=0.002881, wd=0.000002
-Training: hidden=16, layers=2, lr=0.010144, wd=0.000004
-Training: hidden=225, layers=3, lr=0.000118, wd=0.000022
-Training: hidden=36, layers=4, lr=0.000249, wd=0.009479
-Training: hidden=100, layers=1, lr=0.078459, wd=0.000511
-Training: hidden=81, layers=1, lr=0.025725, wd=0.000396
-Training: hidden=100, layers=1, lr=0.074352, wd=0.000511
-Training: hidden=25, layers=2, lr=0.008325, wd=0.000002
-Training: hidden=16, layers=2, lr=0.010144, wd=0.000004
-Training: hidden=225, layers=3, lr=0.035475, wd=0.004886
-Training: hidden=16, layers=2, lr=0.006932, wd=0.000753
-Training: hidden=121, layers=2, lr=0.002197, wd=0.000031
-Training: hidden=25, layers=2, lr=0.000840, wd=0.000001
-Training: hidden=225, layers=4, lr=0.017990, wd=0.005369
-Training: hidden=169, layers=2, lr=0.013721, wd=0.000004
-Training: hidden=49, layers=2, lr=0.000250, wd=0.000041
-Training: hidden=256, layers=3, lr=0.004621, wd=0.000011
-Training: hidden=169, layers=4, lr=0.026769, wd=0.000002
-Training: hidden=121, layers=1, lr=0.000202, wd=0.000052
-Training: hidden=36, layers=3, lr=0.068507, wd=0.000339
-Training: hidden=121, layers=4, lr=0.048227, wd=0.000036
-Training: hidden=196, layers=2, lr=0.021379, wd=0.000053
-Training: hidden=64, layers=4, lr=0.032486, wd=0.000006
-Training: hidden=81, layers=2, lr=0.008988, wd=0.000008
+Training: hidden=59, layers=2, lr=0.000865, wd=0.000189
+Training: hidden=42, layers=3, lr=0.000399, wd=0.000008
+Training: hidden=250, layers=3, lr=0.067021, wd=0.001348
+Training: hidden=119, layers=3, lr=0.004622, wd=0.000093
+Training: hidden=79, layers=1, lr=0.015013, wd=0.000395
+Training: hidden=180, layers=2, lr=0.028644, wd=0.001817
+Training: hidden=152, layers=1, lr=0.002881, wd=0.000002
+Training: hidden=19, layers=2, lr=0.010144, wd=0.000004
+Training: hidden=216, layers=3, lr=0.000118, wd=0.000022
+Training: hidden=41, layers=4, lr=0.000249, wd=0.009479
+Training: hidden=28, layers=1, lr=0.000291, wd=0.006011
+Training: hidden=79, layers=1, lr=0.013124, wd=0.000362
+Training: hidden=67, layers=3, lr=0.002156, wd=0.000117
+Training: hidden=21, layers=2, lr=0.018989, wd=0.000001
+Training: hidden=88, layers=1, lr=0.100000, wd=0.000842
+Training: hidden=77, layers=2, lr=0.044713, wd=0.000630
+Training: hidden=59, layers=4, lr=0.000287, wd=0.001439
+Training: hidden=152, layers=2, lr=0.005498, wd=0.000228
+Training: hidden=16, layers=3, lr=0.011726, wd=0.000003
+Training: hidden=61, layers=3, lr=0.001823, wd=0.000030
+Training: hidden=141, layers=3, lr=0.003106, wd=0.000138
+Training: hidden=77, layers=1, lr=0.055837, wd=0.000567
+Training: hidden=85, layers=1, lr=0.025940, wd=0.001322
+Training: hidden=82, layers=1, lr=0.034281, wd=0.000571
+Training: hidden=154, layers=1, lr=0.061995, wd=0.001318
+Training: hidden=60, layers=3, lr=0.003578, wd=0.000088
+Training: hidden=157, layers=2, lr=0.028605, wd=0.000686
+Training: hidden=191, layers=1, lr=0.001614, wd=0.005530
+Training: hidden=148, layers=2, lr=0.000514, wd=0.000044
+Training: hidden=190, layers=1, lr=0.048875, wd=0.000735
 
 Best Configuration:
-  Hidden Size: 81
+  Hidden Size: 82
   Num Layers: 1
-  Learning Rate: 0.015013
-  Weight Decay: 0.00039512
-  Best Loss: 2673.779297
+  Learning Rate: 0.034281
+  Weight Decay: 0.00057099
+  Best Loss: 2641.261068
 \end{verbatim}
 
 \subsection{Example 2: Physics-Informed Neural Networks
@@ -7020,10 +6958,10 @@ Optimization)}\label{results-table-after-optimization}
 \begin{verbatim}
 |    name |   type |   default |   lower |   upper |   tuned |   transform |
 |---------|--------|-----------|---------|---------|---------|-------------|
-|      lr |  float |    0.5005 |   0.001 |       1 |  0.3481 |       log10 |
-|   alpha |  float |     5.005 |    0.01 |      10 |  1.2563 |         log |
-| neurons |  float |       505 |      10 |    1000 | 17.4921 |        sqrt |
-|    bias |  float |         0 |      -5 |       5 |   0.934 |           - |
+|      lr |  float |    0.5005 |   0.001 |       1 |  0.9769 |       log10 |
+|   alpha |  float |     5.005 |    0.01 |      10 |  0.0322 |         log |
+| neurons |  float |       505 |      10 |    1000 | 32.5622 |        sqrt |
+|    bias |  float |         0 |      -5 |       5 | -1.7406 |           - |
 \end{verbatim}
 
 Output shows the ``trans'' column with transformation types, helping you
@@ -7108,7 +7046,7 @@ Storage & Results (Original Scale)
   \end{itemize}
 \end{enumerate}
 
-\section{Best Practices}\label{best-practices-3}
+\section{Best Practices}\label{best-practices-2}
 
 \subsection{1. Choose Appropriate
 Transformations}\label{choose-appropriate-transformations}
@@ -7405,7 +7343,7 @@ This document describes the \texttt{plot\_surrogate()} method added to
 the \texttt{SpotOptim} class, which provides visualization capabilities
 similar to the \texttt{plotkd()} function in the spotpython package.
 
-\section{Overview}\label{overview-4}
+\section{Overview}\label{overview-3}
 
 The \texttt{plot\_surrogate()} method creates a comprehensive 4-panel
 visualization of the fitted surrogate model, showing both predictions
@@ -7851,9 +7789,9 @@ Logging}\label{enable-tensorboard-logging}
 \end{Shaded}
 
 \begin{verbatim}
-Removed old TensorBoard logs: runs/spotoptim_20260411_213816
+Removed old TensorBoard logs: runs/spotoptim_20260627_123152
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260411_213829
+TensorBoard logging enabled: runs/spotoptim_20260627_123511
 Initial best: f(x) = 3.925721
 Iter 1 | Best: 0.020506 | Rate: 1.00 | Evals: 55.0%
 Iter 2 | Best: 0.000751 | Rate: 1.00 | Evals: 60.0%
@@ -7865,9 +7803,9 @@ Iter 7 | Best: 0.000000 | Rate: 0.86 | Evals: 85.0%
 Iter 8 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.75 | Evals: 90.0%
 Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.67 | Evals: 95.0%
 Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.60 | Evals: 100.0%
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260411_213829
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260627_123511
 Best value: 0.000000
-Logs saved to: runs/runs/spotoptim_20260411_213829
+Logs saved to: runs/runs/spotoptim_20260627_123511
 \end{verbatim}
 
 \subsection{View Logs in TensorBoard}\label{view-logs-in-tensorboard}
@@ -8029,9 +7967,9 @@ Usage]\protect\hypertarget{exm-tensorboard-1}{}\label{exm-tensorboard-1}
 \end{Shaded}
 
 \begin{verbatim}
-Removed old TensorBoard logs: runs/spotoptim_20260411_213829
+Removed old TensorBoard logs: runs/spotoptim_20260627_123511
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260411_213837
+TensorBoard logging enabled: runs/spotoptim_20260627_123517
 Initial best: f(x) = 3.925721
 Iter 1 | Best: 0.020506 | Rate: 1.00 | Evals: 55.0%
 Iter 2 | Best: 0.000751 | Rate: 1.00 | Evals: 60.0%
@@ -8043,7 +7981,7 @@ Iter 7 | Best: 0.000000 | Rate: 0.86 | Evals: 85.0%
 Iter 8 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.75 | Evals: 90.0%
 Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.67 | Evals: 95.0%
 Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.60 | Evals: 100.0%
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260411_213837
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260627_123517
 Best value: 0.000000
 \end{verbatim}
 
@@ -8276,9 +8214,9 @@ Automatic cleaning of old TensorBoard log directories with the
 \end{Shaded}
 
 \begin{verbatim}
-Removed old TensorBoard logs: runs/spotoptim_20260411_213846
+Removed old TensorBoard logs: runs/spotoptim_20260627_123524
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260411_213846
+TensorBoard logging enabled: runs/spotoptim_20260627_123524
 Initial best: f(x) = 3.925721
 Iter 1 | Best: 0.020506 | Rate: 1.00 | Evals: 55.0%
 Iter 2 | Best: 0.000751 | Rate: 1.00 | Evals: 60.0%
@@ -8290,9 +8228,9 @@ Iter 7 | Best: 0.000000 | Rate: 0.86 | Evals: 85.0%
 Iter 8 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.75 | Evals: 90.0%
 Iter 9 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.67 | Evals: 95.0%
 Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.60 | Evals: 100.0%
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260411_213846
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260627_123524
 Best value: 0.000000
-Logs saved to: runs/runs/spotoptim_20260411_213846
+Logs saved to: runs/runs/spotoptim_20260627_123524
 \end{verbatim}
 
 \subsection{Use Cases}\label{use-cases-1}
@@ -8997,7 +8935,7 @@ Integer variable (dim 1) values:
 [-1.  1.  2.  3. -4.]
 \end{verbatim}
 
-\section{Best Practices}\label{best-practices-4}
+\section{Best Practices}\label{best-practices-3}
 
 \subsection{1. Re-attaching the Objective Function
 (Optional)}\label{re-attaching-the-objective-function-optional}
@@ -10065,7 +10003,7 @@ Seed 19: f(x) = 3.779814
 Best result with seed 11: 0.182950
 \end{verbatim}
 
-\section{Best Practices}\label{best-practices-5}
+\section{Best Practices}\label{best-practices-4}
 
 \subsection{1. Always Use Seeds for Production
 Code}\label{always-use-seeds-for-production-code}
@@ -10316,6 +10254,7 @@ greedy optimization. SpotOptim automatically handles this gracefully.
 \end{Shaded}
 
 \begin{verbatim}
+XGBoost not available. Install with: pip install xgboost
 Libraries imported successfully!
 \end{verbatim}
 
@@ -10397,7 +10336,7 @@ performance for most optimization problems.
 Results:
   Best weight: 119.8664 lb
   Function evaluations: 20
-  Time: 1.72s
+  Time: 1.27s
   Success: True
 \end{verbatim}
 
@@ -10510,7 +10449,7 @@ differentiable sample paths, resulting in very smooth predictions.
 Results:
   Best weight: 120.1093 lb
   Function evaluations: 20
-  Time: 0.48s
+  Time: 0.38s
   Success: True
 \end{verbatim}
 
@@ -10621,7 +10560,7 @@ allowing for more flexible (less smooth) fits than nu=2.5.
 Results:
   Best weight: 119.5465 lb
   Function evaluations: 20
-  Time: 0.46s
+  Time: 0.38s
   Success: True
 \end{verbatim}
 
@@ -10734,7 +10673,7 @@ different length scales, providing more flexibility than a single RBF.
 Results:
   Best weight: 120.1073 lb
   Function evaluations: 20
-  Time: 0.62s
+  Time: 0.49s
   Success: True
 \end{verbatim}
 
@@ -10842,7 +10781,7 @@ hyperparameters via differential evolution.
 Results:
   Best weight: 121.2932 lb
   Function evaluations: 20
-  Time: 8.30s
+  Time: 6.60s
   Success: True
 \end{verbatim}
 
@@ -10950,7 +10889,7 @@ the acquisition function uses predictions only.
 Results:
   Best weight: 145.9792 lb
   Function evaluations: 20
-  Time: 0.86s
+  Time: 0.50s
   Success: True
   Note: Using acquisition='y' (greedy) since RF doesn't provide uncertainty
 \end{verbatim}
@@ -11072,46 +11011,10 @@ performance on structured data and fast training/prediction times.
 \end{Shaded}
 
 \begin{verbatim}
-
-Results:
-  Best weight: 165.3064 lb
-  Function evaluations: 20
-  Time: 0.09s
-  Success: True
-  Note: Using acquisition='y' (greedy) since XGBoost doesn't provide uncertainty
-\end{verbatim}
-
-\pandocbounded{\includegraphics[keepaspectratio]{surrogate_selection_files/figure-pdf/surrogate-selection-xgboost-output-2.pdf}}
-
-\pandocbounded{\includegraphics[keepaspectratio]{surrogate_selection_files/figure-pdf/surrogate-selection-xgboost-output-3.pdf}}
-
-\begin{verbatim}
-Plotting surrogate contours for top 3 most important parameters:
-  Nz: importance = 20.61% (type: float)
-  A: importance = 18.24% (type: float)
-  Rtc: importance = 14.07% (type: float)
-
-Generating 3 surrogate plots...
-  Plotting Nz vs A
-\end{verbatim}
-
-\pandocbounded{\includegraphics[keepaspectratio]{surrogate_selection_files/figure-pdf/surrogate-selection-xgboost-output-5.pdf}}
-
-\begin{verbatim}
-  Plotting Nz vs Rtc
-\end{verbatim}
-
-\pandocbounded{\includegraphics[keepaspectratio]{surrogate_selection_files/figure-pdf/surrogate-selection-xgboost-output-7.pdf}}
-
-\begin{verbatim}
-  Plotting A vs Rtc
-\end{verbatim}
-
-\pandocbounded{\includegraphics[keepaspectratio]{surrogate_selection_files/figure-pdf/surrogate-selection-xgboost-output-9.pdf}}
-
-\protect\phantomsection\label{surrogate-selection-xgboost-6}
-\begin{verbatim}
-<Figure size 1650x1050 with 0 Axes>
+================================================================================
+7. XGBoost Regressor - SKIPPED (not installed)
+================================================================================
+Install XGBoost with: pip install xgboost
 \end{verbatim}
 
 \section{8. Support Vector Regression
@@ -11169,7 +11072,7 @@ particularly good for high-dimensional problems with smooth structure.
 Results:
   Best weight: 156.7071 lb
   Function evaluations: 20
-  Time: 0.07s
+  Time: 0.06s
   Success: True
 \end{verbatim}
 
@@ -11276,7 +11179,7 @@ previous ones.
 Results:
   Best weight: 134.5150 lb
   Function evaluations: 20
-  Time: 0.18s
+  Time: 0.15s
   Success: True
 \end{verbatim}
 
@@ -11360,15 +11263,14 @@ Now let's compare all surrogate models side-by-side.
 SURROGATE MODEL COMPARISON
 ====================================================================================================
                  Surrogate  Best Weight  Evaluations  Time (s)  Success  Gap to Best (%)
-          GP Matern nu=1.5   119.546454           20  0.459755     True         0.000000
-GP Matern nu=2.5 (Default)   119.866409           20  1.719273     True         0.267641
-     GP Rational Quadratic   120.107282           20  0.622137     True         0.469130
-                    GP RBF   120.109251           20  0.476415     True         0.470777
-         SpotOptim Kriging   121.293180           20  8.299220     True         1.461127
-         Gradient Boosting   134.515037           20  0.184378     True        12.521144
-             Random Forest   145.979231           20  0.863158     True        22.110883
-                 SVR (RBF)   156.707097           20  0.071520     True        31.084689
-                   XGBoost   165.306404           20  0.091116     True        38.277965
+          GP Matern nu=1.5   119.546454           20  0.376875     True         0.000000
+GP Matern nu=2.5 (Default)   119.866409           20  1.273124     True         0.267641
+     GP Rational Quadratic   120.107282           20  0.494220     True         0.469130
+                    GP RBF   120.109251           20  0.379574     True         0.470777
+         SpotOptim Kriging   121.293180           20  6.596743     True         1.461127
+         Gradient Boosting   134.515037           20  0.149938     True        12.521144
+             Random Forest   145.979231           20  0.498696     True        22.110883
+                 SVR (RBF)   156.707097           20  0.056717     True        31.084689
 ====================================================================================================
 \end{verbatim}
 
@@ -11528,16 +11430,16 @@ KEY INSIGHTS AND RECOMMENDATIONS
 1. BEST OVERALL PERFORMANCE:
    Surrogate: GP Matern nu=1.5
    Best Weight: 119.5465 lb
-   Computation Time: 0.46s
+   Computation Time: 0.38s
 
 2. FASTEST OPTIMIZATION:
    Surrogate: SVR (RBF)
-   Time: 0.07s
+   Time: 0.06s
    Best Weight: 156.7071 lb
 
 3. MOST EFFICIENT (weight reduction per second):
    Surrogate: SVR (RBF)
-   Efficiency: 1079.4425 lb/s
+   Efficiency: 1361.1632 lb/s
 
 4. RECOMMENDATIONS BY PROBLEM TYPE:
    - Smooth, continuous functions: Gaussian Process with RBF or Matern nu=2.5
@@ -11550,10 +11452,10 @@ KEY INSIGHTS AND RECOMMENDATIONS
 
 5. KERNEL COMPARISON (Gaussian Process):
                  Surrogate  Best Weight  Time (s)
-          GP Matern nu=1.5   119.546454  0.459755
-GP Matern nu=2.5 (Default)   119.866409  1.719273
-     GP Rational Quadratic   120.107282  0.622137
-                    GP RBF   120.109251  0.476415
+          GP Matern nu=1.5   119.546454  0.376875
+GP Matern nu=2.5 (Default)   119.866409  1.273124
+     GP Rational Quadratic   120.107282  0.494220
+                    GP RBF   120.109251  0.379574
 
 ====================================================================================================
 \end{verbatim}
@@ -11601,12 +11503,12 @@ SUMMARY STATISTICS
 ====================================================================================================
             Metric       Value
  Best Weight Found 119.5465 lb
-Worst Weight Found 165.3064 lb
-    Average Weight 133.7145 lb
-    Std Dev Weight  18.0098 lb
-      Fastest Time      0.07 s
-      Slowest Time      8.30 s
-      Average Time      1.42 s
+Worst Weight Found 156.7071 lb
+    Average Weight 129.7655 lb
+    Std Dev Weight  14.5013 lb
+      Fastest Time      0.06 s
+      Slowest Time      6.60 s
+      Average Time      1.23 s
 ====================================================================================================
 \end{verbatim}
 
@@ -11738,47 +11640,47 @@ dividing each dimension into equal-probability intervals.
 
 \begin{verbatim}
 TensorBoard logging disabled
-Initial best: f(x) = 0.410244
-Iter 1 | Best: 0.102407 | Rate: 1.00 | Evals: 22.0%
-Iter 2 | Best: 0.005497 | Rate: 1.00 | Evals: 24.0%
-Iter 3 | Best: 0.000135 | Rate: 1.00 | Evals: 26.0%
-Iter 4 | Best: 0.000024 | Rate: 1.00 | Evals: 28.0%
-Iter 5 | Best: 0.000003 | Rate: 1.00 | Evals: 30.0%
+Initial best: f(x) = 1.243619
+Iter 1 | Best: 0.002697 | Rate: 1.00 | Evals: 22.0%
+Iter 2 | Best: 0.000009 | Rate: 1.00 | Evals: 24.0%
+Iter 3 | Best: 0.000002 | Rate: 1.00 | Evals: 26.0%
+Iter 4 | Best: 0.000001 | Rate: 1.00 | Evals: 28.0%
+Iter 5 | Best: 0.000001 | Rate: 1.00 | Evals: 30.0%
 Iter 6 | Best: 0.000001 | Rate: 1.00 | Evals: 32.0%
-Iter 7 | Best: 0.000001 | Rate: 1.00 | Evals: 34.0%
-Iter 8 | Best: 0.000000 | Rate: 1.00 | Evals: 36.0%
-Iter 9 | Best: 0.000000 | Rate: 1.00 | Evals: 38.0%
-Iter 10 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.90 | Evals: 40.0%
-Iter 11 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.82 | Evals: 42.0%
-Iter 12 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.75 | Evals: 44.0%
-Iter 13 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.69 | Evals: 46.0%
-Iter 14 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.64 | Evals: 48.0%
-Iter 15 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.60 | Evals: 50.0%
-Iter 16 | Best: 0.000000 | Rate: 0.62 | Evals: 52.0%
-Iter 17 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.59 | Evals: 54.0%
-Iter 18 | Best: 0.000000 | Rate: 0.61 | Evals: 56.0%
-Iter 19 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.58 | Evals: 58.0%
-Iter 20 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.55 | Evals: 60.0%
-Iter 21 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.52 | Evals: 62.0%
-Iter 22 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.50 | Evals: 64.0%
-Iter 23 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.48 | Evals: 66.0%
-Iter 24 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.46 | Evals: 68.0%
-Iter 25 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.44 | Evals: 70.0%
-Iter 26 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.42 | Evals: 72.0%
-Iter 27 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.41 | Evals: 74.0%
-Iter 28 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.39 | Evals: 76.0%
-Iter 29 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.38 | Evals: 78.0%
-Iter 30 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.37 | Evals: 80.0%
-Iter 31 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.35 | Evals: 82.0%
-Iter 32 | Best: 0.000000 | Rate: 0.38 | Evals: 84.0%
+Iter 7 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.86 | Evals: 34.0%
+Iter 8 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.75 | Evals: 36.0%
+Iter 9 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.67 | Evals: 38.0%
+Iter 10 | Best: 0.000001 | Rate: 0.70 | Evals: 40.0%
+Iter 11 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.64 | Evals: 42.0%
+Iter 12 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.58 | Evals: 44.0%
+Iter 13 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.54 | Evals: 46.0%
+Iter 14 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.50 | Evals: 48.0%
+Iter 15 | Best: 0.000001 | Curr: 0.000002 | Rate: 0.47 | Evals: 50.0%
+Iter 16 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.44 | Evals: 52.0%
+Iter 17 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.41 | Evals: 54.0%
+Iter 18 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.39 | Evals: 56.0%
+Iter 19 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.37 | Evals: 58.0%
+Iter 20 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.35 | Evals: 60.0%
+Iter 21 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.33 | Evals: 62.0%
+Iter 22 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.32 | Evals: 64.0%
+Iter 23 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.30 | Evals: 66.0%
+Iter 24 | Best: 0.000001 | Rate: 0.33 | Evals: 68.0%
+Iter 25 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.32 | Evals: 70.0%
+Iter 26 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.31 | Evals: 72.0%
+Iter 27 | Best: 0.000001 | Rate: 0.33 | Evals: 74.0%
+Iter 28 | Best: 0.000001 | Rate: 0.36 | Evals: 76.0%
+Iter 29 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.34 | Evals: 78.0%
+Iter 30 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.33 | Evals: 80.0%
+Iter 31 | Best: 0.000001 | Rate: 0.35 | Evals: 82.0%
+Iter 32 | Best: 0.000001 | Rate: 0.38 | Evals: 84.0%
 Iter 33 | Best: 0.000000 | Rate: 0.39 | Evals: 86.0%
-Iter 34 | Best: 0.000000 | Curr: 0.000002 | Rate: 0.38 | Evals: 88.0%
-Iter 35 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.37 | Evals: 90.0%
-Iter 36 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.36 | Evals: 92.0%
-Iter 37 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.35 | Evals: 94.0%
-Iter 38 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.34 | Evals: 96.0%
-Iter 39 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.33 | Evals: 98.0%
-Iter 40 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.33 | Evals: 100.0%
+Iter 34 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.38 | Evals: 88.0%
+Iter 35 | Best: 0.000000 | Rate: 0.40 | Evals: 90.0%
+Iter 36 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.39 | Evals: 92.0%
+Iter 37 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.38 | Evals: 94.0%
+Iter 38 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.37 | Evals: 96.0%
+Iter 39 | Best: 0.000000 | Rate: 0.38 | Evals: 98.0%
+Iter 40 | Best: 0.000000 | Curr: 0.000000 | Rate: 0.38 | Evals: 100.0%
 \end{verbatim}
 
 \section{How It Works}\label{how-it-works-2}
@@ -11849,7 +11751,7 @@ Strict tolerance setup complete
 Relaxed tolerance setup complete
 \end{verbatim}
 
-\section{Best Practices}\label{best-practices-6}
+\section{Best Practices}\label{best-practices-5}
 
 \subsection{1. Monitor Fallback
 Activations}\label{monitor-fallback-activations}
@@ -11968,7 +11870,7 @@ properties.
 \chapter{Point Selection Implementation in
 SpotOptim}\label{point-selection-implementation-in-spotoptim}
 
-\section{Overview}\label{overview-5}
+\section{Overview}\label{overview-4}
 
 This feature automatically selects a subset of evaluated points for
 surrogate model training when the total number of points exceeds a
@@ -12282,7 +12184,7 @@ By default, \texttt{SpotOptim} uses Differential Evolution
 \end{Shaded}
 
 \begin{verbatim}
-Best y: 0.025998550917603842
+Best y: 0.0018744549932315252
 \end{verbatim}
 
 \subsection{2. Customizing Differential
@@ -12322,7 +12224,7 @@ or changing the \texttt{popsize}.
 \end{Shaded}
 
 \begin{verbatim}
-Best y with Custom DE: 0.013052397638474466
+Best y with Custom DE: 0.019388664066105808
 \end{verbatim}
 
 \subsection{3. Using Gradient-Based Optimization
@@ -12366,7 +12268,7 @@ specifying it in \texttt{acquisition\_optimizer}. Note that for
 \end{Shaded}
 
 \begin{verbatim}
-Best y with L-BFGS-B: 0.39904568864966816
+Best y with L-BFGS-B: 0.09873359372767704
 \end{verbatim}
 
 \subsection{4. Using Gradient-Free Optimization
@@ -12409,7 +12311,7 @@ compatibility.
 \end{Shaded}
 
 \begin{verbatim}
-Best y with Nelder-Mead: 0.19619489412886978
+Best y with Nelder-Mead: 0.5685974687673916
 \end{verbatim}
 
 \subsection{5. Returning Multiple
@@ -12442,20 +12344,20 @@ N from the final population).
 
 \begin{verbatim}
  message: Optimization terminated: maximum evaluations (5) reached
-                   Current function value: 15.988585
+                   Current function value: 0.671343
                    Iterations: 3
                    Function evaluations: 5
  success: True
-     fun: 15.988584777706675
-       x: [ 2.298e+00 -3.272e+00]
-       X: [[-4.888e+00  2.805e+00]
-           [ 2.763e+00 -4.092e+00]
-           [ 2.712e+00 -4.135e+00]
-           [ 5.000e+00 -2.528e+00]
-           [ 2.298e+00 -3.272e+00]]
+     fun: 0.6713426580193385
+       x: [-3.717e-01  7.302e-01]
+       X: [[ 2.856e+00 -4.261e+00]
+           [-6.572e-01  2.263e+00]
+           [-7.139e-01  2.294e+00]
+           [ 1.460e+00  2.693e+00]
+           [-3.717e-01  7.302e-01]]
      nit: 3
     nfev: 5
-       y: [ 3.176e+01  2.438e+01  2.445e+01  3.139e+01  1.599e+01]
+       y: [ 2.631e+01  5.553e+00  5.773e+00  9.382e+00  6.713e-01]
 \end{verbatim}
 
 \part{Kriging}
@@ -12463,7 +12365,7 @@ N from the final population).
 \chapter{Kriging Surrogate
 Integration}\label{kriging-surrogate-integration}
 
-\section{Overview}\label{overview-6}
+\section{Overview}\label{overview-5}
 
 Implementation of a Kriging (Gaussian Process) surrogate model to
 SpotOptim, providing an alternative to scikit-learn's
@@ -13380,39 +13282,31 @@ integer (\texttt{int}), and categorical (\texttt{factor}):
 \begin{verbatim}
 TensorBoard logging disabled
 Initial best: f(x) = 0.500035
-Iter 1 | Best: 0.000081 | Rate: 1.00 | Evals: 53.3%
+Iter 1 | Best: 0.500035 | Curr: 0.500081 | Rate: 0.00 | Evals: 53.3%
+Iter 2 | Best: 0.000081 | Rate: 0.50 | Evals: 56.7%
 Optimizer candidate 1/3 was duplicate/invalid.
-Optimizer candidate 2/3 was duplicate/invalid.
-Optimizer candidate 3/3 was duplicate/invalid.
-Fallback attempt 1/10: Using fallback strategy
-Acquisition failure: Using random space-filling design as fallback.
-Iter 2 | Best: 0.000081 | Curr: 5.002647 | Rate: 0.50 | Evals: 56.7%
+Iter 3 | Best: 0.000081 | Curr: 0.500036 | Rate: 0.33 | Evals: 60.0%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 3 | Best: 0.000003 | Rate: 0.67 | Evals: 60.0%
+Iter 4 | Best: 0.000081 | Curr: 0.500000 | Rate: 0.25 | Evals: 63.3%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 4 | Best: 0.000000 | Rate: 0.75 | Evals: 63.3%
+Iter 5 | Best: 0.000081 | Curr: 1.000014 | Rate: 0.20 | Evals: 66.7%
+Iter 6 | Best: 0.000021 | Rate: 0.33 | Evals: 70.0%
 Optimizer candidate 1/3 was duplicate/invalid.
-Iter 5 | Best: 0.000000 | Curr: 0.000143 | Rate: 0.60 | Evals: 66.7%
-Optimizer candidate 1/3 was duplicate/invalid.
-Iter 6 | Best: 0.000000 | Curr: 0.000069 | Rate: 0.50 | Evals: 70.0%
-Optimizer candidate 1/3 was duplicate/invalid.
-Iter 7 | Best: 0.000000 | Curr: 0.000037 | Rate: 0.43 | Evals: 73.3%
-Optimizer candidate 1/3 was duplicate/invalid.
-Iter 8 | Best: 0.000000 | Curr: 0.000021 | Rate: 0.38 | Evals: 76.7%
-Optimizer candidate 1/3 was duplicate/invalid.
-Iter 9 | Best: 0.000000 | Curr: 0.000020 | Rate: 0.33 | Evals: 80.0%
-Iter 10 | Best: 0.000000 | Rate: 0.40 | Evals: 83.3%
-Iter 11 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.36 | Evals: 86.7%
-Iter 12 | Best: 0.000000 | Curr: 0.000001 | Rate: 0.33 | Evals: 90.0%
-Iter 13 | Best: 0.000000 | Curr: 0.500009 | Rate: 0.31 | Evals: 93.3%
-Iter 14 | Best: 0.000000 | Curr: 0.500000 | Rate: 0.29 | Evals: 96.7%
-Iter 15 | Best: 0.000000 | Curr: 0.500000 | Rate: 0.27 | Evals: 100.0%
+Iter 7 | Best: 0.000021 | Curr: 1.000009 | Rate: 0.29 | Evals: 73.3%
+Iter 8 | Best: 0.000015 | Rate: 0.38 | Evals: 76.7%
+Iter 9 | Best: 0.000015 | Curr: 0.500001 | Rate: 0.33 | Evals: 80.0%
+Iter 10 | Best: 0.000015 | Curr: 0.500000 | Rate: 0.30 | Evals: 83.3%
+Iter 11 | Best: 0.000001 | Rate: 0.36 | Evals: 86.7%
+Iter 12 | Best: 0.000001 | Curr: 0.500001 | Rate: 0.33 | Evals: 90.0%
+Iter 13 | Best: 0.000001 | Curr: 1.000001 | Rate: 0.31 | Evals: 93.3%
+Iter 14 | Best: 0.000001 | Curr: 0.500000 | Rate: 0.29 | Evals: 96.7%
+Iter 15 | Best: 0.000001 | Curr: 0.000001 | Rate: 0.27 | Evals: 100.0%
 
 Optimal configuration:
-Learning rate: 0.0102
+Learning rate: 0.0093
 Num layers:    3
 Activation:    0 (0=ReLU, 1=Tanh, 2=Sigmoid)
-Loss:          0.000000
+Loss:          0.000001
 \end{verbatim}
 
 \textbf{Key Points}:
@@ -14098,7 +13992,7 @@ Kriging offers:
 - Explicit control over regularization and correlation
 \end{verbatim}
 
-\section{Best Practices}\label{best-practices-7}
+\section{Best Practices}\label{best-practices-6}
 
 \subsection{1. Choosing the Right
 Method}\label{choosing-the-right-method}
@@ -14970,7 +14864,7 @@ SpotOptim}\label{multi-objective-optimization-support-in-spotoptim}
 \end{Highlighting}
 \end{Shaded}
 
-\section{Overview}\label{overview-7}
+\section{Overview}\label{overview-6}
 
 SpotOptim supports multi-objective optimization functions with automatic
 detection and flexible scalarization strategies. The parameter
@@ -16623,7 +16517,7 @@ between your PyTorch code (models, data, training logic) and the
 This tutorial guides you through the entire workflow, from defining a
 model to running a comprehensive hyperparameter optimization experiment.
 
-\section{Overview}\label{overview-8}
+\section{Overview}\label{overview-7}
 
 The \texttt{TorchObjective} class automates several tedious tasks:
 
@@ -17040,7 +16934,7 @@ Multi-Layer Perceptron (MLP) architecture using PyTorch. It is designed
 to be easily plug-and-play for both standalone usage and hyperparameter
 optimization with SpotOptim.
 
-\section{Overview}\label{overview-9}
+\section{Overview}\label{overview-8}
 
 The \texttt{MLP} class extends \texttt{torch.nn.Sequential} and offers:
 
@@ -17316,8 +17210,13 @@ tuning loop using \texttt{TorchObjective}.
 \end{Shaded}
 
 \begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_28304/2724594128.py:33: UserWarning: Factor variables detected (original bounds dimensions: [2, 4]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
+\end{verbatim}
+
+\begin{verbatim}
 Best Parameters:
-{'l1': 128, 'num_hidden_layers': 2, 'activation': 'ELU', 'lr': 1.0330297381458524, 'optimizer': 'Adam', 'epochs': 13}
+{'l1': 85, 'num_hidden_layers': 2, 'activation': 'LeakyReLU', 'lr': 2.777542397720457, 'optimizer': 'Adam', 'epochs': 14}
 \end{verbatim}
 
 This setup automatically tunes the architecture (\texttt{l1},
@@ -17332,7 +17231,7 @@ Solving ODEs with SpotOptim's LinearRegressor
 
 \hfill\break
 
-\chapter{Overview}\label{overview-10}
+\chapter{Overview}\label{overview-9}
 
 This tutorial demonstrates how to use Physics-Informed Neural Networks
 (PINNs) to solve ordinary differential equations (ODEs) using
@@ -17373,7 +17272,7 @@ First, let's import the necessary libraries:
 \end{Shaded}
 
 \begin{verbatim}
-<torch._C.Generator at 0x1155975f0>
+<torch._C.Generator at 0x119ce3390>
 \end{verbatim}
 
 \chapter{The Neural Network}\label{the-neural-network}
@@ -17967,7 +17866,7 @@ Using SpotOptim to Optimize PINN Architecture and Training
 
 \hfill\break
 
-\chapter{Overview}\label{overview-11}
+\chapter{Overview}\label{overview-10}
 
 This tutorial demonstrates how to use SpotOptim for hyperparameter
 optimization of Physics-Informed Neural Networks (PINNs). We'll optimize
@@ -18574,9 +18473,14 @@ Factor variable at dimension 2:
 Factor variable at dimension 3:
   Levels: ['Adam', 'SGD', 'RMSprop', 'AdamW']
   Mapped to integers: 0 to 3
-Removed old TensorBoard logs: runs/spotoptim_20260411_221608
+Removed old TensorBoard logs: runs/spotoptim_20260627_123524
 Cleaned 1 old TensorBoard log directory
-TensorBoard logging enabled: runs/spotoptim_20260411_221729
+TensorBoard logging enabled: runs/spotoptim_20260627_124952
+\end{verbatim}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_28321/2553769193.py:2: UserWarning: Factor variables detected (original bounds dimensions: [2, 3]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
 \end{verbatim}
 
 Display search space configuration. The \texttt{trans}column shows
@@ -18703,7 +18607,7 @@ Configuration 1/1:
   optimizer=Adam, lr_unified=0.2781, alpha=0.0168
   Validation MSE: 0.202393
 Iter 6 | Best: 0.169332 | Curr: 0.202393 | Rate: 0.17 | Evals: 100.0%
-TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260411_221729
+TensorBoard writer closed. View logs with: tensorboard --logdir=runs/spotoptim_20260627_124952
 \end{verbatim}
 
 \chapter{Results Analysis}\label{results-analysis}
@@ -19478,7 +19382,7 @@ learning rates across different PyTorch optimizers. This solves the
 challenge that different optimizers operate on vastly different learning
 rate scales.
 
-\section{Overview}\label{overview-12}
+\section{Overview}\label{overview-11}
 
 Different PyTorch optimizers use different default learning rates and
 optimal ranges:
@@ -19851,6 +19755,11 @@ Optimization}\label{hyperparameter-optimization}
 \end{Shaded}
 
 \begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_28409/3866398708.py:50: UserWarning: Factor variables detected (original bounds dimensions: [1]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  spot_optimizer = SpotOptim(
+\end{verbatim}
+
+\begin{verbatim}
 
 Best unified lr: 0.024883
 Best optimizer: SGD
@@ -19964,6 +19873,11 @@ demonstration; increase for real use.
 \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Actual }\SpecialCharTok{\{}\NormalTok{result}\SpecialCharTok{.}\NormalTok{x[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{ learning rate: }\SpecialCharTok{\{}\NormalTok{actual\_lr}\SpecialCharTok{:.6f\}}\SpecialStringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+/var/folders/dw/pvtj6mt91znd0hftcztqb0k00000gn/T/ipykernel_28409/2835539742.py:68: UserWarning: Factor variables detected (original bounds dimensions: [1]) but the active surrogate (GaussianProcessRegressor) does not support nominal (order-agnostic) factor metrics. Factor integer codes will be treated as ordinal numbers, which may mislead the surrogate. Consider using a factor-aware Kriging surrogate: Kriging(metric_factorial='hamming').
+  optimizer = SpotOptim(
+\end{verbatim}
 
 \begin{verbatim}
 
@@ -20102,7 +20016,7 @@ Unified lr: 2.0
 Actual Adam lr: 0.002
 \end{verbatim}
 
-\section{Best Practices}\label{best-practices-8}
+\section{Best Practices}\label{best-practices-7}
 
 \subsection{Choosing Unified Learning
 Rate}\label{choosing-unified-learning-rate}
@@ -20771,7 +20685,7 @@ diabetes dataset, including PyTorch \texttt{Dataset} and
 \texttt{DataLoader} implementations. These utilities simplify data
 loading, preprocessing, and model training for regression tasks.
 
-\section{Overview}\label{overview-13}
+\section{Overview}\label{overview-12}
 
 The diabetes dataset contains 10 baseline variables (age, sex, body mass
 index, average blood pressure, and six blood serum measurements) for 442
@@ -20894,12 +20808,12 @@ Batch targets: torch.Size([32, 1])
 \end{Shaded}
 
 \begin{verbatim}
-Epoch 20/100: Loss = 29950.8608
-Epoch 40/100: Loss = 32215.8185
-Epoch 60/100: Loss = 33187.7674
-Epoch 80/100: Loss = 33194.3327
-Epoch 100/100: Loss = 28769.2459
-Test MSE: 26482.7585
+Epoch 20/100: Loss = 30241.4074
+Epoch 40/100: Loss = 29896.7896
+Epoch 60/100: Loss = 32179.5763
+Epoch 80/100: Loss = 27699.4432
+Epoch 100/100: Loss = 30408.7700
+Test MSE: 26500.4297
 \end{verbatim}
 
 \section{Function Reference}\label{function-reference-1}
@@ -20927,8 +20841,8 @@ DataLoaders.
 \end{Shaded}
 
 \begin{verbatim}
-(<torch.utils.data.dataloader.DataLoader at 0x124c6bce0>,
- <torch.utils.data.dataloader.DataLoader at 0x124cefad0>,
+(<torch.utils.data.dataloader.DataLoader at 0x12298aea0>,
+ <torch.utils.data.dataloader.DataLoader at 0x122a429f0>,
  StandardScaler())
 \end{verbatim}
 
@@ -21023,7 +20937,7 @@ PyTorch Dataset implementation for the diabetes dataset.
 \end{Shaded}
 
 \begin{verbatim}
-<spotoptim.data.diabetes.DiabetesDataset at 0x124e20950>
+<spotoptim.data.diabetes.DiabetesDataset at 0x120124150>
 \end{verbatim}
 
 \textbf{Parameters:}
@@ -21210,7 +21124,7 @@ Test samples: 45
 
 \begin{verbatim}
 Scaler: None
-Mean: tensor([ 0.0077, -0.0089,  0.0099])
+Mean: tensor([-0.0012,  0.0060, -0.0053])
 \end{verbatim}
 
 \subsection{Larger Batch Sizes}\label{larger-batch-sizes}
@@ -21377,19 +21291,19 @@ Training samples: 353
 Test samples: 89
 Batches per epoch: 12
 ------------------------------------------------------------
-Epoch  20/200: Train Loss = 31806.1104, Test Loss = 26625.3529
-Epoch  40/200: Train Loss = 27860.2657, Test Loss = 26620.5586
-Epoch  60/200: Train Loss = 28580.3246, Test Loss = 26615.6191
-Epoch  80/200: Train Loss = 28165.9618, Test Loss = 26610.5488
-Epoch 100/200: Train Loss = 28048.5522, Test Loss = 26605.3333
-Epoch 120/200: Train Loss = 27761.9672, Test Loss = 26600.0527
-Epoch 140/200: Train Loss = 28083.7457, Test Loss = 26594.6120
-Epoch 160/200: Train Loss = 27702.5830, Test Loss = 26589.1087
-Epoch 180/200: Train Loss = 28449.0728, Test Loss = 26583.5807
-Epoch 200/200: Train Loss = 30423.7790, Test Loss = 26577.8385
+Epoch  20/200: Train Loss = 28458.6482, Test Loss = 26613.2090
+Epoch  40/200: Train Loss = 28634.7448, Test Loss = 26608.5905
+Epoch  60/200: Train Loss = 27741.5453, Test Loss = 26604.0319
+Epoch  80/200: Train Loss = 31082.9679, Test Loss = 26599.5176
+Epoch 100/200: Train Loss = 29528.5744, Test Loss = 26594.8470
+Epoch 120/200: Train Loss = 31177.2122, Test Loss = 26590.0820
+Epoch 140/200: Train Loss = 27699.6407, Test Loss = 26585.1569
+Epoch 160/200: Train Loss = 28776.3413, Test Loss = 26580.0632
+Epoch 180/200: Train Loss = 28664.3509, Test Loss = 26574.6777
+Epoch 200/200: Train Loss = 33354.1383, Test Loss = 26568.9967
 ------------------------------------------------------------
 Training complete!
-Best test loss: 26577.8385
+Best test loss: 26568.9967
 \end{verbatim}
 
 \section{Integration with SpotOptim}\label{integration-with-spotoptim-1}
@@ -21521,7 +21435,7 @@ Best hyperparameters found:
   Best MSE: 26532.7487
 \end{verbatim}
 
-\section{Best Practices}\label{best-practices-9}
+\section{Best Practices}\label{best-practices-8}
 
 \subsection{1. Always Use Feature
 Scaling}\label{always-use-feature-scaling}
@@ -21554,7 +21468,7 @@ Reproducibility}\label{set-random-seeds-for-reproducibility}
 \end{Shaded}
 
 \begin{verbatim}
-<torch._C.Generator at 0x1157c3970>
+<torch._C.Generator at 0x11bc4fe90>
 \end{verbatim}
 
 \subsection{3. Don't Shuffle Test Data}\label{dont-shuffle-test-data}
@@ -23544,10 +23458,8 @@ Penalty calculation:
 
 The \texttt{optimize()} method orchestrates the full optimization
 process with restart support. It delegates to
-\texttt{execute\_optimization\_run()}, which dispatches to
-\texttt{optimize\_sequential\_run()} (for \texttt{n\_jobs=1}) or
-\texttt{optimize\_steady\_state()} (for
-\texttt{n\_jobs\ \textgreater{}\ 1}).
+\texttt{execute\_optimization\_run()}, which runs the sequential
+optimization loop in \texttt{optimize\_sequential\_run()}.
 
 \subsection{\texorpdfstring{Preparation Phase (inside
 \texttt{optimize\_sequential\_run()} via
@@ -24071,7 +23983,7 @@ FINALIZATION
   \textbf{Robustness}: Continue optimization despite failures
 \end{itemize}
 
-\section{Best Practices}\label{best-practices-10}
+\section{Best Practices}\label{best-practices-9}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -24170,7 +24082,7 @@ following code:
 \begin{Shaded}
 \begin{Highlighting}[]
 \ImportTok{from}\NormalTok{ spotoptim }\ImportTok{import}\NormalTok{ SpotOptim}
-\ImportTok{from}\NormalTok{ spotoptim.functions }\ImportTok{import}\NormalTok{ sphere}
+\ImportTok{from}\NormalTok{ spotoptim.function }\ImportTok{import}\NormalTok{ sphere}
 
 \NormalTok{opt }\OperatorTok{=}\NormalTok{ SpotOptim(}
 \NormalTok{    fun}\OperatorTok{=}\NormalTok{sphere,}
@@ -28497,7 +28409,7 @@ Matrix]\protect\hypertarget{exm-randorient-3}{}\label{exm-randorient-3}
 \begin{verbatim}
 Random orientation of the sampling matrix:
 [[0.  0.5 0.5]
- [0.5 0.5 0.5]
+ [0.  0.  0.5]
  [0.5 0.  0.5]
  [0.5 0.  0. ]]
 \end{verbatim}
@@ -29133,11 +29045,11 @@ points and edges=0:
 \end{Shaded}
 
 \begin{verbatim}
-[[0.1 0.7]
- [0.7 0.1]
- [0.9 0.5]
- [0.3 0.3]
- [0.5 0.9]]
+[[0.9 0.3]
+ [0.3 0.9]
+ [0.5 0.1]
+ [0.7 0.7]
+ [0.1 0.5]]
 \end{verbatim}
 
 Figure~\ref{fig-rlh-edges0} shows the points in the unit hypercube for
@@ -29172,11 +29084,11 @@ points and edges=1:
 \end{Shaded}
 
 \begin{verbatim}
-[[0.5  1.  ]
- [0.   0.5 ]
- [0.75 0.  ]
- [0.25 0.25]
- [1.   0.75]]
+[[0.25 0.25]
+ [0.5  0.  ]
+ [0.   0.75]
+ [1.   1.  ]
+ [0.75 0.5 ]]
 \end{verbatim}
 
 Figure~\ref{fig-rlh-edges1} shows the points in the unit hypercube for
@@ -29807,7 +29719,7 @@ plans in 3D space:
 
 \begin{verbatim}
 [1 2]
-[1 2]
+[2 1]
 \end{verbatim}
 
 \end{example}
@@ -29922,9 +29834,9 @@ Original Sampling Plan:
  [3 1]
  [4 2]]
 Perturbed Sampling Plan:
-[[1 1]
- [2 4]
- [3 3]
+[[1 3]
+ [2 1]
+ [3 4]
  [4 2]]
 \end{verbatim}
 
@@ -30103,10 +30015,10 @@ Initial plan:
  [0.2 0.9]
  [0.9 0.2]]
 Optimized plan:
-[[0.9 0.3]
+[[0.1 0.2]
  [0.1 0.9]
  [0.2 0.4]
- [0.1 0.2]]
+ [0.9 0.3]]
 \end{verbatim}
 
 Figure~\ref{fig-forre08a-3} shows the initial and optimized plans in 2D.
@@ -37955,17 +37867,17 @@ Text(0.5, 1.0, 'Histogram with Probability Density')
 \end{Shaded}
 
 \begin{verbatim}
-Bin 1 Probability: 0.0030
-Bin 2 Probability: 0.0100
-Bin 3 Probability: 0.0340
-Bin 4 Probability: 0.0960
-Bin 5 Probability: 0.1660
-Bin 6 Probability: 0.2280
-Bin 7 Probability: 0.2360
-Bin 8 Probability: 0.1390
-Bin 9 Probability: 0.0630
-Bin 10 Probability: 0.0180
-Bin 11 Probability: 0.0070
+Bin 1 Probability: 0.0080
+Bin 2 Probability: 0.0230
+Bin 3 Probability: 0.0540
+Bin 4 Probability: 0.1400
+Bin 5 Probability: 0.2080
+Bin 6 Probability: 0.2220
+Bin 7 Probability: 0.1810
+Bin 8 Probability: 0.1100
+Bin 9 Probability: 0.0370
+Bin 10 Probability: 0.0120
+Bin 11 Probability: 0.0050
 Sum of probabilities: 1.0
 \end{verbatim}
 
@@ -38670,8 +38582,8 @@ command can be used.
 
 \protect\phantomsection\label{gen-normal-10}
 \begin{verbatim}
-array([2.00056658, 1.87424157, 2.06973261, 1.89451209, 1.97990826,
-       2.08745157, 2.16559174, 1.80798445, 1.97297247, 2.03540185])
+array([2.00223895, 2.06410622, 1.93654434, 2.03219945, 2.00371966,
+       1.98242999, 1.82426825, 1.94238123, 1.75652688, 2.07253841])
 \end{verbatim}
 
 Verify the mean:
@@ -38683,7 +38595,7 @@ Verify the mean:
 \end{Shaded}
 
 \begin{verbatim}
-np.float64(0.01116368071888596)
+np.float64(0.038304661438505194)
 \end{verbatim}
 
 Note: To verify the standard deviation, we use \texttt{ddof\ =\ 1}
@@ -38696,7 +38608,7 @@ Note: To verify the standard deviation, we use \texttt{ddof\ =\ 1}
 \end{Shaded}
 
 \begin{verbatim}
-np.float64(0.007953380313152209)
+np.float64(0.00196441131465383)
 \end{verbatim}
 
 \begin{Shaded}
@@ -41477,8 +41389,8 @@ is explained by the model.
 Dep. Variable:               ln_sales   R-squared:                       0.485
 Model:                            OLS   Adj. R-squared:                  0.449
 Method:                 Least Squares   F-statistic:                     13.73
-Date:                Sat, 11 Apr 2026   Prob (F-statistic):           7.69e-17
-Time:                        22:39:06   Log-Likelihood:                -213.62
+Date:                Sat, 27 Jun 2026   Prob (F-statistic):           7.69e-17
+Time:                        12:58:29   Log-Likelihood:                -213.62
 No. Observations:                 157   AIC:                             449.2
 Df Residuals:                     146   BIC:                             482.9
 Df Model:                          10                                         
@@ -41991,8 +41903,8 @@ Regression on PCA Components:
 Dep. Variable:               ln_sales   R-squared:                       0.485
 Model:                            OLS   Adj. R-squared:                  0.449
 Method:                 Least Squares   F-statistic:                     13.73
-Date:                Sat, 11 Apr 2026   Prob (F-statistic):           7.69e-17
-Time:                        22:39:07   Log-Likelihood:                -213.62
+Date:                Sat, 27 Jun 2026   Prob (F-statistic):           7.69e-17
+Time:                        12:58:29   Log-Likelihood:                -213.62
 No. Observations:                 157   AIC:                             449.2
 Df Residuals:                     146   BIC:                             482.9
 Df Model:                          10                                         
@@ -42126,8 +42038,8 @@ Regression on PCs (three PCs only):
 Dep. Variable:               ln_sales   R-squared:                       0.389
 Model:                            OLS   Adj. R-squared:                  0.377
 Method:                 Least Squares   F-statistic:                     32.48
-Date:                Sat, 11 Apr 2026   Prob (F-statistic):           2.66e-16
-Time:                        22:39:07   Log-Likelihood:                -226.97
+Date:                Sat, 27 Jun 2026   Prob (F-statistic):           2.66e-16
+Time:                        12:58:29   Log-Likelihood:                -226.97
 No. Observations:                 157   AIC:                             461.9
 Df Residuals:                     153   BIC:                             474.2
 Df Model:                           3                                         
@@ -42421,8 +42333,8 @@ Regression on Factor Scores (all 10 factors):
 Dep. Variable:               ln_sales   R-squared:                       0.485
 Model:                            OLS   Adj. R-squared:                  0.449
 Method:                 Least Squares   F-statistic:                     13.73
-Date:                Sat, 11 Apr 2026   Prob (F-statistic):           7.69e-17
-Time:                        22:39:07   Log-Likelihood:                -213.62
+Date:                Sat, 27 Jun 2026   Prob (F-statistic):           7.69e-17
+Time:                        12:58:30   Log-Likelihood:                -213.62
 No. Observations:                 157   AIC:                             449.2
 Df Residuals:                     146   BIC:                             482.9
 Df Model:                          10                                         
@@ -42536,8 +42448,8 @@ Regression on Factor Scores (three factors only):
 Dep. Variable:               ln_sales   R-squared:                       0.350
 Model:                            OLS   Adj. R-squared:                  0.337
 Method:                 Least Squares   F-statistic:                     27.43
-Date:                Sat, 11 Apr 2026   Prob (F-statistic):           2.99e-14
-Time:                        22:39:07   Log-Likelihood:                -231.87
+Date:                Sat, 27 Jun 2026   Prob (F-statistic):           2.99e-14
+Time:                        12:58:30   Log-Likelihood:                -231.87
 No. Observations:                 157   AIC:                             471.7
 Df Residuals:                     153   BIC:                             484.0
 Df Model:                           3                                         
@@ -43598,7 +43510,7 @@ the results in a systematic way for various combinations of variables.
 
 \begin{verbatim}
 The basic model is: y ~ x1
-The following features will be used for fitting the basic model: Index(['y', 'x2', 'x3', 'x1'], dtype='str')
+The following features will be used for fitting the basic model: Index(['x3', 'x1', 'x2', 'y'], dtype='str')
 p-values: 0.34343741859526244
 estimate: 1.025306391110114
 conf_int: 0   -1.111963

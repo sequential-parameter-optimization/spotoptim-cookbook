@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -223,7 +223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./spotoptim_parallel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallelization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallel Evaluation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -791,7 +791,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="11.3" class="anchored" data-anchor-id="quick-start"><span class="header-section-number">11.3</span> Quick Start</h2>
 <section id="basic-log-scale-transformation" class="level3" data-number="11.3.1">
 <h3 data-number="11.3.1" class="anchored" data-anchor-id="basic-log-scale-transformation"><span class="header-section-number">11.3.1</span> Basic Log-Scale Transformation</h3>
-<div id="31701ac7" class="cell" data-execution_count="1">
+<div id="d94c9181" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -953,7 +953,7 @@ Best score: -0.018481</code></pre>
 <h2 data-number="11.5" class="anchored" data-anchor-id="detailed-examples"><span class="header-section-number">11.5</span> Detailed Examples</h2>
 <section id="example-1-neural-network-hyperparameter-tuning" class="level3" data-number="11.5.1">
 <h3 data-number="11.5.1" class="anchored" data-anchor-id="example-1-neural-network-hyperparameter-tuning"><span class="header-section-number">11.5.1</span> Example 1: Neural Network Hyperparameter Tuning</h3>
-<div id="ef00961c" class="cell" data-execution_count="2">
+<div id="8780a9f8" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
@@ -1048,49 +1048,49 @@ Best score: -0.018481</code></pre>
 <span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Weight Decay: </span><span class="sc">{</span>result<span class="sc">.</span>x[<span class="dv">3</span>]<span class="sc">:.8f}</span><span class="ss">"</span>)</span>
 <span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best Loss: </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Training: hidden=64, layers=2, lr=0.000865, wd=0.000189
-Training: hidden=36, layers=3, lr=0.000399, wd=0.000008
-Training: hidden=256, layers=3, lr=0.067021, wd=0.001348
-Training: hidden=121, layers=3, lr=0.004622, wd=0.000093
-Training: hidden=81, layers=1, lr=0.015013, wd=0.000395
-Training: hidden=169, layers=2, lr=0.028644, wd=0.001817
-Training: hidden=144, layers=1, lr=0.002881, wd=0.000002
-Training: hidden=16, layers=2, lr=0.010144, wd=0.000004
-Training: hidden=225, layers=3, lr=0.000118, wd=0.000022
-Training: hidden=36, layers=4, lr=0.000249, wd=0.009479
-Training: hidden=100, layers=1, lr=0.078459, wd=0.000511
-Training: hidden=81, layers=1, lr=0.025725, wd=0.000396
-Training: hidden=100, layers=1, lr=0.074352, wd=0.000511
-Training: hidden=25, layers=2, lr=0.008325, wd=0.000002
-Training: hidden=16, layers=2, lr=0.010144, wd=0.000004
-Training: hidden=225, layers=3, lr=0.035475, wd=0.004886
-Training: hidden=16, layers=2, lr=0.006932, wd=0.000753
-Training: hidden=121, layers=2, lr=0.002197, wd=0.000031
-Training: hidden=25, layers=2, lr=0.000840, wd=0.000001
-Training: hidden=225, layers=4, lr=0.017990, wd=0.005369
-Training: hidden=169, layers=2, lr=0.013721, wd=0.000004
-Training: hidden=49, layers=2, lr=0.000250, wd=0.000041
-Training: hidden=256, layers=3, lr=0.004621, wd=0.000011
-Training: hidden=169, layers=4, lr=0.026769, wd=0.000002
-Training: hidden=121, layers=1, lr=0.000202, wd=0.000052
-Training: hidden=36, layers=3, lr=0.068507, wd=0.000339
-Training: hidden=121, layers=4, lr=0.048227, wd=0.000036
-Training: hidden=196, layers=2, lr=0.021379, wd=0.000053
-Training: hidden=64, layers=4, lr=0.032486, wd=0.000006
-Training: hidden=81, layers=2, lr=0.008988, wd=0.000008
+<pre><code>Training: hidden=59, layers=2, lr=0.000865, wd=0.000189
+Training: hidden=42, layers=3, lr=0.000399, wd=0.000008
+Training: hidden=250, layers=3, lr=0.067021, wd=0.001348
+Training: hidden=119, layers=3, lr=0.004622, wd=0.000093
+Training: hidden=79, layers=1, lr=0.015013, wd=0.000395
+Training: hidden=180, layers=2, lr=0.028644, wd=0.001817
+Training: hidden=152, layers=1, lr=0.002881, wd=0.000002
+Training: hidden=19, layers=2, lr=0.010144, wd=0.000004
+Training: hidden=216, layers=3, lr=0.000118, wd=0.000022
+Training: hidden=41, layers=4, lr=0.000249, wd=0.009479
+Training: hidden=28, layers=1, lr=0.000291, wd=0.006011
+Training: hidden=79, layers=1, lr=0.013124, wd=0.000362
+Training: hidden=67, layers=3, lr=0.002156, wd=0.000117
+Training: hidden=21, layers=2, lr=0.018989, wd=0.000001
+Training: hidden=88, layers=1, lr=0.100000, wd=0.000842
+Training: hidden=77, layers=2, lr=0.044713, wd=0.000630
+Training: hidden=59, layers=4, lr=0.000287, wd=0.001439
+Training: hidden=152, layers=2, lr=0.005498, wd=0.000228
+Training: hidden=16, layers=3, lr=0.011726, wd=0.000003
+Training: hidden=61, layers=3, lr=0.001823, wd=0.000030
+Training: hidden=141, layers=3, lr=0.003106, wd=0.000138
+Training: hidden=77, layers=1, lr=0.055837, wd=0.000567
+Training: hidden=85, layers=1, lr=0.025940, wd=0.001322
+Training: hidden=82, layers=1, lr=0.034281, wd=0.000571
+Training: hidden=154, layers=1, lr=0.061995, wd=0.001318
+Training: hidden=60, layers=3, lr=0.003578, wd=0.000088
+Training: hidden=157, layers=2, lr=0.028605, wd=0.000686
+Training: hidden=191, layers=1, lr=0.001614, wd=0.005530
+Training: hidden=148, layers=2, lr=0.000514, wd=0.000044
+Training: hidden=190, layers=1, lr=0.048875, wd=0.000735
 
 Best Configuration:
-  Hidden Size: 81
+  Hidden Size: 82
   Num Layers: 1
-  Learning Rate: 0.015013
-  Weight Decay: 0.00039512
-  Best Loss: 2673.779297</code></pre>
+  Learning Rate: 0.034281
+  Weight Decay: 0.00057099
+  Best Loss: 2641.261068</code></pre>
 </div>
 </div>
 </section>
 <section id="example-2-physics-informed-neural-networks-pinns" class="level3" data-number="11.5.2">
 <h3 data-number="11.5.2" class="anchored" data-anchor-id="example-2-physics-informed-neural-networks-pinns"><span class="header-section-number">11.5.2</span> Example 2: Physics-Informed Neural Networks (PINNs)</h3>
-<div id="71be50a8" class="cell" data-execution_count="3">
+<div id="1816f044" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1144,7 +1144,7 @@ Best Solution Found:
 </section>
 <section id="example-3-mixing-transformations" class="level3" data-number="11.5.3">
 <h3 data-number="11.5.3" class="anchored" data-anchor-id="example-3-mixing-transformations"><span class="header-section-number">11.5.3</span> Example 3: Mixing Transformations</h3>
-<div id="75de4e59" class="cell" data-execution_count="4">
+<div id="0bdbf1d0" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1193,7 +1193,7 @@ Best Solution Found:
 <p>The transformation type is displayed in the “trans” column of both design and results tables:</p>
 <section id="design-table-before-optimization" class="level3" data-number="11.6.1">
 <h3 data-number="11.6.1" class="anchored" data-anchor-id="design-table-before-optimization"><span class="header-section-number">11.6.1</span> Design Table (Before Optimization)</h3>
-<div id="e5c35b31" class="cell" data-execution_count="5">
+<div id="bac04156" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1231,7 +1231,7 @@ Best Solution Found:
 </section>
 <section id="results-table-after-optimization" class="level3" data-number="11.6.2">
 <h3 data-number="11.6.2" class="anchored" data-anchor-id="results-table-after-optimization"><span class="header-section-number">11.6.2</span> Results Table (After Optimization)</h3>
-<div id="29d52153" class="cell" data-execution_count="6">
+<div id="ac723bd2" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results with transformations</span></span>
@@ -1239,10 +1239,10 @@ Best Solution Found:
 <div class="cell-output cell-output-stdout">
 <pre><code>|    name |   type |   default |   lower |   upper |   tuned |   transform |
 |---------|--------|-----------|---------|---------|---------|-------------|
-|      lr |  float |    0.5005 |   0.001 |       1 |  0.0041 |       log10 |
-|   alpha |  float |     5.005 |    0.01 |      10 |  0.1308 |         log |
-| neurons |  float |       505 |      10 |    1000 | 21.3053 |        sqrt |
-|    bias |  float |         0 |      -5 |       5 | -1.2417 |           - |</code></pre>
+|      lr |  float |    0.5005 |   0.001 |       1 |  0.7135 |       log10 |
+|   alpha |  float |     5.005 |    0.01 |      10 |  0.0105 |         log |
+| neurons |  float |       505 |      10 |    1000 | 23.1799 |        sqrt |
+|    bias |  float |         0 |      -5 |       5 | -0.4795 |           - |</code></pre>
 </div>
 </div>
 <p>Output shows the “trans” column with transformation types, helping you understand which parameters were optimized in which scale.</p>
