@@ -1047,7 +1047,7 @@ print(f"  Actual penalty = {penalty_base:.2f} + noise")
 ## Methods Called During `optimize()`
 
 The `optimize()` method orchestrates the full optimization process with restart support.
-It delegates to `execute_optimization_run()`, which dispatches to `optimize_sequential_run()` (for `n_jobs=1`) or `optimize_steady_state()` (for `n_jobs > 1`).
+It delegates to `execute_optimization_run()`, which runs the sequential optimization loop in `optimize_sequential_run()`.
 
 ### Preparation Phase (inside `optimize_sequential_run()` via `_initialize_run()`)
 1. `set_seed()` - Set random seed for reproducibility

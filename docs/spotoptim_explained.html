@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -251,7 +251,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./spotoptim_parallel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallelization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallel Evaluation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -777,7 +777,7 @@ window.Quarto = {
 <h2 data-number="34.1" class="anchored" data-anchor-id="example-without-restarts"><span class="header-section-number">34.1</span> Example Without Restarts</h2>
 <p>This document outlines the sequence of methods called when <code>SpotOptim.optimize()</code> is executed, explaining the input, processing, and output at each step. As an example, we will use the following code:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.functions <span class="im">import</span> sphere</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> sphere</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> SpotOptim(</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    fun<span class="op">=</span>sphere,</span>
@@ -1389,7 +1389,7 @@ window.Quarto = {
 <section id="using-the-surrogate-model" class="level2" data-number="34.5">
 <h2 data-number="34.5" class="anchored" data-anchor-id="using-the-surrogate-model"><span class="header-section-number">34.5</span> Using the Surrogate Model</h2>
 <p>SpotOptim allows to use the surrogate model to predict the objective function values for new points. The default surrogate model is sklearn’s Gaussian Process Regressor. Here we compare the default surrogate model with a simple linear model, which is provided as <code>MLP_Surrogate</code> in the <code>spotoptim.surrogate</code> module.</p>
-<div id="b00e2841" class="cell" data-execution_count="1">
+<div id="8bc8beb9" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> Kriging, MLPSurrogate</span>
@@ -1457,7 +1457,7 @@ ackley          | 20    | 200      | 0.2448          | 0.6952         </code></p
 <section id="comparing-the-spotoptim-with-the-default-surrogate-model-and-mlp-surrogate" class="level2" data-number="34.6">
 <h2 data-number="34.6" class="anchored" data-anchor-id="comparing-the-spotoptim-with-the-default-surrogate-model-and-mlp-surrogate"><span class="header-section-number">34.6</span> Comparing the SpotOptim With the Default Surrogate Model and MLP Surrogate</h2>
 <p>Here we run <code>SpotOptim</code> using the default Kriging surrogate and the <code>MLPSurrogate</code> on standard test functions to compare their optimization performance.</p>
-<div id="2c1e7edc" class="cell" data-execution_count="2">
+<div id="0c8f967d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> MLPSurrogate</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.so <span class="im">import</span> rosenbrock, ackley, robot_arm_hard</span>
@@ -1562,7 +1562,7 @@ robot_arm_hard  | 10    | 2.226474e+01         | 2.226474e+01        </code></pr
 <h3 data-number="34.7.1" class="anchored" data-anchor-id="comparison-default-gp-vs-multi-surrogate-gp-mlp-on-robot-arm"><span class="header-section-number">34.7.1</span> Comparison: Default (GP) vs Multi-Surrogate (GP + MLP) on Robot Arm</h3>
 <p>The following example demonstrates how to set up a hybrid optimization strategy combining: 1. <strong>GaussianProcessRegressor (default)</strong>: Good for valid uncertainty estimation and exploitation. 2. <strong>MLPSurrogate</strong>: Good for global trend modeling and scalability.</p>
 <p>We compare the performance on the <strong>10D Robot Arm</strong> problem.</p>
-<div id="6475021f" class="cell" data-execution_count="3">
+<div id="65b87164" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim <span class="im">import</span> SpotOptim</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.surrogate <span class="im">import</span> MLPSurrogate</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.so <span class="im">import</span> robot_arm_hard</span>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-53391ae0d416d99de149949e142ad115.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -224,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./spotoptim_parallel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallelization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Parallel Evaluation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -724,7 +724,7 @@ Note
 <section id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="spotoptim-with-sklearn-kriging-in-6-dimensions-rosenbrock-function"><span class="header-section-number">5.1</span> SpotOptim with Sklearn Kriging in 6 Dimensions: Rosenbrock Function</h2>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 6-dimensional Rosenbrock function. We use a maximum of 100 function evaluations.</p>
-<div id="0b067f9c" class="cell" data-execution_count="1">
+<div id="5e83ccab" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -734,7 +734,7 @@ Note
 </div>
 <section id="define-the-6d-rosenbrock-function" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="define-the-6d-rosenbrock-function"><span class="header-section-number">5.1.1</span> Define the 6D Rosenbrock Function</h3>
-<div id="9044fcaf" class="cell" data-execution_count="2">
+<div id="d519cbd0" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">6</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.full(dim, <span class="op">-</span><span class="fl">2.0</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.full(dim, <span class="fl">2.0</span>)</span>
@@ -745,7 +745,7 @@ Note
 </section>
 <section id="set-up-spotoptim-parameters" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters"><span class="header-section-number">5.1.2</span> Set up SpotOptim Parameters</h3>
-<div id="6349b849" class="cell" data-execution_count="3">
+<div id="b6b47553" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -878,7 +878,7 @@ Iter 93 | Best: 3.140410 | Rate: 0.69 | Evals: 99.0%
 Iter 94 | Best: 3.033875 | Rate: 0.69 | Evals: 100.0%</code></pre>
 </div>
 </div>
-<div id="27567764" class="cell" data-execution_count="5">
+<div id="71f3a9b2" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[6D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_rosen<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_rosen<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -891,7 +891,7 @@ Number of iterations: 94</code></pre>
 </section>
 <section id="visualize-optimization-progress" class="level3" data-number="5.1.4">
 <h3 data-number="5.1.4" class="anchored" data-anchor-id="visualize-optimization-progress"><span class="header-section-number">5.1.4</span> Visualize Optimization Progress</h3>
-<div id="2e3fa064" class="cell" data-execution_count="6">
+<div id="b50d1bbb" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
@@ -915,7 +915,7 @@ Number of iterations: 94</code></pre>
 <section id="evaluation-of-multiple-repeats" class="level3" data-number="5.1.5">
 <h3 data-number="5.1.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats"><span class="header-section-number">5.1.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="d116252c" class="cell" data-execution_count="7">
+<div id="cc45d63c" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
@@ -964,7 +964,7 @@ Number of iterations: 94</code></pre>
 <p>This section demonstrates how to use the <code>SpotOptim</code> class with sklearn’s Gaussian Process Regressor (using Matern kernel) as a surrogate on the 10-dimensional Michalewicz function. We use a maximum of 300 function evaluations.</p>
 <section id="define-the-10d-michalewicz-function" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="define-the-10d-michalewicz-function"><span class="header-section-number">5.2.1</span> Define the 10D Michalewicz Function</h3>
-<div id="97304ab3" class="cell" data-execution_count="8">
+<div id="8dedec2f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function <span class="im">import</span> michalewicz</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dim <span class="op">=</span> <span class="dv">10</span></span>
@@ -977,7 +977,7 @@ Number of iterations: 94</code></pre>
 </section>
 <section id="set-up-spotoptim-parameters-1" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="set-up-spotoptim-parameters-1"><span class="header-section-number">5.2.2</span> Set up SpotOptim Parameters</h3>
-<div id="ceaa42de" class="cell" data-execution_count="9">
+<div id="1147ace9" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n_initial <span class="op">=</span> dim</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">321</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1308,7 +1308,7 @@ Iter 289 | Best: -5.957670 | Curr: -2.897487 | Rate: 0.09 | Evals: 99.7%
 Iter 290 | Best: -5.957670 | Curr: -5.957670 | Rate: 0.09 | Evals: 100.0%</code></pre>
 </div>
 </div>
-<div id="beb99643" class="cell" data-execution_count="11">
+<div id="c739fbe6" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"[10D] Sklearn Kriging: min y = </span><span class="sc">{</span>result_micha<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss"> at x = </span><span class="sc">{</span>result_micha<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of function evaluations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nfev<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of iterations: </span><span class="sc">{</span>result_micha<span class="sc">.</span>nit<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1322,7 +1322,7 @@ Number of iterations: 290</code></pre>
 </section>
 <section id="visualize-optimization-progress-1" class="level3" data-number="5.2.4">
 <h3 data-number="5.2.4" class="anchored" data-anchor-id="visualize-optimization-progress-1"><span class="header-section-number">5.2.4</span> Visualize Optimization Progress</h3>
-<div id="b76558a2" class="cell" data-execution_count="12">
+<div id="904d9639" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the optimization progress</span></span>
@@ -1346,7 +1346,7 @@ Number of iterations: 290</code></pre>
 <section id="evaluation-of-multiple-repeats-1" class="level3" data-number="5.2.5">
 <h3 data-number="5.2.5" class="anchored" data-anchor-id="evaluation-of-multiple-repeats-1"><span class="header-section-number">5.2.5</span> Evaluation of Multiple Repeats</h3>
 <p>To perform 30 repeats and collect statistics:</p>
-<div id="1dd5a747" class="cell" data-execution_count="13">
+<div id="d2bb25fb" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform 30 independent runs</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
