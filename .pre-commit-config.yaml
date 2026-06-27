@@ -1,0 +1,18 @@
+# Local-render release gate for spotoptim-cookbook.
+#
+# The book is rendered locally; a push is allowed only when the committed docs/
+# matches a successful render of the current sources. This hook verifies the
+# render stamp on push and does not itself render.
+#
+# One-time setup per clone:
+#   uv run pre-commit install --hook-type pre-push
+repos:
+  - repo: local
+    hooks:
+      - id: render-stamp-check
+        name: docs/ render stamp is fresh (render-before-push gate)
+        entry: python3 scripts/render_stamp.py --check
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true
