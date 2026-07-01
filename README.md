@@ -7,6 +7,15 @@ Optimization cookbook.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete contributor workflow (uv setup, local Quarto render, testing, and PR process).
 
+
+## Upgrading to the Recent spotoptim Version
+
+```bash
+uv lock --upgrade-package spotoptim   # relocks spotoptim to the recent ver, e.g. from 2.1.0 to 2.1.2
+uv sync                               # installs it into .venv
+```
+
+
 ## Workflow
 
 * Work on `develop` and open pull requests to `main` for publication.
