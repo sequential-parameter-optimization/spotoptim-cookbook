@@ -893,8 +893,8 @@ window.Quarto = {
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best f(x): </span><span class="sc">{</span>result<span class="sc">.</span>fun<span class="sc">}</span><span class="ss">"</span>)               <span class="co"># Minimizes obj1</span></span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"MO values stored: </span><span class="sc">{</span>optimizer<span class="sc">.</span>y_mo<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># (30, 2)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best x: [ 1.27715058e-06 -1.67854190e-04]
-Best f(x): 2.8176660124602576e-08
+<pre><code>Best x: [-4.39940747e-05 -2.08039138e-04]
+Best f(x): 4.521576166022012e-08
 MO values stored: (30, 2)</code></pre>
 </div>
 </div>
@@ -920,7 +920,7 @@ MO values stored: (30, 2)</code></pre>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> optimizer.optimize()</span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Compromise solution: </span><span class="sc">{</span>result<span class="sc">.</span>x<span class="sc">}</span><span class="ss">"</span>)  <span class="co"># Near [1, 1]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Compromise solution: [1.00077461 0.99751875]</code></pre>
+<pre><code>Compromise solution: [0.99819069 0.99988984]</code></pre>
 </div>
 </div>
 </div>
@@ -1007,7 +1007,7 @@ MO values stored: (30, 2)</code></pre>
 <h2 data-number="24.2" class="anchored" data-anchor-id="common-scalarization-strategies"><span class="header-section-number">24.2</span> Common Scalarization Strategies</h2>
 <section id="weighted-sum" class="level3" data-number="24.2.1">
 <h3 data-number="24.2.1" class="anchored" data-anchor-id="weighted-sum"><span class="header-section-number">24.2.1</span> 1. Weighted Sum</h3>
-<div id="8049bd1c" class="cell" data-execution_count="8">
+<div id="9e53a605" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> weighted_sum(y_mo, weights<span class="op">=</span>[<span class="fl">0.5</span>, <span class="fl">0.5</span>]):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(w <span class="op">*</span> y_mo[:, i] <span class="cf">for</span> i, w <span class="kw">in</span> <span class="bu">enumerate</span>(weights))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1015,7 +1015,7 @@ MO values stored: (30, 2)</code></pre>
 </section>
 <section id="weighted-sum-with-normalization" class="level3" data-number="24.2.2">
 <h3 data-number="24.2.2" class="anchored" data-anchor-id="weighted-sum-with-normalization"><span class="header-section-number">24.2.2</span> 2. Weighted Sum with Normalization</h3>
-<div id="df94dadd" class="cell" data-execution_count="9">
+<div id="2e4bef27" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normalized_weighted_sum(y_mo, weights<span class="op">=</span>[<span class="fl">0.5</span>, <span class="fl">0.5</span>]):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Normalize each objective to [0, 1]</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    y_norm <span class="op">=</span> (y_mo <span class="op">-</span> y_mo.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)) <span class="op">/</span> (y_mo.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>) <span class="op">-</span> y_mo.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>) <span class="op">+</span> <span class="fl">1e-10</span>)</span>
@@ -1025,7 +1025,7 @@ MO values stored: (30, 2)</code></pre>
 </section>
 <section id="min-max-chebyshev" class="level3" data-number="24.2.3">
 <h3 data-number="24.2.3" class="anchored" data-anchor-id="min-max-chebyshev"><span class="header-section-number">24.2.3</span> 3. Min-Max (Chebyshev)</h3>
-<div id="f1984c59" class="cell" data-execution_count="10">
+<div id="3964fdae" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> min_max(y_mo):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">max</span>(y_mo, axis<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1033,7 +1033,7 @@ MO values stored: (30, 2)</code></pre>
 </section>
 <section id="target-achievement" class="level3" data-number="24.2.4">
 <h3 data-number="24.2.4" class="anchored" data-anchor-id="target-achievement"><span class="header-section-number">24.2.4</span> 4. Target Achievement</h3>
-<div id="f568f459" class="cell" data-execution_count="11">
+<div id="eb5c7fac" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> target_achievement(y_mo, targets<span class="op">=</span>[<span class="fl">0.0</span>, <span class="fl">0.0</span>]):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Minimize deviation from targets</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((y_mo <span class="op">-</span> targets)<span class="op">**</span><span class="dv">2</span>, axis<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1042,7 +1042,7 @@ MO values stored: (30, 2)</code></pre>
 </section>
 <section id="product" class="level3" data-number="24.2.5">
 <h3 data-number="24.2.5" class="anchored" data-anchor-id="product"><span class="header-section-number">24.2.5</span> 5. Product</h3>
-<div id="b00f43e7" class="cell" data-execution_count="12">
+<div id="f5b1dc6a" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> product(y_mo):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.prod(y_mo <span class="op">+</span> <span class="fl">1e-10</span>, axis<span class="op">=</span><span class="dv">1</span>)  <span class="co"># Add small value to avoid zero</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1343,7 +1343,7 @@ f1 = 1.000000, f2 = 0.000000</code></pre>
 <section id="example-7-zdt2---non-convex-pareto-front" class="level3" data-number="24.6.3">
 <h3 data-number="24.6.3" class="anchored" data-anchor-id="example-7-zdt2---non-convex-pareto-front"><span class="header-section-number">24.6.3</span> Example 7: ZDT2 - Non-Convex Pareto Front</h3>
 <p>ZDT2 has a non-convex Pareto front, making it more challenging than ZDT1.</p>
-<div id="3ea3d38b" class="cell" data-execution_count="17">
+<div id="d9672de7" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.mo <span class="im">import</span> zdt2</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate Pareto front</span></span>
@@ -1371,7 +1371,7 @@ f1 = 1.000000, f2 = 0.000000</code></pre>
 <div id="fig-zdt2-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-zdt2-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-zdt2-plot-output-1.png" width="758" height="566" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-zdt2-plot-output-1.png" width="759" height="566" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-zdt2-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.2: ZDT2 Non-Convex Pareto Front
@@ -1380,7 +1380,7 @@ Figure&nbsp;24.2: ZDT2 Non-Convex Pareto Front
 </div>
 </div>
 </div>
-<div id="220e19cc" class="cell" data-execution_count="19">
+<div id="25ef27ef" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ZDT2 Characteristics:"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Non-convex Pareto front: f2 = 1 - f1²"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Tests algorithm's ability to handle non-convexity"</span>)</span>
@@ -1396,7 +1396,7 @@ Figure&nbsp;24.2: ZDT2 Non-Convex Pareto Front
 <section id="example-8-zdt3---disconnected-pareto-front" class="level3" data-number="24.6.4">
 <h3 data-number="24.6.4" class="anchored" data-anchor-id="example-8-zdt3---disconnected-pareto-front"><span class="header-section-number">24.6.4</span> Example 8: ZDT3 - Disconnected Pareto Front</h3>
 <p>ZDT3 has a discontinuous Pareto front consisting of 5 separate regions.</p>
-<div id="93820402" class="cell" data-execution_count="20">
+<div id="a7f625fd" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.mo <span class="im">import</span> zdt3</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate Pareto front</span></span>
@@ -1433,7 +1433,7 @@ Figure&nbsp;24.3: ZDT3 Disconnected Pareto Front
 </div>
 </div>
 </div>
-<div id="18dc995c" class="cell" data-execution_count="22">
+<div id="01b56635" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ZDT3 Characteristics:"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Disconnected Pareto front with 5 separate regions"</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Tests diversity maintenance in algorithms"</span>)</span>
@@ -1449,7 +1449,7 @@ Figure&nbsp;24.3: ZDT3 Disconnected Pareto Front
 <section id="example-9-zdt4---multimodal-with-many-local-fronts" class="level3" data-number="24.6.5">
 <h3 data-number="24.6.5" class="anchored" data-anchor-id="example-9-zdt4---multimodal-with-many-local-fronts"><span class="header-section-number">24.6.5</span> Example 9: ZDT4 - Multimodal with Many Local Fronts</h3>
 <p>ZDT4 has 21^9 local Pareto fronts, testing the algorithm’s ability to escape local optima.</p>
-<div id="2ecc61d0" class="cell" data-execution_count="23">
+<div id="c01390eb" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.mo <span class="im">import</span> zdt4</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate Pareto front (same as ZDT1 when optimal)</span></span>
@@ -1492,7 +1492,7 @@ Figure&nbsp;24.3: ZDT3 Disconnected Pareto Front
 <div id="fig-zdt4-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-zdt4-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-zdt4-plot-output-1.png" width="1142" height="470" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-zdt4-plot-output-1.png" width="1143" height="470" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-zdt4-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.4: ZDT4 Multimodal Objective Space
@@ -1501,7 +1501,7 @@ Figure&nbsp;24.4: ZDT4 Multimodal Objective Space
 </div>
 </div>
 </div>
-<div id="3a916cb7" class="cell" data-execution_count="25">
+<div id="d54de8fb" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ZDT4 Characteristics:"</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- 21^9 local Pareto fronts"</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Tests global search capability"</span>)</span>
@@ -1517,7 +1517,7 @@ Figure&nbsp;24.4: ZDT4 Multimodal Objective Space
 <section id="example-10-zdt6---non-uniform-density" class="level3" data-number="24.6.6">
 <h3 data-number="24.6.6" class="anchored" data-anchor-id="example-10-zdt6---non-uniform-density"><span class="header-section-number">24.6.6</span> Example 10: ZDT6 - Non-Uniform Density</h3>
 <p>ZDT6 has a non-uniform search space with low density of solutions near the Pareto front.</p>
-<div id="658f286f" class="cell" data-execution_count="26">
+<div id="c1bbaa4e" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.mo <span class="im">import</span> zdt6</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate Pareto front</span></span>
@@ -1555,7 +1555,7 @@ Figure&nbsp;24.4: ZDT4 Multimodal Objective Space
 <div id="fig-zdt6-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-zdt6-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-zdt6-plot-output-1.png" width="1142" height="470" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-zdt6-plot-output-1.png" width="1143" height="470" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-zdt6-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.5: ZDT6 Non-Uniform Density
@@ -1564,7 +1564,7 @@ Figure&nbsp;24.5: ZDT6 Non-Uniform Density
 </div>
 </div>
 </div>
-<div id="805e3be6" class="cell" data-execution_count="28">
+<div id="f4c207e0" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ZDT6 Characteristics:"</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Non-uniform density of Pareto optimal solutions"</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Low density near the Pareto front"</span>)</span>
@@ -1580,7 +1580,7 @@ Figure&nbsp;24.5: ZDT6 Non-Uniform Density
 <section id="example-11-dtlz2---scalable-spherical-pareto-front" class="level3" data-number="24.6.7">
 <h3 data-number="24.6.7" class="anchored" data-anchor-id="example-11-dtlz2---scalable-spherical-pareto-front"><span class="header-section-number">24.6.7</span> Example 11: DTLZ2 - Scalable Spherical Pareto Front</h3>
 <p>DTLZ2 is a scalable test problem with a concave spherical Pareto front.</p>
-<div id="a66f1b1d" class="cell" data-execution_count="29">
+<div id="d5b5771b" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.mo <span class="im">import</span> dtlz2</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3D visualization for 3 objectives</span></span>
@@ -1621,7 +1621,7 @@ Figure&nbsp;24.5: ZDT6 Non-Uniform Density
 <div id="fig-dtlz2-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-dtlz2-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-dtlz2-plot-output-1.png" width="864" height="758" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-dtlz2-plot-output-1.png" width="865" height="758" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dtlz2-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.6: DTLZ2 Spherical Pareto Front (3 objectives)
@@ -1630,7 +1630,7 @@ Figure&nbsp;24.6: DTLZ2 Spherical Pareto Front (3 objectives)
 </div>
 </div>
 </div>
-<div id="9629558d" class="cell" data-execution_count="31">
+<div id="7d1e7936" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"DTLZ2 Characteristics:"</span>)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Scalable number of objectives"</span>)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Pareto front is unit sphere: Σf_i² = 1"</span>)</span>
@@ -1670,15 +1670,15 @@ Figure&nbsp;24.6: DTLZ2 Spherical Pareto Front (3 objectives)
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Optimization Result:
-f1 = 0.0000, f2 = 0.0000, f3 = 1.2506
-Sum of squares: 1.5640 (should be ~1.0)</code></pre>
+f1 = 0.0000, f2 = 0.0000, f3 = 1.2504
+Sum of squares: 1.5635 (should be ~1.0)</code></pre>
 </div>
 </div>
 </section>
 <section id="example-12-schaffer-n1---simple-bi-objective" class="level3" data-number="24.6.8">
 <h3 data-number="24.6.8" class="anchored" data-anchor-id="example-12-schaffer-n1---simple-bi-objective"><span class="header-section-number">24.6.8</span> Example 12: Schaffer N1 - Simple Bi-Objective</h3>
 <p>Schaffer N1 is one of the earliest and simplest multi-objective test functions.</p>
-<div id="09b3ae7e" class="cell" data-execution_count="33">
+<div id="f1453ffe" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.mo <span class="im">import</span> schaffer_n1</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data</span></span>
@@ -1718,7 +1718,7 @@ Sum of squares: 1.5640 (should be ~1.0)</code></pre>
 <div id="fig-schaffer-n1-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-schaffer-n1-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-schaffer-n1-plot-output-1.png" width="1142" height="470" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-schaffer-n1-plot-output-1.png" width="1143" height="470" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-schaffer-n1-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.7: Schaffer N1 Objective Space
@@ -1727,7 +1727,7 @@ Figure&nbsp;24.7: Schaffer N1 Objective Space
 </div>
 </div>
 </div>
-<div id="81d0f9d8" class="cell" data-execution_count="35">
+<div id="7ef3c1d8" class="cell" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Schaffer N1 Characteristics:"</span>)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Simplest multi-objective function"</span>)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- 1D decision variable"</span>)</span>
@@ -1750,7 +1750,7 @@ f_2(x) = 1 - \exp\left(-\sum_{i=1}^{n} (x_i + \frac{1}{\sqrt{n}})^2\right),
 \]</span> where <span class="math inline">\(x_i \in [-2, 2]\)</span>. The Pareto optimal solutions satisfy: <span class="math display">\[
 \sum_{i=1}^{n} x_i^2 = \frac{1}{n}.
 \]</span></p>
-<div id="2b55aa2d" class="cell" data-execution_count="36">
+<div id="51face74" class="cell" data-execution_count="36">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotoptim.function.mo <span class="im">import</span> fonseca_fleming</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data for 2D</span></span>
@@ -1803,7 +1803,7 @@ f_2(x) = 1 - \exp\left(-\sum_{i=1}^{n} (x_i + \frac{1}{\sqrt{n}})^2\right),
 <div id="fig-fonseca-fleming-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fonseca-fleming-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-fonseca-fleming-plot-output-1.png" width="1126" height="470" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-fonseca-fleming-plot-output-1.png" width="1128" height="470" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fonseca-fleming-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.8: Fonseca-Fleming Concave Front
@@ -1812,7 +1812,7 @@ Figure&nbsp;24.8: Fonseca-Fleming Concave Front
 </div>
 </div>
 </div>
-<div id="4216e88f" class="cell" data-execution_count="38">
+<div id="e967becf" class="cell" data-execution_count="38">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Fonseca-Fleming Characteristics:"</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Concave Pareto front (minimization)"</span>)</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"- Symmetric problem"</span>)</span>
@@ -1916,7 +1916,7 @@ Max objective: -3.7006</code></pre>
 <span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, (x, y) <span class="kw">in</span> results.items():</span>
 <span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:20s}</span><span class="ss">: f1=</span><span class="sc">{</span>y[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">, f2=</span><span class="sc">{</span>y[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div id="fig-zdt1-scalarization-diff" class="quarto-float quarto-figure quarto-figure-center anchored" height="566" width="950">
+<div id="fig-zdt1-scalarization-diff" class="quarto-float quarto-figure quarto-figure-center anchored" width="950" height="566">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-zdt1-scalarization-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="multiobjective_files/figure-html/fig-zdt1-scalarization-diff-output-1.png" id="fig-zdt1-scalarization-diff" width="950" height="566" class="figure-img">
@@ -1932,9 +1932,9 @@ Figure&nbsp;24.9
 Comparison Results:
 First Objective     : f1=0.0000, f2=5.5965
 Equal Weight        : f1=1.0000, f2=0.1656
-Favor f1            : f1=0.0000, f2=1.9310
-Favor f2            : f1=1.0000, f2=0.3416
-Min-Max             : f1=1.0000, f2=0.7993</code></pre>
+Favor f1            : f1=0.0000, f2=1.7932
+Favor f2            : f1=1.0000, f2=0.3476
+Min-Max             : f1=1.0000, f2=0.9458</code></pre>
 </div>
 </div>
 </section>
@@ -1968,7 +1968,7 @@ f2(x, y) = 2 - ((1 - x)^2 + (1 - y)^2)
 <span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    model.fit(X_base, y[:, i])</span>
 <span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    models.append(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3965ab42" class="cell" data-execution_count="44">
+<div id="96df33e9" class="cell" data-execution_count="44">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate base Morris-Mitchell stats</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>phi_base, J_base, d_base <span class="op">=</span> mmphi_intensive(X_base, q<span class="op">=</span><span class="dv">2</span>, p<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"phi_base: </span><span class="sc">{</span>phi_base<span class="sc">}</span><span class="ss">, J_base: </span><span class="sc">{</span>J_base<span class="sc">}</span><span class="ss">, d_base: </span><span class="sc">{</span>d_base<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1988,7 +1988,7 @@ f2(x, y) = 2 - ((1 - x)^2 + (1 - y)^2)
 <div id="fig-mo-xy-surface-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mo-xy-surface-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-mo-xy-surface-plot-output-1.png" width="831" height="384" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-mo-xy-surface-plot-output-1.png" width="831" height="385" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mo-xy-surface-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.10: Surfaces of the two objectives of the mo_conv2_max function
@@ -2006,7 +2006,7 @@ Figure&nbsp;24.10: Surfaces of the two objectives of the mo_conv2_max function
 <div id="fig-mo-xy-contour-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mo-xy-contour-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-mo-xy-contour-plot-output-1.png" width="934" height="374" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-mo-xy-contour-plot-output-1.png" width="935" height="374" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mo-xy-contour-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.11: Contours of the two objectives of the mo_conv2_max function
@@ -2022,7 +2022,7 @@ Figure&nbsp;24.11: Contours of the two objectives of the mo_conv2_max function
 <div id="fig-mo-pareto-front-orig-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mo-pareto-front-orig-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-mo-pareto-front-orig-plot-output-1.png" width="919" height="523" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-mo-pareto-front-orig-plot-output-1.png" width="923" height="524" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mo-pareto-front-orig-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.12: Pareto front of the original data
@@ -2038,7 +2038,7 @@ Figure&nbsp;24.12: Pareto front of the original data
 <div id="fig-mo-pareto-optx-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mo-pareto-optx-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-mo-pareto-optx-plot-output-1.png" width="943" height="374" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-mo-pareto-optx-plot-output-1.png" width="946" height="374" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mo-pareto-optx-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;24.13: Pareto-optimal points in the input space
@@ -2065,7 +2065,7 @@ Figure&nbsp;24.13: Pareto-optimal points in the input space
 <div id="fig-mo-desirability-function-plot-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-mo-desirability-function-plot-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-mo-desirability-function-plot-output-1.png" data-ref-parent="fig-mo-desirability-function-plot" width="514" height="361" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-mo-desirability-function-plot-output-1.png" data-ref-parent="fig-mo-desirability-function-plot" width="515" height="361" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-mo-desirability-function-plot-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) Desirability functions of the mo_conv2_max function
@@ -2074,10 +2074,10 @@ Figure&nbsp;24.13: Pareto-optimal points in the input space
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<div id="fig-mo-desirability-function-plot-2" class="quarto-float quarto-figure quarto-figure-center anchored" height="361" width="514">
+<div id="fig-mo-desirability-function-plot-2" class="quarto-float quarto-figure quarto-figure-center anchored" width="515" height="361">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-mo-desirability-function-plot-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="multiobjective_files/figure-html/fig-mo-desirability-function-plot-output-2.png" id="fig-mo-desirability-function-plot-2" data-ref-parent="fig-mo-desirability-function-plot" width="514" height="361" class="figure-img">
+<img src="multiobjective_files/figure-html/fig-mo-desirability-function-plot-output-2.png" id="fig-mo-desirability-function-plot-2" data-ref-parent="fig-mo-desirability-function-plot" width="515" height="361" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-mo-desirability-function-plot-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b)
@@ -2093,7 +2093,7 @@ Figure&nbsp;24.14
 </div>
 </div>
 <p>The minimal expected improvement of the Morris-Mitchell criterion is defined as 1 percent of the base value, and the maximal expected improvement as 10 percent of the base value. Then, the desirability function for Morris-Mitchell objective can be defined as follows:</p>
-<div id="92b6444d" class="cell" data-execution_count="51">
+<div id="20954ffd" class="cell" data-execution_count="51">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># imp_min = phi_base * 0.01</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="co"># imp_max = phi_base * 0.1</span></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2101,12 +2101,12 @@ Figure&nbsp;24.14
 <span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="co"># d_mm.plot()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Combine into overall desirability</p>
-<div id="b6c8afe3" class="cell" data-execution_count="52">
+<div id="b09381ab" class="cell" data-execution_count="52">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># D_overall = DOverall(*d_funcs, d_mm)</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>D_overall <span class="op">=</span> DOverall(<span class="op">*</span>d_funcs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can call the <code>mo_mm_desirability_function</code> with a test point:</p>
-<div id="1c8b52cb" class="cell" data-execution_count="53">
+<div id="0076d9b3" class="cell" data-execution_count="53">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>x_test <span class="op">=</span> np.array([<span class="fl">0.5</span>, <span class="fl">0.5</span>])  <span class="co"># Example test point</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>neg_D, objectives <span class="op">=</span> mo_mm_desirability_function(x_test, models, X_base, J_base, d_base, phi_base, D_overall, mm_objective<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Negative Desirability: </span><span class="sc">{</span>neg_D<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -2121,7 +2121,7 @@ Objectives: [np.float64(1.4906734308429819), np.float64(1.5123762382740051)]</co
 <div class="cell-output cell-output-display">
 <div id="mo-mm-desirability-function-plot" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="multiobjective_files/figure-html/mo-mm-desirability-function-plot-output-1.png" width="464" height="374" class="figure-img"></p>
+<p><img src="multiobjective_files/figure-html/mo-mm-desirability-function-plot-output-1.png" width="465" height="374" class="figure-img"></p>
 <figcaption>Desirability function for multi-objective optimization</figcaption>
 </figure>
 </div>
